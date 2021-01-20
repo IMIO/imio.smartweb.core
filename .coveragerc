@@ -1,0 +1,6 @@
+[report]
+include =
+    src/imio/*
+omit =
+    */test*
+    */upgrades/*

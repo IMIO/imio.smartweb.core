@@ -1,0 +1,4 @@
+graft src/imio
+graft docs
+include *.rst
+global-exclude *.pyc
