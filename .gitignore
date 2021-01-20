@@ -28,5 +28,7 @@ pip-selfcheck.json
 report.html
 .vscode/
 .tox/
+share/
 reports/
 # excludes
+pyvenv.cfg
