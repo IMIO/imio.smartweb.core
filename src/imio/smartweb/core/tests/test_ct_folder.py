@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.content.folder import IFolder  # NOQA E501
+from imio.smartweb.core.contents.folder.content import IFolder  # NOQA E501
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.api.exc import InvalidParameterError
@@ -18,21 +18,24 @@ class FolderIntegrationTest(unittest.TestCase):
 
     def setUp(self):
         """Custom shared utility setup for tests."""
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.authorized_types_in_folder = ["Link", "imio.smartweb.Page"]
+        self.unauthorized_types_in_folder = ["File", "Image", "Document"]
+
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.parent = self.portal
 
     def test_ct_folder_schema(self):
-        fti = queryUtility(IDexterityFTI, name='Folder')
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Folder")
         schema = fti.lookupSchema()
         self.assertEqual(IFolder, schema)
 
     def test_ct_folder_fti(self):
-        fti = queryUtility(IDexterityFTI, name='Folder')
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Folder")
         self.assertTrue(fti)
 
     def test_ct_folder_factory(self):
-        fti = queryUtility(IDexterityFTI, name='Folder')
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Folder")
         factory = fti.factory
         obj = createObject(factory)
 
@@ -47,13 +50,13 @@ class FolderIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         obj = api.content.create(
             container=self.portal,
-            type='Folder',
-            id='folder',
+            type="imio.smartweb.Folder",
+            id="folder",
         )
 
         self.assertTrue(
             IFolder.providedBy(obj),
-            u'IFolder not provided by {0}!'.format(
+            u"IFolder not provided by {0}!".format(
                 obj.id,
             ),
         )
@@ -79,14 +82,20 @@ class FolderIntegrationTest(unittest.TestCase):
         parent_id = portal_types.constructContent(
             fti.id,
             self.portal,
-         )
-        self.parent = self.portal[parent_id]
             "folder_id",
             title="Folder container",
         )
+        folder = self.portal[parent_id]
         with self.assertRaises(InvalidParameterError):
+            for t in self.unauthorized_types_in_folder:
+                api.content.create(
+                    container=folder,
+                    type=t,
+                    title="My {}".format(t),
+                )
+        for t in self.authorized_types_in_folder:
             api.content.create(
-                container=self.parent,
-                type='Document',
-                title='My Content',
+                container=folder,
+                type=t,
+                title="My {}".format(t),
             )

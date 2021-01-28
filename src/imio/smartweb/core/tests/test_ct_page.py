@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.content.page import IPage  # NOQA E501
+from imio.smartweb.core.contents.page.content import IPage  # NOQA E501
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.api.exc import InvalidParameterError
@@ -12,29 +12,35 @@ from zope.component import queryUtility
 import unittest
 
 
-
-
 class PageIntegrationTest(unittest.TestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""
-        self.portal = self.layer['portal']
-        setRoles(self.portal, TEST_USER_ID, ['Manager'])
+        self.authorized_types_in_page = ["File", "Image"]
+        self.unauthorized_types_in_page = ["Document", "Link"]
+
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.parent = self.portal
+        self.folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            id="folder",
+        )
 
     def test_ct_page_schema(self):
-        fti = queryUtility(IDexterityFTI, name='Page')
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Page")
         schema = fti.lookupSchema()
         self.assertEqual(IPage, schema)
 
     def test_ct_page_fti(self):
-        fti = queryUtility(IDexterityFTI, name='Page')
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Page")
         self.assertTrue(fti)
 
     def test_ct_page_factory(self):
-        fti = queryUtility(IDexterityFTI, name='Page')
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Page")
         factory = fti.factory
         obj = createObject(factory)
 
@@ -46,11 +52,11 @@ class PageIntegrationTest(unittest.TestCase):
         )
 
     def test_ct_page_adding(self):
-        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
-        obj = api.content.create(
-            container=self.portal,
-            type='Page',
-            id='page',
+        setRoles(self.portal, TEST_USER_ID, ["Contributor"])
+        page = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="page",
         )
         self.assertTrue(
             IPage.providedBy(page),
@@ -58,35 +64,37 @@ class PageIntegrationTest(unittest.TestCase):
                 page.id,
             ),
         )
-
-        parent = obj.__parent__
+        parent = page.__parent__
         self.assertIn("page", parent.objectIds())
 
         # check that deleting the object works too
-        api.content.delete(obj=obj)
+        api.content.delete(obj=page)
         self.assertNotIn("page", parent.objectIds())
 
     def test_ct_page_globally_addable(self):
-        fti = queryUtility(IDexterityFTI, name='Page')
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Page")
         self.assertTrue(
             fti.global_allow, u"{0} is not globally addable!".format(fti.id)
         )
 
     def test_ct_page_filter_content_type_true(self):
-        fti = queryUtility(IDexterityFTI, name='Page')
-        portal_types = self.portal.portal_types
-        parent_id = portal_types.constructContent(
-            fti.id,
-            self.portal,
-            'page_id',
-            title='Page container',
-         )
-        self.parent = self.portal[parent_id]
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
+        page = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="page",
+        )
         with self.assertRaises(InvalidParameterError):
+            for t in self.unauthorized_types_in_page:
+                api.content.create(
+                    container=page,
+                    type=t,
+                    title="My {}".format(t),
+                )
+        for t in self.authorized_types_in_page:
             api.content.create(
-                container=self.parent,
-                type='Document',
-                title='My Content',
+                container=page,
+                type=t,
+                title="My {}".format(t),
             )
