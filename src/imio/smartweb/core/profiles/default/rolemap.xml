@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <rolemap>
   <permissions>
-  <!-- -*- extra stuff goes here -*- -->
 
     <permission name="imio.smartweb.core: Add Folder" acquire="True">
       <role name="Manager"/>
@@ -9,12 +8,13 @@
       <role name="Owner"/>
       <role name="Contributor"/>
     </permission>
-    
+
     <permission name="imio.smartweb.core: Add Page" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
       <role name="Owner"/>
       <role name="Contributor"/>
-    </permission>    
+    </permission>
+
   </permissions>
 </rolemap>
