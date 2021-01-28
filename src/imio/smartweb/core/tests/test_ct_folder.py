@@ -12,8 +12,6 @@ from zope.component import queryUtility
 import unittest
 
 
-
-
 class FolderIntegrationTest(unittest.TestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
@@ -40,13 +38,13 @@ class FolderIntegrationTest(unittest.TestCase):
 
         self.assertTrue(
             IFolder.providedBy(obj),
-            u'IFolder not provided by {0}!'.format(
+            u"IFolder not provided by {0}!".format(
                 obj,
             ),
         )
 
     def test_ct_folder_adding(self):
-        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
+        setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         obj = api.content.create(
             container=self.portal,
             type='Folder',
@@ -61,31 +59,31 @@ class FolderIntegrationTest(unittest.TestCase):
         )
 
         parent = obj.__parent__
-        self.assertIn('folder', parent.objectIds())
+        self.assertIn("folder", parent.objectIds())
 
         # check that deleting the object works too
         api.content.delete(obj=obj)
-        self.assertNotIn('folder', parent.objectIds())
+        self.assertNotIn("folder", parent.objectIds())
 
     def test_ct_folder_globally_addable(self):
-        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
-        fti = queryUtility(IDexterityFTI, name='Folder')
+        setRoles(self.portal, TEST_USER_ID, ["Contributor"])
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Folder")
         self.assertTrue(
-            fti.global_allow,
-            u'{0} is not globally addable!'.format(fti.id)
+            fti.global_allow, u"{0} is not globally addable!".format(fti.id)
         )
 
     def test_ct_folder_filter_content_type_true(self):
-        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
-        fti = queryUtility(IDexterityFTI, name='Folder')
+        setRoles(self.portal, TEST_USER_ID, ["Contributor"])
+        fti = queryUtility(IDexterityFTI, name="imio.smartweb.Folder")
         portal_types = self.portal.portal_types
         parent_id = portal_types.constructContent(
             fti.id,
             self.portal,
-            'folder_id',
-            title='Folder container',
          )
         self.parent = self.portal[parent_id]
+            "folder_id",
+            title="Folder container",
+        )
         with self.assertRaises(InvalidParameterError):
             api.content.create(
                 container=self.parent,

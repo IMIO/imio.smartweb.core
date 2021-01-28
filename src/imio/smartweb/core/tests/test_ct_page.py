@@ -40,7 +40,7 @@ class PageIntegrationTest(unittest.TestCase):
 
         self.assertTrue(
             IPage.providedBy(obj),
-            u'IPage not provided by {0}!'.format(
+            u"IPage not provided by {0}!".format(
                 obj,
             ),
         )
@@ -52,31 +52,28 @@ class PageIntegrationTest(unittest.TestCase):
             type='Page',
             id='page',
         )
-
         self.assertTrue(
-            IPage.providedBy(obj),
-            u'IPage not provided by {0}!'.format(
-                obj.id,
+            IPage.providedBy(page),
+            u"IPage not provided by {0}!".format(
+                page.id,
             ),
         )
 
         parent = obj.__parent__
-        self.assertIn('page', parent.objectIds())
+        self.assertIn("page", parent.objectIds())
 
         # check that deleting the object works too
         api.content.delete(obj=obj)
-        self.assertNotIn('page', parent.objectIds())
+        self.assertNotIn("page", parent.objectIds())
 
     def test_ct_page_globally_addable(self):
-        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         fti = queryUtility(IDexterityFTI, name='Page')
+        setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         self.assertTrue(
-            fti.global_allow,
-            u'{0} is not globally addable!'.format(fti.id)
+            fti.global_allow, u"{0} is not globally addable!".format(fti.id)
         )
 
     def test_ct_page_filter_content_type_true(self):
-        setRoles(self.portal, TEST_USER_ID, ['Contributor'])
         fti = queryUtility(IDexterityFTI, name='Page')
         portal_types = self.portal.portal_types
         parent_id = portal_types.constructContent(
@@ -86,6 +83,7 @@ class PageIntegrationTest(unittest.TestCase):
             title='Page container',
          )
         self.parent = self.portal[parent_id]
+        setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         with self.assertRaises(InvalidParameterError):
             api.content.create(
                 container=self.parent,
