@@ -32,7 +32,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt coverage==5.4
-        bin/buildout
+        buildout
     - name: Test
       run: |
         bin/test
