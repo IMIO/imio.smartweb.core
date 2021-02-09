@@ -1,0 +1,29 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="imio.smartweb.core">
+
+    <browser:page
+        name="edit"
+        for="imio.smartweb.core.behaviors.procedure.IProcedure"
+        class=".edit.EditView"
+        permission="cmf.ModifyPortalContent"
+        />
+
+    <adapter
+        for="imio.smartweb.core.contents.IFolder
+             imio.smartweb.core.interfaces.IImioSmartwebCoreLayer
+             plone.dexterity.interfaces.IDexterityFTI"
+        provides="zope.publisher.interfaces.browser.IBrowserPage"
+        factory=".add.AddView"
+        name="imio.smartweb.Procedure"
+        />
+    <class class=".add.AddView">
+        <require
+            permission="imio.smartweb.core.AddProcedure"
+            interface="zope.publisher.interfaces.browser.IBrowserPage"
+            />
+    </class>
+
+</configure>
