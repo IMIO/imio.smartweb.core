@@ -11,6 +11,7 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+
     steps:
     - name: Clone repo
       uses: actions/checkout@v2
@@ -18,7 +19,7 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.x
 
     - name: Install dependencies
       run: |
@@ -62,7 +63,7 @@ jobs:
         sudo apt-get autoclean -qq -y
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install https://github.com/bboe/coveralls-python/archive/github_actions.zip
+        # pip install https://github.com/bboe/coveralls-python/archive/github_actions.zip
         buildout -Nt 5
 
     - name: Test
@@ -77,20 +78,10 @@ jobs:
 
     - name: Coverage test
       run: |
-        coverage run bin/test
+        bin/coverage run bin/test
 
     - name: Submit to Coveralls
       env:
-        COVERALLS_PARALLEL: true
         COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: coveralls
 
-  finish:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
