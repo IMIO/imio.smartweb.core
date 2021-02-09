@@ -40,14 +40,3 @@ def sign_string(s, key, algo="sha256", timedelta=30):
     digestmod = getattr(hashlib, algo)
     hash = hmac.HMAC(bytes(key, "utf8"), digestmod=digestmod, msg=bytes(s, "utf8"))
     return hash.digest()
-
-
-def add_behavior(type_name, behavior_name):
-    """Add a behavior to a type"""
-    fti = queryUtility(IDexterityFTI, name=type_name)
-    if not fti:
-        return
-    behaviors = list(fti.behaviors)
-    if behavior_name not in behaviors:
-        behaviors.append(behavior_name)
-        fti._updateProperty("behaviors", tuple(behaviors))
