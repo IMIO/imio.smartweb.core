@@ -16,6 +16,7 @@
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
+    <element value="imio.smartweb.Procedure" />
     <element value="imio.smartweb.Page" />
     <element value="Link" />        
   </property>
