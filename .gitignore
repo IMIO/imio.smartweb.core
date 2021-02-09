@@ -32,3 +32,4 @@ share/
 reports/
 # excludes
 pyvenv.cfg
+coverage.json
