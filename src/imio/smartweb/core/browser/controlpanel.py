@@ -19,7 +19,9 @@ class ISmartwebControlPanel(Interface):
     )
 
     secret_key_api = schema.Password(
-        title=_(u"Secret key"), description=_(u"Secret key to use API"), required=False,
+        title=_(u"Secret key"),
+        description=_(u"Secret key to use API"),
+        required=False,
     )
 
 
