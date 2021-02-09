@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from plone import api
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
 from plone.app.testing import (
@@ -27,6 +28,8 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
 
     def setUpPloneSite(self, portal):
         applyProfile(portal, "imio.smartweb.core:testing")
+        api.user.create(email="test@imio.be", username="test")
+        api.user.grant_roles(username="test", roles=["Site Administrator"])
 
 
 IMIO_SMARTWEB_CORE_FIXTURE = ImioSmartwebCoreLayer()
@@ -39,7 +42,8 @@ IMIO_SMARTWEB_CORE_INTEGRATION_TESTING = IntegrationTesting(
 
 
 IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING = FunctionalTesting(
-    bases=(IMIO_SMARTWEB_CORE_FIXTURE,), name="ImioSmartwebCoreLayer:FunctionalTesting",
+    bases=(IMIO_SMARTWEB_CORE_FIXTURE,),
+    name="ImioSmartwebCoreLayer:FunctionalTesting",
 )
 
 
