@@ -13,9 +13,9 @@
   -->
   <!--<includeDependencies package="." />-->
 
+  <include package=".contents" />
   <include package=".behaviors" />
   <include package=".browser" />
-  <include package=".contents" />
 
   <genericsetup:registerProfile
       name="default"
@@ -36,14 +36,14 @@
       />
 
   <utility
-      factory=".setuphandlers.HiddenProfiles"
       name="imio.smartweb.core-hiddenprofiles"
+      factory=".setuphandlers.HiddenProfiles"
       />
 
   <utility
-    component=".vocabularies.RemoteProceduresVocabulary"
-    name="imio.vocabulary.remote_procedures"
-    provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+      name="imio.smartweb.vocabulary.remote_procedures"
+      component=".vocabularies.RemoteProceduresVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
 
 </configure>
