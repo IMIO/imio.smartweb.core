@@ -8,6 +8,8 @@ from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
 from zope.component import queryUtility
 
+import json
+import requests_mock
 import unittest
 
 
@@ -71,7 +73,7 @@ class ProcedureIntegrationTest(unittest.TestCase):
         api.content.delete(obj=obj)
         self.assertNotIn("procedure", parent.objectIds())
 
-    def test_ct_procedure_globally_not_addable(self):
+    def test_ct_procedure_globally_addable(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.Procedure")
         self.assertTrue(fti.global_allow, u"{0} is globally addable!".format(fti.id))
