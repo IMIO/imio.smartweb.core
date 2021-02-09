@@ -16,11 +16,9 @@ from imio.smartweb.core import _
 
 
 class IFolder(model.Schema):
-    """ Marker interface and Dexterity Python Schema for Folder
-    """
+    """Marker interface and Dexterity Python Schema for Folder"""
 
 
 @implementer(IFolder)
 class Folder(Container):
-    """
-    """
+    """"""
