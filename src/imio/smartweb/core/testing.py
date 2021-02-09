@@ -26,7 +26,7 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
         self.loadZCML(package=imio.smartweb.core)
 
     def setUpPloneSite(self, portal):
-        applyProfile(portal, "imio.smartweb.core:default")
+        applyProfile(portal, "imio.smartweb.core:testing")
 
 
 IMIO_SMARTWEB_CORE_FIXTURE = ImioSmartwebCoreLayer()

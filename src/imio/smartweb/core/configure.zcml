@@ -27,6 +27,14 @@
       />
 
   <genericsetup:registerProfile
+      name="testing"
+      title="imio.smartweb.core"
+      directory="profiles/testing"
+      description="Installs imio.smartweb.core.testing profile."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
       name="uninstall"
       title="imio.smartweb.core (uninstall)"
       directory="profiles/uninstall"

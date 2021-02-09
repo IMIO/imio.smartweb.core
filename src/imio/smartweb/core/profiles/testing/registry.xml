@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb.core">
+
+    <record name="smartweb.url_formdefs_api">
+        <value>https://demo.guichet-citoyen.be/api/formdefs/</value>
+    </record>
+    <record name="smartweb.secret_key_api">
+        <value>kamoulox</value>
+    </record>
+
+</registry>
