@@ -30,3 +30,6 @@ class IProcedure(model.Schema):
     def required_procedure(data):
         if data.procedure_ts is None and data.procedure_url is None:
             raise Invalid(_(u"Procedure field is required !"))
+
+        if data.procedure_ts and data.procedure_url:
+            raise Invalid(_(u"Only one procedure field can be filled !"))
