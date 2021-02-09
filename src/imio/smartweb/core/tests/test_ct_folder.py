@@ -40,25 +40,17 @@ class FolderIntegrationTest(unittest.TestCase):
         obj = createObject(factory)
 
         self.assertTrue(
-            IFolder.providedBy(obj),
-            u"IFolder not provided by {0}!".format(
-                obj,
-            ),
+            IFolder.providedBy(obj), u"IFolder not provided by {0}!".format(obj,),
         )
 
     def test_ct_folder_adding(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         obj = api.content.create(
-            container=self.portal,
-            type="imio.smartweb.Folder",
-            id="folder",
+            container=self.portal, type="imio.smartweb.Folder", id="folder",
         )
 
         self.assertTrue(
-            IFolder.providedBy(obj),
-            u"IFolder not provided by {0}!".format(
-                obj.id,
-            ),
+            IFolder.providedBy(obj), u"IFolder not provided by {0}!".format(obj.id,),
         )
 
         parent = obj.__parent__
@@ -80,22 +72,15 @@ class FolderIntegrationTest(unittest.TestCase):
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.Folder")
         portal_types = self.portal.portal_types
         parent_id = portal_types.constructContent(
-            fti.id,
-            self.portal,
-            "folder_id",
-            title="Folder container",
+            fti.id, self.portal, "folder_id", title="Folder container",
         )
         folder = self.portal[parent_id]
         with self.assertRaises(InvalidParameterError):
             for t in self.unauthorized_types_in_folder:
                 api.content.create(
-                    container=folder,
-                    type=t,
-                    title="My {}".format(t),
+                    container=folder, type=t, title="My {}".format(t),
                 )
         for t in self.authorized_types_in_folder:
             api.content.create(
-                container=folder,
-                type=t,
-                title="My {}".format(t),
+                container=folder, type=t, title="My {}".format(t),
             )

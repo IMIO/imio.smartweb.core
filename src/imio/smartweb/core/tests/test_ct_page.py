@@ -25,9 +25,7 @@ class PageIntegrationTest(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.parent = self.portal
         self.folder = api.content.create(
-            container=self.portal,
-            type="imio.smartweb.Folder",
-            id="folder",
+            container=self.portal, type="imio.smartweb.Folder", id="folder",
         )
 
     def test_ct_page_schema(self):
@@ -45,24 +43,16 @@ class PageIntegrationTest(unittest.TestCase):
         obj = createObject(factory)
 
         self.assertTrue(
-            IPage.providedBy(obj),
-            u"IPage not provided by {0}!".format(
-                obj,
-            ),
+            IPage.providedBy(obj), u"IPage not provided by {0}!".format(obj,),
         )
 
     def test_ct_page_adding(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         page = api.content.create(
-            container=self.folder,
-            type="imio.smartweb.Page",
-            title="page",
+            container=self.folder, type="imio.smartweb.Page", title="page",
         )
         self.assertTrue(
-            IPage.providedBy(page),
-            u"IPage not provided by {0}!".format(
-                page.id,
-            ),
+            IPage.providedBy(page), u"IPage not provided by {0}!".format(page.id,),
         )
         parent = page.__parent__
         self.assertIn("page", parent.objectIds())
@@ -81,20 +71,14 @@ class PageIntegrationTest(unittest.TestCase):
     def test_ct_page_filter_content_type_true(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         page = api.content.create(
-            container=self.folder,
-            type="imio.smartweb.Page",
-            title="page",
+            container=self.folder, type="imio.smartweb.Page", title="page",
         )
         with self.assertRaises(InvalidParameterError):
             for t in self.unauthorized_types_in_page:
                 api.content.create(
-                    container=page,
-                    type=t,
-                    title="My {}".format(t),
+                    container=page, type=t, title="My {}".format(t),
                 )
         for t in self.authorized_types_in_page:
             api.content.create(
-                container=page,
-                type=t,
-                title="My {}".format(t),
+                container=page, type=t, title="My {}".format(t),
             )
