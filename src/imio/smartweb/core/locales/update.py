@@ -33,7 +33,8 @@ def locale_folder_setup():
                 domain,
             )
             subprocess.call(
-                cmd, shell=True,
+                cmd,
+                shell=True,
             )
 
     os.chdir("../../../../")
@@ -48,7 +49,8 @@ def _rebuild():
         excludes=excludes,
     )
     subprocess.call(
-        cmd, shell=True,
+        cmd,
+        shell=True,
     )
 
 
@@ -61,7 +63,8 @@ def _sync():
         domain,
     )
     subprocess.call(
-        cmd, shell=True,
+        cmd,
+        shell=True,
     )
 
 

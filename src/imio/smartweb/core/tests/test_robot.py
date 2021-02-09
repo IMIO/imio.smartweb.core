@@ -23,6 +23,11 @@ def test_suite():
         robottestsuite = robotsuite.RobotTestSuite(robot_test)
         robottestsuite.level = ROBOT_TEST_LEVEL
         suite.addTests(
-            [layered(robottestsuite, layer=IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING,),]
+            [
+                layered(
+                    robottestsuite,
+                    layer=IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING,
+                ),
+            ]
         )
     return suite
