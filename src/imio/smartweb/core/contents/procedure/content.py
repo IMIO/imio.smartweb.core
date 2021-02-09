@@ -16,11 +16,9 @@ from imio.smartweb.core import _
 
 
 class IProcedure(model.Schema):
-    """ Marker interface and Dexterity Python Schema for Procedure
-    """
+    """Marker interface and Dexterity Python Schema for Procedure"""
 
 
 @implementer(IProcedure)
 class Procedure(Item):
-    """
-    """
+    """"""
