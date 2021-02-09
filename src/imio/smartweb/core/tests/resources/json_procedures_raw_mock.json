@@ -1,0 +1,82 @@
+{
+    "err": 0,
+    "data": [{
+        "title": "Acte de d\\u00e9c\\u00e8s",
+        "slug": "acte-de-deces",
+        "url": "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/",
+        "description": "Copie litt\\u00e9rale du Registre Communal",
+        "keywords": [],
+        "authentication_required": true,
+        "always_advertise": true,
+        "redirection": false,
+        "functions": {
+            "_receiver": {
+                "label": "Destinataire",
+                "role": {
+                    "name": "Agents traitants - Population, etat civil",
+                    "text": "Agents traitants - Population, etat civil",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "agents-traitants-population-etat-civil",
+                    "id": "2e16f7ce52ca4f99ac56d5410cbd22ea"
+                }
+            }
+        },
+        "category": "Etat civil - Population",
+        "category_slug": "etat-civil-population"
+    }, {
+        "title": "Acte de divorce",
+        "slug": "acte-de-divorce",
+        "url": "https://demo-formulaires.guichet-citoyen.be/acte-de-divorce/",
+        "description": "Copie litt\\u00e9rale du Registre Communal",
+        "keywords": [],
+        "authentication_required": true,
+        "always_advertise": true,
+        "redirection": false,
+        "functions": {
+            "_receiver": {
+                "label": "Destinataire",
+                "role": {
+                    "name": "Agents traitants - Population, etat civil",
+                    "text": "Agents traitants - Population, etat civil",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "agents-traitants-population-etat-civil",
+                    "id": "2e16f7ce52ca4f99ac56d5410cbd22ea"
+                }
+            }
+        },
+        "category": "Etat civil - Population",
+        "category_slug": "etat-civil-population"
+    }, {
+        "title": "Acte de mariage",
+        "slug": "acte-de-mariage",
+        "url": "https://demo-formulaires.guichet-citoyen.be/acte-de-mariage/",
+        "description": "Copie litt\\u00e9rale du Registre Communal",
+        "keywords": [],
+        "authentication_required": true,
+        "always_advertise": true,
+        "redirection": false,
+        "functions": {
+            "_receiver": {
+                "label": "Destinataire",
+                "role": {
+                    "name": "Agents traitants - Population, etat civil",
+                    "text": "Agents traitants - Population, etat civil",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "agents-traitants-population-etat-civil",
+                    "id": "2e16f7ce52ca4f99ac56d5410cbd22ea"
+                }
+            }
+        },
+        "category": "Etat civil - Population",
+        "category_slug": "etat-civil-population"
+    }]
+}
