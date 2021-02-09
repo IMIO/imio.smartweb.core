@@ -1,5 +1,5 @@
 <configure
   xmlns="http://namespaces.zope.org/zope"
-  i18n_domain="cpskin">
+  i18n_domain="imio.smarteb.core">
 
 </configure>
