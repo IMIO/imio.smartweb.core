@@ -39,6 +39,10 @@
       name="imio.smartweb.core-hiddenprofiles"
       />
 
-  <!-- -*- extra stuff goes here -*- -->
+  <utility
+    component=".vocabularies.RemoteProceduresVocabulary"
+    name="imio.vocabulary.remote_procedures"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    />
 
 </configure>
