@@ -57,7 +57,6 @@ jobs:
 
     - name: Install dependencies and run buildout
       run: |
-        sudo apt update -qq -y
         sudo apt-get install -qq -y python3-dev
         sudo apt-get autoremove -qq -y
         sudo apt-get autoclean -qq -y
@@ -81,6 +80,6 @@ jobs:
 
     - name: Submit to Coveralls
       env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: coveralls
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: coveralls --service=github
 
