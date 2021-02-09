@@ -18,7 +18,7 @@ class IProcedure(model.Schema):
 
     # directives.widget("procedures", SelectProcedureWidget)
     procedure_ts = schema.Choice(
-        vocabulary="imio.vocabulary.remote_procedures",
+        vocabulary="imio.smartweb.vocabulary.remote_procedures",
         title=_(u"E-Guichet procedure"),
         required=False,
         default=None,
