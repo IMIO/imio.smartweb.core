@@ -16,11 +16,9 @@ from imio.smartweb.core import _
 
 
 class IPage(model.Schema):
-    """ Marker interface and Dexterity Python Schema for Page
-    """
+    """Marker interface and Dexterity Python Schema for Page"""
 
 
 @implementer(IPage)
 class Page(Container):
-    """
-    """
+    """"""

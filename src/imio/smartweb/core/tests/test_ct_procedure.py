@@ -43,18 +43,25 @@ class ProcedureIntegrationTest(unittest.TestCase):
         obj = createObject(factory)
 
         self.assertTrue(
-            IProcedure.providedBy(obj), u"IProcedure not provided by {0}!".format(obj,),
+            IProcedure.providedBy(obj),
+            u"IProcedure not provided by {0}!".format(
+                obj,
+            ),
         )
 
     def test_ct_procedure_adding(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         obj = api.content.create(
-            container=self.parent, type="imio.smartweb.Procedure", id="procedure",
+            container=self.parent,
+            type="imio.smartweb.Procedure",
+            id="procedure",
         )
 
         self.assertTrue(
             IProcedure.providedBy(obj),
-            u"IProcedure not provided by {0}!".format(obj.id,),
+            u"IProcedure not provided by {0}!".format(
+                obj.id,
+            ),
         )
 
         parent = obj.__parent__
