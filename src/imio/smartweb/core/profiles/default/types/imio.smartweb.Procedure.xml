@@ -32,6 +32,6 @@
     <element value="plone.locking"/>
     <element value="plone.richtext"/>
     <element value="plone.leadimage"/>
-    <element value="imio.procedure"/>
+    <element value="imio.smartweb.procedure"/>
   </property>
 </object>

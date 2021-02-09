@@ -8,7 +8,7 @@
     <include package="plone.behavior" file="meta.zcml"/>
 
     <plone:behavior
-        name="imio.procedure"
+        name="imio.smartweb.procedure"
         title="Teleservices procedures"
         description="Install a select box (ia.ts only) or an uri to set a link to an e-guichet."
         provides=".procedure.IProcedure"
