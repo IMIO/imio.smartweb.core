@@ -14,11 +14,11 @@
 
   <property name="icon_expr"></property>
 
+  <!-- Hierarchy control -->
   <property name="global_allow">True</property>
+  <!-- Schema, class and security -->
   <property name="add_permission">imio.smartweb.core.AddProcedure</property>
   <property name="klass">imio.smartweb.core.contents.Procedure</property>
-  <property name="model_file"></property>
-  <property name="model_source"></property>
   <property name="schema">imio.smartweb.core.contents.IProcedure</property>
 
   <!-- Enabled behaviors -->

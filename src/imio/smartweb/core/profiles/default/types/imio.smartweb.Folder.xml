@@ -12,6 +12,8 @@
       i18n:translate=""
       name="description">Folder content type to structure website</property>
 
+  <property name="icon_expr"></property>
+
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
