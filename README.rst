@@ -3,8 +3,8 @@
    This text does not appear on pypi or github. It is a comment.
 
 
-.. image:: https://github.com/IMIO/imio.smartweb.com/workflows/CI/badge.svg?branch=master
-    :target: https://github.com/imio.smartweb.com/workflows/actions?workflow=CI
+.. image:: https://github.com/IMIO/imio.smartweb.core/workflows/Tests/badge.svg
+    :target: https://github.com/IMIO/imio.smartweb.core/actions?query=workflow%3ATests
     :alt: CI Status
 
 .. image:: https://coveralls.io/repos/github/IMIO/imio.smartweb.core/badge.svg?branch=main
