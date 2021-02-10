@@ -35,6 +35,6 @@
     <element value="plone.basic"/>
     <element value="plone.locking" />
     <element value="plone.leadimage"/>
-    <element value="plone.selectablecontrainstypes" />
+    <element value="plone.constraintypes" />
   </property>
 </object>
