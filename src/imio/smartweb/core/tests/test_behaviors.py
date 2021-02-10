@@ -81,13 +81,13 @@ class ProcedureFunctionalTest(unittest.TestCase):
         form.update()
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 1)
-        self.assertIn(errors[0].message, 'Procedure field is required !')
+        self.assertIn(errors[0].message, "Procedure field is required !")
 
         request = TestRequest(
             form={
                 "form.widgets.IBasic.title": "My Procedure",
                 "form.widgets.IProcedure.procedure_url": "http://another_e_guichet.be/procedure1",
-                "form.widgets.IProcedure.procedure_ts":"https://demo-formulaires.guichet-citoyen.be/acte-de-deces/",
+                "form.widgets.IProcedure.procedure_ts": "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/",
             }
         )
         alsoProvides(request, IPloneFormLayer)
@@ -95,4 +95,4 @@ class ProcedureFunctionalTest(unittest.TestCase):
         form.update()
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 1)
-        self.assertIn(errors[0].message, 'Only one procedure field can be filled !')
+        self.assertIn(errors[0].message, "Only one procedure field can be filled !")
