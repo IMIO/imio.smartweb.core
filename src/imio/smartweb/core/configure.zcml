@@ -49,7 +49,7 @@
       />
 
   <utility
-      name="imio.smartweb.vocabulary.remote_procedures"
+      name="imio.smartweb.vocabulary.PublikProcedures"
       component=".vocabularies.RemoteProceduresVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />

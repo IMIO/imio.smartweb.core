@@ -14,7 +14,7 @@ import unittest
 
 
 def get_procedures_vocabulary():
-    name = "imio.smartweb.vocabulary.remote_procedures"
+    name = "imio.smartweb.vocabulary.PublikProcedures"
     factory = getUtility(IVocabularyFactory, name)
     vocabulary = factory(api.portal.get())
     return vocabulary
