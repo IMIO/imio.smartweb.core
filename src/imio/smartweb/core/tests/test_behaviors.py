@@ -7,22 +7,12 @@ from imio.smartweb.core.tests.utils import get_procedure_json
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
-from plone.app.testing import setRoles
-from plone.app.testing import SITE_OWNER_NAME
-from plone.app.testing import SITE_OWNER_PASSWORD
-from plone.app.testing import TEST_USER_ID
 from plone.app.z3cform.interfaces import IPloneFormLayer
-from plone.dexterity.interfaces import IDexterityFTI
-from plone.testing.z2 import Browser
-from zope.component import createObject
-from zope.component import queryUtility
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
 
 import json
-import os
 import requests_mock
-import transaction
 import unittest
 
 
@@ -37,21 +27,10 @@ class ProcedureFunctionalTest(unittest.TestCase):
         self.request["AUTHENTICATED_USER"] = self.member
 
     def setUp(self):
-        app = self.layer["app"]
         self.portal = self.layer["portal"]
         self.request = self.layer["request"]
         self._changeUser("test")
         self.json_procedures_raw_mock = get_procedure_json()
-
-        # Set up browser
-        self.browser = Browser(app)
-        self.browser.handleErrors = False
-        self.browser.addHeader(
-            "Authorization",
-            "Basic {username}:{password}".format(
-                username=SITE_OWNER_NAME, password=SITE_OWNER_PASSWORD
-            ),
-        )
 
     @requests_mock.Mocker()
     def test_procedure_invariant(self, m):
