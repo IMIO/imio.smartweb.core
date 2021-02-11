@@ -21,4 +21,4 @@ class IProcedure(model.Schema):
 
 @implementer(IProcedure)
 class Procedure(Item):
-    """"""
+    """Procedure class"""

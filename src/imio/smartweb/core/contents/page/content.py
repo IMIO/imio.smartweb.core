@@ -21,4 +21,4 @@ class IPage(model.Schema):
 
 @implementer(IPage)
 class Page(Container):
-    """"""
+    """Page class"""

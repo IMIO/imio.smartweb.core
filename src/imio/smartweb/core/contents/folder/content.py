@@ -21,4 +21,4 @@ class IFolder(model.Schema):
 
 @implementer(IFolder)
 class Folder(Container):
-    """"""
+    """Folder class"""
