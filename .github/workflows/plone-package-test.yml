@@ -59,12 +59,45 @@ jobs:
       run: |
         sudo apt-get install -qq -y python3-dev
         python -m pip install --upgrade pip
-        pip install -r requirements.txt coveralls
+        pip install -r requirements.txt
         buildout -Nt 5
 
     - name: Test
       run: |
         bin/test
+
+  coverage:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        python-version: [3.8]
+        os: [ubuntu-latest]
+
+    steps:
+    - name: Clone repo
+      uses: actions/checkout@v2
+
+    - name: Cache eggs
+      uses: actions/cache@v2
+      env:
+        cache-name: cache-eggs
+      with:
+        path: ./eggs
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.python-version }}
+        restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.python-version }}
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies and run buildout
+      run: |
+        sudo apt-get install -qq -y python3-dev
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt coveralls
+        buildout -Nt 5
 
     - name: Coverage test
       run: |
