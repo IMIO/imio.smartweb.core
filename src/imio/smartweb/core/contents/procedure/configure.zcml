@@ -4,9 +4,4 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="imio.smartweb.core">
 
-    <permission
-        id="imio.smartweb.core.AddProcedure"
-        title="imio.smartweb.core: Add Procedure"
-    />
-
 </configure>

@@ -2,4 +2,19 @@
   xmlns="http://namespaces.zope.org/zope"
   i18n_domain="imio.smarteb.core">
 
+  <permission
+      id="imio.smartweb.core.AddFolder"
+      title="imio.smartweb.core: Add Folder"
+  />
+
+  <permission
+      id="imio.smartweb.core.AddPage"
+      title="imio.smartweb.core: Add Page"
+  />
+
+  <permission
+      id="imio.smartweb.core.AddProcedure"
+      title="imio.smartweb.core: Add Procedure"
+  />
+
 </configure>
