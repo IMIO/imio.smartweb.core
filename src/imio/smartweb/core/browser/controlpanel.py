@@ -28,7 +28,7 @@ class ISmartwebControlPanel(Interface):
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
     schema_prefix = "smartweb"
-    label = u"Smartweb Settings"
+    label = _(u"Smartweb Settings")
 
 
 SmartwebControlPanelView = layout.wrap_form(
