@@ -2,7 +2,7 @@
 <object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     name="Procedure"
     meta_type="Dexterity FTI"
-    i18n:domain="imio.smartweb.core">
+    i18n:domain="imio.smartweb">
 
   <!-- Basic properties -->
   <property
