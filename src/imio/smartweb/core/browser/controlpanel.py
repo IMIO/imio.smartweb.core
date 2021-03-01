@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core import _
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.z3cform import layout

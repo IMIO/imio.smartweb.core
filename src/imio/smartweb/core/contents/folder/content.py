@@ -12,7 +12,7 @@ from plone.supermodel import model
 from zope.interface import implementer
 
 
-from imio.smartweb.core import _
+from imio.smartweb.locales import SmartwebMessageFactory as _
 
 
 class IFolder(model.Schema):
