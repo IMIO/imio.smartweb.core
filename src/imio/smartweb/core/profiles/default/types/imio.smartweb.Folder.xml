@@ -20,6 +20,7 @@
   <property name="allowed_content_types">
     <element value="imio.smartweb.Procedure" />
     <element value="imio.smartweb.Page" />
+    <element value="Collection" />
     <element value="Link" />
   </property>
   <!-- Schema, class and security -->
