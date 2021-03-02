@@ -10,7 +10,7 @@
     <plone:behavior
         name="imio.smartweb.procedure"
         title="Teleservices procedures"
-        description="Install a select box (ia.ts only) or an uri to set a link to an e-guichet."
+        description="Add a select box (ia.ts only) or an uri to set a link to an e-guichet."
         provides=".procedure.IProcedure"
         for="imio.smartweb.core.contents.IProcedure"
         />
