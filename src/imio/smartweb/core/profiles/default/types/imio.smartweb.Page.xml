@@ -37,6 +37,7 @@
     <element value="plone.locking" />
     <element value="plone.richtext"/>
     <element value="plone.leadimage"/>
+    <element value="imio.smartweb.quickaccess"/>
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.tableofcontents"/>-->
     <!--<element value="plone.versioning" />-->

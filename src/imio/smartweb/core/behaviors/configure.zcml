@@ -14,4 +14,11 @@
         provides=".procedure.IProcedure"
         for="imio.smartweb.core.contents.IProcedure"
         />
+
+    <plone:behavior
+        name="imio.smartweb.quickaccess"
+        title="Quick access"
+        description="Allow to choose if this element must be placed in quick access."
+        provides=".quickaccess.IQuickAccess"
+        />
 </configure>

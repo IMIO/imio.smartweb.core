@@ -75,3 +75,18 @@ class ProcedureFunctionalTest(unittest.TestCase):
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 1)
         self.assertIn(errors[0].message, "Only one procedure field can be filled !")
+
+    def test_quick_access(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Quick access page",
+            include_in_quick_access=True,
+        )
+        brains = api.content.find(include_in_quick_access=True)
+        self.assertEquals(len(brains), 1)
+        self.assertEquals(page, brains[0].getObject())
+        page.include_in_quick_access = False
+        page.reindexObject()
+        brains = api.content.find(include_in_quick_access=True)
+        self.assertEquals(len(brains), 0)
