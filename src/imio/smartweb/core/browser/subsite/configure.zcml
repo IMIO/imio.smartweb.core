@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="imio.smartweb">
+
+  <browser:page
+      name="subsite_settings"
+      for="*"
+      class=".settings.SubSiteSettings"
+      allowed_attributes="enable disable available enabled"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+</configure>

@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+
+  <object name="object_buttons" meta_type="CMF Action Category">
+    <object name="subsite_enable" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Enable subsite</property>
+      <property name="description" i18n:translate="">Click to enable subsite on this context.</property>
+      <property name="url_expr">string:$object_url/@@subsite_settings/enable</property>
+      <property name="available_expr">object/@@subsite_settings/available|nothing</property>
+      <property name="permissions">
+        <element value="cmf.ManagePortal"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="subsite_disable" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Disable subsite</property>
+      <property name="description" i18n:translate="">Click to disable subsite on this context.</property>
+      <property name="url_expr">string:$object_url/@@subsite_settings/disable</property>
+      <property name="available_expr">object/@@subsite_settings/enabled|nothing</property>
+      <property name="permissions">
+        <element value="cmf.ManagePortal" />
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
+
+</object>

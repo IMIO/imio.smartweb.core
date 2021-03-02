@@ -5,6 +5,7 @@
     i18n_domain="imio.smartweb">
 
   <include package=".procedure" />
+  <include package=".subsite" />
 
   <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
   <include package="z3c.jbot" file="meta.zcml" />

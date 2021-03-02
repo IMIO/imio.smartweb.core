@@ -9,6 +9,7 @@
         for="imio.smartweb.core.behaviors.procedure.IProcedure"
         class=".edit.EditView"
         permission="cmf.ModifyPortalContent"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
         />
 
     <adapter
