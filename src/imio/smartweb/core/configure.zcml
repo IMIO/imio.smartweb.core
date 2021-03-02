@@ -32,7 +32,7 @@
 
   <genericsetup:registerProfile
       name="testing"
-      title="imio.smartweb.core"
+      title="imio.smartweb.core (testing)"
       directory="profiles/testing"
       description="Installs imio.smartweb.core.testing profile."
       provides="Products.GenericSetup.interfaces.EXTENSION"
