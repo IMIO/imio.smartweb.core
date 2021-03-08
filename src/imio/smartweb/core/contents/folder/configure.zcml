@@ -19,6 +19,12 @@
           title="Standard view"
           />
       <browser:page
+          name="summary_view"
+          template="templates/listing_summary.pt"
+          menu="plone_displayviews"
+          title="Summary view"
+          />
+      <browser:page
           name="full_view"
           template="templates/full_view.pt"
           menu="plone_displayviews"

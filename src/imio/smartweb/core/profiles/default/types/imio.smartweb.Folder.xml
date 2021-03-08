@@ -49,6 +49,7 @@
   <property name="view_methods">
     <element value="full_view"/>
     <element value="listing_view"/>
+    <element value="summary_view"/>
   </property>
 
 </object>
