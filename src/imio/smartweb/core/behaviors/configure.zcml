@@ -28,4 +28,13 @@
         description="Allow to choose if this element must excluded from parent listing views."
         provides=".listing.IListing"
         />
+
+    <plone:behavior
+        name="imio.smartweb.pagesections"
+        title="Page sections"
+        description="Allow to choose which sections will be shown."
+        provides=".page.IPageSections"
+        for="imio.smartweb.core.contents.IPage"
+        />
+
 </configure>

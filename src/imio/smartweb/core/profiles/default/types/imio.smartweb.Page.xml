@@ -39,6 +39,7 @@
     <element value="plone.leadimage"/>
     <element value="imio.smartweb.quickaccess"/>
     <element value="imio.smartweb.listing"/>
+    <element value="imio.smartweb.pagesections"/>
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.tableofcontents"/>-->
     <!--<element value="plone.versioning" />-->

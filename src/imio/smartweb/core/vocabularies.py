@@ -9,6 +9,9 @@ import requests
 # from imio.behavior.teleservices.config import API_HEADERS
 # from imio.behavior.teleservices.utils import get_api_url_for_meetings
 from imio.smartweb.core.contents.procedure.utils import sign_url
+from imio.smartweb.locales import SmartwebMessageFactory as _
+from zope.globalrequest import getRequest
+from zope.i18n import translate
 
 
 class RemoteProceduresVocabularyFactory:
@@ -38,4 +41,26 @@ class RemoteProceduresVocabularyFactory:
         )
 
 
+class PageSectionsVocabulary:
+    def _translate(self, msgid):
+        request = getRequest()
+        return translate(msgid, context=request)
+
+    def __call__(self, context):
+        values = [
+            ("title", _(u"Title")),
+            ("description", _(u"Description")),
+            ("body", _(u"Body text")),
+            ("leadimage", _(u"Lead image")),
+            ("images", _(u"Images thumbnails")),
+            ("files", _(u"Files")),
+        ]
+        terms = [
+            SimpleVocabulary.createTerm(value[0], value[0], self._translate(value[1]))
+            for value in values
+        ]
+        return SimpleVocabulary(terms)
+
+
+PageSectionsVocabulary = PageSectionsVocabulary()
 RemoteProceduresVocabulary = RemoteProceduresVocabularyFactory()
