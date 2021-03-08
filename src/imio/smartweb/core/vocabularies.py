@@ -1,21 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents.procedure.utils import sign_url
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 import json
 import requests
 
-# from imio.behavior.teleservices.config import API_HEADERS
-# from imio.behavior.teleservices.utils import get_api_url_for_meetings
-from imio.smartweb.core.contents.procedure.utils import sign_url
-from imio.smartweb.locales import SmartwebMessageFactory as _
-from zope.globalrequest import getRequest
-from zope.i18n import translate
-
 
 class RemoteProceduresVocabularyFactory:
-    def __call__(self, context):
+    def __call__(self, context=None):
         # sample : "https://olln-formulaires.guichet-citoyen.be/api/formdefs/"
         url = api.portal.get_registry_record("smartweb.url_formdefs_api")
         # sample : "568DGess2x8j8twv7x2Y2MApjn789xfG7jM27r399q4xSD27Jz"
@@ -41,26 +36,22 @@ class RemoteProceduresVocabularyFactory:
         )
 
 
-class PageSectionsVocabulary:
-    def _translate(self, msgid):
-        request = getRequest()
-        return translate(msgid, context=request)
-
-    def __call__(self, context):
+class PageSectionsVocabularyFactory:
+    def __call__(self, context=None):
         values = [
             ("title", _(u"Title")),
             ("description", _(u"Description")),
             ("body", _(u"Body text")),
-            ("leadimage", _(u"Lead image")),
+            ("leadimage", _(u"Lead Image")),
             ("images", _(u"Images thumbnails")),
             ("files", _(u"Files")),
         ]
         terms = [
-            SimpleVocabulary.createTerm(value[0], value[0], self._translate(value[1]))
+            SimpleVocabulary.createTerm(value[0], value[0], value[1])
             for value in values
         ]
         return SimpleVocabulary(terms)
 
 
-PageSectionsVocabulary = PageSectionsVocabulary()
 RemoteProceduresVocabulary = RemoteProceduresVocabularyFactory()
+PageSectionsVocabulary = PageSectionsVocabularyFactory()
