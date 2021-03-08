@@ -9,6 +9,26 @@ import json
 import requests
 
 
+class PageSectionsVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("title", _(u"Title")),
+            ("description", _(u"Description")),
+            ("body", _(u"Body text")),
+            ("leadimage", _(u"Lead Image")),
+            ("images", _(u"Images thumbnails")),
+            ("files", _(u"Files")),
+        ]
+        terms = [
+            SimpleVocabulary.createTerm(value[0], value[0], value[1])
+            for value in values
+        ]
+        return SimpleVocabulary(terms)
+
+
+PageSectionsVocabulary = PageSectionsVocabularyFactory()
+
+
 class RemoteProceduresVocabularyFactory:
     def __call__(self, context=None):
         # sample : "https://olln-formulaires.guichet-citoyen.be/api/formdefs/"
@@ -36,22 +56,4 @@ class RemoteProceduresVocabularyFactory:
         )
 
 
-class PageSectionsVocabularyFactory:
-    def __call__(self, context=None):
-        values = [
-            ("title", _(u"Title")),
-            ("description", _(u"Description")),
-            ("body", _(u"Body text")),
-            ("leadimage", _(u"Lead Image")),
-            ("images", _(u"Images thumbnails")),
-            ("files", _(u"Files")),
-        ]
-        terms = [
-            SimpleVocabulary.createTerm(value[0], value[0], value[1])
-            for value in values
-        ]
-        return SimpleVocabulary(terms)
-
-
 RemoteProceduresVocabulary = RemoteProceduresVocabularyFactory()
-PageSectionsVocabulary = PageSectionsVocabularyFactory()

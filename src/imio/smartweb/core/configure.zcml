@@ -54,14 +54,14 @@
       />
 
   <utility
-      name="imio.smartweb.vocabulary.PublikProcedures"
-      component=".vocabularies.RemoteProceduresVocabulary"
+      name="imio.smartweb.vocabulary.PageSections"
+      component=".vocabularies.PageSectionsVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
   <utility
-      name="imio.smartweb.vocabulary.PageSections"
-      component=".vocabularies.PageSectionsVocabulary"
+      name="imio.smartweb.vocabulary.PublikProcedures"
+      component=".vocabularies.RemoteProceduresVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
