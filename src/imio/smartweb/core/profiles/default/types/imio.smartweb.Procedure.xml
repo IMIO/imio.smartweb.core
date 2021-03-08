@@ -33,5 +33,6 @@
     <element value="plone.richtext"/>
     <element value="plone.leadimage"/>
     <element value="imio.smartweb.procedure"/>
+    <element value="imio.smartweb.listing"/>
   </property>
 </object>

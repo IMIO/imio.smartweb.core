@@ -21,4 +21,11 @@
         description="Allow to choose if this element must be placed in quick access."
         provides=".quickaccess.IQuickAccess"
         />
+
+    <plone:behavior
+        name="imio.smartweb.listing"
+        title="Parent listing"
+        description="Allow to choose if this element must excluded from parent listing views."
+        provides=".listing.IListing"
+        />
 </configure>
