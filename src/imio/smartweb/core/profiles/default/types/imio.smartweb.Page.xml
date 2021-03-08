@@ -18,8 +18,8 @@
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
-    <element value="Image" />
     <element value="File" />
+    <element value="Image" />
   </property>
   <!-- Schema, class and security -->
   <property name="add_permission">imio.smartweb.core.AddPage</property>
@@ -34,13 +34,15 @@
     <element value="plone.publication"/>
     <element value="plone.categorization"/>
     <element value="plone.basic"/>
-    <element value="plone.locking" />
+    <element value="plone.locking"/>
     <element value="plone.richtext"/>
     <element value="plone.leadimage"/>
     <element value="imio.smartweb.quickaccess"/>
+    <element value="imio.smartweb.listing"/>
     <!--<element value="plone.relateditems"/>-->
     <!--<element value="plone.tableofcontents"/>-->
     <!--<element value="plone.versioning" />-->
     <!--<element value="plone.translatable" />-->
   </property>
+
 </object>
