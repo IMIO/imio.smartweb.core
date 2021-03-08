@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from plone.app.contenttypes.behaviors.leadimage import ILeadImage
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.decorator import indexer

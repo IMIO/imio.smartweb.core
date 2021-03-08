@@ -1,11 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone"
-    i18n_domain="imio.smartweb">
-
-  <include package=".procedure" />
-  <include package=".subsite" />
+    xmlns:plone="http://namespaces.plone.org/plone">
 
   <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
   <include package="z3c.jbot" file="meta.zcml" />
@@ -13,6 +9,8 @@
       directory="overrides"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
+  <include package=".subsite" />
 
   <!-- Publish static files -->
   <plone:static

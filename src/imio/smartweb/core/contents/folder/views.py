@@ -8,6 +8,10 @@ class FolderView(BaseFolderView):
     """"""
 
     def results(self, **kwargs):
+        """
+        Gets results for folder listings with exclude_from_parent_listing into
+        filters
+        """
         # Extra filter
         kwargs.update(self.request.get("contentFilter", {}))
         kwargs.setdefault("batch", True)
@@ -23,6 +27,10 @@ class FolderView(BaseFolderView):
         return results
 
     def blocks_results(self, **kwargs):
+        """
+        Gets results for blocks folder view, combining standard folder listing
+        results and quick access contents (without duplicates)
+        """
         results = self.results(batch=False)
         quick_access_brains = api.content.find(
             context=self.context,

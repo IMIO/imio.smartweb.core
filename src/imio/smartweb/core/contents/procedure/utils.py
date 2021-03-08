@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
-from plone.dexterity.interfaces import IDexterityFTI
-from zope.component import queryUtility
 
+from urllib.parse import quote
+from urllib.parse import urlencode
+from urllib.parse import urlparse
+from urllib.parse import urlunparse
 import base64
 import datetime
 import hashlib
 import hmac
 import random
-from urllib.parse import quote
-from urllib.parse import urlencode
-from urllib.parse import urlparse
-from urllib.parse import urlunparse
 
 
 def sign_url(url, key, orig, algo="sha256", timestamp=None, nonce=None):

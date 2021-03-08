@@ -1,0 +1,36 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup">
+
+  <genericsetup:registerProfile
+      name="default"
+      title="imio.smartweb.core"
+      directory="profiles/default"
+      description="Installs the imio.smartweb.core add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
+      name="testing"
+      title="imio.smartweb.core (testing)"
+      directory="profiles/testing"
+      description="Installs imio.smartweb.core.testing profile."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="uninstall"
+      title="imio.smartweb.core (uninstall)"
+      directory="profiles/uninstall"
+      description="Uninstalls the imio.smartweb.core add-on."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.uninstall"
+      />
+
+  <utility
+      name="imio.smartweb.core-hiddenprofiles"
+      factory=".setuphandlers.HiddenProfiles"
+      />
+
+</configure>

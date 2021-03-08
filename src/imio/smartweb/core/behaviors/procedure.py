@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from zope import schema
-from plone.autoform import directives
-
-# from imio.behavior.teleservices.widgets import SelectProcedureWidget
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.supermodel import model
+from zope import schema
 from zope.interface import Invalid
 from zope.interface import invariant
 from zope.interface import provider
@@ -16,7 +13,6 @@ from zope.interface import provider
 class IProcedure(model.Schema):
     """"""
 
-    # directives.widget("procedures", SelectProcedureWidget)
     procedure_ts = schema.Choice(
         vocabulary="imio.smartweb.vocabulary.PublikProcedures",
         title=_(u"E-Guichet procedure"),

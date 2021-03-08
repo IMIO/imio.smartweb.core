@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from imio.smartweb.core.behaviors.procedure import IProcedure  # NOQA E501
-from imio.smartweb.core.browser.procedure.add import AddForm
 from imio.smartweb.core.contents import IProcedure  # NOQA E501
+from imio.smartweb.core.contents.procedure.add import AddForm
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING  # noqa
 from imio.smartweb.core.tests.utils import get_procedure_json
 from plone import api
