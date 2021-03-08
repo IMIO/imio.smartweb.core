@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Acquisition import aq_inner
+from plone import api
 from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
 
 
@@ -20,3 +21,17 @@ class FolderView(BaseFolderView):
             return []
         results = listing(**kwargs)
         return results
+
+    def blocks_results(self, **kwargs):
+        results = self.results(batch=False)
+        quick_access_brains = api.content.find(
+            context=self.context,
+            include_in_quick_access=True,
+            sort_on="sortable_title",
+        )
+        paths = [item.getPath() for item in results]
+        # Use path instead of uuid in comparison because uuid can wake up object.
+        quick_access_brains = [
+            brain for brain in quick_access_brains if brain.getPath() not in paths
+        ]
+        return {"results": results, "quick_access": quick_access_brains}

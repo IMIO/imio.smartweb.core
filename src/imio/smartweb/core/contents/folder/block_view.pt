@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:main fill-slot="content-core">
+<metal:content-core define-macro="content-core">
+
+    <h1 tal:content="context/title" />
+    <tal:def tal:define="res view/blocks_results">
+        <div id="block-menu">
+            <div tal:repeat="menu res/results">
+                <a tal:attributes="href menu/getURL">
+                    <h2 tal:content="menu/Title" />
+                    <div tal:content="menu/description" />
+                    <img src=""
+                         tal:attributes="src string:${menu/getURL}/@@images/image/mini"
+                         tal:condition="menu/has_leadimage" />
+                </a>
+            </div>
+        </div>
+        <div id="block-quickaccess">
+            <div tal:repeat="menu res/quick_access">
+                <a tal:attributes="href menu/getURL">
+                    <div tal:content="menu/Title" />
+                    <div tal:content="menu/description" />
+                    <img src=""
+                         tal:attributes="src string:${menu/getURL}/@@images/image/mini"
+                         tal:condition="menu/has_leadimage" />
+                </a>
+            </div>
+        </div>
+    </tal:def>
+</metal:content-core>
+</metal:main>
+
+</body>
+</html>

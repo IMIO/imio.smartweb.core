@@ -32,4 +32,15 @@
           />
     </browser:pages>
   </configure>
+
+  <browser:page
+      name="block_view"
+      template="block_view.pt"
+      menu="plone_displayviews"
+      title="Block view"
+      class="imio.smartweb.core.contents.folder.views.FolderView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>
