@@ -41,4 +41,14 @@
     <element value="plone.constraintypes"/>
     <element value="imio.smartweb.listing"/>
   </property>
+
+  <!-- View information -->
+  <property name="default_view">listing_view</property>
+  <property name="default_view_fallback">False</property>
+  <property name="immediate_view">view</property>
+  <property name="view_methods">
+    <element value="full_view"/>
+    <element value="listing_view"/>
+  </property>
+
 </object>

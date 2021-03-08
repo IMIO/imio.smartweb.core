@@ -4,4 +4,26 @@
     xmlns:plone="http://namespaces.plone.org/plone"
     i18n_domain="imio.smartweb">
 
+  <include package="plone.app.contentmenu" />
+
+  <configure package="plone.app.contenttypes.browser">
+    <browser:pages
+        for="plone.dexterity.interfaces.IDexterityContainer"
+        class="imio.smartweb.core.contents.folder.views.FolderView"
+        permission="zope2.View"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer">
+      <browser:page
+          name="listing_view"
+          template="templates/listing.pt"
+          menu="plone_displayviews"
+          title="Standard view"
+          />
+      <browser:page
+          name="full_view"
+          template="templates/full_view.pt"
+          menu="plone_displayviews"
+          title="All content"
+          />
+    </browser:pages>
+  </configure>
 </configure>

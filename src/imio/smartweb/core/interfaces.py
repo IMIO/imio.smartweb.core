@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Module where all interfaces, events and exceptions live."""
 
+from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
 from zope.interface import Interface
-from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 
-class IImioSmartwebCoreLayer(IDefaultBrowserLayer):
+class IImioSmartwebCoreLayer(IPloneAppContenttypesLayer):
     """Marker interface that defines a browser layer."""
 
 
