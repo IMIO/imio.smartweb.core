@@ -7,15 +7,27 @@
       i18n:domain="plone">
 <body>
 
-<metal:main fill-slot="content-core">
-<metal:content-core define-macro="content-core">
+<metal:title fill-slot="content-title">
+  <tal:section tal:condition="python: view.available_section('title')">
+    <h1 class="documentFirstHeading"
+        tal:define="title context/Title"
+        tal:content="title">Title</h1>
+  </tal:section>
+</metal:title>
 
-<h1 tal:content="context/title" />
-<p>
-<span tal:replace="structure context/text/output" />
-</p>
-</metal:content-core>
-</metal:main>
+<metal:description fill-slot="content-description">
+  <tal:section tal:condition="python: view.available_section('description')">
+    <div class="documentDescription description"
+         tal:define="description context/Description"
+         tal:content="description">Description</div>
+  </tal:section>
+</metal:description>
+
+<metal:content fill-slot="content-core">
+  <tal:section tal:condition="python: view.available_section('body')">
+    <span tal:replace="structure context/text/output" />
+  </tal:section>
+</metal:content>
 
 </body>
 </html>
