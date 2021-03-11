@@ -25,7 +25,7 @@
 
 <metal:content fill-slot="content-core">
   <tal:section tal:condition="python: view.available_section('body')">
-    <span tal:replace="structure context/text/output" />
+    <span tal:replace="structure context/text/output | nothing" />
   </tal:section>
 </metal:content>
 
