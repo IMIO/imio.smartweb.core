@@ -33,6 +33,7 @@ def contained_files(context):
 @provider(IFormFieldProvider)
 class IFilteredFilesAndGallery(IFolderishGallery):
     """"""
+
     directives.widget(
         "selected_images",
         RelatedItemsFieldWidget,
