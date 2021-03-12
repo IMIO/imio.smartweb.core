@@ -2,7 +2,12 @@
      tal:condition="view/available"
      i18n:domain="imio.smartweb.core">
 
-    <span tal:repeat="item view/get_files">
+  <tal:if tal:define="items view/get_files"
+          tal:condition="items">
+
+    <legend i18n:translate="">Files</legend>
+
+    <span tal:repeat="item items">
         <div tal:define="item_has_image python:item.getIcon;
                          thumb_scale_list view/get_thumb_scale_list;
                          portal context/@@plone_portal_state/portal;
@@ -23,4 +28,7 @@
              </a>
         </div>
     </span>
+
+  </tal:if>
+
 </div>
