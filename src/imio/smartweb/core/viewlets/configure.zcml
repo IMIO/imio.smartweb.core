@@ -24,7 +24,7 @@
       name="collective.behavior.gallery.gallery"
       manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
       class=".files_and_gallery.FilteredGalleryViewlet"
-      view="imio.smartweb.core.contents.page.views.IPageView"
+      view="imio.smartweb.core.viewlets.files_and_gallery.IFilesAndGalleryView"
       permission="zope.Public"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
@@ -35,7 +35,7 @@
       manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
       class=".files_and_gallery.FilteredFilesViewlet"
       template="files.pt"
-      view="imio.smartweb.core.contents.page.views.IPageView"
+      view="imio.smartweb.core.viewlets.files_and_gallery.IFilesAndGalleryView"
       permission="zope.Public"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />

@@ -4,7 +4,11 @@ from collective.behavior.gallery.viewlets.gallery import GalleryViewlet
 from imio.smartweb.core.behaviors.page import IPageSections
 from plone.app.layout.viewlets import ViewletBase
 from zope.component import queryMultiAdapter
+from zope.interface import Interface
 
+
+class IFilesAndGalleryView(Interface):
+    """ Marker interface for views that will display files and gallery viewlets """
 
 class FilteredGalleryViewlet(GalleryViewlet):
     """ A viewlet which renders the filtered gallery """
