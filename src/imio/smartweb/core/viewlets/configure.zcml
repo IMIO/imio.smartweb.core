@@ -1,0 +1,18 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+  <configure package="plone.app.contenttypes.behaviors">
+    <browser:viewlet
+        name="contentleadimage"
+        for=".leadimage.ILeadImage"
+        view="plone.app.layout.globals.interfaces.IViewView"
+        class="imio.smartweb.core.viewlets.leadimage.LeadImageViewlet"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+        template="leadimage.pt"
+        permission="zope2.View"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+  </configure>
+
+
+</configure>
