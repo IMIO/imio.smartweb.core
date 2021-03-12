@@ -10,6 +10,7 @@ from zope.interface import Interface
 class IFilesAndGalleryView(Interface):
     """ Marker interface for views that will display files and gallery viewlets """
 
+
 class FilteredGalleryViewlet(GalleryViewlet):
     """ A viewlet which renders the filtered gallery """
 
