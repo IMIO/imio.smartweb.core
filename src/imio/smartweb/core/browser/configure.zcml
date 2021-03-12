@@ -29,7 +29,7 @@
   <browser:page
       name="full_view_item"
       for="*"
-      class="plone.app.contenttypes.browser.full_view.FullViewItem"
+      class=".full_view.FullViewItem"
       template="templates/full_view_item.pt"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       permission="zope2.View"
