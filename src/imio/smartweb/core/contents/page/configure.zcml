@@ -3,6 +3,15 @@
     xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page
+      name="page_settings"
+      for="*"
+      class=".settings.PageSettings"
+      allowed_attributes="transform_to_folder available"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
       for="imio.smartweb.core.contents.IPage"
       name="view"
       class=".views.PageView"
