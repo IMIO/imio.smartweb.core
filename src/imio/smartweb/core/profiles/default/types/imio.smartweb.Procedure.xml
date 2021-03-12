@@ -16,6 +16,11 @@
 
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>
+  <property name="filter_content_types">True</property>
+  <property name="allowed_content_types">
+    <element value="File" />
+    <element value="Image" />
+  </property>  
   <!-- Schema, class and security -->
   <property name="add_permission">imio.smartweb.core.AddProcedure</property>
   <property name="klass">imio.smartweb.core.contents.Procedure</property>
@@ -35,5 +40,8 @@
     <element value="imio.smartweb.listing"/>
     <element value="imio.smartweb.procedure"/>
     <element value="imio.smartweb.quickaccess"/>
+    <element value="plone.leadimage"/>
+    <element value="collective.behavior.gallery.folderish_gallery"/>
+    <element value="imio.smartweb.filtered_files_and_gallery"/>
   </property>
 </object>
