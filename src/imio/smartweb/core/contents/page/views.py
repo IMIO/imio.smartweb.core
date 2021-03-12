@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from plone.dexterity.browser.view import DefaultView
+from zope.interface import implementer
+from zope.interface import Interface
 
 
+class IPageView(Interface):
+    """"""
+
+
+@implementer(IPageView)
 class PageView(DefaultView):
     """Page view"""
 

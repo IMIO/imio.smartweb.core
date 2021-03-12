@@ -1,6 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
+
+  <unconfigure>
+    <include package="collective.behavior.gallery.viewlets" />
+  </unconfigure>
+
   <configure package="plone.app.contenttypes.behaviors">
     <browser:viewlet
         name="contentleadimage"
@@ -14,5 +19,25 @@
     />
   </configure>
 
+  <browser:viewlet
+      for="imio.smartweb.core.behaviors.files_and_gallery.IFilteredFilesAndGallery"
+      name="collective.behavior.gallery.gallery"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+      class=".files_and_gallery.FilteredGalleryViewlet"
+      view="imio.smartweb.core.contents.page.views.IPageView"
+      permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:viewlet
+      for="imio.smartweb.core.behaviors.files_and_gallery.IFilteredFilesAndGallery"
+      name="collective.behavior.gallery.files"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+      class=".files_and_gallery.FilteredFilesViewlet"
+      template="files.pt"
+      view="imio.smartweb.core.contents.page.views.IPageView"
+      permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
 
 </configure>

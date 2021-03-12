@@ -51,10 +51,12 @@ setup(
     install_requires=[
         "setuptools",
         "z3c.jbot",
+        "z3c.unconfigure",
         "plone.api>=1.8.4",
         "plone.restapi",
         "plone.app.dexterity",
         "imio.smartweb.locales",
+        "collective.behavior.gallery",
     ],
     extras_require={
         "test": [
