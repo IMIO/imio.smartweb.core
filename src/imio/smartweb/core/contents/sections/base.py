@@ -7,11 +7,9 @@ from zope import schema
 
 class ISection(model.Schema):
     """ Shared mecanism for sections """
-    title = schema.TextLine(
-        title=_(u'label_title', default=u'Title'),
-        required=True
-    )
+
+    title = schema.TextLine(title=_(u"Title"), required=True)
 
 
-class Section():
+class Section:
     """ Shared mecanism for sections """
