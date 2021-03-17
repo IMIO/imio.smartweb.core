@@ -15,10 +15,6 @@
 
     <!--div tal:replace="structure provider:plone.belowcontenttitle" /-->
 
-    <a tal:attributes="href string:${context/absolute_url}/edit"
-       i18n:domain="imio.smartweb"
-       i18n:translate="">Edit section &darr;</a>
-
     <tal:block tal:condition="item_macro">
       <!-- tal:on-error="python:rendering_error.append(True)"-->
 
