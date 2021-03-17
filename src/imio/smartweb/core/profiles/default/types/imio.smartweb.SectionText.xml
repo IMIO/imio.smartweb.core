@@ -31,6 +31,7 @@
   <property name="behaviors" purge="false">
     <element value="plone.namefromtitle"/>
     <element value="plone.locking"/>
+    <element value="plone.versioning" />
     <element value="plone.richtext"/>
   </property>
 

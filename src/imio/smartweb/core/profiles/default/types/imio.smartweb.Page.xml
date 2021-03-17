@@ -37,6 +37,7 @@
     <element value="plone.basic"/>
     <element value="plone.locking"/>
     <element value="plone.leadimage"/>
+    <element value="plone.versioning" />
     <element value="imio.smartweb.listing"/>
     <element value="imio.smartweb.quickaccess"/>
   </property>
