@@ -7,16 +7,14 @@
     tal:omit-tag="">
 <body tal:omit-tag="">
   <div class="item visualIEFloatFix"
-      tal:define="item_macro nocall:view/item_macros/content-core|nothing;
-      item_url view/item_url;
-      rendering_error python:[];">
+       tal:define="item_macro nocall:view/item_macros/content-core|nothing;
+                   item_url view/item_url;">
 
     <!--div tal:replace="structure provider:plone.abovecontenttitle" /-->
 
     <!--div tal:replace="structure provider:plone.belowcontenttitle" /-->
 
     <tal:block tal:condition="item_macro">
-      <!-- tal:on-error="python:rendering_error.append(True)"-->
 
       <div tal:replace="structure provider:plone.abovecontentbody" />
 
@@ -38,17 +36,6 @@
       <div tal:replace="structure provider:plone.belowcontentbody" />
 
     </tal:block>
-
-    <tal:block tal:condition="rendering_error">
-      <!-- Error rendering item macro -->
-    </tal:block>
-
-    <p class="more" tal:condition="python:not(item_macro) or rendering_error">
-      <a tal:attributes="href item_url"
-          i18n:translate="read_more">
-        Read More&hellip;
-      </a>
-    </p>
 
     <div class="visualClear"><!-- --></div>
 
