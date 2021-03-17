@@ -20,6 +20,7 @@
             <div class="sortable-section"
                  tal:define="obj item/getObject;"
                  tal:content="structure obj/@@full_view_item | nothing" />
+            <div class="visualClear" style="clear:both;"><!-- --></div>
           </metal:entry>
         </metal:block>
       </span>
