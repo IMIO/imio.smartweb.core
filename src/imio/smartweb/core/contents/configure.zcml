@@ -4,5 +4,6 @@
   <include package=".folder" />
   <include package=".page" />
   <include package=".procedure" />
+  <include package=".sections" />
 
 </configure>

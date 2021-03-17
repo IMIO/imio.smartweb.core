@@ -3,4 +3,5 @@
   <object meta_type="Dexterity FTI" name="imio.smartweb.Folder"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Page"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Procedure"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionText"/>
 </object>

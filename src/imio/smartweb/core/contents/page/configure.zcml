@@ -12,11 +12,12 @@
       />
 
   <browser:page
-      for="imio.smartweb.core.contents.IPage"
-      name="view"
+      name="full_view_item"
+      for="*"
       class=".views.PageView"
-      template="view.pt"
+      template="view_section.pt"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       permission="zope2.View"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"/>
+      />
 
 </configure>
