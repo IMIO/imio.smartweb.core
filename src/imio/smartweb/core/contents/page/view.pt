@@ -13,15 +13,45 @@
   <metal:listing use-macro="context/@@listing_view/macros/content-core">
     <!-- we don't want the dl -->
     <metal:entries fill-slot="entries">
+      <script>
+        $(store_order);
+        function store_order() {
+          orderedSectionsIds = [];
+          $('.sortable-section').each(function() {
+            orderedSectionsIds.push($(this).attr('data-id'));
+          });
+        };
+        function reorder($el, delta) {
+          var base_url = $('body').data('base-url');
+          var token = $('#protect-script').data('token');
+          if (delta !== 0) {
+            $.ajax({
+              url: base_url + '/@@reorder-section',
+              type: 'POST',
+              data: {
+                _authenticator: token,
+                delta: delta,
+                id: $el.attr('data-id'),
+                orderedSectionsIds: JSON.stringify(orderedSectionsIds)
+              }
+            });
+            store_order();
+          };
+        };
+      </script>
       <span class="pat-sortable"
-            data-pat-sortable="selector:div.sortable-section">
+            data-pat-sortable="selector:div.sortable-section;
+                               drop:reorder;">
         <metal:block use-macro="context/@@listing_view/macros/entries">
           <metal:entry fill-slot="entry" tal:condition="python: item.UID != uuid">
             <tal:def define="obj item/getObject;">
-              <a tal:attributes="name obj/id" />
               <div class="sortable-section"
-                   tal:content="structure obj/@@full_view_item | nothing" />
-            <div class="visualClear" style="clear:both;"><!-- --></div>
+                   data-id=""
+                   tal:attributes="data-id obj/id">
+                <a tal:attributes="name obj/id" />
+                <span tal:replace="structure obj/@@full_view_item | nothing" />
+                <div class="visualClear" style="clear:both;"><!-- --></div>
+              </div>
             </tal:def>
           </metal:entry>
         </metal:block>

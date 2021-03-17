@@ -20,4 +20,12 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      name="reorder-section"
+      for="imio.smartweb.core.contents.IPage"
+      class=".views.PageOrderingView"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      permission="cmf.ModifyPortalContent"
+      />
+
 </configure>
