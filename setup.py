@@ -56,7 +56,6 @@ setup(
         "plone.restapi",
         "plone.app.dexterity",
         "imio.smartweb.locales",
-        "collective.behavior.gallery",
     ],
     extras_require={
         "test": [

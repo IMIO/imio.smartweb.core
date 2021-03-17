@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from collective.behavior.gallery.interfaces import ICollectiveBehaviorGalleryLayer
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
 from zope.interface import Interface
 
 
-class IImioSmartwebCoreLayer(
-    IPloneAppContenttypesLayer, ICollectiveBehaviorGalleryLayer
-):
+class IImioSmartwebCoreLayer(IPloneAppContenttypesLayer):
     """Marker interface that defines a browser layer."""
 
 

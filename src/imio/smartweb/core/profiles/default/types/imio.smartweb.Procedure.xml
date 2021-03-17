@@ -41,7 +41,5 @@
     <element value="imio.smartweb.procedure"/>
     <element value="imio.smartweb.quickaccess"/>
     <element value="plone.leadimage"/>
-    <element value="collective.behavior.gallery.folderish_gallery"/>
-    <element value="imio.smartweb.filtered_files_and_gallery"/>
   </property>
 </object>

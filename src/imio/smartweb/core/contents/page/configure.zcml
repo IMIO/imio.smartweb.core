@@ -2,18 +2,20 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
-  <browser:page
-      name="page_settings"
-      for="*"
-      class=".settings.PageSettings"
-      allowed_attributes="transform_to_folder available"
-      permission="cmf.ModifyPortalContent"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      />
+  <configure package="plone.app.contenttypes.browser">
+    <browser:page
+        name="full_view"
+        for="imio.smartweb.core.contents.IPage"
+        template="templates/full_view.pt"
+        class=".folder.FolderView"
+        permission="zope2.View"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        />
+  </configure>
 
   <browser:page
       name="full_view_item"
-      for="*"
+      for="imio.smartweb.core.contents.ISection"
       class=".views.PageView"
       template="view_section.pt"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"

@@ -23,16 +23,6 @@
       </property>
       <property name="visible">True</property>
     </object>
-    <object name="page_to_folder" meta_type="CMF Action" i18n:domain="imio.smartweb">
-      <property name="title" i18n:translate="">Turn page into full view folder</property>
-      <property name="description" i18n:translate="">Click to put current page into a folder with full view display.</property>
-      <property name="url_expr">string:$object_url/@@page_settings/transform_to_folder</property>
-      <property name="available_expr">object/@@page_settings/available|nothing</property>
-      <property name="permissions">
-        <element value="cmf.ModifyPortalContent"/>
-      </property>
-      <property name="visible">True</property>
-    </object>
   </object>
 
 </object>

@@ -13,14 +13,6 @@
       />
 
   <plone:behavior
-      name="imio.smartweb.pagesections"
-      title="Page sections"
-      description="Allow to choose which sections will be shown."
-      provides=".page.IPageSections"
-      for="imio.smartweb.core.contents.IPage"
-      />
-
-  <plone:behavior
       name="imio.smartweb.procedure"
       title="Teleservices procedures"
       description="Add a select box (ia.ts only) or an uri to set a link to an e-guichet."
@@ -33,13 +25,6 @@
       title="Quick access"
       description="Allow to choose if this element must be placed in quick access."
       provides=".quickaccess.IQuickAccess"
-      />
-
-  <plone:behavior
-      name="imio.smartweb.filtered_files_and_gallery"
-      title="Add a filtered gallery"
-      description="Add a filtered gallery field to a container and display selected images in this container."
-      provides=".files_and_gallery.IFilteredFilesAndGallery"
       />
 
 </configure>

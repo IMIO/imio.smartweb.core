@@ -2,42 +2,4 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
-  <unconfigure>
-    <include package="collective.behavior.gallery.viewlets" />
-  </unconfigure>
-
-  <configure package="plone.app.contenttypes.behaviors">
-    <browser:viewlet
-        name="contentleadimage"
-        for=".leadimage.ILeadImage"
-        view="plone.app.layout.globals.interfaces.IViewView"
-        class="imio.smartweb.core.viewlets.leadimage.LeadImageViewlet"
-        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-        template="leadimage.pt"
-        permission="zope2.View"
-        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-    />
-  </configure>
-
-  <browser:viewlet
-      for="imio.smartweb.core.behaviors.files_and_gallery.IFilteredFilesAndGallery"
-      name="collective.behavior.gallery.gallery"
-      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-      class=".files_and_gallery.FilteredGalleryViewlet"
-      view="imio.smartweb.core.viewlets.files_and_gallery.IFilesAndGalleryView"
-      permission="zope.Public"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      />
-
-  <browser:viewlet
-      for="imio.smartweb.core.behaviors.files_and_gallery.IFilteredFilesAndGallery"
-      name="collective.behavior.gallery.files"
-      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
-      class=".files_and_gallery.FilteredFilesViewlet"
-      template="files.pt"
-      view="imio.smartweb.core.viewlets.files_and_gallery.IFilesAndGalleryView"
-      permission="zope.Public"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      />
-
 </configure>

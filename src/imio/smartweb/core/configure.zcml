@@ -2,7 +2,6 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <include package="z3c.unconfigure" file="meta.zcml" />
-  <include package="collective.behavior.gallery" />
   <include package="imio.smartweb.locales" />
 
   <include file="indexers.zcml" />
@@ -13,12 +12,6 @@
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".viewlets" />
-
-  <utility
-      name="imio.smartweb.vocabulary.PageSections"
-      component=".vocabularies.PageSectionsVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
 
   <utility
       name="imio.smartweb.vocabulary.PublikProcedures"

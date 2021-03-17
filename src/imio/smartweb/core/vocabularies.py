@@ -1,32 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.procedure.utils import sign_url
-from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 import json
 import requests
-
-
-class PageSectionsVocabularyFactory:
-    def __call__(self, context=None):
-        values = [
-            ("title", _(u"Title")),
-            ("description", _(u"Description")),
-            ("body", _(u"Body text")),
-            ("leadimage", _(u"Lead Image")),
-            ("images", _(u"Images thumbnails")),
-            ("files", _(u"Files")),
-        ]
-        terms = [
-            SimpleVocabulary.createTerm(value[0], value[0], value[1])
-            for value in values
-        ]
-        return SimpleVocabulary(terms)
-
-
-PageSectionsVocabulary = PageSectionsVocabularyFactory()
 
 
 class RemoteProceduresVocabularyFactory:

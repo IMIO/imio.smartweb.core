@@ -18,8 +18,8 @@ class PageIntegrationTest(unittest.TestCase):
 
     def setUp(self):
         """Custom shared utility setup for tests."""
-        self.authorized_types_in_page = ["File", "Image"]
-        self.unauthorized_types_in_page = ["Document", "Link"]
+        self.authorized_types_in_page = ["imio.smartweb.SectionText"]
+        self.unauthorized_types_in_page = ["Document", "Link", "File", "Image"]
 
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])

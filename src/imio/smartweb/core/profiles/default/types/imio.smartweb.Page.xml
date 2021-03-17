@@ -18,8 +18,6 @@
   <property name="global_allow">True</property>
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
-    <element value="File" />
-    <element value="Image" />
     <element value="imio.smartweb.SectionText" />
   </property>
   <!-- Schema, class and security -->

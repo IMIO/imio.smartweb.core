@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from collective.behavior.gallery.behaviors.folderish_gallery import IFolderishGallery
 from plone.dexterity.content import Container
+from zope.interface import Interface
 from zope.interface import implementer
 
 
-class IPage(IFolderishGallery):
+class IPage(Interface):
     """Marker interface and Dexterity Python Schema for Page"""
 
 
