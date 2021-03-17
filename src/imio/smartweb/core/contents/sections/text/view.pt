@@ -19,6 +19,8 @@
        i18n:translate="">Manage section contents &darr;</a>
   </tal:edit>
 
+  <h2 tal:content="context/Title" />
+
   <span tal:replace="structure context/text/output | nothing" />
 
 </metal:content-core>
