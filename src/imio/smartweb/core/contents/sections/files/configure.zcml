@@ -5,7 +5,7 @@
     <browser:page
         name="view"
         for="imio.smartweb.core.contents.ISectionFiles"
-        class="imio.smartweb.core.contents.sections.views.SectionView"
+        class="imio.smartweb.core.contents.sections.files.view.FilesView"
         template="view.pt"
         permission="zope2.View"
         layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"

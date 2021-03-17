@@ -10,6 +10,15 @@
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
 
+  <tal:edit condition="python: checkPermission('Modify portal content', context)">
+    <a tal:attributes="href string:${context/absolute_url}/edit"
+       i18n:domain="imio.smartweb"
+       i18n:translate="">Edit section &darr;</a> /
+    <a tal:attributes="href string:${context/absolute_url}/folder_contents"
+       i18n:domain="imio.smartweb"
+       i18n:translate="">Manage section contents &darr;</a>
+  </tal:edit>
+
 </metal:content-core>
 </metal:main>
 
