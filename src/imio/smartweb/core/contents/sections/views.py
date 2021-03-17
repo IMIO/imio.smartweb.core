@@ -13,4 +13,5 @@ class SectionView(BrowserView):
 
     def __call__(self):
         page = self.context.aq_parent
-        return self.request.response.redirect(page.absolute_url())
+        url = "{}#{}".format(page.absolute_url(), self.context.id)
+        return self.request.response.redirect(url)
