@@ -53,6 +53,7 @@ setup(
         "z3c.jbot",
         "z3c.unconfigure",
         "plone.api>=1.8.4",
+        "plone.gallery",
         "plone.restapi",
         "plone.app.dexterity",
         "imio.smartweb.locales",
