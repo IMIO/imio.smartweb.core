@@ -6,4 +6,9 @@
       factory=".indexers.has_leadimage"
       />
 
+  <adapter
+      name="SearchableText"
+      factory=".indexers.SearchableText_sectiontext"
+      />
+
 </configure>
