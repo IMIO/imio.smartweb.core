@@ -5,7 +5,7 @@ from imio.smartweb.core.contents.sections.views import SectionView
 
 
 class FilesView(SectionView):
-    """ A viewlet which renders the filtered files """
+    """ Files Section view """
 
     def get_thumb_scale_list(self):
         view = queryMultiAdapter((self.context, self.request), name="listing_view")

@@ -3,5 +3,6 @@
 from plone.gallery.views.photo_gallery import PhotoGallery
 from imio.smartweb.core.contents.sections.views import SectionView
 
+
 class GalleryView(SectionView, PhotoGallery):
-    """Page view"""
+    """Gallery Section view"""
