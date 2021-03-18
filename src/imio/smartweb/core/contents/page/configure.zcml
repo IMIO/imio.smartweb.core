@@ -6,7 +6,7 @@
       name="full_view"
       for="imio.smartweb.core.contents.IPage"
       template="view.pt"
-      class="plone.app.contenttypes.browser.folder.FolderView"
+      class=".views.PageView"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
@@ -14,7 +14,7 @@
   <browser:page
       name="full_view_item"
       for="imio.smartweb.core.contents.ISection"
-      class=".views.PageView"
+      class=".views.PageViewItem"
       template="view_section.pt"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       permission="zope2.View"

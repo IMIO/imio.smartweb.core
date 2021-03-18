@@ -1,12 +1,27 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFPlone.resources import add_bundle_on_request
 from plone.app.content.browser.contents.rearrange import OrderContentsBaseAction
 from plone.app.content.utils import json_loads
+from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.browser.full_view import FullViewItem as BaseFullViewItem
 
 
-class PageView(BaseFullViewItem):
+class PageView(FolderView):
     """Page view"""
+
+    def __call__(self):
+        galleries_sections = self.context.listFolderContents(
+            contentFilter={"portal_type": "imio.smartweb.SectionGallery"}
+        )
+        if len(galleries_sections) > 0:
+            add_bundle_on_request(self.request, "spotlightjs")
+            add_bundle_on_request(self.request, "flexbin")
+        return self.index()
+
+
+class PageViewItem(BaseFullViewItem):
+    """Page view item"""
 
 
 class PageOrderingView(OrderContentsBaseAction):
