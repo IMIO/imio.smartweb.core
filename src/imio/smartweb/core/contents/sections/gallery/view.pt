@@ -25,8 +25,8 @@
 
       <!-- fix some css for usage in Plone  -->
       <style type="text/css">
-       .template-photo-gallery #spotlight .header { padding-right: 120px !important; }
-       .template-photo-gallery #content-core a { border-bottom: 0px solid transparent !important;}
+       #spotlight .header { padding-right: 120px !important; }
+       #content-core a { border-bottom: 0px solid transparent !important;}
       </style>
 
       <div class="flexbin flexbin-margin">
