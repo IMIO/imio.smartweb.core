@@ -33,4 +33,7 @@
     <element value="plone.versioning" />
   </property>
 
+  <!-- View information -->
+  <property name="immediate_view">folder_contents</property>
+
 </object>
