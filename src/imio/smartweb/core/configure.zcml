@@ -1,7 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
-  <include package="z3c.unconfigure" file="meta.zcml" />
   <include package="imio.smartweb.locales" />
 
   <include file="indexers.zcml" />
