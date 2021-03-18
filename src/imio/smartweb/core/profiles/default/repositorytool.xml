@@ -10,12 +10,6 @@
     <type name="imio.smartweb.Procedure">
       <policy name="version_on_revert"/>
     </type>
-    <type name="imio.smartweb.SectionFiles">
-      <policy name="version_on_revert"/>
-    </type>
-    <type name="imio.smartweb.SectionGallery">
-      <policy name="version_on_revert"/>
-    </type>
     <type name="imio.smartweb.SectionText">
       <policy name="version_on_revert"/>
     </type>
