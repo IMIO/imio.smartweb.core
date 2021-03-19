@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from imio.smartweb.core.behaviors.procedure import IProcedure  # NOQA E501
-from imio.smartweb.core.contents import IProcedure  # NOQA E501
-from imio.smartweb.core.contents.procedure.add import AddForm
+from plone.dexterity.browser.add import DefaultAddForm
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING  # noqa
 from imio.smartweb.core.tests.utils import get_procedure_json
 from plone import api
@@ -45,7 +44,8 @@ class ProcedureFunctionalTest(unittest.TestCase):
             }
         )
         alsoProvides(request, IPloneFormLayer)
-        form = AddForm(self.portal, request)
+        form = DefaultAddForm(self.portal, request)
+        form.portal_type = "imio.smartweb.Procedure"
         form.update()
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 0)
@@ -56,7 +56,8 @@ class ProcedureFunctionalTest(unittest.TestCase):
             }
         )
         alsoProvides(request, IPloneFormLayer)
-        form = AddForm(self.portal, request)
+        form = DefaultAddForm(self.portal, request)
+        form.portal_type = "imio.smartweb.Procedure"
         form.update()
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 1)
@@ -70,7 +71,8 @@ class ProcedureFunctionalTest(unittest.TestCase):
             }
         )
         alsoProvides(request, IPloneFormLayer)
-        form = AddForm(self.portal, request)
+        form = DefaultAddForm(self.portal, request)
+        form.portal_type = "imio.smartweb.Procedure"
         form.update()
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 1)
