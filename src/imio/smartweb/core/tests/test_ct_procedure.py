@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.contents.procedure.content import IProcedure  # NOQA E501
+from imio.smartweb.core.contents import IProcedure  # NOQA E501
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
 from plone import api
 from plone.app.testing import setRoles
@@ -8,8 +8,6 @@ from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
 from zope.component import queryUtility
 
-import json
-import requests_mock
 import unittest
 
 
