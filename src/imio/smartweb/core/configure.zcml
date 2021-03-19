@@ -1,7 +1,10 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
+  <!-- Temporary fix for plone.gallery 1.0.1 -->
+  <include package="plone.app.contentmenu" />
   <include package="plone.gallery" />
+
   <include package="imio.smartweb.locales" />
 
   <include file="indexers.zcml" />
