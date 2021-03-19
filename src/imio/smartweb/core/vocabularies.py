@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.contents.procedure.utils import sign_url
+from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from plone import api
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary

@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <include package=".folder" />
-  <include package=".sections_containers" />
+  <include package=".pages" />
   <include package=".sections" />
 
 </configure>
