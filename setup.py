@@ -55,6 +55,7 @@ setup(
         "plone.gallery",
         "plone.restapi",
         "plone.app.dexterity",
+        "embeddify",
         "imio.smartweb.locales",
     ],
     extras_require={

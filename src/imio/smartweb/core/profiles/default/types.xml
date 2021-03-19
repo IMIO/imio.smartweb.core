@@ -6,4 +6,5 @@
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionFiles"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionGallery"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionText"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionVideo"/>  
 </object>

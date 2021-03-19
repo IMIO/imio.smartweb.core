@@ -4,5 +4,6 @@
     <type type_id="imio.smartweb.SectionFiles"/>
     <type type_id="imio.smartweb.SectionGallery"/>
     <type type_id="imio.smartweb.SectionText"/>
+    <type type_id="imio.smartweb.SectionVideo"/>
   </bindings>
 </object>

@@ -5,6 +5,7 @@
   <include package=".files" />
   <include package=".gallery" />
   <include package=".text" />
+  <include package=".video" />
 
   <browser:page
       name="view"
