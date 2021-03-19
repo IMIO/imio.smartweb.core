@@ -19,9 +19,7 @@
        i18n:translate="">Manage section contents &darr;</a>
   </tal:edit>
 
-  <h2 tal:content="context/Title" />
-
-  <span tal:replace="structure view/get_embed_video" />
+  <div tal:content="structure view/get_embed_video" />
 
 </metal:content-core>
 </metal:main>
