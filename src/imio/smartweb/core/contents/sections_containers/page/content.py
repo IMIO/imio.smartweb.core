@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents import ISectionContainer
 from plone.dexterity.content import Container
-from zope.interface import Interface
 from zope.interface import implementer
 
 
-class IPage(Interface):
+class IPage(ISectionContainer):
     """Marker interface and Dexterity Python Schema for Page"""
 
 

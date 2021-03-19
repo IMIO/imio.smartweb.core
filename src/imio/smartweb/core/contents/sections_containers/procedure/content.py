@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from plone.dexterity.content import Item
-from plone.supermodel import model
+from imio.smartweb.core.contents import ISectionContainer
+from plone.dexterity.content import Container
 from zope.interface import implementer
 
 
-class IProcedure(model.Schema):
+class IProcedure(ISectionContainer):
     """Marker interface and Dexterity Python Schema for Procedure"""
 
 
 @implementer(IProcedure)
-class Procedure(Item):
+class Procedure(Container):
     """Procedure class"""

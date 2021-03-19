@@ -2,11 +2,14 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
+  <include package=".page" />
+  <include package=".procedure" />
+
   <browser:page
       name="full_view"
-      for="imio.smartweb.core.contents.IPage"
+      for="imio.smartweb.core.contents.ISectionContainer"
       template="view.pt"
-      class=".views.PageView"
+      class=".views.SectionContainerView"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
@@ -14,7 +17,7 @@
   <browser:page
       name="full_view_item"
       for="imio.smartweb.core.contents.ISection"
-      class=".views.PageViewItem"
+      class=".views.SectionContainerFullViewItem"
       template="view_section.pt"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       permission="zope2.View"
@@ -22,8 +25,8 @@
 
   <browser:page
       name="reorder-section"
-      for="imio.smartweb.core.contents.IPage"
-      class=".views.PageOrderingView"
+      for="imio.smartweb.core.contents.ISectionContainer"
+      class=".views.SectionContainerOrderingView"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       permission="cmf.ModifyPortalContent"
       />
