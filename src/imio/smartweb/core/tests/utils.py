@@ -12,3 +12,11 @@ def get_procedure_json():
     ) as json_file:
         json_procedures_raw_mock = json.load(json_file)
         return json_procedures_raw_mock
+
+
+def get_leadimage_filename():
+    leadimage = os.path.join(
+        os.path.dirname(__file__),
+        "resources/plone.png",
+    )
+    return leadimage
