@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from imio.smartweb.core.contents import IProcedure  # NOQA E501
+from imio.smartweb.core.contents.pages.views import PagesView
 from imio.smartweb.core.tests.utils import get_procedure_json
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
 from plone import api
@@ -11,9 +12,11 @@ from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.interfaces import IDexterityFTI
 from zope.component import createObject
+from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
+from zope.viewlet.interfaces import IViewletManager
 
 import json
 import requests_mock
@@ -140,3 +143,39 @@ class ProcedureIntegrationTest(unittest.TestCase):
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 1)
         self.assertIn(errors[0].message, "Only one procedure field can be filled !")
+
+    @requests_mock.Mocker()
+    def test_procedure_viewlet(self, m):
+        m.get(
+            "https://demo.guichet-citoyen.be/api/formdefs/",
+            text=json.dumps(self.json_procedures_raw_mock),
+        )
+        procedure = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Procedure",
+            id="procedure",
+        )
+
+        view = PagesView(self.portal["procedure"], self.request)
+        manager_name = "plone.abovecontentbody"
+
+        manager = queryMultiAdapter(
+            (self.portal["procedure"], self.request, view),
+            IViewletManager,
+            manager_name,
+            default=None,
+        )
+        manager.update()
+        viewlet = [
+            v for v in manager.viewlets if v.__name__ == "imio.smartweb.procedure"
+        ]
+        self.assertEqual(len(viewlet), 1)
+        self.assertEqual("", viewlet[0]().strip())
+        url = "http://another_e_guichet.be/procedure1"
+        procedure.procedure_url = url
+        self.assertIn(url, viewlet[0]())
+        procedure.procedure_url = None
+        procedure.procedure_ts = (
+            "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/"
+        )
+        self.assertIn(u"Acte de d\\u00e9c\\u00e8s", viewlet[0]())
