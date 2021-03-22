@@ -1,5 +1,5 @@
 from .folder.content import IFolder, Folder
-from .pages.sectioncontainer import ISectionContainer, SectionContainer
+from .pages.pages import IPages, Pages
 from .pages.page.content import IPage, Page
 from .pages.procedure.content import IProcedure, Procedure
 from .sections.base import ISection, Section

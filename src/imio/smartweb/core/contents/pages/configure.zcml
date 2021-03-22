@@ -7,9 +7,9 @@
 
   <browser:page
       name="full_view"
-      for="imio.smartweb.core.contents.ISectionContainer"
+      for="imio.smartweb.core.contents.IPages"
       template="view.pt"
-      class=".views.SectionContainerView"
+      class=".views.PagesView"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
@@ -17,7 +17,7 @@
   <browser:page
       name="full_view_item"
       for="imio.smartweb.core.contents.ISection"
-      class=".views.SectionContainerFullViewItem"
+      class=".views.PagesFullViewItem"
       template="view_section.pt"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       permission="zope2.View"
@@ -25,8 +25,8 @@
 
   <browser:page
       name="reorder-section"
-      for="imio.smartweb.core.contents.ISectionContainer"
-      class=".views.SectionContainerOrderingView"
+      for="imio.smartweb.core.contents.IPages"
+      class=".views.PagesOrderingView"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       permission="cmf.ModifyPortalContent"
       />

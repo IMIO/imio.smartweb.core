@@ -7,8 +7,8 @@ from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.browser.full_view import FullViewItem as BaseFullViewItem
 
 
-class SectionContainerView(FolderView):
-    """SectionContainer view"""
+class PagesView(FolderView):
+    """Pages view"""
 
     def __call__(self):
         galleries_sections = self.context.listFolderContents(
@@ -20,11 +20,11 @@ class SectionContainerView(FolderView):
         return self.index()
 
 
-class SectionContainerFullViewItem(BaseFullViewItem):
+class PagesFullViewItem(BaseFullViewItem):
     """Page view item"""
 
 
-class SectionContainerOrderingView(OrderContentsBaseAction):
+class PagesOrderingView(OrderContentsBaseAction):
     """Page sections ordering view"""
 
     def __call__(self):
