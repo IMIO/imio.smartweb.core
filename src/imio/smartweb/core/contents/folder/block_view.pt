@@ -17,7 +17,7 @@
                 <a tal:attributes="href menu/getURL">
                     <h2 tal:content="menu/Title" />
                     <div tal:content="menu/description" />
-                    <img src=""
+                    <img class="newsImage" src=""
                          tal:attributes="src string:${menu/getURL}/@@images/image/mini"
                          tal:condition="menu/has_leadimage" />
                 </a>
@@ -28,7 +28,7 @@
                 <a tal:attributes="href menu/getURL">
                     <div tal:content="menu/Title" />
                     <div tal:content="menu/description" />
-                    <img src=""
+                    <img class="newsImage" src=""
                          tal:attributes="src string:${menu/getURL}/@@images/image/mini"
                          tal:condition="menu/has_leadimage" />
                 </a>
