@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.behaviors.procedure import IProcedure  # NOQA E501
 from plone.dexterity.browser.add import DefaultAddForm
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING  # noqa
 from imio.smartweb.core.tests.utils import get_procedure_json
@@ -40,7 +39,7 @@ class ProcedureFunctionalTest(unittest.TestCase):
         request = TestRequest(
             form={
                 "form.widgets.IBasic.title": "My Procedure",
-                "form.widgets.IProcedure.procedure_url": "http://another_e_guichet.be/procedure1",
+                "form.widgets.procedure_url": "http://another_e_guichet.be/procedure1",
             }
         )
         alsoProvides(request, IPloneFormLayer)
@@ -66,8 +65,8 @@ class ProcedureFunctionalTest(unittest.TestCase):
         request = TestRequest(
             form={
                 "form.widgets.IBasic.title": "My Procedure",
-                "form.widgets.IProcedure.procedure_url": "http://another_e_guichet.be/procedure1",
-                "form.widgets.IProcedure.procedure_ts": "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/",
+                "form.widgets.procedure_url": "http://another_e_guichet.be/procedure1",
+                "form.widgets.procedure_ts": "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/",
             }
         )
         alsoProvides(request, IPloneFormLayer)

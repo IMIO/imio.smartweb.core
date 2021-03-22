@@ -2,4 +2,24 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
+  <browser:viewlet
+      name="imio.smartweb.procedure"
+      for="imio.smartweb.core.contents.IProcedure"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="procedure.pt"
+      class=".procedure.ProcedureViewlet"
+      permission="zope2.View"
+  />
+
+  <browser:viewlet
+      name="imio.smartweb.procedure"
+      for="imio.smartweb.core.contents.IProcedure"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentBody"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="procedure.pt"
+      class=".procedure.ProcedureViewlet"
+      permission="zope2.View"
+  />
+
 </configure>

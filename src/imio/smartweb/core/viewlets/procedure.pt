@@ -1,0 +1,13 @@
+<div class="procedure"
+     tal:define="url context/procedure_url"
+     tal:condition="url">
+  <a tal:attributes="href url"
+     tal:content="url"/>
+</div>
+<div class="procedure"
+     tal:define="procedure view/get_selected_procedure_title"
+     tal:condition="procedure">
+  <a target="_blank"
+     tal:attributes="href procedure/value"
+     tal:content="procedure/title"/>
+</div>
