@@ -22,7 +22,8 @@
   <tal:if tal:define="images view/album_images"
           tal:condition="images">
 
-    <h2 tal:content="context/Title" />
+    <h2 tal:condition="not: context/hide_title"
+        tal:content="context/title" />
   
     <!-- fix some css for usage in Plone  -->
     <style type="text/css">

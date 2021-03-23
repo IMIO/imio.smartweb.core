@@ -22,7 +22,8 @@
   <tal:if tal:define="items context/listFolderContents"
           tal:condition="items">
 
-    <h2 tal:content="context/Title" />
+    <h2 tal:condition="not: context/hide_title"
+        tal:content="context/title" />
 
     <span tal:repeat="item items">
         <div tal:define="item_has_image python:item.getIcon;

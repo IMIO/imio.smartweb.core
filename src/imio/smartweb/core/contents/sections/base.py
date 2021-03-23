@@ -9,6 +9,7 @@ class ISection(model.Schema):
     """ Shared mecanism for sections """
 
     title = schema.TextLine(title=_(u"Title"), required=True)
+    hide_title = schema.Bool(title=_(u"Hide title"), required=False, default=False)
 
 
 class Section:

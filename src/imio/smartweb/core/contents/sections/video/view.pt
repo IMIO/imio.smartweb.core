@@ -19,7 +19,8 @@
        i18n:translate="">Manage section contents &darr;</a>
   </tal:edit>
 
-  <h2 tal:content="context/Title" />
+  <h2 tal:condition="not: context/hide_title"
+      tal:content="context/title" />
 
   <div tal:content="structure view/get_embed_video" />
 
