@@ -22,7 +22,7 @@
   <tal:if tal:define="items context/listFolderContents"
           tal:condition="items">
 
-    <legend tal:content="context/title"></legend>
+    <h2 tal:content="context/Title" />
 
     <span tal:repeat="item items">
         <div tal:define="item_has_image python:item.getIcon;
