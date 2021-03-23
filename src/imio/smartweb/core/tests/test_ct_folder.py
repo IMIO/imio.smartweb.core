@@ -1,14 +1,19 @@
 # -*- coding: utf-8 -*-
+
 from imio.smartweb.core.contents.folder.content import IFolder  # NOQA E501
+from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
+from imio.smartweb.core.tests.utils import get_leadimage_filename
 from plone import api
 from plone.api.exc import InvalidParameterError
-from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.namedfile.file import NamedBlobFile
 from zope.component import createObject
+from zope.component import getMultiAdapter
 from zope.component import queryUtility
-
+from zope.interface import alsoProvides
 import unittest
 
 
@@ -21,6 +26,7 @@ class FolderIntegrationTest(unittest.TestCase):
         self.authorized_types_in_folder = ["Link", "imio.smartweb.Page"]
         self.unauthorized_types_in_folder = ["File", "Image", "Document"]
 
+        self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.parent = self.portal
@@ -99,3 +105,19 @@ class FolderIntegrationTest(unittest.TestCase):
                 type=t,
                 title="My {}".format(t),
             )
+
+    def test_leadimage_in_folder_block_view(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="My folder",
+        )
+        page = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="My page",
+        )
+        page.image = NamedBlobFile("ploneLeadImage", filename=get_leadimage_filename())
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+        view = getMultiAdapter((folder, self.request), name="block_view")
+        self.assertIn("newsImage", view())
