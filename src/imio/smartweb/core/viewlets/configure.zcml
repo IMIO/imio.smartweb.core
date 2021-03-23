@@ -2,6 +2,19 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
+  <configure package="plone.app.contenttypes.behaviors">
+    <browser:viewlet
+      name="contentleadimage"
+      for=".leadimage.ILeadImage"
+      view="imio.smartweb.core.contents.pages.views.IPagesView"
+      class="imio.smartweb.core.viewlets.lead_image.PagesLeadImageViewlet"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="leadimage.pt"
+      permission="zope2.View"
+      />
+  </configure>
+
   <browser:viewlet
       name="imio.smartweb.procedure"
       for="imio.smartweb.core.contents.IProcedure"

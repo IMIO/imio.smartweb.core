@@ -5,8 +5,15 @@ from plone.app.content.browser.contents.rearrange import OrderContentsBaseAction
 from plone.app.content.utils import json_loads
 from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.browser.full_view import FullViewItem as BaseFullViewItem
+from zope.interface import Interface
+from zope.interface import implementer
 
 
+class IPagesView(Interface):
+    """Marker interface for Pages Views"""
+
+
+@implementer(IPagesView)
 class PagesView(FolderView):
     """Pages view"""
 
