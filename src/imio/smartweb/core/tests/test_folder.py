@@ -120,4 +120,6 @@ class FolderIntegrationTest(unittest.TestCase):
         page.image = NamedBlobFile("ploneLeadImage", filename=get_leadimage_filename())
         alsoProvides(self.request, IImioSmartwebCoreLayer)
         view = getMultiAdapter((folder, self.request), name="block_view")
+        self.assertNotIn("newsImage", view())
+        view = getMultiAdapter((folder, self.request), name="block_view_with_images")
         self.assertIn("newsImage", view())
