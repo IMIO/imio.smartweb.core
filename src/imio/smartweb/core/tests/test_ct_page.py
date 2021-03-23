@@ -153,3 +153,11 @@ class PageIntegrationTest(unittest.TestCase):
         self.request.environ['REQUEST_METHOD'] = 'POST'
         getMultiAdapter((page, self.request), name="reorder-section")()
         self.assertListEqual(page.objectIds(), ["section2", "section1"])
+
+        self.request.form["id"] = "section1"
+        self.request.form["delta"] = "-1"
+        # wrong ordered sections ids
+        self.request.form["orderedSectionsIds"] = '["section1", "section2"]'
+        getMultiAdapter((page, self.request), name="reorder-section")()
+        # nothing changes
+        self.assertListEqual(page.objectIds(), ["section2", "section1"])
