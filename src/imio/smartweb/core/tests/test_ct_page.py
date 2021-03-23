@@ -146,11 +146,11 @@ class PageIntegrationTest(unittest.TestCase):
             id="section2",
         )
         self.assertListEqual(page.objectIds(), ["section1", "section2"])
-        self.request.form['_authenticator'] = createToken()
+        self.request.form["_authenticator"] = createToken()
         self.request.form["id"] = "section2"
         self.request.form["delta"] = "-1"
         self.request.form["orderedSectionsIds"] = '["section1", "section2"]'
-        self.request.environ['REQUEST_METHOD'] = 'POST'
+        self.request.environ["REQUEST_METHOD"] = "POST"
         getMultiAdapter((page, self.request), name="reorder-section")()
         self.assertListEqual(page.objectIds(), ["section2", "section1"])
 
