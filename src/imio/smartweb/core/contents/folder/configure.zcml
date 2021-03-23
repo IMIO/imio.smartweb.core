@@ -23,12 +23,6 @@
           menu="plone_displayviews"
           title="Summary view"
           />
-      <browser:page
-          name="full_view"
-          template="templates/full_view.pt"
-          menu="plone_displayviews"
-          title="One page view"
-          />
     </browser:pages>
   </configure>
 
