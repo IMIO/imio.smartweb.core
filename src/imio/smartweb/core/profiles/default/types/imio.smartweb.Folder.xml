@@ -48,6 +48,7 @@
   <property name="immediate_view">view</property>
   <property name="view_methods">
     <element value="block_view"/>
+    <element value="block_view_with_images"/>
     <element value="listing_view"/>
     <element value="summary_view"/>
   </property>

@@ -36,4 +36,14 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="block_view_with_images"
+      template="block_view.pt"
+      menu="plone_displayviews"
+      title="Block view with images"
+      class="imio.smartweb.core.contents.folder.views.FolderViewWithImages"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>

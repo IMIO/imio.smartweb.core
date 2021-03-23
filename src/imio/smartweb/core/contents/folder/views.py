@@ -7,6 +7,8 @@ from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
 class FolderView(BaseFolderView):
     """"""
 
+    show_images = False
+
     def results(self, **kwargs):
         """
         Gets results for folder listings with exclude_from_parent_listing into
@@ -43,3 +45,9 @@ class FolderView(BaseFolderView):
             brain for brain in quick_access_brains if brain.getPath() not in paths
         ]
         return {"results": results, "quick_access": quick_access_brains}
+
+
+class FolderViewWithImages(FolderView):
+    """"""
+
+    show_images = True

@@ -19,7 +19,7 @@
                     <div tal:content="menu/description" />
                     <img class="newsImage" src=""
                          tal:attributes="src string:${menu/getURL}/@@images/image/mini"
-                         tal:condition="menu/has_leadimage" />
+                         tal:condition="python: view.show_images and menu.has_leadimage" />
                 </a>
             </div>
         </div>
@@ -30,7 +30,7 @@
                     <div tal:content="menu/description" />
                     <img class="newsImage" src=""
                          tal:attributes="src string:${menu/getURL}/@@images/image/mini"
-                         tal:condition="menu/has_leadimage" />
+                         tal:condition="python: view.show_images and menu.has_leadimage" />
                 </a>
             </div>
         </div>
