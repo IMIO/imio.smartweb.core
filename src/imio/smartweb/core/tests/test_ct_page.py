@@ -126,3 +126,30 @@ class PageIntegrationTest(unittest.TestCase):
         self.assertEqual(len(bundles), 2)
         self.assertListEqual(bundles, ["spotlightjs", "flexbin"])
 
+    def test_sections_ordering(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionGallery",
+            title="Section 1",
+            id="section1",
+        )
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionText",
+            title="Section 2",
+            id="section2",
+        )
+        self.assertListEqual(page.objectIds(), ["section1", "section2"])
+        self.request.form['_authenticator'] = createToken()
+        self.request.form["id"] = "section2"
+        self.request.form["delta"] = "-1"
+        self.request.form["orderedSectionsIds"] = '["section1", "section2"]'
+        self.request.environ['REQUEST_METHOD'] = 'POST'
+        getMultiAdapter((page, self.request), name="reorder-section")()
+        self.assertListEqual(page.objectIds(), ["section2", "section1"])
