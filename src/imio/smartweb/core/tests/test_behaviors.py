@@ -1,9 +1,12 @@
 # -*- coding: utf-8
 
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING  # noqa
+from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
+from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
 import unittest
 
 
@@ -36,3 +39,76 @@ class ProcedureFunctionalTest(unittest.TestCase):
         page.reindexObject()
         brains = api.content.find(include_in_quick_access=True)
         self.assertEquals(len(brains), 0)
+
+    def test_listings(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="Folder",
+        )
+        subfolder = api.content.create(
+            container=folder,
+            type="imio.smartweb.Folder",
+            title="Sub folder",
+            id="subfolder",
+        )
+        page1 = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 1",
+            id="page1",
+        )
+        page2 = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 2",
+            id="page2",
+        )
+        sub_page = api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Page",
+            title="Sub page",
+            id="subpage",
+        )
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+        view = getMultiAdapter((folder, self.request), name="block_view")
+        results = view.blocks_results()
+        self.assertEqual(len(results["results"]), 3)
+        self.assertEqual(len(results["quick_access"]), 0)
+
+        # a sub page can be included in quick access
+        sub_page.include_in_quick_access = True
+        sub_page.reindexObject()
+        results = view.blocks_results()
+        self.assertEqual(len(results["results"]), 3)
+        self.assertEqual(len(results["quick_access"]), 1)
+
+        # a page can be excluded from parent listing
+        page1.exclude_from_parent_listing = True
+        page1.reindexObject()
+        results = view.blocks_results()
+        self.assertEqual(len(results["results"]), 2)
+        self.assertEqual(len(results["quick_access"]), 1)
+
+        # an excluded page can still be included in quick access
+        page1.include_in_quick_access = True
+        page1.reindexObject()
+        results = view.blocks_results()
+        self.assertEqual(len(results["results"]), 2)
+        self.assertEqual(len(results["quick_access"]), 2)
+
+        results_ids = [b.id for b in results["results"]]
+        quick_access_ids = [b.id for b in results["quick_access"]]
+        self.assertListEqual(results_ids, ["subfolder", "page2"])
+        self.assertListEqual(quick_access_ids, ["page1", "subpage"])
+
+        # the same page cannot be included in quick access and in parent listing
+        page2.include_in_quick_access = True
+        page2.reindexObject()
+        results = view.blocks_results()
+        self.assertEqual(len(results["results"]), 2)
+        self.assertEqual(len(results["quick_access"]), 2)
+        results_ids = [b.id for b in results["results"]]
+        quick_access_ids = [b.id for b in results["quick_access"]]
+        self.assertIn("page2", results_ids)
+        self.assertNotIn("page2", quick_access_ids)
