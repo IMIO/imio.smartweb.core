@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.contents import IPage  # NOQA E501
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
+
+from imio.smartweb.core.contents import IPage
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles

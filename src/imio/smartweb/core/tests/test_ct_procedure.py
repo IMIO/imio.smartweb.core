@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.contents import IProcedure  # NOQA E501
+from imio.smartweb.core.contents import IProcedure
 from imio.smartweb.core.contents.pages.views import PagesView
 from imio.smartweb.core.tests.utils import get_procedure_json
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 """Setup tests for this package."""
-from imio.smartweb.core.testing import (
-    IMIO_SMARTWEB_CORE_INTEGRATION_TESTING,
-)  # noqa: E501
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from plone import api
 from plone.app.testing import setRoles, TEST_USER_ID
 

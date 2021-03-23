@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.testing import (
-    IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING,
-)  # noqa: E501
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING
 from plone.app.testing import ROBOT_TEST_LEVEL
 from plone.testing import layered
 

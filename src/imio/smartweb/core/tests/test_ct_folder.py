@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.contents.folder.content import IFolder  # NOQA E501
+from imio.smartweb.core.contents.folder.content import IFolder
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING  # noqa
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.tests.utils import get_leadimage_filename
 from plone import api
 from plone.api.exc import InvalidParameterError
