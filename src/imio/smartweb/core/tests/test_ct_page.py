@@ -1,15 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents import IPage
+from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.protect.authenticator import createToken
 from zope.component import createObject
+from zope.component import getMultiAdapter
 from zope.component import queryUtility
-
+from zope.interface import alsoProvides
 import unittest
 
 
@@ -22,6 +25,7 @@ class PageIntegrationTest(unittest.TestCase):
         self.authorized_types_in_page = ["imio.smartweb.SectionText"]
         self.unauthorized_types_in_page = ["Document", "Link", "File", "Image"]
 
+        self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.parent = self.portal
@@ -99,3 +103,26 @@ class PageIntegrationTest(unittest.TestCase):
                 type=t,
                 title="My {}".format(t),
             )
+
+    def test_js_bundles(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+
+        getMultiAdapter((page, self.request), name="full_view")()
+        bundles = getattr(self.request, "enabled_bundles", [])
+        self.assertEqual(len(bundles), 0)
+
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionGallery",
+            title="Gallery",
+        )
+        getMultiAdapter((page, self.request), name="full_view")()
+        bundles = getattr(self.request, "enabled_bundles", [])
+        self.assertEqual(len(bundles), 2)
+        self.assertListEqual(bundles, ["spotlightjs", "flexbin"])
+
