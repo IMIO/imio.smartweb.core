@@ -8,6 +8,9 @@
     <records prefix="plone.resources/smartweb-edit"
              interface='Products.CMFPlone.interfaces.IResourceRegistry'>
       <value key="js">++plone++imio.smartweb.core/edit.js</value>
+      <value key="css">
+        <element>++plone++imio.smartweb.core/edit.less</element>
+      </value>
     </records>
 
     <records prefix="plone.bundles/smartweb-edit"
@@ -19,8 +22,9 @@
       <value key="compile">True</value>
       <value key="expression">python: member is not None</value>
       <value key="merge_with">logged-in</value>
+      <value key="csscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.css</value>
       <value key="jscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.js</value>
-      <value key="last_compilation">2021-03-24 13:30:00</value>
+      <value key="last_compilation">2021-03-24 15:00:00</value>
       <value key="stub_js_modules">
         <element>jquery</element>
       </value>
