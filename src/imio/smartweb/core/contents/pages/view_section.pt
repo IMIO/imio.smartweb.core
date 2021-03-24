@@ -10,13 +10,7 @@
        tal:define="item_macro nocall:view/item_macros/content-core|nothing;
                    item_url view/item_url;">
 
-    <!--div tal:replace="structure provider:plone.abovecontenttitle" /-->
-
-    <!--div tal:replace="structure provider:plone.belowcontenttitle" /-->
-
     <tal:block tal:condition="item_macro">
-
-      <div tal:replace="structure provider:plone.abovecontentbody" />
 
       <div tal:define="view nocall:view/default_view;
                        plone_view context/@@plone;
@@ -32,8 +26,6 @@
           content
         </div>
       </div>
-
-      <div tal:replace="structure provider:plone.belowcontentbody" />
 
     </tal:block>
 
