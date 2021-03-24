@@ -31,5 +31,7 @@ def SearchableText_pages(obj):
     for brain in brains:
         indexes = catalog.getIndexDataForRID(brain.getRID())
         searchable_text = indexes.get("SearchableText") or ""
-        result = " ".join((result, searchable_text))
+        if not searchable_text:
+            continue
+        result = " ".join((result, " ".join(searchable_text)))
     return result
