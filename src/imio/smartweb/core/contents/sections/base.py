@@ -12,6 +12,8 @@ class ISection(model.Schema):
 
     title = schema.TextLine(title=_(u"Title"), required=True)
     hide_title = schema.Bool(title=_(u"Hide title"), required=False, default=False)
+    model.fieldset("settings", fields=["css_class"])
+    css_class = schema.TextLine(title=_(u"CSS class"), required=False)
 
 
 @implementer(ISection)
