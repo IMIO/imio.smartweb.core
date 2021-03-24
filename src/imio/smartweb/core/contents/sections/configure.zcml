@@ -15,4 +15,22 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <subscriber
+      for="imio.smartweb.core.contents.ISection
+           zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+      handler=".subscriber.reindexParent"
+      />
+
+  <subscriber
+      for="imio.smartweb.core.contents.ISection
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+       handler=".subscriber.reindexParent"
+      />
+
+  <subscriber
+      for="imio.smartweb.core.contents.ISection
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+       handler=".subscriber.reindexParent"
+      />
+
 </configure>

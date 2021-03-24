@@ -11,4 +11,9 @@
       factory=".indexers.SearchableText_sectiontext"
       />
 
+  <adapter
+      name="SearchableText"
+      factory=".indexers.SearchableText_pages"
+      />
+
 </configure>
