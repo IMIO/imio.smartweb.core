@@ -47,9 +47,10 @@
           <metal:block use-macro="context/@@listing_view/macros/entries">
             <metal:entry fill-slot="entry" tal:condition="python: item.UID != uuid">
               <tal:def define="obj item/getObject;">
-                <div class="sortable-section"
+                <div class=""
                      data-id=""
-                     tal:attributes="data-id obj/id">
+                     tal:attributes="class python:'sortable-section {}'.format(view.get_class(obj));
+                                     data-id obj/id">
                   <a tal:attributes="name obj/id" />
                   <span tal:replace="structure obj/@@full_view_item | nothing" />
                   <div class="visualClear" style="clear:both;"><!-- --></div>

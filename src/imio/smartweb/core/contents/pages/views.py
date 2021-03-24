@@ -26,6 +26,10 @@ class PagesView(FolderView):
             add_bundle_on_request(self.request, "flexbin")
         return self.index()
 
+    def get_class(self, obj):
+        section_type = obj.portal_type.split(".")[-1]
+        return section_type.lower()
+
 
 class PagesFullViewItem(BaseFullViewItem):
     """Page view item"""
