@@ -7,30 +7,30 @@
       i18n:domain="plone">
 <body>
 
+<metal:main define-macro="content-core">
 <metal:content-core fill-slot="content-core">
-<metal:main_macro define-macro="content-core">
 
-  <tal:edit condition="python: checkPermission('Modify portal content', context)">
-    <a tal:attributes="href string:${context/absolute_url}/edit"
+  <div class="manage-section" condition="python: checkPermission('Modify portal content', context)">
+    <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
        i18n:domain="imio.smartweb"
-       i18n:translate="">Edit section &darr;</a> /
-    <a tal:attributes="href string:${context/absolute_url}/folder_contents"
+       i18n:translate="">Edit section</a>
+    <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
        i18n:domain="imio.smartweb"
-       i18n:translate="">Manage section contents &darr;</a>
-  </tal:edit>
+       i18n:translate="">Manage section contents</a>
+  </div>
 
   <tal:if tal:define="images view/album_images"
           tal:condition="images">
 
     <h2 tal:condition="not: context/hide_title"
         tal:content="context/title" />
-  
+
     <!-- fix some css for usage in Plone  -->
     <style type="text/css">
      #spotlight .header { padding-right: 120px !important; }
      #content-core a { border-bottom: 0px solid transparent !important;}
     </style>
-  
+
     <div tal:define="portal context/@@plone_portal_state/portal;
                      image_scale portal/@@image_scale"
          class="flexbin flexbin-margin">
@@ -50,8 +50,8 @@
 
   </tal:if>
 
-</metal:main_macro>
 </metal:content-core>
+</metal:main>
 
 </body>
 </html>
