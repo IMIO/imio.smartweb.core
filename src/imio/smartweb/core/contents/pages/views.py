@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_inner
 from Products.CMFPlone.resources import add_bundle_on_request
 from plone.app.content.browser.contents.rearrange import OrderContentsBaseAction
 from plone.app.content.utils import json_loads
@@ -25,6 +26,23 @@ class PagesView(FolderView):
             add_bundle_on_request(self.request, "spotlightjs")
             add_bundle_on_request(self.request, "flexbin")
         return self.index()
+
+    def results(self, **kwargs):
+        """
+        Gets results for folder listings without taking care of friendly_types
+        """
+        # Extra filter
+        kwargs.update(self.request.get("contentFilter", {}))
+        kwargs.setdefault("batch", True)
+        kwargs.setdefault("b_size", self.b_size)
+        kwargs.setdefault("b_start", self.b_start)
+        kwargs.setdefault("orphan", 1)
+
+        listing = aq_inner(self.context).restrictedTraverse("@@folderListing", None)
+        if listing is None:
+            return []
+        results = listing(**kwargs)
+        return results
 
     def get_class(self, obj):
         section_type = obj.portal_type.split(".")[-1]

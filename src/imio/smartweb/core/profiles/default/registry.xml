@@ -5,6 +5,17 @@
 
     <records interface="imio.smartweb.core.browser.controlpanel.ISmartwebControlPanel" prefix="smartweb" />
 
+    <record name="plone.types_not_searched"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISearchSchema"
+            field="types_not_searched">
+      <value purge="false">
+        <element>imio.smartweb.SectionFiles</element>
+        <element>imio.smartweb.SectionGallery</element>
+        <element>imio.smartweb.SectionText</element>
+        <element>imio.smartweb.SectionVideo</element>
+      </value>
+    </record>
+
     <records prefix="plone.resources/smartweb-edit"
              interface='Products.CMFPlone.interfaces.IResourceRegistry'>
       <value key="js">++plone++imio.smartweb.core/edit.js</value>
