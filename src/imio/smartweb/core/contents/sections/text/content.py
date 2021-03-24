@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.sections.base import ISection
-from plone.dexterity.content import Container
+from imio.smartweb.core.contents.sections.base import Section
 from zope.interface import implementer
 
 
@@ -10,5 +10,5 @@ class ISectionText(ISection):
 
 
 @implementer(ISectionText)
-class SectionText(Container):
+class SectionText(Section):
     """SectionText class"""

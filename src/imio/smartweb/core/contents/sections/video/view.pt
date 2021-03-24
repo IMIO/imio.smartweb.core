@@ -14,6 +14,18 @@
     <a  class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
        i18n:domain="imio.smartweb"
        i18n:translate="">Edit section</a>
+    <tal:dates define="modified context/get_last_mofication_date">
+    <span class="documentModified"
+          tal:condition="modified">
+      <span i18n:translate="box_last_modified">
+        last modified
+      </span>
+      <span class="pat-moment" data-pat-moment="format:relative;"
+            tal:content="modified">
+        Modified
+      </span>
+    </span>
+    </tal:dates>
   </div>
 
   <h2 tal:condition="not: context/hide_title"

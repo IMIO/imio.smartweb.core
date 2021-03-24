@@ -17,6 +17,18 @@
     <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
        i18n:domain="imio.smartweb"
        i18n:translate="">Manage section contents</a>
+    <tal:dates define="modified context/get_last_mofication_date">
+    <span class="documentModified"
+          tal:condition="modified">
+      <span i18n:translate="box_last_modified">
+        last modified
+      </span>
+      <span class="pat-moment" data-pat-moment="format:relative;"
+            tal:content="modified">
+        Modified
+      </span>
+    </span>
+    </tal:dates>           
   </div>
 
   <tal:if tal:define="items context/listFolderContents"

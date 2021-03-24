@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.sections.base import ISection
+from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.dexterity.content import Container
 from zope.interface import implementer
 from zope import schema
 
@@ -18,5 +18,5 @@ class ISectionVideo(ISection):
 
 
 @implementer(ISectionVideo)
-class SectionVideo(Container):
+class SectionVideo(Section):
     """SectionVideo class"""

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.sections.base import ISection
-from plone.dexterity.content import Container
+from imio.smartweb.core.contents.sections.base import Section
 from zope.interface import implementer
 
 
@@ -10,5 +10,13 @@ class ISectionFiles(ISection):
 
 
 @implementer(ISectionFiles)
-class SectionFiles(Container):
+class SectionFiles(Section):
     """SectionText class"""
+
+    @property
+    def get_last_mofication_date(self):
+        items = self.listFolderContents()
+        if not items:
+            return super(SectionFiles, self).get_last_mofication_date()
+        dates_list = [item.ModificationDate() for item in items]
+        return max(dates_list)
