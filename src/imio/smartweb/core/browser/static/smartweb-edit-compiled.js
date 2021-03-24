@@ -1,0 +1,2 @@
+jQuery(document).ready(function(e){e("form.tabbed-form-with-toggle fieldset:first legend").hide(),e("form.tabbed-form-with-toggle fieldset:not(:first) legend").siblings().hide(),e("form.tabbed-form-with-toggle fieldset:not(:first) legend").click(function(){e(this).siblings().slideToggle("fast")})}),define("/Users/laurent/instances/buildout.smartweb/src/imio.smartweb.core/src/imio/smartweb/core/browser/static/edit.js",function(){});
+//# sourceMappingURL=smartweb-edit-compiled.js.map

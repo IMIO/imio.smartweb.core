@@ -5,4 +5,26 @@
 
     <records interface="imio.smartweb.core.browser.controlpanel.ISmartwebControlPanel" prefix="smartweb" />
 
+    <records prefix="plone.resources/smartweb-edit"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="js">++plone++imio.smartweb.core/edit.js</value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-edit"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="resources">
+        <element>smartweb-edit</element>
+      </value>
+      <value key="depends">jquery</value>
+      <value key="enabled">True</value>
+      <value key="compile">True</value>
+      <value key="expression">python: member is not None</value>
+      <value key="merge_with">logged-in</value>
+      <value key="jscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.js</value>
+      <value key="last_compilation">2021-03-24 13:30:00</value>
+      <value key="stub_js_modules">
+        <element>moment</element>
+      </value>
+    </records>
+
 </registry>

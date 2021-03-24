@@ -7,6 +7,7 @@ from plone.z3cform import layout
 
 
 class CustomAddForm(DefaultAddForm):
+    css_class = "tabbed-form-with-toggle"
     enable_form_tabbing = False
 
 
@@ -15,6 +16,7 @@ class CustomAddView(DefaultAddView):
 
 
 class CustomEditForm(DefaultEditForm):
+    css_class = "tabbed-form-with-toggle"
     enable_form_tabbing = False
 
 
