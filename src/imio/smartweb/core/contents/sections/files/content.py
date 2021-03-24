@@ -17,6 +17,6 @@ class SectionFiles(Section):
     def get_last_mofication_date(self):
         items = self.listFolderContents()
         if not items:
-            return super(SectionFiles, self).get_last_mofication_date()
+            return super(SectionFiles, self).get_last_mofication_date
         dates_list = [item.ModificationDate() for item in items]
         return max(dates_list)
