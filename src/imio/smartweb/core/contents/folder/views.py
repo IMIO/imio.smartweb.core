@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from Acquisition import aq_inner
 from plone import api
 from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
@@ -12,7 +13,7 @@ class FolderView(BaseFolderView):
     def results(self, **kwargs):
         """
         Gets results for folder listings with exclude_from_parent_listing into
-        filters
+        filters and without taking care of friendly_types
         """
         # Extra filter
         kwargs.update(self.request.get("contentFilter", {}))
