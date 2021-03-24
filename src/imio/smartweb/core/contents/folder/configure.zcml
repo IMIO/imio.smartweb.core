@@ -17,16 +17,11 @@
           menu="plone_displayviews"
           title="Standard view"
           />
-      <browser:page
-          name="summary_view"
-          template="templates/listing_summary.pt"
-          menu="plone_displayviews"
-          title="Summary view"
-          />
     </browser:pages>
   </configure>
 
   <browser:page
+      for="imio.smartweb.core.contents.IFolder"
       name="block_view"
       template="block_view.pt"
       menu="plone_displayviews"
@@ -37,11 +32,34 @@
       />
 
   <browser:page
+      for="imio.smartweb.core.contents.IFolder"
       name="block_view_with_images"
       template="block_view.pt"
       menu="plone_displayviews"
       title="Block view with images"
       class="imio.smartweb.core.contents.folder.views.FolderViewWithImages"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="imio.smartweb.core.contents.IFolder"
+      name="summary_view"
+      template="summary_view.pt"
+      menu="plone_displayviews"
+      title="Summary view"
+      class="imio.smartweb.core.contents.folder.views.SummaryView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="imio.smartweb.core.contents.IFolder"
+      name="summary_view_with_images"
+      template="summary_view.pt"
+      menu="plone_displayviews"
+      title="Summary view with images"
+      class="imio.smartweb.core.contents.folder.views.SummaryViewWithImages"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />

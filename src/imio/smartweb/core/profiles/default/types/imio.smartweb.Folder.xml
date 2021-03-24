@@ -20,7 +20,7 @@
   <property name="allowed_content_types">
     <element value="Collection" />
     <element value="Link" />
-    <element value="imio.smartweb.Folder" />    
+    <element value="imio.smartweb.Folder" />
     <element value="imio.smartweb.Page" />
     <element value="imio.smartweb.Procedure" />
   </property>
@@ -49,8 +49,8 @@
   <property name="view_methods">
     <element value="block_view"/>
     <element value="block_view_with_images"/>
-    <element value="listing_view"/>
     <element value="summary_view"/>
+    <element value="summary_view_with_images"/>    
   </property>
 
 </object>

@@ -51,3 +51,15 @@ class FolderViewWithImages(FolderView):
     """"""
 
     show_images = True
+
+
+class SummaryView(BaseFolderView):
+    """"""
+
+    show_images = False
+
+
+class SummaryViewWithImages(SummaryView):
+    """"""
+
+    show_images = True
