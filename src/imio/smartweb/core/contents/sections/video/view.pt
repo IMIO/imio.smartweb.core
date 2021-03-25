@@ -12,6 +12,7 @@
 
   <div class="header-section">
     <span class="manage-section" condition="python: checkPermission('Modify portal content', context)">
+      <span class="icon-edit  toolbar-menu-icon" aria-hidden="true"></span>
       <a  class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
          i18n:domain="imio.smartweb"
          i18n:translate="">Edit section</a>
