@@ -7,19 +7,20 @@
       i18n:domain="plone">
 <body>
 
-<metal:main define-macro="content-core">
-<metal:content-core fill-slot="content-core">
+<metal:main fill-slot="content-core">
+<metal:content-core define-macro="content-core">
 
-  <div class="header-section">
-    <span class="manage-section" condition="python: checkPermission('Modify portal content', context)">
-      <span class="icon-edit  toolbar-menu-icon" aria-hidden="true"></span>
+  <div class="header-section" tal:condition="python: checkPermission('Modify portal content', context)">
+    <span i18n:domain="imio.smartweb" class="manage-section">
+      <span class="icon-edit"></span>
       <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
-         i18n:domain="imio.smartweb"
          i18n:translate="">Edit section</a>
-      <span class="icon-folderContents  toolbar-menu-icon" aria-hidden="true"></span>
+      <span class="icon-folderContents"></span>
       <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
-         i18n:domain="imio.smartweb"
          i18n:translate="">Manage section contents</a>
+      <span class="glyphicon-trash glyphicon"></span>
+      <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
+         i18n:translate="">Delete section</a>
     </span>
     <tal:dates define="modified context/get_last_mofication_date">
     <span class="documentModified"
