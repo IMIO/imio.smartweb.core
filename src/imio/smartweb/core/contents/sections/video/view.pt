@@ -30,12 +30,12 @@
     </span>
     </tal:dates>
   </div>
+  <div class="content-section">
+    <h2 tal:condition="not: context/hide_title"
+        tal:content="context/title" />
 
-  <h2 tal:condition="not: context/hide_title"
-      tal:content="context/title" />
-
-  <div tal:content="structure view/get_embed_video" />
-
+    <div tal:content="structure view/get_embed_video" />
+  </div>
 </metal:content-core>
 </metal:main>
 

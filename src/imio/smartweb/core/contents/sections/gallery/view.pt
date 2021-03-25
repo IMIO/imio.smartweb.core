@@ -16,7 +16,7 @@
       <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
          i18n:domain="imio.smartweb"
          i18n:translate="">Edit section</a>
-      <span class="icon-folderContents  toolbar-menu-icon" aria-hidden="true"></span>         
+      <span class="icon-folderContents  toolbar-menu-icon" aria-hidden="true"></span>
       <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
          i18n:domain="imio.smartweb"
          i18n:translate="">Manage section contents</a>
@@ -37,34 +37,35 @@
 
   <tal:if tal:define="images view/album_images"
           tal:condition="images">
+    <div class="content-section">
+      <h2 tal:condition="not: context/hide_title"
+          tal:content="context/title" />
 
-    <h2 tal:condition="not: context/hide_title"
-        tal:content="context/title" />
+      <!-- fix some css for usage in Plone  -->
+      <style type="text/css">
+       #spotlight .header { padding-right: 120px !important; }
+       #content-core a { border-bottom: 0px solid transparent !important;}
+      </style>
 
-    <!-- fix some css for usage in Plone  -->
-    <style type="text/css">
-     #spotlight .header { padding-right: 120px !important; }
-     #content-core a { border-bottom: 0px solid transparent !important;}
-    </style>
-
-    <div tal:define="portal context/@@plone_portal_state/portal;
-                     image_scale portal/@@image_scale"
-         class="flexbin flexbin-margin">
-      <tal:images tal:repeat="image images">
-        <a tal:define="scale python:image_scale.tag(image, 'image', scale='preview');"
-           tal:condition="scale"
-           tal:attributes="href string:${image/getURL}/@@images/image/large;
-                           title image/Title;
-                           data-description image/Description"
-           class="spotlight">
-          <img tal:attributes="src string:${image/getURL}/@@images/image/preview;
-                               alt image/Title;
-                               title image/Title" />
-        </a>
-      </tal:images>
+      <div tal:define="portal context/@@plone_portal_state/portal;
+                       image_scale portal/@@image_scale"
+           class="flexbin flexbin-margin">
+        <tal:images tal:repeat="image images">
+          <a tal:define="scale python:image_scale.tag(image, 'image', scale='preview');"
+             tal:condition="scale"
+             tal:attributes="href string:${image/getURL}/@@images/image/large;
+                             title image/Title;
+                             data-description image/Description"
+             class="spotlight">
+            <img tal:attributes="src string:${image/getURL}/@@images/image/preview;
+                                 alt image/Title;
+                                 title image/Title" />
+          </a>
+        </tal:images>
+      </div>
     </div>
-
   </tal:if>
+
 
 </metal:content-core>
 </metal:main>

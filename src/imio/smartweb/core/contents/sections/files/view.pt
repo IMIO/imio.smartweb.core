@@ -37,34 +37,35 @@
 
   <tal:if tal:define="items context/listFolderContents"
           tal:condition="items">
+    <div class="content-section">
+      <h2 tal:condition="not: context/hide_title"
+          tal:content="context/title" />
 
-    <h2 tal:condition="not: context/hide_title"
-        tal:content="context/title" />
-
-    <span tal:repeat="item items">
-        <div tal:define="item_has_image python:item.getIcon;
-                         thumb_scale_list view/get_thumb_scale_list;
-                         portal context/@@plone_portal_state/portal;
-                         image_scale item/@@images;
-                         img_class python:'thumb-%s' % thumb_scale_list;">
-            <a tal:attributes="href item/absolute_url;
-                               alt item/title">
-                <img class="mime-icon"
-                     tal:attributes="src python:view.get_mime_type_icon(item)">
-            </a>
-            <a tal:attributes="href item/absolute_url;alt item/title"
-               tal:content="item/title">Item Title
-            </a>
-            <span class="discreet">&mdash; <span tal:replace="python:view.human_readable_size(item)" /></span>
-            <p>
-              <span tal:replace="item/description" />
-            </p>
-            <a tal:attributes="href item/absolute_url;"
-               tal:condition="python: item_has_image and thumb_scale_list">
-              <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale_list, css_class=img_class)" />
-            </a>
-        </div>
-    </span>
+      <span tal:repeat="item items">
+          <div tal:define="item_has_image python:item.getIcon;
+                           thumb_scale_list view/get_thumb_scale_list;
+                           portal context/@@plone_portal_state/portal;
+                           image_scale item/@@images;
+                           img_class python:'thumb-%s' % thumb_scale_list;">
+              <a tal:attributes="href item/absolute_url;
+                                 alt item/title">
+                  <img class="mime-icon"
+                       tal:attributes="src python:view.get_mime_type_icon(item)">
+              </a>
+              <a tal:attributes="href item/absolute_url;alt item/title"
+                 tal:content="item/title">Item Title
+              </a>
+              <span class="discreet">&mdash; <span tal:replace="python:view.human_readable_size(item)" /></span>
+              <p>
+                <span tal:replace="item/description" />
+              </p>
+              <a tal:attributes="href item/absolute_url;"
+                 tal:condition="python: item_has_image and thumb_scale_list">
+                <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale_list, css_class=img_class)" />
+              </a>
+          </div>
+      </span>
+    </div>
   </tal:if>
 
 </metal:content-core>
