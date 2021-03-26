@@ -24,7 +24,9 @@ class IProcedure(IPages):
 
     procedure_url = schema.URI(title=_(u"Procedure url"), required=False)
     category = schema.Choice(
-        title=_(u"Category"), source="collective.taxonomy.procedure"
+        title=_(u"Category"),
+        source="collective.taxonomy.procedure",
+        required=False,
     )
 
     @invariant
