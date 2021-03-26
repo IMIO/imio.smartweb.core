@@ -47,7 +47,7 @@ def create_taxonomy_object(data_tax, portal):
 
 def add_page_taxonomy():
     portal = api.portal.get()
-    current_lang = api.portal.get_current_language()[:2]
+    current_lang = api.portal.get_default_language()[:2]
     data_page = {
         "taxonomy": "page",
         "field_title": translate(_("Page"), target_language=current_lang),
@@ -63,7 +63,7 @@ def add_page_taxonomy():
 
 def add_procedure_taxonomy():
     portal = api.portal.get()
-    current_lang = api.portal.get_current_language()[:2]
+    current_lang = api.portal.get_default_language()[:2]
     data_procedure = {
         "taxonomy": "procedure",
         "field_title": translate(_("Procedure"), target_language=current_lang),
