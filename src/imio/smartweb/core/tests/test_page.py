@@ -8,7 +8,6 @@ from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
-from plone.protect.authenticator import createToken
 from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
@@ -129,39 +128,3 @@ class PageIntegrationTest(unittest.TestCase):
         bundles = getattr(self.request, "enabled_bundles", [])
         self.assertEqual(len(bundles), 2)
         self.assertListEqual(bundles, ["spotlightjs", "flexbin"])
-
-    def test_sections_ordering(self):
-        page = api.content.create(
-            container=self.portal,
-            type="imio.smartweb.Page",
-            title="Page",
-        )
-        alsoProvides(self.request, IImioSmartwebCoreLayer)
-        api.content.create(
-            container=page,
-            type="imio.smartweb.SectionGallery",
-            title="Section 1",
-            id="section1",
-        )
-        api.content.create(
-            container=page,
-            type="imio.smartweb.SectionText",
-            title="Section 2",
-            id="section2",
-        )
-        self.assertListEqual(page.objectIds(), ["section1", "section2"])
-        self.request.form["_authenticator"] = createToken()
-        self.request.form["id"] = "section2"
-        self.request.form["delta"] = "-1"
-        self.request.form["orderedSectionsIds"] = '["section1", "section2"]'
-        self.request.environ["REQUEST_METHOD"] = "POST"
-        getMultiAdapter((page, self.request), name="reorder-section")()
-        self.assertListEqual(page.objectIds(), ["section2", "section1"])
-
-        self.request.form["id"] = "section1"
-        self.request.form["delta"] = "-1"
-        # wrong ordered sections ids
-        self.request.form["orderedSectionsIds"] = '["section1", "section2"]'
-        getMultiAdapter((page, self.request), name="reorder-section")()
-        # nothing changes
-        self.assertListEqual(page.objectIds(), ["section2", "section1"])

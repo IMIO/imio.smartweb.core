@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
+from plone.protect.authenticator import createToken
 from time import sleep
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
+from zope.interface import alsoProvides
 import unittest
 
 
@@ -95,3 +98,39 @@ class SectionsIntegrationTest(unittest.TestCase):
         self.assertIn(
             "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed", embedded_video
         )
+
+    def test_sections_ordering(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionGallery",
+            title="Section 1",
+            id="section1",
+        )
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionText",
+            title="Section 2",
+            id="section2",
+        )
+        self.assertListEqual(page.objectIds(), ["section1", "section2"])
+        self.request.form["_authenticator"] = createToken()
+        self.request.form["id"] = "section2"
+        self.request.form["delta"] = "-1"
+        self.request.form["orderedSectionsIds"] = '["section1", "section2"]'
+        self.request.environ["REQUEST_METHOD"] = "POST"
+        getMultiAdapter((page, self.request), name="reorder-section")()
+        self.assertListEqual(page.objectIds(), ["section2", "section1"])
+
+        self.request.form["id"] = "section1"
+        self.request.form["delta"] = "-1"
+        # wrong ordered sections ids
+        self.request.form["orderedSectionsIds"] = '["section1", "section2"]'
+        getMultiAdapter((page, self.request), name="reorder-section")()
+        # nothing changes
+        self.assertListEqual(page.objectIds(), ["section2", "section1"])
