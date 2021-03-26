@@ -4,8 +4,10 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.namedfile.file import NamedBlobFile
 from time import sleep
 from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 import unittest
 
 
@@ -60,3 +62,36 @@ class SectionsIntegrationTest(unittest.TestCase):
         )
         next_modification = section.get_last_mofication_date
         self.assertNotEqual(first_modification, next_modification)
+
+    def test_files_informations(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionFiles",
+            title="Section files",
+        )
+        file_obj = api.content.create(
+            container=section,
+            type="File",
+            title="My file",
+        )
+        file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        view = queryMultiAdapter((section, self.request), name="view")
+        self.assertEqual(view.get_thumb_scale_list(), "thumb")
+        self.assertEqual(
+            view.get_mime_type_icon(file_obj), "++resource++mimetype.icons/txt.png"
+        )
+        self.assertEqual(view.human_readable_size(file_obj), "1 KB")
+
+    def test_video_section(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionVideo",
+            title="Section video",
+        )
+        section.video_url = "https://www.youtube.com/watch?v=_dOAthafoGQ"
+        view = queryMultiAdapter((section, self.request), name="view")
+        embedded_video = view.get_embed_video()
+        self.assertIn("iframe", embedded_video)
+        self.assertIn(
+            "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed", embedded_video
+        )
