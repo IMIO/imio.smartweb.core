@@ -1,19 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.contents import IPage
-from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from plone import api
-from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.dexterity.interfaces import IDexterityFTI
-from plone.protect.authenticator import createToken
 from time import sleep
-from zope.component import createObject
 from zope.component import getMultiAdapter
-from zope.component import queryUtility
-from zope.interface import alsoProvides
 import unittest
 
 
@@ -57,13 +49,14 @@ class SectionsIntegrationTest(unittest.TestCase):
             title="Section Gallery",
         )
         self.assertEqual(section.get_last_mofication_date, section.ModificationDate())
+        first_modification = section.get_last_mofication_date
         sleep(1)
-        img = api.content.create(
+        # adding an image to a section causes a reindex of the section, thus
+        # changes its last modification date
+        api.content.create(
             container=section,
             type="Image",
             title="Kamoulox",
         )
-        img.reindexObject()
-        section.reindexObject()
-        self.assertNotEqual(section.get_last_mofication_date, section.ModificationDate())
-        self.assertEqual(section.get_last_mofication_date, img.ModificationDate())
+        next_modification = section.get_last_mofication_date
+        self.assertNotEqual(first_modification, next_modification)
