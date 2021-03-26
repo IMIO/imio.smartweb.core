@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <object name="portal_catalog">
-  <index name="include_in_quick_access" meta_type="BooleanIndex">
-    <indexed_attr value="include_in_quick_access"/>
+  <index name="category" meta_type="KeywordIndex">
+    <indexed_attr value="category"/>
   </index>
   <index name="exclude_from_parent_listing" meta_type="BooleanIndex">
     <indexed_attr value="exclude_from_parent_listing"/>
@@ -9,7 +9,11 @@
   <index name="has_leadimage" meta_type="BooleanIndex">
     <indexed_attr value="has_leadimage"/>
   </index>
-  <column value="include_in_quick_access"/>
+  <index name="include_in_quick_access" meta_type="BooleanIndex">
+    <indexed_attr value="include_in_quick_access"/>
+  </index>
+  <column value="category"/>
   <column value="exclude_from_parent_listing"/>
   <column value="has_leadimage"/>
+  <column value="include_in_quick_access"/>
 </object>
