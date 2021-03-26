@@ -10,7 +10,6 @@ class FilesView(SectionView):
 
     def get_thumb_scale_list(self):
         view = queryMultiAdapter((self.context, self.request), name="listing_view")
-        # return "tile"
         return view.get_thumb_scale_list()
 
     def get_mime_type_icon(self, file_obj):

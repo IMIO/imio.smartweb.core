@@ -56,7 +56,7 @@ class SectionsIntegrationTest(unittest.TestCase):
         api.content.create(
             container=section,
             type="Image",
-            title="Kamoulox",
+            title="Image",
         )
         next_modification = section.get_last_mofication_date
         self.assertNotEqual(first_modification, next_modification)
