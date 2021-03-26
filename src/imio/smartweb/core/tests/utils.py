@@ -3,6 +3,15 @@ import json
 import os
 
 
+def get_sections_types():
+    return [
+        "imio.smartweb.SectionFiles",
+        "imio.smartweb.SectionGallery",
+        "imio.smartweb.SectionText",
+        "imio.smartweb.SectionVideo",
+    ]
+
+
 def get_procedure_json():
     with open(
         os.path.join(

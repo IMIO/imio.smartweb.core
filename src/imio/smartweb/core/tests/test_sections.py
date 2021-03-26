@@ -2,12 +2,14 @@
 
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
 from plone.protect.authenticator import createToken
 from time import sleep
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
@@ -134,3 +136,74 @@ class SectionsIntegrationTest(unittest.TestCase):
         getMultiAdapter((page, self.request), name="reorder-section")()
         # nothing changes
         self.assertListEqual(page.objectIds(), ["section2", "section1"])
+
+    def test_empty_sections(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        section_types = get_sections_types()
+        for section_type in section_types:
+            api.content.create(
+                container=page,
+                type=section_type,
+                title="Title of my {}".format(section_type),
+            )
+        video_section = getattr(page, "title-of-my-imio-smartweb-sectionvideo")
+        video_section.video_url = "https://www.youtube.com/watch?v=_dOAthafoGQ"
+        view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertEqual(view.count("Title of my "), len(section_types) - 2)
+        gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
+        image = api.content.create(
+            container=gallery_section,
+            type="Image",
+            title="Image",
+        )
+        files_section = getattr(page, "title-of-my-imio-smartweb-sectionfiles")
+        file_obj = api.content.create(
+            container=files_section,
+            type="File",
+            title="My file",
+        )
+        file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        # empty cache (album_folders is cached on view in p.a.contenttypes)
+        del IAnnotations(self.request)["plone.memoize"]
+        view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertEqual(view.count("Title of my "), len(section_types))
+
+    def test_sections_titles(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        section_types = get_sections_types()
+        for section_type in section_types:
+            api.content.create(
+                container=page,
+                type=section_type,
+                title="Title of my {}".format(section_type),
+            )
+        video_section = getattr(page, "title-of-my-imio-smartweb-sectionvideo")
+        video_section.video_url = "https://www.youtube.com/watch?v=_dOAthafoGQ"
+        gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
+        api.content.create(
+            container=gallery_section,
+            type="Image",
+            title="Image",
+        )
+        files_section = getattr(page, "title-of-my-imio-smartweb-sectionfiles")
+        file_obj = api.content.create(
+            container=files_section,
+            type="File",
+            title="My file",
+        )
+        file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertEqual(view.count("Title of my "), len(section_types))
+        for section_id in page.objectIds():
+            section = getattr(page, section_id)
+            section.hide_title = True
+        view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertEqual(view.count("Title of my "), 0)
