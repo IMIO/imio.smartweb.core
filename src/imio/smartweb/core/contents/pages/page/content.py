@@ -9,6 +9,7 @@ from zope.interface import implementer
 
 class IPage(IPages):
     """Marker interface and Dexterity Python Schema for Page"""
+
     category = schema.Choice(title=_(u"Category"), source="collective.taxonomy.page")
 
 
