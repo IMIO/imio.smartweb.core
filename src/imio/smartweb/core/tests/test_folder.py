@@ -23,7 +23,14 @@ class FolderIntegrationTest(unittest.TestCase):
 
     def setUp(self):
         """Custom shared utility setup for tests."""
-        self.authorized_types_in_folder = ["Link", "imio.smartweb.Page"]
+        self.authorized_types_in_folder = [
+            "Collection",
+            "Link",
+            "imio.smartweb.Folder",
+            "imio.smartweb.Page",
+            "imio.smartweb.Procedure",
+        ]
+
         self.unauthorized_types_in_folder = ["File", "Image", "Document"]
 
         self.request = self.layer["request"]

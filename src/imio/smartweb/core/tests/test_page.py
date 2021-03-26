@@ -21,14 +21,18 @@ class PageIntegrationTest(unittest.TestCase):
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):
-        """Custom shared utility setup for tests."""
-        self.authorized_types_in_page = ["imio.smartweb.SectionText"]
+        """Custom shared utility setup for tests"""
+        self.authorized_types_in_page = [
+            "imio.smartweb.SectionText",
+            "imio.smartweb.SectionFiles",
+            "imio.smartweb.SectionGallery",
+            "imio.smartweb.SectionVideo",
+        ]
         self.unauthorized_types_in_page = ["Document", "Link", "File", "Image"]
 
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.parent = self.portal
         self.folder = api.content.create(
             container=self.portal,
             type="imio.smartweb.Folder",
