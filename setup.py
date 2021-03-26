@@ -55,6 +55,7 @@ setup(
         "plone.gallery",
         "plone.restapi",
         "plone.app.dexterity",
+        "collective.taxonomy",
         "embeddify",
         "imio.smartweb.locales",
     ],

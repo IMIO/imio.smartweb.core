@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<vdex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" profileType="hierarchicalTokenTerms" orderSignificant="false" language="fr">
+  <vocabName>
+    <langstring language="fr">Démarches</langstring>
+  </vocabName>
+  <vocabIdentifier>procedure</vocabIdentifier>
+  <term>
+    <termIdentifier>urbanisme</termIdentifier>
+    <caption>
+      <langstring language="fr">Urbanisme</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>etat_civil</termIdentifier>
+    <caption>
+      <langstring language="fr">État civil</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>population</termIdentifier>
+    <caption>
+      <langstring language="fr">Population</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>taxes_et_redevances</termIdentifier>
+    <caption>
+      <langstring language="fr">Taxes et redevances</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>police</termIdentifier>
+    <caption>
+      <langstring language="fr">Police</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>organisation_d_evenements</termIdentifier>
+    <caption>
+      <langstring language="fr">Organisation d'évènements</langstring>
+    </caption>
+  </term>
+</vdex>
