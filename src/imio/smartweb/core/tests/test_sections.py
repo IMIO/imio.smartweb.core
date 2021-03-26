@@ -9,7 +9,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
 from plone.protect.authenticator import createToken
 from time import sleep
-from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
@@ -155,7 +154,7 @@ class SectionsIntegrationTest(unittest.TestCase):
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), len(section_types) - 2)
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
-        image = api.content.create(
+        api.content.create(
             container=gallery_section,
             type="Image",
             title="Image",
@@ -167,8 +166,6 @@ class SectionsIntegrationTest(unittest.TestCase):
             title="My file",
         )
         file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
-        # empty cache (album_folders is cached on view in p.a.contenttypes)
-        del IAnnotations(self.request)["plone.memoize"]
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), len(section_types))
 
