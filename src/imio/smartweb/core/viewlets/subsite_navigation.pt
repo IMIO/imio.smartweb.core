@@ -1,0 +1,16 @@
+<div id="subsite-navigation" tal:condition="view/available">
+  <tal:def tal:define="res view/get_items">
+      <ul id="nav-items">
+          <li tal:repeat="menu res/results">
+              <a tal:attributes="href menu/getURL" tal:content="menu/Title">
+              </a>
+          </li>
+      </ul>
+      <ul id="nav-items-quickaccess">
+          <li tal:repeat="menu res/quick_access">
+              <a tal:attributes="href menu/getURL" tal:content="menu/Title">
+              </a>
+          </li>
+      </ul>
+  </tal:def>
+</div>

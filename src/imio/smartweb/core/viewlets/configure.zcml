@@ -35,4 +35,13 @@
       permission="zope2.View"
   />
 
+  <browser:viewlet
+      name="imio.smartweb.subsite_navigation"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="subsite_navigation.pt"
+      class=".subsite.SubsiteNavigationViewlet"
+      permission="zope2.View"
+  />
 </configure>
