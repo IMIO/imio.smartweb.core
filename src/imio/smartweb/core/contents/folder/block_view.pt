@@ -10,7 +10,6 @@
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
 
-    <h1 tal:content="context/title" />
     <tal:def tal:define="res view/blocks_results">
         <div id="block-menu">
             <div tal:repeat="menu res/results">
