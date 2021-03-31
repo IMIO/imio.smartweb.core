@@ -12,3 +12,6 @@ class IPages(Interface):
 @implementer(IPages)
 class Pages(Container):
     """ Shared mecanism for Pages """
+
+    def canSetDefaultPage(self):
+        return False
