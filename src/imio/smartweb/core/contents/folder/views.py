@@ -1,8 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
+from imio.smartweb.core.contents import IDefaultPages
+from imio.smartweb.core.contents import IFolder
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from z3c.form import button
+from z3c.form.browser.radio import RadioFieldWidget
+from z3c.form.contentprovider import ContentProviders
+from z3c.form.field import Fields
+from z3c.form.form import EditForm
+from z3c.form.interfaces import IFieldsAndContentProvidersForm
+from zope.component import queryMultiAdapter
+from zope.contentprovider.provider import ContentProviderBase
+from zope.interface import implementer
+from zope.interface import noLongerProvides
+from zope.interface import alsoProvides
 
 
 class FolderView(BaseFolderView):
@@ -52,6 +67,56 @@ class FolderViewWithImages(FolderView):
     """"""
 
     show_images = True
+
+
+class DefaultElementTextView(ContentProviderBase):
+    render = ViewPageTemplateFile("element_view.pt")
+
+
+@implementer(IFieldsAndContentProvidersForm)
+class ElementView(EditForm):
+    """"""
+
+    label = _(u"Element view form")
+    # description = _(u"Choose an item as your default folder view")
+    contentProviders = ContentProviders()
+    contentProviders["defaultElementText"] = DefaultElementTextView
+    contentProviders["defaultElementText"].position = 0
+
+    def __call__(self):
+        if api.user.is_anonymous():
+            default_item = self.context.get_default_item()
+            if default_item:
+                return queryMultiAdapter(
+                    (default_item.getObject(), self.request), name="full_view"
+                )()
+        return super(ElementView, self).__call__()
+
+    @property
+    def fields(self):
+        fields = Fields(IFolder).select(
+            "default_page_uid",
+        )
+        fields["default_page_uid"].required = True
+        fields["default_page_uid"].widgetFactory = RadioFieldWidget
+        return fields
+
+    @button.buttonAndHandler(_("Apply"), name="apply")
+    def handleApply(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        old_default_page = self.context.get_default_item()
+        changes = self.applyChanges(data)
+        if changes:
+            if old_default_page is not None:
+                noLongerProvides(old_default_page.getObject(), IDefaultPages)
+            new_default_page = self.context.get_default_item()
+            alsoProvides(new_default_page.getObject(), IDefaultPages)
+            self.status = self.successMessage
+        else:
+            self.status = self.noChangesMessage
 
 
 class SummaryView(BaseFolderView):

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.contents import Pages
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.dexterity.content import Container
 from zope import schema
@@ -18,5 +19,5 @@ class IPage(IPages):
 
 
 @implementer(IPage)
-class Page(Container):
+class Page(Pages):
     """Page class"""

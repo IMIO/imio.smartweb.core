@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.contents import Pages
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.dexterity.content import Container
@@ -39,5 +40,5 @@ class IProcedure(IPages):
 
 
 @implementer(IProcedure)
-class Procedure(Container):
+class Procedure(Pages):
     """Procedure class"""

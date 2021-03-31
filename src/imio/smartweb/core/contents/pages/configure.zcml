@@ -31,4 +31,10 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <subscriber
+      for="imio.smartweb.core.contents.IDefaultPages
+           zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+       handler=".subscriber.remove_default_page"
+      />
+
 </configure>

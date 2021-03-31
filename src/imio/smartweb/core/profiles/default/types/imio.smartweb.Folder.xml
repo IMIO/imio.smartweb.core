@@ -49,8 +49,9 @@
   <property name="view_methods">
     <element value="block_view"/>
     <element value="block_view_with_images"/>
+    <element value="element_view"/>
     <element value="summary_view"/>
-    <element value="summary_view_with_images"/>    
+    <element value="summary_view_with_images"/>
   </property>
 
 </object>

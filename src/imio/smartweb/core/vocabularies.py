@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from plone import api
 from zope.schema.vocabulary import SimpleTerm
@@ -36,3 +37,15 @@ class RemoteProceduresVocabularyFactory:
 
 
 RemoteProceduresVocabulary = RemoteProceduresVocabularyFactory()
+
+
+class CurrentFolderPagesVocabularyFactory:
+    def __call__(self, context=None):
+        brains = api.content.find(
+            context=context, depth=1, object_provides=IPages, sort_on="sortable_title"
+        )
+        terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
+        return SimpleVocabulary(terms)
+
+
+CurrentFolderPagesVocabulary = CurrentFolderPagesVocabularyFactory()

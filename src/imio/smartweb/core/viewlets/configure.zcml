@@ -44,4 +44,15 @@
       class=".subsite.SubsiteNavigationViewlet"
       permission="zope2.View"
   />
+
+  <!--view="plone.dexterity.interfaces.IDexterityEditForm"-->
+  <browser:viewlet
+      name="plone.app.dexterity.defaultpagewarning"
+      for="imio.smartweb.core.contents.IDefaultPages"
+      manager="plone.app.layout.viewlets.interfaces.IGlobalStatusMessage"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="default_page_warning.pt"
+      permission="cmf.ModifyPortalContent"
+      />
+
 </configure>

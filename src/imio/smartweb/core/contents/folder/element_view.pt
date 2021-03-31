@@ -1,0 +1,6 @@
+<div class="folder-has-default-item" tal:define="item context/get_default_item" tal:condition="item">
+  <div class="current-folder-view">
+    <p i18n:translate="">Your current folder default view is</p>
+  </div>
+  <a tal:attributes="href item/getURL" tal:content="item/Title"></a>
+</div>

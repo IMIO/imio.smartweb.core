@@ -24,4 +24,9 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      name="imio.smartweb.vocabulary.CurrentFolderPages"
+      component=".vocabularies.CurrentFolderPagesVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
 </configure>
