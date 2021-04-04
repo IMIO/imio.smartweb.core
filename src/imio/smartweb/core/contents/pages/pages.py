@@ -7,18 +7,20 @@ from zope.interface import implementer
 
 
 class IPages(Interface):
-    """ Shared mecanism for Pages """
+    """Shared base marker interface and schema for Pages"""
 
 
-# Interface pour marquer la page par défaut sur un dossier
-# Grâce à IHideFromBreadcrumbs, dans le breadcrumbs, la page sera cachée.
 class IDefaultPages(IHideFromBreadcrumbs):
-    """"""
+    """
+    Marker interfaces for default Pages in Element view
+    Inheritance from IHideFromBreadcrumbs allows to automatically remove (hide)
+    default pages from breadcrumbs.
+    """
 
 
 @implementer(IPages)
 class Pages(Container):
-    """ Shared mecanism for Pages """
+    """Shared base class for Pages"""
 
     def canSetDefaultPage(self):
         return False

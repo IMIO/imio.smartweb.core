@@ -6,7 +6,7 @@ from Products.CMFPlone.utils import human_readable_size
 
 
 class FilesView(SectionView):
-    """ Files Section view """
+    """Files Section view"""
 
     def get_thumb_scale_list(self):
         view = queryMultiAdapter((self.context, self.request), name="listing_view")

@@ -8,7 +8,7 @@ from zope.interface import implementer
 
 
 class ISection(model.Schema):
-    """ Shared mecanism for sections """
+    """Shared base marker interface and schema for Sections"""
 
     title = schema.TextLine(title=_(u"Title"), required=True)
     hide_title = schema.Bool(title=_(u"Hide title"), required=False, default=False)
@@ -18,7 +18,7 @@ class ISection(model.Schema):
 
 @implementer(ISection)
 class Section(Container):
-    """ Shared mecanism for sections """
+    """Shared base class for Sections"""
 
     @property
     def get_last_mofication_date(self):

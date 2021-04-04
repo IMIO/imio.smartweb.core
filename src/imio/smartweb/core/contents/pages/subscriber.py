@@ -4,7 +4,10 @@ from zope.interface import noLongerProvides
 
 
 def remove_default_page(obj, event):
-    """Remove "pages" (i.s.Procedure, i.s.Page) marked as a default page out of a imio.smartweb.Folder"""
+    """
+    Handle removal (cut/paste or delete) of a default page (i.s.Procedure, i.s.Page)
+    from a folder
+    """
     noLongerProvides(obj, IDefaultPages)
     obj.exclude_from_nav = False
     obj.reindexObject()

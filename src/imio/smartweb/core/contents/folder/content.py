@@ -33,9 +33,7 @@ class Folder(Container):
         return False
 
     def setLayout(self, layout):
-        """Set Layout is called when we change Layout on Folder.
-        We use it to remove default_page out of Folder when we change view.
-        """
+        """Disable current default page when layout is changed on a folder"""
         super(Folder, self).setLayout(layout)
         current_default_page = self.get_default_item(object=True)
         if current_default_page is not None:
