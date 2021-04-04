@@ -24,13 +24,13 @@
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-       handler=".subscriber.reindexParent"
+      handler=".subscriber.reindexParent"
       />
 
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-       handler=".subscriber.reindexParent"
+      handler=".subscriber.reindexParent"
       />
 
 </configure>

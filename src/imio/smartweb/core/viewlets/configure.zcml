@@ -4,15 +4,15 @@
 
   <configure package="plone.app.contenttypes.behaviors">
     <browser:viewlet
-      name="contentleadimage"
-      for=".leadimage.ILeadImage"
-      view="imio.smartweb.core.contents.pages.views.IPagesView"
-      class="imio.smartweb.core.viewlets.lead_image.PagesLeadImageViewlet"
-      manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      template="leadimage.pt"
-      permission="zope2.View"
-      />
+        name="contentleadimage"
+        for=".leadimage.ILeadImage"
+        view="imio.smartweb.core.contents.pages.views.IPagesView"
+        class="imio.smartweb.core.viewlets.lead_image.PagesLeadImageViewlet"
+        manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        template="leadimage.pt"
+        permission="zope2.View"
+        />
   </configure>
 
   <browser:viewlet
@@ -23,7 +23,7 @@
       template="procedure.pt"
       class=".procedure.ProcedureViewlet"
       permission="zope2.View"
-  />
+      />
 
   <browser:viewlet
       name="imio.smartweb.procedure"
@@ -33,7 +33,7 @@
       template="procedure.pt"
       class=".procedure.ProcedureViewlet"
       permission="zope2.View"
-  />
+      />
 
   <browser:viewlet
       name="imio.smartweb.subsite_navigation"
@@ -43,7 +43,7 @@
       template="subsite_navigation.pt"
       class=".subsite.SubsiteNavigationViewlet"
       permission="zope2.View"
-  />
+      />
 
   <!--view="plone.dexterity.interfaces.IDexterityEditForm"-->
   <browser:viewlet

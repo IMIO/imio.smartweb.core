@@ -29,4 +29,5 @@
       component=".vocabularies.CurrentFolderPagesVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
+
 </configure>
