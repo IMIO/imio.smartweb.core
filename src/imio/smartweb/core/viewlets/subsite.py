@@ -10,7 +10,6 @@ from zope.component import getMultiAdapter
 
 
 class SubsiteNavigationViewlet(common.ViewletBase):
-
     @property
     def subsite_root(self):
         obj = self.context
