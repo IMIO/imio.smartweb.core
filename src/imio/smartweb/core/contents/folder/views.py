@@ -90,6 +90,10 @@ class ElementView(EditForm):
                 return queryMultiAdapter(
                     (default_item, self.request), name="full_view"
                 )()
+            # Element view with no default item selected -> fallback to summary_view
+            return queryMultiAdapter(
+                (self.context, self.request), name="summary_view"
+            )()
         return super(ElementView, self).__call__()
 
     @property
