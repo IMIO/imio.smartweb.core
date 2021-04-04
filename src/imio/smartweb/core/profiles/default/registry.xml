@@ -16,6 +16,12 @@
       </value>
     </record>
 
+    <record name="plone.show_excluded_items"
+            interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
+            field="show_excluded_items">
+      <value>False</value>
+    </record>
+
     <records prefix="plone.resources/smartweb-edit"
              interface='Products.CMFPlone.interfaces.IResourceRegistry'>
       <value key="js">++plone++imio.smartweb.core/edit.js</value>
