@@ -22,6 +22,15 @@
       <value>False</value>
     </record>
 
+    <record name="plone.displayed_types"
+            interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
+            field="displayed_types">
+      <value purge="false">
+        <element>imio.smartweb.Folder</element>
+        <element>imio.smartweb.Page</element>
+      </value>
+    </record>
+
     <records prefix="plone.resources/smartweb-edit"
              interface='Products.CMFPlone.interfaces.IResourceRegistry'>
       <value key="js">++plone++imio.smartweb.core/edit.js</value>
