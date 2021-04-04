@@ -37,13 +37,14 @@ class Folder(Container):
         We use it to remove default_page out of Folder when we change view.
         """
         super(Folder, self).setLayout(layout)
-        current_default_page = self.get_default_item()
+        current_default_page = self.get_default_item(object=True)
         if current_default_page is not None:
-            noLongerProvides(current_default_page.getObject(), IDefaultPages)
+            noLongerProvides(current_default_page, IDefaultPages)
             self.default_page_uid = None
 
-    def get_default_item(self):
+    def get_default_item(self, object=False):
         if self.default_page_uid:
             brains = api.content.find(context=self, UID=self.default_page_uid)
             if brains:
-                return brains[0]
+                brain = brains[0]
+                return object is True and brain.getObject() or brain

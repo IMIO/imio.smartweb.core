@@ -85,10 +85,10 @@ class ElementView(EditForm):
 
     def __call__(self):
         if api.user.is_anonymous():
-            default_item = self.context.get_default_item()
+            default_item = self.context.get_default_item(object=True)
             if default_item:
                 return queryMultiAdapter(
-                    (default_item.getObject(), self.request), name="full_view"
+                    (default_item, self.request), name="full_view"
                 )()
         return super(ElementView, self).__call__()
 
@@ -107,13 +107,13 @@ class ElementView(EditForm):
         if errors:
             self.status = self.formErrorsMessage
             return
-        old_default_page = self.context.get_default_item()
+        old_default_page = self.context.get_default_item(object=True)
         changes = self.applyChanges(data)
         if changes:
             if old_default_page is not None:
-                noLongerProvides(old_default_page.getObject(), IDefaultPages)
-            new_default_page = self.context.get_default_item()
-            alsoProvides(new_default_page.getObject(), IDefaultPages)
+                noLongerProvides(old_default_page, IDefaultPages)
+            new_default_page = self.context.get_default_item(object=True)
+            alsoProvides(new_default_page, IDefaultPages)
             self.status = self.successMessage
         else:
             self.status = self.noChangesMessage
