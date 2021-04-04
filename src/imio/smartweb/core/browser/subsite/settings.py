@@ -12,7 +12,6 @@ from zope.interface import noLongerProvides
 class SubSiteSettings(BrowserView):
     """Subsite settings"""
 
-    @property
     def enable(self):
         alsoProvides(self.context, IImioSmartwebSubsite)
         self.context.reindexObject(idxs=("object_provides"))
@@ -21,7 +20,6 @@ class SubSiteSettings(BrowserView):
         )
         self.request.response.redirect(self.context.absolute_url())
 
-    @property
     def disable(self):
         noLongerProvides(self.context, IImioSmartwebSubsite)
         self.context.reindexObject(idxs=("object_provides"))
