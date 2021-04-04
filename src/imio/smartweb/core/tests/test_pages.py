@@ -8,6 +8,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.uuid.interfaces import IUUID
+from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
 import unittest
@@ -25,6 +26,7 @@ class PageIntegrationTest(unittest.TestCase):
         self.folder = api.content.create(
             container=self.portal,
             type="imio.smartweb.Folder",
+            title="Folder",
             id="folder",
         )
 
@@ -70,6 +72,34 @@ class PageIntegrationTest(unittest.TestCase):
         self.assertEqual(IDefaultPages.providedBy(page1), False)
         self.assertEqual(page2.exclude_from_nav, False)
         self.assertEqual(IDefaultPages.providedBy(page2), False)
+
+    def test_breadcrumbs(self):
+        page1 = api.content.create(
+            container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
+        )
+        uuid1 = IUUID(page1)
+        self.folder.setLayout("element_view")
+
+        breadcrumbs_view = getMultiAdapter(
+            (page1, self.request), name="breadcrumbs_view"
+        )
+        breadcrumbs = breadcrumbs_view.breadcrumbs()
+        self.assertEqual(len(breadcrumbs), 2)
+        self.assertEqual(breadcrumbs[-1]["Title"], "Page 1")
+
+        request = TestRequest(
+            form={"form.widgets.default_page_uid": uuid1, "form.buttons.apply": "Apply"}
+        )
+        alsoProvides(request, IPloneFormLayer)
+        form = ElementView(self.folder, request)
+        form.update()
+        data, errors = form.extractData()
+        breadcrumbs_view = getMultiAdapter(
+            (page1, self.request), name="breadcrumbs_view"
+        )
+        breadcrumbs = breadcrumbs_view.breadcrumbs()
+        self.assertEqual(len(breadcrumbs), 1)
+        self.assertEqual(breadcrumbs[-1]["Title"], "Folder")
 
     def test_default_page_removal(self):
         page1 = api.content.create(
