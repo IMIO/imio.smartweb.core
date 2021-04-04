@@ -26,8 +26,8 @@ def SearchableText_sectiontext(obj):
 def SearchableText_pages(obj):
     """Construct SearchableText of pages with SearchableText of its sections"""
     catalog = api.portal.get_tool("portal_catalog")
+    result = _unicode_save_string_concat(SearchableText(obj))
     brains = api.content.find(context=obj, depth=1)
-    result = ""
     for brain in brains:
         indexes = catalog.getIndexDataForRID(brain.getRID())
         searchable_text = indexes.get("SearchableText") or ""
