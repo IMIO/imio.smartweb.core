@@ -14,7 +14,7 @@ from zope.publisher.browser import TestRequest
 import unittest
 
 
-class PageIntegrationTest(unittest.TestCase):
+class PagesIntegrationTest(unittest.TestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
