@@ -39,7 +39,9 @@ class Folder(Container):
         if current_default_page is not None:
             noLongerProvides(current_default_page, IDefaultPages)
             current_default_page.exclude_from_nav = False
-            current_default_page.reindexObject()
+            current_default_page.reindexObject(
+                idxs=("object_provides", "exclude_from_nav")
+            )
             self.default_page_uid = None
 
     def get_default_item(self, object=False):

@@ -10,6 +10,6 @@ def remove_default_page(obj, event):
     """
     noLongerProvides(obj, IDefaultPages)
     obj.exclude_from_nav = False
-    obj.reindexObject()
+    obj.reindexObject(idxs=("object_provides", "exclude_from_nav"))
     folder = obj.aq_parent
     folder.default_page_uid = None

@@ -117,11 +117,13 @@ class ElementView(EditForm):
             if old_default_page is not None:
                 noLongerProvides(old_default_page, IDefaultPages)
                 old_default_page.exclude_from_nav = False
-                old_default_page.reindexObject()
+                old_default_page.reindexObject(
+                    idxs=("object_provides", "exclude_from_nav")
+                )
             new_default_page = self.context.get_default_item(object=True)
             alsoProvides(new_default_page, IDefaultPages)
             new_default_page.exclude_from_nav = True
-            new_default_page.reindexObject()
+            new_default_page.reindexObject(idxs=("object_provides", "exclude_from_nav"))
             self.status = self.successMessage
         else:
             self.status = self.noChangesMessage
