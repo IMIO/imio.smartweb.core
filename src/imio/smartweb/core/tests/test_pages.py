@@ -30,6 +30,19 @@ class PagesIntegrationTest(unittest.TestCase):
             id="folder",
         )
 
+    def test_no_change(self):
+        api.content.create(
+            container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
+        )
+        self.folder.setLayout("element_view")
+        request = TestRequest(form={"form.buttons.apply": "Apply"})
+        alsoProvides(request, IPloneFormLayer)
+        form = ElementView(self.folder, request)
+        form.update()
+        data, errors = form.extractData()
+        self.assertTrue(len(errors) == 0)
+        self.assertEqual(form.status, "No changes were applied.")
+
     def test_exclude_from_nav(self):
         page1 = api.content.create(
             container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
