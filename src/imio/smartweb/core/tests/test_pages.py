@@ -29,6 +29,20 @@ class PagesIntegrationTest(unittest.TestCase):
             title="Folder",
             id="folder",
         )
+        self.defaultpage = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="Default Page",
+            id="defaultpage",
+        )
+        uuid = IUUID(self.defaultpage)
+        self.folder.setLayout("element_view")
+        request = TestRequest(
+            form={"form.widgets.default_page_uid": uuid, "form.buttons.apply": "Apply"}
+        )
+        alsoProvides(request, IPloneFormLayer)
+        form = ElementView(self.folder, request)
+        form.update()
 
     def test_no_change(self):
         api.content.create(
@@ -61,10 +75,10 @@ class PagesIntegrationTest(unittest.TestCase):
         form.update()
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 0)
-        self.assertEqual(page1.exclude_from_nav, True)
-        self.assertEqual(IDefaultPages.providedBy(page1), True)
-        self.assertEqual(page2.exclude_from_nav, False)
-        self.assertEqual(IDefaultPages.providedBy(page2), False)
+        self.assertTrue(page1.exclude_from_nav)
+        self.assertTrue(IDefaultPages.providedBy(page1))
+        self.assertFalse(page2.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(page2))
 
         request = TestRequest(
             form={"form.widgets.default_page_uid": uuid2, "form.buttons.apply": "Apply"}
@@ -74,17 +88,17 @@ class PagesIntegrationTest(unittest.TestCase):
         form.update()
         data, errors = form.extractData()
         self.assertTrue(len(errors) == 0)
-        self.assertEqual(page2.exclude_from_nav, True)
-        self.assertEqual(IDefaultPages.providedBy(page2), True)
-        self.assertEqual(page1.exclude_from_nav, False)
-        self.assertEqual(IDefaultPages.providedBy(page1), False)
+        self.assertTrue(page2.exclude_from_nav)
+        self.assertTrue(IDefaultPages.providedBy(page2))
+        self.assertFalse(page1.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(page1))
 
         self.folder.setLayout("block_view")
         self.assertIsNone(self.folder.default_page_uid)
-        self.assertEqual(page1.exclude_from_nav, False)
-        self.assertEqual(IDefaultPages.providedBy(page1), False)
-        self.assertEqual(page2.exclude_from_nav, False)
-        self.assertEqual(IDefaultPages.providedBy(page2), False)
+        self.assertFalse(page1.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(page1))
+        self.assertFalse(page2.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(page2))
 
     def test_breadcrumbs(self):
         page1 = api.content.create(
@@ -115,89 +129,36 @@ class PagesIntegrationTest(unittest.TestCase):
         self.assertEqual(breadcrumbs[-1]["Title"], "Folder")
 
     def test_default_page_removal(self):
-        page1 = api.content.create(
-            container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
-        )
-        uuid1 = IUUID(page1)
-        self.folder.setLayout("element_view")
-        request = TestRequest(
-            form={"form.widgets.default_page_uid": uuid1, "form.buttons.apply": "Apply"}
-        )
-        alsoProvides(request, IPloneFormLayer)
-        form = ElementView(self.folder, request)
-        form.update()
-        data, errors = form.extractData()
-        self.assertTrue(len(errors) == 0)
-        self.assertEqual(page1.exclude_from_nav, True)
-        self.assertEqual(IDefaultPages.providedBy(page1), True)
-
-        api.content.delete(page1)
+        self.assertTrue(self.defaultpage.exclude_from_nav)
+        self.assertTrue(IDefaultPages.providedBy(self.defaultpage))
+        api.content.delete(self.defaultpage)
         self.assertIsNone(self.folder.default_page_uid)
 
     def test_default_page_cut_and_paste_in_a_folder(self):
-        page1 = api.content.create(
-            container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
-        )
-        uuid1 = IUUID(page1)
-        self.folder.setLayout("element_view")
-        request = TestRequest(
-            form={"form.widgets.default_page_uid": uuid1, "form.buttons.apply": "Apply"}
-        )
-        alsoProvides(request, IPloneFormLayer)
-        form = ElementView(self.folder, request)
-        form.update()
-        data, errors = form.extractData()
-
         folder2 = api.content.create(
             container=self.portal,
             type="imio.smartweb.Folder",
             title="Folder2",
             id="folder2",
         )
-        api.content.move(source=page1, target=folder2)
-        self.assertEqual(page1.exclude_from_nav, False)
-        self.assertEqual(IDefaultPages.providedBy(page1), False)
+        api.content.move(source=self.defaultpage, target=folder2)
+        self.assertFalse(self.defaultpage.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(self.defaultpage))
         self.assertIsNone(self.folder.default_page_uid)
 
     def test_default_page_cut_and_paste_anywhere(self):
-        page1 = api.content.create(
-            container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
-        )
-        uuid1 = IUUID(page1)
-        self.folder.setLayout("element_view")
-        request = TestRequest(
-            form={"form.widgets.default_page_uid": uuid1, "form.buttons.apply": "Apply"}
-        )
-        alsoProvides(request, IPloneFormLayer)
-        form = ElementView(self.folder, request)
-        form.update()
-        data, errors = form.extractData()
-
-        api.content.move(source=page1, target=self.portal)
-        self.assertEqual(page1.exclude_from_nav, False)
-        self.assertEqual(IDefaultPages.providedBy(page1), False)
+        api.content.move(source=self.defaultpage, target=self.portal)
+        self.assertFalse(self.defaultpage.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(self.defaultpage))
         self.assertIsNone(self.folder.default_page_uid)
 
     def test_default_page_copy_and_paste(self):
-        page1 = api.content.create(
-            container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
-        )
-        uuid1 = IUUID(page1)
-        self.folder.setLayout("element_view")
-        request = TestRequest(
-            form={"form.widgets.default_page_uid": uuid1, "form.buttons.apply": "Apply"}
-        )
-        alsoProvides(request, IPloneFormLayer)
-        form = ElementView(self.folder, request)
-        form.update()
-        data, errors = form.extractData()
-
-        copied_page = api.content.copy(source=page1, target=self.folder)
-        self.assertEqual(page1.exclude_from_nav, True)
-        self.assertEqual(IDefaultPages.providedBy(page1), True)
-        self.assertEqual(self.folder.default_page_uid, uuid1)
-        self.assertEqual(copied_page.exclude_from_nav, False)
-        self.assertFalse(IDefaultPages.providedBy(copied_page), False)
+        copied_page = api.content.copy(source=self.defaultpage, target=self.folder)
+        self.assertTrue(self.defaultpage.exclude_from_nav)
+        self.assertTrue(IDefaultPages.providedBy(self.defaultpage))
+        self.assertEqual(self.folder.default_page_uid, IUUID(self.defaultpage))
+        self.assertFalse(copied_page.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(copied_page))
 
         folder2 = api.content.create(
             container=self.portal,
@@ -205,9 +166,9 @@ class PagesIntegrationTest(unittest.TestCase):
             title="Folder2",
             id="folder2",
         )
-        copied_page = api.content.copy(source=page1, target=folder2)
-        self.assertEqual(page1.exclude_from_nav, True)
-        self.assertEqual(IDefaultPages.providedBy(page1), True)
-        self.assertEqual(self.folder.default_page_uid, uuid1)
-        self.assertEqual(copied_page.exclude_from_nav, False)
-        self.assertFalse(IDefaultPages.providedBy(copied_page), False)
+        copied_page = api.content.copy(source=self.defaultpage, target=folder2)
+        self.assertTrue(self.defaultpage.exclude_from_nav)
+        self.assertTrue(IDefaultPages.providedBy(self.defaultpage))
+        self.assertEqual(self.folder.default_page_uid, IUUID(self.defaultpage))
+        self.assertFalse(copied_page.exclude_from_nav)
+        self.assertFalse(IDefaultPages.providedBy(copied_page))
