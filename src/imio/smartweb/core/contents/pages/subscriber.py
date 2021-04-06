@@ -1,13 +1,22 @@
 # -*- coding: utf-8 -*-
+
 from imio.smartweb.core.contents import IDefaultPages
 from zope.interface import noLongerProvides
 
 
+def paste_default_page(obj, event):
+    """Handle cut/copy & paste of a default page (Procedure / Page) anywhere"""
+    noLongerProvides(obj, IDefaultPages)
+    obj.exclude_from_nav = False
+    obj.reindexObject(idxs=("object_provides", "exclude_from_nav"))
+    parent = event.oldParent
+    if parent is not None:
+        # page was cut from a folder
+        parent.default_page_uid = None
+
+
 def remove_default_page(obj, event):
-    """
-    Handle removal (cut/paste or delete) of a default page (i.s.Procedure, i.s.Page)
-    from a folder
-    """
+    """Handle removal of a default page (Procedure / Page) from a folder"""
     noLongerProvides(obj, IDefaultPages)
     obj.exclude_from_nav = False
     obj.reindexObject(idxs=("object_provides", "exclude_from_nav"))

@@ -33,6 +33,12 @@
 
   <subscriber
       for="imio.smartweb.core.contents.IDefaultPages
+           zope.lifecycleevent.interfaces.IObjectMovedEvent"
+       handler=".subscriber.paste_default_page"
+      />
+
+  <subscriber
+      for="imio.smartweb.core.contents.IDefaultPages
            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
        handler=".subscriber.remove_default_page"
       />
