@@ -166,6 +166,12 @@ class SectionsIntegrationTest(unittest.TestCase):
             title="My file",
         )
         file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
+        api.content.create(
+            container=links_section,
+            type="Link",
+            title="My link",
+        )
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), len(section_types))
 
@@ -197,6 +203,12 @@ class SectionsIntegrationTest(unittest.TestCase):
             title="My file",
         )
         file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
+        api.content.create(
+            container=links_section,
+            type="Link",
+            title="My link",
+        )
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), len(section_types))
         for section_id in page.objectIds():
