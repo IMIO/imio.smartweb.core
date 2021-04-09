@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:main fill-slot="content-core">
+<metal:content-core define-macro="content-core">
+  <div class="header-section" tal:condition="python: checkPermission('Modify portal content', context)">
+    <span i18n:domain="imio.smartweb" class="manage-section">
+      <span class="icon-edit"></span>
+      <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
+         i18n:translate="">Edit section</a>
+      <span class="icon-folderContents"></span>
+      <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
+         i18n:translate="">Manage section contents</a>
+      <span class="glyphicon-trash glyphicon"></span>
+      <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
+         i18n:translate="">Delete section</a>
+      <span class="icon-plone-contentmenu-display"></span>
+      <a tal:attributes="href string:${context/absolute_url}/select_default_view"
+         i18n:translate="">Select view</a>
+    </span>
+    <tal:dates define="modified context/get_last_mofication_date">
+    <span class="documentModified"
+          tal:condition="modified">
+      <span i18n:translate="box_last_modified">
+        last modified
+      </span>
+      <span class="pat-moment" data-pat-moment="format:relative;"
+            tal:content="modified">
+        Modified
+      </span>
+    </span>
+    </tal:dates>
+  </div>
+
+  <tal:if tal:define="items context/listFolderContents"
+          tal:condition="items">
+    <div class="content-section">
+      <h2 tal:condition="not: context/hide_title"
+          tal:content="context/title" />
+      <div class="container">
+        <div class="row">
+          <div class="col" tal:repeat="item items">
+            <div tal:define="item_has_image python:item.getIcon;
+                             thumb_scale_list view/get_thumb_scale_list;
+                             portal context/@@plone_portal_state/portal;
+                             image_scale item/@@images;
+                             img_class python:'thumb-%s' % thumb_scale_list;">
+                <a tal:attributes="href item/absolute_url;"
+                   tal:condition="python: item_has_image and thumb_scale_list">
+                  <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale_list, css_class=img_class)" />
+                </a>
+                <a tal:attributes="href item/absolute_url;
+                                   alt item/description"
+                   tal:content="item/title">Item Title
+                </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </tal:if>
+
+  </metal:content-core>
+  </metal:main>
+
+  </body>
+  </html>

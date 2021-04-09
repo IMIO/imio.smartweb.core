@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.SectionLinks"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <!-- Basic properties -->
+  <property
+      i18n:translate=""
+      name="title">Links section</property>
+  <property
+      i18n:translate=""
+      name="description">Links section for a page</property>
+
+  <property name="icon_expr"></property>
+
+  <!-- Hierarchy control -->
+  <property name="global_allow">False</property>
+  <property name="filter_content_types">True</property>
+  <property name="allowed_content_types">
+    <element value="Link" />
+  </property>
+  <!-- Schema, class and security -->
+  <!-- if we can add a page, we can add a page section -->
+  <property name="add_permission">imio.smartweb.core.AddPage</property>
+  <property name="klass">imio.smartweb.core.contents.SectionLinks</property>
+  <property name="schema">imio.smartweb.core.contents.ISectionLinks</property>
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="plone.namefromtitle"/>
+    <element value="plone.locking"/>
+  </property>
+
+  <!-- View information -->
+  <property name="default_view">table_view</property>
+  <property name="default_view_fallback">False</property>
+  <property name="immediate_view">folder_contents</property>
+  <property name="view_methods">
+    <element value="carousel_view"/>
+    <element value="table_view"/>
+  </property>
+</object>

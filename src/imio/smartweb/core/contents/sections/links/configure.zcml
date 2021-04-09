@@ -1,0 +1,28 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="imio.smartweb">
+
+  <browser:page
+      name="table_view"
+      for="imio.smartweb.core.contents.ISectionLinks"
+      class="imio.smartweb.core.contents.sections.links.view.LinksView"
+      template="table.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="Table view"
+      />
+
+  <browser:page
+      name="carousel_view"
+      for="imio.smartweb.core.contents.ISectionLinks"
+      class="imio.smartweb.core.contents.sections.links.view.LinksView"
+      template="carousel.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="Carousel view"
+      />
+
+</configure>
