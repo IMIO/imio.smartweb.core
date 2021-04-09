@@ -1,25 +1,32 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.folder.content import IFolder
+from imio.smartweb.core.contents.folder.views import ElementView
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.tests.utils import get_leadimage_filename
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.app.z3cform.interfaces import IPloneFormLayer
+from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.namedfile.file import NamedBlobFile
+from plone.testing.z2 import Browser
 from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+from zope.publisher.browser import TestRequest
 import unittest
+import transaction
 
 
-class FolderIntegrationTest(unittest.TestCase):
+class FolderFunctionalTest(unittest.TestCase):
 
-    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests."""
@@ -130,3 +137,98 @@ class FolderIntegrationTest(unittest.TestCase):
         self.assertNotIn("newsImage", view())
         view = getMultiAdapter((folder, self.request), name="block_view_with_images")
         self.assertIn("newsImage", view())
+
+    def test_element_view_as_anonymous(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="Folder",
+            id="folder",
+        )
+        api.content.transition(folder, "publish")
+        page1 = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 1",
+            id="page1",
+        )
+        api.content.transition(page1, "publish")
+        page2 = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 2",
+            id="page2",
+        )
+        api.content.transition(page2, "publish")
+        folder.setLayout("element_view")
+        transaction.commit()
+
+        # Anonymous - no default page set on element view
+        browser = Browser(self.layer["app"])
+        browser.open(folder.absolute_url())
+        content = browser.contents
+        self.assertIn("template-summary_view", content)
+        self.assertNotIn("template-full_view", content)
+        self.assertEqual(content.count("tileHeadline"), 2)
+
+        # Anonymous - default page is set on element view
+        uuid = IUUID(page1)
+        request = TestRequest(
+            form={"form.widgets.default_page_uid": uuid, "form.buttons.apply": "Apply"}
+        )
+        alsoProvides(request, IPloneFormLayer)
+        form = ElementView(folder, request)
+        form.update()
+        transaction.commit()
+        browser.open(folder.absolute_url())
+        content = browser.contents
+        self.assertIn("template-full_view", content)
+        self.assertNotIn("template-summary_view", content)
+        self.assertIn('<h1 class="documentFirstHeading">Page 1</h1>', content)
+
+    def test_element_view_as_editor(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="Folder",
+            id="folder",
+        )
+        page1 = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 1",
+            id="page1",
+        )
+        uuid = IUUID(page1)
+        api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 2",
+            id="page2",
+        )
+        folder.setLayout("element_view")
+        transaction.commit()
+
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_ID,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open(folder.absolute_url())
+        content = browser.contents
+        self.assertIn(
+            '<h1 class="documentFirstHeading">Element view form</h1>', content
+        )
+        radio_control = browser.getControl(name="form.widgets.default_page_uid")
+        self.assertIn(uuid, radio_control.options)
+        self.assertEqual(radio_control.value, [])
+        radio_control.value = uuid
+        browser.getControl(name="form.buttons.apply").click()
+        content = browser.contents
+        self.assertIn("Data successfully updated.", content)
+        radio_control = browser.getControl(name="form.widgets.default_page_uid")
+        self.assertEqual(radio_control.value, [uuid])
