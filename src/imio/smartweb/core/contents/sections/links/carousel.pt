@@ -9,7 +9,6 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <div class="header-section" tal:condition="python: checkPermission('Modify portal content', context)">
     <span i18n:domain="imio.smartweb" class="manage-section">
       <span class="icon-edit"></span>
