@@ -152,7 +152,7 @@ class SectionsIntegrationTest(unittest.TestCase):
         video_section = getattr(page, "title-of-my-imio-smartweb-sectionvideo")
         video_section.video_url = "https://www.youtube.com/watch?v=_dOAthafoGQ"
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), len(section_types) - 2)
+        self.assertEqual(view.count("Title of my "), 2)
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
             container=gallery_section,
