@@ -80,7 +80,6 @@ class SectionsIntegrationTest(unittest.TestCase):
         )
         file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
         view = queryMultiAdapter((section, self.request), name="view")
-        self.assertEqual(view.get_thumb_scale_list(), "thumb")
         self.assertEqual(
             view.get_mime_type_icon(file_obj), "++resource++mimetype.icons/txt.png"
         )
