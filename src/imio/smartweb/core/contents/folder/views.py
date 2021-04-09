@@ -6,6 +6,8 @@ from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
+from plone.registry.interfaces import IRegistry
+from Products.CMFPlone.interfaces import ISiteSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import button
 from z3c.form.browser.radio import RadioFieldWidget
@@ -13,6 +15,7 @@ from z3c.form.contentprovider import ContentProviders
 from z3c.form.field import Fields
 from z3c.form.form import EditForm
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
+from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implementer
@@ -67,6 +70,13 @@ class FolderViewWithImages(FolderView):
     """"""
 
     show_images = True
+
+    def get_thumb_scale(self):
+        registry = getUtility(IRegistry)
+        settings = registry.forInterface(ISiteSchema, prefix="plone", check=False)
+        if settings.no_thumbs_summary:
+            return None
+        return settings.thumb_scale_summary
 
 
 class DefaultElementTextView(ContentProviderBase):
