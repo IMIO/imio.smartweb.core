@@ -47,9 +47,9 @@
       <div tal:attributes="id context/id" class="carousel carousel-dark slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
           <button tal:repeat="item items"
-                  tal:attributes="data-bs-target python:'#{}'.format(context.id);
+                  tal:attributes="data-bs-target string:#${context/id};
                                   data-bs-slide-to repeat/item/index;
-                                  aria-label python:'Slide {}'.format(repeat.item.number());
+                                  aria-label string:Slide ${repeat/item/number};
                                   class python:'active' if repeat.item.start else nothing;
                                   aria-current python:'true' if repeat.item.start else nothing"
                   type="button">
@@ -67,7 +67,7 @@
                              img_class python:'thumb-%s' % thumb_scale_list;">
             <a tal:attributes="href item/absolute_url;"
                tal:condition="python: item_has_image and thumb_scale_list">
-              <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale_list, css_class=img_class)" class="d-block w-100" alt="...">
+              <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale_list, css_class='d-block w-100')">
             </a>
             <div class="carousel-caption d-none d-md-block">
               <h5 tal:content="item/title"></h5>
@@ -77,14 +77,14 @@
           </div>
         </div>
 
-        <button tal:attributes="data-bs-target python:'#{}'.format(context.id)"
+        <button tal:attributes="data-bs-target string:#${context/id}"
                 class="carousel-control-prev"
                 type="button"
                 data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
         </button>
-        <button tal:attributes="data-bs-target python:'#{}'.format(context.id)"
+        <button tal:attributes="data-bs-target string:#${context/id}"
                 class="carousel-control-next"
                 type="button"
                 data-bs-slide="next">
