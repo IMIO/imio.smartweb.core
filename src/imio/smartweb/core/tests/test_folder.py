@@ -8,6 +8,7 @@ from imio.smartweb.core.tests.utils import get_leadimage_filename
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.app.z3cform.interfaces import IPloneFormLayer
@@ -214,7 +215,7 @@ class FolderFunctionalTest(unittest.TestCase):
             "Authorization",
             "Basic %s:%s"
             % (
-                TEST_USER_ID,
+                TEST_USER_NAME,
                 TEST_USER_PASSWORD,
             ),
         )
