@@ -49,14 +49,14 @@
       </style>
 
       <div tal:define="portal context/@@plone_portal_state/portal;
-                       image_scale portal/@@image_scale"
+                       thumb_scale context/image_scale"
            class="flexbin flexbin-margin">
         <tal:images tal:repeat="image images">
           <a tal:attributes="href string:${image/absolute_url}/@@images/image/large;
                              title image/title;
                              data-description image/description"
              class="spotlight">
-            <img tal:attributes="src string:${image/absolute_url}/@@images/image/preview;
+            <img tal:attributes="src string:${image/absolute_url}/@@images/image/${thumb_scale};
                                  alt image/title;
                                  title image/title" />
           </a>
