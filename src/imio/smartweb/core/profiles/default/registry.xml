@@ -31,6 +31,26 @@
       </value>
     </record>
 
+    <records prefix="plone.resources/smartweb-view"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'>
+      <value key="css">
+        <element>++plone++imio.smartweb.core/view.less</element>
+      </value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-view"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="resources">
+        <element>smartweb-view</element>
+      </value>
+      <value key="enabled">True</value>
+      <value key="compile">True</value>
+      <value key="expression"></value>
+      <value key="merge_with">default</value>
+      <value key="csscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.css</value>
+      <value key="last_compilation">2021-04-09 14:00:00</value>
+    </records>
+
     <records prefix="plone.resources/smartweb-edit"
              interface='Products.CMFPlone.interfaces.IResourceRegistry'>
       <value key="js">++plone++imio.smartweb.core/edit.js</value>
