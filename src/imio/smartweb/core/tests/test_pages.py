@@ -134,6 +134,12 @@ class PagesIntegrationTest(unittest.TestCase):
         api.content.delete(self.defaultpage)
         self.assertIsNone(self.folder.default_page_uid)
 
+    def test_default_page_rename(self):
+        api.content.rename(obj=self.defaultpage, new_id="foo")
+        self.assertTrue(self.defaultpage.exclude_from_nav)
+        self.assertTrue(IDefaultPages.providedBy(self.defaultpage))
+        self.assertEqual(self.folder.default_page_uid, IUUID(self.defaultpage))
+
     def test_default_page_cut_and_paste_in_a_folder(self):
         folder2 = api.content.create(
             container=self.portal,

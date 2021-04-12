@@ -5,7 +5,10 @@ from zope.interface import noLongerProvides
 
 
 def paste_default_page(obj, event):
-    """Handle cut/copy & paste of a default page (Procedure / Page) anywhere"""
+    """Handle cut/copy & paste / rename of a default page (Procedure / Page)"""
+    if event.oldParent == event.newParent and event.oldName != event.newName:
+        # page was simply renamed
+        return
     noLongerProvides(obj, IDefaultPages)
     obj.exclude_from_nav = False
     obj.reindexObject(idxs=("object_provides", "exclude_from_nav"))
