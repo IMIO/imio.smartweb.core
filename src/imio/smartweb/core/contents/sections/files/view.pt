@@ -9,7 +9,7 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-
+<div tal:attributes="class string:section_files ${context/bootstrap_css_class}">
   <div class="header-section" tal:condition="python: checkPermission('Modify portal content', context)">
     <span i18n:domain="imio.smartweb" class="manage-section">
       <span class="icon-edit"></span>
@@ -38,7 +38,7 @@
 
   <tal:if tal:define="items context/listFolderContents"
           tal:condition="items">
-    <div class="content-section">
+    <div class="content-section" tal:attributes="style view/background_style">
       <h2 tal:condition="not: context/hide_title"
           tal:content="context/title" />
 
@@ -68,7 +68,7 @@
       </span>
     </div>
   </tal:if>
-
+</div>
 </metal:content-core>
 </metal:main>
 
