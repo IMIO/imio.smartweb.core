@@ -1,22 +1,27 @@
 # -*- coding: utf-8 -*-
 
+from bs4 import BeautifulSoup
 from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.core.contents.folder.views import ElementView
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from plone import api
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.app.z3cform.interfaces import IPloneFormLayer
+from plone.testing.z2 import Browser
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
 import unittest
+import transaction
 
 
 class PagesIntegrationTest(unittest.TestCase):
 
-    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests"""
@@ -99,6 +104,51 @@ class PagesIntegrationTest(unittest.TestCase):
         self.assertFalse(IDefaultPages.providedBy(page1))
         self.assertFalse(page2.exclude_from_nav)
         self.assertFalse(IDefaultPages.providedBy(page2))
+
+    def test_exclude_from_nav_field(self):
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_NAME,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open("{}/edit".format(self.defaultpage.absolute_url()))
+        content = browser.contents
+        soup = BeautifulSoup(content)
+        exclude_from_nav_widget = soup.find(
+            id="form-widgets-IExcludeFromNavigation-exclude_from_nav"
+        )
+        self.assertIsNone(exclude_from_nav_widget.find("input"))
+        children = [
+            c for c in exclude_from_nav_widget if not isinstance(c, str) or c.strip()
+        ]
+        self.assertEqual(len(children), 1)
+        self.assertEqual(children[0].text, "yes")
+
+        page2 = api.content.create(
+            container=self.folder, type="imio.smartweb.Page", title="Page 2", id="page2"
+        )
+        uuid2 = IUUID(page2)
+        request = TestRequest(
+            form={"form.widgets.default_page_uid": uuid2, "form.buttons.apply": "Apply"}
+        )
+        alsoProvides(request, IPloneFormLayer)
+        form = ElementView(self.folder, request)
+        form.update()
+        data, errors = form.extractData()
+        transaction.commit()
+
+        browser.open("{}/edit".format(self.defaultpage.absolute_url()))
+        content = browser.contents
+        soup = BeautifulSoup(content)
+        exclude_from_nav_widget = soup.find(
+            id="form-widgets-IExcludeFromNavigation-exclude_from_nav"
+        )
+        self.assertIsNotNone(exclude_from_nav_widget.find("input"))
 
     def test_breadcrumbs(self):
         page1 = api.content.create(

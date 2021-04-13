@@ -69,6 +69,7 @@ setup(
             "plone.app.contenttypes",
             "plone.app.robotframework[debug]",
             "requests-mock",
+            "beautifulsoup4",
         ],
     },
     entry_points="""
