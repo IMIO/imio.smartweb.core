@@ -1,12 +1,14 @@
 <?xml version='1.0' encoding='utf-8'?>
 <vdex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" profileType="hierarchicalTokenTerms" orderSignificant="false" language="fr">
   <vocabName>
+    <langstring language="en">Pages</langstring>
     <langstring language="fr">Pages</langstring>
   </vocabName>
   <vocabIdentifier>page</vocabIdentifier>
   <term>
     <termIdentifier>service_communal</termIdentifier>
     <caption>
+      <langstring language="en">City service</langstring>
       <langstring language="fr">Service communal</langstring>
     </caption>
   </term>
