@@ -2,7 +2,9 @@
 
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 import json
@@ -44,8 +46,23 @@ class CurrentFolderPagesVocabularyFactory:
         brains = api.content.find(
             context=context, depth=1, object_provides=IPages, sort_on="sortable_title"
         )
+        brains = [b for b in brains if b.portal_type != "imio.smartweb.Footer"]
         terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
         return SimpleVocabulary(terms)
 
 
 CurrentFolderPagesVocabulary = CurrentFolderPagesVocabularyFactory()
+
+
+class BootstrapCSSVocabularyFactory:
+    def __call__(self, context=None):
+        bootstrap_css = [
+            (u"col-sm-4", _(u"Third of width")),
+            (u"col-sm-6", _(u"Half of width")),
+            (u"col-sm-12", _(u"Full width")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in bootstrap_css]
+        return SimpleVocabulary(terms)
+
+
+BootstrapCSSVocabulary = BootstrapCSSVocabularyFactory()
