@@ -36,12 +36,12 @@ class FooterIntegrationTest(unittest.TestCase):
         footers = self.portal.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
         )
-        self.assertEquals(len(footers), 1)
+        self.assertEqual(len(footers), 1)
         self.assertFalse(view.available)
         viewlet = FooterViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
-        self.assertEquals(viewlet.footer, footers[0])
+        self.assertEqual(viewlet.footer, footers[0])
         api.content.delete(footers[0])
         self.assertTrue(view.available)
 
@@ -59,7 +59,7 @@ class FooterIntegrationTest(unittest.TestCase):
         footers = self.folder.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
         )
-        self.assertEquals(len(footers), 1)
+        self.assertEqual(len(footers), 1)
         self.assertFalse(footer_view.available)
         api.content.delete(footers[0])
         self.assertTrue(footer_view.available)
