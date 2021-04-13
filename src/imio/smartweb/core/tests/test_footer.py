@@ -6,6 +6,7 @@ from imio.smartweb.core.viewlets.footer import SubsiteFooterViewlet
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.namedfile.file import NamedBlobFile
 from zope.component import getMultiAdapter
 import unittest
 
@@ -96,3 +97,18 @@ class FooterIntegrationTest(unittest.TestCase):
         nested_viewlet.update()
         self.assertTrue(nested_viewlet.available())
         self.assertNotEquals(viewlet.footer, nested_viewlet.footer)
+
+    def test_background_style(self):
+        footer_view = getMultiAdapter(
+            (self.portal, self.request), name="footer_settings"
+        )
+        footer_view.add_footer()
+        footer = getattr(self.portal, "footer")
+        viewlet = FooterViewlet(footer, self.request, None, None)
+        viewlet.update()
+        self.assertEqual(viewlet.background_style(), "")
+        footer.background_image = NamedBlobFile(data="file data", filename=u"file.png")
+        self.assertIn(
+            "background-image:url('http://nohost/plone/footer/@@images/background_image/large')",
+            viewlet.background_style(),
+        )
