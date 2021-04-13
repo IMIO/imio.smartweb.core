@@ -10,6 +10,7 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <include package=".footer" />
   <include package=".subsite" />
 
   <!-- Publish static files -->

@@ -16,6 +16,26 @@
   </configure>
 
   <browser:viewlet
+      name="imio.smartweb.subsite_footer"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="footer.pt"
+      class=".footer.SubsiteFooterViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="imio.smartweb.footer"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="footer.pt"
+      class=".footer.FooterViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="imio.smartweb.procedure"
       for="imio.smartweb.core.contents.IProcedure"
       manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"

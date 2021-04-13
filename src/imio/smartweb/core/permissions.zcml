@@ -8,6 +8,11 @@
       />
 
   <permission
+      id="imio.smartweb.core.AddFooter"
+      title="imio.smartweb.core: Add Footer"
+      />
+
+  <permission
       id="imio.smartweb.core.AddPage"
       title="imio.smartweb.core: Add Page"
       />

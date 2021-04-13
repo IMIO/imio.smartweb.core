@@ -23,6 +23,16 @@
       </property>
       <property name="visible">True</property>
     </object>
+    <object name="add_footer" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Add footer</property>
+      <property name="description" i18n:translate="">Click to add footer on this context.</property>
+      <property name="url_expr">string:$object_url/@@footer_settings/add_footer</property>
+      <property name="available_expr">object/@@footer_settings/available|nothing</property>
+      <property name="permissions">
+        <element value="cmf.AddPortalContent"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
   </object>
 
 </object>

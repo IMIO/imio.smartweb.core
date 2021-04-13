@@ -1,0 +1,10 @@
+<div tal:attributes="id view/css_id;
+                     style view/background_style;
+                     class string:container ${context/css_class}"
+     tal:condition="view/available">
+  <div class="row"
+       tal:define="footer nocall:view/footer"
+       tal:repeat="obj footer/listFolderContents">
+        <span tal:replace="structure obj/@@full_view_item | nothing" />
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.Footer"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <!-- Basic properties -->
+  <property
+      i18n:translate=""
+      name="title">Footer</property>
+  <property
+      i18n:translate=""
+      name="description">Footer content type</property>
+
+  <property name="icon_expr"></property>
+
+  <!-- Hierarchy control -->
+  <property name="global_allow">False</property>
+  <property name="filter_content_types">True</property>
+  <property name="allowed_content_types">
+    <element value="imio.smartweb.SectionLinks" />
+    <element value="imio.smartweb.SectionText" />
+  </property>
+  <!-- Schema, class and security -->
+  <property name="add_permission">imio.smartweb.core.AddFooter</property>
+  <property name="klass">imio.smartweb.core.contents.Footer</property>
+  <property name="schema">imio.smartweb.core.contents.IFooter</property>
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="plone.namefromtitle"/>
+    <element value="plone.shortname"/>
+    <element value="plone.publication"/>
+    <element value="plone.categorization"/>
+    <element value="plone.basic"/>
+    <element value="plone.locking"/>
+  </property>
+
+  <!-- View information -->
+  <property name="default_view">full_view</property>
+  <property name="default_view_fallback">False</property>
+  <property name="immediate_view">view</property>
+  <property name="view_methods">
+    <element value="full_view"/>
+  </property>
+
+</object>

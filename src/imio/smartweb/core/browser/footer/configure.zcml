@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+      name="footer_settings"
+      for="*"
+      class=".settings.FooterSettings"
+      allowed_attributes="add_footer available"
+      permission="cmf.AddPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+</configure>
