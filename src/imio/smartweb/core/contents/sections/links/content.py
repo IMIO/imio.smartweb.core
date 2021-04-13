@@ -10,9 +10,8 @@ from zope import schema
 
 class ISectionLinks(ISection):
     """Marker interface and Dexterity Python Schema for SectionFiles"""
-    model.fieldset(
-        "layout", fields=["image_scale"]
-    )
+
+    model.fieldset("layout", fields=["image_scale"])
     image_scale = schema.Choice(
         title=_(u"Image scale"),
         default=u"tile",

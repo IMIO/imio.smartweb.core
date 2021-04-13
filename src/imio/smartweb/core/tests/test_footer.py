@@ -46,9 +46,13 @@ class FooterIntegrationTest(unittest.TestCase):
         self.assertTrue(view.available)
 
     def test_add_footer_to_subsite(self):
-        footer_view = getMultiAdapter((self.folder, self.request), name="footer_settings")
+        footer_view = getMultiAdapter(
+            (self.folder, self.request), name="footer_settings"
+        )
         self.assertFalse(footer_view.available)
-        subsite_view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        subsite_view = getMultiAdapter(
+            (self.folder, self.request), name="subsite_settings"
+        )
         subsite_view.enable()
         self.assertTrue(footer_view.available)
         footer_view.add_footer()
@@ -67,14 +71,22 @@ class FooterIntegrationTest(unittest.TestCase):
             title="Nested folder",
             id="nested_folder",
         )
-        subsite_view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        subsite_view = getMultiAdapter(
+            (self.folder, self.request), name="subsite_settings"
+        )
         subsite_view.enable()
-        footer_view = getMultiAdapter((self.folder, self.request), name="footer_settings")
+        footer_view = getMultiAdapter(
+            (self.folder, self.request), name="footer_settings"
+        )
         footer_view.add_footer()
 
-        nested_subsite_view = getMultiAdapter((nested_folder, self.request), name="subsite_settings")
+        nested_subsite_view = getMultiAdapter(
+            (nested_folder, self.request), name="subsite_settings"
+        )
         nested_subsite_view.enable()
-        nested_footer_view = getMultiAdapter((nested_folder, self.request), name="footer_settings")
+        nested_footer_view = getMultiAdapter(
+            (nested_folder, self.request), name="footer_settings"
+        )
         nested_footer_view.add_footer()
 
         viewlet = SubsiteFooterViewlet(self.folder, self.request, None, None)

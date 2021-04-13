@@ -225,4 +225,7 @@ class SectionsIntegrationTest(unittest.TestCase):
         view = queryMultiAdapter((section, self.request), name="view")
         self.assertEqual(view.background_style(), "")
         section.background_image = NamedBlobFile(data="file data", filename=u"file.png")
-        self.assertIn("background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')", view.background_style())
+        self.assertIn(
+            "background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')",
+            view.background_style(),
+        )
