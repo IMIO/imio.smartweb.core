@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<object>
+  <order manager="plone.portalfooter" skinname="Plone Default">
+    <viewlet name="imio.smartweb.subsite_footer" />
+    <viewlet name="imio.smartweb.footer" />
+    <viewlet name="plone.analytics" />
+  </order>
+  <hidden manager="plone.portalfooter" skinname="Plone Default">
+    <viewlet name="plone.footer" />
+    <viewlet name="plone.colophon" />
+    <viewlet name="plone.site_actions" />
+  </hidden>
+</object>
