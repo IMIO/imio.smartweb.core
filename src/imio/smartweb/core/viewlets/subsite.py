@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
+from plone import api
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from imio.smartweb.core.interfaces import IImioSmartwebSubsiteMarker
-from plone import api
 from plone.app.layout.viewlets import common
 from zope.component import getMultiAdapter
 
@@ -14,14 +14,14 @@ class BaseSubsiteViewlet(common.ViewletBase):
     def subsite_root(self):
         obj = self.context
         portal = api.portal.get()
-        while not IImioSmartwebSubsiteMarker.providedBy(obj) and aq_base(
-            obj
-        ) is not aq_base(portal):
+        while not IImioSmartwebSubsite.providedBy(obj) and aq_base(obj) is not aq_base(
+            portal
+        ):
             parent = aq_parent(aq_inner(obj))
             if parent is None:
                 return None
             obj = parent
-        if IImioSmartwebSubsiteMarker.providedBy(obj):
+        if IImioSmartwebSubsite.providedBy(obj):
             return obj
 
     def available(self):

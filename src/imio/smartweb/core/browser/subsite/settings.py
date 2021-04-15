@@ -3,7 +3,6 @@
 from collective.instancebehavior import disable_behaviors
 from collective.instancebehavior import enable_behaviors
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
-from imio.smartweb.core.interfaces import IImioSmartwebSubsiteMarker
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -17,7 +16,7 @@ class SubSiteSettings(BrowserView):
         enable_behaviors(
             self.context,
             [IImioSmartwebSubsite.__identifier__],
-            [IImioSmartwebSubsite, IImioSmartwebSubsiteMarker],
+            [IImioSmartwebSubsite],
         )
         api.portal.show_message(
             _(u"Subsite has been successfully activated"), self.request
@@ -28,7 +27,7 @@ class SubSiteSettings(BrowserView):
         disable_behaviors(
             self.context,
             [IImioSmartwebSubsite.__identifier__],
-            [IImioSmartwebSubsite, IImioSmartwebSubsiteMarker],
+            [IImioSmartwebSubsite],
         )
         api.portal.show_message(_(u"Subsite has been disabled"), self.request)
         self.request.response.redirect(self.context.absolute_url())
@@ -39,4 +38,4 @@ class SubSiteSettings(BrowserView):
 
     @property
     def enabled(self):
-        return IImioSmartwebSubsiteMarker.providedBy(self.context)
+        return IImioSmartwebSubsite.providedBy(self.context)

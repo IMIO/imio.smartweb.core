@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.interfaces import IImioSmartwebSubsiteMarker
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from Acquisition import aq_base
 from Acquisition import aq_inner
@@ -50,7 +50,7 @@ class SubsiteFooterViewlet(BaseFooterViewlet):
         obj = self.context
         portal = api.portal.get()
         while aq_base(obj) is not aq_base(portal):
-            if IImioSmartwebSubsiteMarker.providedBy(obj):
+            if IImioSmartwebSubsite.providedBy(obj):
                 footers = obj.listFolderContents(
                     contentFilter={"portal_type": "imio.smartweb.Footer"}
                 )
