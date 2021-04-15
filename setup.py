@@ -58,6 +58,7 @@ setup(
         "collective.taxonomy",
         "embeddify",
         "imio.smartweb.locales",
+        "collective.instancebehavior",
     ],
     extras_require={
         "test": [
