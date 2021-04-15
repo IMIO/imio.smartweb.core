@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.contents import IFolder
+from imio.smartweb.core.interfaces import IImioSmartwebSubsiteMarker
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
@@ -43,7 +43,7 @@ class FooterSettings(BrowserView):
     def available(self):
         if not INavigationRoot.providedBy(
             self.context
-        ) and not IImioSmartwebSubsite.providedBy(self.context):
+        ) and not IImioSmartwebSubsiteMarker.providedBy(self.context):
             return False
         footers = self.context.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
