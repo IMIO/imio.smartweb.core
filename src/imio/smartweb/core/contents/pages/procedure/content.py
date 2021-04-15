@@ -4,7 +4,6 @@ from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import Pages
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.dexterity.content import Container
 from zope import schema
 from zope.interface import implementer
 from zope.interface import Invalid
@@ -32,8 +31,8 @@ class IProcedure(IPages):
 
     @invariant
     def required_procedure(data):
-        if data.procedure_ts is None and data.procedure_url is None:
-            raise Invalid(_(u"Procedure field is required !"))
+        # if data.procedure_ts is None and data.procedure_url is None:
+        #     raise Invalid(_(u"Procedure field is required !"))
 
         if data.procedure_ts and data.procedure_url:
             raise Invalid(_(u"Only one procedure field can be filled !"))

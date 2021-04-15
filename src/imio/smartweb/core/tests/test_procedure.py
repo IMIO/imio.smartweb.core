@@ -126,8 +126,7 @@ class ProcedureIntegrationTest(unittest.TestCase):
         form.portal_type = "imio.smartweb.Procedure"
         form.update()
         data, errors = form.extractData()
-        self.assertTrue(len(errors) == 1)
-        self.assertIn(errors[0].message, "Procedure field is required !")
+        self.assertTrue(len(errors) == 0)
 
         request = TestRequest(
             form={
