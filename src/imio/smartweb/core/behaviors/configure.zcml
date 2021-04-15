@@ -19,4 +19,12 @@
       provides=".quickaccess.IQuickAccess"
       />
 
+  <plone:behavior
+      name="imio.smartweb.subsite"
+      title="Subsite"
+      description="Add subsite properties/fields"
+      factory=".subsite.Subsite"
+      provides=".subsite.ISubsite"
+      />
+
 </configure>
