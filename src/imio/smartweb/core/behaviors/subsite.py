@@ -14,6 +14,9 @@ from zope.interface import provider
 @provider(IFormFieldProvider)
 class IImioSmartwebSubsite(model.Schema):
 
+    model.fieldset(
+        "layout", label=_(u"Layout"), fields=["menu_depth", "logo", "logo_display"]
+    )
     menu_depth = schema.Int(
         title=_(u"Menu depth"),
         description=_(u"Define number of levels in menu navigation subsite"),
