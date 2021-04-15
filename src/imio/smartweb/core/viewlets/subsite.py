@@ -9,7 +9,7 @@ from plone.app.layout.viewlets import common
 from zope.component import getMultiAdapter
 
 
-class SubsiteNavigationViewlet(common.ViewletBase):
+class BaseSubsiteViewlet(common.ViewletBase):
     @property
     def subsite_root(self):
         obj = self.context
@@ -27,6 +27,16 @@ class SubsiteNavigationViewlet(common.ViewletBase):
     def available(self):
         return self.subsite_root is not None
 
+
+class SubsiteNavigationViewlet(BaseSubsiteViewlet):
     def get_items(self):
         view = getMultiAdapter((self.subsite_root, self.request), name="block_view")
         return view.blocks_results()
+
+
+class SubsiteLogoViewlet(BaseSubsiteViewlet):
+    def show_logo(self):
+        return  self.context.logo_display in ["logo", "logo_title"]
+
+    def show_title(self):
+        return self.context.logo_display in ["title", "logo_title"]

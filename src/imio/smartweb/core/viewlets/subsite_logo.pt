@@ -1,0 +1,9 @@
+<div id="subsite-logo" tal:condition="view/available">
+    <img tal:condition="view/show_logo"
+         tal:attributes="src string:${context/absolute_url}/@@images/logo/preview;
+                         alt context/title;
+                         title context/title" />
+    <div class="subsite-title"
+         tal:condition="view/show_title"
+         tal:content="context/title"></div>
+</div>

@@ -26,6 +26,26 @@
       />
 
   <browser:viewlet
+      name="imio.smartweb.subsite_logo"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="subsite_logo.pt"
+      class=".subsite.SubsiteLogoViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="imio.smartweb.subsite_navigation"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="subsite_navigation.pt"
+      class=".subsite.SubsiteNavigationViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="imio.smartweb.subsite_footer"
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
@@ -62,16 +82,6 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="procedure.pt"
       class=".procedure.ProcedureViewlet"
-      permission="zope2.View"
-      />
-
-  <browser:viewlet
-      name="imio.smartweb.subsite_navigation"
-      for="*"
-      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      template="subsite_navigation.pt"
-      class=".subsite.SubsiteNavigationViewlet"
       permission="zope2.View"
       />
 
