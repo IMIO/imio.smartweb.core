@@ -2,9 +2,8 @@
 
 from collective.instancebehavior import disable_behaviors
 from collective.instancebehavior import enable_behaviors
-from imio.smartweb.core.behaviors.subsite import ISubsite
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.contents import IFolder
-from imio.smartweb.core.interfaces import IImioSmartwebSubsite
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from Products.Five.browser import BrowserView
@@ -16,7 +15,7 @@ class SubSiteSettings(BrowserView):
     def enable(self):
         enable_behaviors(
             self.context,
-            [ISubsite.__identifier__],
+            [IImioSmartwebSubsite.__identifier__],
             [IImioSmartwebSubsite],
         )
         api.portal.show_message(
@@ -27,7 +26,7 @@ class SubSiteSettings(BrowserView):
     def disable(self):
         disable_behaviors(
             self.context,
-            [ISubsite.__identifier__],
+            [IImioSmartwebSubsite.__identifier__],
             [IImioSmartwebSubsite],
         )
         api.portal.show_message(_(u"Subsite has been disabled"), self.request)

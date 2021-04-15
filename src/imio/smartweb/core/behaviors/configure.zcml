@@ -24,7 +24,7 @@
       title="Subsite"
       description="Add subsite properties/fields"
       factory=".subsite.Subsite"
-      provides=".subsite.ISubsite"
+      provides=".subsite.IImioSmartwebSubsite"
       />
 
 </configure>

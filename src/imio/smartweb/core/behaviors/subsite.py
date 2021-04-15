@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.interfaces import IImioSmartwebSubsite
+from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobImage
@@ -13,7 +13,7 @@ from plone.dexterity.interfaces import IDexterityContent
 
 
 @provider(IFormFieldProvider)
-class ISubsite(model.Schema):
+class IImioSmartwebSubsite(model.Schema):
 
     menu_depth = schema.Int(
         title=_(u"Menu depth"),
@@ -37,8 +37,8 @@ class ISubsite(model.Schema):
     )
 
 
-@implementer(ISubsite)
-@adapter(IImioSmartwebSubsite)
+@implementer(IImioSmartwebSubsite)
+@adapter(IFolder)
 class Subsite(object):
     """"""
 

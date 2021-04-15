@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.interfaces import IImioSmartwebSubsite
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from Acquisition import aq_base
 from Acquisition import aq_inner

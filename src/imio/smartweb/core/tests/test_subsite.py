@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.interfaces import IImioSmartwebSubsite
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
 from plone import api
