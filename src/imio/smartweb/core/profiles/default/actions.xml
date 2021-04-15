@@ -35,4 +35,28 @@
     </object>
   </object>
 
+  <object name="header_actions" meta_type="CMF Action Category">
+    <object name="e_guichet" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">E-Guichet</property>
+      <property name="description" i18n:translate="">Link to your e-guichet</property>
+      <property name="url_expr">string:https://demo.guichet-citoyen.be/</property>
+      <property name="icon_expr">string:$portal_url/++plone++imio.smartweb.core/images/eguichet.png</property>
+      <property name="available_expr"></property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="facebook" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Facebook</property>
+      <property name="description" i18n:translate="">Link to Facebook</property>
+      <property name="url_expr">string:https://www.facebook.com</property>
+      <property name="icon_expr"></property>
+      <property name="available_expr"></property>
+      <property name="permissions">
+        <element value="View"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
 </object>

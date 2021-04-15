@@ -16,6 +16,16 @@
   </configure>
 
   <browser:viewlet
+      name="imio.smartweb.header_actions"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="header_actions.pt"
+      class=".actions.HeaderActionsViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="imio.smartweb.subsite_footer"
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalFooter"

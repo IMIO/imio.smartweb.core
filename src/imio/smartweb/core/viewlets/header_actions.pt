@@ -1,0 +1,22 @@
+<ul id="header-actions">
+  <tal:loop tal:repeat="link view/actions">
+    <li tal:define="icon nocall:link/icon">
+      <a href="#"
+         tal:attributes="href link/url;">
+
+        <span tal:condition="not:icon"
+              tal:content="link/title">
+          Action
+        </span>
+
+        <span tal:condition="icon"
+              tal:content="link/title"
+              tal:define="icon_url icon/absolute_url|icon"
+              tal:attributes="style string:background-image:url($icon_url);;">
+          Action
+        </span>
+
+      </a>
+    </li>
+  </tal:loop>
+</ul>
