@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
 from plone import api
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.namedfile.file import NamedBlobFile
+from plone.testing.z2 import Browser
 from zope.component import getMultiAdapter
+import transaction
 import unittest
-from collective.instancebehavior import instance_behaviors_of
 
 
 class SubsiteIntegrationTest(unittest.TestCase):
 
-    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests"""
@@ -80,15 +84,32 @@ class SubsiteIntegrationTest(unittest.TestCase):
     def test_viewlet_logo(self):
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
         view.enable()
-        instance_behaviors_of(self.folder)
         viewlet = SubsiteLogoViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
+
+        # We need to open browser to initialize instance behavior(s)
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_NAME,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open("{}/edit".format(self.folder.absolute_url()))
+
         self.assertTrue(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
         self.assertFalse(viewlet.show_title())
-        self.assertTrue(viewlet.show_logo())
+        self.assertFalse(viewlet.show_logo())
         self.folder.logo_display_mode = "logo_title"
         self.assertTrue(viewlet.show_title())
+        self.assertFalse(viewlet.show_logo())
+        self.folder.logo = NamedBlobFile(data="file data", filename=u"file.png")
+        self.assertTrue(viewlet.show_logo())
+        self.folder.logo_display_mode = "logo"
         self.assertTrue(viewlet.show_logo())
