@@ -2,12 +2,14 @@
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from zope.component import getMultiAdapter
 import unittest
+from collective.instancebehavior import instance_behaviors_of
 
 
 class SubsiteIntegrationTest(unittest.TestCase):
@@ -44,7 +46,7 @@ class SubsiteIntegrationTest(unittest.TestCase):
         self.assertTrue(view.available)
         self.assertFalse(view.enabled)
 
-    def test_viewlet(self):
+    def test_viewlet_navigation(self):
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
         view.enable()
 
@@ -74,3 +76,19 @@ class SubsiteIntegrationTest(unittest.TestCase):
         self.assertEqual(viewlet.subsite_root, self.folder)
         items = viewlet.get_items()
         self.assertEqual(len(items["results"]), 2)
+
+    def test_viewlet_logo(self):
+        view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        view.enable()
+        instance_behaviors_of(self.folder)
+        viewlet = SubsiteLogoViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertTrue(viewlet.available())
+        self.assertTrue(viewlet.show_title())
+        self.assertFalse(viewlet.show_logo())
+        self.folder.logo_display_mode = "logo"
+        self.assertFalse(viewlet.show_title())
+        self.assertTrue(viewlet.show_logo())
+        self.folder.logo_display_mode = "logo_title"
+        self.assertTrue(viewlet.show_title())
+        self.assertTrue(viewlet.show_logo())
