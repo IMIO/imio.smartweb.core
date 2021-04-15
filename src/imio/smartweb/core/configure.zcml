@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
+  <include package="collective.instancebehavior" />
   <include package="collective.taxonomy" />
 
   <!-- Temporary fix for plone.gallery 1.0.1 -->
