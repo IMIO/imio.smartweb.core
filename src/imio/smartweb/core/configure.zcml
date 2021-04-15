@@ -12,28 +12,11 @@
   <include file="indexers.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
+  <include file="vocabularies.zcml" />
 
   <include package=".contents" />
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".viewlets" />
-
-  <utility
-      name="imio.smartweb.vocabulary.PublikProcedures"
-      component=".vocabularies.RemoteProceduresVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
-
-  <utility
-      name="imio.smartweb.vocabulary.CurrentFolderPages"
-      component=".vocabularies.CurrentFolderPagesVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
-
-  <utility
-      name="imio.smartweb.vocabulary.BootstrapCSS"
-      component=".vocabularies.BootstrapCSSVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
 
 </configure>
