@@ -36,7 +36,7 @@ class SubsiteNavigationViewlet(BaseSubsiteViewlet):
 
 class SubsiteLogoViewlet(BaseSubsiteViewlet):
     def show_logo(self):
-        return  self.context.logo_display in ["logo", "logo_title"]
+        return self.subsite_root.logo_display_mode in ["logo", "logo_title"]
 
     def show_title(self):
-        return self.context.logo_display in ["title", "logo_title"]
+        return self.subsite_root.logo_display_mode in ["title", "logo_title"]

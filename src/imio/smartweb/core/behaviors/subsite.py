@@ -15,7 +15,7 @@ from zope.interface import provider
 class IImioSmartwebSubsite(model.Schema):
 
     model.fieldset(
-        "layout", label=_(u"Layout"), fields=["menu_depth", "logo", "logo_display"]
+        "layout", label=_(u"Layout"), fields=["menu_depth", "logo", "logo_display_mode"]
     )
     menu_depth = schema.Int(
         title=_(u"Menu depth"),
@@ -30,7 +30,7 @@ class IImioSmartwebSubsite(model.Schema):
         required=False,
     )
 
-    logo_display = schema.Choice(
+    logo_display_mode = schema.Choice(
         title=_(u"Logo display"),
         description=_(u"Choose your display mode"),
         source="imio.smartweb.vocabulary.SubsiteDisplayMode",
