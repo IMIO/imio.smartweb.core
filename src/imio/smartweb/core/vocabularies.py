@@ -65,3 +65,17 @@ class BootstrapCSSVocabularyFactory:
 
 
 BootstrapCSSVocabulary = BootstrapCSSVocabularyFactory()
+
+
+class SubsiteDisplayModeVocabularyFactory:
+    def __call__(self, context=None):
+        display_mode = [
+            (u"title", _(u"Title")),
+            (u"logo", _(u"Logo")),
+            (u"logo_title", _(u"Logo and title")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in display_mode]
+        return SimpleVocabulary(terms)
+
+
+SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()

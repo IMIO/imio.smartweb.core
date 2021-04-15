@@ -19,5 +19,10 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      name="imio.smartweb.vocabulary.SubsiteDisplayMode"
+      component=".vocabularies.SubsiteDisplayModeVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
 
 </configure>
