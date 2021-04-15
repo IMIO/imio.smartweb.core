@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.instancebehavior.interfaces import IInstanceBehaviorAssignableContent
 from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -25,7 +26,7 @@ class IFolder(model.Schema):
     )
 
 
-@implementer(IFolder)
+@implementer(IFolder, IInstanceBehaviorAssignableContent)
 class Folder(Container):
     """Folder class"""
 
