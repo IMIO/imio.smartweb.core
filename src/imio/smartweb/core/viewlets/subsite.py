@@ -36,6 +36,8 @@ class SubsiteNavigationViewlet(BaseSubsiteViewlet):
 
 class SubsiteLogoViewlet(BaseSubsiteViewlet):
     def show_logo(self):
+        if self.subsite_root.logo is None:
+            return False
         return self.subsite_root.logo_display_mode in ["logo", "logo_title"]
 
     def show_title(self):
