@@ -63,6 +63,25 @@ class SubsiteIntegrationTest(unittest.TestCase):
             title="Subfolder",
             id="subfolder",
         )
+        api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Page",
+            title="Sub Page 1",
+            id="subpage1",
+        )
+
+        # We need to open browser to initialize instance behavior(s)
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_NAME,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open("{}/edit".format(self.folder.absolute_url()))
 
         viewlet = SubsiteNavigationViewlet(self.portal, self.request, None, None)
         viewlet.update()
@@ -71,15 +90,23 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet = SubsiteNavigationViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
-        items = viewlet.get_items()
-        self.assertEqual(len(items["results"]), 2)
+        self.assertEqual(len(viewlet.portal_tabs), 2)
 
         viewlet = SubsiteNavigationViewlet(subfolder, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
         self.assertEqual(viewlet.subsite_root, self.folder)
-        items = viewlet.get_items()
-        self.assertEqual(len(items["results"]), 2)
+        self.assertEqual(len(viewlet.portal_tabs), 2)
+        self.assertEqual(
+            viewlet.render_globalnav(),
+            '<li class="page1"><a href="http://nohost/plone/folder/page1" class="state-private">Page 1</a></li><li class="subfolder"><a href="http://nohost/plone/folder/subfolder" class="state-private">Subfolder</a></li>',
+        )
+        self.assertNotIn("Sub Page 1", viewlet.render_globalnav())
+
+        self.folder.menu_depth = 2
+        viewlet = SubsiteNavigationViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertIn("Sub Page 1", viewlet.render_globalnav())
 
     def test_viewlet_logo(self):
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
