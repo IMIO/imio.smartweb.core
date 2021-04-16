@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from plone.app.layout.viewlets.common import escape
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet
@@ -39,6 +40,22 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
             out += self.render_quickaccess(entry)
         return out
 
+    def remove_subsites_children(self):
+        """We need to remove subsites children from navigation"""
+        subsites_brains = api.content.find(object_provides=IImioSmartwebSubsite)
+        subsites_paths = [b.getPath() for b in subsites_brains]
+        to_delete = []
+        for path in subsites_paths:
+            if path in self.navtree:
+                # Item representing the subsite submenu
+                to_delete.append(path)
+            for key in self.navtree.keys():
+                if key.startswith("{}/".format(path)):
+                    # Item representing a (grand)children of a subsite
+                    to_delete.append(key)
+        for key in to_delete:
+            del self.navtree[key]
+
     def build_tree(self, path, first_run=True):
         """We add quick access contents to the standard Plone navigation"""
         out = u""
@@ -54,3 +71,7 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
                 if qa_out:
                     out += self._quickaccesses_markup_wrapper.format(out=qa_out)
         return out
+
+    def render_globalnav(self):
+        self.remove_subsites_children()
+        return self.build_tree(self.navtree_path)
