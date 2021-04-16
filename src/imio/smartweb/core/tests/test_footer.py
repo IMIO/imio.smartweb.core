@@ -96,7 +96,7 @@ class FooterIntegrationTest(unittest.TestCase):
         nested_viewlet = SubsiteFooterViewlet(nested_folder, self.request, None, None)
         nested_viewlet.update()
         self.assertTrue(nested_viewlet.available())
-        self.assertNotEquals(viewlet.footer, nested_viewlet.footer)
+        self.assertNotEqual(viewlet.footer, nested_viewlet.footer)
 
     def test_background_style(self):
         footer_view = getMultiAdapter(
