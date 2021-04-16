@@ -15,18 +15,20 @@ from zope.interface import provider
 class IImioSmartwebSubsite(model.Schema):
 
     model.fieldset(
-        "layout", label=_(u"Layout"), fields=["menu_depth", "logo", "logo_display_mode"]
+        "layout",
+        label=_(u"Layout"),
+        fields=["banner", "logo", "logo_display_mode", "menu_depth"],
     )
-    menu_depth = schema.Int(
-        title=_(u"Menu depth"),
-        description=_(u"Define number of levels in menu navigation subsite"),
-        required=True,
-        default=1,
+
+    banner = NamedBlobImage(
+        title=_(u"Banner"),
+        description=_(u"Define a banner for subsite and children"),
+        required=False,
     )
 
     logo = NamedBlobImage(
         title=_(u"Logo"),
-        description=_(u"Define a logo for subsite"),
+        description=_(u"Define a logo for subsite and children"),
         required=False,
     )
 
@@ -36,6 +38,13 @@ class IImioSmartwebSubsite(model.Schema):
         source="imio.smartweb.vocabulary.SubsiteDisplayMode",
         required=True,
         default="title",
+    )
+
+    menu_depth = schema.Int(
+        title=_(u"Menu depth"),
+        description=_(u"Define number of levels in menu navigation subsite"),
+        required=True,
+        default=1,
     )
 
 

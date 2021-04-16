@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.viewlets.subsite import SubsiteBannerViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
 from plone import api
@@ -140,3 +141,31 @@ class SubsiteIntegrationTest(unittest.TestCase):
         self.assertTrue(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
         self.assertTrue(viewlet.show_logo())
+
+    def test_viewlet_banner(self):
+        view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        view.enable()
+
+        # We need to open browser to initialize instance behavior(s)
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_NAME,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open("{}/edit".format(self.folder.absolute_url()))
+
+        viewlet = SubsiteBannerViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertFalse(viewlet.available())
+
+        self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
+        self.assertTrue(viewlet.available())
+        self.assertIn(
+            "background-image:url('http://nohost/plone/folder/@@images/banner/large')",
+            viewlet.background_style(),
+        )

@@ -1,0 +1,4 @@
+<div id="subsite-banner"
+     tal:condition="view/available"
+     tal:attributes="style view/background_style">
+</div>
