@@ -36,6 +36,15 @@
       />
 
   <browser:viewlet
+      name="plone.global_sections"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class=".navigation.GlobalSectionsWithQuickAccessViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="imio.smartweb.subsite_logo"
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
