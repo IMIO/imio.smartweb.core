@@ -1,12 +1,24 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
-from plone import api
 from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
+from plone import api
 from plone.app.layout.viewlets import common
+from plone.app.layout.viewlets.common import GlobalSectionsViewlet
+from plone.memoize.view import memoize
+from Products.CMFPlone.browser.navigation import CatalogNavigationTabs
 from zope.component import getMultiAdapter
+
+
+class SubsiteNavigationTabs(CatalogNavigationTabs):
+    navtree_path = None
+
+    def _getNavQuery(self):
+        query = super(SubsiteNavigationTabs, self)._getNavQuery()
+        query["path"]["query"] = self.navtree_path
+        return query
 
 
 class BaseSubsiteViewlet(common.ViewletBase):
@@ -33,10 +45,23 @@ class BaseSubsiteViewlet(common.ViewletBase):
         return self.subsite_root is not None
 
 
-class SubsiteNavigationViewlet(BaseSubsiteViewlet):
-    def get_items(self):
-        view = getMultiAdapter((self.subsite_root, self.request), name="block_view")
-        return view.blocks_results()
+class SubsiteNavigationViewlet(BaseSubsiteViewlet, GlobalSectionsViewlet):
+    @property
+    def navtree_path(self):
+        return "/".join(self.subsite_root.getPhysicalPath())
+
+    @property
+    def navtree_depth(self):
+        return self.subsite_root.menu_depth
+
+    @property
+    @memoize
+    def portal_tabs(self):
+        subsite_tabs_view = getMultiAdapter(
+            (self.context, self.request), name="subsite_tabs_view"
+        )
+        subsite_tabs_view.navtree_path = self.navtree_path
+        return subsite_tabs_view.topLevelTabs(actions=[])
 
 
 class SubsiteLogoViewlet(BaseSubsiteViewlet):

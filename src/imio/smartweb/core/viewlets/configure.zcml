@@ -35,6 +35,14 @@
       permission="zope2.View"
       />
 
+  <browser:page
+      for="*"
+      name="subsite_tabs_view"
+      class=".subsite.SubsiteNavigationTabs"
+      permission="zope.Public"
+      allowed_attributes="topLevelTabs"
+      />
+
   <browser:viewlet
       name="imio.smartweb.subsite_navigation"
       for="*"
