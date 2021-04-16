@@ -10,8 +10,12 @@ from zope.component import getMultiAdapter
 
 
 class BaseSubsiteViewlet(common.ViewletBase):
+    _subsite_root = None
+
     @property
     def subsite_root(self):
+        if self._subsite_root is not None:
+            return self._subsite_root
         obj = self.context
         portal = api.portal.get()
         while not IImioSmartwebSubsite.providedBy(obj) and aq_base(obj) is not aq_base(
@@ -22,7 +26,8 @@ class BaseSubsiteViewlet(common.ViewletBase):
                 return None
             obj = parent
         if IImioSmartwebSubsite.providedBy(obj):
-            return obj
+            self._subsite_root = obj
+            return self._subsite_root
 
     def available(self):
         return self.subsite_root is not None
