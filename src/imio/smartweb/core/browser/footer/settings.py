@@ -15,7 +15,11 @@ class FooterSettings(BrowserView):
 
     def add_footer(self):
         if not self.available:
-            return
+            api.portal.show_message(
+                _(u"Footer cannot be added here"), self.request, type="error"
+            )
+            self.request.response.redirect(self.context.absolute_url())
+            return ""
         if IFolder.providedBy(self.context):
             container = ISelectableConstrainTypes(self.context)
             constrain_types_mode = container.getConstrainTypesMode()
