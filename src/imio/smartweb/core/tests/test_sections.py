@@ -84,6 +84,11 @@ class SectionsIntegrationTest(unittest.TestCase):
             view.get_mime_type_icon(file_obj), "++resource++mimetype.icons/txt.png"
         )
         self.assertEqual(view.human_readable_size(file_obj), "1 KB")
+        self.assertEqual(view.get_thumb_scale(), "thumb")
+        api.portal.set_registry_record("plone.thumb_scale_listing", "preview")
+        self.assertEqual(view.get_thumb_scale(), "preview")
+        api.portal.set_registry_record("plone.no_thumbs_lists", True)
+        self.assertIsNone(view.get_thumb_scale())
 
     def test_video_section(self):
         section = api.content.create(

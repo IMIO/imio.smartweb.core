@@ -138,6 +138,11 @@ class FolderFunctionalTest(unittest.TestCase):
         self.assertNotIn("newsImage", view())
         view = getMultiAdapter((folder, self.request), name="block_view_with_images")
         self.assertIn("newsImage", view())
+        self.assertEqual(view.get_thumb_scale(), "mini")
+        api.portal.set_registry_record("plone.thumb_scale_summary", "preview")
+        self.assertEqual(view.get_thumb_scale(), "preview")
+        api.portal.set_registry_record("plone.no_thumbs_summary", True)
+        self.assertIsNone(view.get_thumb_scale())
 
     def test_element_view_as_anonymous(self):
         folder = api.content.create(
