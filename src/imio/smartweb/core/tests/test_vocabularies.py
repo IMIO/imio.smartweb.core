@@ -74,7 +74,7 @@ class TestVocabularies(unittest.TestCase):
         )
         vocabulary = get_procedures_vocabulary()
         keys = vocabulary.by_value.keys()
-        self.assertEqual(len(vocabulary.by_value), 0)
+        self.assertEqual(len(keys), 0)
 
         m.get(
             "https://demo.guichet-citoyen.be/api/formdefs/",
@@ -83,7 +83,7 @@ class TestVocabularies(unittest.TestCase):
         )
         vocabulary = get_procedures_vocabulary()
         keys = vocabulary.by_value.keys()
-        self.assertEqual(len(vocabulary.by_value), 0)
+        self.assertEqual(len(keys), 0)
 
         api.portal.set_registry_record("smartweb.url_formdefs_api", "")
         m.get(
@@ -92,7 +92,7 @@ class TestVocabularies(unittest.TestCase):
         )
         vocabulary = get_procedures_vocabulary()
         keys = vocabulary.by_value.keys()
-        self.assertEqual(keys, 0)
+        self.assertEqual(len(keys), 0)
 
     def test_bootstrap_css(self):
         factory = getUtility(
