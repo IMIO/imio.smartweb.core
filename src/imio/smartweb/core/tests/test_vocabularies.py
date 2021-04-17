@@ -93,3 +93,17 @@ class TestVocabularies(unittest.TestCase):
         vocabulary = get_procedures_vocabulary()
         keys = vocabulary.by_value.keys()
         self.assertEqual(keys, 0)
+
+    def test_bootstrap_css(self):
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.BootstrapCSS"
+        )
+        vocabulary = factory()
+        self.assertEqual(len(vocabulary), 3)
+
+    def test_subsite_display_mode(self):
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.SubsiteDisplayMode"
+        )
+        vocabulary = factory()
+        self.assertEqual(len(vocabulary), 3)
