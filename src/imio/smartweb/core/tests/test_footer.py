@@ -46,6 +46,15 @@ class FooterIntegrationTest(unittest.TestCase):
         api.content.delete(footers[0])
         self.assertTrue(view.available)
 
+    def test_add_footer_to_folder(self):
+        view = getMultiAdapter((self.folder, self.request), name="footer_settings")
+        self.assertFalse(view.available)
+        view.add_footer()
+        footers = self.portal.listFolderContents(
+            contentFilter={"portal_type": "imio.smartweb.Footer"}
+        )
+        self.assertEqual(len(footers), 0)
+
     def test_add_footer_to_subsite(self):
         footer_view = getMultiAdapter(
             (self.folder, self.request), name="footer_settings"
