@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Setup tests for this package."""
+
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.tests.utils import get_procedure_json
 from plone import api
@@ -7,7 +7,6 @@ from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
 import json
-import os
 import requests
 import requests_mock
 import unittest
@@ -29,7 +28,7 @@ class TestVocabularies(unittest.TestCase):
         self.json_procedures_raw_mock = get_procedure_json()
 
     @requests_mock.Mocker()
-    def test_vocabulary_keys(self, m):
+    def test_procedure_keys(self, m):
         m.get(
             "https://demo.guichet-citoyen.be/api/formdefs/",
             text=json.dumps(self.json_procedures_raw_mock),
@@ -68,7 +67,7 @@ class TestVocabularies(unittest.TestCase):
         self.assertEqual(len(keys), 3)
 
     @requests_mock.Mocker()
-    def test_vocabulary_error_values(self, m):
+    def test_procedure_error_values(self, m):
         m.get(
             "https://demo.guichet-citoyen.be/api/formdefs/",
             exc=requests.exceptions.ConnectTimeout,
@@ -93,4 +92,4 @@ class TestVocabularies(unittest.TestCase):
         )
         vocabulary = get_procedures_vocabulary()
         keys = vocabulary.by_value.keys()
-        self.assertEqual(len(vocabulary.by_value), 0)
+        self.assertEqual(keys, 0)
