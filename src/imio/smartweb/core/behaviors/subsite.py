@@ -52,6 +52,3 @@ class IImioSmartwebSubsite(model.Schema):
 @adapter(IFolder)
 class Subsite(object):
     """"""
-
-    def __init__(self, context):
-        self.context = context
