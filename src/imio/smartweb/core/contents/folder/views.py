@@ -42,8 +42,6 @@ class FolderView(BaseFolderView):
         kwargs.setdefault("exclude_from_parent_listing", False)
 
         listing = aq_inner(self.context).restrictedTraverse("@@folderListing", None)
-        if listing is None:
-            return []
         results = listing(**kwargs)
         return results
 

@@ -39,8 +39,6 @@ class PagesView(FolderView):
         kwargs.setdefault("orphan", 1)
 
         listing = aq_inner(self.context).restrictedTraverse("@@folderListing", None)
-        if listing is None:
-            return []
         results = listing(**kwargs)
         return results
 
