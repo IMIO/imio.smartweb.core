@@ -1,25 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.viewlets.subsite import SubsiteBannerViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
 from plone import api
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from plone.namedfile.file import NamedBlobFile
-from plone.testing.z2 import Browser
 from zope.component import getMultiAdapter
-import transaction
 import unittest
 
 
 class SubsiteIntegrationTest(unittest.TestCase):
 
-    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests"""
@@ -32,6 +29,8 @@ class SubsiteIntegrationTest(unittest.TestCase):
             title="Folder",
             id="folder",
         )
+        # avoid cached empty value for instance behaviors
+        delattr(self.request, ASSIGNABLE_CACHE_KEY)
 
     def test_activation(self):
         view = getMultiAdapter((self.portal, self.request), name="subsite_settings")
@@ -71,19 +70,6 @@ class SubsiteIntegrationTest(unittest.TestCase):
             id="subpage1",
         )
 
-        # We need to open browser to initialize instance behavior(s)
-        transaction.commit()
-        browser = Browser(self.layer["app"])
-        browser.addHeader(
-            "Authorization",
-            "Basic %s:%s"
-            % (
-                TEST_USER_NAME,
-                TEST_USER_PASSWORD,
-            ),
-        )
-        browser.open("{}/edit".format(self.folder.absolute_url()))
-
         viewlet = SubsiteNavigationViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
@@ -115,20 +101,6 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet = SubsiteLogoViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
-
-        # We need to open browser to initialize instance behavior(s)
-        transaction.commit()
-        browser = Browser(self.layer["app"])
-        browser.addHeader(
-            "Authorization",
-            "Basic %s:%s"
-            % (
-                TEST_USER_NAME,
-                TEST_USER_PASSWORD,
-            ),
-        )
-        browser.open("{}/edit".format(self.folder.absolute_url()))
-
         self.assertTrue(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
@@ -145,20 +117,6 @@ class SubsiteIntegrationTest(unittest.TestCase):
     def test_viewlet_banner(self):
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
         view.enable()
-
-        # We need to open browser to initialize instance behavior(s)
-        transaction.commit()
-        browser = Browser(self.layer["app"])
-        browser.addHeader(
-            "Authorization",
-            "Basic %s:%s"
-            % (
-                TEST_USER_NAME,
-                TEST_USER_PASSWORD,
-            ),
-        )
-        browser.open("{}/edit".format(self.folder.absolute_url()))
-
         viewlet = SubsiteBannerViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
