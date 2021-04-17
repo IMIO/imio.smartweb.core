@@ -121,6 +121,7 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet.update()
         self.assertFalse(viewlet.available())
 
+        self.assertEqual(viewlet.background_style(), "")
         self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
         self.assertTrue(viewlet.available())
         self.assertIn(
