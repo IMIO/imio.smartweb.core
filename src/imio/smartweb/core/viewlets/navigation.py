@@ -11,10 +11,8 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
     _quickaccesses_markup_wrapper = u'<ul class="quick-access">{out}</ul>'
 
     def render_quickaccess(self, item):
-        if "title" in item and item["title"]:
+        if item["title"]:
             item["title"] = escape(item["title"])
-        if "name" in item and item["name"]:
-            item["name"] = escape(item["name"])
         return self._item_markup_template.format(**item)
 
     def build_quickaccess(self, path):
