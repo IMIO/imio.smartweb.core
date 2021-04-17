@@ -30,8 +30,6 @@ def SearchableText_pages(obj):
     brains = api.content.find(context=obj, depth=1)
     for brain in brains:
         indexes = catalog.getIndexDataForRID(brain.getRID())
-        searchable_text = indexes.get("SearchableText") or ""
-        if not searchable_text:
-            continue
+        searchable_text = indexes.get("SearchableText") or []
         result = " ".join((result, " ".join(searchable_text)))
     return result

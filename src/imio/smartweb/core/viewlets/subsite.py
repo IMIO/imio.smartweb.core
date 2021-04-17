@@ -33,10 +33,7 @@ class BaseSubsiteViewlet(common.ViewletBase):
         while not IImioSmartwebSubsite.providedBy(obj) and aq_base(obj) is not aq_base(
             portal
         ):
-            parent = aq_parent(aq_inner(obj))
-            if parent is None:
-                return None
-            obj = parent
+            obj = aq_parent(aq_inner(obj))
         if IImioSmartwebSubsite.providedBy(obj):
             self._subsite_root = obj
             return self._subsite_root

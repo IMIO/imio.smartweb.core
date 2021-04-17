@@ -116,9 +116,6 @@ class ElementView(EditForm):
     @button.buttonAndHandler(_("Apply"), name="apply")
     def handleApply(self, action):
         data, errors = self.extractData()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
         old_default_page = self.context.get_default_item(object=True)
         changes = self.applyChanges(data)
         if changes:
