@@ -1,4 +1,7 @@
-<div class="folder-has-default-item" tal:define="item context/get_default_item" tal:condition="item">
+<div class="folder-has-default-item"
+     tal:define="item context/get_default_item"
+     tal:condition="item"
+     i18n:domain="imio.smartweb">
   <div class="current-folder-view">
     <p i18n:translate="">Your current folder default view is</p>
   </div>
