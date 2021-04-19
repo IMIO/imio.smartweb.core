@@ -11,31 +11,35 @@
 <metal:content-core define-macro="content-core">
 
     <tal:def tal:define="res view/blocks_results">
-        <div id="block-menu">
-            <div tal:repeat="menu res/results">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4" id="block-menu">
+            <div class="block-menu-element col" tal:repeat="menu res/results">
                 <a tal:attributes="href menu/getURL">
-                    <h2 tal:content="menu/Title" />
-                    <div tal:content="menu/description" />
                     <tal:if tal:condition="view/show_images">
-                      <img class="newsImage" src=""
+                      <img class="newsImage card-img-top" src=""
                            tal:define="thumb_scale view/get_thumb_scale"
                            tal:attributes="src string:${menu/getURL}/@@images/image/${thumb_scale}"
                            tal:condition="python: menu.has_leadimage and thumb_scale" />
                     </tal:if>
+                    <div class="card-body">
+                        <h2 class="card-title" tal:content="menu/Title" />
+                        <div class="card-text" tal:content="menu/description" />
+                    </div>
                 </a>
             </div>
         </div>
-        <div id="block-quickaccess">
-            <div tal:repeat="menu res/quick_access">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4" id="block-quickaccess">
+            <div class="block-menu-element col" tal:repeat="menu res/quick_access">
                 <a tal:attributes="href menu/getURL">
-                    <div tal:content="menu/Title" />
-                    <div tal:content="menu/description" />
                     <tal:if tal:condition="view/show_images">
-                      <img class="newsImage" src=""
+                      <img class="newsImage card-img-top" src=""
                            tal:define="thumb_scale view/get_thumb_scale"
                            tal:attributes="src string:${menu/getURL}/@@images/image/${thumb_scale}"
                            tal:condition="python: menu.has_leadimage and thumb_scale" />
-                      </tal:if>
+                    </tal:if>
+                    <div class="card-body">
+                        <h2  class="card-title" tal:content="menu/Title" />
+                        <div class="card-text" tal:content="menu/description" />
+                    </div>
                 </a>
             </div>
         </div>

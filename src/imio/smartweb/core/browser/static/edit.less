@@ -8,15 +8,37 @@ form.tabbed-form-with-toggle fieldset legend {
 }
 
 #plone-contentmenu-factories {
-
+  [class*="contenttype-"]{  
+    &:before{
+      font-family: fontello;
+    }
+  }
   .contenttype-imio-smartweb-folder::before {
     content: '\e801';
   }
-
+  .contenttype-imio-smartweb-page::before,
   .contenttype-imio-smartweb-procedure::before,
-  .contenttype-collective-pivot-family::before,
-  .contenttype-imio-smartweb-page::before {
+  .contenttype-collective-pivot-family::before{
     content: '\e80e';
+  }
+  .contenttype-link::before{
+    content: '\e806';
+  }
+  .contenttype-file::before{
+    content: '\e811';
+  }
+  .contenttype-image::before{
+    content: '\e810';
+  }
+  .contenttype-collection::before{
+    content: '\e808';
+  }
+  .contenttype-imio-smartweb-sectionfiles:before,
+  .contenttype-imio-smartweb-sectionlinks:before,
+  .contenttype-imio-smartweb-sectiontext:before,
+  .contenttype-imio-smartweb-sectiongallery:before,
+  .contenttype-imio-smartweb-sectionvideo:before{
+    content: '\e834';
   }
 
 }
