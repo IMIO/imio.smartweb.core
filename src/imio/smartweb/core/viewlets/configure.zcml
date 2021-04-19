@@ -112,7 +112,6 @@
       permission="zope2.View"
       />
 
-  <!--view="plone.dexterity.interfaces.IDexterityEditForm"-->
   <browser:viewlet
       name="plone.app.dexterity.defaultpagewarning"
       for="imio.smartweb.core.contents.IDefaultPages"
