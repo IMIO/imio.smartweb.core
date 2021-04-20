@@ -43,15 +43,15 @@
   </property>
 
   <!-- View information -->
-  <property name="default_view">listing_view</property>
+  <property name="default_view">summary_view</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
   <property name="view_methods">
     <element value="block_view"/>
     <element value="block_view_with_images"/>
-    <element value="element_view"/>
     <element value="summary_view"/>
     <element value="summary_view_with_images"/>
+    <element value="element_view"/>
   </property>
 
 </object>

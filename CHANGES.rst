@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Change folders display views order & default
+  [laulaz]
+
 - Allow (only) connected users to see default pages in breadcrumbs
   [laulaz]
 
