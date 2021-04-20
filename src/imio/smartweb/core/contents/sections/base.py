@@ -20,15 +20,19 @@ class ISection(model.Schema):
         label=_(u"Layout"),
         fields=["background_image", "bootstrap_css_class", "css_class"],
     )
+
+    write_permission(background_image="cmf.ManagePortal")
     background_image = NamedBlobImage(
         title=_(u"Set a background image"),
         required=False,
     )
+
     bootstrap_css_class = schema.Choice(
         title=_(u"Bootstrap CSS class"),
         required=False,
         vocabulary="imio.smartweb.vocabulary.BootstrapCSS",
     )
+
     write_permission(css_class="cmf.ManagePortal")
     css_class = schema.TextLine(title=_(u"CSS class"), required=False)
 

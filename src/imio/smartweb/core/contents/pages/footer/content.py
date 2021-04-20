@@ -16,6 +16,8 @@ class IFooter(IPages):
     model.fieldset(
         "layout", label=_(u"Layout"), fields=["background_image", "css_class"]
     )
+
+    write_permission(background_image="cmf.ManagePortal")
     background_image = NamedBlobImage(
         title=_(u"Set a background image"),
         required=False,

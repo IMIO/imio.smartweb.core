@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Restrict background image field to administrators
+  [laulaz]
+
 - Change folders display views order & default
   [laulaz]
 
