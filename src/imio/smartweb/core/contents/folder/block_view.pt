@@ -15,9 +15,9 @@
             <div class="block-menu-element col" tal:repeat="menu res/results">
                 <a tal:attributes="href menu/getURL">
                     <tal:if tal:condition="view/show_images">
-                      <img class="newsImage card-img-top" src=""
+                      <div class="newsImage card-img-top"
                            tal:define="thumb_scale view/get_thumb_scale"
-                           tal:attributes="src string:${menu/getURL}/@@images/image/${thumb_scale}"
+                           tal:attributes="style string:background-image:url(${menu/getURL}/@@images/image/${thumb_scale})"
                            tal:condition="python: menu.has_leadimage and thumb_scale" />
                     </tal:if>
                     <div class="card-body">
@@ -31,9 +31,9 @@
             <div class="block-menu-element col" tal:repeat="menu res/quick_access">
                 <a tal:attributes="href menu/getURL">
                     <tal:if tal:condition="view/show_images">
-                      <img class="newsImage card-img-top" src=""
+                      <div class="newsImage card-img-top"
                            tal:define="thumb_scale view/get_thumb_scale"
-                           tal:attributes="src string:${menu/getURL}/@@images/image/${thumb_scale}"
+                           tal:attributes="style string:background-image:url(${menu/getURL}/@@images/image/${thumb_scale})"
                            tal:condition="python: menu.has_leadimage and thumb_scale" />
                     </tal:if>
                     <div class="card-body">
