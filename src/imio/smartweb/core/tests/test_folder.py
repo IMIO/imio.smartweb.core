@@ -190,7 +190,7 @@ class FolderFunctionalTest(unittest.TestCase):
         content = browser.contents
         self.assertIn("template-full_view", content)
         self.assertNotIn("template-summary_view", content)
-        self.assertIn('<h1 class="documentFirstHeading">Page 1</h1>', content)
+        self.assertIn('<h1>Page 1</h1>', content)
 
     def test_element_view_as_editor(self):
         folder = api.content.create(
