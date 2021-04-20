@@ -5,6 +5,15 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Migrate & improve buildout for Plone 6
+  [boulch]
+
+- Fix tests for Plone 6
+  [boulch]
+
+- Add basic bootstrap styles for Plone 6
+  [thomlamb]
+
 - Migrate default_page_warning template to Plone 6
   [laulaz]
 
