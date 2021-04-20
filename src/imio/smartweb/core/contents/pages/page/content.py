@@ -3,7 +3,6 @@
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import Pages
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.dexterity.content import Container
 from zope import schema
 from zope.interface import implementer
 
