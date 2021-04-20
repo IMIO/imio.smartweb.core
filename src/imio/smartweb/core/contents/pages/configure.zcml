@@ -32,6 +32,15 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      name="breadcrumbs_view"
+      for="imio.smartweb.core.contents.IDefaultPages"
+      class=".views.DefaultPagesBreadcrumbs"
+      permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      allowed_attributes="breadcrumbs"
+      />
+
   <subscriber
       for="imio.smartweb.core.contents.IDefaultPages
            zope.lifecycleevent.interfaces.IObjectMovedEvent"

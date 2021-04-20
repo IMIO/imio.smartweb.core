@@ -5,6 +5,7 @@ from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.core.contents.folder.views import ElementView
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from plone import api
+from plone.app.testing import logout
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
@@ -171,6 +172,15 @@ class PagesIntegrationTest(unittest.TestCase):
         form = ElementView(self.folder, request)
         form.update()
         data, errors = form.extractData()
+        breadcrumbs_view = getMultiAdapter(
+            (page1, self.request), name="breadcrumbs_view"
+        )
+        breadcrumbs = breadcrumbs_view.breadcrumbs()
+        self.assertEqual(len(breadcrumbs), 2)
+        self.assertEqual(breadcrumbs[-1]["Title"], "Page 1")
+
+        # Anonymus users should not see default pages in breadcrumbs
+        logout()
         breadcrumbs_view = getMultiAdapter(
             (page1, self.request), name="breadcrumbs_view"
         )

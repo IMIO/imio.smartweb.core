@@ -2,10 +2,14 @@
 
 from Acquisition import aq_inner
 from Products.CMFPlone.resources import add_bundle_on_request
+from plone import api
 from plone.app.content.browser.contents.rearrange import OrderContentsBaseAction
 from plone.app.content.utils import json_loads
 from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.browser.full_view import FullViewItem as BaseFullViewItem
+from Products.CMFPlone import utils
+from Products.CMFPlone.browser.navigation import PhysicalNavigationBreadcrumbs
+from zope.component import getMultiAdapter
 from zope.interface import Interface
 from zope.interface import implementer
 
@@ -67,3 +71,19 @@ class PagesOrderingView(OrderContentsBaseAction):
             if ordered_ids != [i for position, i in position_id]:
                 return
         ordering.moveObjectsByDelta([id], delta, ordered_ids)
+
+
+class DefaultPagesBreadcrumbs(PhysicalNavigationBreadcrumbs):
+    def breadcrumbs(self):
+        """
+        Change breadcrumbs behaviour for default pages :
+            - anonymous user does not see the page
+            - connected user sees the page
+        """
+        if not api.user.is_anonymous():
+            return super(DefaultPagesBreadcrumbs, self).breadcrumbs()
+        context = aq_inner(self.context)
+        request = self.request
+        container = utils.parent(context)
+        view = getMultiAdapter((container, request), name="breadcrumbs_view")
+        return tuple(view.breadcrumbs())

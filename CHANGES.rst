@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Allow (only) connected users to see default pages in breadcrumbs
+  [laulaz]
+
 - Migrate & improve buildout for Plone 6
   [boulch]
 
