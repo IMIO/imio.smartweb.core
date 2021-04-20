@@ -36,8 +36,16 @@ Features
 --------
 
 This products contains:
-- Content types: Page, Folder, ...
-- Behaviors
+- Content types: Folder, Page, Procedure, Sections ...
+- Behaviors to configure display in menus / navigations and handle sub-sites
+- Complete viewlets organization (header, footer) to get rid of portlets
+
+A folder can be transformed into a sub-site, which has its navigation viewlet, a custom viewlet, a banner, ...
+
+A page (or procedure) can be defined as default page of a folder, changing the way it appears in menus / breadcrumbs / sitemap.
+
+Pages & Procedures can contain different "sections" (Text, Galery, Video, ...).
+Those sections can be styled (bootstrap or custom css classes) and rearranged.
 
 
 Examples
@@ -58,6 +66,9 @@ Translations
 This product has been translated into
 
 - French
+
+The translation domain is imio.smartweb domain and the translations are stored in imio.smartweb.locales package.
+
 
 
 Installation

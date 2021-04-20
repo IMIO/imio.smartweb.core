@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Migrate default_page_warning template to Plone 6
+  [laulaz]
+
 - Add missing translation domain
   [laulaz]
 
