@@ -1,22 +1,29 @@
 #!/usr/bin/make
-.PHONY: buildout cleanall test instance
+.PHONY: buildout run cleanall test test-coverage
+all: buildout
+
+bin/buildout: bin/pip buildout.cfg
+	bin/pip install -I -r requirements.txt
+
+buildout: bin/instance
+
+bin/instance: bin/buildout
+	bin/buildout
 
 bin/pip:
 	python3 -m venv .
-	touch $@
 
-bin/buildout: bin/pip
-	./bin/pip install -r requirements.txt
-	touch $@
+run: bin/instance
+	bin/instance fg
 
-buildout: bin/buildout
-	./bin/buildout -t 7
+test: bin/instance
+	bin/test
 
-test: buildout
-	./bin/test
-
-instance: buildout
-	./bin/instance fg
+test-coverage: bin/instance
+	bin/test-coverage
 
 cleanall:
-	rm -rf bin develop-eggs downloads include lib lib64 parts .installed.cfg .mr.developer.cfg bootstrap.py parts/omelette local share
+	rm -fr develop-eggs downloads eggs parts .installed.cfg lib lib64 include bin .mr.developer.cfg local/
+
+upgrade-steps:
+	bin/instance -O plone run scripts/run_portal_upgrades.py
