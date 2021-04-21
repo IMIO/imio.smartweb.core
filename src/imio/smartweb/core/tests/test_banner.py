@@ -42,8 +42,10 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet.update()
         self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
         self.assertFalse(viewlet.is_banner_hidden)
-        view = getMultiAdapter((self.folder, self.request), name="banner_settings")
-        view.switch_banner_display()
+        switch_banner_display = getMultiAdapter(
+            (self.folder, self.request), name="switch_banner_display"
+        )
+        switch_banner_display()
         self.assertTrue(viewlet.is_banner_hidden)
         subfolder = api.content.create(
             container=self.folder,
@@ -54,8 +56,10 @@ class SubsiteIntegrationTest(unittest.TestCase):
         subfolder_viewlet = BannerViewlet(subfolder, self.request, None, None)
         subfolder_viewlet.update()
         self.assertFalse(subfolder_viewlet.is_banner_hidden)
-        subfolder_view = getMultiAdapter((subfolder, self.request), name="banner_settings")
-        subfolder_view.switch_banner_display()
+        switch_banner_display = getMultiAdapter(
+            (subfolder, self.request), name="switch_banner_display"
+        )
+        switch_banner_display()
         self.assertTrue(subfolder_viewlet.is_banner_hidden)
-        subfolder_view.switch_banner_display()
+        switch_banner_display()
         self.assertFalse(subfolder_viewlet.is_banner_hidden)
