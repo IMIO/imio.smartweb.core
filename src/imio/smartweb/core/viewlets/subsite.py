@@ -42,19 +42,6 @@ class BaseSubsiteViewlet(common.ViewletBase):
         return self.subsite_root is not None
 
 
-class SubsiteBannerViewlet(BaseSubsiteViewlet):
-    def available(self):
-        return self.subsite_root and self.subsite_root.banner
-
-    def background_style(self):
-        if not self.subsite_root.banner:
-            return ""
-        css_bg_image = "background-image:url('{}/@@images/banner/large');"
-        css_bg_image = css_bg_image.format(self.subsite_root.absolute_url())
-        css_bg_size = "background-size:cover;"
-        return " ".join([css_bg_image, css_bg_size])
-
-
 class SubsiteNavigationViewlet(BaseSubsiteViewlet, GlobalSectionsViewlet):
     @property
     def navtree_path(self):

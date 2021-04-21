@@ -6,6 +6,7 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.autoform import directives
 from plone.dexterity.content import Container
+from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 from z3c.form.browser.radio import RadioFieldWidget
 from zope import schema
@@ -23,6 +24,18 @@ class IFolder(model.Schema):
         description=_(u"Choose an item as your default folder view"),
         required=False,
         vocabulary="imio.smartweb.vocabulary.CurrentFolderPages",
+    )
+
+    model.fieldset(
+        "layout",
+        label=_(u"Layout"),
+        fields=["banner"],
+    )
+
+    banner = NamedBlobImage(
+        title=_(u"Banner"),
+        description=_(u"Define a banner for folder and children"),
+        required=False,
     )
 
 

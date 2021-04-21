@@ -26,12 +26,12 @@
       />
 
   <browser:viewlet
-      name="imio.smartweb.subsite_banner"
+      name="imio.smartweb.banner"
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      template="subsite_banner.pt"
-      class=".subsite.SubsiteBannerViewlet"
+      template="banner.pt"
+      class=".banner.BannerViewlet"
       permission="zope2.View"
       />
 

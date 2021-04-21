@@ -17,13 +17,7 @@ class IImioSmartwebSubsite(model.Schema):
     model.fieldset(
         "layout",
         label=_(u"Layout"),
-        fields=["banner", "logo", "logo_display_mode", "menu_depth"],
-    )
-
-    banner = NamedBlobImage(
-        title=_(u"Banner"),
-        description=_(u"Define a banner for subsite and children"),
-        required=False,
+        fields=["logo", "logo_display_mode", "menu_depth"],
     )
 
     logo = NamedBlobImage(
