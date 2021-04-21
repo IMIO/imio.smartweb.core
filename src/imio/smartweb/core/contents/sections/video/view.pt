@@ -9,35 +9,57 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div tal:attributes="class string:section_video ${context/bootstrap_css_class}">
-  <div class="header-section" tal:condition="python: checkPermission('Modify portal content', context)">
-    <span i18n:domain="imio.smartweb" class="manage-section">
-      <span class="icon-edit"></span>
-      <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
-         i18n:translate="">Edit section</a>
-      <span class="glyphicon-trash glyphicon"></span>
-      <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
-         i18n:translate="">Delete section</a>
-    </span>
-    <tal:dates define="modified context/get_last_mofication_date">
-    <span class="documentModified"
-          tal:condition="modified">
-      <span i18n:translate="box_last_modified">
-        last modified
+<div tal:define="can_edit python: checkPermission('Modify portal content', context);
+                 token context/@@authenticator/token;"
+     tal:attributes="class string:section_video ${context/bootstrap_css_class}">
+
+  <div class="content-section"
+       tal:define="hide_title context/hide_title"
+       tal:attributes="style view/background_style">
+
+    <tal:if tal:condition="not: hide_title">
+      <h2 tal:content="context/title" />
+      <tal:edit tal:condition="can_edit">
+        <span class="glyphicon-eye-close glyphicon"></span>
+        <a tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token}"
+           i18n:translate="">Hide title</a>
+      </tal:edit>
+    </tal:if>
+    <tal:else tal:condition="python: can_edit and hide_title">
+      <h2 tal:content="context/title"
+          class="hidden-section-title" />
+      <span class="glyphicon-eye-open glyphicon"></span>
+      <a tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token}"
+         i18n:translate="">Show title</a>
+    </tal:else>
+
+    <div class="header-section" tal:condition="can_edit">
+      <span i18n:domain="imio.smartweb" class="manage-section">
+        <span class="icon-edit"></span>
+        <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
+           i18n:translate="">Edit section</a>
+        <span class="glyphicon-trash glyphicon"></span>
+        <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
+           i18n:translate="">Delete section</a>
       </span>
-      <span class="pat-moment" data-pat-moment="format:relative;"
-            tal:content="modified">
-        Modified
+      <tal:dates define="modified context/get_last_mofication_date">
+      <span class="documentModified"
+            tal:condition="modified">
+        <span i18n:translate="box_last_modified">
+          last modified
+        </span>
+        <span class="pat-moment" data-pat-moment="format:relative;"
+              tal:content="modified">
+          Modified
+        </span>
       </span>
-    </span>
-    </tal:dates>
-  </div>
-  <div class="content-section" tal:attributes="style view/background_style">
-    <h2 tal:condition="not: context/hide_title"
-        tal:content="context/title" />
+      </tal:dates>
+    </div>
 
     <div tal:content="structure view/get_embed_video" />
+
   </div>
+
 </div>
 </metal:content-core>
 </metal:main>

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone import api
 from Products.Five.browser import BrowserView
 from zope.interface import Interface
 
@@ -26,3 +28,13 @@ class SectionView(BrowserView):
         css_bg_image = css_bg_image.format(self.context.absolute_url())
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])
+
+    def hide_section_title(self):
+        self.context.hide_title = True
+        api.portal.show_message(_(u"Section title has been hidden"), self.request)
+        self.redirect_to_section(self.context.id)
+
+    def show_section_title(self):
+        self.context.hide_title = False
+        api.portal.show_message(_(u"Section title has been shown"), self.request)
+        self.redirect_to_section(self.context.id)

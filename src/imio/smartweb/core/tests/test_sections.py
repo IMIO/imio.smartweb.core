@@ -4,6 +4,8 @@ from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
+from plone.app.testing import login
+from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
@@ -146,6 +148,7 @@ class SectionsIntegrationTest(unittest.TestCase):
             type="imio.smartweb.Page",
             title="Page",
         )
+        api.content.transition(page, "publish")
         section_types = get_sections_types()
         for section_type in section_types:
             api.content.create(
@@ -156,7 +159,11 @@ class SectionsIntegrationTest(unittest.TestCase):
         video_section = getattr(page, "title-of-my-imio-smartweb-sectionvideo")
         video_section.video_url = "https://www.youtube.com/watch?v=_dOAthafoGQ"
         view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertEqual(view.count("Title of my "), 5)
+        logout()
+        view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), 2)
+        login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
             container=gallery_section,
@@ -185,6 +192,7 @@ class SectionsIntegrationTest(unittest.TestCase):
             type="imio.smartweb.Page",
             title="Page",
         )
+        api.content.transition(page, "publish")
         section_types = get_sections_types()
         for section_type in section_types:
             api.content.create(
@@ -219,7 +227,29 @@ class SectionsIntegrationTest(unittest.TestCase):
             section = getattr(page, section_id)
             section.hide_title = True
         view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertEqual(view.count("Title of my "), 5)
+        logout()
+        view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), 0)
+
+    def test_sections_titles_display_switch(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        api.content.transition(page, "publish")
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionText",
+            title="Title of my text",
+        )
+        view = queryMultiAdapter((section, self.request), name="hide_section_title")
+        view.hide_section_title()
+        self.assertTrue(section.hide_title)
+        view = queryMultiAdapter((section, self.request), name="show_section_title")
+        view.show_section_title()
+        self.assertFalse(section.hide_title)
 
     def test_background_style(self):
         section = api.content.create(

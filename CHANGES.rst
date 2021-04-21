@@ -5,7 +5,7 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
-- Change sections titles / html
+- Change sections titles logic & add button to show / hide titles
   [laulaz]
 
 - Add classes on add/edit forms legends when expanded / collapsed

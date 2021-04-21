@@ -16,6 +16,24 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="show_section_title"
+      for="imio.smartweb.core.contents.ISection"
+      class=".views.SectionView"
+      attribute="show_section_title"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="hide_section_title"
+      for="imio.smartweb.core.contents.ISection"
+      class=".views.SectionView"
+      attribute="hide_section_title"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectAddedEvent"
