@@ -4,3 +4,33 @@
     display: inline;
   }
 }
+
+// a modifier dans le barceloneta
+html {
+    #portal-header{
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      align-items: center;
+      #portal-searchbox{
+        order: inherit;
+        grid-column-start: 2;
+        grid-row-start: 1;
+        justify-self: end;
+        max-width: max-content;
+      }
+      #portal-globalnav-wrapper{
+        grid-column-start: 1;
+        grid-column-end:-1;
+      }
+      #plone-breadcrumb{
+        grid-column-start: 1;
+        grid-column-end:-1;
+      }
+      #header-actions{
+        grid-column-start: 3;
+        grid-row-start: 1;
+        justify-self: end;
+      }
+    }
+
+}

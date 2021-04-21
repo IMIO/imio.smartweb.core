@@ -52,7 +52,7 @@
                        thumb_scale context/image_scale"
            class="flexbin flexbin-margin">
         <tal:images tal:repeat="image images">
-          <a tal:attributes="href string:${image/absolute_url}/@@images/image/large;
+          <a class="section_gallery_item" tal:attributes="href string:${image/absolute_url}/@@images/image/large;
                              title image/title;
                              data-description image/description"
              class="spotlight">
