@@ -6,6 +6,7 @@ from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobFile
+from zope.component import getMultiAdapter
 import unittest
 
 
@@ -35,3 +36,26 @@ class SubsiteIntegrationTest(unittest.TestCase):
             "background-image:url('http://nohost/plone/folder/@@images/banner/large')",
             viewlet.background_style(),
         )
+
+    def test_is_banner_hidden(self):
+        viewlet = BannerViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
+        self.assertFalse(viewlet.is_banner_hidden)
+        view = getMultiAdapter((self.folder, self.request), name="banner_settings")
+        view.switch_banner_display()
+        self.assertTrue(viewlet.is_banner_hidden)
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+            id="subfolder",
+        )
+        subfolder_viewlet = BannerViewlet(subfolder, self.request, None, None)
+        subfolder_viewlet.update()
+        self.assertFalse(subfolder_viewlet.is_banner_hidden)
+        subfolder_view = getMultiAdapter((subfolder, self.request), name="banner_settings")
+        subfolder_view.switch_banner_display()
+        self.assertTrue(subfolder_viewlet.is_banner_hidden)
+        subfolder_view.switch_banner_display()
+        self.assertFalse(subfolder_viewlet.is_banner_hidden)
