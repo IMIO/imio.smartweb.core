@@ -2,7 +2,6 @@
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
-from imio.smartweb.core.viewlets.subsite import SubsiteBannerViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
 from plone import api
@@ -113,18 +112,3 @@ class SubsiteIntegrationTest(unittest.TestCase):
         self.assertTrue(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
         self.assertTrue(viewlet.show_logo())
-
-    def test_viewlet_banner(self):
-        view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
-        view.enable()
-        viewlet = SubsiteBannerViewlet(self.folder, self.request, None, None)
-        viewlet.update()
-        self.assertFalse(viewlet.available())
-
-        self.assertEqual(viewlet.background_style(), "")
-        self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
-        self.assertTrue(viewlet.available())
-        self.assertIn(
-            "background-image:url('http://nohost/plone/folder/@@images/banner/large')",
-            viewlet.background_style(),
-        )
