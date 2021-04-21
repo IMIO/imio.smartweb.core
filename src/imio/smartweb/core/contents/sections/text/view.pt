@@ -49,7 +49,7 @@
       <tal:dates define="modified context/get_last_mofication_date">
       <span class="documentModified"
             tal:condition="modified">
-        <span i18n:translate="box_last_modified">
+        <span i18n:translate="box_last_modified" i18n:domain="plone">
           last modified
         </span>
         <span class="pat-moment" data-pat-moment="format:relative;"
