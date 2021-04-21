@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
-from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
-from plone.app.layout.navigation.interfaces import INavigationRoot
-from Products.CMFPlone.interfaces.constrains import DISABLED
-from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
-from Products.CMFPlone.utils import safe_hasattr
 from Products.Five.browser import BrowserView
 from zope.interface import Interface
 from zope.interface import alsoProvides
