@@ -12,9 +12,12 @@ class SectionView(BrowserView):
     """Section view"""
 
     def __call__(self):
+        self.redirect_to_section(self.context.id)
+
+    def redirect_to_section(self, section_id):
         page = self.context.aq_parent
-        url = "{}#{}".format(page.absolute_url(), self.context.id)
-        return self.request.response.redirect(url)
+        url = "{}#{}".format(page.absolute_url(), section_id)
+        self.request.response.redirect(url)
 
     def background_style(self):
         if not self.context.background_image:
