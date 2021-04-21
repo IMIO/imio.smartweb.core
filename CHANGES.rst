@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Add missing bootstrap class option (2/3)
+  [laulaz]
+
 - Restrict background image field to administrators
   [laulaz]
 

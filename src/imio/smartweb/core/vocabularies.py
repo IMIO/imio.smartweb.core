@@ -58,6 +58,7 @@ class BootstrapCSSVocabularyFactory:
         bootstrap_css = [
             (u"col-sm-4", _(u"Third of width")),
             (u"col-sm-6", _(u"Half of width")),
+            (u"col-sm-8", _(u"Two third of width")),
             (u"col-sm-12", _(u"Full width")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in bootstrap_css]
