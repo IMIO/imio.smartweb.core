@@ -1,4 +1,4 @@
-<div id="subsite-banner"
+<div id="banner"
      tal:condition="view/available"
      tal:attributes="style view/background_style">
 </div>
