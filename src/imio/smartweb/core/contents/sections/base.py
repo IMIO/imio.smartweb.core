@@ -13,7 +13,14 @@ class ISection(model.Schema):
     """Shared base marker interface and schema for Sections"""
 
     title = schema.TextLine(title=_(u"Title"), required=True)
-    hide_title = schema.Bool(title=_(u"Hide title"), required=False, default=False)
+    hide_title = schema.Bool(
+        title=_(u"Hide title"),
+        description=_(
+            u"Hide title for anonymous user. Title stays visible for the editor."
+        ),
+        required=False,
+        default=False,
+    )
 
     model.fieldset(
         "layout",
