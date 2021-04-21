@@ -19,7 +19,8 @@
 
     <div class="content-section"
          tal:define="hide_title context/hide_title"
-         tal:attributes="style view/background_style">
+         tal:attributes="style view/background_style"
+         i18n:domain="imio.smartweb">
 
       <tal:if tal:condition="not: hide_title">
         <h2 tal:content="context/title" />
