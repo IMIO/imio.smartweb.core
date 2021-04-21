@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Add classes on add/edit forms legends when expanded / collapsed
+  [laulaz]
+
 - Add missing bootstrap class option (2/3)
   [laulaz]
 
