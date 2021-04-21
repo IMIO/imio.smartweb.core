@@ -8,7 +8,7 @@ from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
 
 
-class IHiddenLocalBanner(Interface):
+class ILocallyHiddenBanner(Interface):
     """"""
 
 
@@ -16,11 +16,11 @@ class BannerSettings(BrowserView):
     """Banner settings"""
 
     def switch_banner_display(self):
-        if IHiddenLocalBanner.providedBy(self.context):
-            noLongerProvides(self.context, IHiddenLocalBanner)
+        if ILocallyHiddenBanner.providedBy(self.context):
+            noLongerProvides(self.context, ILocallyHiddenBanner)
             message = _(u"Banner is now again displayed from this item")
         else:
-            alsoProvides(self.context, IHiddenLocalBanner)
+            alsoProvides(self.context, ILocallyHiddenBanner)
             message = _(u"Banner is now hidden from this item")
         api.portal.show_message(message, self.request)
         self.context.reindexObject(idxs=(["object_provides"]))

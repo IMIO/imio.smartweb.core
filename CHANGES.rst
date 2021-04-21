@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Add banner viewlet with local hide/show logic
+  [boulch, laulaz]
+
 - Change sections titles logic & add button to show / hide titles
   [laulaz]
 
