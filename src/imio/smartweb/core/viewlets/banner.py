@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.browser.banner.settings import IHiddenLocalBanner
 from plone.app.layout.viewlets import common
 from Products.CMFPlone.utils import base_hasattr
 
@@ -18,6 +19,12 @@ class BannerViewlet(common.ViewletBase):
             if base_hasattr(item, "banner") and item.banner is not None:
                 self._banner_item = item
                 return item
+
+    @property
+    def is_banner_hidden(self):
+        if IHiddenLocalBanner.providedBy(self.context):
+            return True
+        return False
 
     def background_style(self):
         css_bg_image = "background-image:url('{}/@@images/banner/large');"
