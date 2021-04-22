@@ -13,8 +13,13 @@ jQuery(document).ready(function ($) {
   // 3. add toggle on all fieldsets legends & toggle expanded / collapsed classes
   $("form.tabbed-form-with-toggle fieldset:not(:first) legend").click(function(){
      var legend = $(this);
+     var changed_class = false;
      $(this).siblings().slideToggle("fast", function() {
-        legend.toggleClass("collapsed expanded");
+         if (!changed_class) {
+            legend.toggleClass("collapsed");
+            legend.toggleClass("expanded");
+            changed_class = true;
+        }
      });
   });
 });
