@@ -9,7 +9,10 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from plone.namedfile.file import NamedBlobFile
+from Products.Five.browser import BrowserView as View
 from zope.component import getMultiAdapter
+from zope.viewlet.interfaces import IViewlet
+from zope.viewlet.interfaces import IViewletManager
 import unittest
 
 
@@ -102,6 +105,19 @@ class SubsiteIntegrationTest(unittest.TestCase):
         self.assertTrue(viewlet.available())
         self.assertTrue(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())
+
+        view = View(self.folder, self.request)
+        manager = getMultiAdapter(
+            (self.folder, self.request, view),
+            IViewletManager,
+            name="plone.portalheader",
+        )
+        viewlet = getMultiAdapter(
+            (self.folder, self.request, view, manager),
+            IViewlet,
+            name="imio.smartweb.subsite_logo",
+        )
+        self.assertIn("Folder", viewlet())
         self.folder.logo_display_mode = "logo"
         self.assertFalse(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())
@@ -112,3 +128,21 @@ class SubsiteIntegrationTest(unittest.TestCase):
         self.assertTrue(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
         self.assertTrue(viewlet.show_logo())
+
+        # Title should remain the same on sub-contents
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+        )
+        view = View(subfolder, self.request)
+        manager = getMultiAdapter(
+            (subfolder, self.request, view), IViewletManager, name="plone.portalheader"
+        )
+        viewlet = getMultiAdapter(
+            (subfolder, self.request, view, manager),
+            IViewlet,
+            name="imio.smartweb.subsite_logo",
+        )
+        self.assertIn("Folder", viewlet())
+        self.assertNotIn("Subfolder", viewlet())
