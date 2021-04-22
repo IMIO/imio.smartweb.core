@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- Add category viewlet
+  [laulaz]
+
 - Add banner viewlet with local hide/show logic
   [boulch, laulaz]
 

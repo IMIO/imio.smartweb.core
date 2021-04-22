@@ -1,0 +1,4 @@
+<div class="category"
+     tal:condition="view/available"
+     tal:content="view/get_category">
+</div>

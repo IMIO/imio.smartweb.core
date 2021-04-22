@@ -10,6 +10,8 @@ from zope.interface import Invalid
 from zope.interface import invariant
 from zope.interface import provider
 
+CATEGORY_TAXONOMY = "collective.taxonomy.procedure"
+
 
 @provider(IFormFieldProvider)
 class IProcedure(IPages):
@@ -25,7 +27,7 @@ class IProcedure(IPages):
     procedure_url = schema.URI(title=_(u"Procedure url"), required=False)
     category = schema.Choice(
         title=_(u"Category"),
-        source="collective.taxonomy.procedure",
+        source=CATEGORY_TAXONOMY,
         required=False,
     )
 
@@ -41,3 +43,4 @@ class IProcedure(IPages):
 @implementer(IProcedure)
 class Procedure(Pages):
     """Procedure class"""
+    category_taxonomy = CATEGORY_TAXONOMY

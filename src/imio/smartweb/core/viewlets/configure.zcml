@@ -121,4 +121,14 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:viewlet
+      name="imio.smartweb.category"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="category.pt"
+      class=".category.CategoryViewlet"
+      permission="zope2.View"
+      />
+
 </configure>
