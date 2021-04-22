@@ -17,5 +17,4 @@ jQuery(document).ready(function ($) {
         legend.toggleClass("collapsed expanded");
      });
   });
-
 });

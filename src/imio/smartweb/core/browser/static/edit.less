@@ -5,6 +5,25 @@ form.tabbed-form-with-toggle fieldset legend {
 .pat-sortable > :hover {
   cursor: move;
   background: #FFF5CD;
+  background: #E7E9ED;
+}
+
+form.tabbed-form-with-toggle fieldset:not(:nth-child(1)) legend{
+  &::after {
+    content: '\e84b';
+    font-family: fontello;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: all .3s ease-in;
+    transform-origin: center center;
+    margin-left: 7px;
+  }
+  &.expanded{
+    &:after{
+      transform: rotate(180deg);
+    }
+  }
 }
 
 #plone-contentmenu-factories {
@@ -41,4 +60,56 @@ form.tabbed-form-with-toggle fieldset legend {
     content: '\e834';
   }
 
+}
+
+.pat-sortable{
+  position: relative;
+  display: block;
+    // &:after{
+    //   content: "";
+    //   background: #e9e9e9;
+    //   width: 100vw;
+    //   left: 50%;
+    //   transform: translateX(-50vw);
+    //   display: block;
+    //   position: absolute;
+    //   top: 0;
+    //   bottom: 0;
+    //   z-index: -1;
+    // }
+    .sortable-section{
+      padding: 0.5rem;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #dee2e6 !important;
+    }
+}
+
+.hidden-section-title {
+	opacity: 0.3;
+}
+.show-hide-title{
+  display: inline-block;
+  margin-left: 15px;
+  vertical-align: middle;
+}
+.content-section{
+  h2{
+    display: inline-block;
+  }
+}
+
+.show-hide-banner{
+  display: inline-block;
+padding: 15px;
+background: #fff;
+border: solid 1px #e6e6e6;
+}
+
+.header-section{
+  background: #f2f2f2;
+  padding: 0 1rem;
+  line-height: 1.9;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 }
