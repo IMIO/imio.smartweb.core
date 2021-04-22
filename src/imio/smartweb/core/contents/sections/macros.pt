@@ -13,7 +13,7 @@
            i18n:domain="imio.smartweb">
   
     <tal:if tal:condition="not: hide_title">
-      <h2 tal:content="context/title" />
+      <h2 class="section_title" tal:content="context/title" />
       <tal:edit tal:condition="can_edit">
         <div class="show-hide-title">
           <span class="glyphicon-eye-close glyphicon"></span>
