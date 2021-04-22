@@ -155,7 +155,6 @@ class PagesIntegrationTest(unittest.TestCase):
         page1 = api.content.create(
             container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
         )
-        uuid1 = IUUID(page1)
         self.folder.setLayout("element_view")
 
         breadcrumbs_view = getMultiAdapter(
@@ -165,13 +164,9 @@ class PagesIntegrationTest(unittest.TestCase):
         self.assertEqual(len(breadcrumbs), 2)
         self.assertEqual(breadcrumbs[-1]["Title"], "Page 1")
 
-        request = TestRequest(
-            form={"form.widgets.default_page_uid": uuid1, "form.buttons.apply": "Apply"}
+        self.folder.set_default_item(
+            old_default_item=self.defaultpage, new_default_item=page1
         )
-        alsoProvides(request, IPloneFormLayer)
-        form = ElementView(self.folder, request)
-        form.update()
-        data, errors = form.extractData()
         breadcrumbs_view = getMultiAdapter(
             (page1, self.request), name="breadcrumbs_view"
         )

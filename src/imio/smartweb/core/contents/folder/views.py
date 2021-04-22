@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
-from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -19,8 +18,6 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implementer
-from zope.interface import noLongerProvides
-from zope.interface import alsoProvides
 
 
 class FolderView(BaseFolderView):
@@ -119,16 +116,7 @@ class ElementView(EditForm):
         old_default_page = self.context.get_default_item(object=True)
         changes = self.applyChanges(data)
         if changes:
-            if old_default_page is not None:
-                noLongerProvides(old_default_page, IDefaultPages)
-                old_default_page.exclude_from_nav = False
-                old_default_page.reindexObject(
-                    idxs=("object_provides", "exclude_from_nav")
-                )
-            new_default_page = self.context.get_default_item(object=True)
-            alsoProvides(new_default_page, IDefaultPages)
-            new_default_page.exclude_from_nav = True
-            new_default_page.reindexObject(idxs=("object_provides", "exclude_from_nav"))
+            self.context.set_default_item(old_default_page)
             self.status = self.successMessage
         else:
             self.status = self.noChangesMessage

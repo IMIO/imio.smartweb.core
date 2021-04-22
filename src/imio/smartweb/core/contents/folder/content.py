@@ -8,9 +8,11 @@ from plone.autoform import directives
 from plone.dexterity.content import Container
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
+from plone.uuid.interfaces import IUUID
 from z3c.form.browser.radio import RadioFieldWidget
 from zope import schema
 from zope.interface import implementer
+from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
 
 
@@ -64,3 +66,19 @@ class Folder(Container):
             if brains:
                 brain = brains[0]
                 return object is True and brain.getObject() or brain
+
+    def set_default_item(self, old_default_item=None, new_default_item=None):
+        if old_default_item is not None:
+            noLongerProvides(old_default_item, IDefaultPages)
+            old_default_item.exclude_from_nav = False
+            old_default_item.reindexObject(idxs=("object_provides", "exclude_from_nav"))
+        if new_default_item is None:
+            # New default item has already been set on folder
+            new_default_item = self.get_default_item(object=True)
+        else:
+            # We need to set the new default item on folder
+            uuid = IUUID(new_default_item)
+            self.default_page_uid = uuid
+        alsoProvides(new_default_item, IDefaultPages)
+        new_default_item.exclude_from_nav = True
+        new_default_item.reindexObject(idxs=("object_provides", "exclude_from_nav"))

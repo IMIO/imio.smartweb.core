@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.folder.content import IFolder
-from imio.smartweb.core.contents.folder.views import ElementView
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.tests.utils import get_leadimage_filename
@@ -11,7 +10,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
-from plone.app.z3cform.interfaces import IPloneFormLayer
 from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.namedfile.file import NamedBlobFile
@@ -20,7 +18,6 @@ from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
-from zope.publisher.browser import TestRequest
 import unittest
 import transaction
 
@@ -178,13 +175,7 @@ class FolderFunctionalTest(unittest.TestCase):
         self.assertEqual(content.count("tileHeadline"), 2)
 
         # Anonymous - default page is set on element view
-        uuid = IUUID(page1)
-        request = TestRequest(
-            form={"form.widgets.default_page_uid": uuid, "form.buttons.apply": "Apply"}
-        )
-        alsoProvides(request, IPloneFormLayer)
-        form = ElementView(folder, request)
-        form.update()
+        folder.set_default_item(old_default_item=None, new_default_item=page1)
         transaction.commit()
         browser.open(folder.absolute_url())
         content = browser.contents
