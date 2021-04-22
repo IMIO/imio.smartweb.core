@@ -40,7 +40,42 @@ class ProcedureFunctionalTest(unittest.TestCase):
         brains = api.content.find(include_in_quick_access=True)
         self.assertEqual(len(brains), 0)
 
-    def test_listings(self):
+    def test_summary_listing(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="Folder",
+        )
+        api.content.create(
+            container=folder,
+            type="imio.smartweb.Folder",
+            title="Sub folder",
+            id="subfolder",
+        )
+        page1 = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 1",
+            id="page1",
+        )
+        api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page 2",
+            id="page2",
+        )
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+        view = getMultiAdapter((folder, self.request), name="summary_view")
+        results = view.results()
+        self.assertEqual(len(results), 3)
+
+        # a page can be excluded from parent listing
+        page1.exclude_from_parent_listing = True
+        page1.reindexObject()
+        results = view.results()
+        self.assertEqual(len(results), 2)
+
+    def test_block_listing(self):
         folder = api.content.create(
             container=self.portal,
             type="imio.smartweb.Folder",

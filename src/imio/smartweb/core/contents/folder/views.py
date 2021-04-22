@@ -122,7 +122,7 @@ class ElementView(EditForm):
             self.status = self.noChangesMessage
 
 
-class SummaryView(BaseFolderView):
+class SummaryView(FolderView):
     """"""
 
     show_images = False
