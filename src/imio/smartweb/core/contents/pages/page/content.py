@@ -22,4 +22,5 @@ class IPage(IPages):
 @implementer(IPage)
 class Page(Pages):
     """Page class"""
+
     category_taxonomy = CATEGORY_TAXONOMY

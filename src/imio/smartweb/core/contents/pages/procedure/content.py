@@ -43,4 +43,5 @@ class IProcedure(IPages):
 @implementer(IProcedure)
 class Procedure(Pages):
     """Procedure class"""
+
     category_taxonomy = CATEGORY_TAXONOMY
