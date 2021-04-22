@@ -1,0 +1,81 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="imio.smartweb">
+
+<metal:macro define-macro="section_edition">
+
+  <tal:def tal:define="can_edit python: checkPermission('Modify portal content', context);
+                       token context/@@authenticator/token;
+                       hide_title context/hide_title"
+           i18n:domain="imio.smartweb">
+  
+    <tal:if tal:condition="not: hide_title">
+      <h2 tal:content="context/title" />
+      <tal:edit tal:condition="can_edit">
+        <div class="show-hide-title">
+          <span class="glyphicon-eye-close glyphicon"></span>
+          <a tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token}"
+            i18n:translate="">Hide title</a>
+        </div>
+      </tal:edit>
+    </tal:if>
+    <tal:else tal:condition="python: can_edit and hide_title">
+      <h2 tal:content="context/title"
+          class="hidden-section-title" />
+        <div class="show-hide-title">
+          <span class="glyphicon-eye-open glyphicon"></span>
+          <a tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token}"
+            i18n:translate="">Show title</a>
+        </div>
+    </tal:else>
+
+    <div tal:condition="can_edit"
+         class="header-section py-2">
+
+      <div class="manage-section">
+
+        <span class="icon-edit"></span>
+        <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
+           i18n:translate="">Edit section</a>
+
+        <tal:if tal:condition="context/manage_content">
+          <span class="icon-folderContents"></span>
+          <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
+             i18n:translate="">Manage section contents</a>
+        </tal:if>
+
+        <tal:if tal:condition="context/manage_display">
+          <span class="icon-plone-contentmenu-display"></span>
+          <a tal:attributes="href string:${context/absolute_url}/select_default_view"
+             i18n:translate="">Select view</a>
+        </tal:if>
+
+        <span class="glyphicon-trash glyphicon"></span>
+        <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
+           i18n:translate="">Delete section</a>
+
+      </div>
+
+      <tal:dates define="modified context/get_last_mofication_date">
+        <span class="documentModified"
+              tal:condition="modified">
+          <span i18n:translate="box_last_modified" i18n:domain="plone">
+            last modified
+          </span>
+          <span class="pat-moment" data-pat-moment="format:relative;"
+                tal:content="modified">
+            Modified
+          </span>
+        </span>
+      </tal:dates>
+
+    </div>
+
+  </tal:def>
+
+</metal:macro>
+
+</html>

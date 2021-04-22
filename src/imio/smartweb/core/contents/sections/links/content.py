@@ -23,3 +23,6 @@ class ISectionLinks(ISection):
 @implementer(ISectionLinks)
 class SectionLinks(Section):
     """SectionLinks class"""
+
+    manage_content = True
+    manage_display = True

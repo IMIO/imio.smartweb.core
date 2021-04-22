@@ -12,3 +12,5 @@ class ISectionText(ISection):
 @implementer(ISectionText)
 class SectionText(Section):
     """SectionText class"""
+
+    manage_content = True

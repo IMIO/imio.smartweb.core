@@ -48,6 +48,9 @@ class ISection(model.Schema):
 class Section(Container):
     """Shared base class for Sections"""
 
+    manage_content = False
+    manage_display = False
+
     @property
     def get_last_mofication_date(self):
         return self.ModificationDate()

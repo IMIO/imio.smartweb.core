@@ -12,3 +12,5 @@ class ISectionFiles(ISection):
 @implementer(ISectionFiles)
 class SectionFiles(Section):
     """SectionText class"""
+
+    manage_content = True

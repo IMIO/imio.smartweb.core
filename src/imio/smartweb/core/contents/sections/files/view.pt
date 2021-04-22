@@ -18,82 +18,33 @@
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
 
-    <div class="content-section"
-         tal:define="hide_title context/hide_title"
-         tal:attributes="style view/background_style"
-         i18n:domain="imio.smartweb">
+    <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
-      <tal:if tal:condition="not: hide_title">
-        <h2 tal:content="context/title" />
-        <tal:edit tal:condition="can_edit">
-        <div class="show-hide-title">
-          <span class="glyphicon-eye-close glyphicon"></span>
-          <a tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token}"
-             i18n:translate="">Hide title</a>
-        </div>
-        </tal:edit>
-      </tal:if>
-      <tal:else tal:condition="python: can_edit and hide_title">
-        <h2 tal:content="context/title"
-            class="hidden-section-title" />
-      <div class="show-hide-title">
-        <span class="glyphicon-eye-open glyphicon"></span>
-        <a tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token}"
-           i18n:translate="">Show title</a>
-      </div>
-      </tal:else>
+    <ul class="section_files_list"
+        tal:condition="items">
+      <li class="section_files_item" tal:repeat="item items">
+          <div tal:define="item_has_image python:item.getIcon;
+                          thumb_scale view/get_thumb_scale;
+                          portal context/@@plone_portal_state/portal;
+                          image_scale item/@@images;"
+               class="section_files_item">
+            <a tal:attributes="href item/absolute_url;
+                               alt item/title">
+              <span class="section_files_item_title">
+                  <img class="mime-icon"
+                       tal:attributes="src python:view.get_mime_type_icon(item)">
+                  <span tal:content="item/title">Item Title</span>
+                  <span class="discreet">&mdash; <span tal:replace="python:view.human_readable_size(item)" /></span>
+              </span>
+              <p class="section_files_item_description">
+                <span tal:replace="item/description" />
+              </p>
+              <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale)" />
+            </a>
+          </div>
+      </li>
+    </ul>
 
-      <div class="header-section py-2" tal:condition="can_edit">
-        <div i18n:domain="imio.smartweb" class="manage-section">
-          <span class="icon-edit"></span>
-          <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
-             i18n:translate="">Edit section</a>
-          <span class="icon-folderContents"></span>
-          <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
-             i18n:translate="">Manage section contents</a>
-          <span class="glyphicon-trash glyphicon"></span>
-          <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
-             i18n:translate="">Delete section</a>
-        </div>
-        <tal:dates define="modified context/get_last_mofication_date">
-        <span class="documentModified"
-              tal:condition="modified">
-          <span i18n:translate="box_last_modified" i18n:domain="plone">
-            last modified
-          </span>
-          <span class="pat-moment" data-pat-moment="format:relative;"
-                tal:content="modified">
-            Modified
-          </span>
-        </span>
-        </tal:dates>
-      </div>
-
-      <ul class="section_files_list"
-          tal:condition="items">
-        <li class="section_files_item" tal:repeat="item items">
-            <div tal:define="item_has_image python:item.getIcon;
-                            thumb_scale view/get_thumb_scale;
-                            portal context/@@plone_portal_state/portal;
-                            image_scale item/@@images;"
-                 class="section_files_item">
-              <a tal:attributes="href item/absolute_url;
-                                 alt item/title">
-                <span class="section_files_item_title">
-                    <img class="mime-icon"
-                         tal:attributes="src python:view.get_mime_type_icon(item)">
-                    <span tal:content="item/title">Item Title</span>
-                    <span class="discreet">&mdash; <span tal:replace="python:view.human_readable_size(item)" /></span>
-                </span>
-                <p class="section_files_item_description">
-                  <span tal:replace="item/description" />
-                </p>
-                <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale)" />
-              </a>
-            </div>
-        </li>
-        </ul>
-    </div>
   </tal:if>
 </div>
 </metal:content-core>

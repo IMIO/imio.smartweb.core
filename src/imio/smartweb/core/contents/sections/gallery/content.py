@@ -23,3 +23,5 @@ class ISectionGallery(ISection):
 @implementer(ISectionGallery)
 class SectionGallery(Section):
     """SectionGallery class"""
+
+    manage_content = True
