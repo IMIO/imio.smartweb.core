@@ -4,6 +4,8 @@ Changelog
 
 1.0a2 (unreleased)
 ------------------
+- improved html semantics
+  [thomlamb]
 
 - WEBMIGP5-11: Add real values in page taxonomy
   [laulaz]
