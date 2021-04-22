@@ -10,8 +10,9 @@
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
 <div tal:define="can_edit python: checkPermission('Modify portal content', context);
-                 token context/@@authenticator/token;"
-     tal:attributes="class string:section_text ${context/bootstrap_css_class}">
+                 token context/@@authenticator/token;
+                 css_class python: context.bootstrap_css_class or ''"
+     tal:attributes="class string:section_text $css_class">
 
   <div class="content-section"
        tal:define="hide_title context/hide_title"
