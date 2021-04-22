@@ -2,7 +2,7 @@
   <div id="banner"
        tal:condition="view/available"
        tal:attributes="style view/background_style;
-                       class python:'hide-banner' if is_hidden else ''"
+                       class python:'hidden-banner' if is_hidden else ''"
        i18n:domain="imio.smartweb">
     <tal:cond define="checkPermission python:context.restrictedTraverse('portal_membership').checkPermission;"
               condition="python: checkPermission('Modify portal content', context)">
