@@ -51,12 +51,12 @@
           <span class="icon-folderContents"></span>
           <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
              i18n:translate="">Manage section contents</a>
-          <span class="glyphicon-trash glyphicon"></span>
-          <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
-             i18n:translate="">Delete section</a>
           <span class="icon-plone-contentmenu-display"></span>
           <a tal:attributes="href string:${context/absolute_url}/select_default_view"
              i18n:translate="">Select view</a>
+          <span class="glyphicon-trash glyphicon"></span>
+          <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
+             i18n:translate="">Delete section</a>
         </div>
         <tal:dates define="modified context/get_last_mofication_date">
         <span class="documentModified"
