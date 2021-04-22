@@ -75,10 +75,10 @@
            tal:condition="items"
            class="flexbin flexbin-margin">
         <tal:images tal:repeat="item items">
-          <a class="section_gallery_item" tal:attributes="href string:${item/absolute_url}/@@images/image/large;
+          <a class="spotlight section_gallery_item"
+             tal:attributes="href string:${item/absolute_url}/@@images/image/large;
                              title item/title;
-                             data-description item/description"
-             class="spotlight">
+                             data-description item/description">
             <img tal:attributes="src string:${item/absolute_url}/@@images/image/${thumb_scale};
                                  alt item/title;
                                  title item/title" />
