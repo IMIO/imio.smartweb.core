@@ -5,7 +5,8 @@ Changelog
 1.0a3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Compile resources
+  [laulaz]
 
 
 1.0a2 (2021-04-22)
