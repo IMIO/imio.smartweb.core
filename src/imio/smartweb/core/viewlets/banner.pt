@@ -1,16 +1,17 @@
-<div id="banner"
-     tal:condition="view/available"
-     tal:attributes="style view/background_style"
-     i18n:domain="imio.smartweb">
-  <tal:cond define="checkPermission python:context.restrictedTraverse('portal_membership').checkPermission;"
-            condition="python: checkPermission('Modify portal content', context)">
-    <tal:def define="is_hidden view/is_banner_locally_hidden">
-    <a tal:condition="is_hidden"
-       tal:attributes="href string:${context/absolute_url}/@@switch_banner_display?_authenticator=${context/@@authenticator/token}"
-       i18n:translate="">Display banner from this item</a>
-    <a tal:condition="not:is_hidden"
-       tal:attributes="href string:${context/absolute_url}/@@switch_banner_display?_authenticator=${context/@@authenticator/token}"
-       i18n:translate="">Hide banner from this item</a>
-    </tal:def>
-  </tal:cond>
-</div>
+<tal:def define="is_hidden view/is_banner_locally_hidden">
+  <div id="banner"
+       tal:condition="view/available"
+       tal:attributes="style view/background_style;
+                       class python:'hide-banner' if is_hidden else ''"
+       i18n:domain="imio.smartweb">
+    <tal:cond define="checkPermission python:context.restrictedTraverse('portal_membership').checkPermission;"
+              condition="python: checkPermission('Modify portal content', context)">
+      <a tal:condition="is_hidden"
+         tal:attributes="href string:${context/absolute_url}/@@switch_banner_display?_authenticator=${context/@@authenticator/token}"
+         i18n:translate="">Display banner from this item</a>
+      <a tal:condition="not:is_hidden"
+         tal:attributes="href string:${context/absolute_url}/@@switch_banner_display?_authenticator=${context/@@authenticator/token}"
+         i18n:translate="">Hide banner from this item</a>
+    </tal:cond>
+  </div>
+</tal:def>
