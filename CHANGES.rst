@@ -5,6 +5,9 @@ Changelog
 1.0a2 (unreleased)
 ------------------
 
+- WEBMIGP5-11: Add real values in page taxonomy
+  [laulaz]
+
 - Add category viewlet
   [laulaz]
 

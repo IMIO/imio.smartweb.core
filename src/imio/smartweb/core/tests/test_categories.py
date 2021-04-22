@@ -35,8 +35,8 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet = CategoryViewlet(page, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
-        page.category = "service_communal"
-        self.assertEqual(viewlet.get_category(), "City service")
+        page.category = "publications"
+        self.assertEqual(viewlet.get_category(), "Publications")
 
     def test_viewlet_on_procedure(self):
         procedure = api.content.create(

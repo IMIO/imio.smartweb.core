@@ -6,10 +6,38 @@
   </vocabName>
   <vocabIdentifier>page</vocabIdentifier>
   <term>
-    <termIdentifier>service_communal</termIdentifier>
+    <termIdentifier>avis_et_enquetes</termIdentifier>
     <caption>
-      <langstring language="en">City service</langstring>
-      <langstring language="fr">Service communal</langstring>
+      <langstring language="en">Advices and enquiries</langstring>
+      <langstring language="fr">Avis et enquêtes</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>presse</termIdentifier>
+    <caption>
+      <langstring language="en">Press</langstring>
+      <langstring language="fr">Presse</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>publications</termIdentifier>
+    <caption>
+      <langstring language="en">Publications</langstring>
+      <langstring language="fr">Publications</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>infos_travaux</termIdentifier>
+    <caption>
+      <langstring language="en">Works informations</langstring>
+      <langstring language="fr">Infos travaux</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>offres-d-emploi</termIdentifier>
+    <caption>
+      <langstring language="en">Jobs</langstring>
+      <langstring language="fr">Offres d'emploi</langstring>
     </caption>
   </term>
 </vdex>
