@@ -70,6 +70,11 @@ This product has been translated into
 The translation domain is imio.smartweb domain and the translations are stored in imio.smartweb.locales package.
 
 
+Known issues
+------------
+
+- Dexterity Plone site & multilingual roots are not yet handled.
+
 
 Installation
 ------------
