@@ -2,6 +2,12 @@ Changelog
 =========
 
 
+1.0a4 (unreleased)
+------------------
+
+- Nothing changed yet.
+
+
 1.0a3 (2021-04-23)
 ------------------
 - improved css for subsite navigation
