@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a3 (unreleased)
+1.0a3 (2021-04-23)
 ------------------
 - improved css for subsite navigation
   [thomlamb]
