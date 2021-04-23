@@ -48,7 +48,9 @@ class PagesView(FolderView):
 
     def get_class(self, obj):
         section_type = obj.portal_type.split(".")[-1]
-        return "{} {}".format(section_type.lower(), obj.css_class)
+        return " ".join(
+            [section_type.lower(), obj.css_class or "", obj.bootstrap_css_class or ""]
+        )
 
 
 class PagesFullViewItem(BaseFullViewItem):
