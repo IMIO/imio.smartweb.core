@@ -6,7 +6,7 @@ Changelog
 ------------------
 
 - Harmonize all sections templates. Rename some css class. Add new css class.
-  [boulch]
+  [boulch, thomlamb]
 
 - Add "row" class in page view template to be bootstrap aware.
   [boulch]
