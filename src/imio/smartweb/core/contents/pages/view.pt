@@ -10,6 +10,7 @@
 <metal:content-core fill-slot="content-core">
 <metal:block define-macro="content-core"
              tal:define="uuid context/@@uuid | nothing">
+  <div class="row">
   <metal:listing use-macro="context/@@listing_view/macros/content-core">
     <!-- we don't want the dl -->
     <metal:entries fill-slot="entries">
@@ -40,7 +41,7 @@
             };
           };
         </script>
-        <span class="pat-sortable"
+        <span class="pat-sortable row"
               data-pat-sortable="selector:div.sortable-section;
                                  drop:reorder;"
               tal:omit-tag="not: can_edit">
@@ -53,7 +54,6 @@
                                      data-id obj/id">
                   <a tal:attributes="name obj/id" />
                   <span tal:replace="structure obj/@@full_view_item | nothing" />
-                  <div class="visualClear" style="clear:both;"><!-- --></div>
                 </div>
               </tal:def>
             </metal:entry>
@@ -62,6 +62,7 @@
       </tal:def>
     </metal:entries>
   </metal:listing>
+  </div>
 </metal:block>
 </metal:content-core>
 
