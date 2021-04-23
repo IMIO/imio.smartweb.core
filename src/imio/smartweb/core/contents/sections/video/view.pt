@@ -9,17 +9,11 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div tal:define="css_class python: context.bootstrap_css_class or ''"
-     tal:attributes="class string:section_video $css_class">
+<div class="section-container section-video" tal:attributes="style view/background_style">
 
-  <div class="content-section"
-       tal:attributes="style view/background_style">
+  <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
-    <metal:macro use-macro="context/@@sections_macros/section_edition" />
-
-    <div tal:content="structure view/get_embed_video" />
-
-  </div>
+  <div class="body-section" tal:content="structure view/get_embed_video" />
 
 </div>
 </metal:content-core>

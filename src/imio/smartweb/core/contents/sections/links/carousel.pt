@@ -9,10 +9,9 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div tal:define="can_edit python: checkPermission('Modify portal content', context);
-                 css_class python: context.bootstrap_css_class or '';
-                 items context/listFolderContents;"
-     tal:attributes="class string:section_links $css_class">
+<div class="section-container section-links"
+     tal:define="can_edit python: checkPermission('Modify portal content', context);
+                 items context/listFolderContents;">
 
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
@@ -21,7 +20,7 @@
 
     <div tal:condition="items"
          tal:attributes="id context/id"
-         class="carousel carousel-dark slide"
+         class="body-section carousel carousel-dark slide"
          data-bs-ride="carousel">
       <div class="carousel-indicators">
         <button tal:repeat="item items"

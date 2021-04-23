@@ -9,42 +9,41 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div tal:define="can_edit python: checkPermission('Modify portal content', context);
+<div class="section-container section-files"
+     tal:define="can_edit python: checkPermission('Modify portal content', context);
                  token context/@@authenticator/token;
-                 css_class python: context.bootstrap_css_class or '';
-                 items context/listFolderContents;"
-     tal:attributes="class string:section_files $css_class">
+                 items context/listFolderContents;">
 
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-
-    <ul class="section_files_list"
-        tal:condition="items">
-      <li class="section_files_item" tal:repeat="item items">
-          <div tal:define="item_has_image python:item.getIcon;
-                          thumb_scale view/get_thumb_scale;
-                          portal context/@@plone_portal_state/portal;
-                          image_scale item/@@images;"
-               class="section_files_item">
-            <a tal:attributes="href item/absolute_url;
-                               alt item/title">
-              <span class="section_files_item_title">
-                  <img class="mime-icon"
-                       tal:attributes="src python:view.get_mime_type_icon(item)">
-                  <span tal:content="item/title">Item Title</span>
-                  <span class="discreet">&mdash; <span tal:replace="python:view.human_readable_size(item)" /></span>
-              </span>
-              <p class="section_files_item_description">
-                <span tal:replace="item/description" />
-              </p>
-              <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale)" />
-            </a>
-          </div>
-      </li>
-    </ul>
-
+    <div class="body-section">
+      <ul class="section_files_list"
+          tal:condition="items">
+        <li class="section_files_item" tal:repeat="item items">
+            <div tal:define="item_has_image python:item.getIcon;
+                            thumb_scale view/get_thumb_scale;
+                            portal context/@@plone_portal_state/portal;
+                            image_scale item/@@images;"
+                 class="section_files_item">
+              <a tal:attributes="href item/absolute_url;
+                                 alt item/title">
+                <span class="section_files_item_title">
+                    <img class="mime-icon"
+                         tal:attributes="src python:view.get_mime_type_icon(item)">
+                    <span tal:content="item/title">Item Title</span>
+                    <span class="discreet">&mdash; <span tal:replace="python:view.human_readable_size(item)" /></span>
+                </span>
+                <p class="section_files_item_description">
+                  <span tal:replace="item/description" />
+                </p>
+                <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale)" />
+              </a>
+            </div>
+        </li>
+      </ul>
+    </div>
   </tal:if>
 </div>
 </metal:content-core>

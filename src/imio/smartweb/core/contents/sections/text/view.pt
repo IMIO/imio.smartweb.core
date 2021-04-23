@@ -9,18 +9,11 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div tal:define="css_class python: context.bootstrap_css_class or ''"
-     tal:attributes="class string:section_text $css_class">
-
-  <div class="content-section"
-       tal:attributes="style view/background_style">
-
+<div class="section-container section-text" tal:attributes="style view/background_style">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-
-    <span tal:replace="structure context/text/output | nothing" />
-
-  </div>
-
+    <div class="body-section">
+      <span tal:replace="structure context/text/output | nothing" />
+    </div>
 </div>
 </metal:content-core>
 </metal:main>
