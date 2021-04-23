@@ -4,6 +4,8 @@ Changelog
 
 1.0a3 (unreleased)
 ------------------
+- improved css for subsite navigation
+  [thomlamb]
 
 - Harmonize all sections templates. Rename some css class. Add new css class.
   [boulch, thomlamb]

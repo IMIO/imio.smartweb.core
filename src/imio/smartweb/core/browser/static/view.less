@@ -55,3 +55,70 @@ html {
     }
 
 }
+
+//sub site
+
+#subsite-navigation{
+  grid-column-start: 2;
+  grid-column-end: -1;
+  li ul li a {
+    min-width: 16em;
+}
+  & > ul{
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    flex-direction: row;
+  }
+  li{
+    a{
+      padding: 0.75rem 1rem;
+    }
+  }
+  .has_subtree{
+    position: relative;
+    display: block;
+    & .opener ~ ul {
+      height: auto;
+      transition: ease-in 0.35s;
+  } 
+    > label{
+      position: absolute;
+      right: 0em;
+      top: 0em;
+      height: 3em;
+      width: 4em;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      padding-right: 0.5em;
+    }
+    & > input{
+      display: none;
+    }
+    ul{
+      position: absolute;
+      z-index: 1000;
+      background: #fff;
+      border: solid 1px #e6e6e6;
+      padding: 0;
+      opacity: 0;
+      visibility: hidden;
+    }
+    &:hover{
+      & > ul{
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+    .has_subtree:hover > ul {
+      left: 16em;
+      top: 0;
+  }
+  }
+
+}
