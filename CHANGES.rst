@@ -5,6 +5,15 @@ Changelog
 1.0a3 (unreleased)
 ------------------
 
+- Harmonize all sections templates. Rename some css class. Add new css class.
+  [boulch]
+
+- Add "row" class in page view template to be bootstrap aware.
+  [boulch]
+
+- Get sections bootstrap_css value in get_class pages view (instead of sections templates) to be bootstrap aware.
+  [boulch]
+
 - Compile resources
   [laulaz]
 
