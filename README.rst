@@ -36,9 +36,9 @@ Features
 --------
 
 This products contains:
-- Content types: Folder, Page, Procedure, Sections ...
-- Behaviors to configure display in menus / navigations and handle sub-sites
-- Complete viewlets organization (header, footer) to get rid of portlets
+ - Content types: Folder, Page, Procedure, Sections ...
+ - Behaviors to configure display in menus / navigations and handle sub-sites
+ - Complete viewlets organization (header, footer) to get rid of portlets
 
 A folder can be transformed into a sub-site, which has its navigation viewlet, a logo viewlet, ...
 
@@ -69,7 +69,7 @@ This product has been translated into
 
 - French
 
-The translation domain is imio.smartweb domain and the translations are stored in imio.smartweb.locales package.
+The translation domain is ``imio.smartweb`` and the translations are stored in `imio.smartweb.locales <https://github.com/IMIO/imio.smartweb.locales>`_ package.
 
 
 Known issues
