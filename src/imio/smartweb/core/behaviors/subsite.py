@@ -45,4 +45,4 @@ class IImioSmartwebSubsite(model.Schema):
 @implementer(IImioSmartwebSubsite)
 @adapter(IFolder)
 class Subsite(object):
-    """"""
+    """ """

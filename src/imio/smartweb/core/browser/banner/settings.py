@@ -9,7 +9,7 @@ from zope.interface import noLongerProvides
 
 
 class ILocallyHiddenBanner(Interface):
-    """"""
+    """ """
 
 
 class BannerSettings(BrowserView):

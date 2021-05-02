@@ -13,7 +13,7 @@ import os
 
 
 class SortedTaxonomyImportAdapter(TaxonomyImportExportAdapter):
-    """"""
+    """ """
 
     def importDocument(self, taxonomy, document, clear=False):
         tree = fromstring(document)

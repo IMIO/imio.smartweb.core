@@ -65,7 +65,7 @@ class ProcedureIntegrationTest(unittest.TestCase):
 
         self.assertTrue(
             IProcedure.providedBy(obj),
-            u"IProcedure not provided by {0}!".format(
+            "IProcedure not provided by {0}!".format(
                 obj,
             ),
         )
@@ -80,7 +80,7 @@ class ProcedureIntegrationTest(unittest.TestCase):
 
         self.assertTrue(
             IProcedure.providedBy(obj),
-            u"IProcedure not provided by {0}!".format(
+            "IProcedure not provided by {0}!".format(
                 obj.id,
             ),
         )
@@ -95,7 +95,7 @@ class ProcedureIntegrationTest(unittest.TestCase):
     def test_ct_procedure_globally_addable(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.Procedure")
-        self.assertTrue(fti.global_allow, u"{0} is globally addable!".format(fti.id))
+        self.assertTrue(fti.global_allow, "{0} is globally addable!".format(fti.id))
 
     @requests_mock.Mocker()
     def test_procedure_invariant(self, m):
@@ -177,4 +177,4 @@ class ProcedureIntegrationTest(unittest.TestCase):
         procedure.procedure_ts = (
             "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/"
         )
-        self.assertIn(u"Acte de d\\u00e9c\\u00e8s", viewlet[0]())
+        self.assertIn("Acte de d\\u00e9c\\u00e8s", viewlet[0]())

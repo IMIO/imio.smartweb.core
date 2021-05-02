@@ -21,7 +21,7 @@ from zope.interface import implementer
 
 
 class FolderView(BaseFolderView):
-    """"""
+    """ """
 
     show_images = False
 
@@ -62,7 +62,7 @@ class FolderView(BaseFolderView):
 
 
 class FolderViewWithImages(FolderView):
-    """"""
+    """ """
 
     show_images = True
 
@@ -80,7 +80,7 @@ class DefaultElementTextView(ContentProviderBase):
 
 @implementer(IFieldsAndContentProvidersForm)
 class ElementView(EditForm):
-    """"""
+    """ """
 
     label = _(u"Element view form")
     # description = _(u"Choose an item as your default folder view")
@@ -123,12 +123,12 @@ class ElementView(EditForm):
 
 
 class SummaryView(FolderView):
-    """"""
+    """ """
 
     show_images = False
 
 
 class SummaryViewWithImages(SummaryView):
-    """"""
+    """ """
 
     show_images = True

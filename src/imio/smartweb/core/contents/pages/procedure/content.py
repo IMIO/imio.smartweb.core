@@ -15,7 +15,7 @@ CATEGORY_TAXONOMY = "collective.taxonomy.procedure"
 
 @provider(IFormFieldProvider)
 class IProcedure(IPages):
-    """"""
+    """ """
 
     procedure_ts = schema.Choice(
         vocabulary="imio.smartweb.vocabulary.PublikProcedures",

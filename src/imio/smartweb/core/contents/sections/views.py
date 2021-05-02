@@ -7,7 +7,7 @@ from zope.interface import Interface
 
 
 class ISectionView(Interface):
-    """"""
+    """ """
 
 
 class SectionView(BrowserView):
