@@ -28,6 +28,14 @@
       permission="cmf.ManagePortal"
       />
 
+  <browser:page
+      name="utils"
+      for="*"
+      class=".utils.UtilsView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <!-- Custom add view and form - invoked from ++add++ traverser -->
   <adapter
       for="Products.CMFCore.interfaces.IFolderish

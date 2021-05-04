@@ -6,6 +6,7 @@
       <property name="title" i18n:translate="">Preview</property>
       <property name="description" i18n:translate="">Click to preview content (without editor actions).</property>
       <property name="url_expr">string:#</property>
+      <property name="available_expr">object/@@utils/is_previewable_content</property>
       <property name="icon_expr">string:toolbar-action/preview</property>
       <property name="permissions">
         <element value="Modify portal content"/>
