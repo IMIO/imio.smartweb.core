@@ -1,5 +1,10 @@
 jQuery(document).ready(function ($) {
 
+  $("#contentview-preview a").click(function(e){
+    $(".hide-in-preview").toggle("fast");
+    e.preventDefault();
+  });
+
   // Toggle on add / edit forms fieldsets
 
   // 1. hide default fieldset legend (ckass : expanded)

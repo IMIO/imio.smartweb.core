@@ -5,6 +5,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Add preview action in Plone toolbar to hide editor actions in content
+  [boulch]
+
 - Move field "category" in categorization fieldset
   [boulch]
 

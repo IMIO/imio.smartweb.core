@@ -1,6 +1,18 @@
 <?xml version="1.0"?>
 <object name="portal_actions" meta_type="Plone Actions Tool"
   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <object name="object" meta_type="CMF Action Category">
+    <object name="preview" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Preview</property>
+      <property name="description" i18n:translate="">Click to preview content (without editor actions).</property>
+      <property name="url_expr">string:#</property>
+      <property name="icon_expr">string:toolbar-action/preview</property>
+      <property name="permissions">
+        <element value="Modify portal content"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+  </object>
 
   <object name="object_buttons" meta_type="CMF Action Category">
     <object name="subsite_enable" meta_type="CMF Action" i18n:domain="imio.smartweb">
@@ -9,7 +21,7 @@
       <property name="url_expr">string:$object_url/@@subsite_settings/enable</property>
       <property name="available_expr">object/@@subsite_settings/available|nothing</property>
       <property name="permissions">
-        <element value="cmf.ManagePortal"/>
+        <element value="Manage portal"/>
       </property>
       <property name="visible">True</property>
     </object>
@@ -19,7 +31,7 @@
       <property name="url_expr">string:$object_url/@@subsite_settings/disable</property>
       <property name="available_expr">object/@@subsite_settings/enabled|nothing</property>
       <property name="permissions">
-        <element value="cmf.ManagePortal" />
+        <element value="Manage portal" />
       </property>
       <property name="visible">True</property>
     </object>
@@ -29,7 +41,7 @@
       <property name="url_expr">string:$object_url/@@footer_settings/add_footer</property>
       <property name="available_expr">object/@@footer_settings/available|nothing</property>
       <property name="permissions">
-        <element value="cmf.AddPortalContent"/>
+        <element value="Add portal content"/>
       </property>
       <property name="visible">True</property>
     </object>

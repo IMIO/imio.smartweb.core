@@ -15,7 +15,7 @@
     <tal:if tal:condition="not: hide_title">
       <h2 class="section-title" tal:content="context/title" />
       <tal:edit tal:condition="can_edit">
-        <div class="show-hide-title">
+        <div class="show-hide-title hide-in-preview">
           <span class="glyphicon-eye-close glyphicon"></span>
           <a tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token}"
             i18n:translate="">Hide title</a>
@@ -24,8 +24,8 @@
     </tal:if>
     <tal:else tal:condition="python: can_edit and hide_title">
       <h2 tal:content="context/title"
-          class="hidden-section-title" />
-        <div class="show-hide-title">
+          class="hidden-section-title hide-in-preview" />
+        <div class="show-hide-title hide-in-preview">
           <span class="glyphicon-eye-open glyphicon"></span>
           <a tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token}"
             i18n:translate="">Show title</a>
@@ -33,7 +33,7 @@
     </tal:else>
 
     <div tal:condition="can_edit"
-         class="header-section py-2">
+         class="header-section hide-in-preview">
 
       <div class="manage-section">
 

@@ -131,4 +131,12 @@
       permission="zope2.View"
       />
 
+  <browser:viewlet
+      name="plone.contentviews"
+      manager="plone.app.layout.viewlets.interfaces.IToolbar"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class=".menu.ContentViewsViewlet"
+      permission="zope2.View"
+      />
+
 </configure>
