@@ -5,7 +5,8 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Hide leadimage caption field everywhere (editform, addform)
+  [boulch]
 
 
 1.0a3 (2021-04-23)
