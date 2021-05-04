@@ -3,6 +3,8 @@
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import Pages
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone.autoform import directives
+from plone.supermodel import model
 from plone.autoform.interfaces import IFormFieldProvider
 from zope import schema
 from zope.interface import implementer
@@ -25,6 +27,9 @@ class IProcedure(IPages):
     )
 
     procedure_url = schema.URI(title=_(u"Procedure url"), required=False)
+
+    directives.order_before(category="ICategorization.subjects")
+    model.fieldset("categorization", fields=["category"])
     category = schema.Choice(
         title=_(u"Category"),
         source=CATEGORY_TAXONOMY,

@@ -5,12 +5,16 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Move field "category" in categorization fieldset
+  [boulch]
+
 - Hide leadimage caption field everywhere (editform, addform)
   [boulch]
 
 
 1.0a3 (2021-04-23)
 ------------------
+
 - improved css for subsite navigation
   [thomlamb]
 
@@ -29,6 +33,7 @@ Changelog
 
 1.0a2 (2021-04-22)
 ------------------
+
 - improved html semantics
   [thomlamb]
 
