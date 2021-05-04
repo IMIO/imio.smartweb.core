@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from bs4 import BeautifulSoup
 from imio.smartweb.core.contents.folder.content import IFolder
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
@@ -229,3 +230,42 @@ class FolderFunctionalTest(unittest.TestCase):
         self.assertIn("Data successfully updated.", content)
         radio_control = browser.getControl(name="form.widgets.default_page_uid")
         self.assertEqual(radio_control.value, [uuid])
+
+    def test_leadimage_caption_field(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="Folder",
+            id="folder",
+        )
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_NAME,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open("{}/edit".format(folder.absolute_url()))
+        content = browser.contents
+        soup = BeautifulSoup(content)
+        lead_image_caption_widget = soup.find(
+            id="form-widgets-ILeadImageBehavior-image_caption"
+        )
+        self.assertIsNotNone(lead_image_caption_widget)
+        self.assertEqual(len(lead_image_caption_widget), 0)
+        self.assertEqual(lead_image_caption_widget["type"], "hidden")
+
+        browser.open(
+            "{}/++add++imio.smartweb.Folder".format(self.portal.absolute_url())
+        )
+        content = browser.contents
+        soup = BeautifulSoup(content)
+        lead_image_caption_widget = soup.find(
+            id="form-widgets-ILeadImageBehavior-image_caption"
+        )
+        self.assertIsNotNone(lead_image_caption_widget)
+        self.assertEqual(len(lead_image_caption_widget), 0)
+        self.assertEqual(lead_image_caption_widget["type"], "hidden")
