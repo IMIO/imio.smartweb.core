@@ -8,7 +8,7 @@ from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
 
-CATEGORY_TAXONOMY = "collective.taxonomy.page"
+CATEGORY_TAXONOMY = "collective.taxonomy.page_category"
 
 
 class IPage(IPages):

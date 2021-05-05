@@ -49,14 +49,14 @@ def add_page_taxonomy():
     portal = api.portal.get()
     current_lang = api.portal.get_default_language()[:2]
     data_page = {
-        "taxonomy": "page",
-        "field_title": translate(_("Page"), target_language=current_lang),
+        "taxonomy": "page_category",
+        "field_title": translate(_("Page category"), target_language=current_lang),
         "field_description": "",
         "default_language": "fr",
-        "filename": "page.xml",
+        "filename": "page_category.xml",
     }
     sm = portal.getSiteManager()
-    utility_page = sm.queryUtility(ITaxonomy, name="collective.taxonomy.page")
+    utility_page = sm.queryUtility(ITaxonomy, name="collective.taxonomy.page_category")
     if not utility_page:
         create_taxonomy_object(data_page, portal)
 
@@ -65,13 +65,15 @@ def add_procedure_taxonomy():
     portal = api.portal.get()
     current_lang = api.portal.get_default_language()[:2]
     data_procedure = {
-        "taxonomy": "procedure",
-        "field_title": translate(_("Procedure"), target_language=current_lang),
+        "taxonomy": "procedure_category",
+        "field_title": translate(_("Procedure category"), target_language=current_lang),
         "field_description": "",
         "default_language": "fr",
-        "filename": "procedure.xml",
+        "filename": "procedure_category.xml",
     }
     sm = portal.getSiteManager()
-    utility_procedure = sm.queryUtility(ITaxonomy, name="collective.taxonomy.procedure")
+    utility_procedure = sm.queryUtility(
+        ITaxonomy, name="collective.taxonomy.procedure_category"
+    )
     if not utility_procedure:
         create_taxonomy_object(data_procedure, portal)

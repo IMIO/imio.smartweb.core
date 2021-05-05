@@ -12,7 +12,7 @@ from zope.interface import Invalid
 from zope.interface import invariant
 from zope.interface import provider
 
-CATEGORY_TAXONOMY = "collective.taxonomy.procedure"
+CATEGORY_TAXONOMY = "collective.taxonomy.procedure_category"
 
 
 @provider(IFormFieldProvider)
