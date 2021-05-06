@@ -121,3 +121,27 @@ class FooterIntegrationTest(unittest.TestCase):
             "background-image:url('http://nohost/plone/footer/@@images/background_image/large')",
             viewlet.background_style(),
         )
+
+    def test_sections_render(self):
+        footer_view = getMultiAdapter(
+            (self.portal, self.request), name="footer_settings"
+        )
+        footer_view.add_footer()
+        footer = getattr(self.portal, "footer")
+        viewlet = FooterViewlet(footer, self.request, None, None)
+        viewlet.update()
+        api.content.create(
+            container=footer,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        render = "\n".join(viewlet.sections())
+        self.assertIn("Section text", render)
+        self.assertNotIn('class="manage-section"', render)
+        api.content.create(
+            container=footer,
+            type="imio.smartweb.SectionLinks",
+            title="Section links",
+        )
+        render = "\n".join(viewlet.sections())
+        self.assertIn("Section link", render)
