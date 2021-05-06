@@ -22,9 +22,10 @@ class PageIntegrationTest(unittest.TestCase):
     def setUp(self):
         """Custom shared utility setup for tests"""
         self.authorized_types_in_page = [
-            "imio.smartweb.SectionText",
             "imio.smartweb.SectionFiles",
             "imio.smartweb.SectionGallery",
+            "imio.smartweb.SectionLinks",
+            "imio.smartweb.SectionText",
             "imio.smartweb.SectionVideo",
         ]
         self.unauthorized_types_in_page = ["Document", "Link", "File", "Image"]
