@@ -6,6 +6,7 @@ from Acquisition import aq_parent
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from plone.app.layout.viewlets import common
+from zope.component import getMultiAdapter
 
 
 class BaseFooterViewlet(common.ViewletBase):
@@ -22,6 +23,14 @@ class BaseFooterViewlet(common.ViewletBase):
         css_bg_image = css_bg_image.format(footer.absolute_url())
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])
+
+    def sections(self):
+        # we don't want to show edition tools in footer sections
+        self.request.set("can_edit", False)
+        sections = self.footer.listFolderContents()
+        for section in sections:
+            view = getMultiAdapter((section, self.request), name="full_view_item")
+            yield view()
 
 
 class FooterViewlet(BaseFooterViewlet):

@@ -7,7 +7,8 @@
 
 <metal:macro define-macro="section_edition">
 
-  <tal:def tal:define="can_edit python: checkPermission('Modify portal content', context);
+  <tal:def tal:define="can_edit request/can_edit | nothing;
+                       can_edit python: can_edit is None and checkPermission('Modify portal content', context) or can_edit;
                        token context/@@authenticator/token;
                        hide_title context/hide_title"
            i18n:domain="imio.smartweb">

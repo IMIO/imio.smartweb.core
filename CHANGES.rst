@@ -5,6 +5,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Remove sections editing tools in footers
+  [laulaz]
+
 - Add preview action in Plone toolbar to hide editor actions in content
   [boulch]
 

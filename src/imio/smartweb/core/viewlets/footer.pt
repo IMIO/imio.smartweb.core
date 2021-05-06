@@ -5,7 +5,7 @@
                      class string:container ${footer/css_class}"
      tal:condition="view/available">
   <div class="row"
-       tal:repeat="obj footer/listFolderContents">
-        <span tal:replace="structure obj/@@full_view_item | nothing" />
+       tal:repeat="section view/sections">
+        <span tal:replace="structure section" />
   </div>
 </div>
