@@ -94,8 +94,8 @@ class PageIntegrationTest(unittest.TestCase):
             type="imio.smartweb.Page",
             title="page",
         )
-        with self.assertRaises(InvalidParameterError):
-            for t in self.unauthorized_types_in_page:
+        for t in self.unauthorized_types_in_page:
+            with self.assertRaises(InvalidParameterError):
                 api.content.create(
                     container=page,
                     type=t,

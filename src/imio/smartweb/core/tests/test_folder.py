@@ -105,8 +105,8 @@ class FolderFunctionalTest(unittest.TestCase):
             title="Folder container",
         )
         folder = self.portal[parent_id]
-        with self.assertRaises(InvalidParameterError):
-            for t in self.unauthorized_types_in_folder:
+        for t in self.unauthorized_types_in_folder:
+            with self.assertRaises(InvalidParameterError):
                 api.content.create(
                     container=folder,
                     type=t,
