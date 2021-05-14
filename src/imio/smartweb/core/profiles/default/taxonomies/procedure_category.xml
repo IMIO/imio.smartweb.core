@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='utf-8'?>
+<vdex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" profileType="hierarchicalTokenTerms" orderSignificant="false" language="fr">
+  <vocabName>
+    <langstring language="fr">Catégorie d'une démarche</langstring>
+    <langstring language="en">Procedure category</langstring>
+  </vocabName>
+  <vocabIdentifier>procedure_category</vocabIdentifier>
+  <term>
+    <termIdentifier>etat_civil</termIdentifier>
+    <caption>
+      <langstring language="fr">État civil</langstring>
+      <langstring language="en">Civility</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>organisation_d_evenements</termIdentifier>
+    <caption>
+      <langstring language="fr">Organisation d'évènements</langstring>
+      <langstring language="en">Events</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>police</termIdentifier>
+    <caption>
+      <langstring language="fr">Police</langstring>
+      <langstring language="en">Police</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>population</termIdentifier>
+    <caption>
+      <langstring language="fr">Population</langstring>
+      <langstring language="en">Population</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>taxes_et_redevances</termIdentifier>
+    <caption>
+      <langstring language="fr">Taxes et redevances</langstring>
+      <langstring language="en">Taxes and fees</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>urbanisme</termIdentifier>
+    <caption>
+      <langstring language="fr">Urbanisme</langstring>
+      <langstring language="en">Urbanism</langstring>
+    </caption>
+  </term>
+</vdex>

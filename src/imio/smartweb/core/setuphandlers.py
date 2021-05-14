@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.taxonomies.utils import add_page_taxonomy
-from imio.smartweb.core.taxonomies.utils import add_procedure_taxonomy
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
 
@@ -18,8 +16,6 @@ class HiddenProfiles(object):
 
 def post_install(context):
     """Post install script"""
-    add_page_taxonomy()
-    add_procedure_taxonomy()
 
 
 def uninstall(context):

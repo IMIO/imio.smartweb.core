@@ -5,6 +5,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Simplify taxonomies setup code
+  [laulaz]
+
 - Remove sections editing tools in footers
   [laulaz]
 
