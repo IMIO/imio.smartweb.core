@@ -22,9 +22,7 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet = CategoryViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
-        self.portal.category = "foo"
-        self.assertTrue(viewlet.available())
-        self.assertEqual(viewlet.get_category(), "foo")
+        self.assertIsNone(viewlet.get_category())
 
     def test_viewlet_on_page(self):
         page = api.content.create(
@@ -35,7 +33,9 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet = CategoryViewlet(page, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
-        page.category = "publications"
+        self.assertIsNone(viewlet.get_category())
+        page.taxonomy_page_category = "publications"
+        self.assertTrue(viewlet.available())
         self.assertEqual(viewlet.get_category(), "Publications")
 
     def test_viewlet_on_procedure(self):
@@ -47,5 +47,7 @@ class SubsiteIntegrationTest(unittest.TestCase):
         viewlet = CategoryViewlet(procedure, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
-        procedure.category = "taxes_et_redevances"
+        self.assertIsNone(viewlet.get_category())
+        procedure.taxonomy_procedure_category = "taxes_et_redevances"
+        self.assertTrue(viewlet.available())
         self.assertEqual(viewlet.get_category(), "Taxes and fees")
