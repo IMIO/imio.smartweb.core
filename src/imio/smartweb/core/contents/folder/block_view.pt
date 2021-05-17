@@ -16,7 +16,7 @@
                 <a tal:attributes="href menu/getURL">
                     <tal:if tal:condition="view/show_images">
                       <div class="newsImage card-img-top"
-                           tal:define="thumb_scale view/get_thumb_scale"
+                           tal:define="thumb_scale view/get_thumb_scale_summary"
                            tal:attributes="style string:background-image:url(${menu/getURL}/@@images/image/${thumb_scale})"
                            tal:condition="python: menu.has_leadimage and thumb_scale" />
                     </tal:if>
@@ -32,7 +32,7 @@
                 <a tal:attributes="href menu/getURL">
                     <tal:if tal:condition="view/show_images">
                       <div class="newsImage card-img-top"
-                           tal:define="thumb_scale view/get_thumb_scale"
+                           tal:define="thumb_scale view/get_thumb_scale_summary"
                            tal:attributes="style string:background-image:url(${menu/getURL}/@@images/image/${thumb_scale})"
                            tal:condition="python: menu.has_leadimage and thumb_scale" />
                     </tal:if>

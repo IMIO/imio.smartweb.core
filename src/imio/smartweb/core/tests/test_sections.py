@@ -11,6 +11,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
 from plone.protect.authenticator import createToken
 from time import sleep
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
@@ -86,11 +87,19 @@ class SectionsIntegrationTest(unittest.TestCase):
             view.get_mime_type_icon(file_obj), "++resource++mimetype.icons/txt.png"
         )
         self.assertEqual(view.human_readable_size(file_obj), "1 KB")
-        self.assertEqual(view.get_thumb_scale(), "thumb")
+        self.assertEqual(view.get_thumb_scale_list(), "thumb")
+
         api.portal.set_registry_record("plone.thumb_scale_listing", "preview")
-        self.assertEqual(view.get_thumb_scale(), "preview")
+        annotations = IAnnotations(self.request)
+        del annotations["plone.memoize"]
+        view = queryMultiAdapter((section, self.request), name="view")
+        self.assertEqual(view.get_thumb_scale_list(), "preview")
+
         api.portal.set_registry_record("plone.no_thumbs_lists", True)
-        self.assertIsNone(view.get_thumb_scale())
+        annotations = IAnnotations(self.request)
+        del annotations["plone.memoize"]
+        view = queryMultiAdapter((section, self.request), name="view")
+        self.assertIsNone(view.get_thumb_scale_list())
 
     def test_video_section(self):
         section = api.content.create(

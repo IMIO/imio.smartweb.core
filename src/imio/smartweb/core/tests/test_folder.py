@@ -15,6 +15,7 @@ from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.namedfile.file import NamedBlobFile
 from plone.testing.z2 import Browser
+from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
@@ -134,13 +135,22 @@ class FolderFunctionalTest(unittest.TestCase):
         alsoProvides(self.request, IImioSmartwebCoreLayer)
         view = getMultiAdapter((folder, self.request), name="block_view")
         self.assertNotIn("newsImage", view())
+
         view = getMultiAdapter((folder, self.request), name="block_view_with_images")
         self.assertIn("newsImage", view())
-        self.assertEqual(view.get_thumb_scale(), "mini")
+        self.assertEqual(view.get_thumb_scale_summary(), "mini")
+
         api.portal.set_registry_record("plone.thumb_scale_summary", "preview")
-        self.assertEqual(view.get_thumb_scale(), "preview")
+        annotations = IAnnotations(self.request)
+        del annotations["plone.memoize"]
+        view = getMultiAdapter((folder, self.request), name="block_view_with_images")
+        self.assertEqual(view.get_thumb_scale_summary(), "preview")
+
         api.portal.set_registry_record("plone.no_thumbs_summary", True)
-        self.assertIsNone(view.get_thumb_scale())
+        annotations = IAnnotations(self.request)
+        del annotations["plone.memoize"]
+        view = getMultiAdapter((folder, self.request), name="block_view_with_images")
+        self.assertIsNone(view.get_thumb_scale_summary())
 
     def test_element_view_as_anonymous(self):
         folder = api.content.create(
