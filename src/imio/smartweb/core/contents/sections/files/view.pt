@@ -23,9 +23,9 @@
           tal:condition="items">
         <li class="section_files_item" tal:repeat="item items">
             <div tal:define="item_has_image python:item.getIcon;
-                            thumb_scale view/get_thumb_scale_list;
-                            portal context/@@plone_portal_state/portal;
-                            image_scale item/@@images;"
+                             thumb_scale view/get_thumb_scale_list;
+                             portal context/@@plone_portal_state/portal;
+                             image_scale item/@@images;"
                  class="section_files_item">
               <a tal:attributes="href item/absolute_url;
                                  alt item/title">
