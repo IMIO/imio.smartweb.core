@@ -5,6 +5,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Views / templates code simplification
+  [laulaz]
+
 - Simplify taxonomies setup code & use taxonomy behavior directly
   [laulaz]
 

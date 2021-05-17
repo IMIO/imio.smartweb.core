@@ -22,7 +22,8 @@
       <ul class="section_files_list"
           tal:condition="items">
         <li class="section_files_item" tal:repeat="item items">
-            <div tal:define="item_has_image python:item.getIcon;
+            <div tal:define="file_view nocall:item/@@file_view;
+                             item_has_image python:item.getIcon;
                              thumb_scale view/get_thumb_scale_list;
                              portal context/@@plone_portal_state/portal;
                              image_scale item/@@images;"
@@ -31,9 +32,9 @@
                                  alt item/title">
                 <span class="section_files_item_title">
                     <img class="mime-icon"
-                         tal:attributes="src python:view.get_mime_type_icon(item)">
+                         tal:attributes="src file_view/get_mimetype_icon">
                     <span tal:content="item/title">Item Title</span>
-                    <span class="discreet">&mdash; <span tal:replace="python:view.human_readable_size(item)" /></span>
+                    <span class="discreet">&mdash; <span tal:replace="file_view/human_readable_size" /></span>
                 </span>
                 <p class="section_files_item_description">
                   <span tal:replace="item/description" />

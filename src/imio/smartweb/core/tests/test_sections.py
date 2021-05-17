@@ -83,10 +83,6 @@ class SectionsIntegrationTest(unittest.TestCase):
         )
         file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
         view = queryMultiAdapter((section, self.request), name="view")
-        self.assertEqual(
-            view.get_mime_type_icon(file_obj), "++resource++mimetype.icons/txt.png"
-        )
-        self.assertEqual(view.human_readable_size(file_obj), "1 KB")
         self.assertEqual(view.get_thumb_scale_list(), "thumb")
 
         api.portal.set_registry_record("plone.thumb_scale_listing", "preview")
@@ -100,6 +96,10 @@ class SectionsIntegrationTest(unittest.TestCase):
         del annotations["plone.memoize"]
         view = queryMultiAdapter((section, self.request), name="view")
         self.assertIsNone(view.get_thumb_scale_list())
+
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("++resource++mimetype.icons/txt.png", view())
+        self.assertIn("1 KB", view())
 
     def test_video_section(self):
         section = api.content.create(
