@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from imio.smartweb.core.contents.folder.content import IFolder
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_leadimage_filename
 from plone import api
 from plone.api.exc import InvalidParameterError
@@ -20,11 +21,10 @@ from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
-import unittest
 import transaction
 
 
-class FolderFunctionalTest(unittest.TestCase):
+class FolderFunctionalTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

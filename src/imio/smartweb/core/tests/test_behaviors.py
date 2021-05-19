@@ -2,15 +2,15 @@
 
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
-import unittest
 
 
-class ProcedureFunctionalTest(unittest.TestCase):
+class ProcedureFunctionalTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

@@ -1,0 +1,20 @@
+{
+    "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1",
+    "items": [
+        {
+            "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image1.jpg",
+            "@type": "Image",
+            "description": "",
+            "review_state": null,
+            "title": "image1.jpg"
+        },
+        {
+            "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image2.jpg",
+            "@type": "Image",
+            "description": "",
+            "review_state": null,
+            "title": "image2.jpg"
+        }
+    ],
+    "items_total": 2
+}

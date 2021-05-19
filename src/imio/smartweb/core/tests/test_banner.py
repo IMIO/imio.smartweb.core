@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.banner import BannerViewlet
 from plone import api
 from plone.app.testing import logout
@@ -8,10 +9,9 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
 from zope.component import getMultiAdapter
-import unittest
 
 
-class SubsiteIntegrationTest(unittest.TestCase):
+class SubsiteIntegrationTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from imio.smartweb.core.contents import IProcedure
 from imio.smartweb.core.contents.pages.views import PagesView
-from imio.smartweb.core.tests.utils import get_procedure_json
+from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -20,10 +21,9 @@ from zope.viewlet.interfaces import IViewletManager
 
 import json
 import requests_mock
-import unittest
 
 
-class ProcedureIntegrationTest(unittest.TestCase):
+class ProcedureIntegrationTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
@@ -47,7 +47,7 @@ class ProcedureIntegrationTest(unittest.TestCase):
         )
         self.parent = self.portal[parent_id]
         self._changeUser("test")
-        self.json_procedures_raw_mock = get_procedure_json()
+        self.json_procedures_raw_mock = get_json("resources/json_procedures_raw_mock.json")
 
     def test_ct_procedure_schema(self):
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.Procedure")

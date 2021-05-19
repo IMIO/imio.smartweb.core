@@ -3,6 +3,7 @@
 from imio.smartweb.core.contents import IPage
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles
@@ -12,16 +13,16 @@ from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
-import unittest
 
 
-class PageIntegrationTest(unittest.TestCase):
+class PageIntegrationTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests"""
         self.authorized_types_in_page = [
+            "imio.smartweb.SectionContact",
             "imio.smartweb.SectionFiles",
             "imio.smartweb.SectionGallery",
             "imio.smartweb.SectionLinks",

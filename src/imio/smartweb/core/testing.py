@@ -9,8 +9,11 @@ from plone.app.testing import (
     PloneSandboxLayer,
 )
 from plone.testing import z2
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 import imio.smartweb.core
+import unittest
 
 
 class ImioSmartwebCoreLayer(PloneSandboxLayer):
@@ -55,3 +58,13 @@ IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING = FunctionalTesting(
     ),
     name="ImioSmartwebCoreLayer:AcceptanceTesting",
 )
+
+
+class ImioSmartwebTestCase(unittest.TestCase):
+
+    def assertVocabularyLen(self, vocname, voc_len):
+        factory = getUtility(
+            IVocabularyFactory, vocname
+        )
+        vocabulary = factory()
+        self.assertEqual(len(vocabulary), voc_len)

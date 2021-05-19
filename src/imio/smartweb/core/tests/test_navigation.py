@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.navigation import GlobalSectionsWithQuickAccessViewlet
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from zope.component import getMultiAdapter
-import unittest
 
 
-class NavigationFunctionalTest(unittest.TestCase):
+class NavigationFunctionalTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

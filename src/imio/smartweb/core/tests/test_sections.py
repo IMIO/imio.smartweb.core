@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
 from plone.app.testing import login
@@ -15,14 +16,15 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
-import unittest
 
 
-class SectionsIntegrationTest(unittest.TestCase):
+class SectionsIntegrationTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):
+        # Number of sections where there is a title if section is empty.
+        self.NUMBER_OF_EMPTY_SECTIONS = 6
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -168,7 +170,7 @@ class SectionsIntegrationTest(unittest.TestCase):
         video_section = getattr(page, "title-of-my-imio-smartweb-sectionvideo")
         video_section.video_url = "https://www.youtube.com/watch?v=_dOAthafoGQ"
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), 5)
+        self.assertEqual(view.count("Title of my "), len(section_types))
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), 2)
@@ -236,7 +238,7 @@ class SectionsIntegrationTest(unittest.TestCase):
             section = getattr(page, section_id)
             section.hide_title = True
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), 5)
+        self.assertEqual(view.count("Title of my "), self.NUMBER_OF_EMPTY_SECTIONS)
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), 0)

@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.core.contents.folder.views import ElementView
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.app.testing import logout
 from plone.app.testing import TEST_USER_ID
@@ -16,11 +17,10 @@ from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
-import unittest
 import transaction
 
 
-class PagesIntegrationTest(unittest.TestCase):
+class PagesIntegrationTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

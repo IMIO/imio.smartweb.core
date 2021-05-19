@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
 from plone import api
@@ -13,10 +14,9 @@ from Products.Five.browser import BrowserView as View
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
-import unittest
 
 
-class SubsiteIntegrationTest(unittest.TestCase):
+class SubsiteIntegrationTest(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

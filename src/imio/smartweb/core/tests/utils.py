@@ -5,6 +5,7 @@ import os
 
 def get_sections_types():
     return [
+        "imio.smartweb.SectionContact",
         "imio.smartweb.SectionFiles",
         "imio.smartweb.SectionGallery",
         "imio.smartweb.SectionLinks",
@@ -13,11 +14,11 @@ def get_sections_types():
     ]
 
 
-def get_procedure_json():
+def get_json(json_filename):
     with open(
         os.path.join(
             os.path.dirname(__file__),
-            "resources/json_procedures_raw_mock.json",
+            json_filename,
         ),
     ) as json_file:
         json_procedures_raw_mock = json.load(json_file)
