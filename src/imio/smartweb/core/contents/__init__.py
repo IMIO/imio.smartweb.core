@@ -4,6 +4,7 @@ from .pages.footer.content import IFooter, Footer  # NOQA
 from .pages.page.content import IPage, Page  # NOQA
 from .pages.procedure.content import IProcedure, Procedure  # NOQA
 from .sections.base import ISection, Section  # NOQA
+from .sections.contact.content import ISectionContact, SectionContact  # NOQA
 from .sections.files.content import ISectionFiles, SectionFiles  # NOQA
 from .sections.gallery.content import ISectionGallery, SectionGallery  # NOQA
 from .sections.links.content import ISectionLinks, SectionLinks  # NOQA

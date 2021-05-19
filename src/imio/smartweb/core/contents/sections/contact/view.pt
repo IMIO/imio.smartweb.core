@@ -1,0 +1,60 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:main fill-slot="content-core">
+<metal:content-core define-macro="content-core">
+<div class="section-container section-contact" tal:attributes="style view/background_style">
+    <metal:macro use-macro="context/@@sections_macros/section_edition" />
+    <div class="body-section"
+         tal:define="contact view/contact | nothing;
+                     visible_blocks context/visible_blocks"
+         tal:condition="contact">
+
+      <div class="contact_titles" tal:condition="python:'titles' in visible_blocks">
+        <div tal:replace="contact/title | nothing"></div>
+        <div tal:replace="contact/subtitle | nothing"></div>
+      </div>
+
+      <div class="contact_address" tal:condition="python:'address' in visible_blocks">
+        <div tal:replace="contact/street | nothing"></div>
+        <div tal:replace="contact/number | nothing"></div>
+        <div tal:replace="contact/complement | nothing"></div>
+        <div tal:replace="contact/zipcode | nothing"></div>
+        <div tal:replace="contact/city | nothing"></div>
+        <div tal:define="country contact/country | nothing" tal:condition="country" tal:replace="contact/country/title"></div>
+      </div>
+
+      <div class="contact_informations" tal:condition="python:'contact_informations' in visible_blocks">
+        <div tal:replace="contact/vat_number | nothing"></div>
+        <ul tal:define="phones contact/phones | nothing" tal:condition="phones">
+          <li tal:repeat="phone phones" tal:content="python:'{} {} {}'.format(phone.get('label'), phone.get('type'), phone.get('number'))" />
+        </ul>
+        <ul tal:define="mails contact/mails | nothing" tal:condition="mails">
+          <li tal:repeat="mail mails" tal:content="python:'{} {} {}'.format(mail.get('label'), mail.get('type'), mail.get('mail_address'))" />
+        </ul>
+        <ul tal:define="urls contact/urls | nothing"  tal:condition="urls">
+          <li tal:repeat="url urls" tal:content="python:'{} {}'.format(url.get('type'), url.get('url'))" />
+        </ul>
+      </div>
+
+      <div class="contact_gallery" tal:condition="python:'gallery' in visible_blocks">
+        <div tal:define="images view/images">
+            <img tal:repeat="img images"
+                 tal:attributes="src python:img.get('@id');
+                                 alt img/title" />
+        </div>
+      </div>
+
+    </div>
+</div>
+</metal:content-core>
+</metal:main>
+
+</body>
+</html>

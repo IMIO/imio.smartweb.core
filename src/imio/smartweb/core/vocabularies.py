@@ -80,3 +80,48 @@ class SubsiteDisplayModeVocabularyFactory:
 
 
 SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()
+
+
+class ContactBlocksVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("titles", _(u"Title and Subtitle")),
+            ("address", _(u"Address")),
+            ("contact_informations", _(u"Contact informations")),
+            ("schedule", _(u"Schedule")),
+            ("gallery", _(u"Gallery")),
+        ]
+        terms = [
+            SimpleVocabulary.createTerm(value[0], value[0], value[1])
+            for value in values
+        ]
+        return SimpleVocabulary(terms)
+
+
+ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
+
+
+class RemoteContactsVocabularyFactory:
+    def __call__(self, context=None):
+        # BE CAREFULL !! Fix this temporary address
+        url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact"
+        try:
+            response = requests.get(url, headers={"Accept": "application/json"})
+        except Exception:
+            return SimpleVocabulary([])
+
+        if response.status_code != 200:
+            return SimpleVocabulary([])
+
+        json_contacts = json.loads(response.text)
+        if len(json_contacts.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(value=elem["@id"], title=elem["title"])
+                for elem in json_contacts.get("items")
+            ]
+        )
+
+
+RemoteContactsVocabulary = RemoteContactsVocabularyFactory()

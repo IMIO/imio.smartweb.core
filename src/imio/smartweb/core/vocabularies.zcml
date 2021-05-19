@@ -25,4 +25,16 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      name="imio.smartweb.vocabulary.ContactBlocks"
+      component=".vocabularies.ContactBlocksVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+    name="imio.smartweb.vocabulary.RemoteContacts"
+    component=".vocabularies.RemoteContactsVocabulary"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
 </configure>

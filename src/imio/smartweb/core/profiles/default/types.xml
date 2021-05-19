@@ -1,9 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <object name="portal_types" meta_type="Plone Types Tool">
   <object meta_type="Dexterity FTI" name="imio.smartweb.Folder"/>
-  <object meta_type="Dexterity FTI" name="imio.smartweb.Footer"/>  
+  <object meta_type="Dexterity FTI" name="imio.smartweb.Footer"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Page"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Procedure"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionContact"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionFiles"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionGallery"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionLinks"/>
