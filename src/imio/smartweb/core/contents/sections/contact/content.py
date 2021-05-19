@@ -11,11 +11,12 @@ from zope.interface import implementer
 
 class ISectionContact(ISection):
     """Marker interface and Dexterity Python Schema for SectionContact"""
+
     visible_blocks = schema.List(
         title=_(u"Visible blocks"),
         description=_(u"Blocks that will be displayed in contact"),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.ContactBlocks"),
-        default=["address","contact_informations","schedule"],
+        default=["address", "contact_informations", "schedule"],
     )
 
     directives.widget(
@@ -23,7 +24,7 @@ class ISectionContact(ISection):
         CheckBoxFieldWidget,
     )
 
-    related_contact= schema.Choice(
+    related_contact = schema.Choice(
         title=_(u"Related contact"),
         description=_(u"Related contact"),
         source="imio.smartweb.vocabulary.RemoteContacts",
@@ -34,4 +35,3 @@ class ISectionContact(ISection):
 @implementer(ISectionContact)
 class SectionContact(Section):
     """SectionContact class"""
-

@@ -61,10 +61,7 @@ IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING = FunctionalTesting(
 
 
 class ImioSmartwebTestCase(unittest.TestCase):
-
     def assertVocabularyLen(self, vocname, voc_len):
-        factory = getUtility(
-            IVocabularyFactory, vocname
-        )
+        factory = getUtility(IVocabularyFactory, vocname)
         vocabulary = factory()
         self.assertEqual(len(vocabulary), voc_len)

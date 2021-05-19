@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.sections.views import SectionView
-from zope.schema.vocabulary import SimpleVocabulary
 import json
 import requests
 
@@ -28,7 +27,9 @@ class ContactView(SectionView):
     def images(self):
         try:
             contact_url = self.context.related_contact
-            images_url_request = "{}/@search?portal_type=Image&path.depth=1".format(contact_url)
+            images_url_request = "{}/@search?portal_type=Image&path.depth=1".format(
+                contact_url
+            )
             response = requests.get(
                 images_url_request, headers={"Accept": "application/json"}
             )
@@ -40,4 +41,3 @@ class ContactView(SectionView):
         if len(json_images.get("items", [])) == 0:
             return
         return json_images.get("items")
-

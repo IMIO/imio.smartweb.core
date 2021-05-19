@@ -47,7 +47,9 @@ class ProcedureIntegrationTest(ImioSmartwebTestCase):
         )
         self.parent = self.portal[parent_id]
         self._changeUser("test")
-        self.json_procedures_raw_mock = get_json("resources/json_procedures_raw_mock.json")
+        self.json_procedures_raw_mock = get_json(
+            "resources/json_procedures_raw_mock.json"
+        )
 
     def test_ct_procedure_schema(self):
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.Procedure")

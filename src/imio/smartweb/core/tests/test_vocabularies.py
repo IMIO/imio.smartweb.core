@@ -28,7 +28,9 @@ class TestVocabularies(ImioSmartwebTestCase):
             "resources/json_procedures_raw_mock.json"
         )
         self.json_contacts_raw_mock = get_json("resources/json_contacts_raw_mock.json")
-        self.json_empty_contacts_raw_mock = get_json("resources/json_no_contact_raw_mock.json")
+        self.json_empty_contacts_raw_mock = get_json(
+            "resources/json_no_contact_raw_mock.json"
+        )
 
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
