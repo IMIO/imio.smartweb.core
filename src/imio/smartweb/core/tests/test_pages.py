@@ -151,37 +151,6 @@ class PagesIntegrationTest(ImioSmartwebTestCase):
         )
         self.assertIsNotNone(exclude_from_nav_widget.find("input"))
 
-    def test_leadimage_caption_field(self):
-        transaction.commit()
-        browser = Browser(self.layer["app"])
-        browser.addHeader(
-            "Authorization",
-            "Basic %s:%s"
-            % (
-                TEST_USER_NAME,
-                TEST_USER_PASSWORD,
-            ),
-        )
-        browser.open("{}/edit".format(self.defaultpage.absolute_url()))
-        content = browser.contents
-        soup = BeautifulSoup(content)
-        lead_image_caption_widget = soup.find(
-            id="form-widgets-ILeadImageBehavior-image_caption"
-        )
-        self.assertIsNotNone(lead_image_caption_widget)
-        self.assertEqual(len(lead_image_caption_widget), 0)
-        self.assertEqual(lead_image_caption_widget["type"], "hidden")
-
-        browser.open("{}/++add++imio.smartweb.Page".format(self.portal.absolute_url()))
-        content = browser.contents
-        soup = BeautifulSoup(content)
-        lead_image_caption_widget = soup.find(
-            id="form-widgets-ILeadImageBehavior-image_caption"
-        )
-        self.assertIsNotNone(lead_image_caption_widget)
-        self.assertEqual(len(lead_image_caption_widget), 0)
-        self.assertEqual(lead_image_caption_widget["type"], "hidden")
-
     def test_breadcrumbs(self):
         page1 = api.content.create(
             container=self.folder, type="imio.smartweb.Page", title="Page 1", id="page1"
