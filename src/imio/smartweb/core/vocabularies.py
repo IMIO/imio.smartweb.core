@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
+from imio.smartweb.core.utils import get_directory_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.schema.vocabulary import SimpleTerm
@@ -105,16 +106,8 @@ class RemoteContactsVocabularyFactory:
     def __call__(self, context=None):
         smartweb_directory_url = api.portal.get_registry_record('imio.directory.url')
         url = "{}/@search?portal_type=imio.directory.Contact".format(smartweb_directory_url)
-        try:
-            response = requests.get(url, headers={"Accept": "application/json"})
-        except Exception:
-            return SimpleVocabulary([])
-
-        if response.status_code != 200:
-            return SimpleVocabulary([])
-
-        json_contacts = json.loads(response.text)
-        if len(json_contacts.get("items", [])) == 0:
+        json_contacts = get_directory_json(url)
+        if json_contacts is None or len(json_contacts.get("items", [])) == 0:
             return SimpleVocabulary([])
         return SimpleVocabulary(
             [

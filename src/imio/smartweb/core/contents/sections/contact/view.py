@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.sections.views import SectionView
-import json
-import requests
+from imio.smartweb.core.utils import get_directory_json
 
 
 class ContactView(SectionView):
@@ -10,34 +9,18 @@ class ContactView(SectionView):
 
     @property
     def contact(self):
-        try:
-            response = requests.get(
-                self.context.related_contact, headers={"Accept": "application/json"}
-            )
-        except Exception:
-            return
-        if response.status_code != 200:
-            return
-        json_contact = json.loads(response.text)
-        if len(json_contact.get("items", [])) == 0:
+        contact_url = self.context.related_contact
+        json_contact = get_directory_json(contact_url)
+        if json_contact is None or len(json_contact.get("items", [])) == 0:
             return
         return json_contact.get("items")
 
     @property
     def images(self):
-        try:
-            contact_url = self.context.related_contact
-            images_url_request = "{}/@search?portal_type=Image&path.depth=1".format(
-                contact_url
-            )
-            response = requests.get(
-                images_url_request, headers={"Accept": "application/json"}
-            )
-        except Exception:
-            return
-        if response.status_code != 200:
-            return
-        json_images = json.loads(response.text)
-        if len(json_images.get("items", [])) == 0:
+        contact_url = self.context.related_contact
+        query = "@search?portal_type=Image&path.depth=1"
+        images_url_request = "{}/{}".format(contact_url, query)
+        json_images = get_directory_json(images_url_request)
+        if json_images is None or len(json_images.get("items", [])) == 0:
             return
         return json_images.get("items")

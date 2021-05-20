@@ -4,6 +4,8 @@ from collective.taxonomy.interfaces import ITaxonomy
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
+import json
+import requests
 
 
 def get_category(context):
@@ -23,3 +25,13 @@ def get_category(context):
         target_language=current_lang,
     )
     return value
+
+
+def get_directory_json(url):
+    try:
+        response = requests.get(url, headers={"Accept": "application/json"})
+    except Exception:
+        return None
+    if response.status_code != 200:
+        return None
+    return json.loads(response.text)
