@@ -10,4 +10,12 @@
         <value>kamoulox</value>
     </record>
 
+    <record name="imio.directory.url">
+      <field type="plone.registry.field.URI">
+        <title>Directory (for smartweb) url</title>
+        <value_type type="plone.registry.field.TextLine" />
+      </field>
+      <value>http://localhost:8080/Plone</value>
+    </record>
+
 </registry>

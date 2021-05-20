@@ -103,8 +103,8 @@ ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
 
 class RemoteContactsVocabularyFactory:
     def __call__(self, context=None):
-        # BE CAREFULL !! Fix this temporary address
-        url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact"
+        smartweb_directory_url = api.portal.get_registry_record('imio.directory.url')
+        url = "{}/@search?portal_type=imio.directory.Contact".format(smartweb_directory_url)
         try:
             response = requests.get(url, headers={"Accept": "application/json"})
         except Exception:
