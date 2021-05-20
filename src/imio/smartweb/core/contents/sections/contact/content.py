@@ -3,6 +3,7 @@
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
@@ -24,6 +25,7 @@ class ISectionContact(ISection):
         CheckBoxFieldWidget,
     )
 
+    directives.widget(related_contact=SelectFieldWidget)
     related_contact = schema.Choice(
         title=_(u"Related contact"),
         description=_(u"Related contact"),
