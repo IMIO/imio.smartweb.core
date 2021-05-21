@@ -5,6 +5,12 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Add rich description on all content types
+  [boulch]
+
+- Add contact section (with connection to directory authentic source)
+  [boulch, laulaz]
+
 - Views / templates code simplification
   [laulaz]
 
