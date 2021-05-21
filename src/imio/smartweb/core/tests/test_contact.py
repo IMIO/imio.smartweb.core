@@ -35,10 +35,6 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_contact(self, m):
-        m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1",
-            text=json.dumps(self.json_contact_images),
-        )
         contact = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionContact",
@@ -48,26 +44,23 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         self.assertIn("My contact", view())
         contact_view = queryMultiAdapter((contact, self.request), name="view")
         self.assertIsNone(contact_view.contact)
-        contact.related_contact = "2dc381f0fb584381b8e4a19c84f53b35"
-        m.get(
-            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
-            exc=requests.exceptions.ConnectTimeout,
+        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
+        contact.related_contact = authentic_contact_uid
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
+                authentic_contact_uid
+            )
         )
+        contact_images_url = "http://localhost:8080/Plone/{}/@search?portal_type=Image&path.depth=1".format(
+            authentic_contact_uid
+        )
+        m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)
         self.assertIsNone(contact_view.contact)
-        m.get(
-            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
-            status_code=404,
-        )
+        m.get(contact_search_url, status_code=404)
         self.assertIsNone(contact_view.contact)
-        m.get(
-            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
-            text=json.dumps(self.json_no_contact),
-        )
+        m.get(contact_search_url, text=json.dumps(self.json_no_contact))
         self.assertIsNone(contact_view.contact)
-        m.get(
-            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
-            text=json.dumps(self.json_contact),
-        )
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
         self.assertIsNotNone(contact_view.contact)
         self.assertNotIn("contact_titles", view())
         self.assertIn("contact_address", view())
@@ -80,20 +73,21 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         self.assertNotIn("contact_informations", view())
         # self.assertNotIn("schedule", view())
 
+        m.get(contact_images_url, text=json.dumps(self.json_contact_images))
         self.assertIn("contact_gallery", view())
         self.assertEqual(len(contact_view.images), 2)
-        m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1",
-            text=json.dumps(self.json_no_image),
-        )
+
+        m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)
         self.assertIsNone(contact_view.images)
-        m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1",
-            status_code=404,
-        )
+        m.get(contact_search_url, status_code=404)
         self.assertIsNone(contact_view.images)
-        m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1",
-            exc=requests.exceptions.ConnectTimeout,
-        )
+        m.get(contact_search_url, text=json.dumps(self.json_no_contact))
+        self.assertIsNone(contact_view.images)
+
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        m.get(contact_images_url, text=json.dumps(self.json_no_image))
+        self.assertIsNone(contact_view.images)
+        m.get(contact_images_url, status_code=404)
+        self.assertIsNone(contact_view.images)
+        m.get(contact_images_url, exc=requests.exceptions.ConnectTimeout)
         self.assertIsNone(contact_view.images)

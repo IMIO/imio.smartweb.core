@@ -11,6 +11,8 @@ import json
 import requests
 import requests_mock
 
+GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
+
 
 def get_vocabulary(voc_name):
     factory = getUtility(IVocabularyFactory, voc_name)
@@ -31,13 +33,11 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.json_empty_contacts_raw_mock = get_json(
             "resources/json_no_contact_raw_mock.json"
         )
+        self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID"
 
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
-        m.get(
-            "https://demo.guichet-citoyen.be/api/formdefs/",
-            text=json.dumps(self.json_procedures_raw_mock),
-        )
+        m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 3)
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.PublikProcedures")
         self.assertEqual(
@@ -70,24 +70,14 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_procedure_error_values(self, m):
-        m.get(
-            "https://demo.guichet-citoyen.be/api/formdefs/",
-            exc=requests.exceptions.ConnectTimeout,
-        )
+        m.get(GUICHET_URL, exc=requests.exceptions.ConnectTimeout)
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
-        m.get(
-            "https://demo.guichet-citoyen.be/api/formdefs/",
-            text=json.dumps(self.json_procedures_raw_mock),
-            status_code=404,
-        )
+        m.get(GUICHET_URL, status_code=404)
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
         api.portal.set_registry_record("smartweb.url_formdefs_api", "")
-        m.get(
-            "https://demo.guichet-citoyen.be/api/formdefs/",
-            text=json.dumps(self.json_procedures_raw_mock),
-        )
+        m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
     def test_bootstrap_css(self):
@@ -102,7 +92,7 @@ class TestVocabularies(ImioSmartwebTestCase):
     @requests_mock.Mocker()
     def test_remote_contacts(self, m):
         m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
+            self.contact_search_url,
             text=json.dumps(self.json_contacts_raw_mock),
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 2)
@@ -118,21 +108,14 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_remote_contacts_error_values(self, m):
-        m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
-            exc=requests.exceptions.ConnectTimeout,
-        )
+        m.get(self.contact_search_url, exc=requests.exceptions.ConnectTimeout)
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
-        m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
-            status_code=404,
-        )
+        m.get(self.contact_search_url, status_code=404)
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
 
     @requests_mock.Mocker()
     def test_empty_remote_contacts(self, m):
         m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
-            text=json.dumps(self.json_empty_contacts_raw_mock),
+            self.contact_search_url, text=json.dumps(self.json_empty_contacts_raw_mock)
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)

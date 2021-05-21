@@ -22,6 +22,8 @@ from zope.viewlet.interfaces import IViewletManager
 import json
 import requests_mock
 
+GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
+
 
 class ProcedureIntegrationTest(ImioSmartwebTestCase):
 
@@ -101,10 +103,7 @@ class ProcedureIntegrationTest(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_procedure_invariant(self, m):
-        m.get(
-            "https://demo.guichet-citoyen.be/api/formdefs/",
-            text=json.dumps(self.json_procedures_raw_mock),
-        )
+        m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
         request = TestRequest(
             form={
                 "form.widgets.IBasic.title": "My Procedure",
@@ -147,10 +146,7 @@ class ProcedureIntegrationTest(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_procedure_viewlet(self, m):
-        m.get(
-            "https://demo.guichet-citoyen.be/api/formdefs/",
-            text=json.dumps(self.json_procedures_raw_mock),
-        )
+        m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
         procedure = api.content.create(
             container=self.portal,
             type="imio.smartweb.Procedure",
