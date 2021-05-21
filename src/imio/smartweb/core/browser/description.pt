@@ -1,0 +1,4 @@
+<p class="lead rich_description"
+   tal:define="description view/description"
+   tal:condition="description"
+   tal:content="structure description" />
