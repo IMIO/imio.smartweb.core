@@ -36,10 +36,6 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
     @requests_mock.Mocker()
     def test_contact(self, m):
         m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
-            text=json.dumps(self.json_contact),
-        )
-        m.get(
             "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1",
             text=json.dumps(self.json_contact_images),
         )
@@ -52,26 +48,24 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         self.assertIn("My contact", view())
         contact_view = queryMultiAdapter((contact, self.request), name="view")
         self.assertIsNone(contact_view.contact)
-        contact.related_contact = (
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35"
-        )
+        contact.related_contact = "2dc381f0fb584381b8e4a19c84f53b35"
         m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
+            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
             exc=requests.exceptions.ConnectTimeout,
         )
         self.assertIsNone(contact_view.contact)
         m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
+            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
             status_code=404,
         )
         self.assertIsNone(contact_view.contact)
         m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
+            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
             text=json.dumps(self.json_no_contact),
         )
         self.assertIsNone(contact_view.contact)
         m.get(
-            "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
+            "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
             text=json.dumps(self.json_contact),
         )
         self.assertIsNotNone(contact_view.contact)

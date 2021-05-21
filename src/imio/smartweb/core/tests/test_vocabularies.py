@@ -105,33 +105,29 @@ class TestVocabularies(ImioSmartwebTestCase):
     @requests_mock.Mocker()
     def test_remote_contacts(self, m):
         m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact",
+            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
             text=json.dumps(self.json_contacts_raw_mock),
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 2)
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.RemoteContacts")
         self.assertEqual(
-            vocabulary.getTerm(
-                "http://localhost:8080/Plone/af7bd1f547034b24a2e0da16c0ba0358"
-            ).title,
+            vocabulary.getTerm("af7bd1f547034b24a2e0da16c0ba0358").title,
             "Contact1 title",
         )
         self.assertEqual(
-            vocabulary.getTerm(
-                "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35"
-            ).title,
+            vocabulary.getTerm("2dc381f0fb584381b8e4a19c84f53b35").title,
             "Contact2 title",
         )
 
     @requests_mock.Mocker()
     def test_remote_contacts_error_values(self, m):
         m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact",
+            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
             exc=requests.exceptions.ConnectTimeout,
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
         m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact",
+            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
             status_code=404,
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
@@ -139,7 +135,7 @@ class TestVocabularies(ImioSmartwebTestCase):
     @requests_mock.Mocker()
     def test_empty_remote_contacts(self, m):
         m.get(
-            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact",
+            "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&metadata_fields=UID",
             text=json.dumps(self.json_empty_contacts_raw_mock),
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)

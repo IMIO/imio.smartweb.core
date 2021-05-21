@@ -104,14 +104,18 @@ ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
 
 class RemoteContactsVocabularyFactory:
     def __call__(self, context=None):
-        smartweb_directory_url = api.portal.get_registry_record('imio.directory.url')
-        url = "{}/@search?portal_type=imio.directory.Contact".format(smartweb_directory_url)
+        smartweb_directory_url = api.portal.get_registry_record("imio.directory.url")
+        url = (
+            "{}/@search?portal_type=imio.directory.Contact&metadata_fields=UID".format(
+                smartweb_directory_url
+            )
+        )
         json_contacts = get_directory_json(url)
         if json_contacts is None or len(json_contacts.get("items", [])) == 0:
             return SimpleVocabulary([])
         return SimpleVocabulary(
             [
-                SimpleTerm(value=elem["@id"], title=elem["title"])
+                SimpleTerm(value=elem["UID"], title=elem["title"])
                 for elem in json_contacts.get("items")
             ]
         )
