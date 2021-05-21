@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from bs4 import BeautifulSoup
 from imio.smartweb.core.contents.folder.content import IFolder
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING

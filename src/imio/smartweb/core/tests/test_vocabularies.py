@@ -91,9 +91,6 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
     def test_bootstrap_css(self):
-        factory = getUtility(
-            IVocabularyFactory, "imio.smartweb.vocabulary.BootstrapCSS"
-        )
         self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 4)
 
     def test_subsite_display_mode(self):
