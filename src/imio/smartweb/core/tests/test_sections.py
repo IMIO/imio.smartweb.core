@@ -250,6 +250,23 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             title="Page",
         )
         api.content.transition(page, "publish")
+        # We can't edit title visibility of a "Contact" section.
+        # And visibility of contact title is False.
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionContact",
+            title="Title of my contact",
+        )
+        section.hide_title = True
+        view = queryMultiAdapter((section, self.request), name="hide_section_title")
+        view.hide_section_title()
+        self.assertTrue(section.hide_title)
+        view = queryMultiAdapter((section, self.request), name="show_section_title")
+        view.show_section_title()
+        self.assertTrue(section.hide_title)
+        view = queryMultiAdapter((page, self.request), name="full_view")
+        self.assertNotIn("show-hide-title",view())
+
         section = api.content.create(
             container=page,
             type="imio.smartweb.SectionText",
