@@ -50,6 +50,7 @@ class Section(Container):
 
     manage_content = False
     manage_display = False
+    can_toggle_title_visibility = True
 
     @property
     def get_last_mofication_date(self):

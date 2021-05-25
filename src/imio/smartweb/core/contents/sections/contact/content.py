@@ -37,3 +37,5 @@ class ISectionContact(ISection):
 @implementer(ISectionContact)
 class SectionContact(Section):
     """SectionContact class"""
+
+    can_toggle_title_visibility = False

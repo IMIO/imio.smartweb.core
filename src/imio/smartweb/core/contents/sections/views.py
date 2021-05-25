@@ -30,11 +30,15 @@ class SectionView(BrowserView):
         return " ".join([css_bg_image, css_bg_size])
 
     def hide_section_title(self):
+        if not self.context.can_toggle_title_visibility:
+            return
         self.context.hide_title = True
         api.portal.show_message(_(u"Section title has been hidden"), self.request)
         self.redirect_to_section(self.context.id)
 
     def show_section_title(self):
+        if not self.context.can_toggle_title_visibility:
+            return
         self.context.hide_title = False
         api.portal.show_message(_(u"Section title has been shown"), self.request)
         self.redirect_to_section(self.context.id)

@@ -10,12 +10,13 @@
   <tal:def tal:define="can_edit request/can_edit | nothing;
                        can_edit python: can_edit is None and checkPermission('Modify portal content', context) or can_edit;
                        token context/@@authenticator/token;
-                       hide_title context/hide_title"
+                       hide_title context/hide_title;
+                       can_toggle_title_visibility context/can_toggle_title_visibility"
            i18n:domain="imio.smartweb">
 
     <tal:if tal:condition="not: hide_title">
       <h2 class="section-title" tal:content="context/title" />
-      <tal:edit tal:condition="can_edit">
+      <tal:edit tal:condition="python:can_edit and can_toggle_title_visibility">
         <div class="show-hide-title hide-in-preview">
           <span class="glyphicon-eye-close glyphicon"></span>
           <a tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token}"
@@ -26,11 +27,11 @@
     <tal:else tal:condition="python: can_edit and hide_title">
       <h2 tal:content="context/title"
           class="hidden-section-title hide-in-preview" />
-        <div class="show-hide-title hide-in-preview">
-          <span class="glyphicon-eye-open glyphicon"></span>
-          <a tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token}"
-            i18n:translate="">Show title</a>
-        </div>
+      <div tal:condition="can_toggle_title_visibility" class="show-hide-title hide-in-preview">
+        <span class="glyphicon-eye-open glyphicon"></span>
+        <a tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token}"
+          i18n:translate="">Show title</a>
+      </div>
     </tal:else>
 
     <div tal:condition="can_edit"
