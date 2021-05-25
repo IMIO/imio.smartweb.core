@@ -12,7 +12,7 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.app.z3cform.interfaces import IPloneFormLayer
-from plone.testing.z2 import Browser
+from plone.testing.zope import Browser
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
 from zope.interface import alsoProvides

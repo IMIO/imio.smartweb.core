@@ -14,7 +14,7 @@ from plone.app.testing import setRoles
 from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.namedfile.file import NamedBlobFile
-from plone.testing.z2 import Browser
+from plone.testing.zope import Browser
 from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
 from zope.component import getMultiAdapter
