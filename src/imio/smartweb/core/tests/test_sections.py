@@ -265,7 +265,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         view.show_section_title()
         self.assertTrue(section.hide_title)
         view = queryMultiAdapter((page, self.request), name="full_view")
-        self.assertNotIn("show-hide-title",view())
+        self.assertNotIn("show-hide-title", view())
 
         section = api.content.create(
             container=page,
