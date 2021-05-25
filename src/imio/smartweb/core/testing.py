@@ -8,7 +8,7 @@ from plone.app.testing import (
     IntegrationTesting,
     PloneSandboxLayer,
 )
-from plone.testing import z2
+from plone.testing.zope import WSGI_SERVER_FIXTURE
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
@@ -54,7 +54,7 @@ IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING = FunctionalTesting(
     bases=(
         IMIO_SMARTWEB_CORE_FIXTURE,
         REMOTE_LIBRARY_BUNDLE_FIXTURE,
-        z2.ZSERVER_FIXTURE,
+        WSGI_SERVER_FIXTURE,
     ),
     name="ImioSmartwebCoreLayer:AcceptanceTesting",
 )
