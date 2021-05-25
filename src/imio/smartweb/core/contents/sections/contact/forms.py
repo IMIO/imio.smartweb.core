@@ -12,10 +12,13 @@ class ContactCustomAddForm(CustomAddForm):
 
     def updateFields(self):
         super(CustomAddForm, self).updateFields()
-        if "hide_title" in self.fields:
-            self.fields["hide_title"].field.default = True
-            # We hide field that hide title because we want nobody can change the default value for contact (default = True)
-            self.fields["hide_title"].mode = HIDDEN_MODE
+        # We hide hide_title field so no one can change the value for contact
+        self.fields["hide_title"].mode = HIDDEN_MODE
+
+    def updateWidgets(self):
+        super(CustomAddForm, self).updateWidgets()
+        # We set True value for hide_title widget (single checkbox) for contact
+        self.widgets["hide_title"].value = ["selected"]
 
 
 class ContactCustomAddView(DefaultAddView):
@@ -25,10 +28,13 @@ class ContactCustomAddView(DefaultAddView):
 class ContactCustomEditForm(CustomEditForm):
     def updateFields(self):
         super(ContactCustomEditForm, self).updateFields()
-        if "hide_title" in self.fields:
-            self.fields["hide_title"].field.default = True
-            # We hide field that hide title because we want nobody can change the default value for contact (default = True)
-            self.fields["hide_title"].mode = HIDDEN_MODE
+        # We hide hide_title field so no one can change the value for contact
+        self.fields["hide_title"].mode = HIDDEN_MODE
+
+    def updateWidgets(self):
+        super(ContactCustomEditForm, self).updateWidgets()
+        # We set True value for hide_title widget (single checkbox) for contact
+        self.widgets["hide_title"].value = ["selected"]
 
 
 ContactCustomEditView = layout.wrap_form(ContactCustomEditForm)
