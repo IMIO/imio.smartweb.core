@@ -9,7 +9,7 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div class="section-container section-contact" tal:attributes="style view/background_style">
+<div class="section-container section-contact" tal:attributes="style view/background_style" i18n:domain="imio.smartweb">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
     <div class="body-section"
          tal:define="contact view/contact | nothing;
@@ -21,6 +21,7 @@
         <div tal:replace="contact/subtitle | nothing"></div>
       </div>
 
+      <h2 i18n:translate="">Address</h2>
       <div class="contact_address" tal:condition="python:'address' in visible_blocks">
         <div tal:replace="contact/street | nothing"></div>
         <div tal:replace="contact/number | nothing"></div>
@@ -30,6 +31,7 @@
         <div tal:define="country contact/country | nothing" tal:condition="country" tal:replace="contact/country/title"></div>
       </div>
 
+      <h2 i18n:translate="">Contact informations</h2>
       <div class="contact_informations" tal:condition="python:'contact_informations' in visible_blocks">
         <div tal:replace="contact/vat_number | nothing"></div>
         <ul tal:define="phones contact/phones | nothing" tal:condition="phones">
