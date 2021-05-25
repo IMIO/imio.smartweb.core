@@ -8,6 +8,9 @@ Changelog
 - Add rich description on all content types
   [boulch]
 
+- Add configurable url for connection to directory authentic source
+  [boulch]
+
 - Add contact section (with connection to directory authentic source)
   [boulch, laulaz]
 
