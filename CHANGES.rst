@@ -5,6 +5,9 @@ Changelog
 1.0a4 (unreleased)
 ------------------
 
+- Add can_toggle_title_visibility property on sections. Use it on Contact section.
+  [boulch laulaz]
+
 - Add rich description on all content types
   [boulch]
 
