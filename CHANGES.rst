@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a4 (unreleased)
+1.0a4 (2021-05-26)
 ------------------
 
 - Add can_toggle_title_visibility property on sections. Use it on Contact section.
