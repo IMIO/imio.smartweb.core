@@ -12,6 +12,7 @@
 
   <include package=".banner" />
   <include package=".footer" />
+  <include package=".minisite" />
   <include package=".subsite" />
 
   <!-- Publish static files -->

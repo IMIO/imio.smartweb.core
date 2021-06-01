@@ -36,6 +36,26 @@
       </property>
       <property name="visible">True</property>
     </object>
+   <object name="minisite_enable" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Enable minisite</property>
+      <property name="description" i18n:translate="">Click to enable minisite on this context.</property>
+      <property name="url_expr">string:$object_url/@@minisite_settings/enable</property>
+      <property name="available_expr">object/@@minisite_settings/available|nothing</property>
+      <property name="permissions">
+        <element value="Manage portal"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="minisite_disable" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Disable minisite</property>
+      <property name="description" i18n:translate="">Click to disable minisite on this context.</property>
+      <property name="url_expr">string:$object_url/@@minisite_settings/disable</property>
+      <property name="available_expr">object/@@minisite_settings/enabled|nothing</property>
+      <property name="permissions">
+        <element value="Manage portal" />
+      </property>
+      <property name="visible">True</property>
+    </object>
     <object name="add_footer" meta_type="CMF Action" i18n:domain="imio.smartweb">
       <property name="title" i18n:translate="">Add footer</property>
       <property name="description" i18n:translate="">Click to add footer on this context.</property>
