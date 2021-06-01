@@ -11,4 +11,27 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <!-- Custom add view and form - invoked from ++add++ traverser -->
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           imio.smartweb.core.interfaces.IImioSmartwebCoreLayer
+           plone.dexterity.interfaces.IDexterityFTI"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
+      factory=".forms.TextCustomAddView"
+      name="imio.smartweb.SectionText"
+      />
+  <class class=".forms.TextCustomAddView">
+      <require
+          permission="cmf.AddPortalContent"
+          interface="zope.publisher.interfaces.browser.IBrowserPage"
+          />
+  </class>
+
+  <browser:page
+      for="imio.smartweb.core.contents.ISectionText"
+      name="edit"
+      class=".forms.TextCustomEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
 </configure>
