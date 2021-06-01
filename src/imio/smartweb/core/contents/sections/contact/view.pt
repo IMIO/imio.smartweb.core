@@ -17,11 +17,16 @@
          tal:condition="contact">
 
       <div class="contact_titles" tal:condition="python:'titles' in visible_blocks">
-        <div tal:replace="contact/title | nothing"></div>
-        <div tal:replace="contact/subtitle | nothing"></div>
+        <h2 tal:define="title contact/title | nothing"
+            tal:condition="title"
+            tal:content="title"></h2>
+        <div class="contact_subtitle"
+             tal:define="subtitle contact/subtitle | nothing"
+             tal:condition="subtitle"
+             tal:content="subtitle"></div>
       </div>
 
-      <h2 i18n:translate="">Address</h2>
+      <h3 i18n:translate="">Address</h3>
       <div class="contact_address" tal:condition="python:'address' in visible_blocks">
         <div tal:replace="contact/street | nothing"></div>
         <div tal:replace="contact/number | nothing"></div>
@@ -31,7 +36,7 @@
         <div tal:define="country contact/country | nothing" tal:condition="country" tal:replace="contact/country/title"></div>
       </div>
 
-      <h2 i18n:translate="">Contact informations</h2>
+      <h3 i18n:translate="">Contact informations</h3>
       <div class="contact_informations" tal:condition="python:'contact_informations' in visible_blocks">
         <div tal:replace="contact/vat_number | nothing"></div>
         <ul tal:define="phones contact/phones | nothing" tal:condition="phones">
