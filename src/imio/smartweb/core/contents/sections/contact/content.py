@@ -13,24 +13,20 @@ from zope.interface import implementer
 class ISectionContact(ISection):
     """Marker interface and Dexterity Python Schema for SectionContact"""
 
-    visible_blocks = schema.List(
-        title=_(u"Visible blocks"),
-        description=_(u"Blocks that will be displayed in contact"),
-        value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.ContactBlocks"),
-        default=["address", "contact_informations", "schedule"],
-    )
-
-    directives.widget(
-        "visible_blocks",
-        CheckBoxFieldWidget,
-    )
-
     directives.widget(related_contact=SelectFieldWidget)
     related_contact = schema.Choice(
         title=_(u"Related contact"),
         description=_(u"Related contact"),
         source="imio.smartweb.vocabulary.RemoteContacts",
         required=True,
+    )
+
+    directives.widget(visible_blocks=CheckBoxFieldWidget)
+    visible_blocks = schema.List(
+        title=_(u"Visible blocks"),
+        description=_(u"Blocks that will be displayed in contact"),
+        value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.ContactBlocks"),
+        default=["address", "contact_informations", "schedule"],
     )
 
 
