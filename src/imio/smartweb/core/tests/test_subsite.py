@@ -52,6 +52,12 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         self.assertTrue(view.available)
         self.assertFalse(view.enabled)
 
+        minisite_view = getMultiAdapter(
+            (self.folder, self.request), name="minisite_settings"
+        )
+        minisite_view.enable()
+        self.assertFalse(view.available)
+
     def test_viewlet_navigation(self):
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
         view.enable()

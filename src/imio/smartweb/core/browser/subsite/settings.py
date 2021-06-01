@@ -3,6 +3,7 @@
 from collective.instancebehavior import disable_behaviors
 from collective.instancebehavior import enable_behaviors
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
+from imio.smartweb.core.browser.minisite.settings import IImioSmartwebMinisite
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -34,6 +35,8 @@ class SubSiteSettings(BrowserView):
 
     @property
     def available(self):
+        if IImioSmartwebMinisite.providedBy(self.context):
+            return False
         return IFolder.providedBy(self.context) and not self.enabled
 
     @property
