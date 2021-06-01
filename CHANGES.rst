@@ -4,7 +4,9 @@ Changelog
 
 1.0a5 (unreleased)
 ------------------
-
+- Added style for correct background display
+  [thomlamb]
+  
 - Add Minisites
   [boulch, laulaz]
 
