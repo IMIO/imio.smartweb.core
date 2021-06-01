@@ -173,7 +173,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         self.assertEqual(view.count("Title of my "), len(section_types))
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), 2)
+        self.assertEqual(view.count("Title of my "), 3)
         login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
@@ -292,3 +292,15 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             "background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')",
             view.background_style(),
         )
+
+    def test_sections_worflows(self):
+        wf_tool = api.portal.get_tool("portal_workflow")
+        section_types = get_sections_types()
+        for section_type in section_types:
+            obj = api.content.create(
+                container=self.page,
+                type=section_type,
+                title="Title of my {}".format(section_type),
+            )
+            chain = wf_tool.getChainFor(obj)
+            self.assertEqual(chain, ())
