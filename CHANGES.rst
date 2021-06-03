@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a5 (unreleased)
+1.0a5 (2021-06-03)
 ------------------
 
 - Subsite logo is a link to subsite root
