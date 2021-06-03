@@ -1,9 +1,11 @@
 <div id="subsite-logo" tal:condition="view/available">
-    <img tal:condition="view/show_logo"
-         tal:attributes="src string:${view/subsite_root/absolute_url}/@@images/logo/preview;
-                         alt view/subsite_root/title;
-                         title view/subsite_root/title" />
-    <div class="subsite-title"
-         tal:condition="view/show_title"
-         tal:content="view/subsite_root/title"></div>
+    <a tal:attributes="href string:${view/subsite_root/absolute_url}">
+        <img tal:condition="view/show_logo"
+             tal:attributes="src string:${view/subsite_root/absolute_url}/@@images/logo/preview;
+                             alt view/subsite_root/title;
+                             title view/subsite_root/title" />
+        <div class="subsite-title"
+             tal:condition="view/show_title"
+             tal:content="view/subsite_root/title"></div>
+    </a>
 </div>
