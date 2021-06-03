@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
+from imio.smartweb.core.browser.minisite.settings import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
@@ -152,3 +153,41 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         )
         self.assertIn("Folder", viewlet())
         self.assertNotIn("Subfolder", viewlet())
+
+    def test_subsite_in_subsite(self):
+        view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        view.enable()
+        self.assertTrue(IImioSmartwebSubsite.providedBy(self.folder))
+        subsite2 = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="subsite2",
+            id="subsite2",
+        )
+        view = getMultiAdapter((subsite2, self.request), name="subsite_settings")
+        view.enable()
+        self.assertTrue(IImioSmartwebSubsite.providedBy(subsite2))
+
+    def test_subsite_in_minisite(self):
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        self.assertTrue(IImioSmartwebMinisite.providedBy(self.folder))
+
+        subsite_view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        self.assertFalse(subsite_view.available)
+
+        subsite = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="subsite",
+            id="subsite",
+        )
+        view = getMultiAdapter((subsite, self.request), name="subsite_settings")
+        view.enable()
+        self.assertTrue(IImioSmartwebSubsite.providedBy(subsite))
+
+    def test_cannot_enable_subsite_on_minisite(self):
+        minisite_view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        minisite_view.enable()
+        subsite_view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        self.assertFalse(subsite_view.enabled)
