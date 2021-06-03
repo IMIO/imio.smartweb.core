@@ -4,9 +4,22 @@ Changelog
 
 1.0a5 (unreleased)
 ------------------
+
+- Subsite logo is a link to subsite root
+  [boulch]
+
+- Enable minisite only on a container in PloneSite root
+  [boulch]
+
+- Can't enable subsite on minisite
+  [boulch]
+
+- Can't enable minisite on a subsite
+  [boulch]
+
 - Added style for correct background display
   [thomlamb]
-  
+
 - Add Minisites
   [boulch, laulaz]
 
