@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from collective.instancebehavior import disable_behaviors
 from collective.instancebehavior import enable_behaviors
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
@@ -43,7 +44,14 @@ class MiniSiteSettings(BrowserView):
 
     @property
     def available(self):
+        if IPloneSiteRoot.providedBy(self.context):
+            # PloneSite can't become minisite
+            return False
+        if not INavigationRoot.providedBy(self.context.aq_parent):
+            # Minisite can only be added in PloneSite
+            return False
         if IImioSmartwebSubsite.providedBy(self.context):
+            # Subsite can't be converted in minisite
             return False
         return IFolder.providedBy(self.context) and not self.enabled
 
