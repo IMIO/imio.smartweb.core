@@ -173,7 +173,9 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         view.enable()
         self.assertTrue(IImioSmartwebMinisite.providedBy(self.folder))
 
-        subsite_view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        subsite_view = getMultiAdapter(
+            (self.folder, self.request), name="subsite_settings"
+        )
         self.assertFalse(subsite_view.available)
 
         subsite = api.content.create(
@@ -187,7 +189,11 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         self.assertTrue(IImioSmartwebSubsite.providedBy(subsite))
 
     def test_cannot_enable_subsite_on_minisite(self):
-        minisite_view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        minisite_view = getMultiAdapter(
+            (self.folder, self.request), name="minisite_settings"
+        )
         minisite_view.enable()
-        subsite_view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        subsite_view = getMultiAdapter(
+            (self.folder, self.request), name="subsite_settings"
+        )
         self.assertFalse(subsite_view.enabled)
