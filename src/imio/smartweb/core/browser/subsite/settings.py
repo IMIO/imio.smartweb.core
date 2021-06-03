@@ -41,4 +41,6 @@ class SubSiteSettings(BrowserView):
 
     @property
     def enabled(self):
+        if IImioSmartwebMinisite.providedBy(self.context):
+            return False
         return IImioSmartwebSubsite.providedBy(self.context)
