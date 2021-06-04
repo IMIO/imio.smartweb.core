@@ -47,7 +47,7 @@ class MiniSiteSettings(BrowserView):
         if IPloneSiteRoot.providedBy(self.context):
             # PloneSite can't become minisite
             return False
-        if not INavigationRoot.providedBy(self.context.aq_parent):
+        if not IPloneSiteRoot.providedBy(self.context.aq_parent):
             # Minisite can only be added in PloneSite
             return False
         if IImioSmartwebSubsite.providedBy(self.context):

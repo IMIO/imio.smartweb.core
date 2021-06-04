@@ -88,3 +88,17 @@ class MinisiteIntegrationTest(ImioSmartwebTestCase):
         self.assertFalse(view.available)
         self.assertFalse(view.enabled)
         self.assertFalse(IImioSmartwebMinisite.providedBy(copied_folder))
+
+    def test_minisite_in_minisite(self):
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        self.assertTrue(IImioSmartwebMinisite.providedBy(self.folder))
+
+        minisite2 = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="minisite2",
+            id="minisite2",
+        )
+        view = getMultiAdapter((minisite2, self.request), name="minisite_settings")
+        self.assertFalse(view.available)
