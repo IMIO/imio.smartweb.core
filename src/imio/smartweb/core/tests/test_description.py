@@ -36,6 +36,11 @@ class DescriptionIntegrationTest(ImioSmartwebTestCase):
                 content_type = api.content.create(
                     title="My {}".format(pt), container=self.portal, type=pt
                 )
-            content_type.description = "My \r\n description"
+            content_type.description = (
+                "My *description* is wonderfull with *bold* and \r\n carriage return \r\n"
+            )
             view = queryMultiAdapter((content_type, self.request), name="description")
-            self.assertEqual(view.description(), "My <br/> description")
+            self.assertEqual(
+                view.description(),
+                "My <strong>description</strong> is wonderfull with <strong>bold</strong> and <br/> carriage return <br/>",
+            )
