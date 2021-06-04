@@ -5,7 +5,11 @@ Changelog
 1.0a6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix : Can't add minisite in another minisite
+  [boulch]
+
+- Add bold text in description
+  [boulch]
 
 
 1.0a5 (2021-06-03)
