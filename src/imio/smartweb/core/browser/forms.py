@@ -22,9 +22,10 @@ class CustomAddForm(DefaultAddForm):
 
     def updateWidgets(self):
         super(CustomAddForm, self).updateWidgets()
-        self.widgets["IBasic.description"].description = _(
-            u"Use **text** to set text in bold and *text* to set text in italic."
-        )
+        if "IBasic.description" in self.widgets:
+            self.widgets["IBasic.description"].description = _(
+                u"Use **text** to set text in bold and *text* to set text in italic."
+            )
 
 
 class CustomAddView(DefaultAddView):
@@ -51,9 +52,10 @@ class CustomEditForm(DefaultEditForm):
 
     def updateWidgets(self):
         super(CustomEditForm, self).updateWidgets()
-        self.widgets["IBasic.description"].description = _(
-            u"Use **text** to set text in bold and *text* to set text in italic."
-        )
+        if "IBasic.description" in self.widgets:
+            self.widgets["IBasic.description"].description = _(
+                u"Use **text** to set text in bold and *text* to set text in italic."
+            )
 
 
 CustomEditView = layout.wrap_form(CustomEditForm)
