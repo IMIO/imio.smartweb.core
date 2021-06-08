@@ -6,8 +6,11 @@ from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
+from z3c.relationfield import RelationValue
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.interface import alsoProvides
+from zope.intid.interfaces import IIntIds
 
 
 class ProcedureFunctionalTest(ImioSmartwebTestCase):
@@ -112,8 +115,12 @@ class ProcedureFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(len(results["quick_access"]), 0)
 
         # a sub page can be included in quick access
-        sub_page.include_in_quick_access = True
-        sub_page.reindexObject()
+        intids = getUtility(IIntIds)
+        folder.quick_access_items = [
+            RelationValue(intids.getId(sub_page)),
+        ]
+        # sub_page.include_in_quick_access = True
+        # sub_page.reindexObject()
         results = view.blocks_results()
         self.assertEqual(len(results["results"]), 3)
         self.assertEqual(len(results["quick_access"]), 1)
@@ -126,8 +133,12 @@ class ProcedureFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(len(results["quick_access"]), 1)
 
         # an excluded page can still be included in quick access
-        page1.include_in_quick_access = True
-        page1.reindexObject()
+        folder.quick_access_items = [
+            RelationValue(intids.getId(sub_page)),
+            RelationValue(intids.getId(page1)),
+        ]
+        # page1.include_in_quick_access = True
+        # page1.reindexObject()
         results = view.blocks_results()
         self.assertEqual(len(results["results"]), 2)
         self.assertEqual(len(results["quick_access"]), 2)
@@ -138,8 +149,13 @@ class ProcedureFunctionalTest(ImioSmartwebTestCase):
         self.assertListEqual(quick_access_ids, ["page1", "subpage"])
 
         # the same page cannot be included in quick access and in parent listing
-        page2.include_in_quick_access = True
-        page2.reindexObject()
+        folder.quick_access_items = [
+            RelationValue(intids.getId(sub_page)),
+            RelationValue(intids.getId(page1)),
+            RelationValue(intids.getId(page2)),
+        ]
+        # page2.include_in_quick_access = True
+        # page2.reindexObject()
         results = view.blocks_results()
         self.assertEqual(len(results["results"]), 2)
         self.assertEqual(len(results["quick_access"]), 2)

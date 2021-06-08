@@ -16,4 +16,9 @@
       factory=".indexers.SearchableText_pages"
       />
 
+  <adapter
+      name="related_quickaccess"
+      factory=".indexers.related_quickaccess"
+      />
+
 </configure>

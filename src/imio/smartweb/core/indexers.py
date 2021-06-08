@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import ISectionText
 from plone import api
@@ -33,3 +34,11 @@ def SearchableText_pages(obj):
         searchable_text = indexes.get("SearchableText") or []
         result = " ".join((result, " ".join(searchable_text)))
     return result
+
+
+@indexer(IFolder)
+def related_quickaccess(obj):
+    # import pdb;pdb.set_trace()
+    if obj.quick_access_items is None:
+        return []
+    return [item.to_object.UID() for item in obj.quick_access_items]

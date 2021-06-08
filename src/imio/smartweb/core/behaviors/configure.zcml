@@ -20,6 +20,13 @@
       />
 
   <plone:behavior
+      name="imio.smartweb.quickaccessselection"
+      title="Quick access selection"
+      description="Allow to select quick access elements for current context."
+      provides=".quickaccess.IQuickAccessSelection"
+      />
+
+  <plone:behavior
       name="imio.smartweb.subsite"
       title="Subsite"
       description="Add subsite properties/fields"

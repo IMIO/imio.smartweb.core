@@ -7,7 +7,10 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
+from z3c.relationfield import RelationValue
 from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.intid.interfaces import IIntIds
 
 
 class NavigationFunctionalTest(ImioSmartwebTestCase):
@@ -85,7 +88,13 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
 
         self.assertNotIn("Quick Page", viewlet.render_globalnav())
         self.assertNotIn('<ul class="quick-access">', viewlet.render_globalnav())
-        page.include_in_quick_access = True
-        page.reindexObject()
+
+        intids = getUtility(IIntIds)
+        subfolder.quick_access_items = [
+            RelationValue(intids.getId(page)),
+        ]
+        subfolder.reindexObject()
+        # page.include_in_quick_access = True
+        # page.reindexObject()
         self.assertIn("Quick Page", viewlet.render_globalnav())
         self.assertIn('<ul class="quick-access">', viewlet.render_globalnav())

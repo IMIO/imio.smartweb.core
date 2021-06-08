@@ -45,9 +45,13 @@ class FolderView(BaseFolderView):
         results and quick access contents (without duplicates)
         """
         results = self.results(batch=False)
+        if self.context.quick_access_items is None:
+            return {"results": results, "quick_access": []}
+        quick_access_uids = [
+            item.to_object.UID() for item in self.context.quick_access_items
+        ]
         quick_access_brains = api.content.find(
-            context=self.context,
-            include_in_quick_access=True,
+            UID=quick_access_uids,
             sort_on="sortable_title",
         )
         paths = [item.getPath() for item in results]

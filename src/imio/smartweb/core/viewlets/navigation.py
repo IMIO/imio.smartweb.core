@@ -16,11 +16,10 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
         return self._item_markup_template.format(**item)
 
     def build_quickaccess(self, path):
-        quick_access_brains = api.content.find(
-            path=path,
-            include_in_quick_access=True,
-            sort_on="sortable_title",
+        path_brains = api.content.find(
+            path={"query": path, "depth": 0},
         )
+        quick_access_brains = api.content.find(UID=path_brains[0].related_quickaccess)
         out = u""
         for brain in quick_access_brains:
             entry = {
@@ -62,12 +61,12 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
 
         if not first_run and out:
             out = self._subtree_markup_wrapper.format(out=out)
-            item_level = path.count("/") - 1
-            if item_level == self.navtree_depth - 1:
-                # Only add quick accesses in the last level of the menu
-                qa_out = self.build_quickaccess(path)
-                if qa_out:
-                    out += self._quickaccesses_markup_wrapper.format(out=qa_out)
+            # item_level = path.count("/") - 1
+            # if item_level == self.navtree_depth - 1:
+            # Only add quick accesses in the last level of the menu
+            qa_out = self.build_quickaccess(path)
+            if qa_out:
+                out += self._quickaccesses_markup_wrapper.format(out=qa_out)
         return out
 
     def render_globalnav(self):

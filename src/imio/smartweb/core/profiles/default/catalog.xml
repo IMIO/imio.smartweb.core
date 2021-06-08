@@ -12,8 +12,12 @@
   <index name="include_in_quick_access" meta_type="BooleanIndex">
     <indexed_attr value="include_in_quick_access"/>
   </index>
+  <index name="related_quickaccess" meta_type="FieldIndex">
+    <indexed_attr value="related_quickaccess"/>
+  </index>
   <column value="category"/>
   <column value="exclude_from_parent_listing"/>
   <column value="has_leadimage"/>
   <column value="include_in_quick_access"/>
+  <column value="related_quickaccess"/>
 </object>
