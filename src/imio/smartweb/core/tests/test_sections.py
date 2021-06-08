@@ -12,10 +12,13 @@ from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
 from plone.protect.authenticator import createToken
 from time import sleep
+from z3c.relationfield import RelationValue
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
+from zope.intid.interfaces import IIntIds
 
 
 class SectionsIntegrationTest(ImioSmartwebTestCase):
@@ -24,7 +27,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
 
     def setUp(self):
         # Number of sections where there is a title if section is empty.
-        self.NUMBER_OF_EMPTY_SECTIONS = 6
+        self.NUMBER_OF_EMPTY_SECTIONS = 7
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -117,6 +120,24 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed", embedded_video
         )
 
+    def test_selections_section(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionSelections",
+            title="Section selections",
+        )
+        page2 = api.content.create(
+            container=self.portal, type="imio.smartweb.Page", title="Page 2"
+        )
+        intids = getUtility(IIntIds)
+        section.selected_items = [
+            RelationValue(intids.getId(page2)),
+        ]
+        view = queryMultiAdapter((section, self.request), name="table_view")
+        self.assertIn(page2, view.items())
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("Page 2", view())
+
     def test_sections_ordering(self):
         page = api.content.create(
             container=self.portal,
@@ -169,11 +190,18 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             )
         video_section = getattr(page, "title-of-my-imio-smartweb-sectionvideo")
         video_section.video_url = "https://www.youtube.com/watch?v=_dOAthafoGQ"
+        selections_section = getattr(
+            page, "title-of-my-imio-smartweb-sectionselections"
+        )
+        intids = getUtility(IIntIds)
+        selections_section.selected_items = [
+            RelationValue(intids.getId(self.page)),
+        ]
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), len(section_types))
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), 3)
+        self.assertEqual(view.count("Title of my "), 4)
         login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
@@ -232,6 +260,14 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             type="Link",
             title="My link",
         )
+        selections_section = getattr(
+            page, "title-of-my-imio-smartweb-sectionselections"
+        )
+        intids = getUtility(IIntIds)
+        selections_section.selected_items = [
+            RelationValue(intids.getId(self.page)),
+        ]
+
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("Title of my "), len(section_types))
         for section_id in page.objectIds():

@@ -22,6 +22,7 @@
     <element value="imio.smartweb.SectionFiles" />
     <element value="imio.smartweb.SectionGallery" />
     <element value="imio.smartweb.SectionLinks" />
+    <element value="imio.smartweb.SectionSelections" />
     <element value="imio.smartweb.SectionText" />
     <element value="imio.smartweb.SectionVideo" />
   </property>
