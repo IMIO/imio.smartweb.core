@@ -38,7 +38,6 @@ def SearchableText_pages(obj):
 
 @indexer(IFolder)
 def related_quickaccess(obj):
-    # import pdb;pdb.set_trace()
     if obj.quick_access_items is None:
         return []
     return [item.to_object.UID() for item in obj.quick_access_items]
