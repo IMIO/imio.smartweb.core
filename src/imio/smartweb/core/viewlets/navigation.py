@@ -61,9 +61,7 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
 
         if not first_run and out:
             out = self._subtree_markup_wrapper.format(out=out)
-            # item_level = path.count("/") - 1
-            # if item_level == self.navtree_depth - 1:
-            # Only add quick accesses in the last level of the menu
+            # Quick accesses are displayed on every levels of the menu
             qa_out = self.build_quickaccess(path)
             if qa_out:
                 out += self._quickaccesses_markup_wrapper.format(out=qa_out)
