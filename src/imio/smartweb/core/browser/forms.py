@@ -14,18 +14,15 @@ class CustomAddForm(DefaultAddForm):
     css_class = "tabbed-form-with-toggle"
     enable_form_tabbing = False
 
-    def updateFields(self):
-        super(CustomAddForm, self).updateFields()
-        if "ILeadImageBehavior.image_caption" in self.fields:
-            # We don't use leadimage caption anywhere
-            self.fields["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
-
     def updateWidgets(self):
         super(CustomAddForm, self).updateWidgets()
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(
                 u"Use **text** to set text in bold and *text* to set text in italic."
             )
+        if "ILeadImageBehavior.image_caption" in self.widgets:
+            # We don't use leadimage caption anywhere
+            self.widgets["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
 
 
 class CustomAddView(DefaultAddView):
@@ -38,9 +35,6 @@ class CustomEditForm(DefaultEditForm):
 
     def updateFields(self):
         super(CustomEditForm, self).updateFields()
-        if "ILeadImageBehavior.image_caption" in self.fields:
-            # We don't use leadimage caption anywhere
-            self.fields["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
         if IDefaultPages.providedBy(self.context):
             # We need to make exclude_from_nav field read only as it is used
             # for default pages to exclude them from sitemap / navigation / ...
@@ -56,6 +50,9 @@ class CustomEditForm(DefaultEditForm):
             self.widgets["IBasic.description"].description = _(
                 u"Use **text** to set text in bold and *text* to set text in italic."
             )
+        if "ILeadImageBehavior.image_caption" in self.widgets:
+            # We don't use leadimage caption anywhere
+            self.widgets["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
 
 
 CustomEditView = layout.wrap_form(CustomEditForm)

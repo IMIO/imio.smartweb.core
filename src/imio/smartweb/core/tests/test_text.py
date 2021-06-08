@@ -60,10 +60,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(hide_title_true["type"], "hidden")
         self.assertEqual(hide_title_true["value"], "selected")
         hide_title_false = soup.find(id="form-widgets-hide_title-1")
-        self.assertIsNotNone(hide_title_false)
-        self.assertEqual(len(hide_title_false), 0)
-        self.assertEqual(hide_title_false["type"], "hidden")
-        self.assertEqual(hide_title_false["value"], "unselected")
+        self.assertIsNone(hide_title_false)
 
         browser.open("{}/++add++{}".format(page.absolute_url(), section.portal_type))
         content = browser.contents
@@ -74,7 +71,4 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(hide_title_true["type"], "hidden")
         self.assertEqual(hide_title_true["value"], "selected")
         hide_title_false = soup.find(id="form-widgets-hide_title-1")
-        self.assertIsNotNone(hide_title_false)
-        self.assertEqual(len(hide_title_false), 0)
-        self.assertEqual(hide_title_false["type"], "hidden")
-        self.assertEqual(hide_title_false["value"], "unselected")
+        self.assertIsNone(hide_title_false)
