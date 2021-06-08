@@ -1,6 +1,6 @@
 <configure
-  xmlns="http://namespaces.zope.org/zope"
-  i18n_domain="imio.smartweb">
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.smartweb">
 
   <permission
       id="imio.smartweb.core.AddFolder"
