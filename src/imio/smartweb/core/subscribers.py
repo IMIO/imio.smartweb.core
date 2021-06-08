@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.browser.minisite.settings import IImioSmartwebMinisite
+from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
+from zope.component import getMultiAdapter
 from zope.globalrequest import getRequest
-from zope.interface import noLongerProvides
 
 
 def folder_moved(object, event):
@@ -14,8 +14,9 @@ def folder_moved(object, event):
     if not IImioSmartwebMinisite.providedBy(object):
         return
     if not INavigationRoot.providedBy(event.newParent):
-        noLongerProvides(object, IImioSmartwebMinisite)
         request = getRequest()
+        minisite_settings = getMultiAdapter((object, request), name="minisite_settings")
+        minisite_settings.disable()
         api.portal.show_message(
             _(
                 u"Your Folder was a minisite but this behaviour has been disabled with this action"

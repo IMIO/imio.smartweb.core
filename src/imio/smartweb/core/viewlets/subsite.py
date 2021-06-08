@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
-from plone import api
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet
 from plone.memoize.view import memoize
@@ -29,10 +28,9 @@ class BaseSubsiteViewlet(common.ViewletBase):
         if self._subsite_root is not None:
             return self._subsite_root
         obj = self.context
-        portal = api.portal.get()
-        while not IImioSmartwebSubsite.providedBy(obj) and aq_base(obj) is not aq_base(
-            portal
-        ):
+        while not IImioSmartwebSubsite.providedBy(
+            obj
+        ) and not INavigationRoot.providedBy(obj):
             obj = aq_parent(aq_inner(obj))
         if IImioSmartwebSubsite.providedBy(obj):
             self._subsite_root = obj

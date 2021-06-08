@@ -34,4 +34,12 @@
       provides=".subsite.IImioSmartwebSubsite"
       />
 
+  <plone:behavior
+      name="imio.smartweb.minisite"
+      title="Minisite"
+      description="Add minisite properties/fields"
+      factory=".minisite.Minisite"
+      provides=".minisite.IImioSmartwebMinisiteSettings"
+      />
+
 </configure>

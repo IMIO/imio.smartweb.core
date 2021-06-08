@@ -61,6 +61,35 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
         self.assertNotIn("subfolder", viewlet.render_globalnav())
         self.assertNotIn("subpage", viewlet.render_globalnav())
 
+    def test_remove_minisite(self):
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+            id="subfolder",
+        )
+        api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Page",
+            title="Subpage",
+            id="subpage",
+        )
+        viewlet = GlobalSectionsWithQuickAccessViewlet(
+            self.portal, self.request, None, None
+        )
+        viewlet.update()
+        self.assertEqual(len(viewlet.navtree), 3)
+        self.assertEqual(len(viewlet.navtree["/plone/folder"]), 1)
+        self.assertIn("subfolder", viewlet.render_globalnav())
+        self.assertIn("subpage", viewlet.render_globalnav())
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        viewlet.remove_minisites()
+        self.assertEqual(len(viewlet.navtree), 1)
+        self.assertEqual(len(viewlet.navtree["/plone/folder"]), 0)
+        self.assertNotIn("subfolder", viewlet.render_globalnav())
+        self.assertNotIn("subpage", viewlet.render_globalnav())
+
     def test_quick_accesses(self):
         api.portal.set_registry_record("plone.navigation_depth", 4)
         subfolder = api.content.create(

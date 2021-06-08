@@ -5,6 +5,9 @@ Changelog
 1.0a6 (unreleased)
 ------------------
 
+- Change minisite properties & dependency with subsite
+  [laulaz]
+
 - Fix : Can't add minisite in another minisite
   [boulch]
 

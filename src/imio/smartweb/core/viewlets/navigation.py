@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from plone.app.layout.viewlets.common import escape
@@ -37,21 +38,40 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
             out += self.render_quickaccess(entry)
         return out
 
-    def remove_subsites_children(self):
-        """We need to remove subsites children from navigation"""
-        subsites_brains = api.content.find(object_provides=IImioSmartwebSubsite)
-        subsites_paths = [b.getPath() for b in subsites_brains]
+    def remove_items(self, iface, remove_self=False):
+        """
+        Remove element (based on its interface) children from navigation and
+        also remove the element itself, if specified so
+        """
+        brains = api.content.find(object_provides=iface)
+        paths = [b.getPath() for b in brains]
         to_delete = []
-        for path in subsites_paths:
+        for path in paths:
             if path in self.navtree:
-                # Item representing the subsite submenu
+                # Item representing the submenu of the matched element
                 to_delete.append(path)
             for key in self.navtree.keys():
                 if key.startswith("{}/".format(path)):
-                    # Item representing a (grand)children of a subsite
+                    # Item representing a (grand)children of the matched element
                     to_delete.append(key)
+            if remove_self:
+                parent_path = "/".join(path.rsplit("/")[:-1])
+                parent_navtree = self.navtree[parent_path]
+                for i in range(len(parent_navtree)):
+                    if parent_navtree[i]["path"] == path:
+                        # Item representing the matched element
+                        del parent_navtree[i]
+                        break
         for key in to_delete:
             del self.navtree[key]
+
+    def remove_minisites(self):
+        """We need to remove minisites from navigation"""
+        self.remove_items(IImioSmartwebMinisite, remove_self=True)
+
+    def remove_subsites_children(self):
+        """We need to remove subsites children from navigation"""
+        self.remove_items(IImioSmartwebSubsite)
 
     def build_tree(self, path, first_run=True):
         """We add quick access contents to the standard Plone navigation"""
@@ -68,5 +88,6 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
         return out
 
     def render_globalnav(self):
+        self.remove_minisites()
         self.remove_subsites_children()
         return self.build_tree(self.navtree_path)

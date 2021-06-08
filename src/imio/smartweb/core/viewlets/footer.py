@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_base
 from Acquisition import aq_inner
 from Acquisition import aq_parent
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
 from zope.component import getMultiAdapter
 
@@ -57,8 +57,7 @@ class SubsiteFooterViewlet(BaseFooterViewlet):
         if self._footer is not None:
             return self._footer
         obj = self.context
-        portal = api.portal.get()
-        while aq_base(obj) is not aq_base(portal):
+        while not INavigationRoot.providedBy(obj):
             if IImioSmartwebSubsite.providedBy(obj):
                 footers = obj.listFolderContents(
                     contentFilter={"portal_type": "imio.smartweb.Footer"}

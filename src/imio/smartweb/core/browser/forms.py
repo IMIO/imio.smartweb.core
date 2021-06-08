@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.dexterity.browser.add import DefaultAddForm
@@ -35,9 +36,12 @@ class CustomEditForm(DefaultEditForm):
 
     def updateFields(self):
         super(CustomEditForm, self).updateFields()
-        if IDefaultPages.providedBy(self.context):
+        if IDefaultPages.providedBy(self.context) or IImioSmartwebMinisite.providedBy(
+            self.context
+        ):
             # We need to make exclude_from_nav field read only as it is used
             # for default pages to exclude them from sitemap / navigation / ...
+            # and for minisites to exclude them as well.
             for group in self.groups:
                 if "IExcludeFromNavigation.exclude_from_nav" in group.fields:
                     group.fields[

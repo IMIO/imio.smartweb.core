@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
-from imio.smartweb.core.browser.minisite.settings import IImioSmartwebMinisite
+from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
