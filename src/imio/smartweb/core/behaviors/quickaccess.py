@@ -32,7 +32,9 @@ class IQuickAccessSelection(model.Schema):
         },
     )
 
-    model.fieldset("categorization", fields=["quick_access_items"])
+    model.fieldset(
+        "categorization", label=_(u"Categorization"), fields=["quick_access_items"]
+    )
 
 
 @provider(IFormFieldProvider)
