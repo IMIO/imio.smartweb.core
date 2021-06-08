@@ -37,14 +37,23 @@ Features
 
 This products contains:
  - Content types: Folder, Page, Procedure, Sections ...
- - Behaviors to configure display in menus / navigations and handle sub-sites
+ - Behaviors to configure display in menus / navigations and handle sub-sites / minisites
  - Complete viewlets organization (header, footer) to get rid of portlets
 
 A folder can be transformed into a sub-site, which has its navigation viewlet, a logo viewlet, ...
+It can also be transformed into a minisite, which is a new navigation root.
+The two are mutually exclusives.
 
 A page (or procedure) can be defined as default page of a folder, changing the way it appears in menus / breadcrumbs / sitemap.
 
-Pages & Procedures can contain different "sections" (Text, Galery, Video, ...).
+Pages & Procedures can contain different "sections":
+ - Contact : displays chosen informations for a contact (stored in authentic source website)
+ - Files : lists files stored in the section
+ - Galery : displays a galery of images stored in the section
+ - Links : displays links stored in the section (carousel or table display)
+ - Selection : displays links to selected contents (carousel or table display)
+ - Text : displays a rich text
+ - Video : displays an embedded video
 Those sections can be styled (bootstrap or custom css classes) and rearranged.
 
 A banner can be defined to be displayed on any folder (& its children) and can be hidden locally on any content.
