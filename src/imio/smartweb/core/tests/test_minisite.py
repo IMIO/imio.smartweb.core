@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.viewlets.logo import LogoViewlet
 from imio.smartweb.core.viewlets.navigation import GlobalSectionsWithQuickAccessViewlet
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
@@ -13,7 +14,9 @@ from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from plone.testing.zope import Browser
+from plone.namedfile.file import NamedBlobFile
 from z3c.relationfield import RelationValue
+from zope.annotation import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
@@ -225,3 +228,47 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         )
         view = getMultiAdapter((minisite2, self.request), name="minisite_settings")
         self.assertFalse(view.available)
+
+    def test_minisite_viewlet_logo(self):
+        viewlet = LogoViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertEqual(viewlet.navigation_root_url, "http://nohost/plone")
+        html = viewlet.render()
+        soup = BeautifulSoup(html)
+        img = soup.find("img")
+        self.assertEqual(img.get("src"), "http://nohost/plone/logo.png")
+        annotations = IAnnotations(self.request)
+        del annotations["plone.memoize"]
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        viewlet = LogoViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertEqual(viewlet.navigation_root_url, "http://nohost/plone/folder")
+        self.assertTrue(viewlet.show_title())
+        self.assertFalse(viewlet.show_logo())
+        self.folder.logo_display_mode = "logo"
+        self.assertFalse(viewlet.show_title())
+        self.assertFalse(viewlet.show_logo())
+        self.folder.logo_display_mode = "logo_title"
+        self.assertTrue(viewlet.show_title())
+        self.assertFalse(viewlet.show_logo())
+        self.folder.logo = NamedBlobFile(data="file data", filename=u"file.png")
+        self.assertTrue(viewlet.show_logo())
+        self.folder.logo_display_mode = "logo"
+        self.assertTrue(viewlet.show_logo())
+        html = viewlet.render()
+        soup = BeautifulSoup(html)
+        img = soup.find("img")
+        self.assertEqual(
+            img.get("src"), "http://nohost/plone/folder/@@images/logo/preview"
+        )
+
+        # Title should remain the same on sub-contents
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+        )
+        viewlet = LogoViewlet(subfolder, self.request, None, None)
+        viewlet.update()
+        self.assertEqual(viewlet.navigation_root_url, "http://nohost/plone/folder")

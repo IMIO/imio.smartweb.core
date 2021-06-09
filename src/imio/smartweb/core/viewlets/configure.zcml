@@ -139,4 +139,11 @@
       permission="zope2.View"
       />
 
+  <browser:viewlet
+      name="plone.logo"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class=".logo.LogoViewlet"
+      permission="zope2.View"
+      />
 </configure>

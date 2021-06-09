@@ -1,0 +1,16 @@
+<a id="portal-logo"
+   class="minisite_logo"
+   title="Home"
+   tal:define="href view/navigation_root_url;
+               title view/navigation_root_title"
+   tal:attributes="href href;
+                   title title">
+      <img src="logo.png" alt=""
+           tal:condition="view/show_logo"
+           tal:attributes="alt title;
+                           title title;
+                           src string:${href}/@@images/logo/preview;" />
+      <div class="minisite_title"
+           tal:condition="view/show_title"
+           tal:content="title"></div>
+</a>
