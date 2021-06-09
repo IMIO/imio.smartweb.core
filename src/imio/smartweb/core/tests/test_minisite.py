@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.viewlets.navigation import GlobalSectionsWithQuickAccessViewlet
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.testing import TEST_USER_ID
@@ -12,7 +13,10 @@ from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from plone.testing.zope import Browser
+from z3c.relationfield import RelationValue
 from zope.component import getMultiAdapter
+from zope.component import getUtility
+from zope.intid.interfaces import IIntIds
 
 import transaction
 
@@ -90,6 +94,88 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         ]
         self.assertEqual(len(children), 1)
         self.assertEqual(children[0].text, "yes")
+
+    def test_minisite_navigation(self):
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+            id="subfolder",
+        )
+        api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Page",
+            title="Subpage",
+            id="subpage",
+        )
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        viewlet = GlobalSectionsWithQuickAccessViewlet(
+            self.folder, self.request, None, None
+        )
+        viewlet.update()
+        viewlet.remove_minisites()
+        self.assertEqual(len(viewlet.navtree), 2)
+        self.assertEqual(len(viewlet.navtree["/plone/folder"]), 2)
+        self.assertIn("subfolder", viewlet.render_globalnav())
+        self.assertIn("subpage", viewlet.render_globalnav())
+
+    def test_quick_accesses(self):
+        api.portal.set_registry_record("plone.navigation_depth", 5)
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder level 2",
+        )
+        api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Folder",
+            title="Subfolder level 3 (to display submenu)",
+        )
+        page = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="Quick Page everywhere",
+        )
+        page_sub = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="Quick Page Sub",
+        )
+        viewlet = GlobalSectionsWithQuickAccessViewlet(
+            self.folder, self.request, None, None
+        )
+        viewlet.update()
+        self.assertNotIn('<ul class="quick-access">', viewlet.render_globalnav())
+
+        # Quick access on minisite folder
+        intids = getUtility(IIntIds)
+        self.folder.quick_access_items = [
+            RelationValue(intids.getId(page)),
+        ]
+        self.folder.reindexObject()
+        html = viewlet.render_globalnav()
+        self.assertNotIn('<ul class="quick-access">', viewlet.render_globalnav())
+
+        # Quick access on second level folder
+        intids = getUtility(IIntIds)
+        subfolder.quick_access_items = [
+            RelationValue(intids.getId(page)),
+            RelationValue(intids.getId(page_sub)),
+        ]
+        subfolder.reindexObject()
+        html = viewlet.render_globalnav()
+        self.assertIn('<ul class="quick-access">', viewlet.render_globalnav())
+
+        soup = BeautifulSoup(html)
+        qa = soup.find("li", {"class": "subfolder-level-2"}).find(
+            "ul", {"class": "quick-access"}
+        )
+
+        self.assertEqual(len(qa.find_all("li")), 2)
+        self.assertIsNotNone(qa.find("li", {"class": "quick-page-sub"}))
 
     def test_delete_minisite(self):
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")

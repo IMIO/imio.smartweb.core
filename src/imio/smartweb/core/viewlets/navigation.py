@@ -66,8 +66,10 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
             del self.navtree[key]
 
     def remove_minisites(self):
-        """We need to remove minisites from navigation"""
-        self.remove_items(IImioSmartwebMinisite, remove_self=True)
+        """We need to remove minisites from navigation, only in main portal"""
+        root = api.portal.get_navigation_root(self.context)
+        if not IImioSmartwebMinisite.providedBy(root):
+            self.remove_items(IImioSmartwebMinisite, remove_self=True)
 
     def remove_subsites_children(self):
         """We need to remove subsites children from navigation"""
