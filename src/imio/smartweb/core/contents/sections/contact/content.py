@@ -16,7 +16,7 @@ class ISectionContact(ISection):
     directives.widget(related_contact=SelectFieldWidget)
     related_contact = schema.Choice(
         title=_(u"Related contact"),
-        description=_(u"Related contact"),
+        description=_(u"Select a related contact from directory"),
         source="imio.smartweb.vocabulary.RemoteContacts",
         required=True,
     )
