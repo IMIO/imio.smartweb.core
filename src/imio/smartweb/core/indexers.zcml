@@ -8,6 +8,11 @@
 
   <adapter
       name="SearchableText"
+      factory=".indexers.SearchableText_section"
+      />
+
+  <adapter
+      name="SearchableText"
       factory=".indexers.SearchableText_sectiontext"
       />
 
