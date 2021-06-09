@@ -91,6 +91,11 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(len(children), 1)
         self.assertEqual(children[0].text, "yes")
 
+    def test_delete_minisite(self):
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        api.content.delete(self.folder)
+
     def test_move_minisite_in_folder(self):
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
         view.enable()

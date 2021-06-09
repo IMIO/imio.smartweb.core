@@ -5,6 +5,7 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.component import getMultiAdapter
+from zope.lifecycleevent import ObjectRemovedEvent
 from zope.globalrequest import getRequest
 
 
@@ -12,6 +13,9 @@ def folder_moved(object, event):
     """We use IObjectMovedEvent instead of IObjectAddedEvent because Minisite interface is not yet
     provided when we use IObjectAddedEvent"""
     if not IImioSmartwebMinisite.providedBy(object):
+        return
+    if type(event) is ObjectRemovedEvent:
+        # We don't have anything to do if minisite is being removed
         return
     if not INavigationRoot.providedBy(event.newParent):
         request = getRequest()
