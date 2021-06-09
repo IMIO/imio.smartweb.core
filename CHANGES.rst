@@ -5,6 +5,9 @@ Changelog
 1.0a6 (unreleased)
 ------------------
 
+- Override plone logo viewlet to display minisite logo
+  [boulch]
+
 - Change minisite properties & dependency with subsite
   [laulaz]
 
