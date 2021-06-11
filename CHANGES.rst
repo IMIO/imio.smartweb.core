@@ -8,6 +8,15 @@ Changelog
 - Override plone logo viewlet to display minisite logo
   [boulch]
 
+- improve sections and pages indexing
+  [laulaz]
+
+- Add new section : imio.smartweb.SectionSelections
+  [boulch]
+
+- Add quick_access_items behavior on imio.smartweb.Folder
+  [boulch]
+
 - Change minisite properties & dependency with subsite
   [laulaz]
 
