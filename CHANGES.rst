@@ -26,7 +26,7 @@ Changelog
 - Change minisite properties & dependency with subsite
   [laulaz]
 
-- Fix : Can't add minisite in another minisite
+- Fix : Can not add minisite in another minisite
   [boulch]
 
 - Add bold text in description
@@ -42,10 +42,10 @@ Changelog
 - Enable minisite only on a container in PloneSite root
   [boulch]
 
-- Can't enable subsite on minisite
+- Can not enable subsite on minisite
   [boulch]
 
-- Can't enable minisite on a subsite
+- Can not enable minisite on a subsite
   [boulch]
 
 - Added style for correct background display
@@ -91,7 +91,7 @@ Changelog
 - Add preview action in Plone toolbar to hide editor actions in content
   [boulch]
 
-- Move field "category" in categorization fieldset
+- Move field category in categorization fieldset
   [boulch]
 
 - Hide leadimage caption field everywhere (editform, addform)
@@ -107,7 +107,7 @@ Changelog
 - Harmonize all sections templates. Rename some css class. Add new css class.
   [boulch, thomlamb]
 
-- Add "row" class in page view template to be bootstrap aware.
+- Add row class in page view template to be bootstrap aware.
   [boulch]
 
 - Get sections bootstrap_css value in get_class pages view (instead of sections templates) to be bootstrap aware.
