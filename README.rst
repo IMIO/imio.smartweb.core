@@ -54,6 +54,7 @@ Pages & Procedures can contain different "sections":
  - Selection : displays links to selected contents (carousel or table display)
  - Text : displays a rich text
  - Video : displays an embedded video
+
 Those sections can be styled (bootstrap or custom css classes) and rearranged.
 
 A banner can be defined to be displayed on any folder (& its children) and can be hidden locally on any content.
