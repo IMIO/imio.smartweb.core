@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a6 (unreleased)
+1.0a6 (2021-06-11)
 ------------------
 
 - Override plone logo viewlet to display minisite logo
