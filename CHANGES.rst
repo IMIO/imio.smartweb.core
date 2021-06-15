@@ -5,7 +5,8 @@ Changelog
 1.0a7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Authorize adding "Message" (from collective.messagesviewlet) content types in imio.smartweb.Folder
+  [boulch]
 
 
 1.0a6 (2021-06-11)
