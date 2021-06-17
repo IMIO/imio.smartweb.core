@@ -5,6 +5,7 @@ from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
+from Products.CMFPlone.interfaces import INonStructuralFolder
 from zope import schema
 from zope.interface import implementer
 
@@ -44,7 +45,7 @@ class ISection(model.Schema):
     css_class = schema.TextLine(title=_(u"CSS class"), required=False)
 
 
-@implementer(ISection)
+@implementer(ISection, INonStructuralFolder)
 class Section(Container):
     """Shared base class for Sections"""
 
