@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.browser.utils import UtilsView
+
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.footer import FooterViewlet
@@ -166,8 +166,8 @@ class FooterIntegrationTest(ImioSmartwebTestCase):
                 description="test",
             )
         )
-        records[
-            "imio.gdpr.interfaces.IGDPRSettings.is_text_ready"
-        ] = record
-        api.portal.set_registry_record("imio.gdpr.interfaces.IGDPRSettings.is_text_ready", True)
+        records["imio.gdpr.interfaces.IGDPRSettings.is_text_ready"] = record
+        api.portal.set_registry_record(
+            "imio.gdpr.interfaces.IGDPRSettings.is_text_ready", True
+        )
         self.assertEqual(footer.restrictedTraverse("@@has_gdpr_text")(), True)
