@@ -8,4 +8,10 @@
        tal:repeat="section view/sections">
         <span tal:replace="structure section" />
   </div>
+  <div>
+    <span tal:condition="context/@@has_gdpr_text"><a href=""
+                                               tal:attributes="href string:${view/navigation_root_url}/gdpr-view"
+                i18n:translate="">Legal notice</a></span>
+
+  </div>
 </div>
