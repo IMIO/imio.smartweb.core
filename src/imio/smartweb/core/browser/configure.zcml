@@ -70,4 +70,13 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="*"
+      name="has_gdpr_text"
+      class=".utils.UtilsView"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      attribute="has_gdpr_text"
+      permission="zope.Public"
+      />
+
 </configure>

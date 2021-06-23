@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from imio.smartweb.core.browser.utils import UtilsView
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.footer import FooterViewlet
@@ -8,7 +8,11 @@ from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobFile
+from plone.registry import field
+from plone.registry import Record
+from plone.registry.interfaces import IRegistry
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 
 
 class FooterIntegrationTest(ImioSmartwebTestCase):
@@ -145,3 +149,25 @@ class FooterIntegrationTest(ImioSmartwebTestCase):
         )
         render = "\n".join(viewlet.sections())
         self.assertIn("Section link", render)
+
+    def test_has_gdpr_text(self):
+        footer_view = getMultiAdapter(
+            (self.portal, self.request), name="footer_settings"
+        )
+        footer_view.add_footer()
+        footer = getattr(self.portal, "footer")
+        self.assertEqual(footer.restrictedTraverse("@@has_gdpr_text")(), False)
+        registry = getUtility(IRegistry)
+        records = registry.records
+        record = Record(
+            field.Bool(
+                title="test",
+                required=False,
+                description="test",
+            )
+        )
+        records[
+            "imio.gdpr.interfaces.IGDPRSettings.is_text_ready"
+        ] = record
+        api.portal.set_registry_record("imio.gdpr.interfaces.IGDPRSettings.is_text_ready", True)
+        self.assertEqual(footer.restrictedTraverse("@@has_gdpr_text")(), True)

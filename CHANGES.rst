@@ -5,6 +5,8 @@ Changelog
 1.0a7 (unreleased)
 ------------------
 
+- Add link to imio.gdpr legal text in Footer
+  [boulch]
 - Authorize adding "Message" (from collective.messagesviewlet) content types in imio.smartweb.Folder
   [boulch]
 
