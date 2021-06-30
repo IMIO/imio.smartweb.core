@@ -22,4 +22,16 @@
       title="imio.smartweb.core: Add Procedure"
       />
 
+  <permission
+    id="imio.smartweb.core.ManageMinisite"
+    title="imio.smartweb.core: Manage Minisite"
+    description=""
+    />
+
+  <permission
+    id="imio.smartweb.core.ManageSubsite"
+    title="imio.smartweb.core: Manage Subsite"
+    description=""
+    />
+
 </configure>
