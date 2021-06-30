@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - Add link to imio.gdpr legal text in Footer
+- Add custom permissions to manage Subsite and Minisite
   [boulch]
 - Authorize adding "Message" (from collective.messagesviewlet) content types in imio.smartweb.Folder
   [boulch]
