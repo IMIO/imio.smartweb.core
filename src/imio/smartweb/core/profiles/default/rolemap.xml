@@ -23,5 +23,15 @@
       <role name="Contributor"/>
     </permission>
 
+    <permission name="imio.smartweb.core: Manage Minisite" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+    </permission>
+
+    <permission name="imio.smartweb.core: Manage Subsite" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+    </permission>
+
   </permissions>
 </rolemap>

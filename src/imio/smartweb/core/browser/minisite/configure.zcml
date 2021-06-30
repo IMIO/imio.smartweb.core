@@ -7,7 +7,7 @@
       for="*"
       class=".settings.MiniSiteSettings"
       allowed_attributes="enable disable available enabled"
-      permission="cmf.ManagePortal"
+      permission="imio.smartweb.core.ManageSubsite"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
