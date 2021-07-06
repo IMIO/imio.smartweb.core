@@ -22,8 +22,7 @@
       <property name="url_expr">string:$object_url/@@subsite_settings/enable</property>
       <property name="available_expr">object/@@subsite_settings/available|nothing</property>
       <property name="permissions">
-        <!--element value="Manage portal"/-->
-        <permission>imio.smartweb.core: Manage Minisite</permission>
+        <element value="imio.smartweb.core: Manage Minisite"/>
       </property>
       <property name="visible">True</property>
 
@@ -34,8 +33,7 @@
       <property name="url_expr">string:$object_url/@@subsite_settings/disable</property>
       <property name="available_expr">object/@@subsite_settings/enabled|nothing</property>
       <property name="permissions">
-        <!--element value="Manage portal" /-->
-        <permission>imio.smartweb.core: Manage Subsite</permission>
+        <element value="imio.smartweb.core: Manage Subsite"/>
       </property>
       <property name="visible">True</property>
     </object>
@@ -45,8 +43,7 @@
       <property name="url_expr">string:$object_url/@@minisite_settings/enable</property>
       <property name="available_expr">object/@@minisite_settings/available|nothing</property>
       <property name="permissions">
-        <!-- element value="Manage portal"/-->
-        <permission>imio.smartweb.core: Manage Minisite</permission>
+        <element value="imio.smartweb.core: Manage Minisite"/>
       </property>
       <property name="visible">True</property>
     </object>
@@ -56,8 +53,7 @@
       <property name="url_expr">string:$object_url/@@minisite_settings/disable</property>
       <property name="available_expr">object/@@minisite_settings/enabled|nothing</property>
       <property name="permissions">
-        <!--element value="Manage portal" /-->
-        <permission>imio.smartweb.core: Manage Minisite</permission>
+        <element value="imio.smartweb.core: Manage Minisite"/>
       </property>
       <property name="visible">True</property>
     </object>
