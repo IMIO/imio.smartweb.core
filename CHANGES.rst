@@ -5,6 +5,8 @@ Changelog
 1.0a7 (unreleased)
 ------------------
 
+- Add imio.smartweb.common (imio.smartweb.topics behavior with topics vocabulary)
+  [boulch]
 - Add link to imio.gdpr legal text in Footer
   [boulch]
 - Add custom permissions to manage Subsite and Minisite
