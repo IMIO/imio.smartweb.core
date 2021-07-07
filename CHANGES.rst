@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a7 (unreleased)
+1.0a7 (2021-07-07)
 ------------------
 
 - Add imio.smartweb.common (imio.smartweb.topics behavior with topics vocabulary)
