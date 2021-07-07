@@ -8,6 +8,7 @@
   <include package="plone.app.contentmenu" />
   <include package="plone.gallery" />
 
+  <include package="imio.smartweb.common" />
   <include package="imio.smartweb.locales" />
 
   <include file="indexers.zcml" />

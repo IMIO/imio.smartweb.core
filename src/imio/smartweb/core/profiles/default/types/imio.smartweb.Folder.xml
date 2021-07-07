@@ -40,6 +40,7 @@
     <element value="plone.locking"/>
     <element value="plone.leadimage"/>
     <element value="plone.constraintypes"/>
+    <element value="imio.smartweb.topics"/>
     <element value="imio.smartweb.listing"/>
     <!--element value="imio.smartweb.quickaccess"/-->
     <element value="imio.smartweb.quickaccessselection"/>
