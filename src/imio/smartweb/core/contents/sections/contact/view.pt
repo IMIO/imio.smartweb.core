@@ -40,14 +40,26 @@
       <div class="contact_informations" tal:condition="python:'contact_informations' in visible_blocks">
         <div tal:replace="contact/vat_number | nothing"></div>
         <ul tal:define="phones contact/phones | nothing" tal:condition="phones">
-          <li tal:repeat="phone phones" tal:content="python:'{} {} {}'.format(phone.get('label'), phone.get('type'), phone.get('number'))" />
+          <li tal:repeat="phone phones" tal:content="python:'{} {} {}'.format(phone.get('label') or '', phone.get('type'), phone.get('number'))" />
         </ul>
         <ul tal:define="mails contact/mails | nothing" tal:condition="mails">
-          <li tal:repeat="mail mails" tal:content="python:'{} {} {}'.format(mail.get('label'), mail.get('type'), mail.get('mail_address'))" />
+          <li tal:repeat="mail mails" tal:content="python:'{} {} {}'.format(mail.get('label') or '', mail.get('type'), mail.get('mail_address'))" />
         </ul>
         <ul tal:define="urls contact/urls | nothing"  tal:condition="urls">
           <li tal:repeat="url urls" tal:content="python:'{} {}'.format(url.get('type'), url.get('url'))" />
         </ul>
+      </div>
+
+      <h3 i18n:translate="">Schedule</h3>
+      <div class="schedule" tal:condition="python:'schedule' in visible_blocks">
+        <div tal:define="opening_informations view/get_opening_informations"></div>
+        <!--être sur un jour MAIS avant les heures d'ouvertures-->
+        <!--être sur un jour MAIS après les heures d'ouvertures-->
+        <!--être sur un jour qui est dans les heures d'ouvertures  : ouvert Ferme à xx:xx-->
+        <!--être sur un jour qui est dans les heures d'ouvertures ET qui ouvre bientôt + noter l'heure d'ouverture-->
+        <!--être sur un jour qui est dans les heures d'ouvertures ET qui ferme bientôt-->
+        <!--être sur un jour MAIS entre les heures d'ouvertures-->
+        <!--être sur un jour de fermeture ou sans horaire-->
       </div>
 
       <div class="contact_gallery" tal:condition="python:'gallery' in visible_blocks">
