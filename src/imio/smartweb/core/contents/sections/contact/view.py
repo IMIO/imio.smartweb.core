@@ -64,11 +64,12 @@ class ContactView(SectionView):
         for schedule_info in multi_schedule:
             if schedule_info.get("dates") == []:
                 continue
-            min_date = datetime.strptime(schedule_info.get("dates"), "%Y-%m-%d").date()
-            max_date = datetime.strptime(schedule_info.get("dates"), "%Y-%m-%d").date()
-            if not (min_date < current_date < max_date):
-                continue
-            day_schedule = schedule_info.get("schedule")[week_day]
+            for daterange in schedule_info.get("dates"):
+                min_date = datetime.strptime(daterange.get("start_date"), "%Y-%m-%d").date()
+                max_date = datetime.strptime(daterange.get("end_date"), "%Y-%m-%d").date()
+                if not (min_date < current_date < max_date):
+                    continue
+                day_schedule = schedule_info.get("schedule")[week_day]
 
         for exceptional_closure_info in exceptional_closure:
             exceptional_closure_date = datetime.strptime(
