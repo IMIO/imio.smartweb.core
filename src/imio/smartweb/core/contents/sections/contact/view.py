@@ -65,8 +65,12 @@ class ContactView(SectionView):
             if schedule_info.get("dates") == []:
                 continue
             for daterange in schedule_info.get("dates"):
-                min_date = datetime.strptime(daterange.get("start_date"), "%Y-%m-%d").date()
-                max_date = datetime.strptime(daterange.get("end_date"), "%Y-%m-%d").date()
+                min_date = datetime.strptime(
+                    daterange.get("start_date"), "%Y-%m-%d"
+                ).date()
+                max_date = datetime.strptime(
+                    daterange.get("end_date"), "%Y-%m-%d"
+                ).date()
                 if not (min_date < current_date < max_date):
                     continue
                 day_schedule = schedule_info.get("schedule")[week_day]
