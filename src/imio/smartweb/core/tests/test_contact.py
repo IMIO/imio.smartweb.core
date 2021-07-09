@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
+from datetime import datetime
+from datetime import timedelta
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -70,13 +72,13 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertNotIn("contact_titles", view())
         self.assertIn("contact_address", view())
         self.assertIn("contact_informations", view())
-        # self.assertIn("schedule", view())
+        self.assertIn("schedule", view())
         self.assertNotIn("contact_gallery", view())
         contact.visible_blocks = ["titles", "gallery"]
         self.assertIn("contact_titles", view())
         self.assertNotIn("contact_address", view())
         self.assertNotIn("contact_informations", view())
-        # self.assertNotIn("schedule", view())
+        self.assertNotIn("schedule", view())
 
         m.get(contact_images_url, text=json.dumps(self.json_contact_images))
         self.assertIn("contact_gallery", view())
@@ -142,3 +144,46 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(hide_title_true["value"], "selected")
         hide_title_false = soup.find(id="form-widgets-hide_title-1")
         self.assertIsNone(hide_title_false)
+
+    @requests_mock.Mocker()
+    def test_opening_informations(self, m):
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertIsNone(contact_view.get_opening_informations())
+        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
+        contact.related_contact = authentic_contact_uid
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
+                authentic_contact_uid
+            )
+        )
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        self.assertIsNotNone(contact_view.get_opening_informations())
+
+        today = datetime.now()
+        today_str = today.strftime("%Y-%m-%d")
+        yesterday_str = (today - timedelta(days=1)).strftime("%Y-%m-%d")
+        tomorrow_str = (today + timedelta(days=1)).strftime("%Y-%m-%d")
+
+        self.json_contact["items"][0]["multi_schedule"][0]["dates"] = [
+            {"end_date": "2021-07-31", "start_date": "2021-07-09"}
+        ]
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        self.assertIsNotNone(contact_view.get_opening_informations())
+
+        self.json_contact["items"][0]["exceptional_closure"] = [
+            {"date": today_str, "title": "Exceptional closure !"}
+        ]
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        self.assertIsNotNone(contact_view.get_opening_informations())
+
+        today = datetime.now().strftime("%Y-%m-%d")
+        self.json_contact["items"][0]["multi_schedule"][0]["dates"] = [
+            {"end_date": tomorrow_str, "start_date": yesterday_str}
+        ]
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        self.assertIsNotNone(contact_view.get_opening_informations())
