@@ -1,10 +1,2 @@
-jQuery(document).ready(function ($) {
-
-  // Hide / show editor's tools when clicking on "Preview" in Plone toolbar
-
-  $(".opening_informations").click(function(e){
-    $(this).siblings(".table_schedule").toggle("fast");
-    $(this).toggle("fast");
-    e.preventDefault();
-  });
-});
+jQuery(document).ready(function(t){t(".opening_informations").click(function(e){t(this).siblings(".table_schedule").toggle("fast"),t(this).toggle("fast"),e.preventDefault()})}),define("/Users/laurent/instances/buildout.smartweb/src/imio.smartweb.core/src/imio/smartweb/core/browser/static/view.js",function(){});
+//# sourceMappingURL=smartweb-view-compiled.js.map
