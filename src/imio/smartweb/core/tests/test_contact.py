@@ -3,6 +3,9 @@
 from bs4 import BeautifulSoup
 from datetime import datetime
 from datetime import timedelta
+from freezegun import freeze_time
+from imio.smartweb.core.contents.sections.contact.view import formatted_schedule
+from imio.smartweb.core.contents.sections.contact.view import get_schedule_for_today
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -169,12 +172,6 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         yesterday_str = (today - timedelta(days=1)).strftime("%Y-%m-%d")
         tomorrow_str = (today + timedelta(days=1)).strftime("%Y-%m-%d")
 
-        self.json_contact["items"][0]["multi_schedule"][0]["dates"] = [
-            {"end_date": "2021-07-31", "start_date": "2021-07-09"}
-        ]
-        m.get(contact_search_url, text=json.dumps(self.json_contact))
-        self.assertIsNotNone(contact_view.get_opening_informations())
-
         self.json_contact["items"][0]["exceptional_closure"] = [
             {"date": today_str, "title": "Exceptional closure !"}
         ]
@@ -187,3 +184,172 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         ]
         m.get(contact_search_url, text=json.dumps(self.json_contact))
         self.assertIsNotNone(contact_view.get_opening_informations())
+
+        self.json_contact["items"][0]["multi_schedule"][0]["dates"] = [
+            {"end_date": yesterday_str, "start_date": yesterday_str}
+        ]
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        self.assertIsNotNone(contact_view.get_opening_informations())
+
+    # {'afternoonend': '', 'afternoonstart': '', 'comment': 'vendredi : apéro à midi', 'morningend': '11:00', 'morningstart': '08:30'}
+    def test_get_schedule_for_today(self):
+        schedule = {
+            "morningstart": "08:30",
+            "morningend": "12:00",
+            "afternoonstart": "13:00",
+            "afternoonend": "17:00",
+            "comment": "",
+        }
+        with freeze_time("2021-09-14 8:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertIn("Open at", result)
+        with freeze_time("2021-09-14 10:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Open")
+        with freeze_time("2021-09-14 12:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Lunch time")
+        with freeze_time("2021-09-14 18:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Closed")
+
+        schedule = {
+            "morningstart": "08:30",
+            "morningend": "12:00",
+            "afternoonstart": "",
+            "afternoonend": "",
+            "comment": "",
+        }
+        with freeze_time("2021-09-14 8:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertIn("Open at", result)
+        with freeze_time("2021-09-14 10:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Open")
+        with freeze_time("2021-09-14 12:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Closed")
+
+        schedule = {
+            "morningstart": "",
+            "morningend": "",
+            "afternoonstart": "13:00",
+            "afternoonend": "17:00",
+            "comment": "",
+        }
+        with freeze_time("2021-09-14 13:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertIn(result, "Open at")
+        with freeze_time("2021-09-14 14:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Open")
+        with freeze_time("2021-09-14 17:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Closed")
+
+        schedule = {
+            "morningstart": "8:30",
+            "morningend": "",
+            "afternoonstart": "",
+            "afternoonend": "17:00",
+            "comment": "",
+        }
+        with freeze_time("2021-09-14 8:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertIn("Open at", result)
+        with freeze_time("2021-09-14 12:20:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Open")
+        with freeze_time("2021-09-14 17:00:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Closed")
+
+        schedule = {
+            "morningstart": "8:30",
+            "morningend": "",
+            "afternoonstart": "",
+            "afternoonend": "17:00",
+            "comment": "Full day opening!",
+        }
+        with freeze_time("2021-09-14 12:20:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Open (Full day opening!)")
+
+        schedule = {
+            "morningstart": "",
+            "morningend": "",
+            "afternoonstart": "",
+            "afternoonend": "",
+            "comment": "",
+        }
+        with freeze_time("2021-09-14 12:20:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Closed")
+
+        schedule = {
+            "morningstart": "",
+            "morningend": "",
+            "afternoonstart": "",
+            "afternoonend": "",
+            "comment": "It's closed!",
+        }
+        with freeze_time("2021-09-14 12:20:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual(result, "Closed (It's closed!)")
+
+    def test_formatted_schedule(self):
+        schedule = {
+            "morningstart": "08:30",
+            "morningend": "12:00",
+            "afternoonstart": "13:00",
+            "afternoonend": "17:00",
+            "comment": "",
+        }
+        self.assertEqual("08:30 - 12:00 | 13:00 - 17:00", formatted_schedule(schedule))
+
+        schedule = {
+            "morningstart": "08:30",
+            "morningend": "",
+            "afternoonstart": "",
+            "afternoonend": "17:00",
+            "comment": "",
+        }
+        self.assertEqual("08:30 - 17:00", formatted_schedule(schedule))
+
+        schedule = {
+            "morningstart": "08:30",
+            "morningend": "12:00",
+            "afternoonstart": "",
+            "afternoonend": "",
+            "comment": "",
+        }
+        self.assertEqual("08:30 - 12:00", formatted_schedule(schedule))
+
+        schedule = {
+            "morningstart": "",
+            "morningend": "",
+            "afternoonstart": "",
+            "afternoonend": "",
+            "comment": "",
+        }
+        self.assertEqual("Closed", formatted_schedule(schedule))
+
+        schedule = {
+            "morningstart": "",
+            "morningend": "",
+            "afternoonstart": "13:00",
+            "afternoonend": "17:00",
+            "comment": "",
+        }
+        self.assertEqual("13:00 - 17:00", formatted_schedule(schedule))
+
+        schedule = {
+            "morningstart": "",
+            "morningend": "",
+            "afternoonstart": "13:00",
+            "afternoonend": "17:00",
+            "comment": "Opening only on PM",
+        }
+        self.assertEqual(
+            "13:00 - 17:00 (Opening only on PM)", formatted_schedule(schedule)
+        )

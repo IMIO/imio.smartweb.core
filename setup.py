@@ -72,6 +72,7 @@ setup(
             "plone.app.robotframework[debug]",
             "requests-mock",
             "beautifulsoup4",
+            "freezegun",
         ],
     },
     entry_points="""""",

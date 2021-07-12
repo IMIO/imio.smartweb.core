@@ -52,14 +52,17 @@
 
       <h3 i18n:translate="">Schedule</h3>
       <div class="schedule" tal:condition="python:'schedule' in visible_blocks">
-        <div tal:define="opening_informations view/get_opening_informations"></div>
-        <!--être sur un jour MAIS avant les heures d'ouvertures-->
-        <!--être sur un jour MAIS après les heures d'ouvertures-->
-        <!--être sur un jour qui est dans les heures d'ouvertures  : ouvert Ferme à xx:xx-->
-        <!--être sur un jour qui est dans les heures d'ouvertures ET qui ouvre bientôt + noter l'heure d'ouverture-->
-        <!--être sur un jour qui est dans les heures d'ouvertures ET qui ferme bientôt-->
-        <!--être sur un jour MAIS entre les heures d'ouvertures-->
-        <!--être sur un jour de fermeture ou sans horaire-->
+        <!-- {'afternoonend': '', 'afternoonstart': '', 'comment': 'vendredi : apéro à midi', 'morningend': '11:00', 'morningstart': '08:30'} -->
+        <div tal:define="opening_informations view/get_opening_informations">
+          <a class="opening_informations" href="#" tal:content="python:view.get_schedule_for_today(opening_informations)"></a>
+          <table class="table_schedule" tal:define="table_date view/get_week_days">
+            <tr tal:repeat="a_date table_date">
+              <td tal:content="python:next(iter(a_date))"></td>
+              <td tal:content="python:view.formatted_schedule(list(a_date.values())[0])"></td>
+            </tr>
+          </table>
+        </div>
+
       </div>
 
       <div class="contact_gallery" tal:condition="python:'gallery' in visible_blocks">
