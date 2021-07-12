@@ -5,7 +5,11 @@ Changelog
 1.0a8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Display schedule in section contact
+  [boulch]
+
+- Fix subsite and minisite permissions
+  [boulch]
 
 
 1.0a7 (2021-07-07)
@@ -13,10 +17,13 @@ Changelog
 
 - Add imio.smartweb.common (imio.smartweb.topics behavior with topics vocabulary)
   [boulch]
+
 - Add link to imio.gdpr legal text in Footer
   [boulch]
+
 - Add custom permissions to manage Subsite and Minisite
   [boulch]
+
 - Authorize adding "Message" (from collective.messagesviewlet) content types in imio.smartweb.Folder
   [boulch]
 
