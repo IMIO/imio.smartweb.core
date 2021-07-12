@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a8 (unreleased)
+1.0a8 (2021-07-12)
 ------------------
 
 - Display schedule in section contact
