@@ -40,6 +40,19 @@ class ContactView(SectionView):
         return json_images.get("items")
 
     @property
+    def subcontacts(self):
+        contact = self.contact
+        if contact is None:
+            return
+        contact_url = contact["@id"]
+        query = "@search?portal_type=imio.directory.Contact&path.depth=1"
+        contact_url_request = "{}/{}".format(contact_url, query)
+        json_contacts = get_directory_json(contact_url_request)
+        if json_contacts is None or len(json_contacts.get("items", [])) == 0:
+            return
+        return json_contacts.get("items")
+
+    @property
     def days(self):
         return (
             ("monday", _("Monday")),
