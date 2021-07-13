@@ -5,7 +5,8 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix missing "Add new" menu on folderish sections
+  [laulaz]
 
 
 1.0a8 (2021-07-12)
