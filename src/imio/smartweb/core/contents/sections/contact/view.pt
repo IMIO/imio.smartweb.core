@@ -26,8 +26,8 @@
              tal:content="subtitle"></div>
       </div>
 
-      <h3 i18n:translate="">Address</h3>
       <div class="contact_address" tal:condition="python:'address' in visible_blocks">
+        <h3 i18n:translate="">Address</h3>
         <div tal:replace="contact/street | nothing"></div>
         <div tal:replace="contact/number | nothing"></div>
         <div tal:replace="contact/complement | nothing"></div>
@@ -36,8 +36,8 @@
         <div tal:define="country contact/country | nothing" tal:condition="country" tal:replace="contact/country/title"></div>
       </div>
 
-      <h3 i18n:translate="">Contact informations</h3>
       <div class="contact_informations" tal:condition="python:'contact_informations' in visible_blocks">
+        <h3 i18n:translate="">Contact informations</h3>
         <div tal:replace="contact/vat_number | nothing"></div>
         <ul class="phones" tal:define="phones contact/phones | nothing" tal:condition="phones">
           <li tal:repeat="phone phones" tal:attributes="class python:phone.get('type') or ''">
@@ -62,8 +62,8 @@
         </ul>
       </div>
 
-      <h3 i18n:translate="">Schedule</h3>
       <div class="schedule" tal:condition="python:'schedule' in visible_blocks">
+        <h3 i18n:translate="">Schedule</h3>
         <!-- {'afternoonend': '', 'afternoonstart': '', 'comment': 'vendredi : apéro à midi', 'morningend': '11:00', 'morningstart': '08:30'} -->
         <div tal:define="opening_informations view/get_opening_informations">
           <a class="opening_informations" href="#" tal:content="python:view.get_schedule_for_today(opening_informations)"></a>

@@ -5,6 +5,9 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
+- Fix : don't display blocks title if display block is False.
+  [boulch]
+
 - Display subcontacts from imio.directory.Contact into section contact view.
   [boulch]
 
