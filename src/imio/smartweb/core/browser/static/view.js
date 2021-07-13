@@ -7,4 +7,10 @@ jQuery(document).ready(function ($) {
     $(this).toggle("fast");
     e.preventDefault();
   });
+
+  $(".table_schedule").click(function(e){
+    $(this).siblings(".opening_informations").toggle("fast");
+    $(this).toggle("fast");
+    e.preventDefault();
+  });
 });
