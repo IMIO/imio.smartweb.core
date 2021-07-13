@@ -40,19 +40,6 @@ class ContactView(SectionView):
         return json_images.get("items")
 
     @property
-    def subcontacts(self):
-        contact = self.contact
-        if contact is None:
-            return
-        contact_url = contact["@id"]
-        query = "@search?portal_type=imio.directory.Contact&path.depth=1"
-        contact_url_request = "{}/{}".format(contact_url, query)
-        json_contacts = get_directory_json(contact_url_request)
-        if json_contacts is None or len(json_contacts.get("items", [])) == 0:
-            return
-        return json_contacts.get("items")
-
-    @property
     def days(self):
         return (
             ("monday", _("Monday")),
@@ -109,14 +96,15 @@ class ContactView(SectionView):
         ts = api.portal.get_tool("translation_service")
         weekdays = []
         now = date.today()
-        weekday = now.weekday() + 1
+        # weekday 0 == monday in python
+        weekday = now.weekday()
         # list of ordered weekdays as numbers
         for day in range(weekday, weekday + 7):
             weekdays.append(
                 {
                     PLMF(
-                        ts.day_msgid(day % 7, format="s"),
-                        default=ts.weekday_english(day % 7, format="a"),
+                        ts.day_msgid((day + 1) % 7, format="s"),
+                        default=ts.weekday_english((day + 1) % 7, format="a"),
                     ): self.get_schedule_for_date(now + timedelta(days=(day - 1) % 7))
                 }
             )

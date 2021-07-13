@@ -85,13 +85,6 @@
         </div>
       </div>
 
-      <div tal:define="contacts view/subcontacts" tal:condition="contacts">
-        <h3 i18n:translate="">Sub contacts</h3>
-        <ul  class="contact_subcontacts">
-          <li tal:repeat="contact contacts" tal:content="python:contact.get('title')"></li>
-        </ul>
-      </div>
-
     </div>
 </div>
 </metal:content-core>
