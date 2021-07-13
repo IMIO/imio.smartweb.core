@@ -39,14 +39,26 @@
       <h3 i18n:translate="">Contact informations</h3>
       <div class="contact_informations" tal:condition="python:'contact_informations' in visible_blocks">
         <div tal:replace="contact/vat_number | nothing"></div>
-        <ul tal:define="phones contact/phones | nothing" tal:condition="phones">
-          <li tal:repeat="phone phones" tal:content="python:'{} {} {}'.format(phone.get('label') or '', phone.get('type'), phone.get('number'))" />
+        <ul class="phones" tal:define="phones contact/phones | nothing" tal:condition="phones">
+          <li tal:repeat="phone phones" tal:attributes="class python:phone.get('type') or ''">
+            <span tal:replace="python:phone.get('label') or ''"></span>
+            <a tal:attributes="href python:'tel:{}'.format(phone.get('number'))"
+               tal:content="python:'{}'.format(phone.get('number'))" />
+          </li>
         </ul>
-        <ul tal:define="mails contact/mails | nothing" tal:condition="mails">
-          <li tal:repeat="mail mails" tal:content="python:'{} {} {}'.format(mail.get('label') or '', mail.get('type'), mail.get('mail_address'))" />
+        <ul class="mails" tal:define="mails contact/mails | nothing" tal:condition="mails">
+          <li tal:repeat="mail mails" tal:attributes="class python:mail.get('type') or ''">
+            <span tal:replace="python:'{}'.format(mail.get('label') or '')"></span>
+            <a tal:attributes="href  python:'mailto:{}'.format(mail.get('mail_address'))"
+               tal:content="python:'{}'.format(mail.get('mail_address'))" />
+          </li>
         </ul>
-        <ul tal:define="urls contact/urls | nothing"  tal:condition="urls">
-          <li tal:repeat="url urls" tal:content="python:'{} {}'.format(url.get('type'), url.get('url'))" />
+        <ul class="urls" tal:define="urls contact/urls | nothing"  tal:condition="urls">
+          <li tal:repeat="url urls" tal:attributes="class python:url.get('type') or ''">
+            <a tal:attributes="href python:url.get('url')"
+               tal:content="python:'{}'.format(url.get('type'))"
+               target="_blank" />
+          </li>
         </ul>
       </div>
 
