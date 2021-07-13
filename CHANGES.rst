@@ -5,6 +5,9 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
+- Display subcontacts from imio.directory.Contact into section contact view.
+  [boulch]
+
 - Fix missing "Add new" menu on folderish sections
   [laulaz]
 
