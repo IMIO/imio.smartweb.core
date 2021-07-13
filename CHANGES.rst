@@ -5,7 +5,7 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
-- Override basic widget template (jbot)
+- Override basic widget template to move description up to input field (jbot)
   [boulch]
 
 - Fix : don't display blocks title if display block is False.
