@@ -20,7 +20,7 @@
     </caption>
   </term>
   <term>
-    <termIdentifier>offres-d-emploi</termIdentifier>
+    <termIdentifier>offres_d_emploi</termIdentifier>
     <caption>
       <langstring language="fr">Offres d'emploi</langstring>
       <langstring language="en">Jobs</langstring>
@@ -38,6 +38,20 @@
     <caption>
       <langstring language="fr">Publications</langstring>
       <langstring language="en">Publications</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>reglements</termIdentifier>
+    <caption>
+      <langstring language="fr">Règlements</langstring>
+      <langstring language="en">Regulations</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>taxes_et_redevances</termIdentifier>
+    <caption>
+      <langstring language="fr">Taxes et redevances</langstring>
+      <langstring language="en">Taxes and fees</langstring>
     </caption>
   </term>
 </vdex>

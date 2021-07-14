@@ -5,6 +5,9 @@ Changelog
 1.0a9 (unreleased)
 ------------------
 
+- Update pages / procedures categories taxonomies
+  [laulaz]
+
 - Override basic widget template to move description up to input field (jbot)
   [boulch]
 
