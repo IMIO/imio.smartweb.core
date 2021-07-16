@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a9 (unreleased)
+1.0a9 (2021-07-16)
 ------------------
 
 - Update pages / procedures categories taxonomies
