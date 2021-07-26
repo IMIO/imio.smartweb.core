@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a10 (unreleased)
+1.0a10 (2021-07-26)
 -------------------
 
 - Improve contacts search (sorted correctly & no batching anymore)
