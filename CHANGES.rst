@@ -5,7 +5,8 @@ Changelog
 1.0a10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Improve contacts search (sorted correctly & no batching anymore)
+  [laulaz]
 
 
 1.0a9 (2021-07-16)
