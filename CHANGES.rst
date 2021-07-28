@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Cleanup old QuickAccess behavior
+  [laulaz]
+
 - Change quickaccess markup in navigation
   [laulaz]
 

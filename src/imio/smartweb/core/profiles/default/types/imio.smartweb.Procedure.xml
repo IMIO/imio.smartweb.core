@@ -40,7 +40,6 @@
     <element value="plone.locking"/>
     <element value="plone.leadimage"/>
     <element value="imio.smartweb.listing"/>
-    <element value="imio.smartweb.quickaccess"/>
     <element value="collective.taxonomy.generated.procedure_category"/>
   </property>
 

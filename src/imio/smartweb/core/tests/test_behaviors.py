@@ -28,21 +28,6 @@ class ProcedureFunctionalTest(ImioSmartwebTestCase):
         self.request = self.layer["request"]
         self._changeUser("test")
 
-    def test_quick_access(self):
-        page = api.content.create(
-            container=self.portal,
-            type="imio.smartweb.Page",
-            title="Quick access page",
-            include_in_quick_access=True,
-        )
-        brains = api.content.find(include_in_quick_access=True)
-        self.assertEqual(len(brains), 1)
-        self.assertEqual(page, brains[0].getObject())
-        page.include_in_quick_access = False
-        page.reindexObject()
-        brains = api.content.find(include_in_quick_access=True)
-        self.assertEqual(len(brains), 0)
-
     def test_summary_listing(self):
         folder = api.content.create(
             container=self.portal,

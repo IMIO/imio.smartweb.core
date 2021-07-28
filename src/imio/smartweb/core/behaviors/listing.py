@@ -12,8 +12,9 @@ from zope.interface import provider
 class IListing(model.Schema):
 
     directives.order_after(
-        exclude_from_parent_listing="IQuickAccess.include_in_quick_access"
+        exclude_from_parent_listing="IExcludeFromNavigation.exclude_from_nav"
     )
+
     model.fieldset("settings", fields=["exclude_from_parent_listing"])
     exclude_from_parent_listing = schema.Bool(
         title=_(u"Exclude from parent listing"),

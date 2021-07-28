@@ -13,13 +13,6 @@
       />
 
   <plone:behavior
-      name="imio.smartweb.quickaccess"
-      title="Quick access"
-      description="Allow to choose if this element must be placed in quick access."
-      provides=".quickaccess.IQuickAccess"
-      />
-
-  <plone:behavior
       name="imio.smartweb.quickaccessselection"
       title="Quick access selection"
       description="Allow to select quick access elements for current context."

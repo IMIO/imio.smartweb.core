@@ -43,7 +43,6 @@
     <element value="plone.leadimage"/>
     <element value="imio.smartweb.listing"/>
     <element value="imio.smartweb.topics"/>
-    <element value="imio.smartweb.quickaccess"/>
     <element value="collective.taxonomy.generated.page_category"/>
   </property>
 
