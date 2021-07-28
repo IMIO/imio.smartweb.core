@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Change linked contact field description
+  [laulaz]
+
 - Cleanup old QuickAccess behavior
   [laulaz]
 

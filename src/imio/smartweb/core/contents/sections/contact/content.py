@@ -16,7 +16,10 @@ class ISectionContact(ISection):
     directives.widget(related_contact=SelectFieldWidget)
     related_contact = schema.Choice(
         title=_(u"Related contact"),
-        description=_(u"Select a related contact from directory"),
+        description=_(
+            u"Select a contact. If you can't find the contact you want, make sure "
+            u"""it exists in the directory and that its "state" is published."""
+        ),
         source="imio.smartweb.vocabulary.RemoteContacts",
         required=True,
     )
