@@ -151,7 +151,7 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
             self.folder, self.request, None, None
         )
         viewlet.update()
-        self.assertNotIn('<ul class="quick-access">', viewlet.render_globalnav())
+        self.assertNotIn('<li class="quick-access">', viewlet.render_globalnav())
 
         # Quick access on minisite folder
         intids = getUtility(IIntIds)
@@ -160,7 +160,7 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         ]
         self.folder.reindexObject()
         html = viewlet.render_globalnav()
-        self.assertNotIn('<ul class="quick-access">', viewlet.render_globalnav())
+        self.assertNotIn('<li class="quick-access">', viewlet.render_globalnav())
 
         # Quick access on second level folder
         intids = getUtility(IIntIds)
@@ -170,11 +170,11 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         ]
         subfolder.reindexObject()
         html = viewlet.render_globalnav()
-        self.assertIn('<ul class="quick-access">', viewlet.render_globalnav())
+        self.assertIn('<li class="quick-access">', viewlet.render_globalnav())
 
         soup = BeautifulSoup(html)
         qa = soup.find("li", {"class": "subfolder-level-2"}).find(
-            "ul", {"class": "quick-access"}
+            "li", {"class": "quick-access"}
         )
 
         self.assertEqual(len(qa.find_all("li")), 2)

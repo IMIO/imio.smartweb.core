@@ -5,7 +5,8 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Change quickaccess markup in navigation
+  [laulaz]
 
 
 1.0a10 (2021-07-26)

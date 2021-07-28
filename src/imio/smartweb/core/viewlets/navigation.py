@@ -2,14 +2,17 @@
 
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.viewlets.common import escape
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet
 from Products.CMFPlone.utils import safe_unicode
+from zope.i18n import translate
 
 
 class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
-    _quickaccesses_markup_wrapper = u'<ul class="quick-access">{out}</ul>'
+    _subtree_markup_wrapper = u'<ul class="has_subtree dropdown">{out}{qa_out}</ul>'
+    _quickaccesses_markup_wrapper = u'<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
 
     def render_quickaccess(self, item):
         if item["title"]:
@@ -77,16 +80,21 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
 
     def build_tree(self, path, first_run=True):
         """We add quick access contents to the standard Plone navigation"""
+        current_lang = api.portal.get_current_language()[:2]
         out = u""
         for item in self.navtree.get(path, []):
             out += self.render_item(item, path)
 
         if not first_run and out:
-            out = self._subtree_markup_wrapper.format(out=out)
             # Quick accesses are displayed on every levels of the menu
-            qa_out = self.build_quickaccess(path)
-            if qa_out:
-                out += self._quickaccesses_markup_wrapper.format(out=qa_out)
+            qa_menu = self.build_quickaccess(path)
+            qa_out = u""
+            if qa_menu:
+                qa_out = self._quickaccesses_markup_wrapper.format(
+                    title=translate(_(u"Quick access"), target_language=current_lang),
+                    out=qa_menu,
+                )
+            out = self._subtree_markup_wrapper.format(out=out, qa_out=qa_out)
         return out
 
     def render_globalnav(self):
