@@ -23,6 +23,7 @@ Changelog
   [laulaz]
 
 - Cleanup old QuickAccess behavior
+- Change quickaccess markup in navigation
   [laulaz]
 
 
