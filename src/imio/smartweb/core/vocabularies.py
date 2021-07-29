@@ -86,6 +86,8 @@ SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()
 class ContactBlocksVocabularyFactory:
     def __call__(self, context=None):
         values = [
+            ("logo", _(u"Logo")),
+            ("leadimage", _(u"Lead Image")),
             ("titles", _(u"Title and Subtitle")),
             ("address", _(u"Address")),
             ("contact_informations", _(u"Contact informations")),

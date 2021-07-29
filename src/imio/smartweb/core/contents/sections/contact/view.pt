@@ -16,6 +16,14 @@
                      visible_blocks context/visible_blocks"
          tal:condition="contact">
 
+      <div class="contact_logo" tal:condition="python:'logo' in visible_blocks"
+           tal:attributes="style string:background-image:url(${contact/@id}/@@images/logo/thumb)">
+      </div>
+
+      <div class="contact_leadimage" tal:condition="python:'leadimage' in visible_blocks"
+           tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/thumb)">
+      </div>
+
       <div class="contact_titles" tal:condition="python:'titles' in visible_blocks">
         <h2 tal:define="title contact/title | nothing"
             tal:condition="title"

@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Add logo & lead image on contact section
+  [laulaz]
+
 - Change linked contact field description
   [laulaz]
 
