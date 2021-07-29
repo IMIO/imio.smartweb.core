@@ -51,6 +51,22 @@ class ContactView(SectionView):
             ("sunday", _("Sunday")),
         )
 
+    def get_itinerary_link(self):
+        contact = self.contact
+        if contact is None:
+            return
+        address_parts = [
+            contact.get("street"),
+            contact.get("number") and str(contact.get("number")) or "",
+            contact.get("complement"),
+            contact.get("zipcode") and str(contact.get("zipcode")) or "",
+            contact.get("city"),
+        ]
+        if contact.get("country"):
+            address_parts.append(contact.get("country").get("title"))
+        address = "+".join(filter(None, address_parts))
+        return "https://www.google.com/maps/dir/?api=1&destination={}".format(address)
+
     def get_opening_informations(self, a_date=None):
         current_date = a_date or date.today()
         contact = self.contact

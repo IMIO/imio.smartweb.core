@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Add itinerary link on contact section
+  [laulaz]
+
 - Add logo & lead image on contact section
   [laulaz]
 

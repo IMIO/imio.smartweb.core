@@ -42,6 +42,11 @@
         <div tal:replace="contact/zipcode | nothing"></div>
         <div tal:replace="contact/city | nothing"></div>
         <div tal:define="country contact/country | nothing" tal:condition="country" tal:replace="contact/country/title"></div>
+        <div class="itinerary">
+          <a href="" target="_blank"
+             tal:attributes="href view/get_itinerary_link"
+             i18n:translate="">Itinerary</a>
+        </div>
       </div>
 
       <div class="contact_informations" tal:condition="python:'contact_informations' in visible_blocks">
