@@ -126,7 +126,7 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
             self.portal, self.request, None, None
         )
         viewlet.update()
-        self.assertNotIn('<li class="quick-access">', viewlet.render_globalnav())
+        self.assertNotIn('<ul class="quick-access">', viewlet.render_globalnav())
 
         # Quick access on first level folder
         intids = getUtility(IIntIds)
@@ -135,11 +135,11 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
         ]
         self.folder.reindexObject()
         html = viewlet.render_globalnav()
-        self.assertIn('<li class="quick-access">', html)
-        self.assertEqual(html.count('<li class="quick-access">'), 1)
+        self.assertIn('<ul class="quick-access">', html)
+        self.assertEqual(html.count('<ul class="quick-access">'), 1)
 
         soup = BeautifulSoup(html)
-        qa = soup.find("li", {"class": "folder"}).find("li", {"class": "quick-access"})
+        qa = soup.find("li", {"class": "folder"}).find("ul", {"class": "quick-access"})
 
         self.assertEqual(len(qa.find_all("li")), 1)
         self.assertIsNotNone(qa.find("li", {"class": "quick-page-everywhere"}))
@@ -152,11 +152,11 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
         ]
         subfolder.reindexObject()
         html = viewlet.render_globalnav()
-        self.assertEqual(html.count('<li class="quick-access">'), 2)
+        self.assertEqual(html.count('<ul class="quick-access">'), 2)
 
         soup = BeautifulSoup(html)
         qa = soup.find("li", {"class": "subfolder-level-2"}).find(
-            "li", {"class": "quick-access"}
+            "ul", {"class": "quick-access"}
         )
 
         self.assertEqual(len(qa.find_all("li")), 2)
@@ -170,11 +170,11 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
         ]
         subsubfolder.reindexObject()
         html = viewlet.render_globalnav()
-        self.assertEqual(html.count('<li class="quick-access">'), 3)
+        self.assertEqual(html.count('<ul class="quick-access">'), 3)
 
         soup = BeautifulSoup(html)
         qa = soup.find("li", {"class": "subfolder-level-3"}).find(
-            "li", {"class": "quick-access"}
+            "ul", {"class": "quick-access"}
         )
 
         self.assertEqual(len(qa.find_all("li")), 2)
