@@ -9,6 +9,7 @@ from plone.app.layout.viewlets.common import GlobalSectionsViewlet
 from plone.memoize.view import memoize
 from Products.CMFPlone.browser.navigation import CatalogNavigationTabs
 from zope.component import getMultiAdapter
+from zope.viewlet.interfaces import IViewletManager
 
 
 class SubsiteNavigationTabs(CatalogNavigationTabs):
@@ -18,6 +19,14 @@ class SubsiteNavigationTabs(CatalogNavigationTabs):
         query = super(SubsiteNavigationTabs, self)._getNavQuery()
         query["path"]["query"] = self.navtree_path
         return query
+
+
+class SubsiteHeaderViewlet(common.ViewletBase):
+    """Viewlet containing the subsite header viewlets manager"""
+
+
+class SubsiteHeaderViewletsManager(IViewletManager):
+    """Viewlet manager containing subsite header viewlets"""
 
 
 class BaseSubsiteViewlet(common.ViewletBase):

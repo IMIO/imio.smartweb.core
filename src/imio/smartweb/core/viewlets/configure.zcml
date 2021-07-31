@@ -45,9 +45,27 @@
       />
 
   <browser:viewlet
-      name="imio.smartweb.subsite_logo"
+      name="imio.smartweb.subsite_header_viewlet"
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="subsite_header_viewlet.pt"
+      class=".subsite.SubsiteHeaderViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewletManager
+      name="imio.smartweb.subsite_header_viewletmanager"
+      provides=".subsite.SubsiteHeaderViewletsManager"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class="plone.app.viewletmanager.manager.OrderedViewletManager"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="imio.smartweb.subsite_logo"
+      for="*"
+      manager=".subsite.SubsiteHeaderViewletsManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="subsite_logo.pt"
       class=".subsite.SubsiteLogoViewlet"
@@ -65,12 +83,37 @@
   <browser:viewlet
       name="imio.smartweb.subsite_navigation"
       for="*"
+      manager=".subsite.SubsiteHeaderViewletsManager"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="subsite_navigation.pt"
+      class=".subsite.SubsiteNavigationViewlet"
+      permission="zope2.View"
+      />
+
+  <!--
+    Legacy subsite viewlets: they are now together in a new viewlet manager (see
+    above), but are also kept separate (& hidden), in case we need to split them.
+   -->
+  <browser:viewlet
+      name="imio.smartweb.subsite_logo"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="subsite_logo.pt"
+      class=".subsite.SubsiteLogoViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="imio.smartweb.subsite_navigation"
+      for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="subsite_navigation.pt"
       class=".subsite.SubsiteNavigationViewlet"
       permission="zope2.View"
       />
+
 
   <browser:viewlet
       name="imio.smartweb.subsite_footer"
