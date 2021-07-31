@@ -22,10 +22,6 @@ Changelog
 - Cleanup old QuickAccess behavior
   [laulaz]
 
-- Change quickaccess markup in navigation
-  [laulaz]
-- Nothing changed yet.
-
 
 1.0a10 (2021-07-26)
 -------------------
