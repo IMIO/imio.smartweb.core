@@ -6,6 +6,7 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.viewlets.common import escape
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet
+from plone.memoize.view import memoize
 from Products.CMFPlone.utils import safe_unicode
 from zope.i18n import translate
 
@@ -13,12 +14,78 @@ import Missing
 
 
 class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
-    _subtree_markup_wrapper = u'<ul class="has_subtree dropdown">{out}{qa_out}</ul>'
+    _close_menu_markup = u'<a aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></a>'
+    _prev_menu_markup = u'<a aria-label="{all}" class="prev-nav"><span>{all}</span></a>'
+    _subtree_markup_wrapper = u"<ul>{out}{qa_out}</ul>"
+    _submenu_markup_wrapper = u'<div class="has_subtree dropdown">{menu_action}<span>{title}</span>{sub}</div>'
     _quickaccesses_markup_wrapper = u'<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
+    _item_markup_template = (
+        u'<li class="{id}{has_sub_class} nav-item">'
+        u'<a href="{url}" class="state-{review_state} nav-link"{aria_haspopup}>{title}</a>{opener}'  # noqa: E 501
+        u"{sub_wrapper}"
+        u"</li>"
+    )
+
+    @property
+    @memoize
+    def root_depth(self):
+        root = api.portal.get_navigation_root(self.context)
+        return len(root.getPhysicalPath())
+
+    @property
+    @memoize
+    def current_lang(self):
+        current_lang = api.portal.get_current_language()[:2]
+        return current_lang
 
     def render_quickaccess(self, item):
         if item["title"]:
             item["title"] = escape(item["title"])
+        return self._item_markup_template.format(**item)
+
+    def render_item(self, item, path):
+        sub = self.build_tree(item["path"], first_run=False)
+        if sub:
+            item.update(
+                {
+                    "sub": sub,
+                    "sub_wrapper": "",
+                    "menu_action": "",
+                    "opener": self._opener_markup_template.format(**item),
+                    "aria_haspopup": ' aria-haspopup="true"',
+                    "has_sub_class": " has_subtree",
+                }
+            )
+        else:
+            item.update(
+                {
+                    "sub": sub,
+                    "sub_wrapper": "",
+                    "menu_action": "",
+                    "opener": "",
+                    "aria_haspopup": "",
+                    "has_sub_class": "",
+                }
+            )
+
+        if "title" in item and item["title"]:
+            item["title"] = escape(item["title"])
+        if "name" in item and item["name"]:
+            item["name"] = escape(item["name"])
+
+        if not sub:
+            return self._item_markup_template.format(**item)
+
+        level = len(item["path"].split("/")) - self.root_depth
+        if level == 1:
+            # We add a "Close" button on the first dropdown menu level
+            close_str = translate(_(u"Close"), target_language=self.current_lang)
+            item["menu_action"] = self._close_menu_markup.format(close=close_str)
+        elif level > 1:
+            # We add a "All / prev" button on the next dropdown menu levels
+            all_str = translate(_(u"All"), target_language=self.current_lang)
+            item["menu_action"] = self._prev_menu_markup.format(all=all_str, **item)
+        item["sub_wrapper"] = self._submenu_markup_wrapper.format(**item)
         return self._item_markup_template.format(**item)
 
     def build_quickaccess(self, path):
@@ -39,6 +106,8 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
                 "title": safe_unicode(brain.Title),
                 "review_state": brain.review_state,
                 "sub": "",
+                "sub_wrapper": "",
+                "menu_action": "",
                 "opener": "",
                 "aria_haspopup": "",
                 "has_sub_class": "",
@@ -85,7 +154,6 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
 
     def build_tree(self, path, first_run=True):
         """We add quick access contents to the standard Plone navigation"""
-        current_lang = api.portal.get_current_language()[:2]
         out = u""
         for item in self.navtree.get(path, []):
             out += self.render_item(item, path)
@@ -96,7 +164,9 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
             qa_out = u""
             if qa_menu:
                 qa_out = self._quickaccesses_markup_wrapper.format(
-                    title=translate(_(u"Quick access"), target_language=current_lang),
+                    title=translate(
+                        _(u"Quick access"), target_language=self.current_lang
+                    ),
                     out=qa_menu,
                 )
             out = self._subtree_markup_wrapper.format(out=out, qa_out=qa_out)

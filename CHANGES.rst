@@ -6,6 +6,7 @@ Changelog
 -------------------
 
 - Fix schedule display in Contact section (days delta, format & translations)
+- Change navigation markup (quickaccess, close / prev buttons, ...)
   [laulaz]
 
 - Put subsite logo & navigation viewlets in a new viewlet manager (to have custom
@@ -23,7 +24,6 @@ Changelog
   [laulaz]
 
 - Cleanup old QuickAccess behavior
-- Change quickaccess markup in navigation
   [laulaz]
 
 
