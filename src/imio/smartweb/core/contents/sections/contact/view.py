@@ -112,17 +112,17 @@ class ContactView(SectionView):
         ts = api.portal.get_tool("translation_service")
         weekdays = []
         now = date.today()
-        # weekday 0 == monday in python
-        weekday = now.weekday()
-        # list of ordered weekdays as numbers
-        for day in range(weekday, weekday + 7):
-            ref_day = (day + 1) % 7
+        for i in range(0, 7):
+            ref_date = now + timedelta(days=i)
+            # weekday 0 == monday in python
+            # ts.day_msgid 0 = sunday in plone
+            ref_date_tsweekday = (ref_date.weekday() + 1) % 7
             weekdays.append(
                 {
                     PLMF(
-                        ts.day_msgid(ref_day, format="s"),
-                        default=ts.weekday_english(ref_day, format="a"),
-                    ): self.get_schedule_for_date(now + timedelta(days=ref_day))
+                        ts.day_msgid(ref_date_tsweekday, format="s"),
+                        default=ts.weekday_english(ref_date_tsweekday, format="a"),
+                    ): self.get_schedule_for_date(ref_date)
                 }
             )
         return weekdays

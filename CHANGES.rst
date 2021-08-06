@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Fix schedule display in Contact section (days delta)
+  [laulaz]
+
 - Put subsite logo & navigation viewlets in a new viewlet manager (to have custom
   html around them). Previous viewlets are also kept separate (& hidden), in
   case we need to split them.
