@@ -116,12 +116,13 @@ class ContactView(SectionView):
         weekday = now.weekday()
         # list of ordered weekdays as numbers
         for day in range(weekday, weekday + 7):
+            ref_day = (day + 1) % 7
             weekdays.append(
                 {
                     PLMF(
-                        ts.day_msgid((day + 1) % 7, format="s"),
-                        default=ts.weekday_english((day + 1) % 7, format="a"),
-                    ): self.get_schedule_for_date(now + timedelta(days=(day - 1) % 7))
+                        ts.day_msgid(ref_day, format="s"),
+                        default=ts.weekday_english(ref_day, format="a"),
+                    ): self.get_schedule_for_date(now + timedelta(days=ref_day))
                 }
             )
         return weekdays
