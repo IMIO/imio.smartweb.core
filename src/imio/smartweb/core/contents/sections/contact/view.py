@@ -6,6 +6,7 @@ from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import get_directory_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 
 
@@ -139,6 +140,7 @@ class ContactView(SectionView):
 
 def formatted_schedule(schedule):
     # opening = {'afternoonend': '', 'afternoonstart': '', 'comment': '', 'morningend': '12:00', 'morningstart': '08:30'}
+    current_lang = api.portal.get_current_language()[:2]
     morningstart = schedule.get("morningstart")
     morningend = schedule.get("morningend")
     afternoonstart = schedule.get("afternoonstart")
@@ -156,13 +158,14 @@ def formatted_schedule(schedule):
     elif not morningend and not afternoonstart:
         str_opening = "{} - {}".format(morningstart, afternoonend)
     if not morningstart and not morningend and not afternoonstart and not afternoonend:
-        str_opening = _("Closed")
+        str_opening = translate(_(u"Closed"), target_language=current_lang)
     return "{} ({})".format(str_opening, comment) if comment else str_opening
 
 
 # {'afternoonend': '', 'afternoonstart': '', 'comment': 'vendredi : apéro à midi', 'morningend': '11:00', 'morningstart': '08:30'}
 def get_schedule_for_today(schedule):
-    message = _("Open")
+    current_lang = api.portal.get_current_language()[:2]
+    message = translate(_(u"Open"), target_language=current_lang)
     morningstart = schedule.get("morningstart")
     morningend = schedule.get("morningend")
     afternoonstart = schedule.get("afternoonstart")
@@ -179,19 +182,26 @@ def get_schedule_for_today(schedule):
 
     now_str = float(datetime.now().strftime("%H.%M"))
     if not morningstart and not morningend and not afternoonstart and not afternoonend:
-        return "{} ({})".format(_("Closed"), comment) if comment else _("Closed")
+        translated_closed = translate(_(u"Closed"), target_language=current_lang)
+        return (
+            "{} ({})".format(translated_closed, comment)
+            if comment
+            else translated_closed
+        )
 
     before_opened = now_str < (morningstart or afternoonstart)
     if before_opened:
-        message = _("Open at ") + str(morningstart or afternoonstart)
+        translated_open_at = translate(_(u"Open at "), target_language=current_lang)
+        hour, minute = str(morningstart or afternoonstart).split(".")
+        message = "{} {:02d}:{:02d}".format(translated_open_at, int(hour), int(minute))
 
     lunch_time = is_now_between(now_str, morningend, afternoonstart)
     if lunch_time:
-        message = _("Lunch time")
+        message = translate(_(u"Lunch time"), target_language=current_lang)
 
     after_closed = now_str >= (afternoonend or morningend)
     if after_closed:
-        message = _("Closed")
+        message = translate(_(u"Closed"), target_language=current_lang)
     return "{} ({})".format(message, comment) if comment else message
 
 
