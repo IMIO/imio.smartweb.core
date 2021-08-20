@@ -37,11 +37,19 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
             "background-image:url('http://nohost/plone/folder/@@images/banner/large')",
             viewlet.background_style(),
         )
+        template = self.folder.restrictedTraverse("view")
+        view = self.folder.restrictedTraverse("@@plone_layout")
+        body_class = view.bodyClass(template, view)
+        self.assertIn("bloc-banner", body_class)
 
     def test_no_banner(self):
         viewlet = BannerViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
+        template = self.folder.restrictedTraverse("view")
+        view = self.folder.restrictedTraverse("@@plone_layout")
+        body_class = view.bodyClass(template, view)
+        self.assertNotIn("bloc-banner", body_class)
 
     def test_banner_root_locally_hidden(self):
         self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
@@ -54,6 +62,10 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         )
         switch_banner_display()
         self.assertTrue(viewlet.is_banner_locally_hidden)
+        template = self.folder.restrictedTraverse("view")
+        view = self.folder.restrictedTraverse("@@plone_layout")
+        body_class = view.bodyClass(template, view)
+        self.assertNotIn("bloc-banner", body_class)
         subfolder = api.content.create(
             container=self.folder,
             type="imio.smartweb.Folder",
@@ -64,6 +76,10 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         self.assertFalse(subfolder_viewlet.available())
         self.assertFalse(subfolder_viewlet.is_banner_locally_hidden)
         self.assertEqual(subfolder_viewlet.background_style(), "")
+        template = subfolder.restrictedTraverse("view")
+        view = subfolder.restrictedTraverse("@@plone_layout")
+        body_class = view.bodyClass(template, view)
+        self.assertNotIn("bloc-banner", body_class)
 
     def test_banner_child_locally_hidden(self):
         self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
@@ -137,5 +153,9 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         self.assertTrue(subfolder_viewlet.available())
         self.assertTrue(subfolder_viewlet.is_banner_locally_hidden)
         self.assertEqual(subfolder_viewlet.background_style(), "")
+        template = subfolder.restrictedTraverse("view")
+        view = subfolder.restrictedTraverse("@@plone_layout")
+        body_class = view.bodyClass(template, view)
+        self.assertNotIn("bloc-banner", body_class)
         logout()
         self.assertFalse(subfolder_viewlet.available())

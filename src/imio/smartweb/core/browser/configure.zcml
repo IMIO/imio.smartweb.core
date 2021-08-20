@@ -23,6 +23,14 @@
       />
 
   <browser:page
+      for="*"
+      name="plone_layout"
+      class=".layout.LayoutPolicy"
+      permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
       name="smartweb-controlpanel"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".controlpanel.SmartwebControlPanelView"
