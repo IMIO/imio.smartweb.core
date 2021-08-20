@@ -7,6 +7,8 @@ from plone.app.layout.viewlets.common import escape
 from plone.app.layout.viewlets.common import GlobalSectionsViewlet
 from Products.CMFPlone.utils import safe_unicode
 
+import Missing
+
 
 class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
     _quickaccesses_markup_wrapper = u'<ul class="quick-access">{out}</ul>'
@@ -20,6 +22,9 @@ class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
         path_brains = api.content.find(
             path={"query": path, "depth": 0},
         )
+        quick_access_uids = path_brains[0].related_quickaccess
+        if quick_access_uids == Missing.Value:
+            return u""
         quick_access_brains = api.content.find(UID=path_brains[0].related_quickaccess)
         out = u""
         for brain in quick_access_brains:
