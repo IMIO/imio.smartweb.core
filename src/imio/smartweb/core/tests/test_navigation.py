@@ -3,7 +3,7 @@
 from bs4 import BeautifulSoup
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.viewlets.navigation import GlobalSectionsWithQuickAccessViewlet
+from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -45,9 +45,7 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
             title="Subpage",
             id="subpage",
         )
-        viewlet = GlobalSectionsWithQuickAccessViewlet(
-            self.portal, self.request, None, None
-        )
+        viewlet = ImprovedGlobalSectionsViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertEqual(len(viewlet.navtree), 3)
         self.assertEqual(len(viewlet.navtree["/plone/folder"]), 1)
@@ -74,9 +72,7 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
             title="Subpage",
             id="subpage",
         )
-        viewlet = GlobalSectionsWithQuickAccessViewlet(
-            self.portal, self.request, None, None
-        )
+        viewlet = ImprovedGlobalSectionsViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertEqual(len(viewlet.navtree), 3)
         self.assertEqual(len(viewlet.navtree["/plone/folder"]), 1)
@@ -122,9 +118,7 @@ class NavigationFunctionalTest(ImioSmartwebTestCase):
             type="imio.smartweb.Page",
             title="Quick Page Su-Sub",
         )
-        viewlet = GlobalSectionsWithQuickAccessViewlet(
-            self.portal, self.request, None, None
-        )
+        viewlet = ImprovedGlobalSectionsViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertNotIn('<li class="quick-access">', viewlet.render_globalnav())
 

@@ -40,7 +40,7 @@
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      class=".navigation.GlobalSectionsWithQuickAccessViewlet"
+      class=".navigation.ImprovedGlobalSectionsViewlet"
       permission="zope2.View"
       />
 

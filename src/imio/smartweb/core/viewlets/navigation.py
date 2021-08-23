@@ -13,7 +13,7 @@ from zope.i18n import translate
 import Missing
 
 
-class GlobalSectionsWithQuickAccessViewlet(GlobalSectionsViewlet):
+class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
     _close_menu_markup = u'<a aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></a>'
     _prev_menu_markup = u'<a aria-label="{all}" class="prev-nav"><span>{all}</span></a>'
     _subtree_markup_wrapper = u"<ul>{out}{qa_out}</ul>"

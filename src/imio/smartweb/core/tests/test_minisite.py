@@ -5,7 +5,7 @@ from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.logo import LogoViewlet
-from imio.smartweb.core.viewlets.navigation import GlobalSectionsWithQuickAccessViewlet
+from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.testing import TEST_USER_ID
@@ -113,9 +113,7 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         )
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
         view.enable()
-        viewlet = GlobalSectionsWithQuickAccessViewlet(
-            self.folder, self.request, None, None
-        )
+        viewlet = ImprovedGlobalSectionsViewlet(self.folder, self.request, None, None)
         viewlet.update()
         viewlet.remove_minisites()
         self.assertEqual(len(viewlet.navtree), 2)
@@ -147,9 +145,7 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
             type="imio.smartweb.Page",
             title="Quick Page Sub",
         )
-        viewlet = GlobalSectionsWithQuickAccessViewlet(
-            self.folder, self.request, None, None
-        )
+        viewlet = ImprovedGlobalSectionsViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertNotIn('<li class="quick-access">', viewlet.render_globalnav())
 
