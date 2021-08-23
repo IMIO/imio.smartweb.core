@@ -129,15 +129,15 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
         if self.navtree_path in paths:
             # we never need to remove the root of the menu (ex: subsite menu)
             paths.remove(self.navtree_path)
-        to_delete = []
+        to_delete = set()
         for path in paths:
             if path in self.navtree:
                 # Item representing the submenu of the matched element
-                to_delete.append(path)
+                to_delete.add(path)
             for key in self.navtree.keys():
                 if key.startswith("{}/".format(path)):
                     # Item representing a (grand)children of the matched element
-                    to_delete.append(key)
+                    to_delete.add(key)
             if remove_self:
                 parent_path = "/".join(path.rsplit("/")[:-1])
                 parent_navtree = self.navtree[parent_path]
