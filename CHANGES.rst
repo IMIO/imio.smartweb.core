@@ -5,8 +5,10 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
-- Fix schedule display in Contact section (days delta, format & translations)
 - Change navigation markup (quickaccess, close / prev buttons, ...)
+  [laulaz]
+
+- Fix schedule display in Contact section (days delta, format & translations)
   [laulaz]
 
 - Put subsite logo & navigation viewlets in a new viewlet manager (to have custom
