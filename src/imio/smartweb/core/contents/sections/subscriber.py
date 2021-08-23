@@ -5,4 +5,7 @@ from Acquisition import aq_parent
 
 def reindexParent(obj, event):
     parent = aq_parent(obj)
-    parent.reindexObject()
+    if parent is not None:
+        # in some cases (ex: relation breaking), we do not get the object in
+        # its acquisition chain
+        parent.reindexObject()
