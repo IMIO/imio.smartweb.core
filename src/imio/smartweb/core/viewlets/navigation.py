@@ -29,8 +29,12 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
     @property
     @memoize
     def root_depth(self):
-        root = api.portal.get_navigation_root(self.context)
-        return len(root.getPhysicalPath())
+        return len(self.nav_root.getPhysicalPath())
+
+    @property
+    @memoize
+    def nav_root(self):
+        return api.portal.get_navigation_root(self.context)
 
     @property
     @memoize
@@ -120,8 +124,11 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
         Remove element (based on its interface) children from navigation and
         also remove the element itself, if specified so
         """
-        brains = api.content.find(object_provides=iface)
+        brains = api.content.find(context=self.nav_root, object_provides=iface)
         paths = [b.getPath() for b in brains]
+        if self.navtree_path in paths:
+            # we never need to remove the root of the menu (ex: subsite menu)
+            paths.remove(self.navtree_path)
         to_delete = []
         for path in paths:
             if path in self.navtree:
@@ -144,8 +151,7 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
 
     def remove_minisites(self):
         """We need to remove minisites from navigation, only in main portal"""
-        root = api.portal.get_navigation_root(self.context)
-        if not IImioSmartwebMinisite.providedBy(root):
+        if not IImioSmartwebMinisite.providedBy(self.nav_root):
             self.remove_items(IImioSmartwebMinisite, remove_self=True)
 
     def remove_subsites_children(self):
