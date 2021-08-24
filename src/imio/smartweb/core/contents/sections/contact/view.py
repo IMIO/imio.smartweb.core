@@ -66,6 +66,8 @@ class ContactView(SectionView):
         if contact.get("country"):
             address_parts.append(contact.get("country").get("title"))
         address = "+".join(filter(None, address_parts))
+        if not address:
+            return
         return "https://www.google.com/maps/dir/?api=1&destination={}".format(address)
 
     def get_opening_informations(self, a_date=None):

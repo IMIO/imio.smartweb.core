@@ -42,9 +42,11 @@
         <div tal:replace="contact/zipcode | nothing"></div>
         <div tal:replace="contact/city | nothing"></div>
         <div tal:define="country contact/country | nothing" tal:condition="country" tal:replace="contact/country/title"></div>
-        <div class="itinerary">
+        <div class="itinerary"
+             tal:define="link view/get_itinerary_link"
+             tal:condition="link">
           <a href="" target="_blank"
-             tal:attributes="href view/get_itinerary_link"
+             tal:attributes="href link"
              i18n:translate="">Itinerary</a>
         </div>
       </div>
