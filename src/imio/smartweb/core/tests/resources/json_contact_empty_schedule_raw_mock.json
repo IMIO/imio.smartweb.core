@@ -1,0 +1,160 @@
+{
+  "@id": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
+  "items": [
+    {
+      "@components": {
+        "actions": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@actions"
+        },
+        "breadcrumbs": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@breadcrumbs"
+        },
+        "contextnavigation": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@contextnavigation"
+        },
+        "navigation": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@navigation"
+        },
+        "types": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@types"
+        },
+        "workflow": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@workflow"
+        }
+      },
+      "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
+      "@type": "imio.directory.Contact",
+      "UID": "2dc381f0fb584381b8e4a19c84f53b35",
+      "allow_discussion": false,
+      "city": "Liège",
+      "complement": null,
+      "country": {
+        "title": "Belgique",
+        "token": "be"
+      },
+      "created": "2021-05-11T10:06:16+00:00",
+      "description": "",
+      "effective": "2021-05-11T13:31:00",
+      "exclude_from_nav": false,
+      "expires": null,
+      "id": "2dc381f0fb584381b8e4a19c84f53b35",
+      "image": null,
+      "image_caption": null,
+      "is_folderish": true,
+      "items": [
+        {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image1.jpg",
+          "@type": "Image",
+          "description": "",
+          "review_state": null,
+          "title": "image1.jpg"
+        },
+        {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image2.jpg",
+          "@type": "Image",
+          "description": "",
+          "review_state": null,
+          "title": "image2.jpg"
+        },
+        {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/dd8bd1f547034b24a2e0da16c0ba0358",
+          "@type": "imio.directory.Contact",
+          "description": "My subcontact description",
+          "review_state": "published",
+          "title": "My subcontact"
+        }
+      ],
+      "items_total": 3,
+      "language": {
+        "title": "Français",
+        "token": "fr"
+      },
+      "layout": "view",
+      "logo": null,
+      "mails": [],
+      "modified": "2021-05-19T08:04:06+00:00",
+      "next_item": {},
+      "number": "1",
+      "parent": {
+        "@id": "http://localhost:8080/Plone",
+        "@type": "Plone Site",
+        "description": "",
+        "title": "Site"
+      },
+      "phones": [],
+      "previous_item": {
+        "@id": "http://localhost:8080/Plone/af7bd1f547034b24a2e0da16c0ba0358",
+        "@type": "imio.directory.Contact",
+        "description": "My previous contact description",
+        "title": "My previous contact"
+      },
+      "review_state": "published",
+      "street": "Adresse",
+      "subjects": [],
+      "subtitle": null,
+      "title": "My contact",
+      "type": {
+        "title": "Organization",
+        "token": "organization"
+      },
+      "urls": [],
+      "vat_number": null,
+      "version": "current",
+      "zipcode": 1000,
+      "exceptional_closure": [],
+      "multi_schedule": [],
+      "schedule": {
+        "friday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "monday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "saturday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "sunday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "thursday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "tuesday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "wednesday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        }
+      }
+    }
+  ],
+  "items_total": 1
+}
