@@ -353,3 +353,66 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(
             "13:00 - 17:00 (Opening only on PM)", formatted_schedule(schedule)
         )
+
+    @requests_mock.Mocker()
+    def test_formatted_with_multi_schedule(self, m):
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertIsNone(contact_view.get_opening_informations())
+        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
+        contact.related_contact = authentic_contact_uid
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
+                authentic_contact_uid
+            )
+        )
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        with freeze_time("2021-06-30 12:20:00"):
+            schedule = contact_view.get_opening_informations()
+            self.assertEqual("13:00 - 17:30 (Ouverture PM)", contact_view.formatted_schedule(schedule))
+        with freeze_time("2021-07-07 12:20:00"):
+            schedule = contact_view.get_opening_informations()
+            self.assertEqual("13:00 - 15:00 (Ouverture PM vacances)", contact_view.formatted_schedule(schedule))
+        with freeze_time("2021-09-01 12:20:00"):
+            schedule = contact_view.get_opening_informations()
+            self.assertEqual("13:00 - 17:30 (Ouverture PM)", contact_view.formatted_schedule(schedule))
+        with freeze_time("2021-12-29 12:20:00"):
+            schedule = contact_view.get_opening_informations()
+            self.assertEqual("13:00 - 15:00 (Ouverture PM vacances)", contact_view.formatted_schedule(schedule))
+
+    @requests_mock.Mocker()
+    def test_empty_schedule(self, m):
+        json_contact_empty_schedule = get_json("resources/json_contact_empty_schedule_raw_mock.json")
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        contact.visible_blocks = ["titles", "gallery", "schedule"]
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertIsNone(contact_view.get_opening_informations())
+        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
+        contact.related_contact = authentic_contact_uid
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
+                authentic_contact_uid
+            )
+        )
+        m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        is_empty = contact_view.is_empty_schedule()
+        self.assertEqual(is_empty, True)
+        self.assertNotIn('class="schedule"', view())
+        json_contact_empty_schedule["items"][0].get("schedule")["monday"] = {"morningstart": "8:00",
+                                                                             "morningend": "12:00",
+                                                                             "afternoonstart":"",
+                                                                             "afternoonend":"",
+                                                                             "comments":""}
+        m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
+        is_empty = contact_view.is_empty_schedule()
+        self.assertEqual(is_empty, False)
+        self.assertIn('class="schedule"', view())
