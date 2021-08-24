@@ -78,7 +78,6 @@ class ContactView(SectionView):
         schedule = contact.get("schedule")
         multi_schedule = contact.get("multi_schedule")
         exceptional_closure = contact.get("exceptional_closure")
-
         week_day = self.days[current_date.weekday()][0]
         day_schedule = schedule[week_day]
         for schedule_info in multi_schedule:
@@ -106,7 +105,7 @@ class ContactView(SectionView):
                 day_schedule[k] = ""
                 if k == "comment":
                     day_schedule[k] = exceptional_closure_info.get("title")
-
+        # sample : {'afternoonend': '16:00', 'afternoonstart': '14:00', 'comment': '', 'morningend': '14:00', 'morningstart': '09:00'}
         return day_schedule
 
     def get_week_days(self):
@@ -138,6 +137,17 @@ class ContactView(SectionView):
 
     def formatted_schedule(self, schedule):
         return formatted_schedule(schedule)
+
+    def is_empty_schedule(self):
+        contact = self.contact
+        if contact is None:
+            return
+        schedule = contact.get("schedule")
+        for day in schedule.values():
+            for value in day.values():
+                if value:
+                    return False
+        return True
 
 
 def formatted_schedule(schedule):

@@ -77,7 +77,7 @@
         </ul>
       </div>
 
-      <div class="schedule" tal:condition="python:'schedule' in visible_blocks">
+      <div class="schedule" tal:condition="python:'schedule' in visible_blocks and not view.is_empty_schedule()">
         <h3 i18n:translate="">Schedule</h3>
         <div tal:define="opening_informations view/get_opening_informations">
           <a class="opening_informations" href="#" tal:content="python:view.get_schedule_for_today(opening_informations)"></a>
