@@ -1,25 +1,26 @@
 {
   "@id": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35&fullobjects=1",
-  "items": [{
+  "items": [
+    {
       "@components": {
-          "actions": {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@actions"
-          },
-          "breadcrumbs": {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@breadcrumbs"
-          },
-          "contextnavigation": {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@contextnavigation"
-          },
-          "navigation": {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@navigation"
-          },
-          "types": {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@types"
-          },
-          "workflow": {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@workflow"
-          }
+        "actions": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@actions"
+        },
+        "breadcrumbs": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@breadcrumbs"
+        },
+        "contextnavigation": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@contextnavigation"
+        },
+        "navigation": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@navigation"
+        },
+        "types": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@types"
+        },
+        "workflow": {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@workflow"
+        }
       },
       "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
       "@type": "imio.directory.Contact",
@@ -28,8 +29,8 @@
       "city": "Liège",
       "complement": null,
       "country": {
-          "title": "Belgique",
-          "token": "be"
+        "title": "Belgique",
+        "token": "be"
       },
       "created": "2021-05-11T10:06:16+00:00",
       "description": "",
@@ -41,32 +42,32 @@
       "image_caption": null,
       "is_folderish": true,
       "items": [
-          {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image1.jpg",
-              "@type": "Image",
-              "description": "",
-              "review_state": null,
-              "title": "image1.jpg"
-          },
-          {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image2.jpg",
-              "@type": "Image",
-              "description": "",
-              "review_state": null,
-              "title": "image2.jpg"
-          },
-          {
-              "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/dd8bd1f547034b24a2e0da16c0ba0358",
-              "@type": "imio.directory.Contact",
-              "description": "My subcontact description",
-              "review_state": "published",
-              "title": "My subcontact"
-          }
+        {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image1.jpg",
+          "@type": "Image",
+          "description": "",
+          "review_state": null,
+          "title": "image1.jpg"
+        },
+        {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image2.jpg",
+          "@type": "Image",
+          "description": "",
+          "review_state": null,
+          "title": "image2.jpg"
+        },
+        {
+          "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/dd8bd1f547034b24a2e0da16c0ba0358",
+          "@type": "imio.directory.Contact",
+          "description": "My subcontact description",
+          "review_state": "published",
+          "title": "My subcontact"
+        }
       ],
       "items_total": 3,
       "language": {
-          "title": "Français",
-          "token": "fr"
+        "title": "Français",
+        "token": "fr"
       },
       "layout": "view",
       "logo": null,
@@ -75,17 +76,17 @@
       "next_item": {},
       "number": "1",
       "parent": {
-          "@id": "http://localhost:8080/Plone",
-          "@type": "Plone Site",
-          "description": "",
-          "title": "Site"
+        "@id": "http://localhost:8080/Plone",
+        "@type": "Plone Site",
+        "description": "",
+        "title": "Site"
       },
       "phones": [],
       "previous_item": {
-          "@id": "http://localhost:8080/Plone/af7bd1f547034b24a2e0da16c0ba0358",
-          "@type": "imio.directory.Contact",
-          "description": "My previous contact description",
-          "title": "My previous contact"
+        "@id": "http://localhost:8080/Plone/af7bd1f547034b24a2e0da16c0ba0358",
+        "@type": "imio.directory.Contact",
+        "description": "My previous contact description",
+        "title": "My previous contact"
       },
       "review_state": "published",
       "street": "Adresse",
@@ -93,138 +94,137 @@
       "subtitle": null,
       "title": "My contact",
       "type": {
-          "title": "Organization",
-          "token": "organization"
+        "title": "Organization",
+        "token": "organization"
       },
       "urls": [],
       "vat_number": null,
       "version": "current",
       "zipcode": 1000,
       "exceptional_closure": [
-          {
+        {
           "date": "2021-06-16",
           "title": "Exceptional closure !"
-          }
+        }
       ],
-      "multi_schedule": [{
-          "dates": [],
+      "multi_schedule": [
+        {
+          "dates": [
+            {
+              "start_date": "2021-07-01",
+              "end_date": "2021-08-31"
+            },
+            {
+              "start_date": "2021-12-20",
+              "end_date": "2021-12-31"
+            }
+          ],
           "schedule": {
-              "friday": {"afternoonend": "16:00",
-                  "afternoonstart": "13:00",
-                  "comment": "Jour d'ouverture",
-                  "morningend": "12:00",
-                  "morningstart": "08:00"},
-              "monday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "saturday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "sunday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "thursday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "tuesday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "wednesday": {"afternoonend": "16:00",
-                  "afternoonstart": "13:00",
-                  "comment": "Ouverture PM",
-                  "morningend": "",
-                  "morningstart": ""}
+            "friday": {
+              "afternoonend": "16:00",
+              "afternoonstart": "13:00",
+              "comment": "Jour d'ouverture",
+              "morningend": "12:00",
+              "morningstart": "08:00"
+            },
+            "monday": {
+              "afternoonend": "",
+              "afternoonstart": "",
+              "comment": "",
+              "morningend": "",
+              "morningstart": ""
+            },
+            "saturday": {
+              "afternoonend": "",
+              "afternoonstart": "",
+              "comment": "",
+              "morningend": "",
+              "morningstart": ""
+            },
+            "sunday": {
+              "afternoonend": "",
+              "afternoonstart": "",
+              "comment": "",
+              "morningend": "",
+              "morningstart": ""
+            },
+            "thursday": {
+              "afternoonend": "",
+              "afternoonstart": "",
+              "comment": "",
+              "morningend": "",
+              "morningstart": ""
+            },
+            "tuesday": {
+              "afternoonend": "",
+              "afternoonstart": "",
+              "comment": "",
+              "morningend": "",
+              "morningstart": ""
+            },
+            "wednesday": {
+              "afternoonend": "15:00",
+              "afternoonstart": "13:00",
+              "comment": "Ouverture PM vacances",
+              "morningend": "",
+              "morningstart": ""
+            }
           },
-          "title": "Horaire d'été"
-      },
-{
-          "dates": [],
-          "schedule": {
-              "friday": {"afternoonend": "16:00",
-                  "afternoonstart": "13:00",
-                  "comment": "Jour d'ouverture",
-                  "morningend": "12:00",
-                  "morningstart": "08:00"},
-              "monday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "saturday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "sunday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "thursday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "tuesday": {"afternoonend": "",
-                  "afternoonstart": "",
-                  "comment": "",
-                  "morningend": "",
-                  "morningstart": ""},
-              "wednesday": {"afternoonend": "16:00",
-                  "afternoonstart": "13:00",
-                  "comment": "Ouverture PM",
-                  "morningend": "",
-                  "morningstart": ""}
-          },
-          "title": "Horaire d'été"
-      }],
+          "title": "Horaire de vacances"
+        }
+      ],
       "schedule": {
-          "friday": {"afternoonend": "17:30",
-              "afternoonstart": "",
-              "comment": "Toute la journée",
-              "morningend": "",
-              "morningstart": "08:00"},
-          "monday": {"afternoonend": "15:00",
-              "afternoonstart": "13:00",
-              "comment": "Ouverture classique avec pause de midi",
-              "morningend": "12:00",
-              "morningstart": "08:00"},
-          "saturday": {"afternoonend": "",
-              "afternoonstart": "",
-              "comment": "",
-              "morningend": "12:00",
-              "morningstart": "10:00"},
-          "sunday": {"afternoonend": "",
-              "afternoonstart": "",
-              "comment": "",
-              "morningend": "",
-              "morningstart": ""},
-          "thursday": {"afternoonend": "",
-              "afternoonstart": "",
-              "comment": "Ouverture AM",
-              "morningend": "12:00",
-              "morningstart": "08:00"},
-          "tuesday": {"afternoonend": "",
-              "afternoonstart": "",
-              "comment": "Jour de fermeture",
-              "morningend": "",
-              "morningstart": ""},
-          "wednesday": {"afternoonend": "17:30",
-              "afternoonstart": "13:00",
-              "comment": "Ouverture PM",
-              "morningend": "",
-              "morningstart": ""}
-          }
-  }],
+        "friday": {
+          "afternoonend": "17:30",
+          "afternoonstart": "",
+          "comment": "Toute la journée",
+          "morningend": "",
+          "morningstart": "08:00"
+        },
+        "monday": {
+          "afternoonend": "15:00",
+          "afternoonstart": "13:00",
+          "comment": "Ouverture classique avec pause de midi",
+          "morningend": "12:00",
+          "morningstart": "08:00"
+        },
+        "saturday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "12:00",
+          "morningstart": "10:00"
+        },
+        "sunday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "thursday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "Ouverture AM",
+          "morningend": "12:00",
+          "morningstart": "08:00"
+        },
+        "tuesday": {
+          "afternoonend": "",
+          "afternoonstart": "",
+          "comment": "Jour de fermeture",
+          "morningend": "",
+          "morningstart": ""
+        },
+        "wednesday": {
+          "afternoonend": "17:30",
+          "afternoonstart": "13:00",
+          "comment": "Ouverture PM",
+          "morningend": "",
+          "morningstart": ""
+        }
+      }
+    }
+  ],
   "items_total": 1
 }
