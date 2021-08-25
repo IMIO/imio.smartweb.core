@@ -8,29 +8,29 @@
   <term>
     <termIdentifier>actes</termIdentifier>
     <caption>
-      <langstring language="fr">Actes (naissance, mariage, décès, etc.)</langstring>
-      <langstring language="en">Acts (birth, marriage, death, etc.)</langstring>
+      <langstring language="fr">Acte (naissance, mariage, décès, etc.)</langstring>
+      <langstring language="en">Act (birth, marriage, death, etc.)</langstring>
     </caption>
   </term>
   <term>
-    <termIdentifier>autorisation_cartes</termIdentifier>
+    <termIdentifier>autorisation_carte</termIdentifier>
     <caption>
-      <langstring language="fr">Autorisation et cartes</langstring>
-      <langstring language="en">Authorization and cards</langstring>
+      <langstring language="fr">Autorisation et carte</langstring>
+      <langstring language="en">Authorization and card</langstring>
     </caption>
   </term>
   <term>
-    <termIdentifier>certificats</termIdentifier>
+    <termIdentifier>certificat</termIdentifier>
     <caption>
-      <langstring language="fr">Certificats (de vie, d'hérédité, etc.)</langstring>
-      <langstring language="en">Certificates (of life, inheritance, etc.)</langstring>
+      <langstring language="fr">Certificat (de vie, d'hérédité, etc.)</langstring>
+      <langstring language="en">Certificate (of life, inheritance, etc.)</langstring>
     </caption>
   </term>
   <term>
-    <termIdentifier>demandes</termIdentifier>
+    <termIdentifier>demande</termIdentifier>
     <caption>
-      <langstring language="fr">Demandes (concession funéraire, changement de prénom, etc.)</langstring>
-      <langstring language="en">Requests (funeral concession, change of first name, etc.)</langstring>
+      <langstring language="fr">Demande (concession funéraire, changement de prénom, etc.)</langstring>
+      <langstring language="en">Request (funeral concession, change of first name, etc.)</langstring>
     </caption>
   </term>
   <term>
@@ -41,10 +41,17 @@
     </caption>
   </term>
   <term>
-    <termIdentifier>informations</termIdentifier>
+    <termIdentifier>information_pratique</termIdentifier>
     <caption>
-      <langstring language="fr">Informations</langstring>
-      <langstring language="en">Informations</langstring>
+      <langstring language="fr">Information pratique</langstring>
+      <langstring language="en">Practical information</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>inscription</termIdentifier>
+    <caption>
+      <langstring language="fr">Inscription</langstring>
+      <langstring language="en">Registration</langstring>
     </caption>
   </term>
   <term>
@@ -55,10 +62,17 @@
     </caption>
   </term>
   <term>
-    <termIdentifier>primes_et_aides</termIdentifier>
+    <termIdentifier>plainte_et_reclamation</termIdentifier>
     <caption>
-      <langstring language="fr">Primes et aides</langstring>
-      <langstring language="en">Bonuses and aids</langstring>
+      <langstring language="fr">Plainte et réclamation</langstring>
+      <langstring language="en">Complaint</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>prime_et_aide</termIdentifier>
+    <caption>
+      <langstring language="fr">Prime et aide</langstring>
+      <langstring language="en">Bonus and aid</langstring>
     </caption>
   </term>
 </vdex>

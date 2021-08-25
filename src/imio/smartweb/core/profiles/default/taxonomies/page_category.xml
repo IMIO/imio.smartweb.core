@@ -13,17 +13,17 @@
     </caption>
   </term>
   <term>
+    <termIdentifier>emploi</termIdentifier>
+    <caption>
+      <langstring language="fr">Emploi</langstring>
+      <langstring language="en">Job</langstring>
+    </caption>
+  </term>
+  <term>
     <termIdentifier>infos_travaux</termIdentifier>
     <caption>
       <langstring language="fr">Infos travaux</langstring>
       <langstring language="en">Works informations</langstring>
-    </caption>
-  </term>
-  <term>
-    <termIdentifier>offres_d_emploi</termIdentifier>
-    <caption>
-      <langstring language="fr">Offres d'emploi</langstring>
-      <langstring language="en">Jobs</langstring>
     </caption>
   </term>
   <term>
@@ -48,10 +48,10 @@
     </caption>
   </term>
   <term>
-    <termIdentifier>taxes_et_redevances</termIdentifier>
+    <termIdentifier>taxe_et_redevance</termIdentifier>
     <caption>
-      <langstring language="fr">Taxes et redevances</langstring>
-      <langstring language="en">Taxes and fees</langstring>
+      <langstring language="fr">Taxe et redevance</langstring>
+      <langstring language="en">Taxe and fee</langstring>
     </caption>
   </term>
 </vdex>
