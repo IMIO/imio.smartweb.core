@@ -48,6 +48,6 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         viewlet.update()
         self.assertFalse(viewlet.available())
         self.assertIsNone(viewlet.get_category())
-        procedure.taxonomy_procedure_category = "autorisation_cartes"
+        procedure.taxonomy_procedure_category = "autorisation_carte"
         self.assertTrue(viewlet.available())
-        self.assertEqual(viewlet.get_category(), "Authorization and cards")
+        self.assertEqual(viewlet.get_category(), "Authorization and card")
