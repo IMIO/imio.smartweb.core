@@ -373,20 +373,34 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         m.get(contact_search_url, text=json.dumps(self.json_contact))
         with freeze_time("2021-06-30 12:20:00"):
             schedule = contact_view.get_opening_informations()
-            self.assertEqual("13:00 - 17:30 (Ouverture PM)", contact_view.formatted_schedule(schedule))
+            self.assertEqual(
+                "13:00 - 17:30 (Ouverture PM)",
+                contact_view.formatted_schedule(schedule),
+            )
         with freeze_time("2021-07-07 12:20:00"):
             schedule = contact_view.get_opening_informations()
-            self.assertEqual("13:00 - 15:00 (Ouverture PM vacances)", contact_view.formatted_schedule(schedule))
+            self.assertEqual(
+                "13:00 - 15:00 (Ouverture PM vacances)",
+                contact_view.formatted_schedule(schedule),
+            )
         with freeze_time("2021-09-01 12:20:00"):
             schedule = contact_view.get_opening_informations()
-            self.assertEqual("13:00 - 17:30 (Ouverture PM)", contact_view.formatted_schedule(schedule))
+            self.assertEqual(
+                "13:00 - 17:30 (Ouverture PM)",
+                contact_view.formatted_schedule(schedule),
+            )
         with freeze_time("2021-12-29 12:20:00"):
             schedule = contact_view.get_opening_informations()
-            self.assertEqual("13:00 - 15:00 (Ouverture PM vacances)", contact_view.formatted_schedule(schedule))
+            self.assertEqual(
+                "13:00 - 15:00 (Ouverture PM vacances)",
+                contact_view.formatted_schedule(schedule),
+            )
 
     @requests_mock.Mocker()
     def test_empty_schedule(self, m):
-        json_contact_empty_schedule = get_json("resources/json_contact_empty_schedule_raw_mock.json")
+        json_contact_empty_schedule = get_json(
+            "resources/json_contact_empty_schedule_raw_mock.json"
+        )
         contact = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionContact",
@@ -407,11 +421,13 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         is_empty = contact_view.is_empty_schedule()
         self.assertEqual(is_empty, True)
         self.assertNotIn('class="schedule"', view())
-        json_contact_empty_schedule["items"][0].get("schedule")["monday"] = {"morningstart": "8:00",
-                                                                             "morningend": "12:00",
-                                                                             "afternoonstart":"",
-                                                                             "afternoonend":"",
-                                                                             "comments":""}
+        json_contact_empty_schedule["items"][0].get("schedule")["monday"] = {
+            "morningstart": "8:00",
+            "morningend": "12:00",
+            "afternoonstart": "",
+            "afternoonend": "",
+            "comments": "",
+        }
         m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
         is_empty = contact_view.is_empty_schedule()
         self.assertEqual(is_empty, False)
