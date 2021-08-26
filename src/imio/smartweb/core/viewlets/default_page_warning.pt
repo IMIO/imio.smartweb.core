@@ -1,12 +1,12 @@
 <tal:info
  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
- i18n:domain="plone">
+ i18n:domain="imio.smartweb">
 <div class="alert alert-info" role="alert">
-  <span i18n:translate="label_edit_default_view_container">
-      You are editing the default view of a container. If you wanted to edit the container itself,
+  <span i18n:translate="label_edit_default_page_container">
+      You are editing the default page of a container. If you wanted to edit the container itself,
      <a href=""
         i18n:name="go_here"
-        i18n:translate="label_edit_default_view_container_go_here"
+        i18n:translate="label_edit_default_page_container_go_here"
         tal:attributes="href string:${context/aq_inner/aq_parent/absolute_url}/edit">go here</a>.
   </span>
 </div>
