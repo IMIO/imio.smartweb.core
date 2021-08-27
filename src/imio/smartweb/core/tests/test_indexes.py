@@ -86,6 +86,7 @@ class FolderIntegrationTest(ImioSmartwebTestCase):
         catalog = api.portal.get_tool("portal_catalog")
         section_types = get_sections_types()
         texts = []
+        texts_page = ["my", "page", "my", "page"]  # id & title of page are indexed
         for section_type in section_types:
             title = "Title{}".format(section_type.split(".")[-1])
             section = api.content.create(
@@ -103,11 +104,16 @@ class FolderIntegrationTest(ImioSmartwebTestCase):
             else:
                 # sections titles are indexed by default
                 texts.append(title.lower())
-        texts += ["my", "page", "my", "page"]  # id & title of page are indexed
+        texts += texts_page
         uuid = IUUID(self.page)
         brain = api.content.find(UID=uuid)[0]
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertCountEqual(indexes.get("SearchableText"), texts)
+        for obj in self.page.listFolderContents():
+            api.content.delete(obj)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertCountEqual(indexes.get("SearchableText"), texts_page)
 
     def test_related_quickaccess(self):
         catalog = api.portal.get_tool("portal_catalog")
