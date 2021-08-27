@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="imio.smartweb">
+
+  <adapter
+      factory="plone.app.z3cform.widget.LinkFieldWidget"
+      for="imio.smartweb.core.contents.blocks.link.content.ILinkField
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+</configure>
