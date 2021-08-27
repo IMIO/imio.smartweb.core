@@ -2,6 +2,11 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <adapter
+      name="Description"
+      factory=".indexers.description"
+      />
+
+  <adapter
       name="has_leadimage"
       factory=".indexers.has_leadimage"
       />

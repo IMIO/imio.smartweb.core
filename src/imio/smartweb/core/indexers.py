@@ -14,6 +14,13 @@ from plone.app.contenttypes.behaviors.richtext import IRichText
 
 
 @indexer(IDexterityContent)
+def description(obj):
+    if obj.description is None:
+        return ""
+    return obj.description.replace("*", "")
+
+
+@indexer(IDexterityContent)
 def has_leadimage(obj):
     if ILeadImage.providedBy(obj) and getattr(obj, "image", False):
         return True

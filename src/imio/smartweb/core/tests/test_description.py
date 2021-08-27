@@ -7,6 +7,7 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.vocabularies.types import BAD_TYPES
+from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
 from zope.component import queryMultiAdapter
 
@@ -45,6 +46,27 @@ class DescriptionIntegrationTest(ImioSmartwebTestCase):
             self.assertEqual(
                 view.description(),
                 "My bold <strong>description</strong> is wonderfull with <em>italic</em> and <br/> carriage return <br/>",
+            )
+            content_type.reindexObject()
+
+            uuid = IUUID(content_type)
+            brain = api.content.find(UID=uuid)[0]
+            catalog = api.portal.get_tool("portal_catalog")
+            indexes = catalog.getIndexDataForRID(brain.getRID())
+            self.assertEqual(
+                indexes.get("Description"),
+                [
+                    "my",
+                    "bold",
+                    "description",
+                    "is",
+                    "wonderfull",
+                    "with",
+                    "italic",
+                    "and",
+                    "carriage",
+                    "return",
+                ],
             )
 
             content_type.description = "My bold **description** is *wonderfull with *italic* and \r\n carriage return \r\n"
