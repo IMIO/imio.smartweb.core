@@ -29,7 +29,13 @@ class PageIntegrationTest(ImioSmartwebTestCase):
             "imio.smartweb.SectionText",
             "imio.smartweb.SectionVideo",
         ]
-        self.unauthorized_types_in_page = ["Document", "Link", "File", "Image", "imio.smartweb.BlockLink"]
+        self.unauthorized_types_in_page = [
+            "Document",
+            "Link",
+            "File",
+            "Image",
+            "imio.smartweb.BlockLink",
+        ]
 
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
