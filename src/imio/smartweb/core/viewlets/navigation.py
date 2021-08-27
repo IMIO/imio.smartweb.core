@@ -14,8 +14,13 @@ import Missing
 
 
 class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
-    _close_menu_markup = u'<a aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></a>'
-    _prev_menu_markup = u'<a aria-label="{all}" class="prev-nav"><span>{all}</span></a>'
+    _close_menu_markup = (
+        u'<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
+        u'<a aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></a>'
+    )
+    _prev_menu_markup = (
+        u'<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
+    )
     _subtree_markup_wrapper = u"<ul>{out}{qa_out}</ul>"
     _submenu_markup_wrapper = u'<div class="has_subtree dropdown">{menu_action}<span>{title}</span>{sub}</div>'
     _quickaccesses_markup_wrapper = u'<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
@@ -81,14 +86,16 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
             return self._item_markup_template.format(**item)
 
         level = len(item["path"].split("/")) - self.root_depth
+        back_str = translate(_(u"Back"), target_language=self.current_lang)
         if level == 1:
-            # We add a "Close" button on the first dropdown menu level
+            # We add "Back" & "Close" buttons on the first dropdown menu level
             close_str = translate(_(u"Close"), target_language=self.current_lang)
-            item["menu_action"] = self._close_menu_markup.format(close=close_str)
+            item["menu_action"] = self._close_menu_markup.format(
+                back=back_str, close=close_str
+            )
         elif level > 1:
-            # We add a "All / prev" button on the next dropdown menu levels
-            all_str = translate(_(u"All"), target_language=self.current_lang)
-            item["menu_action"] = self._prev_menu_markup.format(all=all_str, **item)
+            # We add a "Back" button on the next dropdown menu levels
+            item["menu_action"] = self._prev_menu_markup.format(back=back_str)
         item["sub_wrapper"] = self._submenu_markup_wrapper.format(**item)
         return self._item_markup_template.format(**item)
 
