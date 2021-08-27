@@ -219,7 +219,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
         api.content.create(
             container=links_section,
-            type="Link",
+            type="imio.smartweb.BlockLink",
             title="My link",
         )
         view = queryMultiAdapter((page, self.request), name="full_view")()
@@ -257,7 +257,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
         api.content.create(
             container=links_section,
-            type="Link",
+            type="imio.smartweb.BlockLink",
             title="My link",
         )
         selections_section = getattr(

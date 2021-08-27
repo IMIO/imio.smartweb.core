@@ -23,7 +23,7 @@ class DescriptionIntegrationTest(ImioSmartwebTestCase):
 
     def test_description(self):
         portal_types = api.portal.get_tool("portal_types")
-        bad_types = BAD_TYPES + get_sections_types() + ["Discussion Item"]
+        bad_types = BAD_TYPES + get_sections_types() + ["Discussion Item", "imio.smartweb.BlockLink"]
         all_types = [t for t in portal_types.listContentTypes() if t not in bad_types]
         for pt in all_types:
             if pt == "imio.smartweb.Footer":
