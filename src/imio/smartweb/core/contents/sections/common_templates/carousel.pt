@@ -18,6 +18,8 @@
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
+    <p tal:replace="structure context/@@description" />
+
     <div tal:condition="items"
          tal:attributes="id context/id"
          class="body-section carousel carousel-dark slide"

@@ -18,6 +18,8 @@
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
+    <p tal:replace="structure context/@@description" />
+
     <div class="body-section"
          tal:condition="items">
       <div class="row">
