@@ -1,10 +1,10 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser">
+    xmlns="http://namespaces.zope.org/zope">
 
   <include package=".blocks" />
   <include package=".folder" />
   <include package=".pages" />
+  <include package=".rest" />
   <include package=".sections" />
 
 </configure>
