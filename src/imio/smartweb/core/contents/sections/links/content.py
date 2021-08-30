@@ -11,6 +11,14 @@ from zope import schema
 class ISectionLinks(ISection):
     """Marker interface and Dexterity Python Schema for SectionFiles"""
 
+    description = schema.Text(
+        title=_(u"Description"),
+        description=_(
+            u"Use **text** to set text in bold and *text* to set text in italic."
+        ),
+        required=False,
+    )
+
     model.fieldset("layout", fields=["image_scale"])
     image_scale = schema.Choice(
         title=_(u"Image scale"),
