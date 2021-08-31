@@ -34,9 +34,9 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         viewlet.update()
         self.assertFalse(viewlet.available())
         self.assertIsNone(viewlet.get_category())
-        page.taxonomy_page_category = "publications"
+        page.taxonomy_page_category = "publication"
         self.assertTrue(viewlet.available())
-        self.assertEqual(viewlet.get_category(), "Publications")
+        self.assertEqual(viewlet.get_category(), "Publication")
 
     def test_viewlet_on_procedure(self):
         procedure = api.content.create(
