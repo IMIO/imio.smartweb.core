@@ -26,8 +26,8 @@ class DescriptionIntegrationTest(ImioSmartwebTestCase):
         portal_types = api.portal.get_tool("portal_types")
         bad_types = (
             BAD_TYPES
-            + get_sections_types()
-            + ["Discussion Item", "imio.smartweb.BlockLink"]
+            + get_sections_types()  # NOQA
+            + ["Discussion Item", "imio.smartweb.BlockLink"]  # NOQA
         )
         all_types = [t for t in portal_types.listContentTypes() if t not in bad_types]
         for pt in all_types:
