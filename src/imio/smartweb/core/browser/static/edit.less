@@ -3,75 +3,84 @@
 }
 
 form.tabbed-form-with-toggle fieldset legend {
-cursor: pointer;
+  cursor: pointer;
 }
 
-.pat-sortable > :hover {
-cursor: move;
-background: #FFF5CD;
-background: #E7E9ED;
+.pat-sortable> :hover {
+  cursor: move;
+  background: #FFF5CD;
+  background: #E7E9ED;
 }
 
-form.tabbed-form-with-toggle fieldset:not(:nth-child(1)) legend{
-&::after {
-  content: '\e84b';
-  font-family: fontello;
-  font-size: 16px;
-  display: inline-block;
-  vertical-align: middle;
-  transition: all .3s ease-in;
-  transform-origin: center center;
-  margin-left: 7px;
-}
-&.expanded{
-  &:after{
-    transform: rotate(180deg);
+form.tabbed-form-with-toggle fieldset:not(:nth-child(1)) legend {
+  &::after {
+    content: '\e84b';
+    font-family: fontello;
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    transition: all .3s ease-in;
+    transform-origin: center center;
+    margin-left: 7px;
   }
-}
+
+  &.expanded {
+    &:after {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 #plone-contentmenu-factories {
-[class*="contenttype-"]{
-  &:before{
-    font-family: fontello;
+  [class*="contenttype-"] {
+    &:before {
+      font-family: fontello;
+    }
   }
-}
-.contenttype-imio-smartweb-folder::before {
-  content: '\e801';
-}
-.contenttype-imio-smartweb-page::before,
-.contenttype-imio-smartweb-procedure::before,
-.contenttype-collective-pivot-family::before{
-  content: '\e80e';
-}
-.contenttype-link::before{
-  content: '\e806';
-}
-.contenttype-file::before{
-  content: '\e811';
-}
-.contenttype-image::before{
-  content: '\e810';
-}
-.contenttype-collection::before{
-  content: '\e808';
-}
-.contenttype-imio-smartweb-sectioncontact:before,
-.contenttype-imio-smartweb-sectionfiles:before,
-.contenttype-imio-smartweb-sectionlinks:before,
-.contenttype-imio-smartweb-sectiontext:before,
-.contenttype-imio-smartweb-sectiongallery:before,
-.contenttype-imio-smartweb-sectionvideo:before,
-.contenttype-imio-smartweb-sectionselections:before{
-  content: '\e834';
-}
+
+  .contenttype-imio-smartweb-folder::before {
+    content: '\e801';
+  }
+
+  .contenttype-imio-smartweb-page::before,
+  .contenttype-imio-smartweb-procedure::before,
+  .contenttype-collective-pivot-family::before {
+    content: '\e80e';
+  }
+
+  .contenttype-link::before {
+    content: '\e806';
+  }
+
+  .contenttype-file::before {
+    content: '\e811';
+  }
+
+  .contenttype-image::before {
+    content: '\e810';
+  }
+
+  .contenttype-collection::before {
+    content: '\e808';
+  }
+
+  .contenttype-imio-smartweb-sectioncontact:before,
+  .contenttype-imio-smartweb-sectionfiles:before,
+  .contenttype-imio-smartweb-sectionlinks:before,
+  .contenttype-imio-smartweb-sectiontext:before,
+  .contenttype-imio-smartweb-sectiongallery:before,
+  .contenttype-imio-smartweb-sectionvideo:before,
+  .contenttype-imio-smartweb-sectionselections:before {
+    content: '\e834';
+  }
 
 }
 
-.pat-sortable{
-position: relative;
-display: block;
-  .sortable-section{
+.pat-sortable {
+  position: relative;
+  display: block;
+
+  .sortable-section {
     padding: 0.5rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -80,38 +89,41 @@ display: block;
 }
 
 .hidden-section-title {
-opacity: 0.3;
+  opacity: 0.3;
 }
-.show-hide-title{
-margin-left: 15px;
-vertical-align: middle;
-display: inline-block;
-}
-.section-title{
-display: inline-block;
-vertical-align: middle;
-}
-.content-section{
-h2{
+
+.show-hide-title {
+  margin-left: 15px;
+  vertical-align: middle;
   display: inline-block;
 }
+
+.section-title {
+  display: inline-block;
+  vertical-align: middle;
 }
 
-.show-hide-banner{
-display: inline-block;
-padding: 15px;
-background: #fff;
-border: solid 1px #e6e6e6;
+.content-section {
+  h2 {
+    display: inline-block;
+  }
 }
 
-.header-section{
-background: #f2f2f2;
-padding: 0 1rem;
-line-height: 1.9;
-margin-top: 1rem !important;
-margin-bottom: 1rem !important;
+.show-hide-banner {
+  display: inline-block;
+  padding: 15px;
+  background: #fff;
+  border: solid 1px #e6e6e6;
+}
+
+.header-section {
+  background: #f2f2f2;
+  padding: 0 1rem;
+  line-height: 1.9;
+  margin-top: 1rem !important;
+  margin-bottom: 1rem !important;
 }
 
 table.table_schedule {
-cursor: default;
+  cursor: default;
 }
