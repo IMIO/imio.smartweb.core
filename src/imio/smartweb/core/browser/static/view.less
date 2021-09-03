@@ -2,7 +2,9 @@
   background-size: cover;
   background-position: center;
 }
-
+body{
+  overflow: hidden;
+}
 .card-img-top{
   padding-top: 56.25%;
 }
@@ -27,8 +29,14 @@
 #portal-header{
   display: grid;
   align-items: center;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-areas: "logo menu search" "bread bread bread" "sub sub sub";
+  @media screen and (min-width:1000px) {
+    grid-template-columns: auto auto auto;
+  }
+  #portal-logo{
+    grid-area: logo;
+  }
   #portal-searchbox{
     justify-self: end;
     grid-area: search;
@@ -41,6 +49,7 @@
   }
   .subsite-container{
     grid-area: sub;
+    overflow-x: clip;
   }
 }
 
@@ -179,7 +188,7 @@ header#content-header{
         &.show-nav > .has_subtree{
           visibility: visible;
           .show-nav > .dropdown{
-            left: 24em;
+            left: 21.5em;
           }
         }
         &.has_subtree .has_subtree ul {
@@ -299,10 +308,10 @@ header#content-header{
         }
       }
     }
-    li > .has_subtree, #subsite-navigation li > .has_subtree {
+    li > .has_subtree {
       padding: 2em;
       background: #fff;
-      width: 23em;
+      width: 21em;
       .close-nav {
         border-bottom: none !important;
         position: absolute;
@@ -322,6 +331,14 @@ header#content-header{
       }
       ul {
         padding-left: 0;
+      }
+    }
+    #portal-globalnav > li > .has_subtree{
+      width: 25em;
+    }
+    @media screen and (min-width:992px) {
+      #portal-globalnav > li > .has_subtree > ul > li > .has_subtree.dropdown, #subsite-navigation #portal-globalnav > li > .has_subtree > ul > li > .has_subtree.dropdown {
+        left: 25.5em;
       }
     }
   }
@@ -391,7 +408,7 @@ header#content-header{
       width: 100vw;
       background: #fff;
       z-index: 98;
-      right: -100vw;
+      left: 100vw;
       padding: 6em 2em;
       transition: all .5s cubic-bezier(.54,.01,.68,.64);
       .has_subtree.dropdown{
@@ -413,7 +430,7 @@ header#content-header{
       }
   }
   .navbar-toggler[aria-expanded=true] + #portal-globalnav-collapse{
-      right: 0;
+      left: 0;
   }
   #portal-globalnav-wrapper .navbar-nav li.show-nav > .has_subtree .show-nav > .dropdown {
       background: #fff;
@@ -485,11 +502,11 @@ header#content-header{
       white-space: nowrap;
       display: flex;
       flex-wrap: nowrap;
-      overflow-x: auto;
+      overflow-x: scroll;
       width: auto;
-      scrollbar-width: none !important;
   }
 }
+
 
 //EDITION BAR
 .pat-structure .navbar, .pat-structure .pat-structure .navbar {
