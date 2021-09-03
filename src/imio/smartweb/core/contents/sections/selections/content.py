@@ -36,5 +36,5 @@ class ISectionSelections(ISection):
 class SectionSelections(Section):
     """SectionSelections class"""
 
-    manage_content = True
+    manage_content = False
     manage_display = True
