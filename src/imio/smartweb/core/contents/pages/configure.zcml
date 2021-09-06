@@ -4,6 +4,7 @@
 
   <include package=".footer" />
   <include package=".page" />
+  <include package=".portal_page" />
   <include package=".procedure" />
 
   <browser:page

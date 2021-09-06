@@ -34,6 +34,7 @@ class FolderFunctionalTest(ImioSmartwebTestCase):
             "Link",
             "imio.smartweb.Folder",
             "imio.smartweb.Page",
+            "imio.smartweb.PortalPage",
             "imio.smartweb.Procedure",
         ]
 
