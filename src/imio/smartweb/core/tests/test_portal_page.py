@@ -23,6 +23,7 @@ class PageIntegrationTest(ImioSmartwebTestCase):
         """Custom shared utility setup for tests"""
         self.authorized_types_in_portal_page = [
             "imio.smartweb.SectionContact",
+            "imio.smartweb.SectionFiles",
             "imio.smartweb.SectionGallery",
             "imio.smartweb.SectionLinks",
             "imio.smartweb.SectionSelections",
@@ -42,7 +43,6 @@ class PageIntegrationTest(ImioSmartwebTestCase):
             "imio.smartweb.Page",
             "imio.smartweb.PortalPage",
             "imio.smartweb.Procedure",
-            "imio.smartweb.SectionFiles",
         ]
 
         self.request = self.layer["request"]
