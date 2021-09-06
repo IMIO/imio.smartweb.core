@@ -26,6 +26,7 @@ class PageIntegrationTest(ImioSmartwebTestCase):
             "imio.smartweb.SectionFiles",
             "imio.smartweb.SectionGallery",
             "imio.smartweb.SectionLinks",
+            "imio.smartweb.SectionSelections",
             "imio.smartweb.SectionText",
             "imio.smartweb.SectionVideo",
         ]
@@ -35,6 +36,13 @@ class PageIntegrationTest(ImioSmartwebTestCase):
             "File",
             "Image",
             "imio.smartweb.BlockLink",
+            "imio.smartweb.EventsView",
+            "imio.smartweb.Folder",
+            "imio.smartweb.Footer",
+            "imio.smartweb.Page",
+            "imio.smartweb.PortalPage",
+            "imio.smartweb.Procedure",
+            "imio.smartweb.NewsView",
         ]
 
         self.request = self.layer["request"]
