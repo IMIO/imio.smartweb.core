@@ -41,6 +41,7 @@
       <value purge="false">
         <element>imio.smartweb.Folder</element>
         <element>imio.smartweb.Page</element>
+        <element>imio.smartweb.Procedure</element>
       </value>
     </record>
 
