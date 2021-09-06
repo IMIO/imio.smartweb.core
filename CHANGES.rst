@@ -7,8 +7,9 @@ Changelog
 
 - Change navigation markup (quickaccess, close / prev buttons, ...)
   [laulaz]
-- Add two new types : imio.smartweb.EventsView, imio.smartweb.NewsView
-  [boulch]
+
+- Add new types : EventsView, NewsView, PortalPage
+  [boulch, laulaz]
 
 - Fix schedule display in Contact section (days delta, format & translations)
   [laulaz]
