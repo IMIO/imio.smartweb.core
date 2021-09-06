@@ -2,9 +2,9 @@
 <object name="portal_workflow" meta_type="Plone Workflow Tool">
   <bindings>
     <type type_id="imio.smartweb.BlockLink"/>
+    <type type_id="imio.smartweb.Footer"/>
     <type type_id="imio.smartweb.SectionContact"/>
     <type type_id="imio.smartweb.SectionFiles"/>
-    <type type_id="imio.smartweb.SectionFooter"/>
     <type type_id="imio.smartweb.SectionGallery"/>
     <type type_id="imio.smartweb.SectionLinks"/>
     <type type_id="imio.smartweb.SectionSelections"/>
