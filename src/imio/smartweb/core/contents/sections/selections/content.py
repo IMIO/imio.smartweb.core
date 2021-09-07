@@ -16,7 +16,7 @@ class ISectionSelections(ISection):
 
     model.fieldset("layout", fields=["image_scale"])
     image_scale = schema.Choice(
-        title=_(u"Image scale"),
+        title=_(u"Image scale for items"),
         default=u"tile",
         vocabulary="plone.app.vocabularies.ImagesScales",
         required=True,
