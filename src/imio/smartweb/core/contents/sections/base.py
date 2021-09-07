@@ -25,7 +25,7 @@ class ISection(model.Schema):
     model.fieldset(
         "layout",
         label=_(u"Layout"),
-        fields=["background_image", "bootstrap_css_class", "css_class"],
+        fields=["hide_title", "background_image", "bootstrap_css_class", "css_class"],
     )
 
     write_permission(background_image="cmf.ManagePortal")

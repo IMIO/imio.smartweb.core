@@ -10,12 +10,14 @@ from z3c.form.interfaces import HIDDEN_MODE
 class TextCustomAddForm(CustomAddForm):
     portal_type = "imio.smartweb.SectionText"
 
-    def updateWidgets(self):
-        super(TextCustomAddForm, self).updateWidgets()
+    def update(self):
+        super(TextCustomAddForm, self).update()
         # We hide hide_title field so no one can change the value for text
         # and set True value (single checkbox)
-        self.widgets["hide_title"].mode = HIDDEN_MODE
-        self.widgets["hide_title"].value = ["selected"]
+        for group in self.groups:
+            if group.__name__ == "layout":
+                group.widgets["hide_title"].mode = HIDDEN_MODE
+                group.widgets["hide_title"].value = ["selected"]
 
 
 class TextCustomAddView(DefaultAddView):
@@ -23,12 +25,14 @@ class TextCustomAddView(DefaultAddView):
 
 
 class TextCustomEditForm(CustomEditForm):
-    def updateWidgets(self):
-        super(TextCustomEditForm, self).updateWidgets()
+    def update(self):
+        super(TextCustomEditForm, self).update()
         # We hide hide_title field so no one can change the value for text
         # and set True value (single checkbox)
-        self.widgets["hide_title"].mode = HIDDEN_MODE
-        self.widgets["hide_title"].value = ["selected"]
+        for group in self.groups:
+            if group.__name__ == "layout":
+                group.widgets["hide_title"].mode = HIDDEN_MODE
+                group.widgets["hide_title"].value = ["selected"]
 
 
 TextCustomEditView = layout.wrap_form(TextCustomEditForm)

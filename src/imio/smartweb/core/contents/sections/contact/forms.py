@@ -10,12 +10,14 @@ from z3c.form.interfaces import HIDDEN_MODE
 class ContactCustomAddForm(CustomAddForm):
     portal_type = "imio.smartweb.SectionContact"
 
-    def updateWidgets(self):
-        super(ContactCustomAddForm, self).updateWidgets()
+    def update(self):
+        super(ContactCustomAddForm, self).update()
         # We hide hide_title field so no one can change the value for contact
         # and set True value (single checkbox)
-        self.widgets["hide_title"].mode = HIDDEN_MODE
-        self.widgets["hide_title"].value = ["selected"]
+        for group in self.groups:
+            if group.__name__ == "layout":
+                group.widgets["hide_title"].mode = HIDDEN_MODE
+                group.widgets["hide_title"].value = ["selected"]
 
 
 class ContactCustomAddView(DefaultAddView):
@@ -23,12 +25,14 @@ class ContactCustomAddView(DefaultAddView):
 
 
 class ContactCustomEditForm(CustomEditForm):
-    def updateWidgets(self):
-        super(ContactCustomEditForm, self).updateWidgets()
+    def update(self):
+        super(ContactCustomEditForm, self).update()
         # We hide hide_title field so no one can change the value for contact
         # and set True value (single checkbox)
-        self.widgets["hide_title"].mode = HIDDEN_MODE
-        self.widgets["hide_title"].value = ["selected"]
+        for group in self.groups:
+            if group.__name__ == "layout":
+                group.widgets["hide_title"].mode = HIDDEN_MODE
+                group.widgets["hide_title"].value = ["selected"]
 
 
 ContactCustomEditView = layout.wrap_form(ContactCustomEditForm)
