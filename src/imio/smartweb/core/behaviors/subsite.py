@@ -34,11 +34,12 @@ class IImioSmartwebSubsite(model.Schema):
         default="title",
     )
 
+    model.fieldset("settings", fields=["menu_depth"])
     menu_depth = schema.Int(
         title=_(u"Menu depth"),
         description=_(u"Define number of levels in menu navigation subsite"),
         required=True,
-        default=1,
+        default=2,
     )
 
 
