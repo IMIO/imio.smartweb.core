@@ -85,6 +85,11 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
 
         viewlet = SubsiteNavigationViewlet(self.folder, self.request, None, None)
         viewlet.update()
+        self.assertIn("Sub Page 1", viewlet.render_globalnav())
+
+        self.folder.menu_depth = 1
+        viewlet = SubsiteNavigationViewlet(self.folder, self.request, None, None)
+        viewlet.update()
         self.assertTrue(viewlet.available())
         self.assertEqual(len(viewlet.portal_tabs), 2)
 
@@ -98,11 +103,6 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
             '<li class="page1 nav-item"><a href="http://nohost/plone/folder/page1" class="state-private nav-link">Page 1</a></li><li class="subfolder nav-item"><a href="http://nohost/plone/folder/subfolder" class="state-private nav-link">Subfolder</a></li>',
         )
         self.assertNotIn("Sub Page 1", viewlet.render_globalnav())
-
-        self.folder.menu_depth = 2
-        viewlet = SubsiteNavigationViewlet(self.folder, self.request, None, None)
-        viewlet.update()
-        self.assertIn("Sub Page 1", viewlet.render_globalnav())
 
     def test_viewlet_logo(self):
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
