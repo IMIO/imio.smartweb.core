@@ -5,6 +5,7 @@
             "@id": "http://localhost:8080/Plone/af7bd1f547034b24a2e0da16c0ba0358",
             "UID": "af7bd1f547034b24a2e0da16c0ba0358",
             "@type": "imio.directory.Contact",
+            "breadcrumb": "Entité > Contact1 title",
             "description": "My description (contact1)",
             "review_state": "published",
             "title": "Contact1 title"
@@ -13,6 +14,7 @@
             "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
             "UID": "2dc381f0fb584381b8e4a19c84f53b35",
             "@type": "imio.directory.Contact",
+            "breadcrumb": "Entité > Contact2 title",
             "description": "My description (contact2)",
             "review_state": "published",
             "title": "Contact2 title"

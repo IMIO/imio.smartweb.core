@@ -33,7 +33,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.json_empty_contacts_raw_mock = get_json(
             "resources/json_no_contact_raw_mock.json"
         )
-        self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
+        self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb"
 
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
@@ -99,11 +99,11 @@ class TestVocabularies(ImioSmartwebTestCase):
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.RemoteContacts")
         self.assertEqual(
             vocabulary.getTerm("af7bd1f547034b24a2e0da16c0ba0358").title,
-            "Contact1 title",
+            "Entité > Contact1 title",
         )
         self.assertEqual(
             vocabulary.getTerm("2dc381f0fb584381b8e4a19c84f53b35").title,
-            "Contact2 title",
+            "Entité > Contact2 title",
         )
 
     @requests_mock.Mocker()
