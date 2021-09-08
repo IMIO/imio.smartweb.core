@@ -1,41 +1,31 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.browser.forms import CustomAddForm
+from imio.smartweb.common.browser.forms import CustomEditForm
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.dexterity.browser.add import DefaultAddForm
 from plone.dexterity.browser.add import DefaultAddView
-from plone.dexterity.browser.edit import DefaultEditForm
 from plone.z3cform import layout
 from z3c.form.interfaces import DISPLAY_MODE
-from z3c.form.interfaces import HIDDEN_MODE
 
 
-class CustomAddForm(DefaultAddForm):
-    css_class = "tabbed-form-with-toggle"
-    enable_form_tabbing = False
-
+class SmartwebCustomAddForm(CustomAddForm):
     def updateWidgets(self):
-        super(CustomAddForm, self).updateWidgets()
+        super(SmartwebCustomAddForm, self).updateWidgets()
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(
                 u"Use **text** to set text in bold and *text* to set text in italic."
             )
-        if "ILeadImageBehavior.image_caption" in self.widgets:
-            # We don't use leadimage caption anywhere
-            self.widgets["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
 
 
-class CustomAddView(DefaultAddView):
-    form = CustomAddForm
+class SmartwebCustomAddView(DefaultAddView):
+    form = SmartwebCustomAddForm
 
 
-class CustomEditForm(DefaultEditForm):
-    css_class = "tabbed-form-with-toggle"
-    enable_form_tabbing = False
-
+class SmartwebCustomEditForm(CustomEditForm):
     def updateFields(self):
-        super(CustomEditForm, self).updateFields()
+        super(SmartwebCustomEditForm, self).updateFields()
         if IDefaultPages.providedBy(self.context) or IImioSmartwebMinisite.providedBy(
             self.context
         ):
@@ -49,14 +39,11 @@ class CustomEditForm(DefaultEditForm):
                     ].mode = DISPLAY_MODE
 
     def updateWidgets(self):
-        super(CustomEditForm, self).updateWidgets()
+        super(SmartwebCustomEditForm, self).updateWidgets()
         if "IBasic.description" in self.widgets:
             self.widgets["IBasic.description"].description = _(
                 u"Use **text** to set text in bold and *text* to set text in italic."
             )
-        if "ILeadImageBehavior.image_caption" in self.widgets:
-            # We don't use leadimage caption anywhere
-            self.widgets["ILeadImageBehavior.image_caption"].mode = HIDDEN_MODE
 
 
-CustomEditView = layout.wrap_form(CustomEditForm)
+SmartwebCustomEditView = layout.wrap_form(SmartwebCustomEditForm)

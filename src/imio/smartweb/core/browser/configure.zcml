@@ -51,9 +51,9 @@
            imio.smartweb.core.interfaces.IImioSmartwebCoreLayer
            plone.dexterity.interfaces.IDexterityFTI"
       provides="zope.publisher.interfaces.browser.IBrowserPage"
-      factory=".forms.CustomAddView"
+      factory=".forms.SmartwebCustomAddView"
       />
-  <class class=".forms.CustomAddView">
+  <class class=".forms.SmartwebCustomAddView">
       <require
           permission="cmf.AddPortalContent"
           interface="zope.publisher.interfaces.browser.IBrowserPage"
@@ -64,7 +64,7 @@
   <browser:page
       for="plone.dexterity.interfaces.IDexterityContent"
       name="edit"
-      class=".forms.CustomEditView"
+      class=".forms.SmartwebCustomEditView"
       permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />

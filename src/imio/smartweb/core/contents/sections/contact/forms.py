@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.browser.forms import CustomAddForm
-from imio.smartweb.core.browser.forms import CustomEditForm
+from imio.smartweb.core.browser.forms import SmartwebCustomAddForm
+from imio.smartweb.core.browser.forms import SmartwebCustomEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.z3cform import layout
 from z3c.form.interfaces import HIDDEN_MODE
 
 
-class ContactCustomAddForm(CustomAddForm):
+class ContactCustomAddForm(SmartwebCustomAddForm):
     portal_type = "imio.smartweb.SectionContact"
 
     def update(self):
@@ -24,7 +24,7 @@ class ContactCustomAddView(DefaultAddView):
     form = ContactCustomAddForm
 
 
-class ContactCustomEditForm(CustomEditForm):
+class ContactCustomEditForm(SmartwebCustomEditForm):
     def update(self):
         super(ContactCustomEditForm, self).update()
         # We hide hide_title field so no one can change the value for contact
