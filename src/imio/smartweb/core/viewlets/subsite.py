@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_inner
-from Acquisition import aq_parent
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
 from plone.memoize.view import memoize
 from Products.CMFPlone.browser.navigation import CatalogNavigationTabs
+from Products.CMFPlone.utils import parent
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewletManager
 
@@ -40,7 +39,7 @@ class BaseSubsiteViewlet(common.ViewletBase):
         while not IImioSmartwebSubsite.providedBy(
             obj
         ) and not INavigationRoot.providedBy(obj):
-            obj = aq_parent(aq_inner(obj))
+            obj = parent(obj)
         if IImioSmartwebSubsite.providedBy(obj):
             self._subsite_root = obj
             return self._subsite_root

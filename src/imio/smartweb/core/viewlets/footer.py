@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from Acquisition import aq_inner
-from Acquisition import aq_parent
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
+from Products.CMFPlone.utils import parent
 from zope.component import getMultiAdapter
 
 
@@ -65,5 +64,4 @@ class SubsiteFooterViewlet(BaseFooterViewlet):
                 if len(footers) > 0:
                     self._footer = footers[0]
                     return self._footer
-            parent = aq_parent(aq_inner(obj))
-            obj = parent
+            obj = parent(obj)
