@@ -28,6 +28,14 @@ class ContactView(SectionView):
         return json_search_contact.get("items")[0]
 
     @property
+    def contact_type_class(self):
+        contact = self.contact
+        if contact is None:
+            return ""
+        contact_type = contact.get("type").get("token")
+        return "contact-type-{}".format(contact_type)
+
+    @property
     def images(self):
         contact = self.contact
         if contact is None:

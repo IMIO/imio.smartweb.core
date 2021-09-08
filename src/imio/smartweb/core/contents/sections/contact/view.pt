@@ -11,9 +11,10 @@
 <metal:content-core define-macro="content-core">
 <div class="section-container section-contact" tal:attributes="style view/background_style" i18n:domain="imio.smartweb">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-    <div class="body-section"
+    <div class=""
          tal:define="contact view/contact | nothing;
                      visible_blocks context/visible_blocks"
+         tal:attributes="class string:body-section ${view/contact_type_class}"
          tal:condition="contact">
 
       <div class="contact_logo" tal:condition="python:'logo' in visible_blocks"
