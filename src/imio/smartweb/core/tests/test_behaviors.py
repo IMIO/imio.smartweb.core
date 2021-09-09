@@ -63,6 +63,16 @@ class ProcedureFunctionalTest(ImioSmartwebTestCase):
         results = view.results()
         self.assertEqual(len(results), 2)
 
+        # other content types are not excluded from parent listing
+        api.content.create(
+            container=folder,
+            type="Link",
+            title="Link",
+            id="link",
+        )
+        results = view.results()
+        self.assertEqual(len(results), 3)
+
     def test_block_listing(self):
         folder = api.content.create(
             container=self.portal,
@@ -148,3 +158,13 @@ class ProcedureFunctionalTest(ImioSmartwebTestCase):
         quick_access_ids = [b.id for b in results["quick_access"]]
         self.assertIn("page2", results_ids)
         self.assertNotIn("page2", quick_access_ids)
+
+        # other content types are not excluded from parent listing
+        api.content.create(
+            container=folder,
+            type="Link",
+            title="Link",
+            id="link",
+        )
+        results = view.blocks_results()
+        self.assertEqual(len(results["results"]), 3)
