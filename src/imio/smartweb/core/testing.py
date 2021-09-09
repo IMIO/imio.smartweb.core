@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+
+from imio.smartweb.core import config
 from plone import api
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
@@ -14,6 +16,8 @@ from zope.schema.interfaces import IVocabularyFactory
 
 import imio.smartweb.core
 import unittest
+
+config.DIRECTORY_URL = "http://localhost:8080/Plone"
 
 
 class ImioSmartwebCoreLayer(PloneSandboxLayer):

@@ -2,6 +2,7 @@
 
 from datetime import date, datetime
 from datetime import timedelta
+from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -15,9 +16,8 @@ class ContactView(SectionView):
 
     @property
     def contact(self):
-        smartweb_directory_url = api.portal.get_registry_record("imio.directory.url")
         url = "{}/@search?UID={}&fullobjects=1".format(
-            smartweb_directory_url, self.context.related_contact
+            DIRECTORY_URL, self.context.related_contact
         )
         json_search_contact = get_json(url)
         if (
