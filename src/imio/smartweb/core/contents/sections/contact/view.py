@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from datetime import timedelta
 from imio.smartweb.core.contents.sections.views import SectionView
-from imio.smartweb.core.utils import get_directory_json
+from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.i18n import translate
@@ -19,7 +19,7 @@ class ContactView(SectionView):
         url = "{}/@search?UID={}&fullobjects=1".format(
             smartweb_directory_url, self.context.related_contact
         )
-        json_search_contact = get_directory_json(url)
+        json_search_contact = get_json(url)
         if (
             json_search_contact is None
             or len(json_search_contact.get("items", [])) == 0  # NOQA
@@ -43,7 +43,7 @@ class ContactView(SectionView):
         contact_url = contact["@id"]
         query = "@search?portal_type=Image&path.depth=1"
         images_url_request = "{}/{}".format(contact_url, query)
-        json_images = get_directory_json(images_url_request)
+        json_images = get_json(images_url_request)
         if json_images is None or len(json_images.get("items", [])) == 0:
             return
         return json_images.get("items")
