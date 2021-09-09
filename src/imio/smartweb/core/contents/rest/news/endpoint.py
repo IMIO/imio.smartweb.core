@@ -27,15 +27,12 @@ class NewsEndpoint(object):
         self.request = request
 
     def __call__(self):
-        import pdb;
-        pdb.set_trace()
         results = self.getResult()
         return results
 
     def getResult(self):
         headers = {"Accept": "application/json"}
         result = requests.get(self.query_url, headers=headers)
-        import pdb;pdb.set_trace()
         return result.json()
 
     @property
