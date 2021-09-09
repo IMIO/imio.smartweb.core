@@ -2,9 +2,11 @@
   background-size: cover;
   background-position: center;
 }
-body{
-  overflow: hidden;
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
 }
+
 .card-img-top{
   padding-top: 56.25%;
 }
@@ -509,9 +511,13 @@ header#content-header{
 
 
 //EDITION BAR
-.pat-structure .navbar, .pat-structure .pat-structure .navbar {
-  z-index: 0 !important;
-}
+// .pat-structure .navbar, .pat-structure .pat-structure .navbar {
+//   z-index: 0 !important;
+// }
 .pat-structure .pagination > .active > a {
   z-index: 0;
+}
+
+#portal-globalnav-collapse .dropdown .nav-link.state-private, #subsite-navigation .dropdown .nav-link.state-private {
+  color: #c4183c;
 }
