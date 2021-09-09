@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core import config
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -33,7 +34,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.json_empty_contacts_raw_mock = get_json(
             "resources/json_no_contact_raw_mock.json"
         )
-        self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb"
+        self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&selected_entities=&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb"
 
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
@@ -90,20 +91,29 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ContactBlocks", 7)
 
     @requests_mock.Mocker()
-    def test_remote_contacts(self, m):
+    def test_empty_remote_directory_entities(self, m):
         m.get(
-            self.contact_search_url,
-            text=json.dumps(self.json_contacts_raw_mock),
+            self.contact_search_url, text=json.dumps(self.json_empty_contacts_raw_mock)
         )
-        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 2)
-        vocabulary = get_vocabulary("imio.smartweb.vocabulary.RemoteContacts")
-        self.assertEqual(
-            vocabulary.getTerm("af7bd1f547034b24a2e0da16c0ba0358").title,
-            "Entité > Contact1 title",
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteDirectoryEntities", 0)
+
+    @requests_mock.Mocker()
+    def test_remote_directory_entities(self, m):
+        json_entities_raw_mock = get_json(
+            "resources/json_directory_entities_raw_mock.json"
         )
+        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=title&b_size=1000000&metadata_fields=UID".format(
+            config.DIRECTORY_URL
+        )
+        m.get(
+            url,
+            text=json.dumps(json_entities_raw_mock),
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteDirectoryEntities", 2)
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.RemoteDirectoryEntities")
         self.assertEqual(
-            vocabulary.getTerm("2dc381f0fb584381b8e4a19c84f53b35").title,
-            "Entité > Contact2 title",
+            vocabulary.getTerm("7c69f9a738ec497c819725c55888ee3a").title,
+            "Belleville",
         )
 
     @requests_mock.Mocker()

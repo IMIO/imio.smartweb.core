@@ -1,0 +1,22 @@
+{
+    "@id": "http://localhost:8080/Plone/@search?metadata_fields=UID&portal_type=imio.directory.Entity",
+    "items": [
+        {
+            "@id": "http://localhost:8080/Plone/imio-directory-entity",
+            "@type": "imio.directory.Entity",
+            "UID": "396907b3b1b04a97896b12cc792c77f8",
+            "description": "",
+            "review_state": "published",
+            "title": "Entité"
+        },
+        {
+            "@id": "http://localhost:8080/Plone/imio-directory-entity-1",
+            "@type": "imio.directory.Entity",
+            "UID": "7c69f9a738ec497c819725c55888ee3a",
+            "description": "",
+            "review_state": "published",
+            "title": "Belleville"
+        }
+    ],
+    "items_total": 2
+}

@@ -24,6 +24,12 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    directory_entity_uid = schema.Choice(
+        title=_(u"Directory entity"),
+        source="imio.smartweb.vocabulary.RemoteDirectoryEntities",
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel

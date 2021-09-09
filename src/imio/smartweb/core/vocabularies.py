@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.utils import get_json
@@ -104,12 +105,37 @@ class ContactBlocksVocabularyFactory:
 ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
 
 
+class RemoteDirectoryEntitiesVocabularyFactory:
+    def __call__(self, context=None):
+        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=title&b_size=1000000&metadata_fields=UID".format(
+            DIRECTORY_URL
+        )
+        json_entities = get_json(url)
+        if json_entities is None or len(json_entities.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(value=elem["UID"], title=elem["title"])
+                for elem in json_entities.get("items")
+            ]
+        )
+
+
+RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
+
+
 class RemoteContactsVocabularyFactory:
     def __call__(self, context=None):
-        smartweb_directory_url = api.portal.get_registry_record("imio.directory.url")
-        url = "{}/@search?portal_type=imio.directory.Contact&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb".format(
-            smartweb_directory_url
-        )
+        entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
+        params = [
+            "portal_type=imio.directory.Contact",
+            "selected_entities={}".format(entity_uid),
+            "sort_on=breadcrumb",
+            "b_size=1000000",
+            "metadata_fields=UID",
+            "metadata_fields=breadcrumb",
+        ]
+        url = "{}/@search?{}".format(DIRECTORY_URL, "&".join(params))
         json_contacts = get_json(url)
         if json_contacts is None or len(json_contacts.get("items", [])) == 0:
             return SimpleVocabulary([])
