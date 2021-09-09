@@ -13,6 +13,22 @@
       <value>http://localhost:8080/Plone</value>
     </record>
 
+    <record name="imio.events.url">
+      <field type="plone.registry.field.URI">
+        <title>Events / Agenda (for smartweb) url</title>
+        <value_type type="plone.registry.field.TextLine" />
+      </field>
+      <value>https://events.staging.imio.be/</value>
+    </record>
+
+    <record name="imio.news.url">
+      <field type="plone.registry.field.URI">
+        <title>News (for smartweb) url</title>
+        <value_type type="plone.registry.field.TextLine" />
+      </field>
+      <value>https://news.staging.imio.be/</value>
+    </record>
+
     <record name="plone.types_not_searched"
             interface="Products.CMFPlone.interfaces.controlpanel.ISearchSchema"
             field="types_not_searched">
