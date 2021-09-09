@@ -50,11 +50,9 @@ class EventsEndpoint(object):
         &metadata_fields=end
         """
         smartweb_events_url = api.portal.get_registry_record("imio.events.url")
-        agendas_query = "selected_agendas={}".format(
-            "&selected_agendas=".join(self.context.selected_agendas)
-        )
+        agenda_query = "selected_agendas={}".format(self.context.selected_agenda)
         url = "{}/@search?{}&metadata_fields=category&metadata_fields=start&metadata_fields=end".format(
-            smartweb_events_url, agendas_query
+            smartweb_events_url, agenda_query
         )
         return url
 

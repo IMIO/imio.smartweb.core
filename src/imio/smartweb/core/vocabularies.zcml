@@ -44,8 +44,20 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.RemoteEventsEntities"
+      component=".vocabularies.RemoteEventsEntitiesVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.RemoteAgendas"
       component=".vocabularies.RemoteAgendasVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.RemoteNewsEntities"
+      component=".vocabularies.RemoteNewsEntitiesVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 

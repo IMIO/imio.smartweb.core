@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.config import DIRECTORY_URL
+from imio.smartweb.core.config import EVENTS_URL
+from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.utils import get_json
@@ -105,25 +107,6 @@ class ContactBlocksVocabularyFactory:
 ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
 
 
-class RemoteDirectoryEntitiesVocabularyFactory:
-    def __call__(self, context=None):
-        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=title&b_size=1000000&metadata_fields=UID".format(
-            DIRECTORY_URL
-        )
-        json_entities = get_json(url)
-        if json_entities is None or len(json_entities.get("items", [])) == 0:
-            return SimpleVocabulary([])
-        return SimpleVocabulary(
-            [
-                SimpleTerm(value=elem["UID"], title=elem["title"])
-                for elem in json_entities.get("items")
-            ]
-        )
-
-
-RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
-
-
 class RemoteContactsVocabularyFactory:
     def __call__(self, context=None):
         entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
@@ -150,22 +133,77 @@ class RemoteContactsVocabularyFactory:
 RemoteContactsVocabulary = RemoteContactsVocabularyFactory()
 
 
+def get_entities_vocabulary(portal_type, base_url):
+    params = [
+        "portal_type={}".format(portal_type),
+        "sort_on=sortable_title",
+        "b_size=1000000",
+        "metadata_fields=UID",
+    ]
+    url = "{}/@search?{}".format(base_url, "&".join(params))
+    json_entities = get_json(url)
+    if json_entities is None or len(json_entities.get("items", [])) == 0:
+        return SimpleVocabulary([])
+    return SimpleVocabulary(
+        [
+            SimpleTerm(value=elem["UID"], title=elem["title"])
+            for elem in json_entities.get("items")
+        ]
+    )
+
+
+class RemoteDirectoryEntitiesVocabularyFactory:
+    def __call__(self, context=None):
+        return get_entities_vocabulary("imio.directory.Entity", DIRECTORY_URL)
+
+
+RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
+
+
+class RemoteEventsEntitiesVocabularyFactory:
+    def __call__(self, context=None):
+        return get_entities_vocabulary("imio.events.Entity", EVENTS_URL)
+
+
+RemoteEventsEntitiesVocabulary = RemoteEventsEntitiesVocabularyFactory()
+
+
+class RemoteNewsEntitiesVocabularyFactory:
+    def __call__(self, context=None):
+        return get_entities_vocabulary("imio.news.Entity", NEWS_URL)
+
+
+RemoteNewsEntitiesVocabulary = RemoteNewsEntitiesVocabularyFactory()
+
+
+def content_container_vocabulary(entity_uid, portal_type, base_url):
+    """Gets containers of events / news"""
+    url = "{}/@search?UID={}".format(base_url, entity_uid)
+    entity_json = get_json(url)
+    entity_url = entity_json.get("items")[0].get("@id")
+    params = [
+        "portal_type={}".format(portal_type),
+        "sort_on=sortable_title",
+        "b_size=1000000",
+        "metadata_fields=UID",
+    ]
+    url = "{}/@search?{}".format(entity_url, "&".join(params))
+    json_folders = get_json(url)
+    if json_folders is None or len(json_folders.get("items", [])) == 0:
+        return SimpleVocabulary([])
+    return SimpleVocabulary(
+        [
+            SimpleTerm(value=elem["UID"], token=elem["UID"], title=elem["title"])
+            for elem in json_folders.get("items")
+        ]
+    )
+
+
 class RemoteAgendasVocabularyFactory:
     def __call__(self, context=None):
-        smartweb_events_url = api.portal.get_registry_record("imio.events.url")
-        url = "{}/@vocabularies/imio.events.vocabulary.AgendasUIDs".format(
-            smartweb_events_url
-        )
-        json_agendas = get_json(url)
-        if json_agendas is None or len(json_agendas.get("items", [])) == 0:
-            return SimpleVocabulary([])
-        return SimpleVocabulary(
-            [
-                SimpleTerm(
-                    value=elem["token"], token=elem["token"], title=elem["title"]
-                )
-                for elem in json_agendas.get("items")
-            ]
+        entity_uid = api.portal.get_registry_record("smartweb.events_entity_uid")
+        return content_container_vocabulary(
+            entity_uid, "imio.events.Agenda", EVENTS_URL
         )
 
 
@@ -174,20 +212,9 @@ RemoteAgendasVocabulary = RemoteAgendasVocabularyFactory()
 
 class RemoteNewsFoldersVocabularyFactory:
     def __call__(self, context=None):
-        smartweb_news_url = api.portal.get_registry_record("imio.news.url")
-        url = "{}/@vocabularies/imio.news.vocabulary.NewsFoldersUIDs".format(
-            smartweb_news_url
-        )
-        json_news_folders = get_json(url)
-        if json_news_folders is None or len(json_news_folders.get("items", [])) == 0:
-            return SimpleVocabulary([])
-        return SimpleVocabulary(
-            [
-                SimpleTerm(
-                    value=elem["token"], token=elem["token"], title=elem["title"]
-                )
-                for elem in json_news_folders.get("items")
-            ]
+        entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
+        return content_container_vocabulary(
+            entity_uid, "imio.news.NewsFolder", NEWS_URL
         )
 
 

@@ -50,11 +50,11 @@ class NewsEndpoint(object):
         &metadata_fields=end
         """
         smartweb_news_url = api.portal.get_registry_record("imio.news.url")
-        news_folders_query = "selected_news_folders={}".format(
-            "&selected_news_folders=".join(self.context.selected_news_folders)
+        news_folder_query = "selected_news_folders={}".format(
+            self.context.selected_news_folder
         )
         url = "{}/@search?{}&metadata_fields=category&metadata_fields=start&metadata_fields=end".format(
-            smartweb_news_url, news_folders_query
+            smartweb_news_url, news_folder_query
         )
         return url
 

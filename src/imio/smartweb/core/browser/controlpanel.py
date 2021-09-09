@@ -30,6 +30,18 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    events_entity_uid = schema.Choice(
+        title=_(u"Events entity"),
+        source="imio.smartweb.vocabulary.RemoteEventsEntities",
+        required=False,
+    )
+
+    news_entity_uid = schema.Choice(
+        title=_(u"News entity"),
+        source="imio.smartweb.vocabulary.RemoteNewsEntities",
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
