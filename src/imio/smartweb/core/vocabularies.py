@@ -2,7 +2,7 @@
 
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
-from imio.smartweb.core.utils import get_directory_json
+from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.schema.vocabulary import SimpleTerm
@@ -110,7 +110,7 @@ class RemoteContactsVocabularyFactory:
         url = "{}/@search?portal_type=imio.directory.Contact&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb".format(
             smartweb_directory_url
         )
-        json_contacts = get_directory_json(url)
+        json_contacts = get_json(url)
         if json_contacts is None or len(json_contacts.get("items", [])) == 0:
             return SimpleVocabulary([])
         return SimpleVocabulary(
@@ -122,3 +122,47 @@ class RemoteContactsVocabularyFactory:
 
 
 RemoteContactsVocabulary = RemoteContactsVocabularyFactory()
+
+
+class RemoteAgendasVocabularyFactory:
+    def __call__(self, context=None):
+        smartweb_events_url = api.portal.get_registry_record("imio.events.url")
+        url = "{}/@vocabularies/imio.events.vocabulary.AgendasUIDs".format(
+            smartweb_events_url
+        )
+        json_agendas = get_json(url)
+        if json_agendas is None or len(json_agendas.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(
+                    value=elem["token"], token=elem["token"], title=elem["title"]
+                )
+                for elem in json_agendas.get("items")
+            ]
+        )
+
+
+RemoteAgendasVocabulary = RemoteAgendasVocabularyFactory()
+
+
+class RemoteNewsFoldersVocabularyFactory:
+    def __call__(self, context=None):
+        smartweb_news_url = api.portal.get_registry_record("imio.news.url")
+        url = "{}/@vocabularies/imio.news.vocabulary.NewsFoldersUIDs".format(
+            smartweb_news_url
+        )
+        json_news_folders = get_json(url)
+        if json_news_folders is None or len(json_news_folders.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(
+                    value=elem["token"], token=elem["token"], title=elem["title"]
+                )
+                for elem in json_news_folders.get("items")
+            ]
+        )
+
+
+RemoteNewsFoldersVocabulary = RemoteNewsFoldersVocabularyFactory()

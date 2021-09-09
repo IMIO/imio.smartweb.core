@@ -32,9 +32,21 @@
       />
 
   <utility
-    name="imio.smartweb.vocabulary.RemoteContacts"
-    component=".vocabularies.RemoteContactsVocabulary"
-    provides="zope.schema.interfaces.IVocabularyFactory"
-    />
+      name="imio.smartweb.vocabulary.RemoteContacts"
+      component=".vocabularies.RemoteContactsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.RemoteAgendas"
+      component=".vocabularies.RemoteAgendasVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.RemoteNewsFolders"
+      component=".vocabularies.RemoteNewsFoldersVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
 
 </configure>
