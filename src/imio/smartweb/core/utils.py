@@ -27,9 +27,11 @@ def get_category(context):
     return value
 
 
-def get_directory_json(url):
+def get_json(url):
     try:
-        response = requests.get(url, headers={"Accept": "application/json"})
+        response = requests.get(
+            url, headers={"Accept": "application/json"}, auth=("admin", "admin")
+        )
     except Exception:
         return None
     if response.status_code != 200:
