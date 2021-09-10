@@ -197,3 +197,30 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
             (self.folder, self.request), name="subsite_settings"
         )
         self.assertFalse(subsite_view.enabled)
+
+    def test_subsite_body_class(self):
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+            id="subfolder",
+        )
+        page = api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Page",
+            title="Subpage",
+            id="subpage",
+        )
+
+        view = getMultiAdapter((subfolder, self.request), name="subsite_settings")
+        view.enable()
+        template = subfolder.restrictedTraverse("view")
+        layout_view = page.restrictedTraverse("@@plone_layout")
+        body_class = layout_view.bodyClass(template, view)
+        self.assertIn("is-in-subsite", body_class)
+
+        view = getMultiAdapter((subfolder, self.request), name="subsite_settings")
+        view.disable()
+        layout_view = page.restrictedTraverse("@@plone_layout")
+        body_class = layout_view.bodyClass(template, view)
+        self.assertNotIn("is-in-subsite", body_class)

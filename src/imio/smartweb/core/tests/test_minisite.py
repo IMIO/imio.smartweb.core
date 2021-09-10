@@ -268,3 +268,30 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         viewlet = LogoViewlet(subfolder, self.request, None, None)
         viewlet.update()
         self.assertEqual(viewlet.navigation_root_url, "http://nohost/plone/folder")
+
+    def test_minisite_body_class(self):
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+            id="subfolder",
+        )
+        page = api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Page",
+            title="Subpage",
+            id="subpage",
+        )
+
+        view = getMultiAdapter((subfolder, self.request), name="minisite_settings")
+        view.enable()
+        template = subfolder.restrictedTraverse("view")
+        layout_view = page.restrictedTraverse("@@plone_layout")
+        body_class = layout_view.bodyClass(template, view)
+        self.assertIn("is-in-minisite", body_class)
+
+        view = getMultiAdapter((subfolder, self.request), name="minisite_settings")
+        view.disable()
+        layout_view = page.restrictedTraverse("@@plone_layout")
+        body_class = layout_view.bodyClass(template, view)
+        self.assertNotIn("is-in-minisite", body_class)
