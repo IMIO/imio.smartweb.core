@@ -17,7 +17,7 @@ class IImioSmartwebSubsite(model.Schema):
     model.fieldset(
         "layout",
         label=_(u"Layout"),
-        fields=["logo", "logo_display_mode", "menu_depth"],
+        fields=["logo", "logo_display_mode"],
     )
 
     logo = NamedBlobImage(
