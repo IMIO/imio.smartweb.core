@@ -9,6 +9,7 @@
   <include package="plone.app.contentmenu" />
   <include package="plone.gallery" />
 
+  <include package="collective.anysurfer" />
   <include package="imio.smartweb.common" />
   <include package="imio.smartweb.locales" />
 

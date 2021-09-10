@@ -3,6 +3,7 @@
   <version>1000</version>
   <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
+    <dependency>profile-collective.anysurfer:default</dependency>
     <dependency>profile-collective.taxonomy:default</dependency>
     <dependency>profile-plone.gallery:default</dependency>
     <dependency>profile-imio.smartweb.common:default</dependency>
