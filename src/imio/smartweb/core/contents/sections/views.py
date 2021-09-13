@@ -2,6 +2,7 @@
 
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.locking.browser.info import LockInfoViewlet
 from Products.Five.browser import BrowserView
 from zope.interface import Interface
 
@@ -15,6 +16,9 @@ class SectionView(BrowserView):
 
     def __call__(self):
         self.redirect_to_section(self.context.id)
+
+    def locking_info(self):
+        return LockInfoViewlet(self.context, self.request, None, None).render()
 
     def redirect_to_section(self, section_id):
         page = self.context.aq_parent

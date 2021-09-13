@@ -21,6 +21,7 @@
   <browser:page
       name="sections_macros"
       for="imio.smartweb.core.contents.ISection"
+      class=".views.SectionView"
       template="macros.pt"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
