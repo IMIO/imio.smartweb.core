@@ -59,7 +59,7 @@
       <value key="merge_with">default</value>
       <value key="csscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.css</value>
       <value key="jscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.js</value>
-      <value key="last_compilation">2021-07-12 14:00:00</value>
+      <value key="last_compilation">2021-09-13 15:00:00</value>
     </records>
 
     <records prefix="plone.resources/smartweb-edit"
@@ -81,7 +81,7 @@
       <value key="merge_with">logged-in</value>
       <value key="csscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.css</value>
       <value key="jscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.js</value>
-      <value key="last_compilation">2021-03-24 15:00:00</value>
+      <value key="last_compilation">2021-09-13 15:00:00</value>
       <value key="stub_js_modules">
         <element>jquery</element>
       </value>
