@@ -3,9 +3,9 @@
 from plone.app.contenttypes.behaviors.viewlets import LeadImageViewlet
 
 
-class PagesLeadImageViewlet(LeadImageViewlet):
-    """Leadimage viewlet that will be unavailable for pages"""
+class NoLeadImageViewlet(LeadImageViewlet):
+    """Leadimage viewlet that will be unavailable for pages & folders"""
 
     def update(self):
-        super(PagesLeadImageViewlet, self).update()
+        super(NoLeadImageViewlet, self).update()
         self.available = False

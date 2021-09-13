@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
+from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from Products.CMFPlone.resources import add_bundle_on_request
 from plone import api
 from plone.app.content.browser.contents.rearrange import OrderContentsBaseAction
@@ -10,15 +11,10 @@ from plone.app.contenttypes.browser.full_view import FullViewItem as BaseFullVie
 from Products.CMFPlone import utils
 from Products.CMFPlone.browser.navigation import PhysicalNavigationBreadcrumbs
 from zope.component import getMultiAdapter
-from zope.interface import Interface
 from zope.interface import implementer
 
 
-class IPagesView(Interface):
-    """Marker interface for Pages Views"""
-
-
-@implementer(IPagesView)
+@implementer(IViewWithoutLeadImage)
 class PagesView(FolderView):
     """Pages view"""
 

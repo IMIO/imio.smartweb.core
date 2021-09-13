@@ -6,8 +6,8 @@
     <browser:viewlet
         name="contentleadimage"
         for=".leadimage.ILeadImage"
-        view="imio.smartweb.core.contents.pages.views.IPagesView"
-        class="imio.smartweb.core.viewlets.lead_image.PagesLeadImageViewlet"
+        view="imio.smartweb.core.interfaces.IViewWithoutLeadImage"
+        class="imio.smartweb.core.viewlets.lead_image.NoLeadImageViewlet"
         manager="plone.app.layout.viewlets.interfaces.IAboveContentTitle"
         layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
         template="leadimage.pt"

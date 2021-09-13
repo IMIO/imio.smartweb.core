@@ -2,6 +2,7 @@
 
 from Acquisition import aq_inner
 from imio.smartweb.core.contents import IFolder
+from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
@@ -17,6 +18,7 @@ from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implementer
 
 
+@implementer(IViewWithoutLeadImage)
 class FolderView(BaseFolderView):
     """ """
 
@@ -62,6 +64,7 @@ class FolderView(BaseFolderView):
         return {"results": results, "quick_access": quick_access_brains}
 
 
+@implementer(IViewWithoutLeadImage)
 class FolderViewWithImages(FolderView):
     """ """
 
@@ -72,7 +75,7 @@ class DefaultElementTextView(ContentProviderBase):
     render = ViewPageTemplateFile("element_view.pt")
 
 
-@implementer(IFieldsAndContentProvidersForm)
+@implementer(IFieldsAndContentProvidersForm, IViewWithoutLeadImage)
 class ElementView(EditForm):
     """ """
 
@@ -116,12 +119,14 @@ class ElementView(EditForm):
             self.status = self.noChangesMessage
 
 
+@implementer(IViewWithoutLeadImage)
 class SummaryView(FolderView):
     """ """
 
     show_images = False
 
 
+@implementer(IViewWithoutLeadImage)
 class SummaryViewWithImages(SummaryView):
     """ """
 
