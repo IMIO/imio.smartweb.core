@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.utils import get_json
 from plone import api
 from plone.registry.interfaces import IRegistry
@@ -49,10 +50,9 @@ class EventsEndpoint(object):
         &metadata_fields=start
         &metadata_fields=end
         """
-        smartweb_events_url = api.portal.get_registry_record("imio.events.url")
         agenda_query = "selected_agendas={}".format(self.context.selected_agenda)
         url = "{}/@search?{}&metadata_fields=category&metadata_fields=start&metadata_fields=end".format(
-            smartweb_events_url, agenda_query
+            EVENTS_URL, agenda_query
         )
         return url
 

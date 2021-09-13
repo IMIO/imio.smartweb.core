@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.utils import get_json
 from plone import api
 from plone.registry.interfaces import IRegistry
@@ -49,12 +50,11 @@ class NewsEndpoint(object):
         &metadata_fields=start
         &metadata_fields=end
         """
-        smartweb_news_url = api.portal.get_registry_record("imio.news.url")
         news_folder_query = "selected_news_folders={}".format(
             self.context.selected_news_folder
         )
         url = "{}/@search?{}&metadata_fields=category&metadata_fields=start&metadata_fields=end".format(
-            smartweb_news_url, news_folder_query
+            NEWS_URL, news_folder_query
         )
         return url
 
