@@ -29,9 +29,7 @@ def get_category(context):
 
 def get_json(url):
     try:
-        response = requests.get(
-            url, headers={"Accept": "application/json"}, auth=("admin", "admin")
-        )
+        response = requests.get(url, headers={"Accept": "application/json"}, timeout=5)
     except Exception:
         return None
     if response.status_code != 200:
