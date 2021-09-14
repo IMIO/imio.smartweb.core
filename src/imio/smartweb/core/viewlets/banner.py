@@ -48,7 +48,7 @@ class BannerViewlet(common.ViewletBase):
     def background_style(self):
         if self.is_banner_hidden:
             return ""
-        css_bg_image = "background-image:url('{}/@@images/banner/large');"
+        css_bg_image = "background-image:url('{}/@@images/banner/banner');"
         css_bg_image = css_bg_image.format(self.banner_item.absolute_url())
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])

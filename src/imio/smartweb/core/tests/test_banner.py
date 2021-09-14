@@ -34,7 +34,7 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
         self.assertTrue(viewlet.available())
         self.assertIn(
-            "background-image:url('http://nohost/plone/folder/@@images/banner/large')",
+            "background-image:url('http://nohost/plone/folder/@@images/banner/banner')",
             viewlet.background_style(),
         )
         template = self.folder.restrictedTraverse("view")
@@ -120,7 +120,7 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         self.assertTrue(subfolder_viewlet.available())
         self.assertFalse(subfolder_viewlet.is_banner_locally_hidden)
         self.assertIn(
-            "background-image:url('http://nohost/plone/folder/@@images/banner/large')",
+            "background-image:url('http://nohost/plone/folder/@@images/banner/banner')",
             subfolder_viewlet.background_style(),
         )
         page_viewlet = BannerViewlet(page, self.request, None, None)
@@ -128,7 +128,7 @@ class SubsiteIntegrationTest(ImioSmartwebTestCase):
         self.assertTrue(page_viewlet.available())
         self.assertFalse(page_viewlet.is_banner_locally_hidden)
         self.assertIn(
-            "background-image:url('http://nohost/plone/folder/@@images/banner/large')",
+            "background-image:url('http://nohost/plone/folder/@@images/banner/banner')",
             page_viewlet.background_style(),
         )
 
