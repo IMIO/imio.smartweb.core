@@ -87,15 +87,17 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         section.alignment = "left"
         section.image_size = "large"
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn("<div class=\"body-section no-image\">", view())
+        self.assertIn('<div class="body-section no-image">', view())
         self.assertNotIn("figure", view())
         self.assertNotIn("figure-left", view())
         self.assertNotIn("@@images/image/large", view())
         self.assertNotIn("figcaption", view())
 
-        section.image = NamedBlobFile("ploneLeadImage", filename=get_leadimage_filename())
+        section.image = NamedBlobFile(
+            "ploneLeadImage", filename=get_leadimage_filename()
+        )
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn("<div class=\"body-section\">", view())
+        self.assertIn('<div class="body-section">', view())
         self.assertIn("figure", view())
         self.assertIn("figure-left", view())
         self.assertIn("@@images/image/large", view())
@@ -104,7 +106,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         section.image_caption = "Kamoulox"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         # Assert section text has lead image
-        self.assertIn("<div class=\"body-section\">", view())
+        self.assertIn('<div class="body-section">', view())
         self.assertIn("figure", view())
         self.assertIn("figure-left", view())
         self.assertIn("figcaption", view())
