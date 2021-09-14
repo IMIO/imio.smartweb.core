@@ -41,12 +41,13 @@
              tal:attributes="class python:'carousel-item active' if repeat.item.start else 'carousel-item'">
           <tal:def define="item_has_image python:item.getIcon;
                            thumb_scale context/image_scale;
+                           show_lead_image context/show_items_lead_image | nothing;
                            portal context/@@plone_portal_state/portal;
                            image_scale item/@@images;
                            open_in_new_tab item/open_in_new_tab | nothing;">
           <a tal:attributes="href item/absolute_url;
                              target python:'_blank' if (open_in_new_tab and can_edit is False) else ''"
-             tal:condition="python: item_has_image and thumb_scale">
+             tal:condition="python: item_has_image and thumb_scale and show_lead_image">
             <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale, css_class='d-block w-100')">
           </a>
           <div class="carousel-caption d-none d-md-block">

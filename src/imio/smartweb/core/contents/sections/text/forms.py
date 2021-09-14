@@ -5,6 +5,7 @@ from imio.smartweb.core.browser.forms import SmartwebCustomEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.z3cform import layout
 from z3c.form.interfaces import HIDDEN_MODE
+from z3c.form.interfaces import INPUT_MODE
 
 
 class TextCustomAddForm(SmartwebCustomAddForm):
@@ -18,6 +19,10 @@ class TextCustomAddForm(SmartwebCustomAddForm):
             if group.__name__ == "layout":
                 group.widgets["hide_title"].mode = HIDDEN_MODE
                 group.widgets["hide_title"].value = ["selected"]
+
+    def updateFields(self):
+        super(TextCustomAddForm, self).updateFields()
+        self.fields["ILeadImageBehavior.image_caption"].mode = INPUT_MODE
 
 
 class TextCustomAddView(DefaultAddView):
@@ -33,6 +38,10 @@ class TextCustomEditForm(SmartwebCustomEditForm):
             if group.__name__ == "layout":
                 group.widgets["hide_title"].mode = HIDDEN_MODE
                 group.widgets["hide_title"].value = ["selected"]
+
+    def updateFields(self):
+        super(TextCustomEditForm, self).updateFields()
+        self.fields["ILeadImageBehavior.image_caption"].mode = INPUT_MODE
 
 
 TextCustomEditView = layout.wrap_form(TextCustomEditForm)

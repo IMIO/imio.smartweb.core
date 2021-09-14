@@ -30,6 +30,7 @@
     <element value="plone.locking"/>
     <element value="plone.versioning" />
     <element value="plone.richtext"/>
+    <element value="plone.leadimage"/>
   </property>
 
 </object>
