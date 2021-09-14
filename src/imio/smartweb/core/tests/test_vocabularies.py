@@ -126,3 +126,9 @@ class TestVocabularies(ImioSmartwebTestCase):
             self.contact_search_url, text=json.dumps(self.json_empty_contacts_raw_mock)
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
+
+    def test_alignment(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Alignment", 4)
+
+    def test_image_size(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 3)

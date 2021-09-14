@@ -219,3 +219,32 @@ class RemoteNewsFoldersVocabularyFactory:
 
 
 RemoteNewsFoldersVocabulary = RemoteNewsFoldersVocabularyFactory()
+
+
+class AlignmentVocabularyFactory:
+    def __call__(self, context=None):
+        alignment = [
+            (u"left", _(u"Left")),
+            (u"right", _(u"Right")),
+            (u"bottom", _(u"Bottom")),
+            (u"top", _(u"Top")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in alignment]
+        return SimpleVocabulary(terms)
+
+
+AlignmentVocabulary = AlignmentVocabularyFactory()
+
+
+class ImageSizeVocabularyFactory:
+    def __call__(self, context=None):
+        image_size = [
+            (u"large", _(u"Full width")),
+            (u"preview", _(u"Half page")),
+            (u"mini", _(u"Third page")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in image_size]
+        return SimpleVocabulary(terms)
+
+
+ImageSizeVocabulary = ImageSizeVocabularyFactory()
