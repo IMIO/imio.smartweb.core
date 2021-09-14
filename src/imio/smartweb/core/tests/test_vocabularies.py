@@ -105,10 +105,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         url = "{}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID".format(
             config.DIRECTORY_URL
         )
-        m.get(
-            url,
-            text=json.dumps(json_entities_raw_mock),
-        )
+        m.get(url, text=json.dumps(json_entities_raw_mock))
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteDirectoryEntities", 2)
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.RemoteDirectoryEntities")
         self.assertEqual(
