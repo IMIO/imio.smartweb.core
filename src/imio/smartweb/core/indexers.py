@@ -6,11 +6,11 @@ from imio.smartweb.core.contents import ISection
 from imio.smartweb.core.contents import ISectionText
 from plone import api
 from plone.app.contenttypes.behaviors.leadimage import ILeadImage
+from plone.app.contenttypes.behaviors.richtext import IRichText
 from plone.app.contenttypes.indexers import SearchableText
 from plone.app.contenttypes.indexers import _unicode_save_string_concat
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.decorator import indexer
-from plone.app.contenttypes.behaviors.richtext import IRichText
 
 
 @indexer(IDexterityContent)
