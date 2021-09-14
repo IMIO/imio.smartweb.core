@@ -9,10 +9,19 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div class="section-container section-text" tal:attributes="style view/background_style">
+<div tal:define="image context/image | nothing;"
+     tal:attributes="style view/background_style;"
+     class="section-container section-text">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-    <div class="body-section">
+    <div tal:define="klass string:body-section;"
+         tal:attributes="class python:'{} {}'.format(klass, 'no-image') if not image else klass;">
       <span tal:replace="structure context/text/output | nothing" />
+      <tal:cond condition="context/image | nothing">
+        <figure tal:attributes="class string:figure-${context/alignment}">
+          <img alt="" tal:attributes="src string:${context/absolute_url}/@@images/image/${context/image_size};" />
+          <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
+        </figure>
+      </tal:cond>
     </div>
 </div>
 </metal:content-core>
