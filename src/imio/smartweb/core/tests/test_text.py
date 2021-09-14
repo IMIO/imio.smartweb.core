@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
+from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
+from imio.smartweb.core.tests.utils import get_leadimage_filename
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
@@ -8,7 +10,10 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.namedfile.file import NamedBlobFile
 from plone.testing.zope import Browser
+from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
 
 import transaction
 
@@ -72,3 +77,42 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(hide_title_true["value"], "selected")
         hide_title_false = soup.find(id="form-widgets-hide_title-1")
         self.assertIsNone(hide_title_false)
+
+    def test_lead_image(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Title of my text",
+        )
+        section.alignment = "left"
+        section.image_size = "large"
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("<div class=\"body-section no-image\">", view())
+        self.assertNotIn("figure", view())
+        self.assertNotIn("figure-left", view())
+        self.assertNotIn("@@images/image/large", view())
+        self.assertNotIn("figcaption", view())
+
+        section.image = NamedBlobFile("ploneLeadImage", filename=get_leadimage_filename())
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("<div class=\"body-section\">", view())
+        self.assertIn("figure", view())
+        self.assertIn("figure-left", view())
+        self.assertIn("@@images/image/large", view())
+        self.assertNotIn("figcaption", view())
+
+        section.image_caption = "Kamoulox"
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        # Assert section text has lead image
+        self.assertIn("<div class=\"body-section\">", view())
+        self.assertIn("figure", view())
+        self.assertIn("figure-left", view())
+        self.assertIn("figcaption", view())
+
+        section.alignment = "right"
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("figure-right", view())
+
+        section.image_size = "mini"
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("@@images/image/mini", view())
