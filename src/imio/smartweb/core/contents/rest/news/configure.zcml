@@ -7,7 +7,7 @@
   <browser:page
     name="view"
     for="imio.smartweb.core.contents.INewsView"
-    class=".view.ViewView"
+    class=".view.NewsViewView"
     template="view.pt"
     permission="zope2.View"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"

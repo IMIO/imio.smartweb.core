@@ -1,20 +1,14 @@
 # -*- coding: utf-8 -*-
+
 from imio.smartweb.core.config import EVENTS_URL
-from imio.smartweb.core.utils import get_json
-from plone import api
-from plone.registry.interfaces import IRegistry
 from plone.rest import Service
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
-from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
 
 import json
-import logging
 import requests
-
-logger = logging.getLogger("Plone")
 
 
 @implementer(IExpandableElement)
@@ -42,18 +36,13 @@ class EventsEndpoint(object):
 
     @property
     def query_url(self):
-        """
-        SAMPLE : http://localhost:8080/Plone/@search
-        ?selected_agendas=a84f2773e1c440bb947614148ccfd53f
-        &selected_agendas=8787866afaa14379ab2e556b8d2e646c
-        &metadata_fields=category
-        &metadata_fields=start
-        &metadata_fields=end
-        """
-        agenda_query = "selected_agendas={}".format(self.context.selected_agenda)
-        url = "{}/@search?{}&metadata_fields=category&metadata_fields=start&metadata_fields=end".format(
-            EVENTS_URL, agenda_query
-        )
+        params = [
+            "selected_agendas={}".format(self.context.selected_agenda),
+            "metadata_fields=category",
+            "metadata_fields=start",
+            "metadata_fields=end",
+        ]
+        url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
         return url
 
 

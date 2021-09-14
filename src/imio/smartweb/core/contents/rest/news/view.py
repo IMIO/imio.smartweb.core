@@ -1,15 +1,10 @@
 # -*- coding: utf-8 -*-
-from plone.registry.interfaces import IRegistry
+
 from Products.Five import BrowserView
-from zope.component import getUtility
-
-import logging
-
-logger = logging.getLogger("Plone")
 
 
-class ViewView(BrowserView):
-    """ """
+class NewsViewView(BrowserView):
+    """NewsView view"""
 
     @property
     def local_query_url(self):
