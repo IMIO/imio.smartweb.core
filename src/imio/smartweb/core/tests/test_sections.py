@@ -198,10 +198,10 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             RelationValue(intids.getId(self.page)),
         ]
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), len(section_types))
+        self.assertEqual(view.count("<h2 class=\"section-title\">Title of my "), len(section_types))
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), 4)
+        self.assertEqual(view.count("<h2 class=\"section-title\">Title of my "), 4)
         login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
@@ -223,7 +223,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             title="My link",
         )
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), len(section_types))
+        self.assertEqual(view.count("<h2 class=\"section-title\">Title of my "), len(section_types))
 
     def test_sections_titles(self):
         page = api.content.create(
@@ -269,15 +269,18 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         ]
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), len(section_types))
+        self.assertEqual(view.count("<h2 class=\"section-title\">Title of my "), len(section_types))
+        # test hide_title
         for section_id in page.objectIds():
             section = getattr(page, section_id)
             section.hide_title = True
+        # hide_title in login mode (add some specific css class)
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), self.NUMBER_OF_EMPTY_SECTIONS)
+        self.assertEqual(view.count("<h2 class=\"hidden-section-title hide-in-preview\">Title of my "), self.NUMBER_OF_EMPTY_SECTIONS)
+        # hide_title in logout mode (no more <h2> / title)
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count("Title of my "), 0)
+        self.assertEqual(view.count("</h2>"), 0)
 
     def test_sections_titles_display_switch(self):
         page = api.content.create(

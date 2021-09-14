@@ -31,6 +31,10 @@ class ISectionSelections(ISection):
         required=True,
     )
 
+    show_items_lead_image = schema.Bool(
+        title=_(u"Show items lead image"), default=False, required=False
+    )
+
 
 @implementer(ISectionSelections)
 class SectionSelections(Section):
