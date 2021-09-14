@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core import config
+from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
 from plone.app.robotframework.testing import REMOTE_LIBRARY_BUNDLE_FIXTURE
@@ -15,6 +16,8 @@ from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
 
 import imio.smartweb.core
+import json
+import requests_mock
 import unittest
 
 config.DIRECTORY_URL = "http://localhost:8080/Plone"
@@ -33,7 +36,15 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
         self.loadZCML(package=plone.restapi)
         self.loadZCML(package=imio.smartweb.core)
 
-    def setUpPloneSite(self, portal):
+    @requests_mock.Mocker()
+    def setUpPloneSite(self, portal, m):
+        json_entities_raw_mock = get_json(
+            "resources/json_directory_entities_raw_mock.json"
+        )
+        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID".format(
+            config.DIRECTORY_URL
+        )
+        m.get(url, text=json.dumps(json_entities_raw_mock))
         applyProfile(portal, "imio.smartweb.core:testing")
         api.user.create(email="test@imio.be", username="test")
         api.user.grant_roles(username="test", roles=["Site Administrator"])
