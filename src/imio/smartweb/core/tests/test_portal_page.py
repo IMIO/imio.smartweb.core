@@ -144,3 +144,12 @@ class PageIntegrationTest(ImioSmartwebTestCase):
         bundles = getattr(self.request, "enabled_bundles", [])
         self.assertEqual(len(bundles), 2)
         self.assertListEqual(bundles, ["spotlightjs", "flexbin"])
+
+    def test_no_title(self):
+        portal_page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.PortalPage",
+            title="My Portal Page",
+        )
+        view = getMultiAdapter((portal_page, self.request), name="full_view")()
+        self.assertNotIn("<h1>", view)
