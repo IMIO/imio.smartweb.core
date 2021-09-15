@@ -1,2 +1,2 @@
-jQuery(document).ready(function(t){t("#contentview-preview a").click(function(e){t(".hide-in-preview").toggle("fast"),e.preventDefault()})}),define("/Users/laurent/instances/buildout.smartweb/src/imio.smartweb.core/src/imio/smartweb/core/browser/static/edit.js",function(){});
+jQuery(document).ready(function(t){t("#contentview-preview a").click(function(e){t(".hide-in-preview, #section-byline, #global_statusmessage").toggle("fast"),e.preventDefault()})}),define("/Users/laurent/instances/buildout.smartweb/src/imio.smartweb.core/src/imio/smartweb/core/browser/static/edit.js",function(){});
 //# sourceMappingURL=smartweb-edit-compiled.js.map
