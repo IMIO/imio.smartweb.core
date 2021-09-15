@@ -4,4 +4,4 @@ from imio.smartweb.core.contents.sections.views import SectionView
 
 
 class MapView(SectionView):
-    """"""
+    """ """
