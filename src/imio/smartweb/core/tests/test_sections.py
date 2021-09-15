@@ -27,7 +27,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
 
     def setUp(self):
         # Number of sections where there is a title if section is empty.
-        self.NUMBER_OF_EMPTY_SECTIONS = 7
+        self.NUMBER_OF_EMPTY_SECTIONS = 8
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -203,7 +203,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         )
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count('<h2 class="section-title">Title of my '), 4)
+        self.assertEqual(view.count('<h2 class="section-title">Title of my '), 5)
         login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(

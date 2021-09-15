@@ -6,6 +6,7 @@
   <include package=".files" />
   <include package=".gallery" />
   <include package=".links" />
+  <include package=".map" />
   <include package=".selections" />
   <include package=".text" />
   <include package=".video" />
