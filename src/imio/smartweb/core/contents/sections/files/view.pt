@@ -18,16 +18,22 @@
           tal:condition="show_section">
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
+
     <div class="body-section">
-      <ul class="section_files_list"
-          tal:condition="items">
-        <li class="section_files_item" tal:repeat="item items">
+
+      <tal:if tal:condition="items">
+
+        <ul tal:define="only_one_item python: len(items) == 1"
+            tal:omit-tag="only_one_item">
+
+          <li tal:omit-tag="only_one_item"
+              tal:repeat="item items">
+
             <div tal:define="file_view nocall:item/@@file_view;
                              item_has_image python:item.getIcon;
                              thumb_scale view/get_thumb_scale_list;
                              portal context/@@plone_portal_state/portal;
-                             image_scale item/@@images;"
-                 class="section_files_item">
+                             image_scale item/@@images;">
               <a tal:attributes="href item/absolute_url;
                                  alt item/title">
                 <span class="section_files_item_title">
@@ -43,7 +49,11 @@
               </a>
             </div>
         </li>
-      </ul>
+
+        </ul>
+
+      </tal:if>
+
     </div>
   </tal:if>
 </div>
