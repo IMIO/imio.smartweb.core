@@ -60,9 +60,11 @@ CurrentFolderPagesVocabulary = CurrentFolderPagesVocabularyFactory()
 class BootstrapCSSVocabularyFactory:
     def __call__(self, context=None):
         bootstrap_css = [
+            (u"col-sm-3", _(u"Quarter of width")),
             (u"col-sm-4", _(u"Third of width")),
             (u"col-sm-6", _(u"Half of width")),
             (u"col-sm-8", _(u"Two third of width")),
+            (u"col-sm-9", _(u"Three quarter of width")),
             (u"col-sm-12", _(u"Full width")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in bootstrap_css]

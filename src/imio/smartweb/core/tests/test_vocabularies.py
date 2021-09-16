@@ -82,7 +82,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
     def test_bootstrap_css(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 4)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 6)
 
     def test_subsite_display_mode(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SubsiteDisplayMode", 3)
