@@ -97,4 +97,10 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+ <utility
+      name="imio.smartweb.vocabulary.ConcatCategoryTopics"
+      component=".vocabularies.ConcatCategoryTopicsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+      
 </configure>

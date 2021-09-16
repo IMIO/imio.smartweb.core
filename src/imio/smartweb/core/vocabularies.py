@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.config import DIRECTORY_URL, EVENTS_URL, NEWS_URL
+from imio.smartweb.core.utils import concat_voca_term, get_categories
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from zope.component import getUtility
 from plone.dexterity.content import Item
 from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.schema.interfaces import IVocabularyFactory
 
 import json
 import requests
@@ -291,3 +294,30 @@ class NewsViewsVocabularyFactory(object):
 
 
 NewsViewsVocabulary = NewsViewsVocabularyFactory()
+
+
+class ConcatCategoryTopicsVocabularyFactory:
+    def __call__(self, context=None):
+        categories_taxo = get_categories()
+        categories_voca = categories_taxo.makeVocabulary("en").inv_data
+
+        topics_voca_factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.Topics"
+        )
+        topics_voca = topics_voca_factory(context)
+
+        terms = []
+
+        for cat in categories_voca:
+            for topic in topics_voca:
+                term = SimpleTerm(
+                    value=concat_voca_term(cat, topic.value),
+                    token=concat_voca_term(cat, topic.token),
+                    title=concat_voca_term(categories_voca[cat], topic.title),
+                )
+                terms.append(term)
+
+        return SimpleVocabulary(terms)
+
+
+ConcatCategoryTopicsVocabulary = ConcatCategoryTopicsVocabularyFactory()

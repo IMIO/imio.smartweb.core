@@ -29,6 +29,15 @@ def get_category(context):
     return value
 
 
+def get_categories():
+    sm = getSiteManager()
+    return sm.queryUtility(ITaxonomy, name="collective.taxonomy.page_category")
+
+
+def concat_voca_term(term1, term2):
+    return term1 + "-" + term2
+
+
 def get_json(url):
     try:
         response = requests.get(url, headers={"Accept": "application/json"}, timeout=5)

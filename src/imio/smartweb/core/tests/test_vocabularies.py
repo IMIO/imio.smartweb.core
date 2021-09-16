@@ -189,3 +189,8 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     def test_image_size(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 3)
+
+    def test_concat_category_topics_vocabulary(self):
+        voca = get_vocabulary("imio.smartweb.vocabulary.ConcatCategoryTopics")
+        __import__("pdb").set_trace()
+        pass
