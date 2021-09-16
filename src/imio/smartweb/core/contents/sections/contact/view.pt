@@ -42,10 +42,10 @@
            tal:condition="python:'contact_informations' in visible_blocks">
         <span class="informations" i18n:translate="">Contact informations</span>
         <span tal:replace="contact/vat_number | nothing"></span>
-        <ul>
+        <ul tal:define="phones contact/phones | nothing;
+                        mails contact/mails | nothing;
+                        urls contact/urls | nothing" >
           <li class="phones" 
-              tal:define="phones contact/phones | nothing" 
-              tal:condition="phones" 
               tal:repeat="phone phones" 
               tal:attributes="class python:phone.get('type') or ''">
             <span tal:replace="python:phone.get('label') or ''"></span>
@@ -53,8 +53,6 @@
                tal:content="python:'{}'.format(phone.get('number'))" />
           </li>
           <li class="mails" 
-              tal:define="mails contact/mails | nothing" 
-              tal:condition="mails" 
               tal:repeat="mail mails" 
               tal:attributes="class python:mail.get('type') or ''">
             <span tal:replace="python:'{}'.format(mail.get('label') or '')"></span>
@@ -62,8 +60,6 @@
                tal:content="python:'{}'.format(mail.get('mail_address'))" />
           </li>
           <li class="urls" 
-              tal:define="urls contact/urls | nothing"  
-              tal:condition="urls" 
               tal:repeat="url urls" 
               tal:attributes="class python:url.get('type') or ''">
             <a tal:attributes="href python:url.get('url')"
