@@ -37,6 +37,10 @@
       "effective": "2021-05-11T13:31:00",
       "exclude_from_nav": false,
       "expires": null,
+      "geolocation": {
+              "latitude": 50.4,
+              "longitude": 4.7
+      },
       "id": "2dc381f0fb584381b8e4a19c84f53b35",
       "image": null,
       "image_caption": null,

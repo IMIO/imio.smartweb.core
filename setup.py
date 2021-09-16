@@ -61,6 +61,7 @@ setup(
         "imio.smartweb.common",
         "imio.smartweb.locales",
         "collective.instancebehavior",
+        "collective.geolocationbehavior",
     ],
     extras_require={
         "test": [

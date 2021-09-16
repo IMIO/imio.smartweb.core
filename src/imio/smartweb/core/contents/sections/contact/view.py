@@ -10,6 +10,8 @@ from plone import api
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 
+import json
+
 
 class ContactView(SectionView):
     """Contact Section view"""
@@ -34,6 +36,26 @@ class ContactView(SectionView):
             return ""
         contact_type = contact.get("type").get("token")
         return "contact-type-{}".format(contact_type)
+
+    def data_geojson(self):
+        """Return the contact geolocation as GeoJSON string."""
+        coordinates = self.contact.get("geolocation")
+        longitude = coordinates.get("longitude")
+        latitude = coordinates.get("latitude")
+        if not latitude or not longitude:
+            return
+        geo_json = {
+            "type": "Feature",
+            "properties": {},
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                    longitude,
+                    latitude,
+                ],
+            },
+        }
+        return json.dumps(geo_json)
 
     @property
     def images(self):

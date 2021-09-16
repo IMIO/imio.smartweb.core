@@ -13,7 +13,12 @@
 
   <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
-  <p>In development</p>
+  <div class="pat-leaflet map"
+       tal:define="utils_view context/@@utils;
+                   data_geojson view/data_geojson"
+       tal:condition="data_geojson"
+       tal:attributes="data-geojson data_geojson"
+       data-pat-leaflet='${utils_view/map_configuration}'></div>
 
 </div>
 </metal:content-core>
