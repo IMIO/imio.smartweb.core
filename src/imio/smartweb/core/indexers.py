@@ -60,3 +60,9 @@ def related_quickaccess(obj):
     if obj.quick_access_items is None:
         return []
     return [item.to_object.UID() for item in obj.quick_access_items]
+
+
+@indexer(IPages)
+def concat_category_topics_indexer(obj):
+    __import__("pdb").set_trace()
+    pass

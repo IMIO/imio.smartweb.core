@@ -10,7 +10,10 @@
   <index name="related_quickaccess" meta_type="FieldIndex">
     <indexed_attr value="related_quickaccess"/>
   </index>
-
+  <index name="concat_category_topics" meta_type="KeywordIndex">
+    <indexed_attr value="concat_category_topics"/>
+  </index>
+  <column value="concat_category_topics"/>
   <column value="category"/>
   <column value="exclude_from_parent_listing"/>
   <column value="related_quickaccess"/>

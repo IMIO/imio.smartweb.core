@@ -125,3 +125,12 @@ class TestIndexes(ImioSmartwebTestCase):
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertCountEqual(indexes.get("related_quickaccess"), [uuid_qa1, uuid_qa2])
         self.assertCountEqual(brain.related_quickaccess, [uuid_qa1, uuid_qa2])
+
+    def test_concat_category_topics_indexer(self):
+        api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="The page",
+            category_name="emploi",
+            topic=["culture", "health"],
+        )
