@@ -71,14 +71,11 @@
         </ul>
       </div>
       
-      <div class="contact_address" tal:condition="python:'address' in visible_blocks">
+      <div class="contact_address" 
+           tal:define="address view/formatted_address"
+           tal:condition="python:address and 'address' in visible_blocks">
         <span class="address" i18n:translate="">Address</span>
-        <span tal:replace="contact/street | nothing"></span>
-        <span tal:replace="contact/number | nothing"></span>
-        <span tal:replace="contact/complement | nothing"></span>
-        <span tal:replace="contact/zipcode | nothing"></span>
-        <span tal:replace="contact/city | nothing"></span>
-        <span tal:define="country contact/country | nothing" tal:condition="country" tal:replace="contact/country/title"></span>
+        <span tal:replace="address"></span>
         <div class="itinerary"
              tal:define="link view/get_itinerary_link"
              tal:condition="link">

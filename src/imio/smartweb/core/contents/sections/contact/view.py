@@ -157,6 +157,22 @@ class ContactView(SectionView):
                     return False
         return True
 
+    def formatted_address(self):
+        contact = self.contact
+        street_parts = [
+            contact.get("number") and str(contact.get("number")) or "",
+            contact.get("street"),
+            contact.get("complement"),
+        ]
+        street = " ".join(filter(None, street_parts))
+        entity_parts = [
+            contact.get("zipcode") and str(contact.get("zipcode")) or "",
+            contact.get("city"),
+        ]
+        entity = " ".join(filter(None, entity_parts))
+        country = contact.get("country") and contact.get("country").get("title") or ""
+        return ", ".join([street, entity, country])
+
 
 def formatted_schedule(schedule):
     # opening = {'afternoonend': '', 'afternoonstart': '', 'comment': '', 'morningend': '12:00', 'morningstart': '08:30'}
