@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.tests.utils import get_leadimage_filename
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -13,7 +12,6 @@ from plone.app.testing import TEST_USER_PASSWORD
 from plone.namedfile.file import NamedBlobFile
 from plone.testing.zope import Browser
 from zope.component import getMultiAdapter
-from zope.interface import alsoProvides
 
 import transaction
 
