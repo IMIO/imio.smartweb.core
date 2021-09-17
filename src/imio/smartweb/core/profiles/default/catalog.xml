@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <object name="portal_catalog">
+
   <index name="category" meta_type="KeywordIndex">
     <indexed_attr value="category"/>
   </index>
@@ -12,8 +13,14 @@
   <index name="related_quickaccess" meta_type="FieldIndex">
     <indexed_attr value="related_quickaccess"/>
   </index>
+
   <column value="category"/>
   <column value="exclude_from_parent_listing"/>
   <column value="has_leadimage"/>
   <column value="related_quickaccess"/>
+
+  <!-- Remove imio.smartweb.common breadcrumb index, which is not needed -->
+  <index name="breadcrumb" remove="True"/>
+  <column value="breadcrumb" remove="True"/>
+
 </object>
