@@ -13,7 +13,8 @@
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
     <div class=""
          tal:define="contact view/contact | nothing;
-                     visible_blocks context/visible_blocks"
+                     utils_view context/@@utils;
+                     visible_blocks context/visible_blocks;
                      show_main_title python:'titles' in visible_blocks;"
          tal:attributes="class string:body-section ${view/contact_type_class}"
          tal:condition="contact">
@@ -96,11 +97,13 @@
              tal:attributes="href link"
              i18n:translate="">Itinerary</a>
         </div>
+      </div>
+
+      <div class="contact_map" 
+           tal:define="is_geolocated contact/is_geolocated"
+           tal:condition="python:is_geolocated and 'map' in visible_blocks">
         <div class="pat-leaflet map"
-             tal:define="utils_view context/@@utils;
-                         data_geojson view/data_geojson"
-             tal:condition="data_geojson"
-             tal:attributes="data-geojson data_geojson"
+             tal:attributes="data-geojson view/data_geojson"
              data-pat-leaflet='${utils_view/map_configuration}'></div>
       </div>
 

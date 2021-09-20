@@ -95,6 +95,7 @@ class ContactBlocksVocabularyFactory:
             ("leadimage", _(u"Lead Image")),
             ("titles", _(u"Title and Subtitle")),
             ("address", _(u"Address")),
+            ("map", _(u"Map")),
             ("contact_informations", _(u"Contact informations")),
             ("schedule", _(u"Schedule")),
             ("gallery", _(u"Gallery")),

@@ -42,8 +42,6 @@ class ContactView(SectionView):
         coordinates = self.contact.get("geolocation")
         longitude = coordinates.get("longitude")
         latitude = coordinates.get("latitude")
-        if not latitude or not longitude:
-            return
         geo_json = {
             "type": "Feature",
             "properties": {},

@@ -43,7 +43,7 @@ class UtilsView(BrowserView):
                 {"title": translate(_geo(layer), context=self.request), "id": layer}
                 for layer in map_layers
             ],
-            "latitude": get_registry_record("geolocation.default_latitude") or None,
-            "longitude": get_registry_record("geolocation.default_longitude") or None,
+            "latitude": get_registry_record("geolocation.default_latitude"),
+            "longitude": get_registry_record("geolocation.default_longitude"),
         }
         return json.dumps(config)
