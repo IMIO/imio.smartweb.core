@@ -317,7 +317,27 @@ class ConcatCategoryTopicsVocabularyFactory:
                 )
                 terms.append(term)
 
+            terms.append(
+                SimpleTerm(
+                    value=cat,
+                    token=cat,
+                    title=categories_voca[cat],
+                )
+            )
         return SimpleVocabulary(terms)
 
 
 ConcatCategoryTopicsVocabulary = ConcatCategoryTopicsVocabularyFactory()
+
+
+class ConcatCategoryTopicsRegistryVocabularyFactory:
+    def __call__(self, context=None):
+        voca_registry = api.portal.get_registry_record(
+            name="smartweb.category_topics.voca_setting")
+        terms = [
+            SimpleTerm(value=r, token=r, title=voca_registry[r]) for r in voca_registry
+        ]
+        return SimpleVocabulary(terms)
+
+
+ConcatCategoryTopicsRegistryVocabulary = ConcatCategoryTopicsRegistryVocabularyFactory()

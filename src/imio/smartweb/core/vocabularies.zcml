@@ -103,4 +103,10 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
       
+ <utility
+      name="imio.smartweb.vocabulary.CategoryAndTopics"
+      component=".vocabularies.ConcatCategoryTopicsRegistryVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+      
 </configure>

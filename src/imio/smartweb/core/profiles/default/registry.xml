@@ -128,4 +128,6 @@
       <value key="csscompilation">++plone++imio.smartweb.webcomponents/css/smartweb-webcomponents-compiled.css</value>
     </records>
 
+    <records interface="imio.smartweb.core.browser.controlpanel.IConcatCategoryTopicsControlPanel" prefix="smartweb.category_topics"/>
+
 </registry>

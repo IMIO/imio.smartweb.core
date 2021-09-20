@@ -27,7 +27,7 @@
       />
 
   <adapter
-      name="concat_category_topics"
+      name="category_and_topics"
       factory=".indexers.concat_category_topics_indexer"
       />
 

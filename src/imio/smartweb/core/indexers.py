@@ -64,5 +64,14 @@ def related_quickaccess(obj):
 
 @indexer(IPages)
 def concat_category_topics_indexer(obj):
-    __import__("pdb").set_trace()
-    pass
+    category = obj.taxonomy_page_category
+    topics = obj.topics
+
+    index = []
+    if topics:
+        for topic in topics:
+            index.append(concat_voca_term(category, topic))
+    else:
+        index = category
+
+    return index
