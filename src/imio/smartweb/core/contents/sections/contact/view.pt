@@ -14,6 +14,7 @@
     <div class=""
          tal:define="contact view/contact | nothing;
                      visible_blocks context/visible_blocks"
+                     show_main_title python:'titles' in visible_blocks;"
          tal:attributes="class string:body-section ${view/contact_type_class}"
          tal:condition="contact">
 
@@ -40,7 +41,14 @@
 
       <div class="contact_informations"
            tal:condition="python:'contact_informations' in visible_blocks">
-        <span class="informations" i18n:translate="">Contact informations</span>
+
+        <h2 class="informations"
+            tal:condition="not: show_main_title"
+            i18n:translate="">Contact informations</h2>
+        <h3 class="informations"
+            tal:condition="show_main_title"
+            i18n:translate="">Contact informations</h3>
+
         <span tal:replace="contact/vat_number | nothing"></span>
         <ul tal:define="phones contact/phones | nothing;
                         mails contact/mails | nothing;
@@ -72,7 +80,14 @@
       <div class="contact_address" 
            tal:define="address view/formatted_address"
            tal:condition="python:address and 'address' in visible_blocks">
-        <span class="address" i18n:translate="">Address</span>
+
+        <h2 class="address"
+            tal:condition="not: show_main_title"
+            i18n:translate="">Address</h2>
+        <h3 class="address"
+            tal:condition="show_main_title"
+            i18n:translate="">Address</h3>
+
         <span tal:replace="address"></span>
         <div class="itinerary"
              tal:define="link view/get_itinerary_link"
@@ -91,7 +106,14 @@
 
       <div class="schedule"
            tal:condition="python:'schedule' in visible_blocks and not view.is_empty_schedule()">
-        <span i18n:translate="">Schedule</span>
+
+        <h2 class="schedule"
+            tal:condition="not: show_main_title"
+            i18n:translate="">Schedule</h2>
+        <h3 class="schedule"
+            tal:condition="show_main_title"
+            i18n:translate="">Schedule</h3>
+
         <div tal:define="opening_informations view/get_opening_informations">
           <a class="opening_informations" href="#" tal:content="python:view.get_schedule_for_today(opening_informations)"></a>
           <table class="table_schedule" tal:define="table_date view/get_week_days">
