@@ -15,13 +15,14 @@
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
     <div tal:define="klass string:body-section;"
          tal:attributes="class python:'{} {}'.format(klass, 'no-image') if not image else klass;">
-      <span tal:replace="structure context/text/output | nothing" />
       <tal:cond condition="context/image | nothing">
         <figure tal:attributes="class string:figure-${context/alignment}">
           <img alt="" tal:attributes="src string:${context/absolute_url}/@@images/image/${context/image_size};" />
           <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
         </figure>
       </tal:cond>
+      <div class="text"
+           tal:content="structure context/text/output | nothing" />
     </div>
 </div>
 </metal:content-core>
