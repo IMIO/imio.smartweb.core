@@ -80,7 +80,20 @@ class ISmartwebControlPanel(Interface):
         source="imio.smartweb.vocabulary.NewsViews",
         required=False,
     )
-
+    
+    category_and_topics_vocabulary = schema.Dict(
+        title=_(u"Vocabulary Setting"),
+        description=_(u"Choose a term from the vocabulary and define a name"),
+        key_type=schema.Choice(
+            title=_(u"Vocabulary term"),
+            description=_(u"Choose a term from the vocabulary to define a name"),
+            source="imio.smartweb.vocabulary.CategoryAndTopics",
+        ),
+        value_type=schema.TextLine(
+            title=_(u"Vocabulary Name"),
+            description=_(u"Define a name for the vocabulary"),
+        ),
+    )
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
@@ -90,32 +103,4 @@ class SmartwebControlPanelForm(RegistryEditForm):
 
 SmartwebControlPanelView = layout.wrap_form(
     SmartwebControlPanelForm, ControlPanelFormWrapper
-)
-
-
-class IConcatCategoryTopicsControlPanel(Interface):
-
-    voca_setting = schema.Dict(
-        title=_(u"Vocabulary Setting"),
-        description=_(u"Choose a term from the vocabulary and define a name"),
-        key_type=schema.Choice(
-            title=_(u"Vocabulary term"),
-            description=_(u"Choose a term from the vocabulary to define a name"),
-            source="imio.smartweb.vocabulary.ConcatCategoryTopics",
-        ),
-        value_type=schema.TextLine(
-            title=_(u"Vocabulary Name"),
-            description=_(u"Define a name for the vocabulary"),
-        ),
-    )
-
-
-class ConcatCategoryTopicsControlPanelForm(RegistryEditForm):
-    schema = IConcatCategoryTopicsControlPanel
-    schema_prefix = "smartweb.category_topics"
-    label = _(u"Category And Topics Settings")
-
-
-ConcatCategoryTopicsControlPanelView = layout.wrap_form(
-    ConcatCategoryTopicsControlPanelForm, ControlPanelFormWrapper
 )

@@ -191,10 +191,10 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 3)
 
     def test_concat_category_topics_vocabulary(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.ConcatCategoryTopics", 126)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 126)
 
     def test_category_and_topics_vocabulary(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 0)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.FilteredCategoryAndTopics", 0)
 
         record = {
             "emploi-mobility": "Emploie dans la mobilité",
@@ -203,6 +203,6 @@ class TestVocabularies(ImioSmartwebTestCase):
         }
 
         api.portal.set_registry_record(
-            name="smartweb.category_topics.voca_setting", value=record
+            name="smartweb.category_and_topics_vocabulary", value=record
         )
-        self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 3)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.FilteredCategoryAndTopics", 3)

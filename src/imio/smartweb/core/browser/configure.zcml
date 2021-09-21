@@ -64,13 +64,4 @@
       permission="zope.Public"
       />
 
-      <!-- concat category topics -->
-
-    <browser:page
-        name="category_and_topics-controlpanel"
-        for="Products.CMFPlone.interfaces.IPloneSiteRoot"
-        class=".controlpanel.ConcatCategoryTopicsControlPanelView"
-        permission="cmf.ManagePortal"
-        />
-
 </configure>
