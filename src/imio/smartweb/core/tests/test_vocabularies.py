@@ -194,7 +194,9 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 126)
 
     def test_category_and_topics_vocabulary(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.FilteredCategoryAndTopics", 0)
+        self.assertVocabularyLen(
+            "imio.smartweb.vocabulary.FilteredCategoryAndTopics", 0
+        )
 
         record = {
             "emploi-mobility": "Emploie dans la mobilité",
@@ -205,4 +207,6 @@ class TestVocabularies(ImioSmartwebTestCase):
         api.portal.set_registry_record(
             name="smartweb.category_and_topics_vocabulary", value=record
         )
-        self.assertVocabularyLen("imio.smartweb.vocabulary.FilteredCategoryAndTopics", 3)
+        self.assertVocabularyLen(
+            "imio.smartweb.vocabulary.FilteredCategoryAndTopics", 3
+        )
