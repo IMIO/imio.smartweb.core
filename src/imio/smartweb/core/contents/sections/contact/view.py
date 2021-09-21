@@ -39,12 +39,18 @@ class ContactView(SectionView):
 
     def data_geojson(self):
         """Return the contact geolocation as GeoJSON string."""
+        current_lang = api.portal.get_current_language()[:2]
         coordinates = self.contact.get("geolocation")
         longitude = coordinates.get("longitude")
         latitude = coordinates.get("latitude")
+        link_text = translate(_("Itinerary"), target_language=current_lang)
         geo_json = {
             "type": "Feature",
-            "properties": {},
+            "properties": {
+                "popup": '<a href="{}">{}</a>'.format(
+                    self.get_itinerary_link(), link_text
+                ),
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [
