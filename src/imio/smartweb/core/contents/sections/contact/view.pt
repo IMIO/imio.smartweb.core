@@ -21,12 +21,12 @@
 
       <div class="contact_logo"
            tal:condition="python:'logo' in visible_blocks"
-           tal:attributes="style string:background-image:url(${contact/@id}/@@images/logo/thumb)">
+           tal:attributes="style string:background-image:url(${contact/@id}/@@images/logo/medium)">
       </div>
 
       <div class="contact_leadimage"
            tal:condition="python:'leadimage' in visible_blocks"
-           tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/thumb)">
+           tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/preview)">
       </div>
 
       <div class="contact_titles"
