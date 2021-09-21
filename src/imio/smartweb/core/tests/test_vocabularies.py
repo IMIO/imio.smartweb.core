@@ -191,6 +191,18 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 3)
 
     def test_concat_category_topics_vocabulary(self):
-        voca = get_vocabulary("imio.smartweb.vocabulary.ConcatCategoryTopics")
-        __import__("pdb").set_trace()
-        pass
+        self.assertVocabularyLen("imio.smartweb.vocabulary.ConcatCategoryTopics", 126)
+
+    def test_category_and_topics_vocabulary(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 0)
+
+        record = {
+            "emploi-mobility": "Emploie dans la mobilité",
+            "presse-social": "Presse Sociale",
+            "reglement-culture": "Reglement Culture",
+        }
+
+        api.portal.set_registry_record(
+            name="smartweb.category_topics.voca_setting", value=record
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 3)

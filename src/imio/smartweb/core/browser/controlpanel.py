@@ -92,6 +92,7 @@ SmartwebControlPanelView = layout.wrap_form(
     SmartwebControlPanelForm, ControlPanelFormWrapper
 )
 
+
 class IConcatCategoryTopicsControlPanel(Interface):
 
     voca_setting = schema.Dict(
@@ -105,7 +106,7 @@ class IConcatCategoryTopicsControlPanel(Interface):
         value_type=schema.TextLine(
             title=_(u"Vocabulary Name"),
             description=_(u"Define a name for the vocabulary"),
-        )
+        ),
     )
 
 

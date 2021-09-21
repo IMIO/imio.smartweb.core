@@ -333,10 +333,15 @@ ConcatCategoryTopicsVocabulary = ConcatCategoryTopicsVocabularyFactory()
 class ConcatCategoryTopicsRegistryVocabularyFactory:
     def __call__(self, context=None):
         voca_registry = api.portal.get_registry_record(
-            name="smartweb.category_topics.voca_setting")
-        terms = [
-            SimpleTerm(value=r, token=r, title=voca_registry[r]) for r in voca_registry
-        ]
+            name="smartweb.category_topics.voca_setting"
+        )
+        terms = []
+        if voca_registry is not None:
+            terms = [
+                SimpleTerm(value=r, token=r, title=voca_registry[r])
+                for r in voca_registry
+            ]
+
         return SimpleVocabulary(terms)
 
 
