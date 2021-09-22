@@ -103,7 +103,6 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
         self.assertIsNone(view.get_thumb_scale_list())
 
         view = queryMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn("++resource++mimetype.icons/txt.png", view())
         self.assertIn("1 KB", view())
 
     def test_video_section(self):

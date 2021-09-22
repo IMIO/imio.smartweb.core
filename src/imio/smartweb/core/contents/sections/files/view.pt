@@ -43,10 +43,8 @@
                 </div>
                 <div class="section_files_text" >
                 <span class="section_files_item_title">
-                    <!-- <img class="mime-icon"
-                         tal:attributes="src file_view/get_mimetype_icon"> -->
-                    <span tal:content="item/title">Item Title</span>
-                    <span class="discreet">&mdash; <span tal:replace="file_view/human_readable_size" /></span>
+                  <span tal:content="item/title">Item Title</span>
+                  <span class="discreet">&mdash; <span tal:replace="file_view/human_readable_size" /></span>
                 </span>
                 <p class="section_files_item_description">
                   <span tal:replace="item/description" />
