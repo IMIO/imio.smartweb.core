@@ -15,6 +15,11 @@
       <value>4.7184485</value>
     </record>
 
+    <record name="geolocation.use_default_geolocation_as_value"
+            interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
+      <value>False</value>
+    </record>
+
     <record name="geolocation.map_layers"
             interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
       <value>
