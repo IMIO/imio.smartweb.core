@@ -13,10 +13,10 @@
      tal:attributes="style view/background_style;"
      class="section-container section-text">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-    <div tal:define="klass string:body-section;"
+    <div tal:define="klass string:body-section figure-${context/alignment};"
          tal:attributes="class python:'{} {}'.format(klass, 'no-image') if not image else klass;">
       <tal:cond condition="context/image | nothing">
-        <figure tal:attributes="class string:figure-${context/alignment}">
+        <figure>
           <img alt="" tal:attributes="src string:${context/absolute_url}/@@images/image/${context/image_size};" />
           <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
         </figure>
