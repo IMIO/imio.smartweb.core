@@ -14,14 +14,6 @@ from zope import schema
 class ISectionSelections(ISection):
     """Marker interface and Dexterity Python Schema for SectionSelections"""
 
-    model.fieldset("layout", fields=["image_scale"])
-    image_scale = schema.Choice(
-        title=_(u"Image scale for items"),
-        default=u"tile",
-        vocabulary="plone.app.vocabularies.ImagesScales",
-        required=True,
-    )
-
     selected_items = RelationList(
         title=_(u"Selected items"),
         value_type=RelationChoice(
@@ -31,8 +23,16 @@ class ISectionSelections(ISection):
         required=True,
     )
 
+    model.fieldset("layout", fields=["show_items_lead_image", "image_scale"])
     show_items_lead_image = schema.Bool(
         title=_(u"Show items lead image"), default=False, required=False
+    )
+
+    image_scale = schema.Choice(
+        title=_(u"Image scale for items"),
+        default=u"tile",
+        vocabulary="plone.app.vocabularies.ImagesScales",
+        required=True,
     )
 
 
