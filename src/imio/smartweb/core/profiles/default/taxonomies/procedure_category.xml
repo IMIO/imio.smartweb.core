@@ -27,6 +27,13 @@
     </caption>
   </term>
   <term>
+    <termIdentifier>declaration</termIdentifier>
+    <caption>
+      <langstring language="fr">Déclaration</langstring>
+      <langstring language="en">Statement</langstring>
+    </caption>
+  </term>
+  <term>
     <termIdentifier>demande</termIdentifier>
     <caption>
       <langstring language="fr">Demande (concession funéraire, changement de prénom, etc.)</langstring>
@@ -38,6 +45,13 @@
     <caption>
       <langstring language="fr">Document d'identité</langstring>
       <langstring language="en">Identity document</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>extrait_de_registre</termIdentifier>
+    <caption>
+      <langstring language="fr">Extrait de registre</langstring>
+      <langstring language="en">Register extract</langstring>
     </caption>
   </term>
   <term>
