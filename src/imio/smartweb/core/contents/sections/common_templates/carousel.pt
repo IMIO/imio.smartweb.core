@@ -42,7 +42,7 @@
              tal:attributes="class python:'carousel-item active' if repeat.item.start else 'carousel-item'">
           <tal:def define="item_has_image python:item.getIcon;
                            thumb_scale context/image_scale;
-                           show_lead_image context/show_items_lead_image | nothing;
+                           show_lead_image python: getattr(context, 'show_items_lead_image', True);
                            portal context/@@plone_portal_state/portal;
                            image_scale item/@@images;
                            open_in_new_tab item/open_in_new_tab | nothing;">
