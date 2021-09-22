@@ -12,7 +12,8 @@
 <div class="section-container section-files"
      tal:define="can_edit python: checkPermission('Modify portal content', context);
                  token context/@@authenticator/token;
-                 items context/listFolderContents;">
+                 items context/listFolderContents;"
+     tal:attributes="style view/background_style">
 
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
