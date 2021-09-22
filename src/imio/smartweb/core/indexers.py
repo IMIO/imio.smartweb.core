@@ -11,6 +11,7 @@ from plone.app.contenttypes.indexers import SearchableText
 from plone.app.contenttypes.indexers import _unicode_save_string_concat
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.decorator import indexer
+from Products.CMFPlone.utils import base_hasattr
 
 
 @indexer(IDexterityContent)
@@ -18,6 +19,13 @@ def description(obj):
     if obj.description is None:
         return ""
     return obj.description.replace("*", "")
+
+
+@indexer(IDexterityContent)
+def exclude_from_parent_listing(obj):
+    if base_hasattr(obj, "exclude_from_parent_listing"):
+        return obj.exclude_from_parent_listing
+    return False
 
 
 @indexer(IDexterityContent)

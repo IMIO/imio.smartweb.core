@@ -7,6 +7,11 @@
       />
 
   <adapter
+      name="exclude_from_parent_listing"
+      factory=".indexers.exclude_from_parent_listing"
+      />
+
+  <adapter
       name="has_leadimage"
       factory=".indexers.has_leadimage"
       />

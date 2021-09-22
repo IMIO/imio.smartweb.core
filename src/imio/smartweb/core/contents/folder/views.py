@@ -35,11 +35,10 @@ class FolderView(BaseFolderView):
         kwargs.setdefault("b_size", self.b_size)
         kwargs.setdefault("b_start", self.b_start)
         kwargs.setdefault("orphan", 1)
+        kwargs.setdefault("exclude_from_parent_listing", False)
 
         listing = aq_inner(self.context).restrictedTraverse("@@folderListing", None)
-        results = listing(**kwargs)
-        results = [r for r in results if not r.exclude_from_parent_listing]
-        return results
+        return listing(**kwargs)
 
     def blocks_results(self, **kwargs):
         """
