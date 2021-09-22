@@ -24,7 +24,8 @@
 
       <tal:if tal:condition="items">
 
-        <ul tal:define="only_one_item python: len(items) == 1"
+        <ul class="section_files_list"
+            tal:define="only_one_item python: len(items) == 1"
             tal:omit-tag="only_one_item">
 
           <li tal:omit-tag="only_one_item"
@@ -34,19 +35,22 @@
                              item_has_image python:item.getIcon;
                              thumb_scale view/get_thumb_scale_list;
                              portal context/@@plone_portal_state/portal;
-                             image_scale item/@@images;">
-              <a tal:attributes="href item/absolute_url;
+                             image_scale item/@@images;"
+                  class="section_files_item">
+              <a class="section_files_link" tal:attributes="href item/absolute_url;
                                  alt item/title">
+                <div class="section_files_image">
+                  <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale)" />
+                </div>
+                <div class="section_files_text" >
                 <span class="section_files_item_title">
-                    <img class="mime-icon"
-                         tal:attributes="src file_view/get_mimetype_icon">
-                    <span tal:content="item/title">Item Title</span>
-                    <span class="discreet">&mdash; <span tal:replace="file_view/human_readable_size" /></span>
+                  <span tal:content="item/title">Item Title</span>
+                  <span class="discreet">&mdash; <span tal:replace="file_view/human_readable_size" /></span>
                 </span>
                 <p class="section_files_item_description">
                   <span tal:replace="item/description" />
                 </p>
-                <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale)" />
+                </div>
               </a>
             </div>
         </li>
