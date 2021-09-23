@@ -14,6 +14,7 @@
   <include package=".footer" />
   <include package=".minisite" />
   <include package=".subsite" />
+  <include package=".search" />
 
   <!-- Publish static files -->
   <plone:static

@@ -1,0 +1,15 @@
+<configure
+  xmlns="http://namespaces.zope.org/zope"
+  xmlns:browser="http://namespaces.zope.org/browser"
+  xmlns:plone="http://namespaces.plone.org/plone">
+
+  <browser:page
+    name="search"
+    class=".search.Search"
+    permission="zope2.View"
+    for="plone.app.layout.navigation.interfaces.INavigationRoot"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    template="search.pt"
+    />
+
+</configure>

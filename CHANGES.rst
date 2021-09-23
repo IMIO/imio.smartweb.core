@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Implement cross core SolR search
+  [mpeeters]
+
 - Change navigation markup (quickaccess, close / prev buttons, ...)
   [laulaz]
 
