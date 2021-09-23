@@ -5,7 +5,7 @@ from Products.CMFPlone.browser.search import Search
 
 
 class Search(Search):
-    valid_keys = ('sort_on', 'sort_order', 'sort_limit', 'fq', 'fl', 'facet', "core")
+    valid_keys = ("sort_on", "sort_order", "sort_limit", "fq", "fl", "facet", "core")
 
     def results(self):
         self._core = None
