@@ -7,8 +7,8 @@ from plone.app.vocabularies.catalog import CatalogSource
 from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice
 from z3c.relationfield.schema import RelationList
-from zope.interface import implementer
 from zope import schema
+from zope.interface import implementer
 
 
 class ISectionSelections(ISection):
