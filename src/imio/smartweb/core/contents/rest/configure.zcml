@@ -1,6 +1,7 @@
 <configure
     xmlns="http://namespaces.zope.org/zope">
 
+  <include package=".directory" />
   <include package=".events" />
   <include package=".news" />
 

@@ -36,13 +36,14 @@ class PageIntegrationTest(ImioSmartwebTestCase):
             "File",
             "Image",
             "imio.smartweb.BlockLink",
+            "imio.smartweb.DirectoryView",
             "imio.smartweb.EventsView",
             "imio.smartweb.Folder",
             "imio.smartweb.Footer",
+            "imio.smartweb.NewsView",
             "imio.smartweb.Page",
             "imio.smartweb.PortalPage",
             "imio.smartweb.Procedure",
-            "imio.smartweb.NewsView",
         ]
 
         self.request = self.layer["request"]

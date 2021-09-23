@@ -1,0 +1,26 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="imio.smartweb">
+
+  <browser:page
+    name="view"
+    for="imio.smartweb.core.contents.IDirectoryView"
+    class=".view.DirectoryViewView"
+    template="view.pt"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <plone:service
+    name="@directory"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.IDirectoryView"
+    factory=".endpoint.DirectoryEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+</configure>

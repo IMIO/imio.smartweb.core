@@ -36,6 +36,7 @@ class PageIntegrationTest(ImioSmartwebTestCase):
             "File",
             "Image",
             "imio.smartweb.BlockLink",
+            "imio.smartweb.DirectoryView",
             "imio.smartweb.EventsView",
             "imio.smartweb.Folder",
             "imio.smartweb.Footer",

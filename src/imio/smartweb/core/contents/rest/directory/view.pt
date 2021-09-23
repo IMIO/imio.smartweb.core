@@ -1,0 +1,16 @@
+<html
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="imio.smartweb">
+  <body>
+    <metal:main fill-slot="content-core">
+
+          <div id="root" tal:attributes="data-directory view/local_query_url;">
+          </div>
+          <!--
+          <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/directory/react.production.min.js" crossorigin></script>
+          <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/directory/react-dom.production.min.js" crossorigin></script>
+          <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/directory/directory.js"></script>
+          -->
+    </metal:main>
+  </body>
+</html>
