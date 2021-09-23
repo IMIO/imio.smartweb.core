@@ -38,9 +38,8 @@ class NewsEndpoint(object):
     def query_url(self):
         params = [
             "selected_news_folders={}".format(self.context.selected_news_folder),
+            "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
-            "metadata_fields=start",
-            "metadata_fields=end",
         ]
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         return url

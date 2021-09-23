@@ -7,7 +7,7 @@
   <!-- Basic properties -->
   <property
       i18n:translate=""
-      name="title">EventsView</property>
+      name="title">Events view</property>
   <property
       i18n:translate=""
       name="description">Display linked events from imio events instance.</property>
@@ -32,7 +32,6 @@
     <element value="plone.locking"/>
     <element value="plone.leadimage"/>
     <element value="imio.smartweb.listing"/>
-    <element value="collective.taxonomy.generated.page_category"/>
     <element value="imio.smartweb.topics"/>
     <element value="imio.smartweb.iam"/>
     <element value="plone.categorization"/>

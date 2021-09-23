@@ -38,6 +38,7 @@ class EventsEndpoint(object):
     def query_url(self):
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
+            "portal_type=imio.events.Event",
             "metadata_fields=category",
             "metadata_fields=start",
             "metadata_fields=end",
