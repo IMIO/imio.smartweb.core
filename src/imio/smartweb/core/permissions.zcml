@@ -34,4 +34,10 @@
     description=""
     />
 
+  <permission
+    id="imio.smartweb.core.ManageRestViews"
+    title="imio.smartweb.core: Manage REST views"
+    description=""
+    />
+
 </configure>

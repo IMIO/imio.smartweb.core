@@ -18,8 +18,7 @@
   <property name="global_allow">True</property>
 
   <!-- Schema, class and security -->
-  <!-- if we can add a page, we can add a page section -->
-  <property name="add_permission">imio.smartweb.core.AddPage</property>
+  <property name="add_permission">imio.smartweb.core.ManageRestViews</property>
   <property name="klass">imio.smartweb.core.contents.EventsView</property>
   <property name="schema">imio.smartweb.core.contents.IEventsView</property>
 

@@ -33,5 +33,10 @@
       <role name="Site Administrator"/>
     </permission>
 
+    <permission name="imio.smartweb.core: Manage REST views" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+    </permission>
+
   </permissions>
 </rolemap>
