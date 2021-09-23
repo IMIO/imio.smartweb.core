@@ -21,6 +21,7 @@
     <element value="Collection" />
     <element value="Message" />
     <element value="Link" />
+    <element value="imio.smartweb.DirectoryView" />
     <element value="imio.smartweb.EventsView" />
     <element value="imio.smartweb.Folder" />
     <element value="imio.smartweb.NewsView" />
