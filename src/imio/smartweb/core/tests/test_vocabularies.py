@@ -88,7 +88,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SubsiteDisplayMode", 3)
 
     def test_contact_blocks(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.ContactBlocks", 8)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.ContactBlocks", 9)
 
     @requests_mock.Mocker()
     def test_empty_remote_directory_entities(self, m):

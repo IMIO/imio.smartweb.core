@@ -95,6 +95,11 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(view().count("<h2"), 2)
         self.assertEqual(view().count("<h3"), 3)
 
+        self.assertNotIn("contact_description", view())
+        contact.visible_blocks = ["description"]
+        self.assertIn("contact_description", view())
+        self.assertIn("Super description", view())
+
         contact.visible_blocks = ["titles", "gallery"]
         m.get(contact_images_url, text=json.dumps(self.json_contact_images))
         self.assertIn("contact_gallery", view())

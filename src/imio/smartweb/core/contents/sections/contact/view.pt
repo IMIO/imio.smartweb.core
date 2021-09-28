@@ -40,6 +40,13 @@
              tal:content="subtitle"></div>
       </div>
 
+      <div class="contact_description"
+           tal:condition="python:'description' in visible_blocks">
+        <span tal:define="description contact/description | nothing"
+              tal:condition="description"
+              tal:replace="description" />
+      </div>
+
       <div class="contact_informations"
            tal:condition="python:'contact_informations' in visible_blocks">
 
