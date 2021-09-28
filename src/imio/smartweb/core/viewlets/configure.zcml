@@ -16,6 +16,16 @@
   </configure>
 
   <browser:viewlet
+      name="imio.smartweb.minisite_portal_link"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="minisite_link.pt"
+      class=".minisite.MinisitePortalLinkViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="imio.smartweb.header_actions"
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"

@@ -1,0 +1,6 @@
+<div class="to-portal"
+     tal:condition="view/available"
+     i18n:domain="imio.smartweb">
+  <a href=""
+     i18n:translate="">Go to <span i18n:name="url" tal:replace="view/get_hostname">maville.be</span></a>
+</div>

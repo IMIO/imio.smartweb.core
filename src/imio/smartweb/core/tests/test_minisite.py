@@ -5,6 +5,7 @@ from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.logo import LogoViewlet
+from imio.smartweb.core.viewlets.minisite import MinisitePortalLinkViewlet
 from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
@@ -15,6 +16,7 @@ from plone.app.testing import setRoles
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from plone.testing.zope import Browser
 from plone.namedfile.file import NamedBlobFile
+from unittest import mock
 from z3c.relationfield import RelationValue
 from zope.annotation import IAnnotations
 from zope.component import getMultiAdapter
@@ -295,3 +297,20 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         layout_view = page.restrictedTraverse("@@plone_layout")
         body_class = layout_view.bodyClass(template, view)
         self.assertNotIn("is-in-minisite", body_class)
+
+    def test_portal_link_viewlet(self):
+        viewlet = MinisitePortalLinkViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertFalse(viewlet.available())
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        self.assertTrue(viewlet.available())
+        attr = {"absolute_url.return_value": "http://www.test.be/folder/minisite"}
+        api.portal.get = mock.Mock(return_value=mock.Mock(**attr))
+        self.assertEqual(viewlet.get_hostname(), "test.be")
+        attr = {"absolute_url.return_value": "http://test.be/folder/minisite"}
+        api.portal.get = mock.Mock(return_value=mock.Mock(**attr))
+        self.assertEqual(viewlet.get_hostname(), "test.be")
+        attr = {"absolute_url.return_value": "http://sub.test.be/folder/minisite"}
+        api.portal.get = mock.Mock(return_value=mock.Mock(**attr))
+        self.assertEqual(viewlet.get_hostname(), "sub.test.be")
