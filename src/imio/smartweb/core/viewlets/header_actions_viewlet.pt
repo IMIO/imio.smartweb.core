@@ -1,0 +1,3 @@
+<div id="header-links">
+  <tal:render-manager replace="structure provider:imio.smartweb.header_actions_viewletmanager" />
+</div>

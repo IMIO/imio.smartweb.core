@@ -2,6 +2,7 @@
 
 from plone.app.layout.viewlets import common
 from zope.component import getMultiAdapter
+from zope.viewlet.interfaces import IViewletManager
 
 
 class HeaderActionsViewlet(common.ViewletBase):
@@ -10,3 +11,11 @@ class HeaderActionsViewlet(common.ViewletBase):
             (self.context, self.request), name=u"plone_context_state"
         )
         self.actions = context_state.actions("header_actions")
+
+
+class HeaderActionsContainerViewlet(common.ViewletBase):
+    """Viewlet containing the header actions viewlets manager"""
+
+
+class HeaderActionsViewletsManager(IViewletManager):
+    """Viewlet manager containing header actions viewlets"""

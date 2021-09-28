@@ -1,0 +1,6 @@
+<div id="search-link"
+     tal:define="portal_state context/@@plone_portal_state;
+                 portal_url portal_state/portal_url;">
+  <a href=""
+     tal:attributes="href string:${portal_url}/@@search"></a>
+</div>

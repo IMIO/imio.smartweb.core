@@ -28,7 +28,7 @@
   <browser:viewlet
       name="imio.smartweb.header_actions"
       for="*"
-      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      manager=".actions.HeaderActionsViewletsManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="header_actions.pt"
       class=".actions.HeaderActionsViewlet"
@@ -51,6 +51,24 @@
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       class=".navigation.ImprovedGlobalSectionsViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="imio.smartweb.header_actions_viewlet"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="header_actions_viewlet.pt"
+      class=".actions.HeaderActionsContainerViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewletManager
+      name="imio.smartweb.header_actions_viewletmanager"
+      provides=".actions.HeaderActionsViewletsManager"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class="plone.app.viewletmanager.manager.OrderedViewletManager"
       permission="zope2.View"
       />
 
@@ -199,4 +217,28 @@
       class=".logo.LogoViewlet"
       permission="zope2.View"
       />
+
+
+  <!-- Overrides to change viewlets managers -->
+
+  <configure package="plone.app.i18n.locales.browser">
+    <browser:viewlet
+        name="plone.app.i18n.locales.languageselector"
+        manager="imio.smartweb.core.viewlets.actions.HeaderActionsViewletsManager"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        class=".selector.LanguageSelector"
+        permission="zope2.View"
+        template="languageselector.pt"
+        />
+  </configure>
+
+  <browser:viewlet
+      name="plone.searchbox"
+      manager=".actions.HeaderActionsViewletsManager"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class="plone.app.layout.viewlets.common.SearchBoxViewlet"
+      template="searchbox.pt"
+      permission="zope2.View"
+      />
+
 </configure>
