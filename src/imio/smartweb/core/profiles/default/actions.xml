@@ -81,16 +81,5 @@
       </property>
       <property name="visible">True</property>
     </object>
-    <object name="facebook" meta_type="CMF Action" i18n:domain="imio.smartweb">
-      <property name="title" i18n:translate="">Facebook</property>
-      <property name="description" i18n:translate="">Link to Facebook</property>
-      <property name="url_expr">string:https://www.facebook.com</property>
-      <property name="icon_expr"></property>
-      <property name="available_expr"></property>
-      <property name="permissions">
-        <element value="View"/>
-      </property>
-      <property name="visible">True</property>
-    </object>
   </object>
 </object>
