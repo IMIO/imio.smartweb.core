@@ -229,7 +229,8 @@ class FolderFunctionalTest(ImioSmartwebTestCase):
         browser.open(folder.absolute_url())
         content = browser.contents
         self.assertIn(
-            '<h1 class="documentFirstHeading">Element view form</h1>', content
+            '<h1 class="documentFirstHeading">Form to choose item to be displayed as the home page of the folder</h1>',
+            content,
         )
         radio_control = browser.getControl(name="form.widgets.default_page_uid")
         self.assertIn(uuid, radio_control.options)
