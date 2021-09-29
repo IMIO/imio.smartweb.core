@@ -94,11 +94,11 @@ class ContactBlocksVocabularyFactory:
             ("logo", _(u"Logo")),
             ("leadimage", _(u"Lead Image")),
             ("titles", _(u"Title and Subtitle")),
-            ("description", _(u"Description")),
+            ("contact_informations", _(u"Contact informations")),
             ("address", _(u"Address")),
             ("map", _(u"Map")),
-            ("contact_informations", _(u"Contact informations")),
             ("schedule", _(u"Schedule")),
+            ("description", _(u"Description")),
             ("gallery", _(u"Gallery")),
         ]
         terms = [
