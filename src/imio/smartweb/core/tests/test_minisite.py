@@ -17,6 +17,7 @@ from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from plone.testing.zope import Browser
 from plone.namedfile.file import NamedBlobFile
 from unittest import mock
+from unittest.mock import patch
 from z3c.relationfield import RelationValue
 from zope.annotation import IAnnotations
 from zope.component import getMultiAdapter
@@ -306,11 +307,11 @@ class MinisiteFunctionalTest(ImioSmartwebTestCase):
         view.enable()
         self.assertTrue(viewlet.available())
         attr = {"absolute_url.return_value": "http://www.test.be/folder/minisite"}
-        api.portal.get = mock.Mock(return_value=mock.Mock(**attr))
-        self.assertEqual(viewlet.get_hostname(), "test.be")
+        with patch("plone.api.portal.get", return_value=mock.Mock(**attr)):
+            self.assertEqual(viewlet.get_hostname(), "test.be")
         attr = {"absolute_url.return_value": "http://test.be/folder/minisite"}
-        api.portal.get = mock.Mock(return_value=mock.Mock(**attr))
-        self.assertEqual(viewlet.get_hostname(), "test.be")
+        with patch("plone.api.portal.get", return_value=mock.Mock(**attr)):
+            self.assertEqual(viewlet.get_hostname(), "test.be")
         attr = {"absolute_url.return_value": "http://sub.test.be/folder/minisite"}
-        api.portal.get = mock.Mock(return_value=mock.Mock(**attr))
-        self.assertEqual(viewlet.get_hostname(), "sub.test.be")
+        with patch("plone.api.portal.get", return_value=mock.Mock(**attr)):
+            self.assertEqual(viewlet.get_hostname(), "sub.test.be")
