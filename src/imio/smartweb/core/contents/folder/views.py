@@ -78,8 +78,7 @@ class DefaultElementTextView(ContentProviderBase):
 class ElementView(EditForm):
     """ """
 
-    label = _(u"Element view form")
-    # description = _(u"Choose an item as your default folder view")
+    label = _(u"Form to choose item to be displayed as the home page of the folder")
     contentProviders = ContentProviders()
     contentProviders["defaultElementText"] = DefaultElementTextView
     contentProviders["defaultElementText"].position = 0

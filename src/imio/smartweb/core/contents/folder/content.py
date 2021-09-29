@@ -22,8 +22,11 @@ class IFolder(model.Schema):
     directives.widget(default_page_uid=RadioFieldWidget)
     directives.mode(default_page_uid="hidden")
     default_page_uid = schema.Choice(
-        title=_(u"Set Default page"),
-        description=_(u"Choose an item as your default folder view"),
+        title=_(u"Choose item to display"),
+        description=_(
+            u"For the anonymous visitor, the folder and the selected item are one. "
+            u"When he clicks on the folder, the item is displayed."
+        ),
         required=False,
         vocabulary="imio.smartweb.vocabulary.CurrentFolderPages",
     )
