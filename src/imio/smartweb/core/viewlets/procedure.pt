@@ -2,9 +2,9 @@
      tal:define="url context/procedure_url"
      tal:condition="url"
      i18n:domain="imio.smartweb">
-  <a tal:attributes="href url"
+  <a target="_blank"
+     tal:attributes="href url"
      i18n:translate="">Complete this procedure online</a>
-      
 </div>
 <div class="procedure"
      tal:define="procedure view/get_selected_procedure_title"
