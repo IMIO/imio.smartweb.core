@@ -19,6 +19,7 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 from zope.intid.interfaces import IIntIds
+from zope.lifecycleevent import modified
 
 
 class SectionsIntegrationTest(ImioSmartwebTestCase):
@@ -355,3 +356,19 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             )
             chain = wf_tool.getChainFor(obj)
             self.assertEqual(chain, ())
+
+    def test_section_html(self):
+        section_html = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionHTML",
+            title="Section html",
+            id="section-html",
+            html="",
+        )
+        section_html.html = (
+            '<div><h1>Perdu.com</h1><embed src="http://www.perdu.com"></embed></div>'
+        )
+        modified(section_html)
+        page_html = getMultiAdapter((self.page, self.request), name="full_view")()
+        self.assertIn("Perdu.com", page_html)
+        self.assertNotIn("iframe", page_html)
