@@ -5,4 +5,11 @@
                    zope.lifecycleevent.interfaces.IObjectMovedEvent"
               handler=".subscribers.folder_moved" />
 
+  <subscriber for="imio.smartweb.core.contents.ISectionHTML
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".subscribers.added_sectionhtml" />
+
+  <subscriber for="imio.smartweb.core.contents.ISectionHTML
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".subscribers.modified_sectionhtml" />
 </configure>

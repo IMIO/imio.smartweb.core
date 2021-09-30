@@ -35,3 +35,10 @@ def get_json(url):
     if response.status_code != 200:
         return None
     return json.loads(response.text)
+
+
+def safe_html(html):
+    transforms = api.portal.get_tool("portal_transforms")
+    data = transforms.convertTo(target_mimetype="text/x-html-safe", orig=html)
+    output = data.getData()
+    return output
