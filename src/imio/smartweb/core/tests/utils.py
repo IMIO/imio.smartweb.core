@@ -8,6 +8,7 @@ def get_sections_types():
         "imio.smartweb.SectionContact",
         "imio.smartweb.SectionFiles",
         "imio.smartweb.SectionGallery",
+        "imio.smartweb.SectionHTML",
         "imio.smartweb.SectionLinks",
         "imio.smartweb.SectionMap",
         "imio.smartweb.SectionSelections",

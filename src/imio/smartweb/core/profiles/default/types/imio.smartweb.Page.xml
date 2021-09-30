@@ -21,6 +21,7 @@
     <element value="imio.smartweb.SectionContact" />
     <element value="imio.smartweb.SectionFiles" />
     <element value="imio.smartweb.SectionGallery" />
+    <element value="imio.smartweb.SectionHTML" />
     <element value="imio.smartweb.SectionLinks" />
     <element value="imio.smartweb.SectionMap" />
     <element value="imio.smartweb.SectionSelections" />

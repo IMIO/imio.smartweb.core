@@ -12,6 +12,7 @@ from .sections.base import ISection, Section  # NOQA
 from .sections.contact.content import ISectionContact, SectionContact  # NOQA
 from .sections.files.content import ISectionFiles, SectionFiles  # NOQA
 from .sections.gallery.content import ISectionGallery, SectionGallery  # NOQA
+from .sections.html.content import ISectionHTML, SectionHTML  # NOQA
 from .sections.links.content import ISectionLinks, SectionLinks  # NOQA
 from .sections.map.content import ISectionMap, SectionMap  # NOQA
 from .sections.selections.content import ISectionSelections, SectionSelections  # NOQA

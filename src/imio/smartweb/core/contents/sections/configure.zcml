@@ -5,6 +5,7 @@
   <include package=".contact" />
   <include package=".files" />
   <include package=".gallery" />
+  <include package=".html" />
   <include package=".links" />
   <include package=".map" />
   <include package=".selections" />
