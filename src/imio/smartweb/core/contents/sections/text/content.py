@@ -33,5 +33,4 @@ class ISectionText(ISection):
 class SectionText(Section):
     """SectionText class"""
 
-    manage_content = True
     can_toggle_title_visibility = False

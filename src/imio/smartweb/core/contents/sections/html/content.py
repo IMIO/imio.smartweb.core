@@ -20,6 +20,3 @@ class ISectionHTML(ISection):
 @implementer(ISectionHTML)
 class SectionHTML(Section):
     """SectionHTML class"""
-
-    manage_content = True
-    can_toggle_title_visibility = False
