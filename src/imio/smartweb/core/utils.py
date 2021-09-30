@@ -38,6 +38,8 @@ def get_json(url):
 
 
 def safe_html(html):
+    if not html:
+        return
     transforms = api.portal.get_tool("portal_transforms")
     data = transforms.convertTo(target_mimetype="text/x-html-safe", orig=html)
     output = data.getData()
