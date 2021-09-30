@@ -30,7 +30,7 @@ class ISection(model.Schema):
 
     write_permission(background_image="cmf.ManagePortal")
     background_image = NamedBlobImage(
-        title=_(u"Set a background image"),
+        title=_(u"Background image"),
         required=False,
     )
 
