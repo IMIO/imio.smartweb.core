@@ -2,6 +2,7 @@
 
 from Acquisition import aq_inner
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from Products.CMFPlone.resources import add_bundle_on_request
 from plone import api
 from plone.app.content.browser.contents.rearrange import OrderContentsBaseAction
@@ -41,6 +42,10 @@ class PagesView(FolderView):
         listing = aq_inner(self.context).restrictedTraverse("@@folderListing", None)
         results = listing(**kwargs)
         return results
+
+    @property
+    def no_items_message(self):
+        return _(u"There is no section on this page.")
 
     def get_class(self, obj):
         section_type = obj.portal_type.split(".")[-1]
