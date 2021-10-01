@@ -30,6 +30,17 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <configure package="plone.app.imagecropping.browser">
+    <browser:page
+        class="imio.smartweb.core.browser.cropping.SmartwebCroppingEditor"
+        template="editor.pt"
+        for="plone.app.imagecropping.interfaces.IImageCroppingMarker"
+        name="croppingeditor"
+        permission="cmf.ModifyPortalContent"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        />
+  </configure>
+
   <browser:page
       name="smartweb-controlpanel"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"

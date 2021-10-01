@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.adapters import BaseCroppingProvider
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container
@@ -7,6 +8,15 @@ from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
+
+
+class SectionCroppingProvider(BaseCroppingProvider):
+    def get_scales(self, fieldname, request=None):
+        if fieldname == "background_image":
+            # scale used for background_image field
+            return ["large"]
+        else:
+            return super(SectionCroppingProvider, self).get_scales(fieldname, request)
 
 
 class ISection(model.Schema):

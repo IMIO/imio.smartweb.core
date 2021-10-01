@@ -5,6 +5,12 @@
 
   <include package="plone.app.contentmenu" />
 
+  <adapter
+      for=".content.Folder"
+      provides="imio.smartweb.core.interfaces.ICropping"
+      factory=".content.FolderCroppingProvider"
+      />
+
   <configure package="plone.app.contenttypes.browser">
     <browser:pages
         for="plone.dexterity.interfaces.IDexterityContainer"
