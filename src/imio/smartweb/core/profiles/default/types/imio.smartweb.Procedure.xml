@@ -39,6 +39,7 @@
     <element value="plone.basic"/>
     <element value="plone.locking"/>
     <element value="plone.leadimage"/>
+    <element value="plone.imagecropping"/>
     <element value="imio.smartweb.listing"/>
     <element value="collective.taxonomy.generated.procedure_category"/>
     <element value="imio.smartweb.topics"/>

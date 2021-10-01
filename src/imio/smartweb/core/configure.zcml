@@ -2,6 +2,7 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <include package="Products.CMFCore" file="permissions.zcml" />
+  <include package="plone.app.imagecropping" />
   <include package="collective.geolocationbehavior" />
   <include package="collective.instancebehavior" />
   <include package="collective.taxonomy" />

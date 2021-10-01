@@ -29,6 +29,7 @@
   <property name="behaviors" purge="false">
     <element value="plone.namefromtitle"/>
     <element value="plone.locking"/>
+    <element value="plone.imagecropping"/>
     <element value="imio.smartweb.topics"/>
   </property>
 

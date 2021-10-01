@@ -43,6 +43,7 @@
     <element value="plone.basic"/>
     <element value="plone.locking"/>
     <element value="plone.leadimage"/>
+    <element value="plone.imagecropping"/>
     <element value="plone.constraintypes"/>
     <element value="imio.smartweb.listing"/>
     <element value="imio.smartweb.quickaccessselection"/>
