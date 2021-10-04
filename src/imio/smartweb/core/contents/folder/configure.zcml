@@ -7,7 +7,7 @@
 
   <adapter
       for=".content.Folder"
-      provides="imio.smartweb.core.interfaces.ICropping"
+      provides="imio.smartweb.common.interfaces.ICropping"
       factory=".content.FolderCroppingProvider"
       />
 

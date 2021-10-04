@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.instancebehavior.interfaces import IInstanceBehaviorAssignableContent
-from imio.smartweb.core.adapters import BaseCroppingProvider
+from imio.smartweb.common.adapters import BaseCroppingProvider
 from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api

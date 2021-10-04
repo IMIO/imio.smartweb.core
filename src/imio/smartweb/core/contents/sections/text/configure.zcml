@@ -4,7 +4,7 @@
 
   <adapter
       for=".content.SectionText"
-      provides="imio.smartweb.core.interfaces.ICropping"
+      provides="imio.smartweb.common.interfaces.ICropping"
       factory=".content.SectionTextCroppingProvider"
       />
 

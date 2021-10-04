@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.adapters import BaseCroppingProvider
+from imio.smartweb.common.adapters import BaseCroppingProvider
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container

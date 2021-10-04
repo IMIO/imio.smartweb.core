@@ -49,7 +49,7 @@
 
   <adapter
       for=".base.Section"
-      provides="imio.smartweb.core.interfaces.ICropping"
+      provides="imio.smartweb.common.interfaces.ICropping"
       factory=".base.SectionCroppingProvider"
       />
 
