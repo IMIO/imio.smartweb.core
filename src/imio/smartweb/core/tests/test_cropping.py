@@ -39,10 +39,6 @@ class CroppingIntegrationTest(ImioSmartwebTestCase):
         self.assertIsNotNone(adapter)
         self.assertEqual(["banner"], adapter.get_scales("banner", self.request))
         self.assertNotIn("banner", adapter.get_scales("image", self.request))
-        adapter = ICropping(self.page, alternate=None)
-        self.assertIsNone(adapter)
-        adapter = ICropping(self.page, alternate=None)
-        self.assertIsNone(adapter)
         section_types = get_sections_types()
         for section_type in section_types:
             section = api.content.create(
@@ -72,7 +68,7 @@ class CroppingIntegrationTest(ImioSmartwebTestCase):
         cropping_view = getMultiAdapter(
             (self.page, self.request), name="croppingeditor"
         )
-        self.assertEqual(len(list(cropping_view._scales("image"))), 10)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 9)
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionText",
