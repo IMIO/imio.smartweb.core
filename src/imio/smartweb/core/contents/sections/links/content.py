@@ -14,7 +14,7 @@ class ISectionLinks(ISection):
     description = schema.Text(
         title=_(u"Description"),
         description=_(
-            u"Use **text** to set text in bold and *text* to set text in italic."
+            u"Use **text** to set text in bold."
         ),
         required=False,
     )
