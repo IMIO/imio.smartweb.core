@@ -10,7 +10,7 @@ from zope.interface import implementer
 class ISectionHTML(ISection):
     """Marker interface and Dexterity Python Schema for SectionHTML"""
 
-    html = schema.Text(
+    html = schema.SourceText(
         title=_(u"HTML"),
         description=_(u"Structure your content directly with html."),
         required=True,
