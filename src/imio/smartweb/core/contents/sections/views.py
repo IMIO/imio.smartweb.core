@@ -22,7 +22,7 @@ class SectionView(BrowserView):
 
     def redirect_to_section(self, section_id):
         page = self.context.aq_parent
-        url = "{}#{}".format(page.absolute_url(), section_id)
+        url = "{}#section-{}".format(page.absolute_url(), section_id)
         self.request.response.redirect(url)
 
     def background_style(self):

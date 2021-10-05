@@ -44,7 +44,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             container=self.page,
             type="imio.smartweb.SectionText",
             title="Section text",
-            id="section-text",
+            id="text",
         )
         getMultiAdapter((section, self.request), name="view")()
         self.assertEqual(
