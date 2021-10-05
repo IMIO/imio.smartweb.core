@@ -9,7 +9,7 @@ from zope import schema
 
 
 class ISectionLinks(ISection):
-    """Marker interface and Dexterity Python Schema for SectionFiles"""
+    """Marker interface and Dexterity Python Schema for SectionLinks"""
 
     description = schema.Text(
         title=_(u"Description"),
