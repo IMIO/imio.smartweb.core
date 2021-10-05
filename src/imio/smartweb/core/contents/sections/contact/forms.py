@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.browser.forms import SmartwebCustomAddForm
+from imio.smartweb.common.browser.forms import CustomAddForm
 from imio.smartweb.core.browser.forms import SmartwebCustomEditForm
 from plone.dexterity.browser.add import DefaultAddView
 from plone.z3cform import layout
 from z3c.form.interfaces import HIDDEN_MODE
 
 
-class ContactCustomAddForm(SmartwebCustomAddForm):
+class ContactCustomAddForm(CustomAddForm):
     portal_type = "imio.smartweb.SectionContact"
 
     def update(self):

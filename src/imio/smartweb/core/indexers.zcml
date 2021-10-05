@@ -2,11 +2,6 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <adapter
-      name="Description"
-      factory=".indexers.description"
-      />
-
-  <adapter
       name="exclude_from_parent_listing"
       factory=".indexers.exclude_from_parent_listing"
       />
