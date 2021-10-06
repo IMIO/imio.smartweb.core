@@ -44,5 +44,3 @@ class ISectionEvents(ISection):
 @implementer(ISectionEvents)
 class SectionEvents(Section):
     """SectionEvents class"""
-
-    can_toggle_title_visibility = False

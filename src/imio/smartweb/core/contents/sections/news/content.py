@@ -44,5 +44,3 @@ class ISectionNews(ISection):
 @implementer(ISectionNews)
 class SectionNews(Section):
     """SectionNews class"""
-
-    can_toggle_title_visibility = False
