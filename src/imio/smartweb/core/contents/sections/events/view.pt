@@ -1,0 +1,73 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:main fill-slot="content-core">
+<metal:content-core define-macro="content-core">
+<div class="section-container section-events"
+     tal:define="can_edit python: checkPermission('Modify portal content', context);
+                 items view/events;"
+     tal:attributes="style view/background_style">
+
+  <tal:if tal:define="show_section python: can_edit or items"
+          tal:condition="show_section">
+
+    <metal:macro use-macro="context/@@sections_macros/section_edition" />
+
+    <div tal:condition="items"
+         tal:attributes="id context/id"
+         class="body-section carousel carousel-dark slide"
+         data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button tal:repeat="item items"
+                tal:attributes="data-bs-target string:#${context/id};
+                                data-bs-slide-to repeat/item/index;
+                                aria-label string:Slide ${repeat/item/number};
+                                class python:'active' if repeat.item.start else nothing;
+                                aria-current python:'true' if repeat.item.start else nothing"
+                type="button">
+        </button>
+      </div>
+      <div class="carousel-inner">
+        <div class=""
+             data-bs-interval="10000"
+             tal:repeat="item items"
+             tal:attributes="class python:'carousel-item active' if repeat.item.start else 'carousel-item'">
+          <tal:def define="portal context/@@plone_portal_state/portal;">
+            <a href="#"><img class="d-block w-100" tal:attributes="src python:view.lead_image(item);" /></a>
+          <div class="carousel-caption d-none d-md-block">
+            <h5 tal:content="item/title"></h5>
+            <p tal:content="item/description"></p>
+          </div>
+        </tal:def>
+        </div>
+      </div>
+
+      <button tal:attributes="data-bs-target string:#${context/id}"
+              class="carousel-control-prev"
+              type="button"
+              data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button tal:attributes="data-bs-target string:#${context/id}"
+              class="carousel-control-next"
+              type="button"
+              data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+  </tal:if>
+</div>
+</metal:content-core>
+</metal:main>
+
+</body>
+</html>

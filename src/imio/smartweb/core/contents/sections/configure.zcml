@@ -3,11 +3,13 @@
     xmlns:browser="http://namespaces.zope.org/browser">
 
   <include package=".contact" />
+  <include package=".events" />
   <include package=".files" />
   <include package=".gallery" />
   <include package=".html" />
   <include package=".links" />
   <include package=".map" />
+  <include package=".news" />
   <include package=".selections" />
   <include package=".text" />
   <include package=".video" />

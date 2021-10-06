@@ -6,11 +6,13 @@ import os
 def get_sections_types():
     return [
         "imio.smartweb.SectionContact",
+        # "imio.smartweb.SectionEvents",
         "imio.smartweb.SectionFiles",
         "imio.smartweb.SectionGallery",
         "imio.smartweb.SectionHTML",
         "imio.smartweb.SectionLinks",
         "imio.smartweb.SectionMap",
+        # "imio.smartweb.SectionNews",
         "imio.smartweb.SectionSelections",
         "imio.smartweb.SectionText",
         "imio.smartweb.SectionVideo",
