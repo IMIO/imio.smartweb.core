@@ -135,7 +135,7 @@ class SectionsIntegrationTest(ImioSmartwebTestCase):
             RelationValue(intids.getId(page2)),
         ]
         view = queryMultiAdapter((section, self.request), name="table_view")
-        self.assertIn(page2, view.items())
+        self.assertIn("Page 2", [item["title"] for item in view.items()])
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("Page 2", view())
 
