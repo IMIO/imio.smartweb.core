@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.geolocationbehavior.geolocation import IGeolocatable
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -9,6 +10,7 @@ from plone.app.testing import login
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.formwidget.geolocation.geolocation import Geolocation
 from plone.namedfile.file import NamedBlobFile
 from plone.protect.authenticator import createToken
 from time import sleep
@@ -120,6 +122,17 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn(
             "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed", embedded_video
         )
+
+    def test_map_section(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionMap",
+            title="Section map",
+        )
+        IGeolocatable(section).geolocation = Geolocation(latitude="4.5", longitude="45")
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("Section map", view())
+        self.assertIn('class="pat-leaflet map"', view())
 
     def test_selections_section(self):
         section = api.content.create(

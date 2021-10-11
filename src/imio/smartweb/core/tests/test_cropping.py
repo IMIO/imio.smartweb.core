@@ -49,6 +49,7 @@ class TestCropping(ImioSmartwebTestCase):
             adapter = ICropping(section, alternate=None)
             self.assertIsNotNone(adapter)
             self.assertIn("large", adapter.get_scales("background_image", self.request))
+            self.assertNotIn("banner", adapter.get_scales("image", self.request))
             if section_type == "imio.smartweb.SectionText":
                 self.assertEqual(
                     ["large"], adapter.get_scales("background_image", self.request)

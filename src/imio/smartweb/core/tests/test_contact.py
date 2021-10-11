@@ -90,8 +90,10 @@ class TestContact(ImioSmartwebTestCase):
             "titles",
             "contact_informations",
             "address",
+            "map",
             "schedule",
         ]
+        self.assertIn('class="pat-leaflet map"', view())
         self.assertEqual(view().count("<h2"), 2)
         self.assertEqual(view().count("<h3"), 3)
 
