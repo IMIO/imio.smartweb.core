@@ -6,7 +6,7 @@
       name="view"
       for="imio.smartweb.core.contents.ISectionNews"
       class="imio.smartweb.core.contents.sections.news.view.NewsView"
-      template="view.pt"
+      template="../common_templates/carousel.pt"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />

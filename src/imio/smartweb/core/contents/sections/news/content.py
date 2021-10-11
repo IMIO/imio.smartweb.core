@@ -5,6 +5,7 @@ from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
+from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
 
@@ -29,6 +30,14 @@ class ISectionNews(ISection):
 
     nb_results_by_batch = schema.Int(
         title=_(u"Number of items by batch"), default=3, required=True
+    )
+
+    model.fieldset("layout", fields=["image_scale"])
+    image_scale = schema.Choice(
+        title=_(u"Image scale for news"),
+        default=u"tile",
+        vocabulary="plone.app.vocabularies.ImagesScales",
+        required=True,
     )
 
 
