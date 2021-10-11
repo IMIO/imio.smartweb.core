@@ -20,7 +20,10 @@ import json
 import requests_mock
 import unittest
 
+# We don't want to make real request on authentic sources if some Mocks are missing
 config.DIRECTORY_URL = "http://localhost:8080/Plone"
+config.EVENTS_URL = "http://localhost:8080/Plone"
+config.NEWS_URL = "http://localhost:8080/Plone"
 
 
 class ImioSmartwebCoreLayer(PloneSandboxLayer):
@@ -38,13 +41,27 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
 
     @requests_mock.Mocker()
     def setUpPloneSite(self, portal, m):
-        json_entities_raw_mock = get_json(
+        json_directory_entities_raw_mock = get_json(
             "resources/json_directory_entities_raw_mock.json"
         )
-        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID".format(
-            config.DIRECTORY_URL
+        m.get(
+            f"{config.DIRECTORY_URL}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID",
+            text=json.dumps(json_directory_entities_raw_mock),
         )
-        m.get(url, text=json.dumps(json_entities_raw_mock))
+        json_events_entities_raw_mock = get_json(
+            "resources/json_events_entities_raw_mock.json"
+        )
+        m.get(
+            f"{config.EVENTS_URL}/@search?portal_type=imio.events.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID",
+            text=json.dumps(json_events_entities_raw_mock),
+        )
+        json_news_entities_raw_mock = get_json(
+            "resources/json_news_entities_raw_mock.json"
+        )
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=imio.news.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID",
+            text=json.dumps(json_news_entities_raw_mock),
+        )
         applyProfile(portal, "imio.smartweb.core:testing")
         api.user.create(email="test@imio.be", username="test")
         api.user.grant_roles(username="test", roles=["Site Administrator"])
