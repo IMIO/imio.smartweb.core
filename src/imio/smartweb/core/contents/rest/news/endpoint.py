@@ -40,7 +40,7 @@ class NewsEndpoint(object):
             "selected_news_folders={}".format(self.context.selected_news_folder),
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
-            "limit={}".foramt(self.context.nb_results),
+            "limit={}".format(self.context.nb_results),
         ]
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         return url

@@ -42,7 +42,7 @@ class EventsEndpoint(object):
             "metadata_fields=category",
             "metadata_fields=start",
             "metadata_fields=end",
-            "limit={}".foramt(self.context.nb_results),
+            "limit={}".format(self.context.nb_results),
         ]
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
         return url
