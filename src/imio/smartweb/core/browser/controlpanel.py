@@ -42,6 +42,24 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    directory_solr_core = schema.TextLine(
+        title=_(u"Directory SolR Core ID"),
+        default="directory",
+        required=False,
+    )
+
+    events_solr_core = schema.TextLine(
+        title=_(u"Events SolR Core ID"),
+        default="events",
+        required=False,
+    )
+
+    news_solr_core = schema.TextLine(
+        title=_(u"News SolR Core ID"),
+        default="news",
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
