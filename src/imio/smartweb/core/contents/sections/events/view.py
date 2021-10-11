@@ -1,16 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date, datetime
-from datetime import timedelta
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import get_json
-from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone import api
-from zope.i18n import translate
-from zope.i18nmessageid import MessageFactory
-
-import json
 
 
 class EventsView(SectionView):
@@ -51,4 +43,4 @@ class EventsView(SectionView):
         if events is None:
             return
         events_url = events["@id"]
-        return "{}/{}".format(events_url,"@@images/image/")
+        return "{}/{}".format(events_url, "@@images/image/")
