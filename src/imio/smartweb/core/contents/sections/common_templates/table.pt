@@ -39,15 +39,13 @@
                    class="section_links_item">
                   <a class="section_links_item_image"
                      tal:attributes="href item/url;
-                                     target python:'_blank' if (open_in_new_tab and not can_edit) else ''"
-                     tal:condition="python: item_has_image and thumb_scale and show_lead_image">
-                    <img class="d-block w-100" tal:attributes="src item/image" />
-                  </a>
-                  <a class="section_links_item_title"
-                     tal:attributes="href item/url;
-                                     alt item/description;
-                                     target python:'_blank' if (open_in_new_tab and not can_edit) else ''"
-                     tal:content="item/title">Item Title
+                                     target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
+                    <img tal:condition="python: item_has_image and thumb_scale and show_lead_image"
+                         tal:attributes="alt item/title;
+                                         src item/image"
+                         class="d-block w-100" />
+                    <span class="section_links_item_title"
+                          tal:content="item/title">Item Title</span>
                   </a>
               </div>
           </li>
