@@ -4,5 +4,6 @@
   <include package=".directory" />
   <include package=".events" />
   <include package=".news" />
+  <include package=".search" />
 
 </configure>
