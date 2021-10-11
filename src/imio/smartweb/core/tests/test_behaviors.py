@@ -13,7 +13,7 @@ from zope.interface import alsoProvides
 from zope.intid.interfaces import IIntIds
 
 
-class ProcedureFunctionalTest(ImioSmartwebTestCase):
+class TestBehaviors(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

@@ -23,7 +23,7 @@ from zope.interface import alsoProvides
 import transaction
 
 
-class FolderFunctionalTest(ImioSmartwebTestCase):
+class TestFolder(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

@@ -16,7 +16,7 @@ from zope.component import getMultiAdapter
 import transaction
 
 
-class SectionsFunctionalTest(ImioSmartwebTestCase):
+class TestText(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

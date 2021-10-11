@@ -17,7 +17,7 @@ from zope.viewlet.interfaces import IViewlet
 from zope.viewlet.interfaces import IViewletManager
 
 
-class SubsiteIntegrationTest(ImioSmartwebTestCase):
+class TestSubsite(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

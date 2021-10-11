@@ -15,7 +15,7 @@ from zope.component import getMultiAdapter
 from zope.component import getUtility
 
 
-class FooterIntegrationTest(ImioSmartwebTestCase):
+class TestFooter(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

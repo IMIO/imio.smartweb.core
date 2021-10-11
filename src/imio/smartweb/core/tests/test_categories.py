@@ -8,7 +8,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 
 
-class SubsiteIntegrationTest(ImioSmartwebTestCase):
+class TestCategories(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

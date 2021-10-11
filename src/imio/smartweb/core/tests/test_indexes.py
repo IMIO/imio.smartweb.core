@@ -15,7 +15,7 @@ from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
 
 
-class FolderIntegrationTest(ImioSmartwebTestCase):
+class TestIndexes(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

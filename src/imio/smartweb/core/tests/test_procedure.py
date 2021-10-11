@@ -25,7 +25,7 @@ import requests_mock
 GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
 
 
-class ProcedureIntegrationTest(ImioSmartwebTestCase):
+class TestProcedure(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

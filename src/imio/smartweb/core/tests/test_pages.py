@@ -20,7 +20,7 @@ from zope.publisher.browser import TestRequest
 import transaction
 
 
-class PagesIntegrationTest(ImioSmartwebTestCase):
+class TestPages(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

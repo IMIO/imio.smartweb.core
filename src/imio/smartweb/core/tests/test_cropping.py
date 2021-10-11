@@ -12,7 +12,7 @@ from plone.namedfile.file import NamedBlobFile
 from zope.component import getMultiAdapter
 
 
-class CroppingIntegrationTest(ImioSmartwebTestCase):
+class TestCropping(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

@@ -11,7 +11,7 @@ from plone.namedfile.file import NamedBlobFile
 from zope.component import getMultiAdapter
 
 
-class SubsiteIntegrationTest(ImioSmartwebTestCase):
+class TestBanner(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

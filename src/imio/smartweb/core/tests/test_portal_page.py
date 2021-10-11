@@ -15,7 +15,7 @@ from zope.component import queryUtility
 from zope.interface import alsoProvides
 
 
-class PageIntegrationTest(ImioSmartwebTestCase):
+class TestPortalPage(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

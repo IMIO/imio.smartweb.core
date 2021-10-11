@@ -27,7 +27,7 @@ from zope.intid.interfaces import IIntIds
 import transaction
 
 
-class MinisiteFunctionalTest(ImioSmartwebTestCase):
+class TestMinisite(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

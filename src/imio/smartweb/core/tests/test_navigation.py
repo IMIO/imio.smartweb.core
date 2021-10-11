@@ -14,7 +14,7 @@ from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
 
 
-class NavigationFunctionalTest(ImioSmartwebTestCase):
+class TestNavigation(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
