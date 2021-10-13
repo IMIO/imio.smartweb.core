@@ -9,6 +9,7 @@ from .rest.directory.content import IDirectoryView, DirectoryView  # NOQA
 from .rest.events.content import IEventsView, EventsView  # NOQA
 from .rest.news.content import INewsView, NewsView  # NOQA
 from .sections.base import ISection, Section  # NOQA
+from .sections.collection.content import ISectionCollection, SectionCollection  # NOQA
 from .sections.contact.content import ISectionContact, SectionContact  # NOQA
 from .sections.events.content import ISectionEvents, SectionEvents  # NOQA
 from .sections.files.content import ISectionFiles, SectionFiles  # NOQA

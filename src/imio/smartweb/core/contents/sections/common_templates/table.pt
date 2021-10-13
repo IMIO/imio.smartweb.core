@@ -30,23 +30,25 @@
 
           <li class="section_links_list"
               tal:omit-tag="only_one_item"
-              tal:repeat="item items">
-              <div tal:define="item_has_image item/has_image;
-                               thumb_scale context/image_scale;
-                               show_lead_image python: getattr(context, 'show_items_lead_image', True);
-                               portal context/@@plone_portal_state/portal;
-                               open_in_new_tab item/open_in_new_tab | nothing;"
-                   class="section_links_item">
-                  <a class="section_links_item_image"
-                     tal:attributes="href item/url;
-                                     target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
-                    <img tal:condition="python: item_has_image and thumb_scale and show_lead_image"
-                         tal:attributes="alt item/title;
-                                         src item/image"
-                         class="d-block w-100" />
-                    <span class="section_links_item_title"
-                          tal:content="item/title">Item Title</span>
-                  </a>
+              tal:repeat="batch items">
+              <div tal:repeat="item batch">
+                  <div tal:define="item_has_image item/has_image;
+                                   thumb_scale context/image_scale;
+                                   show_lead_image python: getattr(context, 'show_items_lead_image', True);
+                                   portal context/@@plone_portal_state/portal;
+                                   open_in_new_tab item/open_in_new_tab | nothing;"
+                       class="section_links_item">
+                      <a class="section_links_item_image"
+                         tal:attributes="href item/url;
+                                         target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
+                        <img tal:condition="python: item_has_image and thumb_scale and show_lead_image"
+                             tal:attributes="alt item/title;
+                                             src item/image"
+                             class="d-block w-100" />
+                        <span class="section_links_item_title"
+                              tal:content="item/title">Item Title</span>
+                      </a>
+                  </div>
               </div>
           </li>
 

@@ -38,23 +38,25 @@
       <div class="carousel-inner">
         <div class=""
              data-bs-interval="10000"
-             tal:repeat="item items"
-             tal:attributes="class python:'carousel-item active' if repeat.item.start else 'carousel-item'">
-          <tal:def define="item_has_image item/has_image;
-                           thumb_scale context/image_scale;
-                           show_lead_image python: getattr(context, 'show_items_lead_image', True);
-                           portal context/@@plone_portal_state/portal;
-                           open_in_new_tab item/open_in_new_tab | nothing;">
-          <a tal:attributes="href item/url;
-                             target python:'_blank' if (open_in_new_tab and can_edit is False) else ''"
-             tal:condition="python: item_has_image and thumb_scale and show_lead_image">
-            <img class="d-block w-100" tal:attributes="src item/image" />
-          </a>
-          <div class="carousel-caption d-none d-md-block">
-            <h5 tal:content="item/title"></h5>
-            <p tal:content="item/description"></p>
+             tal:repeat="batch items"
+             tal:attributes="class python:'carousel-item active' if repeat.batch.start else 'carousel-item'">
+          <div tal:repeat="item batch">
+              <tal:def define="item_has_image item/has_image;
+                               thumb_scale context/image_scale;
+                               show_lead_image python: getattr(context, 'show_items_lead_image', True);
+                               portal context/@@plone_portal_state/portal;
+                               open_in_new_tab item/open_in_new_tab | nothing;">
+                  <a tal:attributes="href item/url;
+                                     target python:'_blank' if (open_in_new_tab and can_edit is False) else ''"
+                     tal:condition="python: item_has_image and thumb_scale and show_lead_image">
+                    <img class="d-block w-100" tal:attributes="src item/image" />
+                  </a>
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5 tal:content="item/title"></h5>
+                    <p tal:content="item/description"></p>
+                  </div>
+              </tal:def>
           </div>
-        </tal:def>
         </div>
       </div>
 
