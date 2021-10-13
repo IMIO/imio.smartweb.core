@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.config import NEWS_URL
+from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from plone.rest import Service
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
@@ -8,28 +9,11 @@ from zope.interface import implementer
 from zope.interface import Interface
 
 import json
-import requests
 
 
 @implementer(IExpandableElement)
 @adapter(Interface, Interface)
-class NewsEndpoint(object):
-
-    language = "fr"
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-
-    def __call__(self):
-        results = self.getResult()
-        return results
-
-    def getResult(self):
-        headers = {"Accept": "application/json"}
-        result = requests.get(self.query_url, headers=headers)
-        return result.json()
-
+class NewsEndpoint(BaseEndpoint):
     @property
     def local_query_url(self):
         return "{}/@news".format(self.context.absolute_url())
@@ -42,6 +26,7 @@ class NewsEndpoint(object):
             "metadata_fields=category",
             "limit={}".format(self.context.nb_results),
         ]
+        params = self.get_extra_params(params)
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         return url
 
