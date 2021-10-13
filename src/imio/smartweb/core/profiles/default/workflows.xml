@@ -3,6 +3,7 @@
   <bindings>
     <type type_id="imio.smartweb.BlockLink"/>
     <type type_id="imio.smartweb.Footer"/>
+    <type type_id="imio.smartweb.SectionCollection"/>
     <type type_id="imio.smartweb.SectionContact"/>
     <type type_id="imio.smartweb.SectionEvents"/>
     <type type_id="imio.smartweb.SectionFiles"/>
