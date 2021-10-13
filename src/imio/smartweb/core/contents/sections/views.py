@@ -52,6 +52,8 @@ class SectionView(BrowserView):
         if hasattr(self.context, "linking_rest_view"):
             """For sections events, news, contact, url is insite linking rest view"""
             linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
-            return f"{linking_view_url}/{normalizeString(self.context.Title())}/{self.context.UID()}"
+            id = normalizeString(self.context.Title())
+            uid = self.context.UID()
+            return f"{linking_view_url}/{id}/{uid}"
         else:
             return item["url"]
