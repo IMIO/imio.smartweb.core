@@ -1,0 +1,48 @@
+{
+  "@id": "https://annuaire.preprod.imio.be/@search?selected_entities=4234565cf19b486bac016e6e544e9574&portal_type=imio.directory.Contact",
+  "items": [
+    {
+      "@id": "https://annuaire.preprod.imio.be/braine-l-alleud/d63d28c478bb4269b77e1ceae8410cc5",
+      "@type": "imio.directory.Contact",
+      "description": "Ouvert du lundi au jeudi de 8h30 \u00e0 12h et de 13h \u00e0 17h, le vendredi de 8h30 \u00e0 12h et de 13h \u00e0 16h.",
+      "review_state": "published",
+      "title": "Conf\u00e9d\u00e9ration construction du Brabant wallon (chambre artisanale et patronale)"
+    },
+    {
+      "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33",
+      "@type": "imio.directory.Contact",
+      "description": "Description de test",
+      "review_state": "published",
+      "title": "Administration communale de Belleville"
+    },
+    {
+      "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33/512fca426f0a4db8b19fb0dc348ab134",
+      "@type": "imio.directory.Contact",
+      "description": "Ma description",
+      "review_state": "published",
+      "title": "Service communication de l'administration communale de Belleville"
+    },
+    {
+      "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33/512fca426f0a4db8b19fb0dc348ab134/4d2437cd0634482f81fc3ef7f9872975",
+      "@type": "imio.directory.Contact",
+      "description": "",
+      "review_state": "published",
+      "title": "Service finances de l'administration communale de Belleville"
+    },
+    {
+      "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33/512fca426f0a4db8b19fb0dc348ab134/4d2437cd0634482f81fc3ef7f9872975/65f9a4fd1cf8489a808efb67a2743a4e",
+      "@type": "imio.directory.Contact",
+      "description": "",
+      "review_state": "published",
+      "title": "Budget"
+    },
+    {
+      "@id": "https://annuaire.preprod.imio.be/belleville/9fbb2afd499e465983434f974fce8404",
+      "@type": "imio.directory.Contact",
+      "description": "Brasserie conviviale et cuisine du terroir.",
+      "review_state": "published",
+      "title": "Chez Lucien"
+    }
+  ],
+  "items_total": 6
+}
