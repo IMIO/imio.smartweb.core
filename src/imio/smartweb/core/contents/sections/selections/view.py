@@ -24,7 +24,7 @@ class SelectionsView(SectionView):
             batch.append(dict)
             if (
                 cpt % number_of_items_in_batch == 0
-                or list_size < number_of_items_in_batch # noqa
+                or list_size < number_of_items_in_batch  # noqa
             ) and cpt > 0:
                 lst_dict.append(batch)
                 batch = []
