@@ -6,7 +6,7 @@
       name="view"
       for="imio.smartweb.core.contents.ISectionEvents"
       class="imio.smartweb.core.contents.sections.events.view.EventsView"
-      template="view.pt"
+      template="../common_templates/carousel.pt"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
