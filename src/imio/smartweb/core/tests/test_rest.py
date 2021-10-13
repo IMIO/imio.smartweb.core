@@ -47,7 +47,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         url = endpoint.query_url
         self.assertEqual(
             url,
-            'http://localhost:8080/Plone/@search?selected_entities=None&portal_type=imio.directory.Contact&taxonomy_contact_category=("token")&topics=education',
+            'http://localhost:8080/Plone/@search?selected_entities=396907b3b1b04a97896b12cc792c77f8&portal_type=imio.directory.Contact&taxonomy_contact_category=("token")&topics=education',
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()

@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
+from plone import api
 from plone.rest import Service
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
@@ -20,9 +21,9 @@ class DirectoryEndpoint(BaseEndpoint):
 
     @property
     def query_url(self):
-        # ex : {'taxonomy_contact_category': '("token")', 'topics': 'education'}
+        entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
         params = [
-            "selected_entities={}".format(self.context.selected_entity),
+            "selected_entities={}".format(entity_uid),
             "portal_type=imio.directory.Contact",
         ]
         params = self.get_extra_params(params)

@@ -16,13 +16,6 @@ class IDirectoryView(model.Schema):
 
     see_more_link = schema.URI(title=_(u"See more link"), required=False)
 
-    selected_entity = schema.Choice(
-        title=_(u"Selected entity"),
-        description=_(u"Select entity to display"),
-        vocabulary="imio.smartweb.vocabulary.RemoteDirectoryEntities",
-        required=True,
-    )
-
     show_items_description = schema.Bool(
         title=_(u"Show items description"), default=True, required=False
     )
