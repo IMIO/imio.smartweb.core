@@ -7,10 +7,12 @@ class LinksView(SectionView):
     """Links Section view"""
 
     def items(self):
+        number_of_items_in_batch = 1
         items = self.context.listFolderContents()
         lst_dict = []
-
-        for item in items:
+        batch = []
+        list_size = len(items)
+        for cpt, item in enumerate(items, start=1):
             url = item.absolute_url()
             dict = {
                 "title": item.title,
@@ -19,5 +21,13 @@ class LinksView(SectionView):
                 "image": f"{url}/@@images/image/{self.context.image_scale}",
                 "has_image": True if item.aq_base.image else False,
             }
-            lst_dict.append(dict)
+            batch.append(dict)
+            if (
+                cpt % number_of_items_in_batch == 0
+                or list_size < number_of_items_in_batch # noqa
+            ) and cpt > 0:
+                lst_dict.append(batch)
+                batch = []
+        if batch != []:
+            lst_dict.append(batch)
         return lst_dict
