@@ -14,11 +14,21 @@
     />
 
   <plone:service
-    name="@directory"
+    name="@results"
     method="GET"
     accept="application/json"
     for="imio.smartweb.core.contents.IDirectoryView"
     factory=".endpoint.DirectoryEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <plone:service
+    name="@results-filters"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.IDirectoryView"
+    factory=".endpoint.DirectoryFiltersEndpointGet"
     permission="zope2.View"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />

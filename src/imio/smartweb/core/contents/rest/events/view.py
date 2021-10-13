@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from Products.Five import BrowserView
+from imio.smartweb.core.contents.rest.view import BaseRestView
 
 
-class EventsViewView(BrowserView):
+class EventsViewView(BaseRestView):
     """EventsView view"""
-
-    @property
-    def local_query_url(self):
-        return "{}/@events".format(self.context.absolute_url())

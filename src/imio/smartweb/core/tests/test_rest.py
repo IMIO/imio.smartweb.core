@@ -33,6 +33,16 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             params, ['taxonomy_contact_category=("token")', "topics=education"]
         )
 
+        request = TestRequest(
+            form={"topics": "education", "metadata_fields": ["topics", "category"]}
+        )
+        endpoint = DirectoryEndpoint(self.portal, request)
+        params = endpoint.get_extra_params([])
+        self.assertEqual(
+            params,
+            ["topics=education", "metadata_fields=topics", "metadata_fields=category"],
+        )
+
     @requests_mock.Mocker()
     def test_call(self, m):
         rest_directory = api.content.create(
@@ -47,7 +57,14 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         url = endpoint.query_url
         self.assertEqual(
             url,
-            'http://localhost:8080/Plone/@search?selected_entities=396907b3b1b04a97896b12cc792c77f8&portal_type=imio.directory.Contact&taxonomy_contact_category=("token")&topics=education',
+            "http://localhost:8080/Plone/@search?"
+            "selected_entities=396907b3b1b04a97896b12cc792c77f8&"
+            "portal_type=imio.directory.Contact&"
+            "metadata_fields=facilities&"
+            "metadata_fields=taxonomy_contact_category&"
+            "metadata_fields=topics&"
+            'taxonomy_contact_category=("token")&'
+            "topics=education",
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()

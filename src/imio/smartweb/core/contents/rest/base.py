@@ -6,6 +6,7 @@ import requests
 class BaseEndpoint(object):
 
     language = "fr"
+    remote_endpoint = ""
 
     def __init__(self, context, request):
         self.context = context
@@ -15,6 +16,7 @@ class BaseEndpoint(object):
         results = self.getResult()
         return results
 
+    @property
     def query_url(self):
         raise NotImplementedError
 
@@ -27,6 +29,11 @@ class BaseEndpoint(object):
         form = self.request.form
         extra_params = []
         for k, v in form.items():
-            extra_params.append("{}={}".format(k, v))
+            if isinstance(v, list):
+                # handles multiple metadata_fields
+                for value in v:
+                    extra_params.append("{}={}".format(k, value))
+            else:
+                extra_params.append("{}={}".format(k, v))
         params = params + extra_params
         return params

@@ -14,11 +14,21 @@
     />
 
   <plone:service
-    name="@events"
+    name="@results"
     method="GET"
     accept="application/json"
     for="imio.smartweb.core.contents.IEventsView"
     factory=".endpoint.EventsEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <plone:service
+    name="@results-filters"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.IEventsView"
+    factory=".endpoint.EventsFiltersEndpointGet"
     permission="zope2.View"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />

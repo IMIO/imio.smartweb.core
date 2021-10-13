@@ -4,7 +4,8 @@
   <body>
     <metal:main fill-slot="content-core">
 
-          <div id="root" tal:attributes="data-directory view/local_query_url;">
+          <div id="root" tal:attributes="data-directory view/local_query_url;
+                                         data-directory-filters view/local_filters_query_url">
           </div>
           <!--
           <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/directory/react.production.min.js" crossorigin></script>

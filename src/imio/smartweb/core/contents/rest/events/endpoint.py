@@ -11,26 +11,33 @@ from zope.interface import Interface
 import json
 
 
-@implementer(IExpandableElement)
-@adapter(Interface, Interface)
-class EventsEndpoint(BaseEndpoint):
-    @property
-    def local_query_url(self):
-        return "{}/@events".format(self.context.absolute_url())
-
+class BaseEventsEndpoint(BaseEndpoint):
     @property
     def query_url(self):
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
             "portal_type=imio.events.Event",
             "metadata_fields=category",
+            "metadata_fields=topics",
             "metadata_fields=start",
             "metadata_fields=end",
             "limit={}".format(self.context.nb_results),
         ]
         params = self.get_extra_params(params)
-        url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
+        url = f"{EVENTS_URL}/{self.remote_endpoint}?{'&'.join(params)}"
         return url
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class EventsEndpoint(BaseEventsEndpoint):
+    remote_endpoint = "@search"
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class EventsFiltersEndpoint(BaseEventsEndpoint):
+    remote_endpoint = "@search-filters"
 
 
 class EventsEndpointGet(Service):
@@ -39,6 +46,15 @@ class EventsEndpointGet(Service):
         return json.dumps(
             related_items(),
             indent=2,
-            sort_keys=True,
+            separators=(", ", ": "),
+        )
+
+
+class EventsFiltersEndpointGet(Service):
+    def render(self):
+        related_items = EventsFiltersEndpoint(self.context, self.request)
+        return json.dumps(
+            related_items(),
+            indent=2,
             separators=(", ", ": "),
         )

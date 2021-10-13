@@ -11,24 +11,31 @@ from zope.interface import Interface
 import json
 
 
-@implementer(IExpandableElement)
-@adapter(Interface, Interface)
-class NewsEndpoint(BaseEndpoint):
-    @property
-    def local_query_url(self):
-        return "{}/@news".format(self.context.absolute_url())
-
+class BaseNewsEndpoint(BaseEndpoint):
     @property
     def query_url(self):
         params = [
             "selected_news_folders={}".format(self.context.selected_news_folder),
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
+            "metadata_fields=topics",
             "limit={}".format(self.context.nb_results),
         ]
         params = self.get_extra_params(params)
-        url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
+        url = f"{NEWS_URL}/{self.remote_endpoint}?{'&'.join(params)}"
         return url
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class NewsEndpoint(BaseNewsEndpoint):
+    remote_endpoint = "@search"
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class NewsFiltersEndpoint(BaseNewsEndpoint):
+    remote_endpoint = "@search-filters"
 
 
 class NewsEndpointGet(Service):
@@ -37,6 +44,15 @@ class NewsEndpointGet(Service):
         return json.dumps(
             related_items(),
             indent=2,
-            sort_keys=True,
+            separators=(", ", ": "),
+        )
+
+
+class NewsFiltersEndpointGet(Service):
+    def render(self):
+        related_items = NewsFiltersEndpoint(self.context, self.request)
+        return json.dumps(
+            related_items(),
+            indent=2,
             separators=(", ", ": "),
         )

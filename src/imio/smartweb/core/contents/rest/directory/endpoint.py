@@ -12,23 +12,32 @@ from zope.interface import Interface
 import json
 
 
-@implementer(IExpandableElement)
-@adapter(Interface, Interface)
-class DirectoryEndpoint(BaseEndpoint):
-    @property
-    def local_query_url(self):
-        return "{}/@directory".format(self.context.absolute_url())
-
+class BaseDirectoryEndpoint(BaseEndpoint):
     @property
     def query_url(self):
         entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
         params = [
             "selected_entities={}".format(entity_uid),
             "portal_type=imio.directory.Contact",
+            "metadata_fields=facilities",
+            "metadata_fields=taxonomy_contact_category",
+            "metadata_fields=topics",
         ]
         params = self.get_extra_params(params)
-        url = "{}/@search?{}".format(DIRECTORY_URL, "&".join(params))
+        url = f"{DIRECTORY_URL}/{self.remote_endpoint}?{'&'.join(params)}"
         return url
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class DirectoryEndpoint(BaseDirectoryEndpoint):
+    remote_endpoint = "@search"
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class DirectoryFiltersEndpoint(BaseDirectoryEndpoint):
+    remote_endpoint = "@search-filters"
 
 
 class DirectoryEndpointGet(Service):
@@ -37,6 +46,15 @@ class DirectoryEndpointGet(Service):
         return json.dumps(
             related_items(),
             indent=2,
-            sort_keys=True,
+            separators=(", ", ": "),
+        )
+
+
+class DirectoryFiltersEndpointGet(Service):
+    def render(self):
+        related_items = DirectoryFiltersEndpoint(self.context, self.request)
+        return json.dumps(
+            related_items(),
+            indent=2,
             separators=(", ", ": "),
         )

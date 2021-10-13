@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from Products.Five import BrowserView
+from imio.smartweb.core.contents.rest.view import BaseRestView
 
 
-class DirectoryViewView(BrowserView):
+class DirectoryViewView(BaseRestView):
     """DirectoryView view"""
-
-    @property
-    def local_query_url(self):
-        return "{}/@directory".format(self.context.absolute_url())

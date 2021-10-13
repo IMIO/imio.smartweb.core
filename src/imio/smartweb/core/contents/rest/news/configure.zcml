@@ -14,11 +14,21 @@
     />
 
   <plone:service
-    name="@news"
+    name="@results"
     method="GET"
     accept="application/json"
     for="imio.smartweb.core.contents.INewsView"
     factory=".endpoint.NewsEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <plone:service
+    name="@results-filters"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.INewsView"
+    factory=".endpoint.NewsFiltersEndpointGet"
     permission="zope2.View"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />

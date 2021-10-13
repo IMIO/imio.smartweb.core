@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from Products.Five import BrowserView
+from imio.smartweb.core.contents.rest.view import BaseRestView
 
 
-class NewsViewView(BrowserView):
+class NewsViewView(BaseRestView):
     """NewsView view"""
-
-    @property
-    def local_query_url(self):
-        return "{}/@news".format(self.context.absolute_url())
