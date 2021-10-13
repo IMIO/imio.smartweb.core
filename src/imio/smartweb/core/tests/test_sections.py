@@ -90,7 +90,7 @@ class TestSections(ImioSmartwebTestCase):
             type="File",
             title="My file",
         )
-        file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        file_obj.file = NamedBlobFile(data="file data", filename="file.txt")
         view = queryMultiAdapter((section, self.request), name="view")
         self.assertEqual(view.get_thumb_scale_list(), "thumb")
 
@@ -148,9 +148,54 @@ class TestSections(ImioSmartwebTestCase):
             RelationValue(intids.getId(page2)),
         ]
         view = queryMultiAdapter((section, self.request), name="table_view")
-        self.assertIn("Page 2", [item["title"] for item in view.items()])
+        self.assertIn("Page 2", [item[0]["title"] for item in view.items()])
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("Page 2", view())
+
+    def test_collection_section(self):
+        portal_page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.PortalPage",
+            title="Portal page",
+        )
+        section_gallery = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionGallery",
+            title="Section gallery",
+        )
+        for i in range(0, 10):
+            api.content.create(
+                container=section_gallery,
+                type="Image",
+                title=f"Image{i}",
+            )
+        query = [
+            {
+                "i": "portal_type",
+                "o": "plone.app.querystring.operation.selection.any",
+                "v": ["Image"],
+            }
+        ]
+        collection = api.content.create(
+            container=self.portal,
+            type="Collection",
+            title="My collection",
+        )
+        collection.setQuery(query)
+        self.assertEqual(len(collection.results()), 10)
+        section_collection = api.content.create(
+            container=portal_page,
+            type="imio.smartweb.SectionCollection",
+            title="Section collection",
+        )
+        intids = getUtility(IIntIds)
+        section_collection.collection = RelationValue(intids.getId(collection))
+        section_collection.number_of_items_in_batch = 1
+        view = queryMultiAdapter((section_collection, self.request), name="table_view")
+        self.assertEqual(len(view.items()), 10)
+        section_collection.maximum_number_of_items = 5
+        view = queryMultiAdapter((section_collection, self.request), name="table_view")
+        self.assertEqual(len(view.items()), 5)
 
     def test_sections_ordering(self):
         page = api.content.create(
@@ -231,7 +276,7 @@ class TestSections(ImioSmartwebTestCase):
             type="File",
             title="My file",
         )
-        file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        file_obj.file = NamedBlobFile(data="file data", filename="file.txt")
         links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
         api.content.create(
             container=links_section,
@@ -271,7 +316,7 @@ class TestSections(ImioSmartwebTestCase):
             type="File",
             title="My file",
         )
-        file_obj.file = NamedBlobFile(data="file data", filename=u"file.txt")
+        file_obj.file = NamedBlobFile(data="file data", filename="file.txt")
         links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
         api.content.create(
             container=links_section,
@@ -353,7 +398,7 @@ class TestSections(ImioSmartwebTestCase):
         )
         view = queryMultiAdapter((section, self.request), name="view")
         self.assertEqual(view.background_style(), "")
-        section.background_image = NamedBlobFile(data="file data", filename=u"file.png")
+        section.background_image = NamedBlobFile(data="file data", filename="file.png")
         self.assertIn(
             "background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')",
             view.background_style(),
