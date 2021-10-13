@@ -3,9 +3,12 @@
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone.app.vocabularies.catalog import CatalogSource
+from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
+from z3c.relationfield.schema import RelationChoice
 from zope import schema
 from zope.interface import implementer
 
@@ -21,6 +24,21 @@ class ISectionEvents(ISection):
             u"""it exists in the directory and that its "state" is published."""
         ),
         source="imio.smartweb.vocabulary.RemoteAgendas",
+        required=True,
+    )
+
+    directives.widget(
+        "linking_rest_view",
+        RelatedItemsFieldWidget,
+        vocabulary="plone.app.vocabularies.Catalog",
+        pattern_options={
+            "selectableTypes": ["imio.smartweb.EventsView"],
+            "favorites": [],
+        },
+    )
+    linking_rest_view = RelationChoice(
+        title=_(u"Link a rest view"),
+        source=CatalogSource(),
         required=True,
     )
 
