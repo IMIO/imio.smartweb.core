@@ -38,19 +38,19 @@ class SectionView(BrowserView):
         if not self.context.can_toggle_title_visibility:
             return
         self.context.hide_title = True
-        api.portal.show_message(_(u"Section title has been hidden"), self.request)
+        api.portal.show_message(_("Section title has been hidden"), self.request)
         self.redirect_to_section(self.context.id)
 
     def show_section_title(self):
         if not self.context.can_toggle_title_visibility:
             return
         self.context.hide_title = False
-        api.portal.show_message(_(u"Section title has been shown"), self.request)
+        api.portal.show_message(_("Section title has been shown"), self.request)
         self.redirect_to_section(self.context.id)
 
     def item_url(self, item):
         if hasattr(self.context, "linking_rest_view"):
-            ''' For sections events, news, contact, url is insite linking rest view '''
+            """For sections events, news, contact, url is insite linking rest view"""
             linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
             return f"{linking_view_url}/{normalizeString(self.context.Title())}/{self.context.UID()}"
         else:
