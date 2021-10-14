@@ -3,12 +3,9 @@
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.app.vocabularies.catalog import CatalogSource
-from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
-from z3c.relationfield.schema import RelationChoice
 from zope import schema
 from zope.interface import implementer
 
@@ -24,21 +21,6 @@ class ISectionContact(ISection):
             u"""it exists in the directory and that its "state" is published."""
         ),
         source="imio.smartweb.vocabulary.RemoteContacts",
-        required=True,
-    )
-
-    directives.widget(
-        "linking_rest_view",
-        RelatedItemsFieldWidget,
-        vocabulary="plone.app.vocabularies.Catalog",
-        pattern_options={
-            "selectableTypes": ["imio.smartweb.DirectoryView"],
-            "favorites": [],
-        },
-    )
-    linking_rest_view = RelationChoice(
-        title=_(u"Link a rest view"),
-        source=CatalogSource(),
         required=True,
     )
 
