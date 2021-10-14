@@ -18,11 +18,7 @@ class ISectionNews(ISection):
 
     directives.widget(related_news=SelectFieldWidget)
     related_news = schema.Choice(
-        title=_(u"Related news"),
-        description=_(
-            u"Select a news. If you can't find the news you want, make sure "
-            u"""it exists in the directory and that its "state" is published."""
-        ),
+        title=_(u"Related news folder"),
         source="imio.smartweb.vocabulary.RemoteNewsFolders",
         required=True,
     )

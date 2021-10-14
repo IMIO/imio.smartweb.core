@@ -18,11 +18,7 @@ class ISectionEvents(ISection):
 
     directives.widget(related_events=SelectFieldWidget)
     related_events = schema.Choice(
-        title=_(u"Related Events"),
-        description=_(
-            u"Select a Events. If you can't find the Events you want, make sure "
-            u"""it exists in the directory and that its "state" is published."""
-        ),
+        title=_(u"Related agenda"),
         source="imio.smartweb.vocabulary.RemoteAgendas",
         required=True,
     )
