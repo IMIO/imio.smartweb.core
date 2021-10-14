@@ -17,7 +17,7 @@ class NewsView(SectionView):
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
             "metadata_fields=effective",
-            "metadata_fields=getIcon",
+            "metadata_fields=has_leadimage",
             "metadata_fields=UID",
             f"limit={self.context.max_nb_results}",
         ]
@@ -42,7 +42,7 @@ class NewsView(SectionView):
                 "description": item["description"],
                 "url": f"{linking_view_url}/{item_id}?u={item_uid}",
                 "image": f"{item_url}/@@images/image/{getattr(self.context, 'image_scale', '')}",
-                "has_image": item["getIcon"],
+                "has_image": item["has_leadimage"],
             }
             batch.append(dict)
             if (

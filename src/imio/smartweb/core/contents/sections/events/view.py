@@ -22,7 +22,7 @@ class EventsView(SectionView):
             "metadata_fields=start",
             "metadata_fields=end",
             "metadata_fields=effective",
-            "metadata_fields=getIcon",
+            "metadata_fields=has_leadimage",
             "metadata_fields=UID",
             f"limit={self.context.max_nb_results}",
             f"start.query={start}",
@@ -50,7 +50,7 @@ class EventsView(SectionView):
                 "description": item["description"],
                 "url": f"{linking_view_url}/{item_id}?u={item_uid}",
                 "image": f"{item_url}/@@images/image/{getattr(self.context, 'image_scale', '')}",
-                "has_image": item["getIcon"],
+                "has_image": item["has_leadimage"],
             }
             batch.append(dict)
             if (

@@ -22,7 +22,7 @@ class CollectionView(SectionView):
                 "description": item.Description,
                 "url": url,
                 "image": f"{url}/@@images/image/{self.context.image_scale}",
-                "has_image": item.getIcon,
+                "has_image": item.has_leadimage,
             }
             batch.append(dict)
             if (

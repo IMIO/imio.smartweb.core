@@ -32,7 +32,7 @@
               tal:repeat="item items">
 
             <div tal:define="file_view nocall:item/@@file_view;
-                             item_has_image python:item.getIcon;
+                             item_has_image python:item.has_leadimage;
                              thumb_scale view/get_thumb_scale_list;
                              portal context/@@plone_portal_state/portal;
                              image_scale item/@@images;"
