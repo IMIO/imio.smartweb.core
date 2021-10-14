@@ -23,13 +23,13 @@ class ISectionCollection(ISection):
         required=True,
     )
 
-    number_of_items_in_batch = schema.Int(
+    nb_results_by_batch = schema.Int(
         title=_(u"Number of items per batch"),
         required=True,
         default=3,
     )
 
-    maximum_number_of_items = schema.Int(
+    max_nb_results = schema.Int(
         title=_(u"Maximum number of items to display"), required=True, default=12
     )
 
