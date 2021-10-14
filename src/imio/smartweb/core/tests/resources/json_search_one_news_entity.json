@@ -1,0 +1,13 @@
+{
+    "@id": "http://localhost:8080/Plone/@search?UID=zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+    "items": [
+        {
+            "@id": "http://localhost:8080/Plone/imio-news-empty-entity",
+            "@type": "imio.news.Entity",
+            "description": "",
+            "review_state": "published",
+            "title": "EMPTY"
+        }
+    ],
+    "items_total": 1
+}

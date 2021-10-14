@@ -14,4 +14,12 @@
         <value>396907b3b1b04a97896b12cc792c77f8</value>
     </record>
 
+    <record name="smartweb.events_entity_uid">
+        <value>7c69f9a738ec497c819725c55888ee31</value>
+    </record>
+
+    <record name="smartweb.news_entity_uid">
+        <value>7c69f9a738ec497c819725c55888ee32</value>
+    </record>
+
 </registry>

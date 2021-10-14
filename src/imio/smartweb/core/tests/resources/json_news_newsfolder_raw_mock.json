@@ -1,0 +1,22 @@
+{
+  "@id": "http://localhost:8080/Plone/imio-news-entity/@search?portal_type=imio.news.NewsFolder&metadata_fields=UID",
+  "items": [
+    {
+      "@id": "https://news.staging.imio.be/imio-news-entity/newsfolder-administration-de-belleville",
+      "@type": "imio.news.NewsFolder",
+      "UID": "64f4cbee9a394a018a951f6d94452914",
+      "description": "",
+      "review_state": "published",
+      "title": "News folder : Administration de Belleville"
+    },
+    {
+      "@id": "http://localhost:8080/Plone/imio-news-entity/newsfolder-cpas-de-belleville",
+      "@type": "imio.news.NewsFolder",
+      "UID": "96d3e3299dc74386943e12c4f4fd0b8a",
+      "description": "",
+      "review_state": "published",
+      "title": "News Folder : CPAS de Belleville"
+    }
+  ],
+  "items_total": 2
+}

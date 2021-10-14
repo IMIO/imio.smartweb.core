@@ -114,6 +114,63 @@ class TestVocabularies(ImioSmartwebTestCase):
         )
 
     @requests_mock.Mocker()
+    def test_remote_agendas(self, m):
+        json_entities_raw_mock = get_json(
+            "resources/json_events_entities_raw_mock.json"
+        )
+        url = f"{config.EVENTS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee31"
+        m.get(url, text=json.dumps(json_entities_raw_mock))
+        json_agendas_raw_mock = get_json("resources/json_events_agendas_raw_mock.json")
+        url = f"{config.EVENTS_URL}/imio-events-entity/@search?portal_type=imio.events.Agenda&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
+        m.get(url, text=json.dumps(json_agendas_raw_mock))
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteAgendas", 2)
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.RemoteAgendas")
+        self.assertEqual(
+            vocabulary.getTerm("64f4cbee9a394a018a951f6d94452914").title,
+            "Agenda administration de Belleville",
+        )
+
+    @requests_mock.Mocker()
+    def test_remote_news_empty_entity(self, m):
+        # mock "control panel" to set entity
+        url = "http://localhost:8080/Plone/@search?metadata_fields=UID&portal_type=imio.news.Entity"
+        json_entities_raw_mock = get_json("resources/json_news_entities_raw_mock.json")
+        m.get(url, text=json.dumps(json_entities_raw_mock))
+        api.portal.set_registry_record(
+            "smartweb.news_entity_uid", "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+        )
+
+        # mock 2 : search one entity
+        json_entity_raw_mock = get_json("resources/json_search_one_news_entity.json")
+        url = f"{config.NEWS_URL}/@search?UID=zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+        m.get(url, text=json.dumps(json_entity_raw_mock))
+
+        # mock 3
+        json_no_newsfolder_raw_mock = get_json(
+            "resources/json_no_newsfolder_raw_mock.json"
+        )
+        url = "http://localhost:8080/Plone/imio-news-empty-entity/@search?portal_type=imio.news.NewsFolder&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
+        m.get(url, text=json.dumps(json_no_newsfolder_raw_mock))
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteNewsFolders", 0)
+
+    @requests_mock.Mocker()
+    def test_remote_newsfolder(self, m):
+        json_entities_raw_mock = get_json("resources/json_news_entities_raw_mock.json")
+        url = f"{config.NEWS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee32"
+        m.get(url, text=json.dumps(json_entities_raw_mock))
+        json_newsfolder_raw_mock = get_json(
+            "resources/json_news_newsfolder_raw_mock.json"
+        )
+        url = f"{config.NEWS_URL}/imio-news-entity/@search?portal_type=imio.news.NewsFolder&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
+        m.get(url, text=json.dumps(json_newsfolder_raw_mock))
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteNewsFolders", 2)
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.RemoteNewsFolders")
+        self.assertEqual(
+            vocabulary.getTerm("64f4cbee9a394a018a951f6d94452914").title,
+            "News folder : Administration de Belleville",
+        )
+
+    @requests_mock.Mocker()
     def test_remote_contacts_error_values(self, m):
         m.get(self.contact_search_url, exc=requests.exceptions.ConnectTimeout)
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)

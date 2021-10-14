@@ -2,7 +2,7 @@
     "@id": "http://localhost:8080/Plone/@search?metadata_fields=UID&portal_type=imio.events.Entity",
     "items": [
         {
-            "@id": "http://localhost:8080/Plone/imio-events-entity-1",
+            "@id": "http://localhost:8080/Plone/imio-events-entity",
             "@type": "imio.events.Entity",
             "UID": "7c69f9a738ec497c819725c55888ee31",
             "description": "",

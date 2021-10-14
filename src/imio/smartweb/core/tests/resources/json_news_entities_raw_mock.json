@@ -2,13 +2,21 @@
     "@id": "http://localhost:8080/Plone/@search?metadata_fields=UID&portal_type=imio.news.Entity",
     "items": [
         {
-            "@id": "http://localhost:8080/Plone/imio-news-entity-1",
+            "@id": "http://localhost:8080/Plone/imio-news-entity",
             "@type": "imio.news.Entity",
             "UID": "7c69f9a738ec497c819725c55888ee32",
             "description": "",
             "review_state": "published",
             "title": "Belleville"
+        },
+        {
+            "@id": "http://localhost:8080/Plone/imio-news-empty-entity",
+            "@type": "imio.news.Entity",
+            "UID": "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz",
+            "description": "",
+            "review_state": "published",
+            "title": "EMPTY"
         }
     ],
-    "items_total": 1
+    "items_total": 2
 }

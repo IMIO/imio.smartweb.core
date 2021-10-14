@@ -1,0 +1,5 @@
+{
+    "@id": "http://localhost:8080/Plone/imio-news-empty-entity/@search?portal_type=imio.news.NewsFolder&metadata_fields=UID",
+    "items": [],
+    "items_total": 0
+}
