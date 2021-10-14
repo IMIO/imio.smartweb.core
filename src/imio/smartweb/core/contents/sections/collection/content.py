@@ -17,21 +17,20 @@ class ISectionCollection(ISection):
 
     model.fieldset("layout", fields=["image_scale"])
     image_scale = schema.Choice(
-        title=_(u"Image scale"),
+        title=_(u"Image scale for items"),
         default=u"preview",
         vocabulary="plone.app.vocabularies.ImagesScales",
         required=True,
     )
 
     number_of_items_in_batch = schema.Int(
-        title=_(u"Number of items in batch"),
-        description=_(u"Number of items in batch"),
+        title=_(u"Number of items per batch"),
         required=True,
         default=3,
     )
 
     maximum_number_of_items = schema.Int(
-        title=_(u"Maximum number of items to get"), required=True, default=12
+        title=_(u"Maximum number of items to display"), required=True, default=12
     )
 
     directives.widget(

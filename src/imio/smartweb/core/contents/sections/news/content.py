@@ -39,11 +39,11 @@ class ISectionNews(ISection):
     )
 
     max_nb_results = schema.Int(
-        title=_(u"Maximal number of items to display"), default=9, required=True
+        title=_(u"Maximum number of items to display"), default=9, required=True
     )
 
     nb_results_by_batch = schema.Int(
-        title=_(u"Number of items by batch"), default=3, required=True
+        title=_(u"Number of items per batch"), default=3, required=True
     )
 
     model.fieldset("layout", fields=["image_scale"])

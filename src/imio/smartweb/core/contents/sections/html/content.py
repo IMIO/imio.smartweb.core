@@ -12,7 +12,7 @@ class ISectionHTML(ISection):
 
     html = schema.SourceText(
         title=_(u"HTML"),
-        description=_(u"Structure your content directly with html."),
+        description=_(u"Put your html code snippet here"),
         required=True,
     )
 
