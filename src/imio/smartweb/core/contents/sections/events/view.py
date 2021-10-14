@@ -4,6 +4,7 @@ from datetime import datetime
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import get_json
+from Products.CMFPlone.utils import normalizeString
 
 
 class EventsView(SectionView):
@@ -22,6 +23,7 @@ class EventsView(SectionView):
             "metadata_fields=end",
             "metadata_fields=effective",
             "metadata_fields=getIcon",
+            "metadata_fields=UID",
             f"limit={self.context.max_nb_results}",
             f"start.query={start}",
             "start.range=min",
@@ -38,13 +40,16 @@ class EventsView(SectionView):
         batch = []
         list_items = json_search_events.get("items")[: self.context.max_nb_results]
         list_size = len(list_items)
+        linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
         for cpt, item in enumerate(list_items, start=1):
-            url = item["@id"]
+            item_id = normalizeString(item["title"])
+            item_url = item["@id"]
+            item_uid = item["UID"]
             dict = {
                 "title": item["title"],
                 "description": item["description"],
-                "url": url,
-                "image": f"{url}/@@images/image/{getattr(self.context, 'image_scale', '')}",
+                "url": f"{linking_view_url}/{item_id}?u={item_uid}",
+                "image": f"{item_url}/@@images/image/{getattr(self.context, 'image_scale', '')}",
                 "has_image": item["getIcon"],
             }
             batch.append(dict)

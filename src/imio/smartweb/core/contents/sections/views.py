@@ -3,7 +3,6 @@
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.locking.browser.info import LockInfoViewlet
-from Products.CMFPlone.utils import normalizeString
 from Products.Five.browser import BrowserView
 from zope.interface import Interface
 
@@ -47,13 +46,3 @@ class SectionView(BrowserView):
         self.context.hide_title = False
         api.portal.show_message(_("Section title has been shown"), self.request)
         self.redirect_to_section(self.context.id)
-
-    def item_url(self, item):
-        if hasattr(self.context, "linking_rest_view"):
-            """For sections events, news, contact, url is insite linking rest view"""
-            linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
-            id = normalizeString(self.context.Title())
-            uid = self.context.UID()
-            return f"{linking_view_url}/{id}/{uid}"
-        else:
-            return item["url"]

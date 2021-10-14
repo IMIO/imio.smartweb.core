@@ -39,7 +39,7 @@
                                    open_in_new_tab item/open_in_new_tab | nothing;"
                        class="section_links_item">
                       <a class="section_links_item_image"
-                         tal:attributes="href python:view.item_url(item);
+                         tal:attributes="href item/url;
                                          target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
                         <img tal:condition="python: item_has_image and thumb_scale and show_lead_image"
                              tal:attributes="alt item/title;

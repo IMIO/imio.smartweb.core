@@ -7,8 +7,7 @@
     tal:omit-tag="">
 <body tal:omit-tag="">
   <tal:def
-       tal:define="item_macro nocall:view/item_macros/content-core|nothing;
-                   item_url view/item_url;">
+       tal:define="item_macro nocall:view/item_macros/content-core|nothing">
 
     <tal:block tal:condition="item_macro">
 
