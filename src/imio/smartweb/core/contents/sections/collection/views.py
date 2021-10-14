@@ -13,17 +13,16 @@ class CollectionView(SectionView):
             batch=False, brains=True, limit=max_items
         )
         lst_dict = []
-        lst_objects = [i.getObject() for i in results]
         batch = []
-        list_size = len(lst_objects)
-        for cpt, item in enumerate(lst_objects, start=1):
-            url = item.absolute_url()
+        list_size = len(results)
+        for cpt, item in enumerate(results, start=1):
+            url = item.getURL()
             dict = {
-                "title": item.title,
-                "description": item.description,
+                "title": item.Title,
+                "description": item.Description,
                 "url": url,
                 "image": f"{url}/@@images/image/{self.context.image_scale}",
-                "has_image": True if item.aq_base.image else False,
+                "has_image": item.getIcon,
             }
             batch.append(dict)
             if (
