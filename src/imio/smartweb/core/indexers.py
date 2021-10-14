@@ -5,7 +5,6 @@ from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import ISection
 from imio.smartweb.core.contents import ISectionText
 from plone import api
-from plone.app.contenttypes.behaviors.leadimage import ILeadImage
 from plone.app.contenttypes.behaviors.richtext import IRichText
 from plone.app.contenttypes.indexers import SearchableText
 from plone.app.contenttypes.indexers import _unicode_save_string_concat
@@ -18,13 +17,6 @@ from Products.CMFPlone.utils import base_hasattr
 def exclude_from_parent_listing(obj):
     if base_hasattr(obj, "exclude_from_parent_listing"):
         return obj.exclude_from_parent_listing
-    return False
-
-
-@indexer(IDexterityContent)
-def has_leadimage(obj):
-    if ILeadImage.providedBy(obj) and getattr(obj, "image", False):
-        return True
     return False
 
 

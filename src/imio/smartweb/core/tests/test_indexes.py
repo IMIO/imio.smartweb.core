@@ -2,14 +2,12 @@
 
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import get_leadimage_filename
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.app.textfield.value import RichTextValue
 from plone.uuid.interfaces import IUUID
-from plone.namedfile.file import NamedBlobFile
 from z3c.relationfield import RelationValue
 from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
@@ -29,19 +27,6 @@ class TestIndexes(ImioSmartwebTestCase):
             type="imio.smartweb.Page",
             title="My page",
         )
-
-    def test_has_leadimage(self):
-        uuid = IUUID(self.page)
-        self.assertEqual(len(api.content.find(has_leadimage=True)), 0)
-        brain = api.content.find(UID=uuid)[0]
-        self.assertEqual(brain.has_leadimage, False)
-        self.page.image = NamedBlobFile(
-            "ploneLeadImage", filename=get_leadimage_filename()
-        )
-        self.page.reindexObject()
-        self.assertEqual(len(api.content.find(has_leadimage=True)), 1)
-        brain = api.content.find(UID=uuid)[0]
-        self.assertEqual(brain.has_leadimage, True)
 
     def test_SearchableText_section(self):
         catalog = api.portal.get_tool("portal_catalog")

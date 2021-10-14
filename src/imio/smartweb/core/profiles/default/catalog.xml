@@ -7,16 +7,12 @@
   <index name="exclude_from_parent_listing" meta_type="BooleanIndex">
     <indexed_attr value="exclude_from_parent_listing"/>
   </index>
-  <index name="has_leadimage" meta_type="BooleanIndex">
-    <indexed_attr value="has_leadimage"/>
-  </index>
   <index name="related_quickaccess" meta_type="FieldIndex">
     <indexed_attr value="related_quickaccess"/>
   </index>
 
   <column value="category"/>
   <column value="exclude_from_parent_listing"/>
-  <column value="has_leadimage"/>
   <column value="related_quickaccess"/>
 
   <!-- Remove imio.smartweb.common breadcrumb index, which is not needed -->
