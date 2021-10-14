@@ -2,6 +2,7 @@
 
 from plone import api
 from Products.CMFPlone.browser.search import Search
+from Products.CMFPlone.utils import normalizeString
 
 
 class Search(Search):
@@ -40,8 +41,9 @@ class Search(Search):
             raise ValueError("Missing content type {0}".format(view_type))
         # XXX Use informations from content view and item to determinate the right
         # context
+        item_id = normalizeString(item.Title)
         return "{container}/{id}?u={uid}".format(
             container=content_view[0].getURL(),
-            id=item.id,
+            id=item_id,
             uid=item.UID,
         )
