@@ -3,7 +3,7 @@
 
   <subscriber for="imio.smartweb.core.contents.IFolder
                    zope.lifecycleevent.interfaces.IObjectMovedEvent"
-              handler=".subscribers.folder_moved" />
+              handler=".subscribers.moved_folder" />
 
   <subscriber for="imio.smartweb.core.contents.ISectionHTML
                    zope.lifecycleevent.interfaces.IObjectAddedEvent"

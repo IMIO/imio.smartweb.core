@@ -10,7 +10,7 @@ from zope.lifecycleevent import ObjectRemovedEvent
 from zope.globalrequest import getRequest
 
 
-def folder_moved(obj, event):
+def moved_folder(obj, event):
     """We use IObjectMovedEvent instead of IObjectAddedEvent because Minisite interface is not yet
     provided when we use IObjectAddedEvent"""
     if not IImioSmartwebMinisite.providedBy(obj):
