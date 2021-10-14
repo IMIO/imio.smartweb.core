@@ -32,14 +32,15 @@
               tal:repeat="item items">
 
             <div tal:define="file_view nocall:item/@@file_view;
-                             item_has_image python:item.has_leadimage;
+                             item_has_image item/image | nothing;
                              thumb_scale view/get_thumb_scale_list;
                              portal context/@@plone_portal_state/portal;
                              image_scale item/@@images;"
                   class="section_files_item">
               <a class="section_files_link" tal:attributes="href item/absolute_url;
                                  alt item/title">
-                <div class="section_files_image">
+                <div class="section_files_image"
+                     tal:condition="item_has_image">
                   <img tal:replace="structure python:image_scale.tag('image', scale=thumb_scale)" />
                 </div>
                 <div class="section_files_text" >
