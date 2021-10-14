@@ -7,7 +7,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const JsonMinimizerPlugin = require("json-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const PLONE_SITE_PATH = process.env.PLONE_SITE_PATH ? process.env.PLONE_SITE_PATH : "/Plone";
+const PLONE_SITE_PATH = process.env.PLONE_SITE_PATH ? process.env.PLONE_SITE_PATH : "/Plone5";
 const BUNDLE_NAME = "++plone++imio.smartweb.webcomponents";
 const BUNDLE_PREFIX = "plone.bundles/imio.smartweb.webcomponents";
 
@@ -101,7 +101,6 @@ module.exports = (env, argv) => {
                 },
                 {
                     test: /\.(png|jpg|gif|jpeg|svg)$/i,
-                    issuer: /\.(sass|scss|less|css)$/i,
                     loader: "file-loader",
                     options: {
                         name: "[name].[ext]",
@@ -131,9 +130,9 @@ module.exports = (env, argv) => {
             minimizer: [
                 new CssMinimizerPlugin(),
                 new JsonMinimizerPlugin(),
-                new TerserPlugin({
-                    parallel: true,
-                }),
+                // new TerserPlugin({
+                //     parallel: true,
+                // }),
             ],
         },
         performance: {

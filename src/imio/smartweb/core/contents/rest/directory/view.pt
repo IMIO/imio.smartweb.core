@@ -7,6 +7,10 @@
           <div id="root" tal:attributes="data-directory view/local_query_url;
                                          data-directory-filters view/local_filters_query_url">
           </div>
+
+          <smartweb-annuaire-component>
+          </smartweb-annuaire-component>
+
           <!--
           <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/directory/react.production.min.js" crossorigin></script>
           <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/directory/react-dom.production.min.js" crossorigin></script>
