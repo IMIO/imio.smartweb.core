@@ -37,7 +37,7 @@ class ISectionEvents(ISection):
         },
     )
     linking_rest_view = RelationChoice(
-        title=_(u"Link a rest view"),
+        title=_(u"Events view used to display events details"),
         source=CatalogSource(),
         required=True,
     )

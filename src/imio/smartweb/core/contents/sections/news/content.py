@@ -37,7 +37,7 @@ class ISectionNews(ISection):
         },
     )
     linking_rest_view = RelationChoice(
-        title=_(u"Link a rest view"),
+        title=_(u"News view used to display news items details"),
         source=CatalogSource(),
         required=True,
     )
