@@ -285,9 +285,7 @@ class NewsViewsVocabularyFactory(object):
     def __call__(self, context=None):
         if not isinstance(context, Item):
             context = api.portal.get()
-        brains = api.content.find(
-            context=context, portal_type="imio.smartweb.NewsView"
-        )
+        brains = api.content.find(context=context, portal_type="imio.smartweb.NewsView")
         terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
         return SimpleVocabulary(terms)
 
