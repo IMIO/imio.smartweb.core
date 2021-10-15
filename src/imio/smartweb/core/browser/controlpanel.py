@@ -60,6 +60,27 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    default_directory_view = schema.Choice(
+        title=_(u"Default directory view"),
+        description=_(u"This information is used for search results redirection"),
+        source="imio.smartweb.vocabulary.DirectoryViews",
+        required=False,
+    )
+
+    default_events_view = schema.Choice(
+        title=_(u"Default events view"),
+        description=_(u"This information is used for search results redirection"),
+        source="imio.smartweb.vocabulary.EventsViews",
+        required=False,
+    )
+
+    default_news_view = schema.Choice(
+        title=_(u"Default news view"),
+        description=_(u"This information is used for search results redirection"),
+        source="imio.smartweb.vocabulary.NewsViews",
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel

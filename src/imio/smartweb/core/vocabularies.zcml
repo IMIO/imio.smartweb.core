@@ -79,4 +79,22 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      name="imio.smartweb.vocabulary.DirectoryViews"
+      component=".vocabularies.DirectoryViewsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.EventsViews"
+      component=".vocabularies.EventsViewsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.NewsViews"
+      component=".vocabularies.NewsViewsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
 </configure>
