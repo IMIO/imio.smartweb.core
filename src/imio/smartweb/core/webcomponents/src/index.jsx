@@ -1,12 +1,12 @@
 import React from "react";
 import ReactWebComponent from "react-web-component";
-import AnnuaireComponent from "./components/AnnuaireComponent/AnnuaireComponent.jsx";
+import Annuaire from "./components/Annuaire";
 
 /*
   Register exposed web components here
   Note: if your webcomponent depends on external css, disable shadow root
 */
-ReactWebComponent.create(<AnnuaireComponent />, "smartweb-annuaire-component", false);
+ReactWebComponent.create(<Annuaire />, "smartweb-annuaire", false);
 
 if (module.hot) {
     // Accept hot module replacement (HMR) while live-reloading

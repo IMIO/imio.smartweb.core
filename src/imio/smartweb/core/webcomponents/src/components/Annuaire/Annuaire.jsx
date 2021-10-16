@@ -9,23 +9,22 @@ import CategoriesFilter from "./CategoriesFilter/CategoriesFilter";
 import TopicsFilter from "./TopicsFilter/TopicsFilter";
 import FacilitiesFilter from "./FacilitiesFilter/FacilitiesFilter";
 import useAxios from "../../hooks/useAxios";
-import "./AnnuaireComponent.scss";
+import "./Annuaire.scss";
 
-function App() {
+const Annuaire = (props) => {
     const [contactArray, setcontactArray] = useState([]);
     const [search, setSearch] = useState("");
     const [contactArrayFilter, setcontactArrayFilter] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
-    const [params, setParams] = useState({ topics: "education" });
+    const [params, setParams] = useState({});
     const inputRef = useRef(null);
     const [refTop, setRefTop] = useState(null);
 
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
-        baseURL:
-            "https://annuaire.preprod.imio.be/braine-l-alleud/@search?fullobjects=1&topics=education",
+        baseURL: "https://annuaire.preprod.imio.be/braine-l-alleud/@search?fullobjects=1",
         headers: {
             Accept: "application/json",
         },
@@ -37,8 +36,6 @@ function App() {
             setcontactArray(response.items);
         }
     }, [response]);
-
-    const currentPath = getPath();
 
     const clickID = (id) => {
         setClickId(id);
@@ -92,8 +89,6 @@ function App() {
             );
         }
     };
-    console.log("getPath");
-    console.log(getPath());
     return (
         <div
             className="ref"
@@ -103,6 +98,7 @@ function App() {
             }}
             style={{ height: `calc(100vh -  ${refTop}px)` }}
         >
+            <h1>{props.queryUrl}</h1>
             <Router>
                 {/* <button onClick={() => setParams({ topics: "sports" })}>change state params</button>
         <div>
@@ -148,15 +144,21 @@ function App() {
                             </Route>
                         </Switch>
                     </div>
-                    <ContactMap clickId={clickId} hoverId={hoverId} items={contactArrayFilter} />
+                    <div style={{ maxHeight: "500px" }}>
+                        <ContactMap
+                            clickId={clickId}
+                            hoverId={hoverId}
+                            items={contactArrayFilter}
+                        />
+                    </div>
                 </div>
             </Router>
         </div>
     );
-}
+};
 
 // Thematiques == topi
-export default App;
+export default Annuaire;
 
 // const directoryApi = async () => {
 //   try {

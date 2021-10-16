@@ -123,7 +123,9 @@
     <records prefix="plone.bundles/smartweb-webcomponents"
              interface='Products.CMFPlone.interfaces.IBundleRegistry'>
       <value key="enabled">True</value>
+      <value key="compile">False</value>
       <value key="jscompilation">++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js</value>
+      <value key="csscompilation">++plone++imio.smartweb.webcomponents/css/smartweb-webcomponents-compiled.css</value>
     </records>
 
 </registry>

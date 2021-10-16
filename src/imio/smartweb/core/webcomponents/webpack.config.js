@@ -2,14 +2,11 @@ const path = require("path");
 
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const PlonePlugin = require("./webpackPlonePlugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const JsonMinimizerPlugin = require("json-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const PLONE_SITE_PATH = process.env.PLONE_SITE_PATH ? process.env.PLONE_SITE_PATH : "/Plone";
 const BUNDLE_NAME = "++plone++imio.smartweb.webcomponents";
-const BUNDLE_PREFIX = "plone.bundles/imio.smartweb.webcomponents";
 
 module.exports = (env, argv) => {
     const mode = argv.mode ? argv.mode : "development";
@@ -101,7 +98,7 @@ module.exports = (env, argv) => {
                     test: /\.(png|jpg|gif|jpeg|svg)$/i,
                     loader: "file-loader",
                     options: {
-                        name: "[name].[ext]",
+                        name: "[name].[hash].[ext]",
                         outputPath: "assets",
                     },
                 },
@@ -142,26 +139,32 @@ module.exports = (env, argv) => {
             port: 3000,
             hot: true,
             watchFiles: {
-                paths: ["./../**/*.pt"], // Watch for .pt file change
+                paths: ["./../**/*.pt"], // Also watch for .pt file change
             },
+            // De-comment this when new resources registry is out.
+            // Python webresource module adds a integrity token so we need to write to disk so it can be recomputed
+            // devMiddleware: {
+            //    writeToDisk: true,
+            //},
+
             // Proxy everything to the Plone Backend EXCEPT our bundle as
             // Webpack Dev Server will serve it.
             proxy: [
                 {
-                    context: ["/**", `!${PLONE_SITE_PATH}/${BUNDLE_NAME}/**`],
+                    context: ["/**", `!**/${BUNDLE_NAME}/**`],
                     target: "http://localhost:8080",
                 },
                 {
-                    context: [`${PLONE_SITE_PATH}/${BUNDLE_NAME}/**`],
+                    context: [`**/${BUNDLE_NAME}/**`],
                     target: "http://localhost:3000",
                     pathRewrite: function (path) {
-                        // We need to rewrite the path as Plone add some crap timestamp
-                        // to it and doesn't provide a way of disabling it.
                         if (path.includes("++unique++")) {
+                            // We need to rewrite the path as Plone 5 add some crap timestamp
+                            // to it and doesn't provide a way of disabling it.
                             const reg = /\/\+\+unique\+\+[^/]+/; // Strip ++unique++ part
                             path = path.replace(reg, "");
                         }
-                        path = path.replace(`${PLONE_SITE_PATH}/${BUNDLE_NAME}/`, "");
+                        path = path.split(BUNDLE_NAME)[1]; // Keep only the path after our bundle name
                         return path;
                     },
                 },

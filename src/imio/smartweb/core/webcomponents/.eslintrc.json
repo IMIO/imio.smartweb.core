@@ -14,5 +14,10 @@
   },
    "rules": {
     "react/prop-types": 0
+  },
+  "settings": {
+    "react": {
+      "version": "17"
+    }
   }
 }
