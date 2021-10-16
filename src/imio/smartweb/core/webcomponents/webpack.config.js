@@ -7,7 +7,7 @@ const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const JsonMinimizerPlugin = require("json-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
-const PLONE_SITE_PATH = process.env.PLONE_SITE_PATH ? process.env.PLONE_SITE_PATH : "/Plone5";
+const PLONE_SITE_PATH = process.env.PLONE_SITE_PATH ? process.env.PLONE_SITE_PATH : "/Plone";
 const BUNDLE_NAME = "++plone++imio.smartweb.webcomponents";
 const BUNDLE_PREFIX = "plone.bundles/imio.smartweb.webcomponents";
 
@@ -15,7 +15,7 @@ module.exports = (env, argv) => {
     const mode = argv.mode ? argv.mode : "development";
     return {
         mode: mode,
-        entry: "./index.js",
+        entry: ["@babel/polyfill", path.resolve(__dirname, "./src/index.jsx")],
         output: {
             path: path.resolve(__dirname, "./build"),
             filename: "js/smartweb-webcomponents-compiled.js",
@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
         plugins: [
             mode === "production" && new CleanWebpackPlugin(),
             new MiniCssExtractPlugin({
-                filename: "css/[name].css",
+                filename: "css/smartweb-webcomponents-compiled.css",
             }),
         ].filter(Boolean),
         module: {
@@ -91,15 +91,13 @@ module.exports = (env, argv) => {
                     ],
                 },
                 {
+                    // Use @svgr/webpack to import svg directly in .js files
                     test: /\.svg$/i,
                     issuer: /\.(js|mjs|jsx|ts|tsx)$/,
-                    use: [
-                        {
-                            loader: "@svgr/webpack",
-                        },
-                    ],
+                    loader: "@svgr/webpack",
                 },
                 {
+                    // Use file-loader to import img files in other files
                     test: /\.(png|jpg|gif|jpeg|svg)$/i,
                     loader: "file-loader",
                     options: {
@@ -118,6 +116,7 @@ module.exports = (env, argv) => {
             ],
         },
         resolve: {
+            extensions: [".ts", ".js", ".tsx", ".jsx"], // Allow to import .jsx file without adding ".jsx" at the end
             alias: {
                 leaflet$: "leaflet/dist/leaflet",
             },
@@ -130,14 +129,14 @@ module.exports = (env, argv) => {
             minimizer: [
                 new CssMinimizerPlugin(),
                 new JsonMinimizerPlugin(),
-                // new TerserPlugin({
-                //     parallel: true,
-                // }),
+                new TerserPlugin({
+                    parallel: true,
+                }),
             ],
         },
         performance: {
-            maxAssetSize: 750 * 1024,
-            maxEntrypointSize: 750 * 1024,
+            maxAssetSize: 2000 * 1024, // 2 Mo max for asset
+            maxEntrypointSize: 750 * 1024, // 750 Ko max for entrypoint, if need more, use code-splitting with
         },
         devServer: {
             port: 3000,
