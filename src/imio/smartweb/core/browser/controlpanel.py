@@ -80,7 +80,7 @@ class ISmartwebControlPanel(Interface):
         source="imio.smartweb.vocabulary.NewsViews",
         required=False,
     )
-    
+
     category_and_topics_vocabulary = schema.Dict(
         title=_(u"Vocabulary Setting"),
         description=_(u"Choose a term from the vocabulary and define a name"),
@@ -94,6 +94,7 @@ class ISmartwebControlPanel(Interface):
             description=_(u"Define a name for the vocabulary"),
         ),
     )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
