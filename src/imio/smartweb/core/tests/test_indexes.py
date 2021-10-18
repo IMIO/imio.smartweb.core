@@ -126,7 +126,6 @@ class TestIndexes(ImioSmartwebTestCase):
         self.assertCountEqual(indexes.get("related_quickaccess"), [uuid_qa1, uuid_qa2])
         self.assertCountEqual(brain.related_quickaccess, [uuid_qa1, uuid_qa2])
 
-
     def test_category_topics_no_topics(self):
         api.content.create(
             container=self.folder,
