@@ -29,7 +29,7 @@ const Annuaire = (props) => {
     useEffect(() => {
         console.log(response)
         if (response !== null) {
-            setcontactArray(response);
+            setcontactArray(response.items);
         }
     }, [response]);
 
@@ -44,10 +44,10 @@ const Annuaire = (props) => {
         setBatchSize(batchSize + 5);
     }
     useEffect(() => {
-        setParams({...filters, 'b_size': batchSize,"fullobjects":1})
+        setParams({...filters, 'b_size': batchSize})
        
     }, [filters,batchSize]);
-
+    console.log(contactArray)
     return (
         <div
             className="ref"
@@ -57,10 +57,7 @@ const Annuaire = (props) => {
             }}
             style={{ height: `calc(100vh -  ${refTop}px)` }}
         >   
-        <h1>{props.queryUrl}</h1>
-        <h2>{props.queryFilterUrl}</h2>
-        
-             {/* <Router>
+             <Router>
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">
                         <Switch>
@@ -88,7 +85,7 @@ const Annuaire = (props) => {
                         </Switch>
                     </div>
                 </div>
-            </Router>  */}
+            </Router> 
         </div>
     );
 };

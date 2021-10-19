@@ -38,30 +38,6 @@ const ContactCard = ({ contactItem }) => {
                         <br />
                         {zipcode ? <span>{zipcode + " "}</span> : ""}
                         {city ? <span>{city}</span> : ""}
-                        <div className="itineraty">
-                            {street ? (
-                                <a
-                                    href={
-                                        "https://www.google.com/maps/dir/?api=1&destination=" +
-                                        street +
-                                        "+" +
-                                        number +
-                                        "+" +
-                                        complement +
-                                        "+" +
-                                        zipcode +
-                                        "+" +
-                                        city +
-                                        "+" +
-                                        country
-                                    }
-                                >
-                                    Itinéraire
-                                </a>
-                            ) : (
-                                ""
-                            )}
-                        </div>
                     </div>
                     <div className="r-item-contact">
                         <div className="phones">

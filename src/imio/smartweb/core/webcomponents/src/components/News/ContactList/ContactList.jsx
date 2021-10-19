@@ -3,13 +3,9 @@ import { Link } from "react-router-dom";
 import React, {useState, useEffect} from "react";
 
 
-const ContactList = ({ contactArray, onChange, onHover,parentCallback }) => {
+const ContactList = ({ contactArray, onChange,parentCallback }) => {
     function handleClick(event) {
         onChange(event);
-    }
-
-    function handleHover(event) {
-        onHover(event);
     }
     return (
         <React.Fragment>
@@ -17,8 +13,6 @@ const ContactList = ({ contactArray, onChange, onHover,parentCallback }) => {
                 {contactArray.map((contactItem, i) => (
                     <li key={i}
                         className="r-list-item-group"
-                        onMouseEnter={() => handleHover(contactItem.UID)}
-                        onMouseLeave={() => handleHover(null)}
                         onClick={() => handleClick(contactItem.UID)}
                     >
                         <Link

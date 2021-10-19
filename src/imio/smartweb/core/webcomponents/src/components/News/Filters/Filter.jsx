@@ -3,7 +3,7 @@ import Select from 'react-select'
 import useAxios from '../../../hooks/useAxios';
 
 function Filters(props) {
-    const [inputValues, setInputValues] = useState({"fullobjects":1});
+    const [inputValues, setInputValues] = useState({});
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
     const { response, error, isLoading } = useAxios({
