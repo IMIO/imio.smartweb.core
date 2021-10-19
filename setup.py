@@ -59,6 +59,7 @@ setup(
         "collective.anysurfer",
         "collective.taxonomy",
         "embeddify",
+        "more-itertools",
         "imio.smartweb.common",
         "imio.smartweb.locales",
         "collective.instancebehavior",

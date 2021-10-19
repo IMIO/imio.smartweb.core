@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from collective.taxonomy.interfaces import ITaxonomy
+from more_itertools import chunked
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
+
 import json
 import requests
 
@@ -44,3 +46,7 @@ def safe_html(html):
     data = transforms.convertTo(target_mimetype="text/x-html-safe", orig=html)
     output = data.getData()
     return output
+
+
+def batch_results(iterable, batch_size):
+    return list(chunked(iterable, batch_size, strict=False))
