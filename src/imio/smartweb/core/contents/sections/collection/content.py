@@ -15,29 +15,6 @@ from zope import schema
 class ISectionCollection(ISection):
     """Marker interface and Dexterity Python Schema for SectionCollection"""
 
-    model.fieldset("layout", fields=["image_scale"])
-    image_scale = schema.Choice(
-        title=_(u"Image scale for items"),
-        default=u"preview",
-        vocabulary="plone.app.vocabularies.ImagesScales",
-        required=True,
-    )
-
-    nb_results_by_batch = schema.Choice(
-        title=_(u"Number of items per batch"),
-        required=True,
-        default=3,
-        values=[1, 3, 4],
-    )
-
-    max_nb_results = schema.Int(
-        title=_(u"Maximum number of items to display"),
-        required=True,
-        default=6,
-        min=1,
-        max=12,
-    )
-
     directives.widget(
         "collection",
         RelatedItemsFieldWidget,
@@ -50,6 +27,21 @@ class ISectionCollection(ISection):
     collection = RelationChoice(
         title=_(u"Select a collection"),
         source=CatalogSource(),
+    )
+
+    max_nb_results = schema.Int(
+        title=_(u"Maximum number of items to display"),
+        required=True,
+        default=6,
+        min=1,
+        max=12,
+    )
+
+    nb_results_by_batch = schema.Choice(
+        title=_(u"Number of items per batch"),
+        required=True,
+        default=3,
+        values=[1, 3, 4],
     )
 
     link_text = schema.TextLine(
@@ -66,6 +58,14 @@ class ISectionCollection(ISection):
 
     show_items_publication_date = schema.Bool(
         title=_(u"Show items publication date"), required=False
+    )
+
+    model.fieldset("layout", fields=["image_scale"])
+    image_scale = schema.Choice(
+        title=_(u"Image scale for items"),
+        default=u"preview",
+        vocabulary="plone.app.vocabularies.ImagesScales",
+        required=True,
     )
 
 
