@@ -48,6 +48,15 @@ class ISectionCollection(ISection):
         title=_(u"Text for the link to the collection"), required=False
     )
 
+    model.fieldset(
+        "layout",
+        fields=[
+            "show_items_lead_image",
+            "show_items_description",
+            "show_items_publication_date",
+            "image_scale",
+        ],
+    )
     show_items_lead_image = schema.Bool(
         title=_(u"Show items lead image"), required=False
     )
@@ -60,7 +69,6 @@ class ISectionCollection(ISection):
         title=_(u"Show items publication date"), required=False
     )
 
-    model.fieldset("layout", fields=["image_scale"])
     image_scale = schema.Choice(
         title=_(u"Image scale for items"),
         default=u"preview",
