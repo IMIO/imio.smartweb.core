@@ -23,14 +23,19 @@ class ISectionCollection(ISection):
         required=True,
     )
 
-    nb_results_by_batch = schema.Int(
+    nb_results_by_batch = schema.Choice(
         title=_(u"Number of items per batch"),
         required=True,
         default=3,
+        values=[1, 3, 4],
     )
 
     max_nb_results = schema.Int(
-        title=_(u"Maximum number of items to display"), required=True, default=12
+        title=_(u"Maximum number of items to display"),
+        required=True,
+        default=6,
+        min=1,
+        max=12,
     )
 
     directives.widget(

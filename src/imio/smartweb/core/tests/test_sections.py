@@ -192,10 +192,10 @@ class TestSections(ImioSmartwebTestCase):
         section_collection.collection = RelationValue(intids.getId(collection))
         section_collection.nb_results_by_batch = 1
         view = queryMultiAdapter((section_collection, self.request), name="table_view")
-        self.assertEqual(len(view.items()), 10)
-        section_collection.max_nb_results = 5
+        self.assertEqual(len(view.items()), 6)
+        section_collection.max_nb_results = 10
         view = queryMultiAdapter((section_collection, self.request), name="table_view")
-        self.assertEqual(len(view.items()), 5)
+        self.assertEqual(len(view.items()), 10)
 
     def test_sections_ordering(self):
         page = api.content.create(
