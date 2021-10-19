@@ -4,7 +4,7 @@
 <body>
 <metal:main fill-slot="content-core">
   <div class="full-width">
-    <smartweb-annuaire tal:attributes="query-url view/local_query_url"></smartweb-annuaire>
+    <smartweb-annuaire tal:attributes="query-url view/local_query_url; query-filter-url view/local_filters_query_url"></smartweb-annuaire>
   </div>
 </metal:main>
 </body>

@@ -7,12 +7,11 @@ import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
 import ContactMap from "./ContactMap/ContactMap";
 import useAxios from "../../hooks/useAxios";
-import "./Annuaire.scss";
+import "./News.scss";
 
 const Annuaire = (props) => {
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
-    const [hoverId, setHoverId] = useState(null);
     const [params, setParams] = useState({});
     const [filters, setFilters] = useState({});
     const [batchSize, setBatchSize] = useState(5);
@@ -20,7 +19,7 @@ const Annuaire = (props) => {
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
-        baseURL: props.queryUrl,
+        baseURL: 'http://localhost:3000/Plone/actualites/@results',
         headers: {
             Accept: "application/json",
         },
@@ -30,16 +29,12 @@ const Annuaire = (props) => {
     useEffect(() => {
         console.log(response)
         if (response !== null) {
-            setcontactArray(response.items);
+            setcontactArray(response);
         }
     }, [response]);
 
     const clickID = (id) => {
         setClickId(id);
-    };
-
-    const hoverID = (id) => {
-        setHoverId(id);
     };
 
     const filtersChange = (value) => {
@@ -61,8 +56,11 @@ const Annuaire = (props) => {
                 setRefTop(el.getBoundingClientRect().top);
             }}
             style={{ height: `calc(100vh -  ${refTop}px)` }}
-        >
-            <Router>
+        >   
+        <h1>{props.queryUrl}</h1>
+        <h2>{props.queryFilterUrl}</h2>
+        
+             {/* <Router>
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">
                         <Switch>
@@ -71,7 +69,7 @@ const Annuaire = (props) => {
                             </Route>
                             <Route exact path="*">
                                 <div className="r-result-filter annuaire-result-filter">
-                                    <Filters onChange={filtersChange} />
+                                    <Filters url={props.queryFilterUrl} onChange={filtersChange} />
                                 </div>
                                 {isLoading ? (
                                     <div>
@@ -80,24 +78,17 @@ const Annuaire = (props) => {
                                 ) : (
                                     <ContactList
                                         onChange={clickID}
-                                        onHover={hoverID}
                                         contactArray={contactArray}
-                                        // onBatching={batchin}
                                         parentCallback={callback}
                                     />
+                                // <h1>{props.queryUrl}</h1>
+
                                 )}
                             </Route>
                         </Switch>
                     </div>
-                    <div style={{ maxHeight: "500px" }}>
-                        <ContactMap
-                            clickId={clickId}
-                            hoverId={hoverId}
-                            items={contactArray}
-                        />
-                    </div>
                 </div>
-            </Router>
+            </Router>  */}
         </div>
     );
 };
