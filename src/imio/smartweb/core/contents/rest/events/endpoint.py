@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from plone.rest import Service
@@ -14,6 +15,7 @@ import json
 class BaseEventsEndpoint(BaseEndpoint):
     @property
     def query_url(self):
+        start = date.today().isoformat()
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
             "portal_type=imio.events.Event",
@@ -21,7 +23,12 @@ class BaseEventsEndpoint(BaseEndpoint):
             "metadata_fields=topics",
             "metadata_fields=start",
             "metadata_fields=end",
-            "limit={}".format(self.context.nb_results),
+            "metadata_fields=has_leadimage",
+            "metadata_fields=UID",
+            "start.query={}".format(start),
+            "start.range=min",
+            "sort_on=start",
+            "sort_limit={}".format(self.context.nb_results),
         ]
         params = self.get_extra_params(params)
         url = f"{EVENTS_URL}/{self.remote_endpoint}?{'&'.join(params)}"

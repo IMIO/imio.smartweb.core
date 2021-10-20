@@ -22,6 +22,7 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             "metadata_fields=facilities",
             "metadata_fields=taxonomy_contact_category",
             "metadata_fields=topics",
+            "sort_on=sortable_title",
         ]
         params = self.get_extra_params(params)
         url = f"{DIRECTORY_URL}/{self.remote_endpoint}?{'&'.join(params)}"

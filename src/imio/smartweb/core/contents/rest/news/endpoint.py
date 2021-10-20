@@ -19,7 +19,11 @@ class BaseNewsEndpoint(BaseEndpoint):
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
             "metadata_fields=topics",
-            "limit={}".format(self.context.nb_results),
+            "metadata_fields=has_leadimage",
+            "metadata_fields=UID",
+            "sort_on=effective",
+            "sort_order=descending",
+            "sort_limit={}".format(self.context.nb_results),
         ]
         params = self.get_extra_params(params)
         url = f"{NEWS_URL}/{self.remote_endpoint}?{'&'.join(params)}"
