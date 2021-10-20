@@ -35,7 +35,11 @@ def get_categories():
 
 
 def concat_voca_term(term1, term2):
-    return term1 + "-" + term2
+    return "{0}-{1}".format(term1, term2)
+
+
+def concat_voca_title(title1, title2):
+    return "{0} - {1}".format(title1, title2)
 
 
 def get_json(url):
