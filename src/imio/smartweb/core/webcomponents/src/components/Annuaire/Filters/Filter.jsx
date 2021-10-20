@@ -10,7 +10,7 @@ function Filters(props) {
     const { response, error, isLoading } = useAxios({
         method: 'get',
         url: '',
-        baseURL: 'http://localhost:3000/Plone/annuaire/@results-filters',
+        baseURL: props.url,
         headers: {
             'Accept': 'application/json',
         },

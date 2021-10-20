@@ -19,7 +19,7 @@ const Annuaire = (props) => {
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
-        baseURL: 'http://localhost:3000/Plone/actualites/@results',
+        baseURL: props.queryUrl,
         headers: {
             Accept: "application/json",
         },
@@ -55,6 +55,8 @@ const Annuaire = (props) => {
             }}
             style={{ height: `calc(100vh -  ${refTop}px)` }}
         >   
+            {/* <h1>{"ddd"+props.queryUrl}</h1>
+            <h2>{"ddd"+props.queryFilterUrl}</h2> */}
              <Router>
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">

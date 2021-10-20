@@ -61,6 +61,7 @@ const Annuaire = (props) => {
             }}
             style={{ height: `calc(100vh -  ${refTop}px)` }}
         >
+            {/* <h1>{props.queryUrl}</h1> */}
             <Router>
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">
@@ -70,7 +71,7 @@ const Annuaire = (props) => {
                             </Route>
                             <Route exact path="*">
                                 <div className="r-result-filter annuaire-result-filter">
-                                    <Filters onChange={filtersChange} />
+                                    <Filters url={props.queryFilterUrl} onChange={filtersChange} />
                                 </div>
                                 {isLoading ? (
                                     <div>
