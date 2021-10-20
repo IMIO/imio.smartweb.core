@@ -1,0 +1,11 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone">
+  <!-- Publish build files -->
+  <plone:static
+      name="imio.smartweb.webcomponents"
+      type="plone"
+      directory="build"
+  />
+</configure>
