@@ -82,7 +82,7 @@ class ISmartwebControlPanel(Interface):
     )
 
     category_and_topics_vocabulary = schema.Dict(
-        title=_(u"Vocabulary Setting"),
+        title=_(u"Category and Topics Vocabulary Setting"),
         description=_(u"Choose a term from the vocabulary and define a name"),
         key_type=schema.Choice(
             title=_(u"Vocabulary term"),
