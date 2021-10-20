@@ -28,7 +28,6 @@ const Annuaire = (props) => {
     },[params]);
 
     useEffect(() => {
-        console.log(response)
         if (response !== null) {
             setcontactArray(response.items);
         }

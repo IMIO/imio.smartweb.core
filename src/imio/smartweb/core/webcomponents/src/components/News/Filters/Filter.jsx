@@ -63,8 +63,8 @@ function Filters(props) {
     // console.log(inputValues);
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
+        <React.Fragment>
+            {/* <form onSubmit={handleSubmit}>
                 <label>
                     Recherche
                     <input
@@ -73,7 +73,7 @@ function Filters(props) {
                         onChange={onChangeHandler} />
                 </label>
                 <button type="submit">Do the thing</button>
-            </form>
+            </form> */}
             <div className="r-filter  facilities-Filter">
                 <span>Catégories</span>
                 <Select
@@ -96,7 +96,7 @@ function Filters(props) {
                     placeholder={'Toutes'}
                 />
             </div>
-        </div>
+        </React.Fragment>
     );
 }
 

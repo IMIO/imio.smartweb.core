@@ -38,7 +38,7 @@ const ContactList = ({ contactArray, onChange, onHover,parentCallback }) => {
             <button onClick={(e) => {
                 parentCallback();
             }}>
-            Click me
+            Afficher plus
             </button>
         </React.Fragment>
     );

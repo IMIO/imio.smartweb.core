@@ -27,7 +27,6 @@ const Annuaire = (props) => {
     },[params]);
 
     useEffect(() => {
-        console.log(response)
         if (response !== null) {
             setcontactArray(response.items);
         }
@@ -47,7 +46,6 @@ const Annuaire = (props) => {
         setParams({...filters, 'b_size': batchSize})
        
     }, [filters,batchSize]);
-    console.log(contactArray)
     return (
         <div
             className="ref"
