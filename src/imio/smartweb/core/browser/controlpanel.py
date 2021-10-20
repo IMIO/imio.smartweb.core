@@ -93,6 +93,7 @@ class ISmartwebControlPanel(Interface):
             title=_(u"Vocabulary Name"),
             description=_(u"Define a name for the vocabulary"),
         ),
+        required=False,
     )
 
 
