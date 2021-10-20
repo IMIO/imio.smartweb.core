@@ -80,3 +80,5 @@ class ISectionNews(ISection):
 @implementer(ISectionNews)
 class SectionNews(Section):
     """SectionNews class"""
+
+    manage_display = True

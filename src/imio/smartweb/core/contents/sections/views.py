@@ -46,3 +46,15 @@ class SectionView(BrowserView):
         self.context.hide_title = False
         api.portal.show_message(_("Section title has been shown"), self.request)
         self.redirect_to_section(self.context.id)
+
+
+class SectionWithCarouselView(SectionView):
+    """Section view that can display a carousel"""
+
+    @property
+    def image_scale(self):
+        if self.context.getLayout() == "carousel_view":
+            # scale used depends on the batch size
+            return self.context.nb_results_by_batch == 1 and "slide" or "vignette"
+        else:
+            return getattr(self.context, "image_scale", "")

@@ -1,33 +1,26 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.contents.sections.views import SectionView
+from imio.smartweb.core.contents.sections.views import SectionWithCarouselView
+from imio.smartweb.core.utils import batch_results
 
 
-class LinksView(SectionView):
+class LinksView(SectionWithCarouselView):
     """Links Section view"""
 
     def items(self):
-        number_of_items_by_batch = 1
+        image_scale = self.image_scale
         items = self.context.listFolderContents()
-        lst_dict = []
-        batch = []
-        list_size = len(items)
-        for cpt, item in enumerate(items, start=1):
+        results = []
+        for item in items:
             url = item.absolute_url()
-            dict = {
-                "title": item.title,
-                "description": item.description,
-                "url": url,
-                "image": f"{url}/@@images/image/{self.context.image_scale}",
-                "has_image": True if item.aq_base.image else False,
-            }
-            batch.append(dict)
-            if (
-                cpt % number_of_items_by_batch == 0
-                or list_size < number_of_items_by_batch  # noqa
-            ) and cpt > 0:
-                lst_dict.append(batch)
-                batch = []
-        if batch != []:
-            lst_dict.append(batch)
-        return lst_dict
+            has_image = True if getattr(item.aq_base, "image", None) else False
+            results.append(
+                {
+                    "title": item.title,
+                    "description": item.description,
+                    "url": url,
+                    "image": f"{url}/@@images/image/{image_scale}",
+                    "has_image": has_image,
+                }
+            )
+        return batch_results(results, self.context.nb_results_by_batch)

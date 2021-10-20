@@ -80,3 +80,5 @@ class ISectionEvents(ISection):
 @implementer(ISectionEvents)
 class SectionEvents(Section):
     """SectionEvents class"""
+
+    manage_display = True

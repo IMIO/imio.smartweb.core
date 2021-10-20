@@ -3,12 +3,25 @@
     xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page
-      name="view"
+      name="table_view"
+      for="imio.smartweb.core.contents.ISectionEvents"
+      class="imio.smartweb.core.contents.sections.events.view.EventsView"
+      template="../common_templates/table.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="Table view"
+      />
+
+  <browser:page
+      name="carousel_view"
       for="imio.smartweb.core.contents.ISectionEvents"
       class="imio.smartweb.core.contents.sections.events.view.EventsView"
       template="../common_templates/carousel.pt"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="Carousel view"
       />
 
 </configure>

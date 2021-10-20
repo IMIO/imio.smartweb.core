@@ -1,36 +1,32 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.contents.sections.views import SectionView
+from imio.smartweb.core.contents.sections.views import SectionWithCarouselView
+from imio.smartweb.core.utils import batch_results
 
 
-class CollectionView(SectionView):
+class CollectionView(SectionWithCarouselView):
     """Collection Section view"""
 
     def items(self):
-        number_of_items_by_batch = self.context.nb_results_by_batch
         max_items = self.context.max_nb_results
-        results = self.context.collection.to_object.results(
+        image_scale = self.image_scale
+        items = self.context.collection.to_object.results(
             batch=False, brains=True, limit=max_items
         )
-        lst_dict = []
-        batch = []
-        list_size = len(results)
-        for cpt, item in enumerate(results, start=1):
+        results = []
+        for item in items:
             url = item.getURL()
-            dict = {
-                "title": item.Title,
-                "description": item.Description,
-                "url": url,
-                "image": f"{url}/@@images/image/{self.context.image_scale}",
-                "has_image": item.has_leadimage,
-            }
-            batch.append(dict)
-            if (
-                cpt % number_of_items_by_batch == 0
-                or list_size < number_of_items_by_batch  # noqa
-            ) and cpt > 0:
-                lst_dict.append(batch)
-                batch = []
-        if batch != []:
-            lst_dict.append(batch)
-        return lst_dict
+            results.append(
+                {
+                    "title": item.Title,
+                    "description": item.Description,
+                    "url": url,
+                    "image": f"{url}/@@images/image/{image_scale}",
+                    "has_image": item.has_leadimage,
+                }
+            )
+        return batch_results(results, self.context.nb_results_by_batch)
+
+    @property
+    def see_all_url(self):
+        return self.context.collection.to_object.absolute_url()
