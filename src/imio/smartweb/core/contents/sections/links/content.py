@@ -22,6 +22,13 @@ class ISectionLinks(ISection):
         required=False,
     )
 
+    nb_results_by_batch = schema.Choice(
+        title=_(u"Number of items per batch"),
+        required=True,
+        default=3,
+        values=[1, 3, 4],
+    )
+
     model.fieldset("layout", fields=["image_scale"])
     image_scale = schema.Choice(
         title=_(u"Image scale for links"),

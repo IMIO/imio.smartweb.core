@@ -23,6 +23,13 @@ class ISectionSelections(ISection):
         required=True,
     )
 
+    nb_results_by_batch = schema.Choice(
+        title=_(u"Number of items per batch"),
+        required=True,
+        default=3,
+        values=[1, 3, 4],
+    )
+
     model.fieldset("layout", fields=["show_items_lead_image", "image_scale"])
     show_items_lead_image = schema.Bool(
         title=_(u"Show items lead image"), default=False, required=False
