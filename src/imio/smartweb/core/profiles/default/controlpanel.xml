@@ -11,16 +11,4 @@
       visible="True">
     <permission>Manage portal</permission>
   </configlet>
-
-  <configlet
-    title="Category and Topics Settings"
-    action_id="category_and_topics-controlpanel"
-    appId="category_and_topics-controlpanel"
-    category="Products"
-    condition_expr=""
-    icon_expr=""
-    url_expr="string:${portal_url}/@@category_and_topics-controlpanel"
-    visible="True">
-    <permission>Manage portal</permission>
-  </configlet>
 </object>
