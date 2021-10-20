@@ -35,7 +35,9 @@
                 type="button">
         </button>
       </div>
-      <div class="carousel-inner">
+      <div class=""
+           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch}"
+           tal:attributes="class string:carousel-inner ${nb_class}">
         <div class=""
              data-bs-interval="10000"
              tal:repeat="batch items"
