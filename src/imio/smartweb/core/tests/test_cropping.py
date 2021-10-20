@@ -65,11 +65,11 @@ class TestCropping(ImioSmartwebTestCase):
             (self.folder, self.request), name="croppingeditor"
         )
         self.assertEqual(len(list(cropping_view._scales("banner"))), 1)
-        self.assertEqual(len(list(cropping_view._scales("image"))), 9)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 13)
         cropping_view = getMultiAdapter(
             (self.page, self.request), name="croppingeditor"
         )
-        self.assertEqual(len(list(cropping_view._scales("image"))), 9)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 13)
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionText",
