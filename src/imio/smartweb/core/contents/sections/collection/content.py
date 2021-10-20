@@ -8,8 +8,17 @@ from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice
-from zope.interface import implementer
 from zope import schema
+from zope.globalrequest import getRequest
+from zope.i18n import translate
+from zope.interface import implementer
+from zope.interface import provider
+from zope.schema.interfaces import IContextAwareDefaultFactory
+
+
+@provider(IContextAwareDefaultFactory)
+def see_all_default(context):
+    return translate(_(u"See all"), context=getRequest())
 
 
 class ISectionCollection(ISection):
@@ -45,7 +54,9 @@ class ISectionCollection(ISection):
     )
 
     link_text = schema.TextLine(
-        title=_(u"Text for the link to the collection"), required=False
+        title=_(u"Text for the link to the collection"),
+        defaultFactory=see_all_default,
+        required=True,
     )
 
     model.fieldset(

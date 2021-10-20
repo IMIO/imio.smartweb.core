@@ -76,6 +76,13 @@
       </button>
     </div>
 
+    <div class="see_all"
+         tal:condition="context/link_text | nothing">
+       <a href="#"
+          tal:attributes="href view/see_all_url"
+          tal:content="context/link_text"></a>
+    </div>
+
   </tal:if>
 </div>
 </metal:content-core>

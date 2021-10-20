@@ -10,7 +10,16 @@ from plone.autoform import directives
 from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice
 from zope import schema
+from zope.globalrequest import getRequest
+from zope.i18n import translate
 from zope.interface import implementer
+from zope.interface import provider
+from zope.schema.interfaces import IContextAwareDefaultFactory
+
+
+@provider(IContextAwareDefaultFactory)
+def see_all_default(context):
+    return translate(_(u"See all news"), context=getRequest())
 
 
 class ISectionNews(ISection):
@@ -51,6 +60,12 @@ class ISectionNews(ISection):
         required=True,
         default=3,
         values=[1, 3, 4],
+    )
+
+    link_text = schema.TextLine(
+        title=_(u"Text for the link to the news view"),
+        defaultFactory=see_all_default,
+        required=True,
     )
 
     model.fieldset("layout", fields=["image_scale"])
