@@ -125,3 +125,64 @@ class TestIndexes(ImioSmartwebTestCase):
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertCountEqual(indexes.get("related_quickaccess"), [uuid_qa1, uuid_qa2])
         self.assertCountEqual(brain.related_quickaccess, [uuid_qa1, uuid_qa2])
+
+    def test_category_topics_2_topics(self):
+        api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="vocabulary test page",
+            page_category="emploi",
+            topics=["culture", "health"],
+        )
+
+        portal_catalog = api.portal.get_tool("portal_catalog")
+        result = portal_catalog._catalog.indexes["category_and_topics"]
+        indexes = [x for x in result.uniqueValues()]
+        self.assertEqual(sorted(indexes), ["emploi-culture", "emploi-health"])
+
+        brains1 = api.content.find(
+            category_and_topics="emploi-culture", context=self.portal
+        )
+        self.assertEqual(brains1[0].Title, "vocabulary test page")
+
+        brains2 = api.content.find(
+            category_and_topics="emploi-health", context=self.portal
+        )
+        self.assertEqual(brains2[0].Title, "vocabulary test page")
+
+    def test_category_topics_1_topics(self):
+        api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="vocabulary test page",
+            page_category="emploi",
+            topics=["mobility"],
+        )
+
+        portal_catalog = api.portal.get_tool("portal_catalog")
+        result = portal_catalog._catalog.indexes["category_and_topics"]
+        indexes = [x for x in result.uniqueValues()]
+
+        self.assertEqual(sorted(indexes), ["emploi-mobility"])
+
+        brains1 = api.content.find(
+            category_and_topics="emploi-mobility", context=self.portal
+        )
+        self.assertEqual(brains1[0].Title, "vocabulary test page")
+
+    def test_category_topics_no_topics(self):
+        api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="vocabulary test page",
+            page_category="emploi",
+        )
+
+        portal_catalog = api.portal.get_tool("portal_catalog")
+        result = portal_catalog._catalog.indexes["category_and_topics"]
+        indexes = [x for x in result.uniqueValues()]
+
+        self.assertEqual(sorted(indexes), ["emploi"])
+
+        brains1 = api.content.find(category_and_topics="emploi", context=self.portal)
+        self.assertEqual(brains1[0].Title, "vocabulary test page")

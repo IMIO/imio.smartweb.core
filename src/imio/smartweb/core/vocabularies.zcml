@@ -97,4 +97,16 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+ <utility
+      name="imio.smartweb.vocabulary.CategoryAndTopics"
+      component=".vocabularies.CategoryAndTopicsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+      
+ <utility
+      name="imio.smartweb.vocabulary.FilteredCategoryAndTopics"
+      component=".vocabularies.FilteredCategoryAndTopicsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+      
 </configure>

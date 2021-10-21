@@ -189,3 +189,24 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     def test_image_size(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 3)
+
+    def test_concat_category_topics_vocabulary(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 126)
+
+    def test_category_and_topics_vocabulary(self):
+        self.assertVocabularyLen(
+            "imio.smartweb.vocabulary.FilteredCategoryAndTopics", 0
+        )
+
+        record = {
+            "emploi-mobility": "Emploie dans la mobilité",
+            "presse-social": "Presse Sociale",
+            "reglement-culture": "Reglement Culture",
+        }
+
+        api.portal.set_registry_record(
+            name="smartweb.category_and_topics_vocabulary", value=record
+        )
+        self.assertVocabularyLen(
+            "imio.smartweb.vocabulary.FilteredCategoryAndTopics", 3
+        )

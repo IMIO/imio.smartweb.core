@@ -4,6 +4,7 @@ from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import ISection
 from imio.smartweb.core.contents import ISectionText
+from imio.smartweb.core.utils import concat_voca_term
 from plone import api
 from plone.app.contenttypes.behaviors.richtext import IRichText
 from plone.app.contenttypes.indexers import SearchableText
@@ -60,3 +61,19 @@ def related_quickaccess(obj):
     if obj.quick_access_items is None:
         return []
     return [item.to_object.UID() for item in obj.quick_access_items]
+
+
+@indexer(IPages)
+def concat_category_topics_indexer(obj):
+    category = obj.page_category
+    topics = obj.topics
+
+    index = []
+    if not category and not topics:
+        return index
+    if topics:
+        for topic in topics:
+            index.append(concat_voca_term(category, topic))
+    else:
+        index = category
+    return index

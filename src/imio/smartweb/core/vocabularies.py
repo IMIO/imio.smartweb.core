@@ -3,11 +3,18 @@
 from imio.smartweb.core.config import DIRECTORY_URL, EVENTS_URL, NEWS_URL
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
+from imio.smartweb.core.utils import concat_voca_term
+from imio.smartweb.core.utils import concat_voca_title
+from imio.smartweb.core.utils import get_categories
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.dexterity.content import Item
-from zope.schema.vocabulary import SimpleTerm, SimpleVocabulary
+from zope.component import getUtility
+from zope.i18n import translate
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
 import json
 import requests
@@ -291,3 +298,59 @@ class NewsViewsVocabularyFactory(object):
 
 
 NewsViewsVocabulary = NewsViewsVocabularyFactory()
+
+
+class CategoryAndTopicsVocabularyFactory:
+    def __call__(self, context=None):
+        categories_taxo = get_categories()
+        language = api.portal.get_current_language(context=context)
+        categories_voca = categories_taxo.makeVocabulary(language).inv_data
+
+        topics_voca_factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.Topics"
+        )
+        topics_voca = topics_voca_factory(context)
+
+        terms = []
+
+        for cat in categories_voca:
+            for topic in topics_voca:
+                term = SimpleTerm(
+                    value=concat_voca_term(cat, topic.value),
+                    token=concat_voca_term(cat, topic.token),
+                    title=concat_voca_title(
+                        categories_voca[cat],
+                        translate(topic.title, target_language=language),
+                    ),
+                )
+                terms.append(term)
+
+            terms.append(
+                SimpleTerm(
+                    value=cat,
+                    token=cat,
+                    title=categories_voca[cat],
+                )
+            )
+        return SimpleVocabulary(terms)
+
+
+CategoryAndTopicsVocabulary = CategoryAndTopicsVocabularyFactory()
+
+
+class FilteredCategoryAndTopicsVocabularyFactory:
+    def __call__(self, context=None):
+        voca_registry = api.portal.get_registry_record(
+            name="smartweb.category_and_topics_vocabulary"
+        )
+        terms = []
+        if voca_registry is not None:
+            terms = [
+                SimpleTerm(value=r, token=r, title=voca_registry[r])
+                for r in voca_registry
+            ]
+
+        return SimpleVocabulary(terms)
+
+
+FilteredCategoryAndTopicsVocabulary = FilteredCategoryAndTopicsVocabularyFactory()

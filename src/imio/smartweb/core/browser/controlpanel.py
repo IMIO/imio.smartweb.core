@@ -81,6 +81,21 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    category_and_topics_vocabulary = schema.Dict(
+        title=_(u"Category and Topics Vocabulary Setting"),
+        description=_(u"Choose a term from the vocabulary and define a name"),
+        key_type=schema.Choice(
+            title=_(u"Vocabulary term"),
+            description=_(u"Choose a term from the vocabulary to define a name"),
+            source="imio.smartweb.vocabulary.CategoryAndTopics",
+        ),
+        value_type=schema.TextLine(
+            title=_(u"Vocabulary Name"),
+            description=_(u"Define a name for the vocabulary"),
+        ),
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
