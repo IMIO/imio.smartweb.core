@@ -63,6 +63,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=facilities&"
             "metadata_fields=taxonomy_contact_category&"
             "metadata_fields=topics&"
+            "metadata_fields=has_leadimage&"
             "sort_on=sortable_title&"
             'taxonomy_contact_category=("token")&'
             "topics=education",
