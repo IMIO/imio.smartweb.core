@@ -14,8 +14,6 @@ class IDirectoryView(model.Schema):
         title=_(u"Number of items to display"), default=20, required=True
     )
 
-    see_more_link = schema.URI(title=_(u"See more link"), required=False)
-
     show_items_description = schema.Bool(
         title=_(u"Show items description"), default=True, required=False
     )

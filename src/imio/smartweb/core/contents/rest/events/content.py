@@ -14,8 +14,6 @@ class IEventsView(model.Schema):
         title=_(u"Number of items to display"), default=20, required=True
     )
 
-    see_more_link = schema.URI(title=_(u"See more link"), required=False)
-
     selected_agenda = schema.Choice(
         title=_(u"Selected agenda"),
         description=_(u"Select agenda to display"),

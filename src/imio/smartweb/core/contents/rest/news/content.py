@@ -14,8 +14,6 @@ class INewsView(model.Schema):
         title=_(u"Number of items to display"), default=20, required=True
     )
 
-    see_more_link = schema.URI(title=_(u"See more link"), required=False)
-
     selected_news_folder = schema.Choice(
         title=_(u"Selected news folder"),
         description=_(u"Select news folder to display"),
