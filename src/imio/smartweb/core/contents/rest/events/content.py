@@ -10,15 +10,15 @@ from zope.interface import implementer
 class IEventsView(model.Schema):
     """Marker interface and Dexterity Python Schema for EventsView"""
 
-    nb_results = schema.Int(
-        title=_(u"Number of items to display"), default=20, required=True
-    )
-
     selected_agenda = schema.Choice(
         title=_(u"Selected agenda"),
         description=_(u"Select agenda to display"),
         vocabulary="imio.smartweb.vocabulary.RemoteAgendas",
         required=True,
+    )
+
+    nb_results = schema.Int(
+        title=_(u"Number of items to display"), default=20, required=True
     )
 
     show_items_description = schema.Bool(

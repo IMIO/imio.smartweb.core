@@ -10,15 +10,15 @@ from zope.interface import implementer
 class INewsView(model.Schema):
     """Marker interface and Dexterity Python Schema for NewsView"""
 
-    nb_results = schema.Int(
-        title=_(u"Number of items to display"), default=20, required=True
-    )
-
     selected_news_folder = schema.Choice(
         title=_(u"Selected news folder"),
         description=_(u"Select news folder to display"),
         vocabulary="imio.smartweb.vocabulary.RemoteNewsFolders",
         required=True,
+    )
+
+    nb_results = schema.Int(
+        title=_(u"Number of items to display"), default=20, required=True
     )
 
     show_items_description = schema.Bool(
