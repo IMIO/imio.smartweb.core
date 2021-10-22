@@ -47,6 +47,13 @@
                              class="d-block w-100" />
                         <span class="section_links_item_title"
                               tal:content="item/title">Item Title</span>
+                        <p tal:condition="context/show_items_description | nothing"
+                           tal:content="item/description"></p>
+                        <span tal:condition="context/show_items_publication_date | nothing">
+                          <span i18n:translate="">Published</span>
+                          <span class="pat-moment" data-pat-moment="format:relative;"
+                                tal:content="item/effective | nothing"/>
+                        </span>
                       </a>
                   </div>
               </div>

@@ -54,7 +54,13 @@
                          tal:condition="python: item_has_image and thumb_scale and show_lead_image"/>
                     <div class="carousel-caption d-none d-md-block">
                       <h5 tal:content="item/title"></h5>
-                      <p tal:content="item/description"></p>
+                      <p tal:condition="context/show_items_description | nothing"
+                         tal:content="item/description"></p>
+                      <span tal:condition="context/show_items_publication_date | nothing">
+                        <span i18n:translate="">Published</span>
+                        <span class="pat-moment" data-pat-moment="format:relative;"
+                              tal:content="item/effective | nothing"/>
+                      </span>
                     </div>
                   </a>
               </tal:def>

@@ -20,6 +20,7 @@ class CollectionView(SectionWithCarouselView):
                 {
                     "title": item.Title,
                     "description": item.Description,
+                    "effective": item.effective,
                     "url": url,
                     "image": f"{url}/@@images/image/{image_scale}",
                     "has_image": item.has_leadimage,
