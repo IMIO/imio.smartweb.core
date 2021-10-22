@@ -25,13 +25,16 @@
 
       <tal:if tal:condition="items">
 
-        <ul tal:define="only_one_item python: len(items) == 1"
+        <ul tal:define="only_one_item python: len(items) == 1;
+                        bs_col python: 12 // context.nb_results_by_batch"
             tal:omit-tag="only_one_item">
 
-          <li class="section_links_list"
+          <li class="section_links_list row"
               tal:omit-tag="only_one_item"
               tal:repeat="batch items">
-              <div tal:repeat="item batch">
+              <div class=""
+                   tal:repeat="item batch"
+                   tal:attributes="class string:col md-${bs_col}">
                   <div tal:define="item_has_image item/has_image;
                                    thumb_scale context/image_scale;
                                    show_lead_image python: getattr(context, 'show_items_lead_image', True);
