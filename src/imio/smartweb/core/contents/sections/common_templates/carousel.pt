@@ -50,8 +50,10 @@
                                open_in_new_tab item/open_in_new_tab | nothing;">
                   <a tal:attributes="href item/url;
                                      target python:'_blank' if (open_in_new_tab and can_edit is False) else ''">
-                    <img class="d-block w-100" tal:attributes="src item/image"
-                         tal:condition="python: item_has_image and thumb_scale and show_lead_image"/>
+                    <div class="carousel-image"
+                         tal:condition="python: item_has_image and thumb_scale and show_lead_image"
+                         tal:attributes="style string:background-image:url(${item/image})">
+                    </div>
                     <div class="carousel-caption d-none d-md-block">
                       <h5 tal:content="item/title"></h5>
                       <p tal:condition="context/show_items_description | nothing"
