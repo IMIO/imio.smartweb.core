@@ -1,9 +1,19 @@
 import React, { useEffect, useCallback, useState } from "react";
 import Select from 'react-select'
+import {
+    BrowserRouter as Router,
+    Link,
+    useHistory
+} from "react-router-dom";
 import useAxios from '../../../hooks/useAxios';
+import useFilterQuery from "../../../hooks/useFilterQuery";
+
 
 function Filters(props) {
-    const [inputValues, setInputValues] = useState({"fullobjects":1});
+    let history = useHistory();
+    const queryString = require('query-string');
+    const parsed = queryString.parse(useFilterQuery().toString());
+    const [inputValues, setInputValues] = useState(parsed);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
     const [facilitiesFilter, setFacilitiesFilter] = useState(null);
@@ -14,21 +24,21 @@ function Filters(props) {
         headers: {
             'Accept': 'application/json',
         },
-        params: '',
+        params: inputValues,
 
     });
 
     useEffect(() => {
         if (response !== null) {
-            const optionsTopics = response.topics.map(d => ({
+            const optionsTopics = response.topics && response.topics.map(d => ({
                 "value": d.token,
                 "label": d.title
             }))
-            const optionsTaxonomy = response.taxonomy_contact_category.map(d => ({
+            const optionsTaxonomy = response.taxonomy_contact_category && response.taxonomy_contact_category.map(d => ({
                 "value": d.token,
                 "label": d.title
             }))
-            const optionsFacilities = response.facilities.map(d => ({
+            const optionsFacilities = response.facilities && response.facilities.map(d => ({
                 "value": d.token,
                 "label": d.title
             }))
@@ -47,6 +57,7 @@ function Filters(props) {
             const inputName = action.name
             if (value) {
                 setInputValues(state => ({ ...state, [inputName]: value.value }), [])
+
             } else {
                 setInputValues(prevState => {
                     const state = { ...prevState }
@@ -54,10 +65,16 @@ function Filters(props) {
                     return rest
                 })
             }
+
         }
     );
 
     useEffect(() => {
+        history.push({
+            pathname: '',
+            search: queryString.stringify(inputValues),
+        })
+
         props.onChange(inputValues);
     }, [inputValues]);
 
@@ -65,8 +82,6 @@ function Filters(props) {
         e.preventDefault();
         props.onChange(inputValues);
     }
-
-    // console.log(inputValues);
 
     return (
         <React.Fragment>
@@ -80,6 +95,30 @@ function Filters(props) {
                 </label>
                 <button type="submit">Do the thing</button>
             </form> */}
+            <Link to="/?facilities=defibrillator">Netflix</Link>
+
+            <div className="r-filter topics-Filter">
+                <span>Thématiques</span>
+                <Select
+                    name={"topics"}
+                    className="select-custom-class library-topics"
+                    isClearable
+                    onChange={onChangeHandlerSelect}
+                    options={topicsFilter && topicsFilter}
+                    placeholder={'Toutes'}
+                />
+            </div>
+            <div className="r-filter  facilities-Filter">
+                <span>Catégories</span>
+                <Select
+                    name={"taxonomy_contact_category"}
+                    className="select-custom-class library-facilities"
+                    isClearable
+                    onChange={onChangeHandlerSelect}
+                    options={taxonomyFilter && taxonomyFilter}
+                    placeholder={'Toutes'}
+                />
+            </div>
             <div className="r-filter  facilities-Filter">
                 <span>Facilité</span>
                 <Select
@@ -92,28 +131,8 @@ function Filters(props) {
                 />
             </div>
 
-            <div className="r-filter  facilities-Filter">
-                <span>Catégories</span>
-                <Select
-                    name={"taxonomy_contact_category"}
-                    className="select-custom-class library-facilities"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={taxonomyFilter && taxonomyFilter}
-                    placeholder={'Toutes'}
-                />
-            </div>
-            <div className="r-filter topics-Filter">
-                <span>Thématiques</span>
-                <Select
-                    name={"topics"}
-                    className="select-custom-class library-topics"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={topicsFilter && topicsFilter}
-                    placeholder={'Toutes'}
-                />
-            </div>
+
+
         </React.Fragment>
     );
 }

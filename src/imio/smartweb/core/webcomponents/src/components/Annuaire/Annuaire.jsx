@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { HashRouter as Router, Switch, Route, useParams, useLocation } from "react-router-dom";
 import { getPath } from "../../utils/url";
 import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter"
@@ -9,7 +9,18 @@ import ContactMap from "./ContactMap/ContactMap";
 import useAxios from "../../hooks/useAxios";
 import "./Annuaire.scss";
 
-const Annuaire = (props) => {
+import useFilterQuery from "../../hooks/useFilterQuery";
+
+export default function Annuaire(props) {
+    return (
+      <Router>
+        <AnnuaireView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
+      </Router>
+    );
+  }
+  function AnnuaireView(props) {
+              const queryString = require('query-string');
+        const parsed = queryString.parse(useFilterQuery().toString());
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
@@ -25,7 +36,7 @@ const Annuaire = (props) => {
             Accept: "application/json",
         },
         params: params,
-    },[params]);
+    }, [parsed,filters]);
 
     useEffect(() => {
         if (response !== null) {
@@ -48,21 +59,28 @@ const Annuaire = (props) => {
         setBatchSize(batchSize + 5);
     }
     useEffect(() => {
-        setParams({...filters, 'b_size': batchSize,"fullobjects":1})
-       
-    }, [filters,batchSize]);
+
+        setParams({ ...filters, 'b_size': batchSize, "fullobjects": 1 })
+
+    }, [filters, batchSize]);
+    console.log(parsed)
+    console.log(params)
+
+
+
+    // console.log(parsed)
 
     return (
-        <div
-            className="ref"
-            ref={(el) => {
-                if (!el) return;
-                setRefTop(el.getBoundingClientRect().top);
-            }}
-            style={{ height: `calc(100vh -  ${refTop}px)` }}
-        >
-            {/* <h1>{props.queryUrl}</h1> */}
-            <Router>
+        <Router>
+            <div
+                className="ref"
+                ref={(el) => {
+                    if (!el) return;
+                    setRefTop(el.getBoundingClientRect().top);
+                }}
+                style={{ height: `calc(100vh -  ${refTop}px)` }}
+            >
+                <h1>{props.queryUrl}</h1>
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">
                         <Switch>
@@ -97,31 +115,9 @@ const Annuaire = (props) => {
                         />
                     </div>
                 </div>
-            </Router>
-        </div>
+            </div>
+        </Router>
     );
 };
 
-// Thematiques == topi
-export default Annuaire;
 
-// const directoryApi = async () => {
-//   try {
-//     const contacts = await axios.get('https://annuaire.preprod.imio.be/@search?fullobjects=1', {
-//       headers: {
-//         "Accept": "application/json"
-//       }
-//     });
-//     setcontactArray(contacts.data.items);
-//     setcontactResults(contacts.data.items.length);
-//   } catch (error) {
-
-//   }
-// };
-
-// useEffect(() => {
-//   // setcontactArray(data.items);
-//   directoryApi();
-
-//   // eslint-disable-next-line
-// }, [contactResults, loadmore]);

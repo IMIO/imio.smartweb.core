@@ -1,10 +1,34 @@
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams,useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { getPath } from "../../../utils/url";
+import useAxios from "../../../hooks/useAxios";
+
 
 const ContactContent = ({ contactArray, onChange }) => {
     let history = useHistory();
     const { id } = useParams();
     const [contactItem, setcontactItem] = useState({});
+    const {pathname, search, hash} = useLocation()
+    // const [params, setParams] = useState({});
+    // const { response, error, isLoading } = useAxios({
+    //     method: "get",
+    //     url: "",
+    //     baseURL: props.queryUrl,
+    //     headers: {
+    //         Accept: "application/json",
+    //     },
+    //     params: params,
+    // },[params]);
+
+    // useEffect(() => {
+    //     if (response !== null) {
+    //         setcontactArray(response.items);
+    //     }
+    // }, [response]);
+
+    // useEffect(() => {
+    //         setParams(response.items);
+    // }, [response]);
 
     useEffect(() => {
         if (contactArray.length > 0) {
@@ -19,8 +43,10 @@ const ContactContent = ({ contactArray, onChange }) => {
         history.push(".");
         onChange(null);
     }
+    const params = {'@id': getPath()+id}
     return (
         <div className="contact-content">
+            <p>The search parameter is : {pathname}</p>
             <button type="button" onClick={handleClick}>
                 Go home
             </button>

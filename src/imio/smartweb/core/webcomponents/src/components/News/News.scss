@@ -111,6 +111,7 @@
   width:     calc(648px + 50vw);
   margin-left: auto;
   gap: 40px;
+  overflow: hidden;
   .r-result{
     margin-top: 2rem;
     &-filter{
