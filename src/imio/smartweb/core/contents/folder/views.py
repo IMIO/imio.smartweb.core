@@ -5,6 +5,9 @@ from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.app.content.browser.contents import ContextInfo
+from plone.app.content.utils import json_dumps
+from plone.app.content.utils import json_loads
 from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import button
@@ -16,6 +19,19 @@ from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.component import queryMultiAdapter
 from zope.contentprovider.provider import ContentProviderBase
 from zope.interface import implementer
+
+
+class FolderContextInfo(ContextInfo):
+    """View used to fetch informations for folder_contents"""
+
+    def __call__(self):
+        json = super(FolderContextInfo, self).__call__()
+        brain = self.context.get_default_item()
+        if brain:
+            infos = json_loads(json)
+            infos["defaultPage"] = brain.getId
+            json = json_dumps(infos)
+        return json
 
 
 @implementer(IViewWithoutLeadImage)

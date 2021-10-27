@@ -20,6 +20,8 @@ from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+
+import json
 import transaction
 
 
@@ -241,3 +243,24 @@ class TestFolder(ImioSmartwebTestCase):
         self.assertIn("Data successfully updated.", content)
         radio_control = browser.getControl(name="form.widgets.default_page_uid")
         self.assertEqual(radio_control.value, [uuid])
+
+    def test_default_page_in_folder_contents(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            id="folder",
+        )
+        page1 = api.content.create(
+            container=folder, type="imio.smartweb.Page", id="page1"
+        )
+        context_info_view = getMultiAdapter(
+            (folder, self.request), name="fc-contextInfo"
+        )
+        result = json.loads(context_info_view())
+        self.assertIsNone(result["defaultPage"])
+
+        folder.setLayout("element_view")
+        folder.set_default_item(new_default_item=page1)
+
+        result = json.loads(context_info_view())
+        self.assertEqual(result["defaultPage"], "page1")

@@ -11,6 +11,14 @@
       factory=".content.FolderCroppingProvider"
       />
 
+  <browser:page
+      for="imio.smartweb.core.contents.IFolder"
+      name="fc-contextInfo"
+      class=".views.FolderContextInfo"
+      permission="cmf.ListFolderContents"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <configure package="plone.app.contenttypes.browser">
     <browser:pages
         for="plone.dexterity.interfaces.IDexterityContainer"
