@@ -5,6 +5,9 @@ Changelog
 1.0a11 (unreleased)
 -------------------
 
+- Adapt SolR search to reflect removal of `selected_entity` on `DirectoryView` content type
+  [mpeeters]
+
 - Implement cross core SolR search
   [mpeeters]
 
