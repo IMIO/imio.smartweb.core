@@ -26,7 +26,7 @@
 
       <div class="contact_leadimage"
            tal:condition="python:'leadimage' in visible_blocks"
-           tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/preview)">
+           tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/medium)">
       </div>
 
       <div class="contact_titles"
