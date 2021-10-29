@@ -40,6 +40,10 @@ class FooterViewlet(BaseFooterViewlet):
     def footer(self):
         if self._footer is not None:
             return self._footer
+        root = api.portal.get_navigation_root(self.context)
+        if IImioSmartwebMinisite.providedBy(root):
+            # don't display portal footer in a minisite
+            return
         portal = api.portal.get()
         footers = portal.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
