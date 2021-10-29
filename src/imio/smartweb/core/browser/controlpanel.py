@@ -13,7 +13,7 @@ class ISmartwebControlPanel(Interface):
     url_formdefs_api = schema.TextLine(
         title=_(u"Url to get forms from your e-guichet"),
         description=_(
-            u"url to get forms from your e-guichet. \r\n (Seems like : https://COMMUNE-formulaires.guichet-citoyen.be/api/formdefs/)"
+            u"Example : https://COMMUNE-formulaires.guichet-citoyen.be/api/formdefs/"
         ),
         required=False,
     )
