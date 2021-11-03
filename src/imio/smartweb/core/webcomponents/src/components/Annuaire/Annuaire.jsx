@@ -19,8 +19,8 @@ export default function Annuaire(props) {
     );
   }
   function AnnuaireView(props) {
-              const queryString = require('query-string');
-        const parsed = queryString.parse(useFilterQuery().toString());
+    const queryString = require('query-string');
+    const parsed = queryString.parse(useFilterQuery().toString());
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
@@ -38,37 +38,40 @@ export default function Annuaire(props) {
         params: params,
     }, [parsed,filters]);
 
+    // set all contacts state
     useEffect(() => {
         if (response !== null) {
             setcontactArray(response.items);
         }
     }, [response]);
 
+    // set state id when clicked on list element
     const clickID = (id) => {
         setClickId(id);
     };
 
+    // set state hoverId when hover on list element
     const hoverID = (id) => {
         setHoverId(id);
     };
 
+    // set state filters when active filter selection
     const filtersChange = (value) => {
         setFilters(value)
     }
+
+    // set batch
     const callback = () => {
         setBatchSize(batchSize + 5);
     }
+
+    // set url param for fetch
     useEffect(() => {
 
         setParams({ ...filters, 'b_size': batchSize, "fullobjects": 1 })
 
     }, [filters, batchSize]);
-    console.log(parsed)
-    console.log(params)
 
-
-
-    // console.log(parsed)
 
     return (
         <Router>

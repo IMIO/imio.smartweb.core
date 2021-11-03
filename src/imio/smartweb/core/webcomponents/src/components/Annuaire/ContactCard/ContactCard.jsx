@@ -3,9 +3,8 @@ import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
 
 const ContactCard = ({ contactItem }) => {
     const title = contactItem.title && contactItem.title;
-    const category = contactItem.taxonomy_contact_category
-        ? contactItem.taxonomy_contact_category[0].title
-        : "";
+    const category = contactItem.taxonomy_contact_category && contactItem.taxonomy_contact_category[0]
+
     const number = contactItem.number ? contactItem.number : "";
     const street = contactItem.street ? contactItem.street : "";
     const complement = contactItem.complement ? contactItem.complement : "";
@@ -15,7 +14,7 @@ const ContactCard = ({ contactItem }) => {
     const phones = contactItem.phones ? contactItem.phones : "";
     const mails = contactItem.mails ? contactItem.mails : "";
     const topics = contactItem.topics ? contactItem.topics : "";
-
+console.log(category)
     return (
         <div className="r-list-item">
             <div
@@ -29,7 +28,7 @@ const ContactCard = ({ contactItem }) => {
 
             <div className="r-item-text">
                 <span className="r-item-title">{title}</span>
-                {category ? <span className="r-item-categorie">{category}</span> : ""}
+                {category ? <span className="r-item-categorie">{category.title}</span> : ""}
                 <div className="r-item-all">
                     <div className="r-item-adresse">
                         {number ? <span>{number + " "}</span> : ""}

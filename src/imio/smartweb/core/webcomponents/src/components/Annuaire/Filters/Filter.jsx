@@ -82,7 +82,6 @@ function Filters(props) {
         e.preventDefault();
         props.onChange(inputValues);
     }
-
     return (
         <React.Fragment>
             {/* <form onSubmit={handleSubmit}>
@@ -95,7 +94,7 @@ function Filters(props) {
                 </label>
                 <button type="submit">Do the thing</button>
             </form> */}
-            <Link to="/?facilities=defibrillator">Netflix</Link>
+            <Link to="/?facilities=defibrillator">test</Link>
 
             <div className="r-filter topics-Filter">
                 <span>Thématiques</span>
