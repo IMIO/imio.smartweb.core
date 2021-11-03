@@ -13,7 +13,7 @@ class ISmartwebControlPanel(Interface):
     url_formdefs_api = schema.TextLine(
         title=_(u"Url to get forms from your e-guichet"),
         description=_(
-            u"url to get forms from your e-guichet. \r\n (Seems like : https://COMMUNE-formulaires.guichet-citoyen.be/api/formdefs/)"
+            u"Example : https://COMMUNE-formulaires.guichet-citoyen.be/api/formdefs/"
         ),
         required=False,
     )
@@ -82,16 +82,16 @@ class ISmartwebControlPanel(Interface):
     )
 
     category_and_topics_vocabulary = schema.Dict(
-        title=_(u"Category and Topics Vocabulary Setting"),
-        description=_(u"Choose a term from the vocabulary and define a name"),
+        title=_(u"Category and topics vocabulary setting for TeleServices"),
+        description=_(
+            u"Choose a term from the vocabulary and define the corresponding name"
+        ),
         key_type=schema.Choice(
             title=_(u"Vocabulary term"),
-            description=_(u"Choose a term from the vocabulary to define a name"),
             source="imio.smartweb.vocabulary.CategoryAndTopics",
         ),
         value_type=schema.TextLine(
-            title=_(u"Vocabulary Name"),
-            description=_(u"Define a name for the vocabulary"),
+            title=_(u"Name"),
         ),
         required=False,
     )

@@ -3,6 +3,7 @@
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.footer import FooterViewlet
+from imio.smartweb.core.viewlets.footer import MinisiteFooterViewlet
 from imio.smartweb.core.viewlets.footer import SubsiteFooterViewlet
 from plone import api
 from plone.app.testing import TEST_USER_ID
@@ -110,6 +111,46 @@ class TestFooter(ImioSmartwebTestCase):
         nested_viewlet.update()
         self.assertTrue(nested_viewlet.available())
         self.assertNotEqual(viewlet.footer, nested_viewlet.footer)
+
+    def test_add_footer_to_minisite(self):
+        footer_view = getMultiAdapter(
+            (self.folder, self.request), name="footer_settings"
+        )
+        self.assertFalse(footer_view.available)
+        minisite_view = getMultiAdapter(
+            (self.folder, self.request), name="minisite_settings"
+        )
+        minisite_view.enable()
+        self.assertTrue(footer_view.available)
+        footer_view.add_footer()
+        footers = self.folder.listFolderContents(
+            contentFilter={"portal_type": "imio.smartweb.Footer"}
+        )
+        self.assertEqual(len(footers), 1)
+        self.assertFalse(footer_view.available)
+        api.content.delete(footers[0])
+        self.assertTrue(footer_view.available)
+
+    def test_portal_and_minisite_footers(self):
+        view = getMultiAdapter((self.portal, self.request), name="footer_settings")
+        view.add_footer()
+        viewlet = FooterViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertTrue(viewlet.available())
+        minisite_view = getMultiAdapter(
+            (self.folder, self.request), name="minisite_settings"
+        )
+        minisite_view.enable()
+        viewlet = FooterViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertFalse(viewlet.available())
+        footer_view = getMultiAdapter(
+            (self.folder, self.request), name="footer_settings"
+        )
+        footer_view.add_footer()
+        viewlet = MinisiteFooterViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertTrue(viewlet.available())
 
     def test_background_style(self):
         footer_view = getMultiAdapter(

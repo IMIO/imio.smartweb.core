@@ -7,15 +7,6 @@ from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.services import Service
 from time import time
 
-import pkg_resources
-
-try:
-    pkg_resources.get_distribution("collective.solr")
-    HAS_SOLR = True
-    from collective.solr.search import Search
-except pkg_resources.DistributionNotFound:
-    HAS_SOLR = False
-
 
 @ram.cache(lambda *args: time() // (5 * 60))
 def get_news_views():
@@ -37,16 +28,6 @@ def get_events_views():
         return {b.getObject().selected_agenda: b.getURL() for b in brains}
 
 
-@ram.cache(lambda *args: time() // (5 * 60))
-def get_directory_views():
-    with api.env.adopt_user(username="admin"):
-        brains = api.content.find(
-            context=api.portal.get(), portal_type="imio.smartweb.DirectoryView"
-        )
-        # Can be improved by using index
-        return {b.getObject().selected_entity: b.getURL() for b in brains}
-
-
 def get_default_view_url(view_type):
     record = api.portal.get_registry_record(
         "smartweb.default_{0}_view".format(view_type), default=None
@@ -64,8 +45,16 @@ def get_views_mapping():
     events = get_events_views()
     events["default"] = get_default_view_url("events")
 
-    directory = get_directory_views()
-    directory["default"] = get_default_view_url("directory")
+    # Directory is a special usecase, since there is no selected entity
+    # the global entity must be used
+    default_directory_view = get_default_view_url("directory")
+    directory_entity_uid = api.portal.get_registry_record(
+        "smartweb.directory_entity_uid"
+    )
+    directory = {
+        directory_entity_uid: default_directory_view,
+        "default": default_directory_view,
+    }
 
     mapping = {
         "imio.news.NewsItem": news,

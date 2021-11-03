@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
@@ -39,6 +40,10 @@ class FooterViewlet(BaseFooterViewlet):
     def footer(self):
         if self._footer is not None:
             return self._footer
+        root = api.portal.get_navigation_root(self.context)
+        if IImioSmartwebMinisite.providedBy(root):
+            # don't display portal footer in a minisite
+            return
         portal = api.portal.get()
         footers = portal.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
@@ -65,3 +70,20 @@ class SubsiteFooterViewlet(BaseFooterViewlet):
                     self._footer = footers[0]
                     return self._footer
             obj = parent(obj)
+
+
+class MinisiteFooterViewlet(BaseFooterViewlet):
+    css_id = "smartweb-minisite-footer"
+
+    @property
+    def footer(self):
+        if self._footer is not None:
+            return self._footer
+        root = api.portal.get_navigation_root(self.context)
+        if IImioSmartwebMinisite.providedBy(root):
+            footers = root.listFolderContents(
+                contentFilter={"portal_type": "imio.smartweb.Footer"}
+            )
+            if len(footers) > 0:
+                self._footer = footers[0]
+                return self._footer

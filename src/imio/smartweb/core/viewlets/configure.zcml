@@ -142,7 +142,6 @@
       permission="zope2.View"
       />
 
-
   <browser:viewlet
       name="imio.smartweb.subsite_footer"
       for="*"
@@ -150,6 +149,16 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="footer.pt"
       class=".footer.SubsiteFooterViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
+      name="imio.smartweb.minisite_footer"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="footer.pt"
+      class=".footer.MinisiteFooterViewlet"
       permission="zope2.View"
       />
 

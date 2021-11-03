@@ -31,7 +31,7 @@
            class="flexbin flexbin-margin">
         <tal:images tal:repeat="item items">
           <a class="spotlight section_gallery_item"
-             tal:attributes="href string:${item/absolute_url}/@@images/image/large;
+             tal:attributes="href string:${item/absolute_url}/@@images/image/extralarge;
                              title item/title;
                              data-description item/description">
             <img tal:attributes="src string:${item/absolute_url}/@@images/image/${thumb_scale};
