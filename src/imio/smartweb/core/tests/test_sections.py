@@ -15,7 +15,6 @@ from plone.namedfile.file import NamedBlobFile
 from plone.protect.authenticator import createToken
 from time import sleep
 from z3c.relationfield import RelationValue
-from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
@@ -91,21 +90,6 @@ class TestSections(ImioSmartwebTestCase):
             title="My file",
         )
         file_obj.file = NamedBlobFile(data="file data", filename="file.txt")
-        view = queryMultiAdapter((section, self.request), name="view")
-        self.assertEqual(view.get_thumb_scale_list(), "thumb")
-
-        api.portal.set_registry_record("plone.thumb_scale_listing", "preview")
-        annotations = IAnnotations(self.request)
-        del annotations["plone.memoize"]
-        view = queryMultiAdapter((section, self.request), name="view")
-        self.assertEqual(view.get_thumb_scale_list(), "preview")
-
-        api.portal.set_registry_record("plone.no_thumbs_lists", True)
-        annotations = IAnnotations(self.request)
-        del annotations["plone.memoize"]
-        view = queryMultiAdapter((section, self.request), name="view")
-        self.assertIsNone(view.get_thumb_scale_list())
-
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("1 KB", view())
 

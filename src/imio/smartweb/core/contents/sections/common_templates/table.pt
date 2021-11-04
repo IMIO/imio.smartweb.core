@@ -56,6 +56,9 @@
                           <span class="pat-moment" data-pat-moment="format:relative;"
                                 tal:content="item/effective | nothing"/>
                         </span>
+                        <span class="item-infos"
+                              tal:condition="item/item_infos | nothing"
+                              tal:content="item/item_infos"/>
                       </a>
                   </div>
               </div>
