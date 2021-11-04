@@ -7,7 +7,6 @@ from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
-from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice
 from zope import schema
 from zope.globalrequest import getRequest
@@ -65,14 +64,6 @@ class ISectionNews(ISection):
     link_text = schema.TextLine(
         title=_(u"Text for the link to the news view"),
         defaultFactory=see_all_default,
-        required=True,
-    )
-
-    model.fieldset("layout", fields=["image_scale"])
-    image_scale = schema.Choice(
-        title=_(u"Image scale for news"),
-        default=u"tile",
-        vocabulary="plone.app.vocabularies.ImagesScales",
         required=True,
     )
 

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.contents.sections.views import SectionWithCarouselView
+from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 
 
-class LinksView(SectionWithCarouselView):
+class LinksView(CarouselOrTableSectionView):
     """Links Section view"""
 
     def items(self):

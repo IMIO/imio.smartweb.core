@@ -2,13 +2,13 @@
 
 from datetime import date
 from imio.smartweb.core.config import EVENTS_URL
-from imio.smartweb.core.contents.sections.views import SectionWithCarouselView
+from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
 from Products.CMFPlone.utils import normalizeString
 
 
-class EventsView(SectionWithCarouselView):
+class EventsView(CarouselOrTableSectionView):
     """Events Section view"""
 
     @property
@@ -37,7 +37,7 @@ class EventsView(SectionWithCarouselView):
         ):
             return []
         linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
-        image_scale = getattr(self.context, "image_scale", "")
+        image_scale = self.image_scale
         items = json_search_events.get("items")[: self.context.max_nb_results]
         results = []
         for item in items:

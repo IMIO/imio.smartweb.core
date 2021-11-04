@@ -48,13 +48,16 @@ class SectionView(BrowserView):
         self.redirect_to_section(self.context.id)
 
 
-class SectionWithCarouselView(SectionView):
+class CarouselOrTableSectionView(SectionView):
     """Section view that can display a carousel"""
 
     @property
     def image_scale(self):
-        if self.context.getLayout() == "carousel_view":
+        layout = self.context.getLayout()
+        if layout == "carousel_view":
             # scale used depends on the batch size
             return self.context.nb_results_by_batch == 1 and "slide" or "vignette"
+        elif layout == "table_view":
+            return "vignette"
         else:
             return getattr(self.context, "image_scale", "")

@@ -30,16 +30,9 @@ class ISectionSelections(ISection):
         values=[1, 3, 4],
     )
 
-    model.fieldset("layout", fields=["show_items_lead_image", "image_scale"])
+    model.fieldset("layout", fields=["show_items_lead_image"])
     show_items_lead_image = schema.Bool(
         title=_(u"Show items lead image"), default=False, required=False
-    )
-
-    image_scale = schema.Choice(
-        title=_(u"Image scale for items"),
-        default=u"tile",
-        vocabulary="plone.app.vocabularies.ImagesScales",
-        required=True,
     )
 
 

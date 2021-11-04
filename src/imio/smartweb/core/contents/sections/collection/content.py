@@ -65,7 +65,6 @@ class ISectionCollection(ISection):
             "show_items_lead_image",
             "show_items_description",
             "show_items_publication_date",
-            "image_scale",
         ],
     )
     show_items_lead_image = schema.Bool(
@@ -78,13 +77,6 @@ class ISectionCollection(ISection):
 
     show_items_publication_date = schema.Bool(
         title=_(u"Show items publication date"), required=False
-    )
-
-    image_scale = schema.Choice(
-        title=_(u"Image scale for items"),
-        default=u"preview",
-        vocabulary="plone.app.vocabularies.ImagesScales",
-        required=True,
     )
 
 

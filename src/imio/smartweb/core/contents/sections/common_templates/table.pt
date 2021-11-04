@@ -36,7 +36,6 @@
                    tal:repeat="item batch"
                    tal:attributes="class string:col md-${bs_col}">
                   <div tal:define="item_has_image item/has_image;
-                                   thumb_scale context/image_scale;
                                    show_lead_image python: getattr(context, 'show_items_lead_image', True);
                                    portal context/@@plone_portal_state/portal;
                                    open_in_new_tab item/open_in_new_tab | nothing;"
@@ -44,7 +43,7 @@
                       <a class="section_links_item_image"
                          tal:attributes="href item/url;
                                          target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
-                        <img tal:condition="python: item_has_image and thumb_scale and show_lead_image"
+                        <img tal:condition="python: item_has_image and show_lead_image"
                              tal:attributes="alt item/title;
                                              src item/image"
                              class="d-block w-100" />

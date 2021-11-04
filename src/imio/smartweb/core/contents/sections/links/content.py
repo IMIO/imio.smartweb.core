@@ -4,7 +4,6 @@ from imio.smartweb.common.config import DESCRIPTION_MAX_LENGTH
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.supermodel import model
 from zope.interface import implementer
 from zope import schema
 
@@ -27,14 +26,6 @@ class ISectionLinks(ISection):
         required=True,
         default=3,
         values=[1, 3, 4],
-    )
-
-    model.fieldset("layout", fields=["image_scale"])
-    image_scale = schema.Choice(
-        title=_(u"Image scale for links"),
-        default=u"tile",
-        vocabulary="plone.app.vocabularies.ImagesScales",
-        required=True,
     )
 
 
