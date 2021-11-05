@@ -11,10 +11,41 @@ Changelog
 - Implement cross core SolR search
   [mpeeters]
 
+- Add category_and_topics index, vocabulary and configuration related code
+  [jimbiscuit, mpeeters]
+
+- CSS fixes / improvements
+  [tlambert]
+
+- Code refactoring
+  [laulaz]
+
+- Add React views and machinery
+  [tlambert, duchenean]
+
+- Add cropping support and define cropping scales per content / field
+  [laulaz]
+
+- Change viewlets structure
+  [laulaz]
+
+- Compute custom body class (minisite / subsite / banner)
+  [laulaz]
+
+- Improve all sections / fields / forms / views / templates markup / a11y
+  [boulch, laulaz]
+
+- Add locking support for sections
+  [laulaz]
+
+- Add collective.anysurfer dependency
+  [boulch]
+
 - Change navigation markup (quickaccess, close / prev buttons, ...)
   [laulaz]
 
-- Add new types : EventsView, NewsView, PortalPage
+- Add new types : EventsView, NewsView, DirectoryView, SectionHTML, SectionMap,
+  PortalPage, SectionNews, SectionEvents, SectionCollection, SectionSelection
   [boulch, laulaz]
 
 - Fix schedule display in Contact section (days delta, format & translations)
