@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents import IFolder
+from imio.smartweb.core.contents import IPage
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import ISection
 from imio.smartweb.core.contents import ISectionText
@@ -63,10 +64,10 @@ def related_quickaccess(obj):
     return [item.to_object.UID() for item in obj.quick_access_items]
 
 
-@indexer(IPages)
+@indexer(IPage)
 def concat_category_topics_indexer(obj):
-    category = obj.page_category
-    topics = obj.topics
+    category = getattr(obj.aq_base, "page_category", None)
+    topics = getattr(obj.aq_base, "topics", [])
 
     index = []
     if not category and not topics:
