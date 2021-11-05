@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a11 (unreleased)
+1.0a11 (2021-11-05)
 -------------------
 
 - Adapt SolR search to reflect removal of `selected_entity` on `DirectoryView` content type
