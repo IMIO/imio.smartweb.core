@@ -26,6 +26,7 @@ Gruntfile.js
 lib64
 log.html
 output.xml
+/package.json
 package-lock.json
 pip-selfcheck.json
 report.html
