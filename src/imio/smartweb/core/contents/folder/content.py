@@ -32,7 +32,7 @@ class IFolder(model.Schema):
     directives.widget(default_page_uid=RadioFieldWidget)
     directives.mode(default_page_uid="hidden")
     default_page_uid = schema.Choice(
-        title=_(u"Choose item to display"),
+        title=_(u"Item(s) that can be selected as the folder default page."),
         description=_(
             u"For the anonymous visitor, the folder and the selected item are one. "
             u"When he clicks on the folder, the item is displayed."
