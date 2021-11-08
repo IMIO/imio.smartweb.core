@@ -18,3 +18,8 @@ def configure_first_official_release(context):
     # api.content.find() doesn't find all objects
     portal_catalog.clearFindAndRebuild()
     logger.info("Reindexed catalog for category_and_topics index / metadata")
+
+
+def set_thumb_scales(context):
+    api.portal.set_registry_record("plone.thumb_scale_listing", "liste")
+    api.portal.set_registry_record("plone.thumb_scale_summary", "vignette")

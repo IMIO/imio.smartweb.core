@@ -12,4 +12,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Set scales for listing / summary views"
+      description="Use liste scale for listings and vignette scale for summary / block view"
+      source="1001"
+      destination="1002"
+      handler=".upgrades.set_thumb_scales"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

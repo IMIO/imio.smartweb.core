@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Change image scales for listing (liste) / blocks (vignette) view
+  [laulaz]
+
 - Change image scale (affiche) for sections background images
   [laulaz]
 

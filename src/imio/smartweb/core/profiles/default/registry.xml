@@ -5,6 +5,18 @@
 
     <records interface="imio.smartweb.core.browser.controlpanel.ISmartwebControlPanel" prefix="smartweb" />
 
+    <record name="plone.thumb_scale_listing"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
+            field="thumb_scale_listing">
+      <value>liste</value>
+    </record>
+
+    <record name="plone.thumb_scale_summary"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
+            field="thumb_scale_summary">
+      <value>vignette</value>
+    </record>
+
     <record name="geolocation.default_latitude"
             interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
       <value>50.4989185</value>

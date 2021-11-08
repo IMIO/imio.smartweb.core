@@ -16,7 +16,8 @@
       <metal:block use-macro="context/@@listing_view/macros/entries">
         <metal:entry fill-slot="entry">
 
-          <article class="tileItem border list-group-item my-3">
+          <article class="tileItem border list-group-item my-3"
+                   tal:define="thumb_scale view/get_thumb_scale_list">
             <h2 class="tileHeadline" metal:define-macro="listitem">
               <a class="summary url"
                   tal:attributes="href item_link;
@@ -28,12 +29,11 @@
 
             <div metal:use-macro="context/@@listing_view/macros/document_byline"></div>
             <div class="d-flex w-100 list_group_menu_body">
-            <tal:if tal:condition="thumb_scale_summary">
-              <div tal:define="thumb_url python:item_url + '/@@images/image/' + thumb_scale_summary;"
-                  tal:condition="python: item_has_image"
-                  tal:attributes="class python: 'tileImage' if item_description else 'tileImageNoFloat'">
+            <tal:if tal:condition="thumb_scale">
+              <div tal:condition="python: item_has_image"
+                   tal:attributes="class python: 'tileImage' if item_description else 'tileImageNoFloat'">
                 <a tal:attributes="href item_link">
-                  <div class="list_group_menu_body_image" tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale_summary})"
+                  <div class="list_group_menu_body_image" tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale})"
                        tal:condition="python: view.show_images" />
                 </a>
               </div>
