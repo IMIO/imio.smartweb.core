@@ -5,7 +5,8 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add (rich) description on Video section
+  [laulaz]
 
 
 1.0a11 (2021-11-05)

@@ -13,6 +13,8 @@
 
   <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
+  <p tal:replace="structure context/@@description" />
+
   <div class="body-section" tal:content="structure view/get_embed_video" />
 
 </div>
