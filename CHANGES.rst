@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Use background images (instead of `<img>`) in table template
+  [laulaz]
+
 - Add (rich) description on Video section
   [laulaz]
 
