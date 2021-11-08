@@ -57,6 +57,7 @@ setup(
         "plone.app.dexterity",
         "plone.app.imagecropping",
         "collective.anysurfer",
+        "collective.solr",
         "collective.taxonomy",
         "embeddify",
         "more-itertools",
