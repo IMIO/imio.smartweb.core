@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Change image scale (affiche) for sections background images
+  [laulaz]
+
 - Use background images (instead of `<img>`) in table template
   [laulaz]
 

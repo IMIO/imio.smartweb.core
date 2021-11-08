@@ -14,7 +14,7 @@ class SectionCroppingProvider(BaseCroppingProvider):
     def get_scales(self, fieldname, request=None):
         if fieldname == "background_image":
             # scale used for background_image field
-            return ["large"]
+            return ["affiche"]
         else:
             return super(SectionCroppingProvider, self).get_scales(fieldname, request)
 
