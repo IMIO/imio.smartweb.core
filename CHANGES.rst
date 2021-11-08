@@ -8,6 +8,12 @@ Changelog
 - Add (rich) description on Video section
   [laulaz]
 
+- Change some fields titles
+  [laulaz]
+
+- Fix @@search view (use ours instead of collective.solr)
+  [laulaz]
+
 
 1.0a11 (2021-11-05)
 -------------------
