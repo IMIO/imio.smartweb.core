@@ -25,16 +25,17 @@
 
       <tal:if tal:condition="items">
 
-        <ul tal:define="only_one_item python: len(items) == 1;
+        <ul class="row"
+            tal:define="only_one_item python: len(sum(items, [])) == 1;
                         bs_col python: 12 // context.nb_results_by_batch"
             tal:omit-tag="only_one_item">
 
-          <li class="section_links_list row"
-              tal:omit-tag="only_one_item"
-              tal:repeat="batch items">
-              <div class=""
-                   tal:repeat="item batch"
-                   tal:attributes="class string:col md-${bs_col}">
+          <tal:bcl tal:repeat="batch items">
+ 
+              <li class="section_links_list row"
+                  tal:omit-tag="only_one_item"
+                  tal:repeat="item batch"
+                  tal:attributes="class string:col md-${bs_col}">
                   <div tal:define="item_has_image item/has_image;
                                    show_lead_image python: getattr(context, 'show_items_lead_image', True);
                                    portal context/@@plone_portal_state/portal;
@@ -60,8 +61,9 @@
                               tal:content="item/item_infos"/>
                       </a>
                   </div>
-              </div>
-          </li>
+              </li>
+ 
+          </tal:bcl>
 
         </ul>
 

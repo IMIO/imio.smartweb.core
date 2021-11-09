@@ -36,13 +36,15 @@
         </button>
       </div>
       <div class=""
-           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch}"
+           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};
+                       bs_col python: 12 // context.nb_results_by_batch"
            tal:attributes="class string:carousel-inner ${nb_class}">
         <div class=""
              data-bs-interval="10000"
              tal:repeat="batch items"
-             tal:attributes="class python:'carousel-item active' if repeat.batch.start else 'carousel-item'">
-          <div tal:repeat="item batch">
+             tal:attributes="class python:'row carousel-item active' if repeat.batch.start else 'row carousel-item'">
+          <div tal:repeat="item batch"
+               tal:attributes="class string:col md-${bs_col}">
               <tal:def define="item_has_image item/has_image;
                                show_lead_image python: getattr(context, 'show_items_lead_image', True);
                                portal context/@@plone_portal_state/portal;

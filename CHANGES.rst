@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Add/fix bootstrap classes on table / carousel views for batches
+  [laulaz]
+
 - Change image scales for listing (liste) / blocks (vignette) view
   [laulaz]
 
