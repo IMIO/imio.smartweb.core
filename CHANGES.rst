@@ -8,7 +8,9 @@ Changelog
 - Add/fix bootstrap classes on table / carousel views for batches
   [laulaz]
 
-- Change image scales for listing (liste) / blocks (vignette) view
+- Change image scales for :
+   - listing (liste) / blocks (vignette) view
+   - table view (liste / vignette), depending on batch size
   [laulaz]
 
 - Change image scale (affiche) for sections background images

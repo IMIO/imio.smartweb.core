@@ -54,10 +54,10 @@ class CarouselOrTableSectionView(SectionView):
     @property
     def image_scale(self):
         layout = self.context.getLayout()
+        # scales used depend on the batch size
         if layout == "carousel_view":
-            # scale used depends on the batch size
             return self.context.nb_results_by_batch == 1 and "slide" or "vignette"
         elif layout == "table_view":
-            return "vignette"
+            return self.context.nb_results_by_batch == 1 and "liste" or "vignette"
         else:
             return getattr(self.context, "image_scale", "")
