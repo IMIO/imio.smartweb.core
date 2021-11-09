@@ -35,10 +35,52 @@ class TestCropping(ImioSmartwebTestCase):
         )
 
     def test_cropping_adapter(self):
+        # footer cropping
+        view = getMultiAdapter((self.portal, self.request), name="footer_settings")
+        view.add_footer()
+        footer = self.portal.listFolderContents(
+            contentFilter={"portal_type": "imio.smartweb.Footer"}
+        )[0]
+        adapter = ICropping(footer, alternate=None)
+        self.assertEqual(
+            ["affiche"], adapter.get_scales("background_image", self.request)
+        )
+
+        # minisite cropping
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        adapter = ICropping(self.folder, alternate=None)
+        self.assertEqual(
+            ["liste", "vignette", "slide"], adapter.get_scales("image", self.request)
+        )
+        self.assertEqual(["banner"], adapter.get_scales("banner", self.request))
+        self.assertEqual(["preview"], adapter.get_scales("logo", self.request))
+        view.disable()
+
+        # subsite cropping
+        view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
+        view.enable()
+        adapter = ICropping(self.folder, alternate=None)
+        self.assertEqual(
+            ["liste", "vignette", "slide"], adapter.get_scales("image", self.request)
+        )
+        self.assertEqual(["banner"], adapter.get_scales("banner", self.request))
+        self.assertEqual(["preview"], adapter.get_scales("logo", self.request))
+        view.disable()
+
+        # folder cropping
         adapter = ICropping(self.folder, alternate=None)
         self.assertIsNotNone(adapter)
         self.assertEqual(["banner"], adapter.get_scales("banner", self.request))
         self.assertNotIn("banner", adapter.get_scales("image", self.request))
+
+        # page cropping
+        adapter = ICropping(self.page, alternate=None)
+        self.assertEqual(
+            ["liste", "vignette", "slide"], adapter.get_scales("image", self.request)
+        )
+
+        # sections cropping
         section_types = get_sections_types()
         for section_type in section_types:
             section = api.content.create(
@@ -61,17 +103,21 @@ class TestCropping(ImioSmartwebTestCase):
                 )
                 section.image_size = "preview"
                 self.assertEqual(["preview"], adapter.get_scales("image", self.request))
+                section.image_size = "large"
+                self.assertEqual(["large"], adapter.get_scales("image", self.request))
+                section.image_size = "mini"
+                self.assertEqual(["mini"], adapter.get_scales("image", self.request))
 
     def test_cropping_view(self):
         cropping_view = getMultiAdapter(
             (self.folder, self.request), name="croppingeditor"
         )
         self.assertEqual(len(list(cropping_view._scales("banner"))), 1)
-        self.assertEqual(len(list(cropping_view._scales("image"))), 13)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 3)
         cropping_view = getMultiAdapter(
             (self.page, self.request), name="croppingeditor"
         )
-        self.assertEqual(len(list(cropping_view._scales("image"))), 13)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 3)
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionText",

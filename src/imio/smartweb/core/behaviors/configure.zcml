@@ -35,4 +35,16 @@
       provides=".minisite.IImioSmartwebMinisiteSettings"
       />
 
+  <adapter
+      for=".minisite.IImioSmartwebMinisite"
+      provides="imio.smartweb.common.interfaces.ICropping"
+      factory=".minisite.MinisiteCroppingProvider"
+      />
+
+  <adapter
+      for=".subsite.IImioSmartwebSubsite"
+      provides="imio.smartweb.common.interfaces.ICropping"
+      factory=".subsite.SubsiteCroppingProvider"
+      />
+
 </configure>

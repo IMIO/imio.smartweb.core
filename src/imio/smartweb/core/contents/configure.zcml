@@ -7,4 +7,18 @@
   <include package=".rest" />
   <include package=".sections" />
 
+  <unconfigure>
+    <adapter
+        for="plone.dexterity.interfaces.IDexterityContent"
+        provides="imio.smartweb.common.interfaces.ICropping"
+        factory="imio.smartweb.common.adapters.BaseCroppingProvider"
+        />
+  </unconfigure>
+
+  <adapter
+      for="plone.dexterity.interfaces.IDexterityContent"
+      provides="imio.smartweb.common.interfaces.ICropping"
+      factory=".cropping.SmartwebCroppingProvider"
+      />
+
 </configure>

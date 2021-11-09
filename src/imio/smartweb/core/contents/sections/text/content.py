@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents.cropping import SmartwebCroppingProvider
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
-from imio.smartweb.core.contents.sections.base import SectionCroppingProvider
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform import directives
 from zope import schema
 from zope.interface import implementer
 
 
-class SectionTextCroppingProvider(SectionCroppingProvider):
+class SectionTextCroppingProvider(SmartwebCroppingProvider):
     def get_scales(self, fieldname, request=None):
         if fieldname == "image":
             # scale used for lead image field

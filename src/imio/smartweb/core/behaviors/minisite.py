@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents import IFolder
+from imio.smartweb.core.contents.cropping import SmartwebCroppingProvider
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.autoform.interfaces import IFormFieldProvider
@@ -10,6 +11,15 @@ from zope import schema
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import provider
+
+
+class MinisiteCroppingProvider(SmartwebCroppingProvider):
+    def get_scales(self, fieldname, request=None):
+        if fieldname == "logo":
+            # scale used for logo field
+            return ["preview"]
+        else:
+            return super(MinisiteCroppingProvider, self).get_scales(fieldname, request)
 
 
 class IImioSmartwebMinisite(INavigationRoot):

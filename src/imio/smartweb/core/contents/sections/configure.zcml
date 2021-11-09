@@ -50,12 +50,6 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
-  <adapter
-      for=".base.Section"
-      provides="imio.smartweb.common.interfaces.ICropping"
-      factory=".base.SectionCroppingProvider"
-      />
-
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectAddedEvent"

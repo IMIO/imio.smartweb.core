@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Define cropping scales for all contents / fields
+  [laulaz]
+
 - Add/fix bootstrap classes on table / carousel views for batches
   [laulaz]
 
