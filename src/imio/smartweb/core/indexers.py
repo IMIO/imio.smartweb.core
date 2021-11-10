@@ -24,10 +24,14 @@ def exclude_from_parent_listing(obj):
 
 @indexer(ISection)
 def SearchableText_section(obj):
-    if obj.hide_title:
-        # Don't index titles that are hidden to the visitor
-        return ""
-    return obj.title or ""
+    terms = []
+    if not obj.hide_title:
+        # Only index titles that are shown to the visitor
+        terms.append(obj.title)
+    if base_hasattr(obj, "description") and obj.description:
+        # Index descriptinons (if any) withould bold
+        terms.append(obj.description.replace("**", ""))
+    return " ".join(terms)
 
 
 @indexer(ISectionText)

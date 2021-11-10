@@ -51,6 +51,59 @@ class TestIndexes(ImioSmartwebTestCase):
             indexes = catalog.getIndexDataForRID(brain.getRID())
             self.assertEqual(indexes.get("SearchableText"), [])
 
+    def test_SearchableText_section_with_description(self):
+        catalog = api.portal.get_tool("portal_catalog")
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionLinks",
+            title="Links",
+        )
+        section.description = "Description **bold**"
+        section.reindexObject()
+        uuid = IUUID(section)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(
+            indexes.get("SearchableText"),
+            ["links", "description", "bold"],
+        )
+
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionVideo",
+            title="Video",
+        )
+        section.description = "Description **bold**"
+        section.video_url = "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed"
+        section.reindexObject()
+        uuid = IUUID(section)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(
+            indexes.get("SearchableText"),
+            ["video", "description", "bold"],
+        )
+
+        self.page.reindexObject()
+        uuid = IUUID(self.page)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertCountEqual(
+            indexes.get("SearchableText"),
+            [
+                "my",
+                "page",
+                "my",
+                "page",
+                "links",
+                "description",
+                "bold",
+                "video",
+                "description",
+                "bold",
+            ],
+        )
+
     def test_SearchableText_sectiontext(self):
         catalog = api.portal.get_tool("portal_catalog")
         section = api.content.create(

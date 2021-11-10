@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Fix SearchableText indexing for links / video sections (new) descriptions
+  [laulaz]
+
 - Define cropping scales for all contents / fields
   [laulaz]
 
