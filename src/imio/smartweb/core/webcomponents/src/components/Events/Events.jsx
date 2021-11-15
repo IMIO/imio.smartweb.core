@@ -85,8 +85,8 @@ function EventsView(props) {
 
     return (
         <Router>
-            <h2>{props.queryFilterUrl}</h2>
-            <h2>{props.queryUrl}</h2>
+            {/* <h2>{props.queryFilterUrl}</h2>
+            <h2>{props.queryUrl}</h2> */}
             <div
                 className="ref"
                 ref={(el) => {
