@@ -1,55 +1,53 @@
 import React, { useEffect, useCallback, useState } from "react";
-import Select from 'react-select'
-import useAxios from '../../../hooks/useAxios';
+import Select from "react-select";
+import useAxios from "../../../hooks/useAxios";
 
 function Filters(props) {
     const [inputValues, setInputValues] = useState({});
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
     const { response, error, isLoading } = useAxios({
-        method: 'get',
-        url: '',
+        method: "get",
+        url: "",
         baseURL: props.url,
         headers: {
-            'Accept': 'application/json',
+            Accept: "application/json",
         },
-        params: '',
-
+        params: "",
     });
 
     useEffect(() => {
         if (response !== null) {
-            const optionsTopics = response.topics.map(d => ({
-                "value": d.token,
-                "label": d.title
-            }))
-            const optionsTaxonomy = response.taxonomy_contact_category ? response.taxonomy_contact_category.map(d => ({
-                "value": d.token,
-                "label": d.title
-            })) : ''
+            const optionsTopics = response.topics.map((d) => ({
+                value: d.token,
+                label: d.title,
+            }));
+            const optionsTaxonomy = response.taxonomy_contact_category
+                ? response.taxonomy_contact_category.map((d) => ({
+                      value: d.token,
+                      label: d.title,
+                  }))
+                : "";
             setTopicsFilter(optionsTopics);
             setTaxonomyFilter(optionsTaxonomy);
         }
     }, [response]);
 
-
-    const onChangeHandler = useCallback(
-        ({ target: { name, value } }) => setInputValues(state => ({ ...state, [name]: value }), [])
+    const onChangeHandler = useCallback(({ target: { name, value } }) =>
+        setInputValues((state) => ({ ...state, [name]: value }), [])
     );
-    const onChangeHandlerSelect = useCallback(
-        (value, action) => {
-            const inputName = action.name
-            if (value) {
-                setInputValues(state => ({ ...state, [inputName]: value.value }), [])
-            } else {
-                setInputValues(prevState => {
-                    const state = { ...prevState }
-                    const { [inputName]: remove, ...rest } = state;
-                    return rest
-                })
-            }
+    const onChangeHandlerSelect = useCallback((value, action) => {
+        const inputName = action.name;
+        if (value) {
+            setInputValues((state) => ({ ...state, [inputName]: value.value }), []);
+        } else {
+            setInputValues((prevState) => {
+                const state = { ...prevState };
+                const { [inputName]: remove, ...rest } = state;
+                return rest;
+            });
         }
-    );
+    });
 
     useEffect(() => {
         props.onChange(inputValues);
@@ -82,7 +80,7 @@ function Filters(props) {
                     isClearable
                     onChange={onChangeHandlerSelect}
                     options={taxonomyFilter && taxonomyFilter}
-                    placeholder={'Toutes'}
+                    placeholder={"Toutes"}
                 />
             </div>
             <div className="r-filter topics-Filter">
@@ -93,7 +91,7 @@ function Filters(props) {
                     isClearable
                     onChange={onChangeHandlerSelect}
                     options={topicsFilter && topicsFilter}
-                    placeholder={'Toutes'}
+                    placeholder={"Toutes"}
                 />
             </div>
         </React.Fragment>

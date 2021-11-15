@@ -4,14 +4,9 @@
   <body>
     <metal:main fill-slot="content-core">
 
-          <div id="root" tal:attributes="data-events view/local_query_url;
-                                         data-events-filters view/local_filters_query_url">
-          </div>
-          <!--
-          <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/events/react.production.min.js" crossorigin></script>
-          <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/events/react-dom.production.min.js" crossorigin></script>
-          <script type="text/javascript" tal:attributes="src string:${context/@@plone_portal_state/portal_url}/++plone++imio.smartweb.core/events/events.js"></script>
-          -->
+    <div class="full-width">
+      <smartweb-events tal:attributes="query-url view/local_query_url; query-filter-url view/local_filters_query_url"></smartweb-events>
+    </div>
     </metal:main>
   </body>
 </html>

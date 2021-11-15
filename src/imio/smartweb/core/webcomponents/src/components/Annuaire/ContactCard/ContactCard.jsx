@@ -3,7 +3,8 @@ import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
 
 const ContactCard = ({ contactItem }) => {
     const title = contactItem.title && contactItem.title;
-    const category = contactItem.taxonomy_contact_category && contactItem.taxonomy_contact_category[0]
+    const category =
+        contactItem.taxonomy_contact_category && contactItem.taxonomy_contact_category[0];
 
     const number = contactItem.number ? contactItem.number : "";
     const street = contactItem.street ? contactItem.street : "";
@@ -14,7 +15,7 @@ const ContactCard = ({ contactItem }) => {
     const phones = contactItem.phones ? contactItem.phones : "";
     const mails = contactItem.mails ? contactItem.mails : "";
     const topics = contactItem.topics ? contactItem.topics : "";
-console.log(category)
+    // console.log(category)
     return (
         <div className="r-list-item">
             <div
@@ -65,21 +66,21 @@ console.log(category)
                     <div className="r-item-contact">
                         <div className="phones">
                             {phones
-                                ? phones.map((phone,i) => {
+                                ? phones.map((phone, i) => {
                                       return <span key={i}>{phone.number}</span>;
                                   })
                                 : ""}
                         </div>
                         <div className="mails">
                             {mails
-                                ? mails.map((mail,i) => {
+                                ? mails.map((mail, i) => {
                                       return <span key={i}>{mail.mail_address}</span>;
                                   })
                                 : ""}
                         </div>
                         <div className="topics">
                             {topics
-                                ? topics.map((mail,i) => {
+                                ? topics.map((mail, i) => {
                                       return <span key={i}>{mail.title}</span>;
                                   })
                                 : ""}

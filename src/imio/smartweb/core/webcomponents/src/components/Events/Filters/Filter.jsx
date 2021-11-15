@@ -31,8 +31,8 @@ function Filters(props) {
                     label: d.title,
                 }));
             const optionsTaxonomy =
-                response.taxonomy_contact_category &&
-                response.taxonomy_contact_category.map((d) => ({
+                response.category &&
+                response.category.map((d) => ({
                     value: d.token,
                     label: d.title,
                 }));
@@ -93,11 +93,12 @@ function Filters(props) {
     let actTaxo =
         taxonomyFilter &&
         taxonomyFilter.filter(
-            (option) => option.value === props.activeFilter.taxonomy_contact_category
+            (option) => option.value === props.activeFilter.category
         );
-    let actFaci =
-        facilitiesFilter &&
-        facilitiesFilter.filter((option) => option.value === props.activeFilter.facilities);
+    // let actFaci =
+    //     facilitiesFilter &&
+    //     facilitiesFilter.filter((option) => option.value === props.activeFilter.facilities);
+    // console.log(topicsFilter)
     return (
         <React.Fragment>
             <form onSubmit={handleSubmit}>
@@ -126,7 +127,7 @@ function Filters(props) {
             <div className="r-filter  facilities-Filter">
                 <span>Catégories</span>
                 <Select
-                    name={"taxonomy_contact_category"}
+                    name={"category"}
                     className="select-custom-class library-facilities"
                     isClearable
                     onChange={onChangeHandlerSelect}
@@ -135,8 +136,8 @@ function Filters(props) {
                     value={actTaxo && actTaxo[0]}
                 />
             </div>
-            <div className="r-filter  facilities-Filter">
-                <span>Facilité</span>
+            {/* <div className="r-filter  facilities-Filter">
+                <span>Période</span>
                 <Select
                     name={"facilities"}
                     className="select-custom-class library-facilities"
@@ -146,7 +147,7 @@ function Filters(props) {
                     placeholder={"Toutes"}
                     value={actFaci && actFaci[0]}
                 />
-            </div>
+            </div> */}
         </React.Fragment>
     );
 }

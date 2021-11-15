@@ -45,6 +45,7 @@ const useAxios = (params) => {
         setIsLoading(true);
         try {
             const res = await axios.request(params);
+            // console.log(params);
             setResponse(res.data);
             setError(null);
         } catch (err) {

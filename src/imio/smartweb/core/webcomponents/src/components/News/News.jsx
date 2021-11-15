@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import { getPath } from "../../utils/url";
 import Skeleton from "./Skeleton/Skeleton.jsx";
-import Filters from "./Filters/Filter"
+import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
 import ContactMap from "./ContactMap/ContactMap";
@@ -16,15 +16,18 @@ const Annuaire = (props) => {
     const [filters, setFilters] = useState({});
     const [batchSize, setBatchSize] = useState(5);
     const [refTop, setRefTop] = useState(null);
-    const { response, error, isLoading } = useAxios({
-        method: "get",
-        url: "",
-        baseURL: props.queryUrl,
-        headers: {
-            Accept: "application/json",
+    const { response, error, isLoading } = useAxios(
+        {
+            method: "get",
+            url: "",
+            baseURL: props.queryUrl,
+            headers: {
+                Accept: "application/json",
+            },
+            params: params,
         },
-        params: params,
-    },[params]);
+        [params]
+    );
 
     useEffect(() => {
         if (response !== null) {
@@ -37,15 +40,14 @@ const Annuaire = (props) => {
     };
 
     const filtersChange = (value) => {
-        setFilters(value)
-    }
+        setFilters(value);
+    };
     const callback = () => {
         setBatchSize(batchSize + 5);
-    }
+    };
     useEffect(() => {
-        setParams({...filters, 'b_size': batchSize})
-       
-    }, [filters,batchSize]);
+        setParams({ ...filters, b_size: batchSize });
+    }, [filters, batchSize]);
     return (
         <div
             className="ref"
@@ -54,10 +56,10 @@ const Annuaire = (props) => {
                 setRefTop(el.getBoundingClientRect().top);
             }}
             style={{ height: `calc(100vh -  ${refTop}px)` }}
-        >   
+        >
             {/* <h1>{"ddd"+props.queryUrl}</h1>
             <h2>{"ddd"+props.queryFilterUrl}</h2> */}
-             <Router>
+            <Router>
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">
                         <Switch>
@@ -78,14 +80,13 @@ const Annuaire = (props) => {
                                         contactArray={contactArray}
                                         parentCallback={callback}
                                     />
-                                // <h1>{props.queryUrl}</h1>
-
+                                    // <h1>{props.queryUrl}</h1>
                                 )}
                             </Route>
                         </Switch>
                     </div>
                 </div>
-            </Router> 
+            </Router>
         </div>
     );
 };

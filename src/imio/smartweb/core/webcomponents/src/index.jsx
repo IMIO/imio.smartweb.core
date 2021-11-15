@@ -2,6 +2,7 @@ import React from "react";
 import ReactWebComponent from "react-web-component";
 import Annuaire from "./components/Annuaire";
 import News from "./components/News";
+import Events from "./components/Events";
 
 
 /*
@@ -10,6 +11,7 @@ import News from "./components/News";
 */
 ReactWebComponent.create(<Annuaire />, "smartweb-annuaire", false);
 ReactWebComponent.create(<News />, "smartweb-news", false);
+ReactWebComponent.create(<Events />, "smartweb-events", false);
 
 
 if (module.hot) {

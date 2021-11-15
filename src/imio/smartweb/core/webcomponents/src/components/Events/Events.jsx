@@ -13,17 +13,17 @@ import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
 import ContactMap from "./ContactMap/ContactMap";
 import useAxios from "../../hooks/useAxios";
-import "./Annuaire.scss";
+import "./Events.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
 
-export default function Annuaire(props) {
+export default function Events(props) {
     return (
         <Router>
-            <AnnuaireView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
+            <EventsView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
         </Router>
     );
 }
-function AnnuaireView(props) {
+function EventsView(props) {
     // let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
@@ -80,9 +80,13 @@ function AnnuaireView(props) {
     useEffect(() => {
         setParams({ ...filters, b_size: batchSize, fullobjects: 1 });
     }, [filters, batchSize]);
+    console.log(response)
+    // console.log(params)s
 
     return (
         <Router>
+            <h2>{props.queryFilterUrl}</h2>
+            <h2>{props.queryUrl}</h2>
             <div
                 className="ref"
                 ref={(el) => {

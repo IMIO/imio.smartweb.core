@@ -1,9 +1,8 @@
 import ContactCard from "../ContactCard/ContactCard";
 import { Link } from "react-router-dom";
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
-
-const ContactList = ({ contactArray, onChange,parentCallback }) => {
+const ContactList = ({ contactArray, onChange, parentCallback }) => {
     function handleClick(event) {
         onChange(event);
     }
@@ -11,7 +10,8 @@ const ContactList = ({ contactArray, onChange,parentCallback }) => {
         <React.Fragment>
             <ul className="r-result-list annuaire-result-list">
                 {contactArray.map((contactItem, i) => (
-                    <li key={i}
+                    <li
+                        key={i}
                         className="r-list-item-group"
                         onClick={() => handleClick(contactItem.UID)}
                     >
@@ -29,10 +29,12 @@ const ContactList = ({ contactArray, onChange,parentCallback }) => {
                     </li>
                 ))}
             </ul>
-            <button onClick={(e) => {
-                parentCallback();
-            }}>
-            Afficher plus
+            <button
+                onClick={(e) => {
+                    parentCallback();
+                }}
+            >
+                Afficher plus
             </button>
         </React.Fragment>
     );

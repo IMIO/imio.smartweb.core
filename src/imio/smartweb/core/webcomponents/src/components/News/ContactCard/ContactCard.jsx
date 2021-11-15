@@ -13,15 +13,15 @@ const ContactCard = ({ contactItem }) => {
             <div
                 className="r-item-img"
                 style={{
-                    backgroundImage: contactItem['@id']
-                        ? "url(" + contactItem['@id'] + "/@@images/image/preview" +")"
+                    backgroundImage: contactItem["@id"]
+                        ? "url(" + contactItem["@id"] + "/@@images/image/preview" + ")"
                         : "url(" + imgPlaceholder + ")",
                 }}
             />
             <div className="r-item-text">
                 {category ? <span className="r-item-categorie">{category}</span> : ""}
                 <span className="r-item-title">{title}</span>
-                {description ? <span className="r-item-title">{category}</span> :""}
+                {description ? <span className="r-item-title">{category}</span> : ""}
             </div>
         </div>
     );
