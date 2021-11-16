@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a12 (unreleased)
+1.0a12 (2021-11-16)
 -------------------
 
 - Add blocks / list faceted layouts and (automatic) criteria configuration for
