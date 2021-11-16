@@ -5,6 +5,10 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Add blocks / list faceted layouts and (automatic) criteria configuration for
+  collections
+  [laulaz]
+
 - Add new fields in rest views (events, directory) and adapt endpoints
   [boulch]
 

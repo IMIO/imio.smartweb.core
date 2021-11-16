@@ -58,6 +58,7 @@ setup(
         "plone.restapi",
         "plone.app.dexterity",
         "plone.app.imagecropping",
+        "eea.facetednavigation",
         "collective.anysurfer",
         "collective.solr",
         "collective.taxonomy",

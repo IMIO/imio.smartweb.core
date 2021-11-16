@@ -1,0 +1,26 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+  <!-- Unconfigure default faceted layout and define ours -->
+  <unconfigure package="eea.facetednavigation.layout">
+    <adapter
+        factory=".layout.FacetedLayout"
+        for="..interfaces.IPossibleFacetedNavigable"
+        />
+  </unconfigure>
+
+  <adapter
+      for="eea.facetednavigation.interfaces.IPossibleFacetedNavigable"
+      factory=".layout.SmartwebFacetedLayout"
+      />
+
+  <!-- Make display menu always available on collections
+       See https://github.com/eea/eea.facetednavigation/issues/228 -->
+  <adapter
+      for="plone.app.contenttypes.interfaces.ICollection *"
+      name="plone.contentmenu.display"
+      factory=".menu.CollectionDisplaySubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      />
+
+</configure>

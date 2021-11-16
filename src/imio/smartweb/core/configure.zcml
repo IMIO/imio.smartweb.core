@@ -4,6 +4,7 @@
   <include package="z3c.unconfigure" file="meta.zcml" />
   <include package="Products.CMFCore" file="permissions.zcml" />
   <include package="plone.app.imagecropping" />
+  <include package="eea.facetednavigation" />
   <include package="collective.geolocationbehavior" />
   <include package="collective.instancebehavior" />
   <include package="collective.taxonomy" />
@@ -26,6 +27,7 @@
   <include package=".contents" />
   <include package=".behaviors" />
   <include package=".browser" />
+  <include package=".faceted" />
   <include package=".viewlets" />
   <include package=".webcomponents" />
 

@@ -1,0 +1,80 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:faceted="http://namespaces.zope.org/faceted"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="imio.smartweb">
+
+  <!-- Unconfigure default faceted layout views -->
+  <unconfigure package="eea.facetednavigation.views">
+    <faceted:view
+        name="faceted-preview-items"
+        template="preview-items.pt"
+        title="Faceted items preview"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        name="faceted-preview-item"
+        for="zope.interface.Interface"
+        template="preview-item.pt"
+        permission="zope2.View"
+        />
+  </unconfigure>
+
+  <!-- Override faceted view to hide lead image -->
+  <configure package="eea.facetednavigation.browser">
+    <browser:page
+        for="..interfaces.IFacetedNavigable"
+        name="facetednavigation_view"
+        template="template/view.pt"
+        class="imio.smartweb.core.browser.faceted.views.SmartwebFacetedContainerView"
+        permission="zope2.View"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        />
+  </configure>
+
+  <browser:page
+      for="plone.app.contenttypes.interfaces.ICollection"
+      name="faceted-view"
+      class=".views.FacetedView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="plone.app.contenttypes.interfaces.ICollection"
+      name="faceted-macros"
+      template="macros.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <faceted:view
+      name="faceted-block-view"
+      template="block_view.pt"
+      title="Faceted block view"
+      permission="zope2.View"
+      />
+
+  <faceted:view
+      name="faceted-block-view-with-images"
+      template="block_view.pt"
+      title="Faceted block view with images"
+      permission="zope2.View"
+      />
+
+  <faceted:view
+      name="faceted-summary-view"
+      template="summary_view.pt"
+      title="Faceted summary view"
+      permission="zope2.View"
+      />
+
+  <faceted:view
+      name="faceted-summary-view-with-images"
+      template="summary_view.pt"
+      title="Faceted summary view with images"
+      permission="zope2.View"
+      />
+
+</configure>

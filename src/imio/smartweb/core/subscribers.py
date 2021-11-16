@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.faceted.utils import configure_faceted
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.utils import safe_html
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -8,6 +9,8 @@ from plone.app.layout.navigation.interfaces import INavigationRoot
 from zope.component import getMultiAdapter
 from zope.lifecycleevent import ObjectRemovedEvent
 from zope.globalrequest import getRequest
+
+import os
 
 
 def moved_folder(obj, event):
@@ -29,6 +32,13 @@ def moved_folder(obj, event):
             request,
             type="warning",
         )
+
+
+def added_collection(obj, event):
+    faceted_config_path = "{}/faceted/config/collection.xml".format(
+        os.path.dirname(__file__)
+    )
+    configure_faceted(obj, faceted_config_path)
 
 
 def added_sectionhtml(obj, event):

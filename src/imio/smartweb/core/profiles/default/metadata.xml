@@ -4,6 +4,7 @@
   <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-plone.app.imagecropping:default</dependency>
+    <dependency>profile-eea.facetednavigation:default</dependency>
     <dependency>profile-collective.anysurfer:default</dependency>
     <dependency>profile-collective.geolocationbehavior:default</dependency>
     <dependency>profile-collective.taxonomy:default</dependency>

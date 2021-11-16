@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object name="collection" meta_type="Dexterity Container">
+ <criteria>
+  <criterion name="search">
+   <property name="widget">text</property>
+   <property name="title">Rechercher</property>
+   <property name="index">SearchableText</property>
+   <property name="onlyallelements">True</property>
+   <property name="wildcard">True</property>
+   <property name="position">top</property>
+   <property name="section">default</property>
+   <property name="hidden">False</property>
+  </criterion>
+  <criterion name="topics">
+   <property name="widget">select</property>
+   <property name="title">Thématiques</property>
+   <property name="index">topics</property>
+   <property name="vocabulary">imio.smartweb.vocabulary.Topics</property>
+   <property name="catalog"></property>
+   <property name="hidealloption">False</property>
+   <property name="position">top</property>
+   <property name="section">default</property>
+   <property name="hidden">False</property>
+   <property name="custom_css"></property>
+   <property name="count">True</property>
+   <property name="sortcountable">False</property>
+   <property name="hidezerocount">True</property>
+   <property name="sortreversed">False</property>
+  </criterion>
+  <criterion name="page-category">
+   <property name="widget">select</property>
+   <property name="title">Catégories</property>
+   <property name="index">taxonomy_page_category</property>
+   <property name="vocabulary">collective.taxonomy.page_category</property>
+   <property name="catalog"></property>
+   <property name="hidealloption">False</property>
+   <property name="position">top</property>
+   <property name="section">default</property>
+   <property name="hidden">False</property>
+   <property name="custom_css"></property>
+   <property name="count">True</property>
+   <property name="sortcountable">False</property>
+   <property name="hidezerocount">True</property>
+   <property name="sortreversed">False</property>
+  </criterion>
+  <criterion name="current">
+   <property name="widget">criteria</property>
+   <property name="title">Filtres courant</property>
+   <property name="hidecriteriaenabled">False</property>
+   <property name="position">top</property>
+   <property name="section">default</property>
+   <property name="hidden">False</property>
+   <property name="custom_css"></property>
+  </criterion>
+  <criterion name="sort">
+   <property name="widget">sorting</property>
+   <property name="title">Trier par</property>
+   <property
+      name="vocabulary">eea.faceted.vocabularies.SortingCatalogIndexes</property>
+   <property name="default">sortable_title</property>
+   <property name="position">bottom</property>
+   <property name="section">default</property>
+   <property name="hidden">True</property>
+   <property name="custom_css"></property>
+  </criterion>
+ </criteria>
+</object>

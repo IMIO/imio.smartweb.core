@@ -1,0 +1,42 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  metal:use-macro="context/main_template/macros/master"
+  i18n:domain="eea">
+
+<body>
+  <metal:content-core fill-slot="content-core">
+    <metal:block define-macro="content-core">
+      <div tal:define="
+        folderContents folderContents | python:context.getFolderContents();
+        Batch python:modules['Products.CMFPlone'].Batch;
+        b_start python:request.get('b_start', 0);
+        batch python:isinstance(folderContents, Batch) and folderContents or Batch(folderContents, 100, int(b_start), orphan=2);">
+
+        <div metal:use-macro="context/batch_macros/macros/navigation" />
+
+        <tal:def tal:define="faceted_view nocall: context/@@faceted-view;
+                             show_images faceted_view/show_images;
+                             thumb_scale faceted_view/get_thumb_scale_list">
+
+            <div class="row" id="block-menu">
+              <div class="list-menu-element col-12" tal:repeat="item batch">
+                <metal:macro use-macro="context/@@faceted-macros/summary" />
+              </div>
+            </div>
+
+        </tal:def>
+
+        <span tal:condition="not: batch/sequence_length"
+              class="table_faceted_no_results"
+              i18n:domain="plone"
+              i18n:translate="description_no_results_found">No results were found.</span>
+
+        <div metal:use-macro="context/batch_macros/macros/navigation" />
+
+      </div>
+    </metal:block>
+  </metal:content-core>
+</body>
+</html>
