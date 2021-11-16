@@ -47,6 +47,7 @@
                         <div class="image d-block w-100"
                              tal:condition="python: item_has_image and show_lead_image"
                              tal:attributes="style string:background-image:url(${item/image})">
+                        </div>
                         <span class="section_links_item_title"
                               tal:content="item/title">Item Title</span>
                         <p tal:condition="context/show_items_description | nothing"
