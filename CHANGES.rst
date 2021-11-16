@@ -5,7 +5,8 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
-- Remove e_guichet action (replaced by generic account action)
+- Remove e_guichet action (replaced by generic account action) and add css class
+  on all header actions
   [laulaz]
 
 - Add text on search link for acessibility

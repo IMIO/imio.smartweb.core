@@ -4,7 +4,8 @@
 
     <a href="#"
        tal:define="icon nocall:link/icon"
-       tal:attributes="href link/url;">
+       tal:attributes="class link/id;
+                       href link/url;">
       <span tal:condition="not:icon"
             tal:content="link/title">
         Action
