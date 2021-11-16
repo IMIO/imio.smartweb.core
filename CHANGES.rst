@@ -9,7 +9,8 @@ Changelog
   collections
   [laulaz]
 
-- Add new fields in rest views (events, directory) and adapt endpoints
+- Add new fields on rest views (event types, contact categories) to filter
+  results and adapt endpoints
   [boulch]
 
 - Refactor folder views html code to simplify it & make it more efficient (no
@@ -28,6 +29,9 @@ Changelog
 
 - Change max results logic for a number of batches (collection / events / news)
   [laulaz]
+
+- Add React search view
+  [tlambert]
 
 - Fix SearchableText indexing for links / video sections (new) descriptions
   [laulaz]
