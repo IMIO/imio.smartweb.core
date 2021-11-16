@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Adapt `@search` endpoint to be context based for SolR searches
+  [mpeeters]
+
 - Change max results logic for a number of batches (collection / events / news)
   [laulaz]
 
