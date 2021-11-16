@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Add text on search link for acessibility
+  [laulaz]
+
 - Adapt `@search` endpoint to be context based for SolR searches
   [mpeeters]
 

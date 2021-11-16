@@ -1,6 +1,10 @@
 <div id="search-link"
      tal:define="portal_state context/@@plone_portal_state;
-                 portal_url portal_state/portal_url;">
+                 portal_url portal_state/portal_url;"
+     i18n:domain="imio.smartweb">
   <a href=""
-     tal:attributes="href string:${portal_url}/@@search"></a>
+     tal:attributes="href string:${portal_url}/@@search">
+     <span class="sr-only"
+           i18n:translate="">Search</span>
+  </a>
 </div>
