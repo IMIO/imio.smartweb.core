@@ -1,61 +1,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-    xmlns:tal="http://xml.zope.org/namespaces/tal"
-    xmlns:metal="http://xml.zope.org/namespaces/metal"
-    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    lang="en"
-    metal:use-macro="context/@@main_template/macros/master"
-    i18n:domain="plone">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      i18n:domain="plone">
 <body>
 
-<metal:content-core fill-slot="content-core">
-<metal:block define-macro="content-core">
+<metal:main fill-slot="content-core">
+<metal:content-core define-macro="content-core">
 
 <metal:block use-macro="context/@@listing_view/macros/content-core">
   <metal:entries fill-slot="entries">
-    <span class="titleItem-container list-group list_group_menu d-block col-xl-6">
-      <metal:block use-macro="context/@@listing_view/macros/entries">
-        <metal:entry fill-slot="entry">
 
-          <article class="tileItem border list-group-item my-3"
-                   tal:define="thumb_scale view/get_thumb_scale_list">
-            <h2 class="tileHeadline" metal:define-macro="listitem">
-              <a class="summary url"
-                  tal:attributes="href item_link;
-                                  title item_type"
-                  tal:content="item_title">
-                Item Title
-              </a>
-            </h2>
+    <tal:def tal:define="thumb_scale thumb_scale_list">
 
-            <div metal:use-macro="context/@@listing_view/macros/document_byline"></div>
-            <div class="d-flex w-100 list_group_menu_body">
-            <tal:if tal:condition="thumb_scale">
-              <div tal:condition="python: item_has_image"
-                   tal:attributes="class python: 'tileImage' if item_description else 'tileImageNoFloat'">
-                <a tal:attributes="href item_link">
-                  <div class="list_group_menu_body_image" tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale})"
-                       tal:condition="python: view.show_images" />
-                </a>
-              </div>
-            </tal:if>
-
-            <div class="tileBody p-3" tal:condition="item_description">
-              <span class="description" tal:content="item_description">
-                description
-              </span>
+        <div class="row" id="block-menu">
+            <div class="list-menu-element col-12" tal:repeat="item batch">
+                <metal:macro use-macro="context/@@folder_macros/summary" />
             </div>
-            </div>
+        </div>
 
-          </article>
+    </tal:def>
 
-        </metal:entry>
-      </metal:block>
-    <span>
   </metal:entries>
 </metal:block>
 
-</metal:block>
 </metal:content-core>
+</metal:main>
 
 </body>
 </html>

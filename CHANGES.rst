@@ -5,6 +5,10 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Refactor folder views html code to simplify it & make it more efficient (no
+  more waking up of objects)
+  [laulaz]
+
 - Remove e_guichet action (replaced by generic account action) and add css class
   on all header actions
   [laulaz]

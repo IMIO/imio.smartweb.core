@@ -14,33 +14,13 @@
                          thumb_scale view/get_thumb_scale_summary">
 
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4" id="block-menu">
-            <div class="block-menu-element col" tal:repeat="menu res/results">
-                <a tal:attributes="href menu/getURL">
-                    <tal:if tal:condition="view/show_images">
-                      <div class="newsImage card-img-top"
-                           tal:attributes="style string:background-image:url(${menu/getURL}/@@images/image/${thumb_scale})"
-                           tal:condition="python: menu.has_leadimage and thumb_scale" />
-                    </tal:if>
-                    <div class="card-body">
-                        <h2 class="card-title" tal:content="menu/Title" />
-                        <div class="card-text" tal:content="menu/description" />
-                    </div>
-                </a>
+            <div class="block-menu-element col" tal:repeat="item res/results">
+                <metal:macro use-macro="context/@@folder_macros/block" />
             </div>
         </div>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4" id="block-quickaccess">
-            <div class="block-menu-element col" tal:repeat="menu res/quick_access">
-                <a tal:attributes="href menu/getURL">
-                    <tal:if tal:condition="view/show_images">
-                      <div class="newsImage card-img-top"
-                           tal:attributes="style string:background-image:url(${menu/getURL}/@@images/image/${thumb_scale})"
-                           tal:condition="python: menu.has_leadimage and thumb_scale" />
-                    </tal:if>
-                    <div class="card-body">
-                        <h2  class="card-title" tal:content="menu/Title" />
-                        <div class="card-text" tal:content="menu/description" />
-                    </div>
-                </a>
+            <div class="block-menu-element col" tal:repeat="item res/quick_access">
+                <metal:macro use-macro="context/@@folder_macros/block" />
             </div>
         </div>
     </tal:def>

@@ -185,7 +185,7 @@ class TestFolder(ImioSmartwebTestCase):
         content = browser.contents
         self.assertIn("template-summary_view", content)
         self.assertNotIn("template-full_view", content)
-        self.assertEqual(content.count("tileHeadline"), 2)
+        self.assertEqual(content.count("<h2"), 2)
 
         # Anonymous - default page is set on element view
         folder.set_default_item(old_default_item=None, new_default_item=page1)

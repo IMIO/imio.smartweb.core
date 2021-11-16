@@ -1,0 +1,41 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="imio.smartweb">
+
+<metal:macro define-macro="block">
+
+  <a tal:attributes="href item/getURL">
+      <tal:if tal:condition="view/show_images">
+        <div class="newsImage card-img-top"
+             tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale})"
+             tal:condition="python: item.has_leadimage and thumb_scale" />
+      </tal:if>
+      <div class="card-body">
+          <h2 class="card-title" tal:content="item/Title" />
+          <div class="card-text" tal:content="item/Description" />
+      </div>
+  </a>
+
+</metal:macro>
+
+
+<metal:macro define-macro="summary">
+
+  <a class="row" tal:attributes="href item/getURL">
+      <tal:if tal:condition="view/show_images">
+        <div class="newsImage card-img-left col-md-2"
+             tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale})"
+             tal:condition="python: item.has_leadimage and thumb_scale" />
+      </tal:if>
+      <div class="list-card-body">
+          <h2 class="list-card-title" tal:content="item/Title" />
+          <div class="list-card-text" tal:content="item/Description" />
+      </div>
+  </a>
+
+</metal:macro>
+
+</html>
