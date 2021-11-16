@@ -8,7 +8,7 @@ class CollectionView(CarouselOrTableSectionView):
     """Collection Section view"""
 
     def items(self):
-        max_items = self.context.max_nb_results
+        max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
         image_scale = self.image_scale
         items = self.context.collection.to_object.results(
             batch=False, brains=True, limit=max_items

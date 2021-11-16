@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Change max results logic for a number of batches (collection / events / news)
+  [laulaz]
+
 - Fix SearchableText indexing for links / video sections (new) descriptions
   [laulaz]
 

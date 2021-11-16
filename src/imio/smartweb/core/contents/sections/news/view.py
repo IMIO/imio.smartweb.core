@@ -12,6 +12,7 @@ class NewsView(CarouselOrTableSectionView):
 
     @property
     def items(self):
+        max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
         params = [
             f"selected_news_folders={self.context.related_news}",
             "portal_type=imio.news.NewsItem",
@@ -21,7 +22,7 @@ class NewsView(CarouselOrTableSectionView):
             "metadata_fields=UID",
             "sort_on=effective",
             "sort_order=descending",
-            f"sort_limit={self.context.max_nb_results}",
+            f"sort_limit={max_items}",
         ]
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         json_search_news = get_json(url)
@@ -32,7 +33,7 @@ class NewsView(CarouselOrTableSectionView):
             return []
         linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
         image_scale = self.image_scale
-        items = json_search_news.get("items")[: self.context.max_nb_results]
+        items = json_search_news.get("items")[:max_items]
         results = []
         for item in items:
             item_id = normalizeString(item["title"])

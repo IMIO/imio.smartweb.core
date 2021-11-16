@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.geolocationbehavior.geolocation import IGeolocatable
+from functools import reduce
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -174,12 +175,17 @@ class TestSections(ImioSmartwebTestCase):
         )
         intids = getUtility(IIntIds)
         section_collection.collection = RelationValue(intids.getId(collection))
+        section_collection.max_nb_batches = 2
+        section_collection.nb_results_by_batch = 3
+        view = queryMultiAdapter((section_collection, self.request), name="table_view")
+        items = view.items()
+        self.assertEqual(len(items), 2)
+        self.assertEqual(len(items[0]), 3)
+        self.assertEqual(reduce(lambda count, l: count + len(l), items, 0), 6)
         section_collection.nb_results_by_batch = 1
+        section_collection.max_nb_batches = 4
         view = queryMultiAdapter((section_collection, self.request), name="table_view")
-        self.assertEqual(len(view.items()), 6)
-        section_collection.max_nb_results = 10
-        view = queryMultiAdapter((section_collection, self.request), name="table_view")
-        self.assertEqual(len(view.items()), 10)
+        self.assertEqual(len(view.items()), 4)
 
     def test_sections_ordering(self):
         page = api.content.create(

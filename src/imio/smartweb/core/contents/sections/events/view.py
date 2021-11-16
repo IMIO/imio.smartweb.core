@@ -14,6 +14,7 @@ class EventsView(CarouselOrTableSectionView):
     @property
     def items(self):
         start = date.today().isoformat()
+        max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
         params = [
             f"selected_agendas={self.context.related_events}",
             "portal_type=imio.events.Event",
@@ -26,7 +27,7 @@ class EventsView(CarouselOrTableSectionView):
             f"start.query={start}",
             "start.range=min",
             "sort_on=start",
-            f"sort_limit={self.context.max_nb_results}",
+            f"sort_limit={max_items}",
         ]
 
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
@@ -38,7 +39,7 @@ class EventsView(CarouselOrTableSectionView):
             return []
         linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
         image_scale = self.image_scale
-        items = json_search_events.get("items")[: self.context.max_nb_results]
+        items = json_search_events.get("items")[:max_items]
         results = []
         for item in items:
             item_id = normalizeString(item["title"])
