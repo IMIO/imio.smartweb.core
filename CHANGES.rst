@@ -42,9 +42,8 @@ Changelog
 - Add/fix bootstrap classes on table / carousel views for batches
   [laulaz]
 
-- Change image scales for :
-   - listing (liste) / blocks (vignette) view
-   - table view (liste / vignette), depending on batch size
+- Change image scales for listing (liste) / blocks (vignette) view and table
+  view (liste / vignette), depending on batch size
   [laulaz]
 
 - Change image scale (affiche) for sections background images
@@ -102,7 +101,7 @@ Changelog
 - Add collective.anysurfer dependency
   [boulch]
 
-- Change navigation markup (quickaccess, close / prev buttons, ...)
+- Change navigation markup (quickaccess, close / prev buttons, etc)
   [laulaz]
 
 - Add new types : EventsView, NewsView, DirectoryView, SectionHTML, SectionMap,
@@ -146,13 +145,13 @@ Changelog
 - Override basic widget template to move description up to input field (jbot)
   [boulch]
 
-- Fix : don't display blocks title if display block is False.
+- Fix : dont display blocks title if display block is False.
   [boulch]
 
 - Display subcontacts from imio.directory.Contact into section contact view.
   [boulch]
 
-- Fix missing "Add new" menu on folderish sections
+- Fix missing `Add new` menu on folderish sections
   [laulaz]
 
 
@@ -178,7 +177,7 @@ Changelog
 - Add custom permissions to manage Subsite and Minisite
   [boulch]
 
-- Authorize adding "Message" (from collective.messagesviewlet) content types in imio.smartweb.Folder
+- Authorize adding `Message` (from collective.messagesviewlet) content types in imio.smartweb.Folder
   [boulch]
 
 
