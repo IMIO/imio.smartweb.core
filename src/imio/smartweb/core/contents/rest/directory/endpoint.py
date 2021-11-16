@@ -25,6 +25,9 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             "metadata_fields=has_leadimage",
             "sort_on=sortable_title",
         ]
+        if self.context.selected_categories is not None:
+            for category in self.context.selected_categories:
+                params.append(f"taxonomy_contact_category={category}")
         params = self.get_extra_params(params)
         url = f"{DIRECTORY_URL}/{self.remote_endpoint}?{'&'.join(params)}"
         return url

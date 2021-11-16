@@ -102,11 +102,23 @@
       component=".vocabularies.CategoryAndTopicsVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
-      
+
  <utility
       name="imio.smartweb.vocabulary.FilteredCategoryAndTopics"
       component=".vocabularies.FilteredCategoryAndTopicsVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
-      
+
+ <utility
+      name="imio.smartweb.vocabulary.DirectoryCategories"
+      component=".vocabularies.DirectoryCategoriesVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.EventsTypes"
+      component=".vocabularies.EventsTypesVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
 </configure>

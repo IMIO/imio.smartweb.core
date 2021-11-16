@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-
-import requests
+from imio.smartweb.core.utils import get_json
 
 
 class BaseEndpoint(object):
@@ -13,17 +12,12 @@ class BaseEndpoint(object):
         self.request = request
 
     def __call__(self):
-        results = self.getResult()
+        results = get_json(self.query_url)
         return results
 
     @property
     def query_url(self):
         raise NotImplementedError
-
-    def getResult(self):
-        headers = {"Accept": "application/json"}
-        result = requests.get(self.query_url, headers=headers)
-        return result.json()
 
     def get_extra_params(self, params):
         form = self.request.form

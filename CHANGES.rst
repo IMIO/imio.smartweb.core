@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Add new fields in rest views (events, directory) and adapt endpoints
+  [boulch]
+
 - Refactor folder views html code to simplify it & make it more efficient (no
   more waking up of objects)
   [laulaz]

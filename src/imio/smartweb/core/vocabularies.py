@@ -7,6 +7,7 @@ from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
 from imio.smartweb.core.utils import get_categories
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.dexterity.content import Item
@@ -17,6 +18,7 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 import json
+import os
 import requests
 
 
@@ -66,12 +68,12 @@ CurrentFolderPagesVocabulary = CurrentFolderPagesVocabularyFactory()
 class BootstrapCSSVocabularyFactory:
     def __call__(self, context=None):
         bootstrap_css = [
-            (u"col-sm-3", _(u"Quarter of width")),
-            (u"col-sm-4", _(u"Third of width")),
-            (u"col-sm-6", _(u"Half of width")),
-            (u"col-sm-8", _(u"Two third of width")),
-            (u"col-sm-9", _(u"Three quarter of width")),
-            (u"col-sm-12", _(u"Full width")),
+            ("col-sm-3", _("Quarter of width")),
+            ("col-sm-4", _("Third of width")),
+            ("col-sm-6", _("Half of width")),
+            ("col-sm-8", _("Two third of width")),
+            ("col-sm-9", _("Three quarter of width")),
+            ("col-sm-12", _("Full width")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in bootstrap_css]
         return SimpleVocabulary(terms)
@@ -83,9 +85,9 @@ BootstrapCSSVocabulary = BootstrapCSSVocabularyFactory()
 class SubsiteDisplayModeVocabularyFactory:
     def __call__(self, context=None):
         display_mode = [
-            (u"title", _(u"Title")),
-            (u"logo", _(u"Logo")),
-            (u"logo_title", _(u"Logo and title")),
+            ("title", _("Title")),
+            ("logo", _("Logo")),
+            ("logo_title", _("Logo and title")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in display_mode]
         return SimpleVocabulary(terms)
@@ -97,15 +99,15 @@ SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()
 class ContactBlocksVocabularyFactory:
     def __call__(self, context=None):
         values = [
-            ("logo", _(u"Logo")),
-            ("leadimage", _(u"Lead Image")),
-            ("titles", _(u"Title and Subtitle")),
-            ("contact_informations", _(u"Contact informations")),
-            ("address", _(u"Address")),
-            ("map", _(u"Map")),
-            ("schedule", _(u"Schedule")),
-            ("description", _(u"Description")),
-            ("gallery", _(u"Gallery")),
+            ("logo", _("Logo")),
+            ("leadimage", _("Lead Image")),
+            ("titles", _("Title and Subtitle")),
+            ("contact_informations", _("Contact informations")),
+            ("address", _("Address")),
+            ("map", _("Map")),
+            ("schedule", _("Schedule")),
+            ("description", _("Description")),
+            ("gallery", _("Gallery")),
         ]
         terms = [
             SimpleVocabulary.createTerm(value[0], value[0], value[1])
@@ -234,10 +236,10 @@ RemoteNewsFoldersVocabulary = RemoteNewsFoldersVocabularyFactory()
 class AlignmentVocabularyFactory:
     def __call__(self, context=None):
         alignment = [
-            (u"left", _(u"Left")),
-            (u"right", _(u"Right")),
-            (u"bottom", _(u"Bottom")),
-            (u"top", _(u"Top")),
+            ("left", _("Left")),
+            ("right", _("Right")),
+            ("bottom", _("Bottom")),
+            ("top", _("Top")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in alignment]
         return SimpleVocabulary(terms)
@@ -249,9 +251,9 @@ AlignmentVocabulary = AlignmentVocabularyFactory()
 class ImageSizeVocabularyFactory:
     def __call__(self, context=None):
         image_size = [
-            (u"large", _(u"Full width")),
-            (u"preview", _(u"Half page")),
-            (u"mini", _(u"Third page")),
+            ("large", _("Full width")),
+            ("preview", _("Half page")),
+            ("mini", _("Third page")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in image_size]
         return SimpleVocabulary(terms)
@@ -354,3 +356,47 @@ class FilteredCategoryAndTopicsVocabularyFactory:
 
 
 FilteredCategoryAndTopicsVocabulary = FilteredCategoryAndTopicsVocabularyFactory()
+
+
+class DirectoryCategoriesVocabularyFactory:
+    def __call__(self, context=None):
+        client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
+        client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
+        id_token = get_wca_token(client_id, client_secret)
+        url = f"{DIRECTORY_URL}/@vocabularies/collective.taxonomy.contact_category"
+        categories_json = get_json(url, auth="Bearer {0}".format(id_token))
+        if categories_json is None or len(categories_json.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(
+                    value=elem["token"], token=elem["token"], title=elem["title"]
+                )
+                for elem in categories_json.get("items")
+            ]
+        )
+
+
+DirectoryCategoriesVocabulary = DirectoryCategoriesVocabularyFactory()
+
+
+class EventsTypesVocabularyFactory:
+    def __call__(self, context=None):
+        client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
+        client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
+        id_token = get_wca_token(client_id, client_secret)
+        url = f"{EVENTS_URL}/@vocabularies/imio.events.vocabulary.EventTypes"
+        eventstypes_json = get_json(url, auth="Bearer {0}".format(id_token))
+        if eventstypes_json is None or len(eventstypes_json.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(
+                    value=elem["token"], token=elem["token"], title=elem["title"]
+                )
+                for elem in eventstypes_json.get("items")
+            ]
+        )
+
+
+EventsTypesVocabulary = EventsTypesVocabularyFactory()

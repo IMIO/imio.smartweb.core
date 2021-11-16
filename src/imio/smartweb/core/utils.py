@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
 from collective.taxonomy.interfaces import ITaxonomy
+from imio.smartweb.core.config import WCA_URL
 from more_itertools import chunked
 from plone import api
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
 
 import json
+import os
 import requests
 
 
@@ -42,14 +44,34 @@ def concat_voca_title(title1, title2):
     return "{0} - {1}".format(title1, title2)
 
 
-def get_json(url):
+def get_json(url, auth=None):
+    headers = {"Accept": "application/json"}
+    if auth is not None:
+        headers["Authorization"] = auth
     try:
-        response = requests.get(url, headers={"Accept": "application/json"}, timeout=5)
+        response = requests.get(url, headers=headers, timeout=5)
     except Exception:
         return None
     if response.status_code != 200:
         return None
     return json.loads(response.text)
+
+
+def get_wca_token(client_id, client_secret):
+    payload = {
+        "grant_type": "password",
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "username": os.environ.get("RESTAPI_USER_USERNAME"),
+        "password": os.environ.get("RESTAPI_USER_PASSWORD"),
+        "scope": ["openid"],
+    }
+    headers = {
+        "Content-Type": "application/x-www-form-urlencoded",
+    }
+    response = requests.post(WCA_URL, headers=headers, data=payload)
+    id_token = response.json().get("id_token")
+    return id_token
 
 
 def safe_html(html):

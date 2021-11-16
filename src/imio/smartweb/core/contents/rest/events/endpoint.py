@@ -30,6 +30,9 @@ class BaseEventsEndpoint(BaseEndpoint):
             "sort_on=start",
             "sort_limit={}".format(self.context.nb_results),
         ]
+        if self.context.selected_event_types is not None:
+            for event_type in self.context.selected_event_types:
+                params.append(f"event_type={event_type}")
         params = self.get_extra_params(params)
         url = f"{EVENTS_URL}/{self.remote_endpoint}?{'&'.join(params)}"
         return url
