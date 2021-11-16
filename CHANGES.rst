@@ -5,6 +5,9 @@ Changelog
 1.0a12 (unreleased)
 -------------------
 
+- Remove e_guichet action (replaced by generic account action)
+  [laulaz]
+
 - Add text on search link for acessibility
   [laulaz]
 

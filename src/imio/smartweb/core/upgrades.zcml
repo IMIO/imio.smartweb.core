@@ -21,4 +21,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Reload actions and remove e_guichet action"
+      description=""
+      source="1002"
+      destination="1003"
+      handler=".upgrades.update_actions"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

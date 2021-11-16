@@ -23,3 +23,13 @@ def configure_first_official_release(context):
 def set_thumb_scales(context):
     api.portal.set_registry_record("plone.thumb_scale_listing", "liste")
     api.portal.set_registry_record("plone.thumb_scale_summary", "vignette")
+
+
+def update_actions(context):
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runImportStepFromProfile(PROFILEID, "actions")
+    portal_actions = api.portal.get_tool("portal_actions")
+    header_actions = getattr(portal_actions, "header_actions")
+    if "e_guichet" in header_actions.objectIds():
+        header_actions._delObject("e_guichet")
+        logger.info("Deleted e_guichet header action")
