@@ -31,7 +31,7 @@ const Search = (props) => {
         <div className="ref">
             <div className="r-search">
                 <div className="row r-search-filters">
-                    <Filters url={props.queryFilterUrl} onChange={filtersChange} />
+                    <Filters url={props.queryUrl} onChange={filtersChange} />
                 </div>
                 <div className="row r-search-result">
                     <WebResult urlParams={params} url={props.queryUrl} />

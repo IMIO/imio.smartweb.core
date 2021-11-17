@@ -5,7 +5,9 @@ Changelog
 1.0a13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Change url for fetch search filters data.
+  [thomlamb]
+
 
 
 1.0a12 (2021-11-16)

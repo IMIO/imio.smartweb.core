@@ -10,7 +10,7 @@ function Filters(props) {
     const {response, topicsError, topicsIsLoading } = useAxios({
         method: 'get',
         url: "",
-        baseURL: 'http://localhost:3000/Plone/@vocabularies/imio.smartweb.vocabulary.Topics',
+        baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics',
         headers: {
             'Accept': 'application/json',
             'Authorization': 'Basic YWRtaW46c2VjcmV0',
