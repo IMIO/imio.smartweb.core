@@ -15,7 +15,6 @@ Changelog
   [thomlamb]
 
 
-
 1.0a12 (2021-11-16)
 -------------------
 
@@ -45,7 +44,7 @@ Changelog
   [laulaz]
 
 - Add React search view
-  [tlambert]
+  [thomlamb]
 
 - Fix SearchableText indexing for links / video sections (new) descriptions
   [laulaz]
@@ -89,13 +88,13 @@ Changelog
   [jimbiscuit, mpeeters]
 
 - CSS fixes / improvements
-  [tlambert]
+  [thomlamb]
 
 - Code refactoring
   [laulaz]
 
 - Add React views and machinery
-  [tlambert, duchenean]
+  [thomlamb, duchenean]
 
 - Add cropping support and define cropping scales per content / field
   [laulaz]
