@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a13 (unreleased)
+1.0a13 (2021-11-17)
 -------------------
 
 - Change url for fetch search filters data.
