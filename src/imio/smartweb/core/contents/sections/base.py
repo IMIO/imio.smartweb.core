@@ -52,10 +52,6 @@ class Section(Container):
     manage_display = False
     can_toggle_title_visibility = True
 
-    @property
-    def get_last_mofication_date(self):
-        return self.ModificationDate()
-
     def canSetLayout(self):
         return False
 

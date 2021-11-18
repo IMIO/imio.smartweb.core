@@ -54,20 +54,18 @@ class TestSections(ImioSmartwebTestCase):
             "http://nohost/plone/page#section-text",
         )
 
-    def test_get_last_mofication_date(self):
+    def test_mofication_date(self):
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionText",
             title="Section text",
         )
-        self.assertEqual(section.get_last_mofication_date, section.ModificationDate())
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionGallery",
             title="Section Gallery",
         )
-        self.assertEqual(section.get_last_mofication_date, section.ModificationDate())
-        first_modification = section.get_last_mofication_date
+        first_modification = section.ModificationDate()
         sleep(1)
         # adding an image to a section causes a reindex of the section, thus
         # changes its last modification date
@@ -76,7 +74,7 @@ class TestSections(ImioSmartwebTestCase):
             type="Image",
             title="Image",
         )
-        next_modification = section.get_last_mofication_date
+        next_modification = section.ModificationDate()
         self.assertNotEqual(first_modification, next_modification)
 
     def test_files_informations(self):

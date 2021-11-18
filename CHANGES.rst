@@ -5,7 +5,8 @@ Changelog
 1.0a14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Cleanup useless code
+  [laulaz]
 
 
 1.0a13 (2021-11-17)

@@ -67,7 +67,7 @@
 
       </div>
 
-      <tal:dates define="modified context/get_last_mofication_date">
+      <tal:dates define="modified context/ModificationDate">
         <span class="documentModified"
               tal:condition="modified">
           <span i18n:translate="">
