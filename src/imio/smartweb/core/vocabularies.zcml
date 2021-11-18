@@ -2,6 +2,12 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <utility
+      name="imio.smartweb.vocabulary.Icons"
+      component=".vocabularies.IconsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.PublikProcedures"
       component=".vocabularies.RemoteProceduresVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

@@ -36,6 +36,12 @@ class TestVocabularies(ImioSmartwebTestCase):
         )
         self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&selected_entities=396907b3b1b04a97896b12cc792c77f8&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb"
 
+    def test_icons(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 9)
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.Icons")
+        term = vocabulary.getTerm("annuaire")
+        self.assertEqual(term.title, "Annuaire")
+
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
         m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))

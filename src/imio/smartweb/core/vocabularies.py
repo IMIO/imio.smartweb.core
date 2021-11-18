@@ -3,6 +3,7 @@
 from imio.smartweb.core.config import DIRECTORY_URL, EVENTS_URL, NEWS_URL
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
+from imio.smartweb.core.interfaces import ISmartwebIcon
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
 from imio.smartweb.core.utils import get_categories
@@ -11,6 +12,7 @@ from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.dexterity.content import Item
+from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
 from zope.i18n import translate
 from zope.schema.interfaces import IVocabularyFactory
@@ -20,6 +22,32 @@ from zope.schema.vocabulary import SimpleVocabulary
 import json
 import os
 import requests
+
+
+class IconsVocabularyFactory:
+    def __call__(self, context=None):
+        icon_prefix = "smartweb.icon."
+        registry = getUtility(IRegistry)
+        icons = []
+        for record in registry.records.values():
+            if record.interfaceName != ISmartwebIcon.__identifier__:
+                continue
+            name = record.__name__.replace(icon_prefix, "")
+            icons.append(
+                {
+                    "title": record.field.title,
+                    "name": name,
+                }
+            )
+        icons.sort(key=lambda k: k["title"])
+        terms = [
+            SimpleTerm(value=i["name"], token=i["name"], title=i["title"])
+            for i in icons
+        ]
+        return SimpleVocabulary(terms)
+
+
+IconsVocabulary = IconsVocabularyFactory()
 
 
 class RemoteProceduresVocabularyFactory:

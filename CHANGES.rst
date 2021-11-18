@@ -5,6 +5,9 @@ Changelog
 1.0a14 (unreleased)
 -------------------
 
+- Add SVG icon option for block links, with icon resolver and basic icons set
+  [laulaz]
+
 - Cleanup useless code
   [laulaz]
 

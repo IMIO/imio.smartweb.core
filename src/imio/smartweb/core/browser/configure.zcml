@@ -33,6 +33,14 @@
       />
 
   <browser:page
+      for="*"
+      name="smartwebiconresolver"
+      class=".icons.SmartwebIconsView"
+      permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
       name="smartweb-controlpanel"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".controlpanel.SmartwebControlPanelView"

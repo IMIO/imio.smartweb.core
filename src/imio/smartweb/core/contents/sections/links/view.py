@@ -13,12 +13,18 @@ class LinksView(CarouselOrTableSectionView):
         results = []
         for item in items:
             url = item.absolute_url()
-            has_image = True if getattr(item.aq_base, "image", None) else False
+            has_icon = has_image = False
+            if getattr(item.aq_base, "svg_icon", None):
+                has_icon = True
+            elif getattr(item.aq_base, "image", None):
+                has_image = True
             results.append(
                 {
                     "title": item.title,
                     "description": item.description,
                     "url": url,
+                    "icon": item.svg_icon,
+                    "has_icon": has_icon,
                     "image": f"{url}/@@images/image/{image_scale}",
                     "has_image": has_image,
                 }
