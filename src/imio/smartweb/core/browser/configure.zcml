@@ -45,6 +45,7 @@
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".controlpanel.SmartwebControlPanelView"
       permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
   <browser:page
@@ -68,9 +69,9 @@
       for="*"
       name="has_gdpr_text"
       class=".utils.UtilsView"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       attribute="has_gdpr_text"
       permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
 </configure>
