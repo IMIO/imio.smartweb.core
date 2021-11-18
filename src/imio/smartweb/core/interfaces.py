@@ -7,6 +7,10 @@ from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
 from zope.interface import Interface
 
 
+class ISmartwebIcon(Interface):
+    """Marker interface to easily find all registered icons in registry."""
+
+
 class IViewWithoutLeadImage(Interface):
     """Marker interface for views that shouldn't show leadimage."""
 

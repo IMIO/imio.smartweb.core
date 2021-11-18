@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="smartweb.icon.annuaire"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Annuaire</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/annuaire.svg</value>
+    </record>
+
+    <record name="smartweb.icon.demarches"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Démarches</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/demarches.svg</value>
+    </record>
+
+    <record name="smartweb.icon.ecoles"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Ecoles</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/ecoles.svg</value>
+    </record>
+
+    <record name="smartweb.icon.horaires"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Horaires</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/horaires.svg</value>
+    </record>
+
+    <record name="smartweb.icon.mobilite"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Mobilité</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/mobilite.svg</value>
+    </record>
+
+    <record name="smartweb.icon.parkings"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Parkings</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/parkings.svg</value>
+    </record>
+
+    <record name="smartweb.icon.sports"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Sports</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/sports.svg</value>
+    </record>
+
+    <record name="smartweb.icon.tourisme"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Tourisme</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/tourisme.svg</value>
+    </record>
+
+    <record name="smartweb.icon.travaux"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Travaux</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/travaux.svg</value>
+    </record>
+
+</registry>

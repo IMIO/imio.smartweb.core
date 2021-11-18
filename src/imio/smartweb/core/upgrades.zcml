@@ -30,4 +30,16 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="1003"
+      destination="1004"
+      profile="imio.smartweb.core:default">
+
+      <genericsetup:upgradeDepends
+          title="Install basic icons set"
+          import_profile="imio.smartweb.core:icons-basic"
+          />
+
+  </genericsetup:upgradeSteps>
+
 </configure>

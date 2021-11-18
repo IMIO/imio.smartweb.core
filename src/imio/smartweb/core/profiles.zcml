@@ -29,6 +29,14 @@
       post_handler=".setuphandlers.uninstall"
       />
 
+  <genericsetup:registerProfile
+      name="icons-basic"
+      title="imio.smartweb.core basic icons set"
+      directory="profiles/icons/basic"
+      description="Installs basic smartweb icons set"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <utility
       name="imio.smartweb.core-hiddenprofiles"
       factory=".setuphandlers.HiddenProfiles"
