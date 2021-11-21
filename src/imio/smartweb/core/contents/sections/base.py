@@ -13,6 +13,19 @@ class ISection(model.Schema):
     """Shared base marker interface and schema for Sections"""
 
     title = schema.TextLine(title=_(u"Title"), required=True)
+
+    model.fieldset(
+        "layout",
+        label=_(u"Layout"),
+        fields=[
+            "hide_title",
+            "collapsible_section",
+            "background_image",
+            "bootstrap_css_class",
+            "css_class",
+        ],
+    )
+
     hide_title = schema.Bool(
         title=_(u"Hide title"),
         description=_(
@@ -22,10 +35,15 @@ class ISection(model.Schema):
         default=False,
     )
 
-    model.fieldset(
-        "layout",
-        label=_(u"Layout"),
-        fields=["hide_title", "background_image", "bootstrap_css_class", "css_class"],
+    collapsible_section = schema.Bool(
+        title=_(
+            u"Hide the content of the section that will be displayed by clicking on the title"
+        ),
+        description=_(
+            u"The title will always be displayed if this behavior is enabled."
+        ),
+        required=False,
+        default=False,
     )
 
     write_permission(background_image="cmf.ManagePortal")

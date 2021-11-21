@@ -21,7 +21,9 @@
 
     <p tal:replace="structure context/@@description" />
 
-    <div class="body-section">
+    <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
+         tal:attributes="class string:body-section ${collapse_klass};
+                         id string:body-section-${context/id}">
 
       <tal:if tal:condition="items">
 

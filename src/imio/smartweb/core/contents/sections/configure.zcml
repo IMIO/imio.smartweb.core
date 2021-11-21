@@ -53,13 +53,13 @@
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectAddedEvent"
-      handler=".subscriber.reindexParent"
+      handler=".subscriber.added_section"
       />
 
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-      handler=".subscriber.reindexParent"
+      handler=".subscriber.modified_section"
       />
 
   <subscriber

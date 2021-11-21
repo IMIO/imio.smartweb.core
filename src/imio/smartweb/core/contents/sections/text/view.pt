@@ -13,8 +13,10 @@
      tal:attributes="style view/background_style;"
      class="section-container section-text">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-    <div tal:define="klass string:body-section figure-${context/alignment};"
-         tal:attributes="class python:'{} {}'.format(klass, 'no-image') if not image else klass;">
+    <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else '';
+                     klass string:body-section figure-${context/alignment} ${collapse_klass};"
+         tal:attributes="class python:'{} {}'.format(klass, 'no-image') if not image else klass;
+                         id string:body-section-${context/id}">
       <tal:cond condition="context/image | nothing">
         <figure>
           <img alt="" tal:attributes="src string:${context/absolute_url}/@@images/image/${context/image_size};" />

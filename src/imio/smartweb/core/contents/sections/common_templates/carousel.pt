@@ -14,7 +14,8 @@
                  items view/items;"
      tal:attributes="style view/background_style">
 
-  <tal:if tal:define="show_section python: can_edit or items"
+  <tal:if tal:define="show_section python: can_edit or items;
+                      body_section_id string:body-section-${context/id}"
           tal:condition="show_section">
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
@@ -22,12 +23,14 @@
     <p tal:replace="structure context/@@description" />
 
     <div tal:condition="items"
-         tal:attributes="id context/id"
-         class="body-section carousel carousel-dark slide"
-         data-bs-ride="carousel">
+         tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
+         class=""
+         data-bs-ride="carousel"
+         tal:attributes="class string:body-section carousel carousel-dark slide ${collapse_klass};
+                         id body_section_id">
       <div class="carousel-indicators">
         <button tal:repeat="item items"
-                tal:attributes="data-bs-target string:#${context/id};
+                tal:attributes="data-bs-target string:#${body_section_id};
                                 data-bs-slide-to repeat/item/index;
                                 aria-label string:Slide ${repeat/item/number};
                                 class python:'active' if repeat.item.start else nothing;
@@ -71,14 +74,14 @@
         </div>
       </div>
 
-      <button tal:attributes="data-bs-target string:#${context/id}"
+      <button tal:attributes="data-bs-target string:#${body_section_id}"
               class="carousel-control-prev"
               type="button"
               data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
       </button>
-      <button tal:attributes="data-bs-target string:#${context/id}"
+      <button tal:attributes="data-bs-target string:#${body_section_id}"
               class="carousel-control-next"
               type="button"
               data-bs-slide="next">

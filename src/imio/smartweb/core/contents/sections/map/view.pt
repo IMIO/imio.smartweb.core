@@ -13,12 +13,16 @@
 
   <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
-  <div class="pat-leaflet map"
-       tal:define="utils_view context/@@utils;
-                   data_geojson view/data_geojson"
-       tal:condition="data_geojson"
-       tal:attributes="data-geojson data_geojson"
-       data-pat-leaflet='${utils_view/map_configuration}'></div>
+  <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
+       tal:attributes="class string:body-section ${collapse_klass};
+                       id string:body-section-${context/id}">
+    <div class="pat-leaflet map"
+         tal:define="utils_view context/@@utils;
+                     data_geojson view/data_geojson"
+         tal:condition="data_geojson"
+         tal:attributes="data-geojson data_geojson"
+         data-pat-leaflet='${utils_view/map_configuration}'></div>
+  </div>
 
 </div>
 </metal:content-core>

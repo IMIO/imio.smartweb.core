@@ -15,8 +15,10 @@
          tal:define="contact view/contact | nothing;
                      utils_view context/@@utils;
                      visible_blocks context/visible_blocks;
-                     show_main_title python:'titles' in visible_blocks;"
-         tal:attributes="class string:body-section ${view/contact_type_class}"
+                     show_main_title python:'titles' in visible_blocks;
+                     collapse_klass python: 'collapse' if context.collapsible_section else '';"
+         tal:attributes="class string:body-section ${view/contact_type_class} ${collapse_klass};
+                         id string:body-section-${context/id}"
          tal:condition="contact">
 
       <div class="contact_logo"

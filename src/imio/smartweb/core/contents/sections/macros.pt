@@ -15,11 +15,27 @@
            i18n:domain="imio.smartweb">
 
     <h2 tal:condition="not: hide_title"
-        tal:content="context/title"
-        class="section-title" />
+        class="section-title"><a
+         href=""
+         role="button"
+         aria-expanded="false"
+         data-bs-toggle="collapse"
+         data-bs-target=""
+         tal:omit-tag="not: context/collapsible_section"
+         tal:attributes="data-bs-target string:#body-section-${context/id}"
+         tal:content="context/title"
+    /></h2>
     <h2 tal:condition="python: can_edit and hide_title"
-        tal:content="context/title"
-        class="hidden-section-title hide-in-preview" />
+        class="hidden-section-title hide-in-preview"><a
+         href=""
+         role="button"
+         aria-expanded="false"
+         data-bs-toggle="collapse"
+         data-bs-target=""
+         tal:omit-tag="not: context/collapsible_section"
+         tal:attributes="data-bs-target string:#body-section-${context/id}"
+         tal:content="context/title"
+    /></h2>
 
     <div tal:condition="can_edit"
          class="header-section hide-in-preview">

@@ -12,7 +12,9 @@
 <div tal:attributes="style view/background_style;"
      class="section-container section-html">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-    <div class="body-section">
+    <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
+         tal:attributes="class string:body-section ${collapse_klass};
+                         id string:body-section-${context/id}">
       <div class="html"
            tal:content="structure context/html | nothing" />
     </div>

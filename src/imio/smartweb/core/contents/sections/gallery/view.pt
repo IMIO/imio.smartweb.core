@@ -18,7 +18,10 @@
           tal:condition="show_section">
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
-    <div class="body-section">
+    <div class=""
+         tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
+         tal:attributes="class string:body-section ${collapse_klass};
+                         id string:body-section-${context/id}">
       <!-- fix some css for usage in Plone  -->
       <style type="text/css">
        #spotlight .header { padding-right: 120px !important; }
