@@ -15,7 +15,7 @@
              tal:condition="python: image_url and thumb_scale" />
       </tal:if>
       <tal:if tal:condition="python: faceted_view.is_video(item)">
-        <div class="newsImage card-img"
+        <div class="newsImage card-img ratio ratio-16x9"
              tal:define="obj item/getObject;
                          section_view nocall: obj/@@view"
              tal:content="structure python:section_view.get_embed_video(width='300')" />
@@ -39,7 +39,7 @@
              tal:condition="python: image_url and thumb_scale" />
       </tal:if>
       <tal:if tal:condition="python: faceted_view.is_video(item)">
-        <div class="newsImage card-img col-md-2"
+        <div class="newsImage card-img col-md-2 ratio ratio-16x9"
              tal:define="obj item/getObject;
                          section_view nocall: obj/@@view"
              tal:content="structure python:section_view.get_embed_video(width='300')" />

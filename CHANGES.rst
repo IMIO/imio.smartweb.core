@@ -5,6 +5,9 @@ Changelog
 1.0a14 (unreleased)
 -------------------
 
+- Add responsible 16:9 ratio on embed videos
+  [laulaz]
+
 - Add collapsable option for sections (click on section title opens section body)
   [laulaz]
 
