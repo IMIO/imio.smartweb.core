@@ -52,6 +52,8 @@ class EventsFiltersEndpoint(BaseEventsEndpoint):
 
 class EventsEndpointGet(Service):
     def render(self):
+        response = self.request.response
+        response.setHeader("Content-Type", self.content_type)
         related_items = EventsEndpoint(self.context, self.request)
         return json.dumps(
             related_items(),
@@ -62,6 +64,8 @@ class EventsEndpointGet(Service):
 
 class EventsFiltersEndpointGet(Service):
     def render(self):
+        response = self.request.response
+        response.setHeader("Content-Type", self.content_type)
         related_items = EventsFiltersEndpoint(self.context, self.request)
         return json.dumps(
             related_items(),

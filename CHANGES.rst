@@ -4,6 +4,10 @@ Changelog
 
 1.0a14 (unreleased)
 -------------------
+
+- Force endpoints returning values as JSON
+  [laulaz]
+
 - Update news root and refactor code
   [thomlamb]
 

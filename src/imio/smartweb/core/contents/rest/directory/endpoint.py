@@ -47,6 +47,8 @@ class DirectoryFiltersEndpoint(BaseDirectoryEndpoint):
 
 class DirectoryEndpointGet(Service):
     def render(self):
+        response = self.request.response
+        response.setHeader("Content-Type", self.content_type)
         related_items = DirectoryEndpoint(self.context, self.request)
         return json.dumps(
             related_items(),
@@ -57,6 +59,8 @@ class DirectoryEndpointGet(Service):
 
 class DirectoryFiltersEndpointGet(Service):
     def render(self):
+        response = self.request.response
+        response.setHeader("Content-Type", self.content_type)
         related_items = DirectoryFiltersEndpoint(self.context, self.request)
         return json.dumps(
             related_items(),
