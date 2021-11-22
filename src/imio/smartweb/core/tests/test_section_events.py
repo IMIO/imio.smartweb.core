@@ -1,30 +1,19 @@
 # -*- coding: utf-8 -*-
 
-from bs4 import BeautifulSoup
-from datetime import datetime
-from datetime import timedelta
 from freezegun import freeze_time
-
-# from imio.smartweb.core.contents.sections.contact.view import formatted_schedule
-# from imio.smartweb.core.contents.sections.contact.view import get_schedule_for_today
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.app.testing import TEST_USER_NAME
-from plone.app.testing import TEST_USER_PASSWORD
-from plone.testing.zope import Browser
 from z3c.relationfield import RelationValue
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.intid.interfaces import IIntIds
 
 import json
-import requests
 import requests_mock
-import transaction
 
 
 class TestEvents(ImioSmartwebTestCase):
@@ -43,6 +32,7 @@ class TestEvents(ImioSmartwebTestCase):
         self.json_events = get_json("resources/json_rest_events.json")
 
     @requests_mock.Mocker()
+    @freeze_time("2021-11-15")
     def test_events(self, m):
         rest_events_view = api.content.create(
             container=self.portal,
@@ -60,6 +50,6 @@ class TestEvents(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.portalpage, self.request), name="full_view")
         self.assertIn("My events", view())
         events_view = queryMultiAdapter((events, self.request), name="carousel_view")
-        url = "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&start.query=2021-11-18&start.range=min&sort_on=start&sort_limit=6"
+        url = "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&start.query=2021-11-15&start.range=min&sort_on=start&sort_limit=6"
         m.get(url, text=json.dumps(self.json_events))
         self.assertEqual(events_view.items[0][0].get("title"), "Marche gourmande")
