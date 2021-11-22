@@ -45,7 +45,7 @@ class NewsFiltersEndpoint(BaseNewsEndpoint):
 class NewsEndpointGet(Service):
     def render(self):
         response = self.request.response
-        response.setHeader("Content-Type", self.content_type)
+        response.setHeader("Content-type", "application/json")
         related_items = NewsEndpoint(self.context, self.request)
         return json.dumps(
             related_items(),
@@ -57,7 +57,7 @@ class NewsEndpointGet(Service):
 class NewsFiltersEndpointGet(Service):
     def render(self):
         response = self.request.response
-        response.setHeader("Content-Type", self.content_type)
+        response.setHeader("Content-type", "application/json")
         related_items = NewsFiltersEndpoint(self.context, self.request)
         return json.dumps(
             related_items(),
