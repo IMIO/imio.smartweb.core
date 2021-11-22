@@ -4,6 +4,11 @@ Changelog
 
 1.0a14 (unreleased)
 -------------------
+- Update news root and refactor code
+  [thomlamb]
+
+- prettify code and delete useless state
+  [thomlamb]
 
 - Add responsible 16:9 ratio on embed videos
   [laulaz]

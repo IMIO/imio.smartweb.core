@@ -1,9 +1,13 @@
 import React, { useEffect, useCallback, useState } from "react";
 import Select from "react-select";
+import {useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 
 function Filters(props) {
-    const [inputValues, setInputValues] = useState({});
+    let history = useHistory();
+    const queryString = require("query-string");
+
+    const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
     const { response, error, isLoading } = useAxios({
@@ -13,7 +17,7 @@ function Filters(props) {
         headers: {
             Accept: "application/json",
         },
-        params: "",
+        params: inputValues,
     });
 
     useEffect(() => {
@@ -33,9 +37,17 @@ function Filters(props) {
         }
     }, [response]);
 
-    const onChangeHandler = useCallback(({ target: { name, value } }) =>
-        setInputValues((state) => ({ ...state, [name]: value }), [])
-    );
+    const onChangeHandler = useCallback(({ target: { name, value } }) =>{
+        if (value) {
+            setInputValues((state) => ({ ...state, [name]: value }), [])
+        } else{
+            setInputValues((prevState) => {
+                const state = { ...prevState };
+                const { [name]: remove, ...rest } = state;
+                return rest;
+            });
+        }
+    });
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
         if (value) {
@@ -50,6 +62,11 @@ function Filters(props) {
     });
 
     useEffect(() => {
+        history.push({
+            pathname: "",
+            search: queryString.stringify(inputValues),
+        });
+
         props.onChange(inputValues);
     }, [inputValues]);
 
@@ -58,20 +75,28 @@ function Filters(props) {
         props.onChange(inputValues);
     }
 
-    // console.log(inputValues);
+    // set default input value
+    let actTopi =
+        topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
 
+    let actTaxo =
+        taxonomyFilter &&
+        taxonomyFilter.filter(
+            (option) => option.value === props.activeFilter.taxonomy_contact_category
+        );
+    console.log(inputValues)
     return (
         <React.Fragment>
-            {/* <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
                 <label>
                     Recherche
                     <input
-                        name="search" type="text"
-                        value={inputValues.search}
+                        name="SearchableText" type="text"
+                        value={inputValues.SearchableText}
                         onChange={onChangeHandler} />
                 </label>
-                <button type="submit">Do the thing</button>
-            </form> */}
+                <button type="submit">Recherche</button>
+            </form>
             <div className="r-filter  facilities-Filter">
                 <span>Catégories</span>
                 <Select
@@ -81,6 +106,8 @@ function Filters(props) {
                     onChange={onChangeHandlerSelect}
                     options={taxonomyFilter && taxonomyFilter}
                     placeholder={"Toutes"}
+                    value={actTaxo && actTaxo[0]}
+
                 />
             </div>
             <div className="r-filter topics-Filter">
@@ -92,6 +119,7 @@ function Filters(props) {
                     onChange={onChangeHandlerSelect}
                     options={topicsFilter && topicsFilter}
                     placeholder={"Toutes"}
+                    value={actTopi && actTopi[0]}
                 />
             </div>
         </React.Fragment>

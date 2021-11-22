@@ -1,6 +1,6 @@
 import ContactCard from "../ContactCard/ContactCard";
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 const ContactList = ({ contactArray, onChange, parentCallback }) => {
     function handleClick(event) {
@@ -19,7 +19,8 @@ const ContactList = ({ contactArray, onChange, parentCallback }) => {
                             className="r-list-item-link"
                             style={{ textDecoration: "none" }}
                             to={{
-                                pathname: `${contactItem.UID}`,
+                                pathname: `${contactItem.title}`,
+                                search: `?u=${contactItem.UID}`,
                                 state: {
                                     idItem: contactItem.UID,
                                 },
