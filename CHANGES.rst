@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a14 (unreleased)
+1.0a14 (2021-11-22)
 -------------------
 
 - Force endpoints returning values as JSON
