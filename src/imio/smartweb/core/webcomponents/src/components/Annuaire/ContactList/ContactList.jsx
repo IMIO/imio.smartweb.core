@@ -1,6 +1,6 @@
 import ContactCard from "../ContactCard/ContactCard";
 import { Link } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
     function handleClick(event) {

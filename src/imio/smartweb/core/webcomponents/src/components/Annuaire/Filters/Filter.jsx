@@ -1,13 +1,12 @@
 import React, { useEffect, useCallback, useState } from "react";
 import Select from "react-select";
-import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
-import useFilterQuery from "../../../hooks/useFilterQuery";
 
 function Filters(props) {
     let history = useHistory();
     const queryString = require("query-string");
-    // const parsed = queryString.parse(useFilterQuery().toString());
+    
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
@@ -58,8 +57,7 @@ function Filters(props) {
                 return rest;
             });
         }
-    }
-    );
+    });
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
         if (value) {

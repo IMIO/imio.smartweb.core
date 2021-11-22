@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
     HashRouter as Router,
-    useHistory,
     Switch,
     Route,
-    useParams,
-    useLocation,
 } from "react-router-dom";
 import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
@@ -27,12 +24,12 @@ function AnnuaireView(props) {
     // let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-
+    const parsed2 ={ ...parsed, UID: parsed['u']}
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
     const [params, setParams] = useState({});
-    const [filters, setFilters] = useState(parsed);
+    const [filters, setFilters] = useState(parsed2);
 
     const [batchSize, setBatchSize] = useState(5);
     const [refTop, setRefTop] = useState(null);
@@ -80,7 +77,6 @@ function AnnuaireView(props) {
     useEffect(() => {
         setParams({ ...filters, b_size: batchSize, fullobjects: 1 });
     }, [filters, batchSize]);
-
     return (
         <Router>
             <div
