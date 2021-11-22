@@ -1,0 +1,14 @@
+{
+  "@id": "https://agenda.enwallonie.be/@vocabularies/imio.events.vocabulary.EventTypes",
+  "items": [
+    {
+      "title": "Événementiel (festivité, pièce de théâtre, conférence, brocante, balade, etc.)",
+      "token": "event-driven"
+    },
+    {
+      "title": "Activité (extrascolaire, sport, atelier et cours, etc.)",
+      "token": "activity"
+    }
+  ],
+  "items_total": 2
+}

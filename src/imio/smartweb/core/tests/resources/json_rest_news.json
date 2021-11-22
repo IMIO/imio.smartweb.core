@@ -1,0 +1,45 @@
+{
+    "@id": "https://actualites.enwallonie.be/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID",
+    "items": [
+        {
+            "@id": "https://actualites.enwallonie.be/belleville/commune/aff08290e3f64cfa830417bc36d5614f",
+            "@type": "imio.news.NewsItem",
+            "UID": "aff08290e3f64cfa830417bc36d5614f",
+            "category": null,
+            "description": "Description",
+            "has_leadimage": false,
+            "review_state": "published",
+            "title": "test texte",
+            "topics": null
+        },
+        {
+            "@id": "https://actualites.enwallonie.be/belleville/commune/a02e0afe2cbe4209970992d5d7323373",
+            "@type": "imio.news.NewsItem",
+            "UID": "a02e0afe2cbe4209970992d5d7323373",
+            "category": "presse",
+            "description": "Description de mon actuatlié",
+            "has_leadimage": true,
+            "review_state": "published",
+            "title": "Ceci est une deuxième actualité",
+            "topics": [
+                "mobility",
+                "sports"
+            ]
+        },
+        {
+            "@id": "https://actualites.enwallonie.be/belleville/commune/bfe2b4391a0f4a8db6d8b7fed63d1c4a",
+            "@type": "imio.news.NewsItem",
+            "UID": "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
+            "category": "works",
+            "description": "Le bâtiment de la Bibliothèque communale doit être rénové, au niveau de la toiture et de la façade. Les travaux débuteront le 1er janvier 2022. Pour des raisons de sécurité, l'accès à la Bibliothèque sera modifié.",
+            "has_leadimage": true,
+            "review_state": "published",
+            "title": "Restauration de la Bibliothèque",
+            "topics": [
+                "culture",
+                "territory_public_space"
+            ]
+        }
+    ],
+    "items_total": 3
+}

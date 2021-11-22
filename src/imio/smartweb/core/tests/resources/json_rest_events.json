@@ -1,0 +1,20 @@
+{
+    "@id": "https://agenda.enwallonie.be/@search?selected_agendas=7067db6012454155b8508f69b9b36fa7&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&start.query=2021-11-15&start.range=min",
+    "items": [
+        {
+            "@id": "https://agenda.enwallonie.be/belleville/communal/1178188bddde4ced95a6cf8bf04c443b",
+            "@type": "imio.events.Event",
+            "UID": "1178188bddde4ced95a6cf8bf04c443b",
+            "category": null,
+            "description": "Bon pied, bon oeil et bonne bouche à Belleville",
+            "breadcrumb": "belleville >> communal >> Bon pied, bon oeil",
+            "end": "2025-11-30T13:00:00+00:00",
+            "has_leadimage": true,
+            "review_state": "published",
+            "start": "2022-11-13T12:00:00+00:00",
+            "title": "Marche gourmande",
+            "topics": null
+        }
+    ],
+    "items_total": 1
+}

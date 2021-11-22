@@ -1,0 +1,112 @@
+{
+  "@id": "https://annuaire.enwallonie.be/@vocabularies/collective.taxonomy.contact_category",
+  "batching": {
+    "@id": "https://annuaire.enwallonie.be/@vocabularies/collective.taxonomy.contact_category",
+    "first": "https://annuaire.enwallonie.be/@vocabularies/collective.taxonomy.contact_category?b_start=0",
+    "last": "https://annuaire.enwallonie.be/@vocabularies/collective.taxonomy.contact_category?b_start=275",
+    "next": "https://annuaire.enwallonie.be/@vocabularies/collective.taxonomy.contact_category?b_start=25"
+  },
+  "items": [
+    {
+      "title": "Commerces et entreprises",
+      "token": "cho96vl9ox"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation",
+      "token": "hlsm9bijb1"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Boissons alcoolisées",
+      "token": "ol8av3v8bn"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Boucherie et charcuterie",
+      "token": "mobrv6id0d"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Boulangerie et pâtisserie",
+      "token": "pl1b4hqo6"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Café - thé",
+      "token": "j6iuv4n78u"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Confiserie et pralines",
+      "token": "b6ccgi5g9r"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Crèmerie",
+      "token": "0ayocqdahh"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Épicerie",
+      "token": "2t1est99b3"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Fruits et légumes",
+      "token": "cj7wism8lp"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Nightshop",
+      "token": "uv4ltnfy8k"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Produit bio et naturel",
+      "token": "mwe79ccy4h"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Supermarché",
+      "token": "jde7jm325k"
+    },
+    {
+      "title": "Commerces et entreprises » Alimentation » Tabac",
+      "token": "x6n3g8j0v2"
+    },
+    {
+      "title": "Commerces et entreprises » Agriculture - sylviculture - chasse - pêche",
+      "token": "1mnkfgij50"
+    },
+    {
+      "title": "Commerces et entreprises » Animaux",
+      "token": "utece0t9xe"
+    },
+    {
+      "title": "Commerces et entreprises » Animaux » Animalerie",
+      "token": "9kgcmrj4lu"
+    },
+    {
+      "title": "Commerces et entreprises » Animaux » Toilettage",
+      "token": "53vwh1c2c7"
+    },
+    {
+      "title": "Commerces et entreprises » Animaux » Vétérinaire et clinique vétérinaire",
+      "token": "x7nqtgc5wj"
+    },
+    {
+      "title": "Commerces et entreprises » Antiquités et brocante",
+      "token": "it46sqjwwf"
+    },
+    {
+      "title": "Commerces et entreprises » Automobile",
+      "token": "xccwvss2l8"
+    },
+    {
+      "title": "Commerces et entreprises » Automobile » Camion",
+      "token": "2lw3hlwuun"
+    },
+    {
+      "title": "Commerces et entreprises » Automobile » Caravane - camping-car - mobilhome",
+      "token": "45b4el4sr0"
+    },
+    {
+      "title": "Commerces et entreprises » Automobile » Carwash",
+      "token": "6m5j8irosx"
+    },
+    {
+      "title": "Commerces et entreprises » Automobile » Carosserie",
+      "token": "iqnnkdw20x"
+    }
+  ],
+  "items_total": 288
+}

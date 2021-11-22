@@ -1,0 +1,65 @@
+# -*- coding: utf-8 -*-
+
+from bs4 import BeautifulSoup
+from datetime import datetime
+from datetime import timedelta
+from freezegun import freeze_time
+
+# from imio.smartweb.core.contents.sections.contact.view import formatted_schedule
+# from imio.smartweb.core.contents.sections.contact.view import get_schedule_for_today
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import get_json
+from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
+from plone.testing.zope import Browser
+from z3c.relationfield import RelationValue
+from zope.component import getUtility
+from zope.component import queryMultiAdapter
+from zope.intid.interfaces import IIntIds
+
+import json
+import requests
+import requests_mock
+import transaction
+
+
+class TestEvents(ImioSmartwebTestCase):
+
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.portalpage = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.PortalPage",
+            id="Portal page",
+        )
+        self.json_events = get_json("resources/json_rest_events.json")
+
+    @requests_mock.Mocker()
+    def test_events(self, m):
+        rest_events_view = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            title="Rest events view",
+        )
+        events = api.content.create(
+            container=self.portalpage,
+            type="imio.smartweb.SectionEvents",
+            title="My events",
+        )
+        intids = getUtility(IIntIds)
+        events.related_events = "64f4cbee9a394a018a951f6d94452914"
+        events.linking_rest_view = RelationValue(intids.getId(rest_events_view))
+        view = queryMultiAdapter((self.portalpage, self.request), name="full_view")
+        self.assertIn("My events", view())
+        events_view = queryMultiAdapter((events, self.request), name="carousel_view")
+        url = "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&start.query=2021-11-18&start.range=min&sort_on=start&sort_limit=6"
+        m.get(url, text=json.dumps(self.json_events))
+        self.assertEqual(events_view.items[0][0].get("title"), "Marche gourmande")
