@@ -5,6 +5,9 @@ Changelog
 1.0a15 (unreleased)
 -------------------
 
+- Change HTML field help to describe how to use it
+  [laulaz]
+
 - Hide icons profile from installer
   [laulaz]
 

@@ -12,7 +12,12 @@ class ISectionHTML(ISection):
 
     html = schema.SourceText(
         title=_(u"HTML"),
-        description=_(u"Put your html code snippet here"),
+        description=_(
+            "Enter your HTML code directly here. It must be nested in tags such as: "
+            "<code>&lt;p&gt;code&lt;/p&gt;</code>, "
+            "<code>&lt;span&gt;code&lt;/span&gt;</code>, "
+            "<code>&lt;div&gt;code&lt;/div&gt;</code>"
+        ),
         required=True,
     )
 
