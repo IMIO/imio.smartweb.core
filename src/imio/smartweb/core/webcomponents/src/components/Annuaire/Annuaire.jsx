@@ -24,7 +24,7 @@ function AnnuaireView(props) {
     // let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 ={ ...parsed, UID: parsed['u']}
+    const parsed2 ={ ...parsed, UID: parsed['u'],b_size:5,fullobjects:1}
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
@@ -41,7 +41,7 @@ function AnnuaireView(props) {
             headers: {
                 Accept: "application/json",
             },
-            params: params,
+            params: filters,
         },
         [params]
     );
@@ -75,8 +75,20 @@ function AnnuaireView(props) {
 
     // set url param for fetch
     useEffect(() => {
-        setParams({ ...filters, b_size: batchSize, fullobjects: 1 });
+        setParams({ ...filters});
     }, [filters, batchSize]);
+
+    // coditional list render
+    let listRender;
+    let MapRender;
+    if (contactArray && contactArray.length > 0) {      
+        listRender = <ContactList onChange={clickID} contactArray={contactArray}  onHover={hoverID} parentCallback={callback} />;
+        MapRender = <ContactMap clickId={clickId} hoverId={hoverId} items={contactArray} />;
+        
+    } else {
+        listRender = <p>Aucun contact n'a été trouvé</p>
+    }
+
     return (
         <Router>
             <div
@@ -109,19 +121,13 @@ function AnnuaireView(props) {
                                         <Skeleton /> <Skeleton /> <Skeleton />
                                     </div>
                                 ) : (
-                                    <ContactList
-                                        onChange={clickID}
-                                        onHover={hoverID}
-                                        contactArray={contactArray}
-                                        // onBatching={batchin}
-                                        parentCallback={callback}
-                                    />
+                                    <div>{listRender}</div>
                                 )}
                             </Route>
                         </Switch>
                     </div>
                     <div style={{ maxHeight: "500px" }}>
-                        <ContactMap clickId={clickId} hoverId={hoverId} items={contactArray} />
+                        {MapRender}
                     </div>
                 </div>
             </div>

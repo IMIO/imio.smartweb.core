@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
+
 import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
+import { Link } from "react-router-dom";
 
 const ContactCard = ({ contactItem }) => {
+    const [limitDescription, setLimitDescription] = useState();
+    const numberLimit = 150
     const title = contactItem.title && contactItem.title;
     const description = contactItem.description && contactItem.description;
-
     const category = contactItem.taxonomy_contact_category
         ? contactItem.taxonomy_contact_category[0].title
         : "";
+        console.log(description.length)
+        useEffect(() => {
+            if (description.length >= numberLimit) {
+                setLimitDescription(description.substring(0,numberLimit)+"...")
+            }else{
+                setLimitDescription(description)
+            }
+        }, [contactItem]);
     return (
         <div className="r-list-item">
             <div
@@ -21,8 +32,20 @@ const ContactCard = ({ contactItem }) => {
             <div className="r-item-text">
                 {category ? <span className="r-item-categorie">{category}</span> : ""}
                 <span className="r-item-title">{title}</span>
-                {description ? <span className="r-item-title">{category}</span> : ""}
+                {description ? <p className="r-item-description">{limitDescription}</p> : ""}
+                <Link
+                            className="r-item-read-more"
+                            style={{ textDecoration: "none" }}
+                            to={{
+                                pathname: `${contactItem.title}`,
+                                search: `?u=${contactItem.UID}`,
+                                state: {
+                                    idItem: contactItem.UID,
+                                },
+                            }}
+                        >Lire la suite</Link>
             </div>
+            <div className="r-item-arrow-more"></div>
         </div>
     );
 };

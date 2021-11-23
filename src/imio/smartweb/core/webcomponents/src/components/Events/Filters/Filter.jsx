@@ -1,17 +1,15 @@
 import React, { useEffect, useCallback, useState } from "react";
 import Select from "react-select";
-import { BrowserRouter as Router, Link, useHistory } from "react-router-dom";
+import {useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
-import useFilterQuery from "../../../hooks/useFilterQuery";
 
 function Filters(props) {
     let history = useHistory();
     const queryString = require("query-string");
-    // const parsed = queryString.parse(useFilterQuery().toString());
+
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
-    const [taxonomyFilter, setTaxonomyFilter] = useState(null);
-    const [facilitiesFilter, setFacilitiesFilter] = useState(null);
+    const [categoryFilter, setCategoryFilter] = useState(null);
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
@@ -30,21 +28,14 @@ function Filters(props) {
                     value: d.token,
                     label: d.title,
                 }));
-            const optionsTaxonomy =
+            const optionsCategory =
                 response.category &&
                 response.category.map((d) => ({
                     value: d.token,
                     label: d.title,
                 }));
-            const optionsFacilities =
-                response.facilities &&
-                response.facilities.map((d) => ({
-                    value: d.token,
-                    label: d.title,
-                }));
             setTopicsFilter(optionsTopics);
-            setTaxonomyFilter(optionsTaxonomy);
-            setFacilitiesFilter(optionsFacilities);
+            setCategoryFilter(optionsCategory);
         }
     }, [response]);
 
@@ -90,15 +81,11 @@ function Filters(props) {
     let actTopi =
         topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
 
-    let actTaxo =
-        taxonomyFilter &&
-        taxonomyFilter.filter(
+    let actCategory =
+        categoryFilter &&
+        categoryFilter.filter(
             (option) => option.value === props.activeFilter.category
         );
-    // let actFaci =
-    //     facilitiesFilter &&
-    //     facilitiesFilter.filter((option) => option.value === props.activeFilter.facilities);
-    // console.log(topicsFilter)
     return (
         <React.Fragment>
             <form onSubmit={handleSubmit}>
@@ -131,23 +118,11 @@ function Filters(props) {
                     className="select-custom-class library-facilities"
                     isClearable
                     onChange={onChangeHandlerSelect}
-                    options={taxonomyFilter && taxonomyFilter}
+                    options={categoryFilter && categoryFilter}
                     placeholder={"Toutes"}
-                    value={actTaxo && actTaxo[0]}
+                    value={actCategory && actCategory[0]}
                 />
             </div>
-            {/* <div className="r-filter  facilities-Filter">
-                <span>Période</span>
-                <Select
-                    name={"facilities"}
-                    className="select-custom-class library-facilities"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={facilitiesFilter && facilitiesFilter}
-                    placeholder={"Toutes"}
-                    value={actFaci && actFaci[0]}
-                />
-            </div> */}
         </React.Fragment>
     );
 }

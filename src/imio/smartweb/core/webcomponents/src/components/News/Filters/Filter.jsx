@@ -84,21 +84,23 @@ function Filters(props) {
         taxonomyFilter.filter(
             (option) => option.value === props.activeFilter.taxonomy_contact_category
         );
-    console.log(inputValues)
     return (
         <React.Fragment>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Recherche
-                    <input
-                        name="SearchableText" type="text"
-                        value={inputValues.SearchableText}
-                        onChange={onChangeHandler} />
-                </label>
-                <button type="submit">Recherche</button>
+            <form className="r-filter" onSubmit={handleSubmit}>
+                    <label>
+                        Recherche
+                    </label>
+                <div className="r-filter-search">
+                        <input
+                            className="input-custom-class"
+                            name="SearchableText" type="text"
+                            value={inputValues.SearchableText}
+                            onChange={onChangeHandler} />
+                    <button type="submit"></button>
+                </div>
             </form>
             <div className="r-filter  facilities-Filter">
-                <span>Catégories</span>
+                <label>Catégories</label>
                 <Select
                     name={"taxonomy_contact_category"}
                     className="select-custom-class library-facilities"
@@ -111,7 +113,7 @@ function Filters(props) {
                 />
             </div>
             <div className="r-filter topics-Filter">
-                <span>Thématiques</span>
+                <label>Thématiques</label>
                 <Select
                     name={"topics"}
                     className="select-custom-class library-topics"

@@ -8,7 +8,7 @@ const ContactList = ({ contactArray, onChange, parentCallback }) => {
     }
     return (
         <React.Fragment>
-            <ul className="r-result-list annuaire-result-list">
+            <ul className="r-result-list actu-result-list">
                 {contactArray.map((contactItem, i) => (
                     <li
                         key={i}
@@ -30,7 +30,7 @@ const ContactList = ({ contactArray, onChange, parentCallback }) => {
                     </li>
                 ))}
             </ul>
-            <button
+            <button className="load-more-link"
                 onClick={(e) => {
                     parentCallback();
                 }}

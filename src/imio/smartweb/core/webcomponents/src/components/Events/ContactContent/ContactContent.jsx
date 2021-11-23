@@ -1,18 +1,17 @@
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import React, { useEffect, useState } from "react";
-import { getPath } from "../../../utils/url";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 
-const ContactContent = ({ queryUrl, contactArray, onChange }) => {
+const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
-    const { id } = useParams();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const [params, setParams] = useState({});
+    const parsed2 ={UID: parsed['u'],fullobjects: 1}
+
+    const [params, setParams] = useState(parsed2);
 
     const [contactItem, setcontactItem] = useState({});
-    const { pathname, search, hash } = useLocation();
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
@@ -30,23 +29,21 @@ const ContactContent = ({ queryUrl, contactArray, onChange }) => {
         }
     }, [response]);
 
-    useEffect(() => {
-        setParams({
-            UID: parsed.u,
-            fullobjects: 1,
-        });
-    }, []);
+    // useEffect(() => {
+    //     setParams({
+    //         UID: parsed.u,
+    //         fullobjects: 1,
+    //     });
+    // }, []);
 
 
     function handleClick() {
         history.push(".");
         onChange(null);
     }
-    // const params = {'@id': getPath()+id}
 
     return (
         <div className="contact-content">
-            <p>The search parameter is : {pathname}</p>
             <button type="button" onClick={handleClick}>
                 Go home
             </button>

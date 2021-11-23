@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
     HashRouter as Router,
-    useHistory,
     Switch,
     Route,
-    useParams,
-    useLocation,
 } from "react-router-dom";
 import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
@@ -27,12 +24,12 @@ function EventsView(props) {
     // let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-
+    const parsed2 ={ ...parsed, UID: parsed['u'],b_size:5,fullobjects:1}
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
     const [params, setParams] = useState({});
-    const [filters, setFilters] = useState(parsed);
+    const [filters, setFilters] = useState(parsed2);
 
     const [batchSize, setBatchSize] = useState(5);
     const [refTop, setRefTop] = useState(null);
@@ -44,9 +41,9 @@ function EventsView(props) {
             headers: {
                 Accept: "application/json",
             },
-            params: params,
+            params: filters
         },
-        [params]
+        []
     );
 
     // set all contacts state
@@ -78,15 +75,21 @@ function EventsView(props) {
 
     // set url param for fetch
     useEffect(() => {
-        setParams({ ...filters, b_size: batchSize, fullobjects: 1 });
+        setParams({ ...filters});
     }, [filters, batchSize]);
-    console.log(response)
-    // console.log(params)s
 
+    // coditional list render
+    let listRender;
+    let MapRender;
+    if (contactArray && contactArray.length > 0) {      
+        listRender = <ContactList onChange={clickID} contactArray={contactArray}  onHover={hoverID} parentCallback={callback} />;
+        MapRender = <ContactMap clickId={clickId} hoverId={hoverId} items={contactArray} />;
+        
+    } else {
+        listRender = <p>Aucun événement n'a été trouvé</p>
+    }
     return (
         <Router>
-            {/* <h2>{props.queryFilterUrl}</h2>
-            <h2>{props.queryUrl}</h2> */}
             <div
                 className="ref"
                 ref={(el) => {
@@ -117,19 +120,13 @@ function EventsView(props) {
                                         <Skeleton /> <Skeleton /> <Skeleton />
                                     </div>
                                 ) : (
-                                    <ContactList
-                                        onChange={clickID}
-                                        onHover={hoverID}
-                                        contactArray={contactArray}
-                                        // onBatching={batchin}
-                                        parentCallback={callback}
-                                    />
+                                    <div>{listRender}</div>
                                 )}
                             </Route>
                         </Switch>
                     </div>
                     <div style={{ maxHeight: "500px" }}>
-                        <ContactMap clickId={clickId} hoverId={hoverId} items={contactArray} />
+                        {MapRender}
                     </div>
                 </div>
             </div>
