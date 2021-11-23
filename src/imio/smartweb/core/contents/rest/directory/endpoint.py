@@ -2,14 +2,12 @@
 
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
+from imio.smartweb.core.contents.rest.base import BaseService
 from plone import api
-from plone.rest import Service
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-
-import json
 
 
 class BaseDirectoryEndpoint(BaseEndpoint):
@@ -45,25 +43,11 @@ class DirectoryFiltersEndpoint(BaseDirectoryEndpoint):
     remote_endpoint = "@search-filters"
 
 
-class DirectoryEndpointGet(Service):
-    def render(self):
-        response = self.request.response
-        response.setHeader("Content-type", "application/json")
-        related_items = DirectoryEndpoint(self.context, self.request)
-        return json.dumps(
-            related_items(),
-            indent=2,
-            separators=(", ", ": "),
-        )
+class DirectoryEndpointGet(BaseService):
+    def reply(self):
+        return DirectoryEndpoint(self.context, self.request)()
 
 
-class DirectoryFiltersEndpointGet(Service):
-    def render(self):
-        response = self.request.response
-        response.setHeader("Content-type", "application/json")
-        related_items = DirectoryFiltersEndpoint(self.context, self.request)
-        return json.dumps(
-            related_items(),
-            indent=2,
-            separators=(", ", ": "),
-        )
+class DirectoryFiltersEndpointGet(BaseService):
+    def reply(self):
+        return DirectoryFiltersEndpoint(self.context, self.request)()

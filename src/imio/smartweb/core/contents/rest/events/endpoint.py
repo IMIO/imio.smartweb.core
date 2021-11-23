@@ -3,13 +3,11 @@
 from datetime import date
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
-from plone.rest import Service
+from imio.smartweb.core.contents.rest.base import BaseService
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-
-import json
 
 
 class BaseEventsEndpoint(BaseEndpoint):
@@ -50,25 +48,11 @@ class EventsFiltersEndpoint(BaseEventsEndpoint):
     remote_endpoint = "@search-filters"
 
 
-class EventsEndpointGet(Service):
-    def render(self):
-        response = self.request.response
-        response.setHeader("Content-type", "application/json")
-        related_items = EventsEndpoint(self.context, self.request)
-        return json.dumps(
-            related_items(),
-            indent=2,
-            separators=(", ", ": "),
-        )
+class EventsEndpointGet(BaseService):
+    def reply(self):
+        return EventsEndpoint(self.context, self.request)()
 
 
-class EventsFiltersEndpointGet(Service):
-    def render(self):
-        response = self.request.response
-        response.setHeader("Content-type", "application/json")
-        related_items = EventsFiltersEndpoint(self.context, self.request)
-        return json.dumps(
-            related_items(),
-            indent=2,
-            separators=(", ", ": "),
-        )
+class EventsFiltersEndpointGet(BaseService):
+    def reply(self):
+        return EventsFiltersEndpoint(self.context, self.request)()

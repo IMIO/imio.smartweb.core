@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
+
 from imio.smartweb.core.utils import get_json
+from plone.rest import Service
+
+import json
 
 
 class BaseEndpoint(object):
@@ -31,3 +35,15 @@ class BaseEndpoint(object):
                 extra_params.append("{}={}".format(k, v))
         params = params + extra_params
         return params
+
+
+class BaseService(Service):
+    def render(self):
+        response = self.request.response
+        response.setHeader("Content-type", "application/json")
+        content = self.reply()
+        return json.dumps(
+            content,
+            indent=2,
+            separators=(", ", ": "),
+        )

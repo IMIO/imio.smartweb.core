@@ -2,13 +2,11 @@
 
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
-from plone.rest import Service
+from imio.smartweb.core.contents.rest.base import BaseService
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
-
-import json
 
 
 class BaseNewsEndpoint(BaseEndpoint):
@@ -42,25 +40,11 @@ class NewsFiltersEndpoint(BaseNewsEndpoint):
     remote_endpoint = "@search-filters"
 
 
-class NewsEndpointGet(Service):
-    def render(self):
-        response = self.request.response
-        response.setHeader("Content-type", "application/json")
-        related_items = NewsEndpoint(self.context, self.request)
-        return json.dumps(
-            related_items(),
-            indent=2,
-            separators=(", ", ": "),
-        )
+class NewsEndpointGet(BaseService):
+    def reply(self):
+        return NewsEndpoint(self.context, self.request)()
 
 
-class NewsFiltersEndpointGet(Service):
-    def render(self):
-        response = self.request.response
-        response.setHeader("Content-type", "application/json")
-        related_items = NewsFiltersEndpoint(self.context, self.request)
-        return json.dumps(
-            related_items(),
-            indent=2,
-            separators=(", ", ": "),
-        )
+class NewsFiltersEndpointGet(BaseService):
+    def reply(self):
+        return NewsFiltersEndpoint(self.context, self.request)()
