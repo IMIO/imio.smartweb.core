@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from plone import api
+from plone.registry.interfaces import IRegistry
+from zope.component import getUtility
+
 import logging
 
 logger = logging.getLogger("imio.smartweb.core")
@@ -33,3 +36,21 @@ def update_actions(context):
     if "e_guichet" in header_actions.objectIds():
         header_actions._delObject("e_guichet")
         logger.info("Deleted e_guichet header action")
+
+
+def change_icons_names(context):
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runImportStepFromProfile(
+        "profile-imio.smartweb.core:icons-basic", "plone.app.registry"
+    )
+    registry = getUtility(IRegistry)
+    for old_icon in [
+        "annuaire",
+        "demarches",
+        "ecoles",
+        "horaires",
+        "mobilite",
+        "tourisme",
+        "travaux",
+    ]:
+        del registry.records[f"smartweb.icon.{old_icon}"]

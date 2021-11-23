@@ -5,6 +5,9 @@ Changelog
 1.0a15 (unreleased)
 -------------------
 
+- Use English names and titles for icons
+  [laulaz]
+
 - Change HTML field help to describe how to use it
   [laulaz]
 

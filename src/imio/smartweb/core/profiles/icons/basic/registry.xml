@@ -3,42 +3,18 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     i18n:domain="imio.smartweb">
 
-    <record name="smartweb.icon.annuaire"
+    <record name="smartweb.icon.directory"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Annuaire</title>
+        <title i18n:translate="">Directory</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/annuaire.svg</value>
     </record>
 
-    <record name="smartweb.icon.demarches"
+    <record name="smartweb.icon.mobility"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Démarches</title>
-      </field>
-      <value key="resource">++plone++imio.smartweb.core/icons/demarches.svg</value>
-    </record>
-
-    <record name="smartweb.icon.ecoles"
-            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
-      <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Ecoles</title>
-      </field>
-      <value key="resource">++plone++imio.smartweb.core/icons/ecoles.svg</value>
-    </record>
-
-    <record name="smartweb.icon.horaires"
-            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
-      <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Horaires</title>
-      </field>
-      <value key="resource">++plone++imio.smartweb.core/icons/horaires.svg</value>
-    </record>
-
-    <record name="smartweb.icon.mobilite"
-            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
-      <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Mobilité</title>
+        <title i18n:translate="">Mobility</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/mobilite.svg</value>
     </record>
@@ -51,6 +27,30 @@
       <value key="resource">++plone++imio.smartweb.core/icons/parkings.svg</value>
     </record>
 
+    <record name="smartweb.icon.procedures"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Procedures</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/demarches.svg</value>
+    </record>
+
+    <record name="smartweb.icon.schedule"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Schedule</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/horaires.svg</value>
+    </record>
+
+    <record name="smartweb.icon.schools"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Schools</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/ecoles.svg</value>
+    </record>
+
     <record name="smartweb.icon.sports"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
@@ -59,18 +59,18 @@
       <value key="resource">++plone++imio.smartweb.core/icons/sports.svg</value>
     </record>
 
-    <record name="smartweb.icon.tourisme"
+    <record name="smartweb.icon.tourism"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Tourisme</title>
+        <title i18n:translate="">Tourism</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/tourisme.svg</value>
     </record>
 
-    <record name="smartweb.icon.travaux"
+    <record name="smartweb.icon.work"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Travaux</title>
+        <title i18n:translate="">Work</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/travaux.svg</value>
     </record>

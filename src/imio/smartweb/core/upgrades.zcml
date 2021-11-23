@@ -42,4 +42,13 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Change icons names (FR -> EN)"
+      description=""
+      source="1004"
+      destination="1005"
+      handler=".upgrades.change_icons_names"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

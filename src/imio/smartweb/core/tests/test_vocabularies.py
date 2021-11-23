@@ -40,8 +40,8 @@ class TestVocabularies(ImioSmartwebTestCase):
     def test_icons(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 9)
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.Icons")
-        term = vocabulary.getTerm("annuaire")
-        self.assertEqual(term.title, "Annuaire")
+        term = vocabulary.getTerm("directory")
+        self.assertEqual(term.title, "Directory")
 
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
