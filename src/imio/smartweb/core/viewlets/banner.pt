@@ -6,13 +6,13 @@
        i18n:domain="imio.smartweb">
     <tal:cond define="checkPermission python:context.restrictedTraverse('portal_membership').checkPermission;"
               condition="python: checkPermission('Modify portal content', context)">
-      <div class="show-hide-banner" tal:condition="is_hidden">
+      <div class="show-hide-banner hide-in-preview" tal:condition="is_hidden">
          <span class="glyphicon-eye-open glyphicon"></span>
          <a tal:condition="is_hidden"
             tal:attributes="href string:${context/absolute_url}/@@switch_banner_display?_authenticator=${context/@@authenticator/token}"
             i18n:translate="">Display banner from this item</a>
       </div>
-      <div class="show-hide-banner" tal:condition="not:is_hidden">
+      <div class="show-hide-banner hide-in-preview" tal:condition="not:is_hidden">
          <span class="glyphicon-eye-close glyphicon"></span>
          <a tal:condition="not:is_hidden"
             tal:attributes="href string:${context/absolute_url}/@@switch_banner_display?_authenticator=${context/@@authenticator/token}"

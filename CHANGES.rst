@@ -5,7 +5,8 @@ Changelog
 1.0a15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Remove "Hide/Display banner from this item" link on banner in Preview mode
+  [laulaz]
 
 
 1.0a14 (2021-11-22)
