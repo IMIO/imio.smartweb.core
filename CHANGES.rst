@@ -5,6 +5,9 @@ Changelog
 1.0a15 (unreleased)
 -------------------
 
+- Fix banner not displaying in minisites
+  [laulaz]
+
 - Remove "Hide/Display banner from this item" link on banner in Preview mode
   [laulaz]
 

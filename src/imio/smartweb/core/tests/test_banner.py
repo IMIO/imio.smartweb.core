@@ -159,3 +159,20 @@ class TestBanner(ImioSmartwebTestCase):
         self.assertNotIn("bloc-banner", body_class)
         logout()
         self.assertFalse(subfolder_viewlet.available())
+
+    def test_banner_on_minisite(self):
+        self.folder.banner = NamedBlobFile(data="file data", filename=u"file.png")
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        viewlet = BannerViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertTrue(viewlet.available())
+
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+        )
+        viewlet = BannerViewlet(subfolder, self.request, None, None)
+        viewlet.update()
+        self.assertTrue(viewlet.available())

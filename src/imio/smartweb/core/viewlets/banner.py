@@ -29,13 +29,13 @@ class BannerViewlet(common.ViewletBase):
         if self._banner_item is not None:
             return self._banner_item
         for item in self.context.aq_chain:
-            if INavigationRoot.providedBy(item):
-                return
             if ILocallyHiddenBanner.providedBy(item):
                 self._banner_is_hidden = True
             if base_hasattr(item, "banner") and item.banner is not None:
                 self._banner_item = item
                 return item
+            if INavigationRoot.providedBy(item):
+                return
 
     @property
     def is_banner_hidden(self):
