@@ -1,38 +1,3 @@
-// import { useState, useEffect } from 'react';
-// import axios from 'axios';
-
-// const useAxios = ({ url, method,params }) => {
-//     const [response, setResponse] = useState(null);
-//     const [error, setError] = useState('');
-//     const [loading, setloading] = useState(true);
-
-//     const fetchData = () => {
-//         axios.get(url, {
-//             headers: {
-//             "Accept": "application/json"
-//             },
-//               params
-//         },)
-//             .then((res) => {
-//                 setResponse(res.data.items);
-//             })
-//             .catch((err) => {
-//                 setError(err);
-//             })
-//             .finally(() => {
-//                 setloading(false);
-//             });
-//     };
-
-//     useEffect(() => {
-//         fetchData();
-//     }, [method, url, params]);
-
-//     return { response, error, loading };
-// };
-
-// export default useAxios;
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 
