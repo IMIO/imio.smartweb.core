@@ -4,6 +4,17 @@ Changelog
 
 1.0a15 (unreleased)
 -------------------
+- React Routge improvement
+  [thomlamb]
+
+- Refactor css className
+  [thomlamb]
+
+- fix a problem or react call the endpoint several times
+  [thomlamb]
+
+- New react build
+  [thomlamb]
 
 - Allow from 1 to 8 links per batch in links section
   [laulaz]
