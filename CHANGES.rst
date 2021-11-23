@@ -5,6 +5,9 @@ Changelog
 1.0a15 (unreleased)
 -------------------
 
+- Hide icons profile from installer
+  [laulaz]
+
 - Fix banner not displaying in minisites
   [laulaz]
 
