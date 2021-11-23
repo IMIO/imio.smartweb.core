@@ -20,11 +20,6 @@ import json
 import requests_mock
 import unittest
 
-# We don't want to make real request on authentic sources if some Mocks are missing
-config.DIRECTORY_URL = "http://localhost:8080/Plone"
-config.EVENTS_URL = "http://localhost:8080/Plone"
-config.NEWS_URL = "http://localhost:8080/Plone"
-
 
 class ImioSmartwebCoreLayer(PloneSandboxLayer):
 
