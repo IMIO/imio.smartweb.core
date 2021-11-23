@@ -25,7 +25,7 @@ class ISectionLinks(ISection):
         title=_(u"Number of items per batch"),
         required=True,
         default=3,
-        values=[1, 3, 4],
+        values=range(1, 9),
     )
 
 

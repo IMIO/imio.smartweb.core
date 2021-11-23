@@ -5,6 +5,9 @@ Changelog
 1.0a15 (unreleased)
 -------------------
 
+- Allow from 1 to 8 links per batch in links section
+  [laulaz]
+
 - Use English names and titles for icons
   [laulaz]
 
