@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a15 (unreleased)
+1.0a15 (2021-11-24)
 -------------------
 
 - Allow to override / limit icons TTW (portal_resources)
