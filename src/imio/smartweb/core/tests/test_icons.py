@@ -6,6 +6,8 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobFile
+from plone.resource.interfaces import IResourceDirectory
+from zope.component import getUtility
 from zope.component import queryMultiAdapter
 
 
@@ -49,3 +51,15 @@ class TestSections(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")()
         self.assertNotIn("background-image", view)
         self.assertIn("<svg", view)
+
+    def test_icons_override(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 44)
+        portal_resources = getUtility(IResourceDirectory, name="persistent")
+        portal_resources.makeDirectory("plone")
+        portal_resources["plone"].makeDirectory("imio.smartweb.core")
+        portal_resources["plone"]["imio.smartweb.core"].makeDirectory("icons")
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 0)
+        portal_resources.writeFile(
+            path="plone/imio.smartweb.core/icons/action-email.svg", data="test"
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 1)

@@ -13,7 +13,9 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.dexterity.content import Item
 from plone.registry.interfaces import IRegistry
+from zExceptions import NotFound
 from zope.component import getUtility
+from zope.component.hooks import getSite
 from zope.i18n import translate
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
@@ -26,6 +28,7 @@ import requests
 
 class IconsVocabularyFactory:
     def __call__(self, context=None):
+        site = getSite()
         icon_prefix = "smartweb.icon."
         registry = getUtility(IRegistry)
         icons = []
@@ -33,6 +36,13 @@ class IconsVocabularyFactory:
             if record.interfaceName != ISmartwebIcon.__identifier__:
                 continue
             name = record.__name__.replace(icon_prefix, "")
+            icon_url = record.value
+            try:
+                site.unrestrictedTraverse(icon_url)
+            except NotFound:
+                # if icons folder is overridden through portal_resources, some
+                # icons may be missing. Ignore them.
+                continue
             icons.append(
                 {
                     "title": record.field.title,

@@ -5,6 +5,9 @@ Changelog
 1.0a15 (unreleased)
 -------------------
 
+- Allow to override / limit icons TTW (portal_resources)
+  [laulaz]
+
 - React Routge improvement
   [thomlamb]
 
