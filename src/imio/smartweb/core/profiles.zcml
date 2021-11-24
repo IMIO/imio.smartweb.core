@@ -31,9 +31,9 @@
 
   <genericsetup:registerProfile
       name="icons-basic"
-      title="imio.smartweb.core basic icons set"
+      title="imio.smartweb.core basic flat icons set"
       directory="profiles/icons/basic"
-      description="Installs basic smartweb icons set"
+      description="Installs basic smartweb flat icons set"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
