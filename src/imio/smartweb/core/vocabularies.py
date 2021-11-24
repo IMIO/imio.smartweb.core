@@ -29,6 +29,7 @@ import requests
 class IconsVocabularyFactory:
     def __call__(self, context=None):
         site = getSite()
+        language = api.portal.get_current_language(context=context)
         icon_prefix = "smartweb.icon."
         registry = getUtility(IRegistry)
         icons = []
@@ -45,7 +46,7 @@ class IconsVocabularyFactory:
                 continue
             icons.append(
                 {
-                    "title": record.field.title,
+                    "title": translate(record.field.title, target_language=language),
                     "name": name,
                 }
             )
