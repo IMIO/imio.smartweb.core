@@ -14,51 +14,34 @@
                  items view/items;"
      tal:attributes="style view/background_style">
 
-  <tal:if tal:define="show_section python: can_edit or items;
-                      body_section_id string:body-section-${context/id}"
+  <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
 
     <p tal:replace="structure context/@@description" />
 
-    <div tal:condition="items"
-         tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
-         class=""
-         data-bs-ride="carousel"
-         tal:attributes="class string:body-section carousel carousel-dark slide ${collapse_klass};
-                         id body_section_id">
-      <div class="carousel-indicators">
-        <button tal:repeat="item items"
-                tal:attributes="data-bs-target string:#${body_section_id};
-                                data-bs-slide-to repeat/item/index;
-                                aria-label string:Slide ${repeat/item/number};
-                                class python:'active' if repeat.item.start else nothing;
-                                aria-current python:'true' if repeat.item.start else nothing"
-                type="button">
-        </button>
-      </div>
-      <div class=""
-           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};
-                       bs_col python: 12 // context.nb_results_by_batch"
-           tal:attributes="class string:carousel-inner ${nb_class}">
-        <div class=""
-             data-bs-interval="10000"
-             tal:repeat="batch items"
-             tal:attributes="class python:'row carousel-item active' if repeat.batch.start else 'row carousel-item'">
-          <div tal:repeat="item batch"
-               tal:attributes="class string:col md-${bs_col}">
+    <div  tal:condition="items"
+          tal:attributes="id context/id"
+          class="body-section swiper carousel carousel-dark slide"
+          tal:attributes="data-nb-results-by-batch python:context.nb_results_by_batch;">
+      <div class="swiper-wrapper"
+           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};"
+           tal:attributes="data-nb-results-by-batch python:context.nb_results_by_batch;">
+        <tal:bcl tal:repeat="batch items">
+          <div class="swiper-slide"
+               tal:repeat="item batch">
               <tal:def define="item_has_image item/has_image;
                                show_lead_image python: getattr(context, 'show_items_lead_image', True);
                                portal context/@@plone_portal_state/portal;
                                open_in_new_tab item/open_in_new_tab | nothing;">
                   <a tal:attributes="href item/url;
                                      target python:'_blank' if (open_in_new_tab and can_edit is False) else ''">
-                    <div class="carousel-image"
+                    <div class="swiper-image"
                          tal:condition="python: item_has_image and show_lead_image"
                          tal:attributes="style string:background-image:url(${item/image})">
                     </div>
-                    <div class="carousel-caption d-none d-md-block">
+                    <div class="d-none d-md-block">
                       <h5 tal:content="item/title"></h5>
                       <p tal:condition="context/show_items_description | nothing"
                          tal:content="item/description"></p>
@@ -71,23 +54,13 @@
                   </a>
               </tal:def>
           </div>
-        </div>
+        </tal:bcl>
       </div>
 
-      <button tal:attributes="data-bs-target string:#${body_section_id}"
-              class="carousel-control-prev"
-              type="button"
-              data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button tal:attributes="data-bs-target string:#${body_section_id}"
-              class="carousel-control-next"
-              type="button"
-              data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
+  <div class="swiper-pagination"></div>
+
+  <div class="swiper-button-prev"></div>
+  <div class="swiper-button-next"></div>
     </div>
 
     <div class="see_all"
