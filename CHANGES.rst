@@ -4,6 +4,7 @@ Changelog
 
 1.0a15 (unreleased)
 -------------------
+
 - React Routge improvement
   [thomlamb]
 
@@ -19,7 +20,7 @@ Changelog
 - Allow from 1 to 8 links per batch in links section
   [laulaz]
 
-- Use English names and titles for icons
+- Add more icons and use English names and titles for icons
   [laulaz]
 
 - Change HTML field help to describe how to use it

@@ -38,7 +38,7 @@ def update_actions(context):
         logger.info("Deleted e_guichet header action")
 
 
-def change_icons_names(context):
+def update_icons_and_names(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(
         "profile-imio.smartweb.core:icons-basic", "plone.app.registry"
@@ -50,7 +50,10 @@ def change_icons_names(context):
         "ecoles",
         "horaires",
         "mobilite",
+        "parkings",
+        "sports",
         "tourisme",
         "travaux",
     ]:
-        del registry.records[f"smartweb.icon.{old_icon}"]
+        if f"smartweb.icon.{old_icon}" in registry:
+            del registry.records[f"smartweb.icon.{old_icon}"]
