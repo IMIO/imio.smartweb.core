@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from freezegun import freeze_time
 from imio.smartweb.core import config
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -252,25 +253,22 @@ class TestVocabularies(ImioSmartwebTestCase):
                 "Activité (extrascolaire, sport, atelier et cours, etc.)",
             )
 
-    # TO DO.
-    # @requests_mock.Mocker()
-    # def test_events_from_entity(self, m):
-    #     json_entities_raw_mock = get_json(
-    #         "resources/json_events_entities_raw_mock.json"
-    #     )
-    #     url = f"{config.EVENTS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee31"
-    #     m.get(url, text=json.dumps(json_entities_raw_mock))
-    #     json_agendas_raw_mock = get_json("resources/json_events_agendas_raw_mock.json")
-    #     url = f"{config.EVENTS_URL}/imio-events-entity/@search?portal_type=imio.events.Agenda&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
-    #     m.get(url, text=json.dumps(json_agendas_raw_mock))
-    #
-    #     # &selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a
-    #     url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&start.query=2021-11-15&start.range=min"
-    #     json_rest_events = get_json("resources/json_rest_events.json")
-    #     m.get(url, text=json.dumps(json_rest_events))
-    #     vocabulary = get_vocabulary("imio.smartweb.vocabulary.EventsFromEntity")
-    #     import pdb;pdb.set_trace()
-    #     self.assertEqual(
-    #         vocabulary.getTermByToken("1178188bddde4ced95a6cf8bf04c443b").title,
-    #         "belleville >> communal >> Bon pied, bon oeil",
-    #     )
+    @requests_mock.Mocker()
+    @freeze_time("2021-11-15")
+    def test_events_from_entity(self, m):
+        json_entities_raw_mock = get_json(
+            "resources/json_events_entities_raw_mock.json"
+        )
+        url = f"{config.EVENTS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee31"
+        m.get(url, text=json.dumps(json_entities_raw_mock))
+        json_agendas_raw_mock = get_json("resources/json_events_agendas_raw_mock.json")
+        url = f"{config.EVENTS_URL}/imio-events-entity/@search?portal_type=imio.events.Agenda&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
+        m.get(url, text=json.dumps(json_agendas_raw_mock))
+        url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&&selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&start.query=2021-11-15&start.range=min"
+        json_rest_events = get_json("resources/json_rest_events.json")
+        m.get(url, text=json.dumps(json_rest_events))
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.EventsFromEntity")
+        self.assertEqual(
+            vocabulary.getTermByToken("1178188bddde4ced95a6cf8bf04c443b").title,
+            "belleville >> communal >> Bon pied, bon oeil",
+        )
