@@ -151,7 +151,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         params = {}
         # mock get_json from where we import/use it
         with patch(
-            "imio.smartweb.core.contents.rest.base.get_json", return_value=self.json_rest_events
+            "imio.smartweb.core.contents.rest.base.get_json",
+            return_value=self.json_rest_events,
         ) as mypatch:
             patch_url = mypatch.return_value.get("@id")
             patch_urlparsed = urlparse(patch_url)
@@ -195,7 +196,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
     def test_rest_news_results(self):
         params = {}
         with patch(
-            "imio.smartweb.core.contents.rest.base.get_json", return_value=self.json_rest_news
+            "imio.smartweb.core.contents.rest.base.get_json",
+            return_value=self.json_rest_news,
         ) as mypatch:
             response = self.api_session.get("/news-view/@results", params=params)
             patch_url = mypatch.return_value.get("@id")
