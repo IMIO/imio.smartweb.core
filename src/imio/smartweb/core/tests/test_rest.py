@@ -146,17 +146,19 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.rest_events, self.request), name="view")
         self.assertIn("full-width", view())
 
+    @freeze_time("2021-11-15")
     def test_rest_events_results(self):
         params = {}
+        # mock get_json from where we import/use it
         with patch(
-            "imio.smartweb.core.utils.get_json", return_value=self.json_rest_events
+            "imio.smartweb.core.contents.rest.base.get_json", return_value=self.json_rest_events
         ) as mypatch:
-            response = self.api_session.get("/events-view/@results", params=params)
             patch_url = mypatch.return_value.get("@id")
             patch_urlparsed = urlparse(patch_url)
             patch_selected_agendas = parse_qs(patch_urlparsed.query)[
                 "selected_agendas"
             ][0]
+            response = self.api_session.get("/events-view/@results", params=params)
             response_url = response.json().get("@id")
             response_urlparsed = urlparse(response_url)
             response_selected_agendas = parse_qs(response_urlparsed.query)[
@@ -193,7 +195,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
     def test_rest_news_results(self):
         params = {}
         with patch(
-            "imio.smartweb.core.utils.get_json", return_value=self.json_rest_news
+            "imio.smartweb.core.contents.rest.base.get_json", return_value=self.json_rest_news
         ) as mypatch:
             response = self.api_session.get("/news-view/@results", params=params)
             patch_url = mypatch.return_value.get("@id")
