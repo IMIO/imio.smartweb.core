@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
+from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core.config import DIRECTORY_URL, EVENTS_URL, NEWS_URL
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
@@ -439,3 +441,41 @@ class EventsTypesVocabularyFactory:
 
 
 EventsTypesVocabulary = EventsTypesVocabularyFactory()
+
+
+class EventsFromEntityVocabularyFactory:
+    def __call__(selfself, context=None):
+        remote_agendas_vocabulary = get_vocabulary(
+            "imio.smartweb.vocabulary.RemoteAgendas"
+        )
+        selected_agendas = [
+            f"selected_agendas={term.value}" for term in remote_agendas_vocabulary
+        ]
+        selected_agendas = "&".join(selected_agendas)
+        start = date.today().isoformat()
+        params = [
+            selected_agendas,
+            "portal_type=imio.events.Event",
+            "metadata_fields=category",
+            "metadata_fields=topics",
+            "metadata_fields=start",
+            "metadata_fields=end",
+            "metadata_fields=has_leadimage",
+            "metadata_fields=breadcrumb",
+            "metadata_fields=UID",
+            f"start.query={start}",
+            "start.range=min",
+        ]
+        url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
+        json_events = get_json(url)
+        if json_events is None or len(json_events.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(value=elem["UID"], title=elem["breadcrumb"])
+                for elem in json_events.get("items")
+            ]
+        )
+
+
+EventsFromEntityVocabulary = EventsFromEntityVocabularyFactory()
