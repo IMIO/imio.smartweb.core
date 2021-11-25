@@ -1,0 +1,12 @@
+{
+    "iam": [
+        {
+            "title": "Touriste",
+            "token": "tourist"
+        },
+        {
+            "title": "Demandeur d'emploi",
+            "token": "job_seeker"
+        }
+    ]
+}
