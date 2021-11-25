@@ -4,6 +4,10 @@ Changelog
 
 1.0a16 (unreleased)
 -------------------
+
+- Fix bootstrap classes for table batches
+  [laulaz]
+
 - Can define specific events to get (instead of all events from an agenda)
   [boulch]
 

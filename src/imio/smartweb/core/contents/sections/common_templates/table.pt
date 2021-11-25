@@ -37,7 +37,7 @@
               <li class="section_links_list row"
                   tal:omit-tag="only_one_item"
                   tal:repeat="item batch"
-                  tal:attributes="class string:col md-${bs_col}">
+                  tal:attributes="class string:col-md-${bs_col}">
                   <div tal:define="item_has_icon item/has_icon | nothing;
                                    item_has_image item/has_image;
                                    smartweb_icons python:context.restrictedTraverse('@@smartwebiconresolver');
