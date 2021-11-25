@@ -33,7 +33,9 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.json_rest_directory = get_json("resources/json_rest_directory.json")
         self.json_rest_events = get_json("resources/json_rest_events.json")
-        self.json_used_iam_voc = get_json("resources/json_used_iam_vocabularies_jobseeker_tourist.json")
+        self.json_used_iam_voc = get_json(
+            "resources/json_used_iam_vocabularies_jobseeker_tourist.json"
+        )
         self.json_rest_news = get_json("resources/json_rest_news.json")
         self.api_session = RelativeSession(self.portal_url)
         self.api_session.headers.update({"Accept": "application/json"})
