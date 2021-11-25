@@ -12,8 +12,8 @@ from zope import schema
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import implementer
-from zope.interface import provider
 from zope.schema.interfaces import IContextAwareDefaultFactory
+from zope.interface import provider
 
 
 @provider(IContextAwareDefaultFactory)
@@ -30,6 +30,16 @@ class ISectionEvents(ISection):
         source="imio.smartweb.vocabulary.RemoteAgendas",
         required=True,
     )
+
+    specific_related_events = schema.List(
+        title=_(u"Specific related events"),
+        description=_(u"Get priory on related agenda for these specifics events."),
+        value_type=schema.Choice(
+            vocabulary="imio.smartweb.vocabulary.EventsFromEntity"
+        ),
+        required=False,
+    )
+    directives.widget(specific_related_events=SelectFieldWidget)
 
     directives.widget(
         "linking_rest_view",

@@ -4,6 +4,8 @@ Changelog
 
 1.0a16 (unreleased)
 -------------------
+- Can define specific events to get (instead of all events from an agenda)
+  [boulch]
 
 - Use Swiper instead of Bootstrap carousel
   [thomlamb, laulaz]
