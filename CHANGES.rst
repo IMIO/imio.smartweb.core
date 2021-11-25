@@ -5,7 +5,8 @@ Changelog
 1.0a16 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Use Swiper instead of Bootstrap carousel
+  [thomlamb, laulaz]
 
 
 1.0a15 (2021-11-24)
