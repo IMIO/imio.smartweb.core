@@ -14,7 +14,8 @@
                  items view/items;"
      tal:attributes="style view/background_style">
 
-  <tal:if tal:define="show_section python: can_edit or items"
+  <tal:if tal:define="show_section python: can_edit or items;
+                      body_section_id string:body-section-${context/id}"
           tal:condition="show_section">
 
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
@@ -22,12 +23,13 @@
     <p tal:replace="structure context/@@description" />
 
     <div  tal:condition="items"
-          tal:attributes="id context/id"
-          class="body-section swiper carousel carousel-dark slide"
-          tal:attributes="data-nb-results-by-batch python:context.nb_results_by_batch;">
+          tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
+          class=""
+          tal:attributes="class string:body-section swiper carousel carousel-dark slide ${collapse_klass};
+                          id body_section_id;
+                          data-nb-results-by-batch context/nb_results_by_batch;">
       <div class="swiper-wrapper"
-           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};"
-           tal:attributes="data-nb-results-by-batch python:context.nb_results_by_batch;">
+           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};">
         <tal:bcl tal:repeat="batch items">
           <div class="swiper-slide"
                tal:repeat="item batch">
