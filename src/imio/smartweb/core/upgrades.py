@@ -57,3 +57,8 @@ def update_icons_and_names(context):
     ]:
         if f"smartweb.icon.{old_icon}" in registry:
             del registry.records[f"smartweb.icon.{old_icon}"]
+
+
+def reload_registry(context):
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")

@@ -51,4 +51,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Reload registry to add new swiper bundle"
+      description=""
+      source="1005"
+      destination="1006"
+      handler=".upgrades.reload_registry"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

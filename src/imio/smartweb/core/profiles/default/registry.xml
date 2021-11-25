@@ -100,7 +100,6 @@
       </value>
       <value key="enabled">True</value>
       <value key="compile">True</value>
-      <value key="depends">swiper-bundle</value>
       <value key="expression"></value>
       <value key="merge_with">default</value>
       <value key="csscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.css</value>
@@ -132,20 +131,6 @@
         <element>jquery</element>
       </value>
     </records>
-        
-    <records prefix="plone.bundles/swiper-bundle"
-             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
-      <value key="resources">
-        <element>swiper-bundle</element>
-      </value>
-      <value key="enabled">True</value>
-      <value key="compile">True</value>
-      <value key="expression"></value>
-      <value key="merge_with">default</value>
-      <value key="csscompilation">++plone++imio.smartweb.core/swiper-bundle.min.css</value>
-      <value key="jscompilation">++plone++imio.smartweb.core/swiper-bundle.min.js</value>
-      <value key="last_compilation">2021-11-24 10:45:00</value>
-    </records>
 
     <records prefix="plone.bundles/smartweb-webcomponents"
              interface='Products.CMFPlone.interfaces.IBundleRegistry'>
@@ -153,6 +138,14 @@
       <value key="compile">False</value>
       <value key="jscompilation">++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js</value>
       <value key="csscompilation">++plone++imio.smartweb.webcomponents/css/smartweb-webcomponents-compiled.css</value>
+    </records>
+
+    <records prefix="plone.bundles/swiper"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="enabled">True</value>
+      <value key="compile">False</value>
+      <value key="csscompilation">++plone++imio.smartweb.core/swiper-bundle.min.css</value>
+      <value key="last_compilation">2021-11-25 10:25:00</value>
     </records>
 
 </registry>

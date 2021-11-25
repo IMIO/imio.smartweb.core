@@ -7,6 +7,12 @@
     i18n:domain="plone">
 <body>
 
+<metal:head fill-slot="head_slot">
+  <script src=""
+          tal:attributes="src string:${portal_url}/++plone++imio.smartweb.core/swiper-bundle.min.js">
+  </script>
+</metal:head>
+
 <metal:content-core fill-slot="content-core">
 <metal:block define-macro="content-core"
              tal:define="uuid context/@@uuid | nothing">
