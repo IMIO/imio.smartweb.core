@@ -11,6 +11,7 @@
                        can_edit python: can_edit is None and checkPermission('Modify portal content', context) or can_edit;
                        token context/@@authenticator/token;
                        hide_title context/hide_title;
+                       collapsible_section context/collapsible_section;
                        can_toggle_title_visibility context/can_toggle_title_visibility"
            i18n:domain="imio.smartweb">
 
@@ -21,7 +22,7 @@
          aria-expanded="false"
          data-bs-toggle="collapse"
          data-bs-target=""
-         tal:omit-tag="not: context/collapsible_section"
+         tal:omit-tag="not: collapsible_section"
          tal:attributes="data-bs-target string:#body-section-${context/id}"
          tal:content="context/title"
     /></h2>
@@ -32,7 +33,7 @@
          aria-expanded="false"
          data-bs-toggle="collapse"
          data-bs-target=""
-         tal:omit-tag="not: context/collapsible_section"
+         tal:omit-tag="not: collapsible_section"
          tal:attributes="data-bs-target string:#body-section-${context/id}"
          tal:content="context/title"
     /></h2>
@@ -44,7 +45,7 @@
 
         <span tal:replace="structure view/locking_info" />
 
-        <tal:if tal:condition="can_toggle_title_visibility">
+        <tal:if tal:condition="python: can_toggle_title_visibility and not collapsible_section">
           <tal:hide tal:condition="not: hide_title">
             <span class="glyphicon-eye-close glyphicon"></span>
             <a tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token}"

@@ -36,6 +36,8 @@ class SectionView(BrowserView):
     def hide_section_title(self):
         if not self.context.can_toggle_title_visibility:
             return
+        if self.context.collapsible_section:
+            return
         self.context.hide_title = True
         api.portal.show_message(_("Section title has been hidden"), self.request)
         self.redirect_to_section(self.context.id)

@@ -431,6 +431,28 @@ class TestSections(ImioSmartwebTestCase):
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count("collapse"), collapsable_elems + 17)
 
+    def test_sections_collapsible_hide_title(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionHTML",
+            title="Section HTML",
+        )
+        view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertIn("Hide title", view)
+        section.collapsible_section = True
+        modified(section)
+        view = queryMultiAdapter((page, self.request), name="full_view")()
+        self.assertNotIn("Hide title", view)
+        self.assertFalse(section.hide_title)
+        view = queryMultiAdapter((section, self.request), name="hide_section_title")
+        view.hide_section_title()
+        self.assertFalse(section.hide_title)
+
     def test_background_style(self):
         section = api.content.create(
             container=self.page,

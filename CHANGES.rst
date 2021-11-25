@@ -5,6 +5,9 @@ Changelog
 1.0a16 (unreleased)
 -------------------
 
+- Disallow hiding title on a collapsable section
+  [laulaz]
+
 - Fix bootstrap classes for table batches
   [laulaz]
 
