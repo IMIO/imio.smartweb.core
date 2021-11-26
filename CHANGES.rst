@@ -5,7 +5,8 @@ Changelog
 1.0a17 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Change generated url for the news and event sections for compatibility with react router
+  [thomamb]
 
 
 1.0a16 (2021-11-26)

@@ -43,7 +43,7 @@ class NewsView(CarouselOrTableSectionView):
                 {
                     "title": item["title"],
                     "description": item["description"],
-                    "url": f"{linking_view_url}/{item_id}?u={item_uid}",
+                    "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                     "image": f"{item_url}/@@images/image/{image_scale}",
                     "has_image": item["has_leadimage"],
                 }
