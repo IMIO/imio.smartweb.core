@@ -4,6 +4,8 @@ Changelog
 
 1.0a16 (unreleased)
 -------------------
+- New build of react vue
+  [thomlamb]
 
 - Disallow hiding title on a collapsable section
   [laulaz]
