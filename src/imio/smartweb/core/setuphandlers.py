@@ -10,6 +10,7 @@ class HiddenProfiles(object):
         """Hide unwanted profiles from site-creation and quickinstaller."""
         return [
             "imio.smartweb.core:icons-basic",
+            "imio.smartweb.core:last-compilation",
             "imio.smartweb.core:testing",
             "imio.smartweb.core:uninstall",
         ]

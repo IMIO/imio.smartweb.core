@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<registry>
+
+    <records prefix="plone.bundles/smartweb-view"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="last_compilation">2021-11-25 11:43:00</value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-edit"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="last_compilation">2021-09-16 11:25:00</value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-webcomponents"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="last_compilation">2021-11-23 11:10:00</value>
+    </records>
+
+    <records prefix="plone.bundles/swiper"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="last_compilation">2021-11-25 11:41:00</value>
+    </records>
+
+</registry>

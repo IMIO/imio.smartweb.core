@@ -4,6 +4,10 @@ Changelog
 
 1.0a16 (unreleased)
 -------------------
+
+- Add profile to handle bundles last_compilation dates
+  [laulaz]
+
 - Add new css styles
   [thomlamb]
 

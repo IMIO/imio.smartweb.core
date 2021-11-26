@@ -11,5 +11,6 @@
     <dependency>profile-plone.gallery:default</dependency>
     <dependency>profile-imio.smartweb.common:default</dependency>
     <dependency>profile-imio.smartweb.core:icons-basic</dependency>
+    <dependency>profile-imio.smartweb.core:last-compilation</dependency>
   </dependencies>
 </metadata>

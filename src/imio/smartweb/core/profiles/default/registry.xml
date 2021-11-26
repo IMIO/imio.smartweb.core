@@ -104,7 +104,6 @@
       <value key="merge_with">default</value>
       <value key="csscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.css</value>
       <value key="jscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.js</value>
-      <value key="last_compilation">2021-09-14 10:45:00</value>
     </records>
 
     <records prefix="plone.resources/smartweb-edit"
@@ -126,7 +125,6 @@
       <value key="merge_with">logged-in</value>
       <value key="csscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.css</value>
       <value key="jscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.js</value>
-      <value key="last_compilation">2021-09-16 11:25:00</value>
       <value key="stub_js_modules">
         <element>jquery</element>
       </value>
@@ -145,7 +143,6 @@
       <value key="enabled">True</value>
       <value key="compile">False</value>
       <value key="csscompilation">++plone++imio.smartweb.core/swiper-bundle.min.css</value>
-      <value key="last_compilation">2021-11-25 10:25:00</value>
     </records>
 
 </registry>

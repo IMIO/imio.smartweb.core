@@ -37,6 +37,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="last-compilation"
+      title="imio.smartweb.core last compilation dates"
+      directory="profiles/last_compilation"
+      description="Installs CSS / JS bundles compilation dates"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <utility
       name="imio.smartweb.core-hiddenprofiles"
       factory=".setuphandlers.HiddenProfiles"
