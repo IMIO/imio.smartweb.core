@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a16 (unreleased)
+1.0a16 (2021-11-26)
 -------------------
 
 - Add profile to handle bundles last_compilation dates
