@@ -1,96 +1,96 @@
-.full-width {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+
+  /* Filters */
+  .r-result{
+    margin-top: 2rem;
+    &-filter{
+      display: flex;
+      gap: 20px;
+      padding-bottom: 50px;
+      border-bottom: solid 1px #cccc;
+      .r-filter{
+        width: 100%;
+        max-width: 200px;
+        label{
+          display: block;
+        }
+        .r-filter-search{
+          position: relative;
+          .input-custom-class{
+            height: 40px;
+            border: solid 1px #ccc;
+            width: 100%;
+          }
+          button{
+            background: url(../../assets/search.svg) no-repeat;
+            background-position: center;
+            background-size: 80%;
+            border: none;
+            width: 20px;
+            position: absolute;
+            right: 10px;
+            top: 0;
+            bottom: 0;
+          }
+        }
+
+      }
+    }
+  }
+//// for bla ////
+  /* filters */
+  .r-filter{
+    label{
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+  }
+  .select-custom-class{
+    div[class*="control"]{
+      border-radius: 0;
+      height: 40px;
+      border-color: #CCCCCC;
+    }
+  }
+// content
+
+.r-content-img{
+  padding-bottom: 56.25%;
 }
 
 
-// .App{
-//   display: grid;
-//   grid-template-columns: 3fr 2fr;
-//   justify-content: center;
-//   gap: 50px;
-// }
 
-// li{
-//   list-style: none;
-// }
-// .contactCard{
-//   padding: 20px 0;
-//   border-top: solid 1px rgb(216, 216, 216);
-//   display: flex;
-//   gap: 31px;
-// }
-// .contactCard .contactImage{
-//   width: 246px;
-//   height: 150px;
-//   position: relative;
-// }
-// .contactCard .contactImage img{
-//   width: 246px;
-//   height: 150px;
-//   object-fit: cover;
-//   border-radius: 15px 15px 15px 0;
-// }
-// .contactText .contactTextTitle{
-//   font-weight: bold;
-//   font-size: 18px;
-//   color: #000;
-// }
 
-// .contactText{
-//   color: #989898;
-// }
 
-// .contactText a{
-//   color: #000;
-// }
-// .contactText div {
-// 	margin: 0.4rem 0;
-// }
-// .contactTextAll{
-//   column-count: 2;
-//   margin-top: 10px!important;
-// }
-// .contactFilter{
-//   margin: 2rem 0;
-//   display: flex;
-//   align-items: flex-start;
-//   gap: 40px;
-// }
-// .contactSearch label, .contactSearch input {
-//   display: block;
-// }
-// .contactSearch {
-//   input{
-//     padding: .5rem 1rem;
-//     border: 1px solid #ccc;
-//   }
-//    label{
-//     text-transform: uppercase;
-//     margin-bottom: .5rem;
-//     font-size: 15px;
-//     font-weight: bold;
-//   }
-// }
 
-// .select-custom-class{
-//   width: 200px;
-//   margin-top: 0.5rem;
-// }
-// .library-categories{
-//   width: 300px;
-// }
 
-// .contactFilter > div > span{
-//   font-weight: bold;
-//   text-transform: uppercase;
-//   font-size: 15px;
-//   padding-bottom: 1rem;
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 //////
