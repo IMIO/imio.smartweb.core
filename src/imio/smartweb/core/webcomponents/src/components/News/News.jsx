@@ -20,13 +20,10 @@ const NewsView = (props) => {
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
     const parsed2 ={ ...parsed, UID: parsed['u'],b_size:5,fullobjects:1}
-
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
-    const [params, setParams] = useState({});
     const [filters, setFilters] = useState(parsed2);
     const [batchSize, setBatchSize] = useState(5);
-    const [refTop, setRefTop] = useState(null);
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
@@ -37,7 +34,7 @@ const NewsView = (props) => {
             },
             params: filters,
         },
-        [params]
+        []
     );
 
     useEffect(() => {
@@ -56,9 +53,7 @@ const NewsView = (props) => {
     const callback = () => {
         setBatchSize(batchSize + 5);
     };
-    useEffect(() => {
-        setParams({ ...filters});
-    }, [filters, batchSize]);
+
 
     // coditional list render
     let listRender;

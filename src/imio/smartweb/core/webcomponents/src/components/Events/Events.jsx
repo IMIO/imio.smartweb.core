@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    HashRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
+import {HashRouter as Router,Switch,Route,} from "react-router-dom";
 import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
@@ -21,16 +17,13 @@ export default function Events(props) {
     );
 }
 function EventsView(props) {
-    // let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
     const parsed2 ={ ...parsed, UID: parsed['u'],b_size:5,fullobjects:1}
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
-    const [params, setParams] = useState({});
     const [filters, setFilters] = useState(parsed2);
-
     const [batchSize, setBatchSize] = useState(5);
     const [refTop, setRefTop] = useState(null);
     const { response, error, isLoading } = useAxios(
@@ -41,7 +34,7 @@ function EventsView(props) {
             headers: {
                 Accept: "application/json",
             },
-            params: filters
+            params: filters,
         },
         []
     );
@@ -74,9 +67,9 @@ function EventsView(props) {
     };
 
     // set url param for fetch
-    useEffect(() => {
-        setParams({ ...filters});
-    }, [filters, batchSize]);
+    // useEffect(() => {
+    //     setParams({ ...filters});
+    // }, [filters, batchSize]);
 
     // coditional list render
     let listRender;

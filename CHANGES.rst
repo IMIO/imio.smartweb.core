@@ -4,6 +4,15 @@ Changelog
 
 1.0a16 (unreleased)
 -------------------
+- Udpate data for content items view
+  [thomlamb]
+
+- refactor css className
+  [thomlamb]
+
+- Add moment js to parsed date
+  [thomlamb]
+
 - New build of react vue
   [thomlamb]
 

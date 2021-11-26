@@ -99,6 +99,18 @@ function Filters(props) {
                     <button type="submit"></button>
                 </div>
             </form>
+            <div className="r-filter topics-Filter">
+                <label>Thématiques</label>
+                <Select
+                    name={"topics"}
+                    className="select-custom-class library-topics"
+                    isClearable
+                    onChange={onChangeHandlerSelect}
+                    options={topicsFilter && topicsFilter}
+                    placeholder={"Toutes"}
+                    value={actTopi && actTopi[0]}
+                />
+            </div>
             <div className="r-filter  facilities-Filter">
                 <label>Catégories</label>
                 <Select
@@ -112,18 +124,7 @@ function Filters(props) {
 
                 />
             </div>
-            <div className="r-filter topics-Filter">
-                <label>Thématiques</label>
-                <Select
-                    name={"topics"}
-                    className="select-custom-class library-topics"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={topicsFilter && topicsFilter}
-                    placeholder={"Toutes"}
-                    value={actTopi && actTopi[0]}
-                />
-            </div>
+
         </React.Fragment>
     );
 }

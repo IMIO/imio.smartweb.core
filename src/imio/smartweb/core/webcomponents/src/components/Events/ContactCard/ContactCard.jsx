@@ -28,6 +28,7 @@ const ContactCard = ({ contactItem }) => {
             />
 
             <div className="r-item-text">
+                {contactItem.category ? <span className="r-item-categorie">{contactItem.category.title}</span> : ""}
                 <span className="r-item-title">{title}</span>
                 {category ? <span className="r-item-categorie">{category.title}</span> : ""}
             </div>

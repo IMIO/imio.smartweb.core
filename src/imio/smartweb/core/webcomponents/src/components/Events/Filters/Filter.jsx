@@ -88,19 +88,22 @@ function Filters(props) {
         );
     return (
         <React.Fragment>
-            <form onSubmit={handleSubmit}>
+            <form className="r-filter" onSubmit={handleSubmit}>
                 <label>
                     Recherche
+                </label>
+                <div className="r-filter-search">
                     <input
+                        className="input-custom-class"
                         name="SearchableText" type="text"
                         value={inputValues.SearchableText}
                         onChange={onChangeHandler} />
-                </label>
-                <button type="submit">Recherche</button>
+                    <button type="submit"></button>
+                </div>
             </form>
 
             <div className="r-filter topics-Filter">
-                <span>Thématiques</span>
+                <label>Thématiques</label>
                 <Select
                     name={"topics"}
                     className="select-custom-class library-topics"
@@ -112,7 +115,7 @@ function Filters(props) {
                 />
             </div>
             <div className="r-filter  facilities-Filter">
-                <span>Catégories</span>
+                <label>Catégories</label>
                 <Select
                     name={"category"}
                     className="select-custom-class library-facilities"

@@ -2,15 +2,13 @@ import { useHistory} from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
-
+import moment from 'moment'
+import Moment from 'react-moment';
 const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 ={UID: parsed['u'],fullobjects: 1}
-
-    const [params, setParams] = useState(parsed2);
-
+    const [params, setParams] = useState({});
     const [contactItem, setcontactItem] = useState({});
     const { response, error, isLoading } = useAxios({
         method: "get",
@@ -29,12 +27,12 @@ const ContactContent = ({ queryUrl, onChange }) => {
         }
     }, [response]);
 
-    // useEffect(() => {
-    //     setParams({
-    //         UID: parsed.u,
-    //         fullobjects: 1,
-    //     });
-    // }, []);
+    useEffect(() => {
+        setParams({
+            UID: parsed.u,
+            fullobjects: 1,
+        });
+    }, []);
 
 
     function handleClick() {
@@ -43,76 +41,40 @@ const ContactContent = ({ queryUrl, onChange }) => {
     }
 
     return (
-        <div className="contact-content">
+        <div className="envent-content r-content">
             <button type="button" onClick={handleClick}>
-                Go home
+                Retour
             </button>
-            <div className="contactCard">
-                <div className="contactText">
-                    <div className="contactTextTitle">
-                        <span className="title">{contactItem.title}</span>
+            <article>
+                <header>
+                    <h1 className="r-content-title">{contactItem.title}</h1>
+                    <p>{contactItem.description}</p>
+                </header>
+                <figure>
+                    <div className="r-content-img"
+                        style={{
+                            backgroundImage: contactItem["@id"]
+                                ? "url(" + contactItem["@id"] + "/@@images/image/affiche" + ")"
+                                : "",
+                        }}
+                    />
+                </figure>
+                {/* <div class="r-content-date">
+                    <div className="r-content-date-publish">
+                        <span>Publié le </span>
+                        <Moment format='DD-MM-YYYY'>{publish}</Moment>
                     </div>
-                    <div className="contactTextAll">
-                        {contactItem.category ? <span>{contactItem.category}</span> : ""}
-                        <div className="adresse">
-                            {contactItem.number ? <span>{contactItem.number + " "}</span> : ""}
-                            {contactItem.street ? <span>{contactItem.street + ", "}</span> : ""}
-                            {contactItem.complement ? (
-                                <span>{contactItem.complement + ", "}</span>
-                            ) : (
-                                ""
-                            )}
-                            {contactItem.zipcode ? <span>{contactItem.zipcode + " "}</span> : ""}
-                            {contactItem.city ? <span>{contactItem.city}</span> : ""}
-                        </div>
-                        <div className="itineraty">
-                            {contactItem.street ? (
-                                <a
-                                    href={
-                                        "https://www.google.com/maps/dir/?api=1&destination=" +
-                                        contactItem.street +
-                                        "+" +
-                                        contactItem.number +
-                                        "+" +
-                                        contactItem.complement +
-                                        "+" +
-                                        contactItem.zipcode +
-                                        "+" +
-                                        contactItem.city +
-                                        "+" +
-                                        contactItem.country
-                                    }
-                                >
-                                    Itinéraire
-                                </a>
-                            ) : (
-                                ""
-                            )}
-                        </div>
-                        <div className="phones">
-                            {contactItem.phones
-                                ? contactItem.phones.map((phone) => {
-                                      return <span>{phone.number}</span>;
-                                  })
-                                : ""}
-                        </div>
-                        <div className="mails">
-                            {contactItem.mails
-                                ? contactItem.mails.map((mail) => {
-                                      return <span>{mail.mail_address}</span>;
-                                  })
-                                : ""}
-                        </div>
-                        <div className="topics">
-                            {contactItem.topics
-                                ? contactItem.topics.map((mail) => {
-                                      return <span>{mail.title}</span>;
-                                  })
-                                : ""}
-                        </div>
+                    <div className="r-content-date-last">
+                        <span>Modifié le</span>
+                        <Moment format='DD-MM-YYYY'>{lastModified}</Moment>
                     </div>
-                </div>
-            </div>
+                </div> */}
+
+                <div class="r-content-text"
+                    dangerouslySetInnerHTML={{
+                        __html: contactItem.text && contactItem.text.data
+                    }}></div>
+            </article>
         </div>
     );
 };

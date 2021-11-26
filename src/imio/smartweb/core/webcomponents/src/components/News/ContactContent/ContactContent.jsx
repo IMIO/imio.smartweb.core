@@ -1,14 +1,14 @@
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory} from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
-
+import moment from 'moment'
+import Moment from 'react-moment';
 const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
     const [params, setParams] = useState({});
-
     const [contactItem, setcontactItem] = useState({});
     const { response, error, isLoading } = useAxios({
         method: "get",
@@ -37,12 +37,44 @@ const ContactContent = ({ queryUrl, onChange }) => {
         history.push(".");
         onChange(null);
     }
+    const lastModified = moment(contactItem.modified);
+    const publish = moment(contactItem.effective);
+
     return (
-        <div className="contact-content">
+        <div className="new-content r-content">
             <button type="button" onClick={handleClick}>
-                Go home
+                Retour
             </button>
-            <span className="title">{contactItem.title}</span>
+            <article>
+                <header>
+                    <h1 className="r-content-title">{contactItem.title}</h1>
+                    <p>{contactItem.description}</p>
+                </header>
+                <figure>
+                    <div className="r-content-img"
+                        style={{
+                            backgroundImage: contactItem["@id"]
+                                ? "url(" + contactItem["@id"] + "/@@images/image/affiche" + ")"
+                                : "",
+                        }}
+                    />
+                </figure>
+                <div class="r-content-date">
+                    <div className="r-content-date-publish">
+                        <span>Publié le </span>
+                        <Moment format='DD-MM-YYYY'>{publish}</Moment>
+                    </div>
+                    <div className="r-content-date-last">
+                        <span>Modifié le</span>
+                        <Moment format='DD-MM-YYYY'>{lastModified}</Moment>
+                    </div>
+                </div>
+
+                <div class="r-content-text"
+                    dangerouslySetInnerHTML={{
+                        __html: contactItem.text && contactItem.text.data
+                    }}></div>
+            </article>
 
         </div>
     );
