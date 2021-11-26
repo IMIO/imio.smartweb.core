@@ -14,7 +14,7 @@ Changelog
 - Udpate data for content items view
   [thomlamb]
 
-- refactor css className
+- Refactor css className
   [thomlamb]
 
 - Add moment js to parsed date
