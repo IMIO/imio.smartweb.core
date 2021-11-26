@@ -4,6 +4,9 @@ Changelog
 
 1.0a16 (unreleased)
 -------------------
+- Add new css styles
+  [thomlamb]
+
 - Udpate data for content items view
   [thomlamb]
 
