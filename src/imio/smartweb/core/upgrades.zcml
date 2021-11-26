@@ -60,4 +60,16 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="1006"
+      destination="1007"
+      profile="imio.smartweb.core:default">
+
+      <genericsetup:upgradeDepends
+          title="Update last compilation dates of CSS / JS bundles"
+          import_profile="imio.smartweb.core:last-compilation"
+          />
+
+  </genericsetup:upgradeSteps>
+
 </configure>
