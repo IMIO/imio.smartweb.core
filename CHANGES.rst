@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a17 (unreleased)
+1.0a17 (2021-11-29)
 -------------------
 
 - Move background_style (img background) out of sections (section-container div) and
