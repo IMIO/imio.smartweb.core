@@ -12,9 +12,11 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.app.z3cform.interfaces import IPloneFormLayer
+from plone.namedfile.file import NamedBlobFile
 from plone.testing.zope import Browser
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
 import transaction
@@ -233,3 +235,17 @@ class TestPages(ImioSmartwebTestCase):
         self.assertEqual(self.folder.default_page_uid, IUUID(self.defaultpage))
         self.assertFalse(copied_page.exclude_from_nav)
         self.assertFalse(IDefaultPages.providedBy(copied_page))
+
+    def test_background_style(self):
+        section = api.content.create(
+            container=self.defaultpage,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        view = queryMultiAdapter((self.defaultpage, self.request), name="full_view")
+        self.assertEqual(view.background_style(section), "")
+        section.background_image = NamedBlobFile(data="file data", filename="file.png")
+        self.assertIn(
+            "background-image:url('http://nohost/plone/folder/defaultpage/section-text/@@images/background_image/large')",
+            view.background_style(section),
+        )

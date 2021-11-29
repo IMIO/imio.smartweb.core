@@ -53,6 +53,14 @@ class PagesView(FolderView):
             [section_type.lower(), obj.css_class or "", obj.bootstrap_css_class or ""]
         )
 
+    def background_style(self, obj):
+        if not obj.background_image:
+            return ""
+        css_bg_image = "background-image:url('{}/@@images/background_image/large');"
+        css_bg_image = css_bg_image.format(obj.absolute_url())
+        css_bg_size = "background-size:cover;"
+        return " ".join([css_bg_image, css_bg_size])
+
 
 class PagesFullViewItem(BaseFullViewItem):
     """Page view item"""

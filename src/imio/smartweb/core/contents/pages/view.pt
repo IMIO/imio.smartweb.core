@@ -57,7 +57,8 @@
                 <div class=""
                      data-id=""
                      tal:attributes="class python:'sortable-section {}'.format(view.get_class(obj));
-                                     data-id obj/id">
+                                     data-id obj/id;
+                                     style python:view.background_style(obj);">
                   <a tal:attributes="name string:section-${obj/id}" />
                   <span tal:replace="structure obj/@@full_view_item | nothing" />
                 </div>

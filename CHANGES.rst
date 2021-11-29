@@ -5,6 +5,10 @@ Changelog
 1.0a17 (unreleased)
 -------------------
 
+- Move background_style (img background) out of sections (section-container div) and
+  put it in pages view (sortable-section div). This simplifying css styling.
+  [boulch]
+
 - Split section macros to "manage macros" to manage sections and "title macros" to print sections title + add default Plone "container" css class.
   [boulch]
 

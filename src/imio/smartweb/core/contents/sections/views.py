@@ -25,14 +25,6 @@ class SectionView(BrowserView):
         url = "{}#section-{}".format(page.absolute_url(), section_id)
         self.request.response.redirect(url)
 
-    def background_style(self):
-        if not self.context.background_image:
-            return ""
-        css_bg_image = "background-image:url('{}/@@images/background_image/large');"
-        css_bg_image = css_bg_image.format(self.context.absolute_url())
-        css_bg_size = "background-size:cover;"
-        return " ".join([css_bg_image, css_bg_size])
-
     def hide_section_title(self):
         if not self.context.can_toggle_title_visibility:
             return

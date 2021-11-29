@@ -12,8 +12,7 @@
 <metal:macro use-macro="context/@@sections_macros/section_edition" />
 <div class="container section-container section-gallery"
      tal:define="can_edit python: checkPermission('Modify portal content', context);
-                 items context/listFolderContents;"
-     tal:attributes="style view/background_style">
+                 items context/listFolderContents;">
 
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">

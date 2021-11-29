@@ -15,8 +15,7 @@
           tal:condition="show_section">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
   </tal:if>
-<div class="container section-container"
-     tal:attributes="style view/background_style">
+<div class="container section-container">
 
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">

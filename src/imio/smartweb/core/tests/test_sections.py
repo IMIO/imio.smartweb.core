@@ -453,20 +453,6 @@ class TestSections(ImioSmartwebTestCase):
         view.hide_section_title()
         self.assertFalse(section.hide_title)
 
-    def test_background_style(self):
-        section = api.content.create(
-            container=self.page,
-            type="imio.smartweb.SectionText",
-            title="Section text",
-        )
-        view = queryMultiAdapter((section, self.request), name="view")
-        self.assertEqual(view.background_style(), "")
-        section.background_image = NamedBlobFile(data="file data", filename="file.png")
-        self.assertIn(
-            "background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')",
-            view.background_style(),
-        )
-
     def test_sections_worflows(self):
         wf_tool = api.portal.get_tool("portal_workflow")
         section_types = get_sections_types()
