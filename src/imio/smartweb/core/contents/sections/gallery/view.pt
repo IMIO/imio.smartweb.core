@@ -9,7 +9,8 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<div class="section-container section-gallery"
+<metal:macro use-macro="context/@@sections_macros/section_edition" />
+<div class="container section-container section-gallery"
      tal:define="can_edit python: checkPermission('Modify portal content', context);
                  items context/listFolderContents;"
      tal:attributes="style view/background_style">
@@ -17,7 +18,7 @@
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
 
-    <metal:macro use-macro="context/@@sections_macros/section_edition" />
+    <metal:macro use-macro="context/@@sections_macros/section_title" />
     <div class=""
          tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
          tal:attributes="class string:body-section ${collapse_klass};

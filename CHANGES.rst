@@ -5,6 +5,9 @@ Changelog
 1.0a17 (unreleased)
 -------------------
 
+- Split section macros to "manage macros" to manage sections and "title macros" to print sections title + add default Plone "container" css class.
+  [boulch]
+
 - Change generated url for the news and event sections for compatibility with react router
   [thomamb]
 

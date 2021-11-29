@@ -15,31 +15,8 @@
                        can_toggle_title_visibility context/can_toggle_title_visibility"
            i18n:domain="imio.smartweb">
 
-    <h2 tal:condition="not: hide_title"
-        class="section-title"><a
-         href=""
-         role="button"
-         aria-expanded="false"
-         data-bs-toggle="collapse"
-         data-bs-target=""
-         tal:omit-tag="not: collapsible_section"
-         tal:attributes="data-bs-target string:#body-section-${context/id}"
-         tal:content="context/title"
-    /></h2>
-    <h2 tal:condition="python: can_edit and hide_title"
-        class="hidden-section-title hide-in-preview"><a
-         href=""
-         role="button"
-         aria-expanded="false"
-         data-bs-toggle="collapse"
-         data-bs-target=""
-         tal:omit-tag="not: collapsible_section"
-         tal:attributes="data-bs-target string:#body-section-${context/id}"
-         tal:content="context/title"
-    /></h2>
-
     <div tal:condition="can_edit"
-         class="header-section hide-in-preview">
+         class="container header-section hide-in-preview">
 
       <div class="manage-section">
 
@@ -82,25 +59,58 @@
         <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
            i18n:translate="">Delete section</a>
 
+        <tal:dates define="modified context/ModificationDate">
+          <span class="documentModified"
+                tal:condition="modified">
+            <span i18n:translate="">
+              Modified
+            </span>
+            <span class="pat-moment" data-pat-moment="format:relative;"
+                  tal:content="modified">
+              Modified
+            </span>
+          </span>
+        </tal:dates>
+
       </div>
-
-      <tal:dates define="modified context/ModificationDate">
-        <span class="documentModified"
-              tal:condition="modified">
-          <span i18n:translate="">
-            Modified
-          </span>
-          <span class="pat-moment" data-pat-moment="format:relative;"
-                tal:content="modified">
-            Modified
-          </span>
-        </span>
-      </tal:dates>
-
     </div>
 
   </tal:def>
 
 </metal:macro>
 
+<metal:macro define-macro="section_title">
+
+  <tal:def tal:define="can_edit request/can_edit | nothing;
+                       can_edit python: can_edit is None and checkPermission('Modify portal content', context) or can_edit;
+                       hide_title context/hide_title;
+                       collapsible_section context/collapsible_section"
+           i18n:domain="imio.smartweb">
+
+    <h2 tal:condition="not: hide_title"
+        class="section-title"><a
+         href=""
+         role="button"
+         aria-expanded="false"
+         data-bs-toggle="collapse"
+         data-bs-target=""
+         tal:omit-tag="not: collapsible_section"
+         tal:attributes="data-bs-target string:#body-section-${context/id}"
+         tal:content="context/title"
+    /></h2>
+    <h2 tal:condition="python: can_edit and hide_title"
+        class="hidden-section-title hide-in-preview"><a
+         href=""
+         role="button"
+         aria-expanded="false"
+         data-bs-toggle="collapse"
+         data-bs-target=""
+         tal:omit-tag="not: collapsible_section"
+         tal:attributes="data-bs-target string:#body-section-${context/id}"
+         tal:content="context/title"
+    /></h2>
+
+  </tal:def>
+
+</metal:macro>
 </html>
