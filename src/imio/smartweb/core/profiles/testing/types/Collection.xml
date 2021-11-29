@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="Collection"
+    meta_type="Dexterity FTI"
+    i18n:domain="plone">
+
+  <property name="global_allow">True</property>
+
+  <property name="behaviors" purge="false">
+    <element value="plone.leadimage"/>
+    <element value="eea.faceted.navigable"/>
+  </property>
+
+  <property name="default_view">view</property>
+  <property name="view_methods" purge="true">
+  </property>
+
+</object>

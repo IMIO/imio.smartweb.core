@@ -5,7 +5,8 @@ Changelog
 1.0a18 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add faceted layout class to body if a faceted layout is define.
+  [boulch]
 
 
 1.0a17 (2021-11-29)
