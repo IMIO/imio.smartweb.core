@@ -24,7 +24,7 @@ class IFooter(IPages):
     )
 
     write_permission(css_class="cmf.ManagePortal")
-    css_class = schema.TextLine(title=_(u"CSS class"), required=False)
+    css_class = schema.TextLine(title=_(u"CSS class"), default="", required=False)
 
 
 @implementer(IFooter)

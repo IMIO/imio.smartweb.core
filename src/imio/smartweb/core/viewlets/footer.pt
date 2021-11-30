@@ -1,17 +1,24 @@
-<div
-     tal:define="footer nocall:view/footer"
-     tal:attributes="id view/css_id;
-                     style view/background_style;
-                     class string:container ${footer/css_class}"
-     tal:condition="view/available">
-  <div class="row"
-       tal:repeat="section view/sections">
-        <span tal:replace="structure section" />
-  </div>
-  <div>
-    <span tal:condition="context/@@has_gdpr_text"><a href=""
-                                               tal:attributes="href string:${view/navigation_root_url}/gdpr-view"
-                i18n:translate="">Legal notice</a></span>
+<div class="row">
+  <div tal:condition="view/available"
+       class="actions-site_actions">
+
+    <div tal:define="footer nocall:view/footer"
+         tal:attributes="id view/css_id;
+                         style view/background_style;
+                         class string:smartweb-footer ${footer/css_class}">
+      <div class="container">
+         <div class="row"
+              tal:repeat="section view/sections">
+               <span tal:replace="structure section" />
+         </div>
+         <div class="gdpr-text"
+              tal:condition="context/@@has_gdpr_text">
+           <a href=""
+              tal:attributes="href string:${view/navigation_root_url}/gdpr-view"
+              i18n:translate="">Legal notice</a>
+         </div>
+      </div>
+    </div>
 
   </div>
 </div>
