@@ -5,6 +5,9 @@ Changelog
 1.0a18 (unreleased)
 -------------------
 
+- Add plone.shortname behavior on all sections
+  [laulaz]
+
 - Restrict search inside minisites
   [laulaz]
 

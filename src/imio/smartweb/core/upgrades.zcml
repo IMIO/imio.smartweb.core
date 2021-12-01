@@ -72,4 +72,13 @@
 
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Reload types info to add shortname behavior on sections"
+      description=""
+      source="1007"
+      destination="1008"
+      handler=".upgrades.reload_types"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
