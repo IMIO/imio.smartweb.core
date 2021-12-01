@@ -5,6 +5,9 @@ Changelog
 1.0a18 (unreleased)
 -------------------
 
+- Restrict search inside minisites
+  [laulaz]
+
 - Fix footer viewlet markup to be included in Plone footer
   [laulaz]
 
