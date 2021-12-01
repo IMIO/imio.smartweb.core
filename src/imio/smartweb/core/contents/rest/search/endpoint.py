@@ -149,7 +149,7 @@ class ExtendedSearchHandler(SearchHandler):
                     ],
                     "operator": "or",
                 },
-                "path": "/Plone",
+                "path": "",
             },
             "events": {
                 "portal_type": ["imio.events.Event"],
@@ -160,7 +160,7 @@ class ExtendedSearchHandler(SearchHandler):
                     ],
                     "operator": "or",
                 },
-                "path": "/Plone",
+                "path": "",
             },
             "directory": {
                 "portal_type": ["imio.directory.Contact"],
@@ -173,7 +173,7 @@ class ExtendedSearchHandler(SearchHandler):
                     ],
                     "operator": "or",
                 },
-                "path": "/Plone",
+                "path": "",
             },
         }.get(core)
 

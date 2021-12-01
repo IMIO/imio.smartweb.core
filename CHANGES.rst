@@ -5,7 +5,8 @@ Changelog
 1.0a19 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Avoid an unwanted behavior with `path` index combined with SolR and virtual host
+  [mpeeters]
 
 
 1.0a18 (2021-12-01)
