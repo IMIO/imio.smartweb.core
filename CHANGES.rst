@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a18 (unreleased)
+1.0a18 (2021-12-01)
 -------------------
 
 - Avoid batching on vocabularies : contact categories and entity events
