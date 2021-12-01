@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a19 (unreleased)
+1.0a19 (2021-12-01)
 -------------------
 
 - Avoid an unwanted behavior with `path` index combined with SolR and virtual host
