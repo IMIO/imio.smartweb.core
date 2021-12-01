@@ -34,12 +34,10 @@
       source="1003"
       destination="1004"
       profile="imio.smartweb.core:default">
-
-      <genericsetup:upgradeDepends
-          title="Install basic icons set"
-          import_profile="imio.smartweb.core:icons-basic"
-          />
-
+    <genericsetup:upgradeDepends
+        title="Install basic icons set"
+        import_profile="imio.smartweb.core:icons-basic"
+        />
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeStep
@@ -64,12 +62,10 @@
       source="1006"
       destination="1007"
       profile="imio.smartweb.core:default">
-
-      <genericsetup:upgradeDepends
-          title="Update last compilation dates of CSS / JS bundles"
-          import_profile="imio.smartweb.core:last-compilation"
-          />
-
+    <genericsetup:upgradeDepends
+        title="Update last compilation dates of CSS / JS bundles"
+        import_profile="imio.smartweb.core:last-compilation"
+        />
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeStep

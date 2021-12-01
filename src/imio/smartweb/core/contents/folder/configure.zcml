@@ -49,6 +49,7 @@
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
   <browser:page
       for="imio.smartweb.core.contents.IFolder"
       name="element_view"
