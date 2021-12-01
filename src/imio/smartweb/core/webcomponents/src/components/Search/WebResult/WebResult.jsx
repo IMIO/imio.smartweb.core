@@ -7,7 +7,7 @@ const WebResult = (props) => {
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
-        baseURL: props.url+'/@search?&_core=web', //props.queryUrl*/,
+        baseURL: props.url+'/@search?', //props.queryUrl*/,
         headers: {
             Accept: "application/json",
         },

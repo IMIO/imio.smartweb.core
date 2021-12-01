@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import { getPath } from "../../utils/url";
-import Skeleton from "./Skeleton/Skeleton.jsx";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter"
 import ContactResult from "./ContactResult/ContactResult"
 import NewsResult from "./NewsResult/NewsResult"
 import EventsResult from "./EventsResult/EventsResult"
 import WebResult from "./WebResult/WebResult"
-
-import useAxios from "../../hooks/useAxios";
+import useFilterQuery from "../../hooks/useFilterQuery";
 import "./Search.scss";
 
-const Search = (props) => {
-    const [params, setParams] = useState({});
-    const [filters, setFilters] = useState({});
+
+export default function Search(props) {
+    return (
+        <Router>
+            <SearchView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
+        </Router>
+
+    );
+}
+const SearchView = (props) => {
+    const queryString = require("query-string");
+    const parsed = queryString.parse(useFilterQuery().toString());
+    const parsed2 ={ ...parsed,b_size:6};
+    const [filters, setFilters] = useState(parsed2);
     const [batchSize, setBatchSize] = useState(6);
 
 
@@ -23,25 +31,20 @@ const Search = (props) => {
     const callback = () => {
         setBatchSize(batchSize + 5);
     }
-    useEffect(() => {
-        setParams({ ...filters, 'b_size': batchSize })
-    }, [filters, batchSize]);
-
+    console.log(filters);
     return (
         <div className="ref">
             <div className="r-search">
                 <div className="row r-search-filters">
-                    <Filters url={props.queryUrl} onChange={filtersChange} />
+                    <Filters url={props.queryUrl} activeFilter={filters} onChange={filtersChange} />
                 </div>
                 <div className="row r-search-result">
-                    <WebResult urlParams={params} url={props.queryUrl} />
-                    <NewsResult urlParams={params} url={props.queryUrl} />
-                    <EventsResult urlParams={params} url={props.queryUrl} />
-                    <ContactResult urlParams={params} url={props.queryUrl}  />
+                    <WebResult urlParams={filters} url={props.queryUrl} />
+                    <NewsResult urlParams={filters} url={props.queryUrl} />
+                    <EventsResult urlParams={filters} url={props.queryUrl} />
+                    <ContactResult urlParams={filters} url={props.queryUrl}  />
                 </div>
             </div>
         </div>
     );
 };
-
-export default Search;

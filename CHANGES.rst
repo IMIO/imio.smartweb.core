@@ -5,7 +5,8 @@ Changelog
 1.0a20 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add routing for react search vue.
+  [thomamb]
 
 
 1.0a19 (2021-12-01)

@@ -1,33 +1,76 @@
 import React, { useEffect, useCallback, useState } from "react";
 import Select from 'react-select';
+import {useHistory } from "react-router-dom";
 import useAxios from '../../../hooks/useAxios';
-
+import axios from "axios";
 function Filters(props) {
-    const [inputValues, setInputValues] = useState({});
+    let history = useHistory();
+    const queryString = require("query-string");
+
+    const [inputValues, setInputValues] = useState(props.activeFilter);
     const [searchValues, setSearchValues] = useState({});
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [iamFilter, setIamFilter] = useState(null);
-    const {response, topicsError, topicsIsLoading } = useAxios({
-        method: 'get',
-        url: "",
-        baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Basic YWRtaW46c2VjcmV0',
-        },
-        
+    // const {response, topicsError, topicsIsLoading } = useAxios({
+    //     method: 'get',
+    //     url: "",
+    //     baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics',
+        // headers: {
+        //     Accept: "application/json",
+        //     Authorization: "Basic xxxxxxxxx=",
+        // },
+    // });
+    const headers = {
+        Accept: "application/json",
+        Authorization: "Basic xxxxxxx=",
+    }
+    let one = props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics';
+    let two = props.url+'/@vocabularies/imio.smartweb.vocabulary.IAm';
+    const requestOne = axios.get(one,headers);
+    const requestTwo = axios.get(two,headers);
 
-    });
-
-    useEffect(() => {
-        if (response !== null) {
-            const optionsTopics = response.items.map(d => ({
-                "value": d.token,
-                "label": d.title
+    axios
+    .all([requestOne, requestTwo])
+    .then(
+        axios.spread((...responses) => {
+        const responseOne = responses[0];
+        const responseTwo = responses[1];
+        if (responseOne !== null) {
+            const optionsTopics = responseOne.items.map(d => ({
+                value: d.token,
+                label: d.title
             }))
             setTopicsFilter(optionsTopics);
         }
-    }, [response]);
+        if (responseTwo !== null) {
+            const optionsIam = responseTwo.items.map(d => ({
+                value: d.token,
+                label: d.title
+            }))
+            setIamFilter(optionsIam);
+        }
+        console.log(responseOne, responseTwo);
+        })
+    )
+    .catch(errors => {
+        // react on errors.
+        console.error(errors);
+    });
+
+    // useEffect(() => {
+    //     if (response !== null) {
+    //         const optionsTopics = response.items.map(d => ({
+    //             value: d.token,
+    //             label: d.title
+    //         }))
+    //         setTopicsFilter(optionsTopics);
+    //     }
+    // }, [response]);
+
+
+
+
+
 
     const HandlerText = (e) =>{
         setSearchValues({'SearchableText': e.target.value})
@@ -69,6 +112,10 @@ function Filters(props) {
     );
 
     useEffect(() => {
+        history.push({
+            pathname: "",
+            search: queryString.stringify(inputValues),
+        });
         props.onChange(inputValues);
     }, [inputValues]);
 
@@ -94,7 +141,6 @@ function Filters(props) {
         },
       };
 
-      console.log(inputValues)
     return (
         <React.Fragment>
             <div className="col-md-6 r-search search-bar-filter">
@@ -118,10 +164,21 @@ function Filters(props) {
                     className="r-search-select"
                     isClearable
                     onChange={onChangeHandlerSelect}
+                    options={iamFilter && iamFilter}
+                    placeholder={'Je suis'}
+                />
+            </div> 
+            <div className="col-md-2 r-search search-select-filter">
+                <Select
+                    styles={customStyles}
+                    name={"topics"}
+                    className="r-search-select"
+                    isClearable
+                    onChange={onChangeHandlerSelect}
                     options={topicsFilter && topicsFilter}
                     placeholder={'Thématiques'}
                 />
-            </div> 
+            </div>
         </React.Fragment>
     );
 }
