@@ -5,6 +5,9 @@ Changelog
 1.0a18 (unreleased)
 -------------------
 
+- Avoid batching on vocabularies : contact categories and entity events
+  [laulaz]
+
 - Add plone.shortname behavior on all sections
   [laulaz]
 

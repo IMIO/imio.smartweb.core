@@ -404,7 +404,7 @@ class DirectoryCategoriesVocabularyFactory:
         client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
         client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
         id_token = get_wca_token(client_id, client_secret)
-        url = f"{DIRECTORY_URL}/@vocabularies/collective.taxonomy.contact_category"
+        url = f"{DIRECTORY_URL}/@vocabularies/collective.taxonomy.contact_category?b_size=1000000"
         categories_json = get_json(url, auth="Bearer {0}".format(id_token))
         if categories_json is None or len(categories_json.get("items", [])) == 0:
             return SimpleVocabulary([])
@@ -465,6 +465,7 @@ class EventsFromEntityVocabularyFactory:
             "metadata_fields=UID",
             f"start.query={start}",
             "start.range=min",
+            "b_size=1000000",
         ]
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
         json_events = get_json(url)
