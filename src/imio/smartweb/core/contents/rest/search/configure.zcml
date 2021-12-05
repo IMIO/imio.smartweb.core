@@ -14,4 +14,23 @@
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />
 
+  <!-- SolR core connections -->
+  <utility
+    provides="collective.solr.interfaces.ISolrConnectionManager"
+    factory="collective.solr.manager.SolrConnectionManager"
+    name="news"
+    />
+
+  <utility
+    provides="collective.solr.interfaces.ISolrConnectionManager"
+    factory="collective.solr.manager.SolrConnectionManager"
+    name="events"
+    />
+
+  <utility
+    provides="collective.solr.interfaces.ISolrConnectionManager"
+    factory="collective.solr.manager.SolrConnectionManager"
+    name="directory"
+    />
+
 </configure>

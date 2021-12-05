@@ -5,6 +5,9 @@ Changelog
 1.0a20 (unreleased)
 -------------------
 
+- Set SolR connections for external sources
+  [mpeeters]
+
 - Add routing for react search vue.
   [thomamb]
 
