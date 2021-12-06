@@ -5,6 +5,9 @@ Changelog
 1.0a20 (unreleased)
 -------------------
 
+- Change markup and css classes for carousel / table templates
+  [laulaz]
+
 - Set SolR connections for external sources
   [mpeeters]
 

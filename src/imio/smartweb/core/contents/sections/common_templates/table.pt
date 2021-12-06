@@ -36,7 +36,7 @@
 
           <tal:bcl tal:repeat="batch items">
 
-              <li class="section_links_list row"
+              <li class="row"
                   tal:omit-tag="only_one_item"
                   tal:repeat="item batch"
                   tal:attributes="class string:col-md-${bs_col}">
@@ -46,32 +46,40 @@
                                    show_lead_image python:getattr(context, 'show_items_lead_image', True);
                                    portal context/@@plone_portal_state/portal;
                                    open_in_new_tab item/open_in_new_tab | nothing;"
-                       class="section_links_item">
-                      <a class="section_links_item_image"
+                       class="table_display">
+                      <a class="table_image"
                          tal:attributes="href item/url;
                                          target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
                         <tal:if tal:condition="show_lead_image">
                             <div class="image d-block w-100"
                                  tal:condition="item_has_icon">
-                                <tal:icon tal:replace="structure python:smartweb_icons.tag(item['icon'])" />
+                              <tal:icon tal:replace="structure python:smartweb_icons.tag(item['icon'])" />
                             </div>
                             <div class="image d-block w-100"
                                  tal:condition="python: item_has_image and not item_has_icon"
                                  tal:attributes="style string:background-image:url('${item/image}')">
                            </div>
                         </tal:if>
-                        <span class="section_links_item_title"
-                              tal:content="item/title">Item Title</span>
-                        <p tal:condition="context/show_items_description | nothing"
-                           tal:content="item/description"></p>
-                        <span tal:condition="context/show_items_publication_date | nothing">
+
+                        <div class="table_date"
+                             tal:condition="context/show_items_publication_date | nothing">
                           <span i18n:translate="">Published</span>
                           <span class="pat-moment" data-pat-moment="format:relative;"
                                 tal:content="item/effective | nothing"/>
-                        </span>
-                        <span class="item-infos"
-                              tal:condition="item/item_infos | nothing"
-                              tal:content="item/item_infos"/>
+                        </div>
+
+                        <div class="table_title">
+                          <span tal:content="item/title" />
+                        </div>
+
+                        <div class="table_description"
+                             tal:condition="context/show_items_description | nothing">
+                          <p tal:content="item/description" />
+                        </div>
+
+                        <div class="item_infos"
+                             tal:condition="item/item_infos | nothing"
+                             tal:content="item/item_infos"/>
                       </a>
                   </div>
               </li>

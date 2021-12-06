@@ -47,15 +47,18 @@
                          tal:condition="python: item_has_image and show_lead_image"
                          tal:attributes="style string:background-image:url(${item/image})">
                     </div>
-                    <div class="d-none d-md-block">
-                      <h5 tal:content="item/title"></h5>
-                      <p tal:condition="context/show_items_description | nothing"
-                         tal:content="item/description"></p>
-                      <span tal:condition="context/show_items_publication_date | nothing">
-                        <span i18n:translate="">Published</span>
-                        <span class="pat-moment" data-pat-moment="format:relative;"
-                              tal:content="item/effective | nothing"/>
-                      </span>
+                    <div class="swiper_date"
+                         tal:condition="context/show_items_publication_date | nothing">
+                      <span i18n:translate="">Published</span>
+                      <span class="pat-moment" data-pat-moment="format:relative;"
+                            tal:content="item/effective | nothing"/>
+                    </div>
+                    <div class="swiper_title">
+                      <h3 tal:content="item/title"></h3>
+                    </div>
+                    <div class="swiper_description"
+                         tal:condition="context/show_items_description | nothing">
+                      <p tal:content="item/description" />
                     </div>
                   </a>
               </tal:def>
