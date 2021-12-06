@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a20 (unreleased)
+1.0a20 (2021-12-06)
 -------------------
 
 - Change markup and css classes for carousel / table templates
