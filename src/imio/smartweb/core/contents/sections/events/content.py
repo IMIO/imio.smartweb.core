@@ -7,6 +7,7 @@ from plone.app.vocabularies.catalog import CatalogSource
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
+from plone.supermodel import model
 from z3c.relationfield.schema import RelationChoice
 from zope import schema
 from zope.globalrequest import getRequest
@@ -75,6 +76,11 @@ class ISectionEvents(ISection):
         title=_(u"Text for the link to the events view"),
         defaultFactory=see_all_default,
         required=True,
+    )
+
+    model.fieldset("layout", fields=["show_items_description"])
+    show_items_description = schema.Bool(
+        title=_(u"Show items description"), required=False
     )
 
 

@@ -5,7 +5,8 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add option to display items descriptions in news / events sections
+  [laulaz]
 
 
 1.0a20 (2021-12-06)
