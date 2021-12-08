@@ -19,6 +19,7 @@ class NewsView(CarouselOrTableSectionView):
             "metadata_fields=category",
             "metadata_fields=topics",
             "metadata_fields=has_leadimage",
+            "metadata_fields=effective",
             "metadata_fields=UID",
             "sort_on=effective",
             "sort_order=descending",
@@ -43,6 +44,7 @@ class NewsView(CarouselOrTableSectionView):
                 {
                     "title": item["title"],
                     "description": item["description"],
+                    "effective": item["effective"],
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                     "image": f"{item_url}/@@images/image/{image_scale}",
                     "has_image": item["has_leadimage"],

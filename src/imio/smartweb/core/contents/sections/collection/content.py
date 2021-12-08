@@ -64,7 +64,7 @@ class ISectionCollection(ISection):
         fields=[
             "show_items_lead_image",
             "show_items_description",
-            "show_items_publication_date",
+            "show_items_date",
         ],
     )
     show_items_lead_image = schema.Bool(
@@ -75,9 +75,7 @@ class ISectionCollection(ISection):
         title=_(u"Show items description"), required=False
     )
 
-    show_items_publication_date = schema.Bool(
-        title=_(u"Show items publication date"), required=False
-    )
+    show_items_date = schema.Bool(title=_(u"Show items date"), required=False)
 
 
 @implementer(ISectionCollection)

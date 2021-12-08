@@ -79,3 +79,4 @@ class SectionNews(Section):
     """SectionNews class"""
 
     manage_display = True
+    show_items_date = True

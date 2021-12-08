@@ -5,6 +5,9 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
+- Add news items publication date in news section
+  [laulaz]
+
 - Add option to display items descriptions in news / events sections
   [laulaz]
 

@@ -62,10 +62,12 @@
                         </tal:if>
 
                         <div class="table_date"
-                             tal:condition="context/show_items_publication_date | nothing">
-                          <span i18n:translate="">Published</span>
-                          <span class="pat-moment" data-pat-moment="format:relative;"
-                                tal:content="item/effective | nothing"/>
+                             tal:condition="context/show_items_date | nothing">
+                          <tal:if tal:condition="item/effective | nothing">
+                            <span i18n:translate="">Published</span>
+                            <span class="pat-moment" data-pat-moment="format:relative;"
+                                  tal:content="item/effective"/>
+                          </tal:if>
                         </div>
 
                         <div class="table_title">
