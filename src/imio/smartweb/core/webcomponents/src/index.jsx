@@ -4,6 +4,7 @@ import Annuaire from "./components/Annuaire";
 import News from "./components/News";
 import Events from "./components/Events";
 import Search from "./components/Search";
+import "./index.scss";
 
 
 

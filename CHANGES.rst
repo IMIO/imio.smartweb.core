@@ -4,6 +4,14 @@ Changelog
 
 1.0a21 (unreleased)
 -------------------
+- Distribution of css in the global file
+  [thomlamb]
+
+- Add global style for all component.
+  [thomlamb]
+
+- Add removeAccents js for string url
+  [thomlamb]
 
 - Add "with-background" css class on sections that have a background image
   [laulaz]

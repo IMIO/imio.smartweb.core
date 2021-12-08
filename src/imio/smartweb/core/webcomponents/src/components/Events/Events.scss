@@ -1,63 +1,12 @@
 
-  /* Filters */
-  .r-result{
-    margin-top: 2rem;
-    &-filter{
-      display: flex;
-      gap: 20px;
-      padding-bottom: 50px;
-      border-bottom: solid 1px #cccc;
-      .r-filter{
-        width: 100%;
-        max-width: 200px;
-        label{
-          display: block;
-        }
-        .r-filter-search{
-          position: relative;
-          .input-custom-class{
-            height: 40px;
-            border: solid 1px #ccc;
-            width: 100%;
-          }
-          button{
-            background: url(../../assets/search.svg) no-repeat;
-            background-position: center;
-            background-size: 80%;
-            border: none;
-            width: 20px;
-            position: absolute;
-            right: 10px;
-            top: 0;
-            bottom: 0;
-          }
-        }
 
-      }
-    }
-  }
 //// for bla ////
-  /* filters */
-  .r-filter{
-    label{
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 13px;
-      margin-bottom: 10px;
-    }
-  }
-  .select-custom-class{
-    div[class*="control"]{
-      border-radius: 0;
-      height: 40px;
-      border-color: #CCCCCC;
-    }
-  }
 // content
 
 .r-content-img{
   padding-bottom: 56.25%;
 }
+
 
 
 
