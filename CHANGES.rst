@@ -5,6 +5,9 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
+- Add "with-background" css class on sections that have a background image
+  [laulaz]
+
 - Add items category in news / events section
   [laulaz]
 
