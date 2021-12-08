@@ -6,6 +6,7 @@
             "@type": "imio.events.Event",
             "UID": "1178188bddde4ced95a6cf8bf04c443b",
             "category": null,
+            "category_title": null,
             "description": "Bon pied, bon oeil et bonne bouche à Belleville",
             "breadcrumb": "belleville >> communal >> Bon pied, bon oeil",
             "end": "2025-11-30T13:00:00+00:00",
