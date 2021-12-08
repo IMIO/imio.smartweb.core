@@ -18,6 +18,7 @@ class NewsView(CarouselOrTableSectionView):
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
             "metadata_fields=topics",
+            "metadata_fields=category_title",
             "metadata_fields=has_leadimage",
             "metadata_fields=effective",
             "metadata_fields=UID",
@@ -44,6 +45,7 @@ class NewsView(CarouselOrTableSectionView):
                 {
                     "title": item["title"],
                     "description": item["description"],
+                    "category": item["category_title"],
                     "effective": item["effective"],
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                     "image": f"{item_url}/@@images/image/{image_scale}",

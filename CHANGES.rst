@@ -5,6 +5,9 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
+- Add items category in news / events section
+  [laulaz]
+
 - Add news items publication date in news section
   [laulaz]
 

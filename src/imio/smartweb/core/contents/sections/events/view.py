@@ -27,6 +27,7 @@ class EventsView(CarouselOrTableSectionView):
             "portal_type=imio.events.Event",
             "metadata_fields=category",
             "metadata_fields=topics",
+            "metadata_fields=category_title",
             "metadata_fields=start",
             "metadata_fields=end",
             "metadata_fields=has_leadimage",
@@ -55,6 +56,7 @@ class EventsView(CarouselOrTableSectionView):
                 {
                     "title": item["title"],
                     "description": item["description"],
+                    "category": item["category_title"],
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                     "image": f"{item_url}/@@images/image/{image_scale}",
                     "has_image": item["has_leadimage"],
