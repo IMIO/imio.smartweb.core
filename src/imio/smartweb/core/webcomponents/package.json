@@ -68,6 +68,7 @@
     "react-router-dom": "^5.3.0",
     "react-select": "^4.3.1",
     "react-web-component": "^2.0.2",
-    "react-web-component-style-loader": "^0.1.4-alpha"
+    "react-web-component-style-loader": "^0.1.4-alpha",
+    "remove-accents": "^0.4.2"
   }
 }
