@@ -16,8 +16,6 @@ class NewsView(CarouselOrTableSectionView):
         params = [
             f"selected_news_folders={self.context.related_news}",
             "portal_type=imio.news.NewsItem",
-            "metadata_fields=category",
-            "metadata_fields=topics",
             "metadata_fields=category_title",
             "metadata_fields=has_leadimage",
             "metadata_fields=effective",

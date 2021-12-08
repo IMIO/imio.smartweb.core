@@ -25,8 +25,6 @@ class EventsView(CarouselOrTableSectionView):
         params = [
             selected_item,
             "portal_type=imio.events.Event",
-            "metadata_fields=category",
-            "metadata_fields=topics",
             "metadata_fields=category_title",
             "metadata_fields=start",
             "metadata_fields=end",
