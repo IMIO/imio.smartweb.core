@@ -89,15 +89,15 @@ function Filters(props) {
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
-                <label>
-                    Recherche
-                </label>
+                    <label>
+                        Recherche
+                    </label>
                 <div className="r-filter-search">
-                    <input
-                        className="input-custom-class"
-                        name="SearchableText" type="text"
-                        value={inputValues.SearchableText}
-                        onChange={onChangeHandler} />
+                        <input
+                            className="input-custom-class"
+                            name="SearchableText" type="text"
+                            value={inputValues.SearchableText}
+                            onChange={onChangeHandler} />
                     <button type="submit"></button>
                 </div>
             </form>

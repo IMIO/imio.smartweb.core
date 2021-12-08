@@ -2,6 +2,7 @@ import React, { useEffect,useState } from "react";
 
 import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
 import { Link } from "react-router-dom";
+import removeAccents from 'remove-accents';
 
 const ContactCard = ({ contactItem }) => {
     const [limitDescription, setLimitDescription] = useState();
@@ -11,7 +12,6 @@ const ContactCard = ({ contactItem }) => {
     const category = contactItem.taxonomy_contact_category
         ? contactItem.taxonomy_contact_category[0].title
         : "";
-        console.log(description.length)
         useEffect(() => {
             if (description.length >= numberLimit) {
                 setLimitDescription(description.substring(0,numberLimit)+"...")
@@ -37,7 +37,7 @@ const ContactCard = ({ contactItem }) => {
                             className="r-item-read-more"
                             style={{ textDecoration: "none" }}
                             to={{
-                                pathname: `${contactItem.title}`,
+                                pathname: removeAccents(contactItem.title.replace(/\s/g, '-').toLowerCase()),
                                 search: `?u=${contactItem.UID}`,
                                 state: {
                                     idItem: contactItem.UID,

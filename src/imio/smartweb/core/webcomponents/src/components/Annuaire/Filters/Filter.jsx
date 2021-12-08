@@ -98,15 +98,18 @@ function Filters(props) {
         facilitiesFilter.filter((option) => option.value === props.activeFilter.facilities);
     return (
         <React.Fragment>
-            <form onSubmit={handleSubmit}>
+            <form className="r-filter" onSubmit={handleSubmit}>
                 <label>
                     Recherche
+                </label>
+                <div className="r-filter-search">
                     <input
+                        className="input-custom-class"
                         name="SearchableText" type="text"
                         value={inputValues.SearchableText}
                         onChange={onChangeHandler} />
-                </label>
-                <button type="submit">Recherche</button>
+                    <button type="submit"></button>
+                </div>
             </form>
 
             <div className="r-filter topics-Filter">

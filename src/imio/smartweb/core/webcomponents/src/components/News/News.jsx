@@ -11,18 +11,19 @@ import useFilterQuery from "../../hooks/useFilterQuery";
 export default function News(props) {
     return (
         <Router>
-            <NewsView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
+            <NewsView localUrl={props.localUrl} queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
         </Router>
     );
 }
-
 const NewsView = (props) => {
     const queryString = require("query-string");
-    const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 ={ ...parsed, UID: parsed['u'],b_size:5,fullobjects:1}
+    // const parsed = queryString.parse(useFilterQuery().toString());
+    // const parsed2 ={ ...parsed,b_size:5,fullobjects:1}
+    // ===== v
+    const { u, ...parsed } = Object.assign({ b_size: 5, fullobjects: 1 }, queryString.parse(useFilterQuery().toString()))
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
-    const [filters, setFilters] = useState(parsed2);
+    const [filters, setFilters] = useState(parsed);
     const [batchSize, setBatchSize] = useState(5);
     const { response, error, isLoading } = useAxios(
         {
@@ -37,19 +38,24 @@ const NewsView = (props) => {
         []
     );
 
+    // set all news in state
     useEffect(() => {
         if (response !== null) {
             setcontactArray(response.items);
         }
     }, [response]);
 
+    // set state id when clicked on list element
     const clickID = (id) => {
         setClickId(id);
     };
 
+    // set state filters when active filter selection
     const filtersChange = (value) => {
         setFilters(value);
     };
+
+    // set batch
     const callback = () => {
         setBatchSize(batchSize + 5);
     };
@@ -57,28 +63,28 @@ const NewsView = (props) => {
 
     // coditional list render
     let listRender;
-    if (contactArray && contactArray.length > 0) {      
+    if (contactArray && contactArray.length > 0) {
         listRender = <ContactList onChange={clickID} contactArray={contactArray} parentCallback={callback} />;
-        
+
     } else {
         listRender = <p>Aucun actulité n'a été trouvé</p>
     }
 
     return (
-        <div>  
+        <div>
             <Router>
                 <div className="r-wrapper r-actu-wrapper">
                     <div className="r-result r-annuaire-result">
                         <Switch>
                             <Route path={"/:name"}>
-                                <ContactContent onChange={clickID} queryUrl={props.queryUrl} />
+                                <ContactContent onChange={clickID} onReturn={filtersChange} localUrl={props.localUrl} queryUrl={props.queryUrl} />
                             </Route>
                             <Route exact path="*">
                                 <div className="r-result-filter actu-result-filter">
-                                    <Filters 
-                                    url={props.queryFilterUrl}
-                                    activeFilter={filters}
-                                    onChange={filtersChange} />
+                                    <Filters
+                                        url={props.queryFilterUrl}
+                                        activeFilter={filters}
+                                        onChange={filtersChange} />
                                 </div>
                                 {isLoading ? (
                                     <div>

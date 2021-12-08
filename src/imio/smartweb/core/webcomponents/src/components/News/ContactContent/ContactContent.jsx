@@ -1,40 +1,44 @@
-import { useHistory} from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from 'moment'
 import Moment from 'react-moment';
-const ContactContent = ({ queryUrl, onChange }) => {
+const ContactContent = ({queryUrl, onChange }) => {
     let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const [params, setParams] = useState({});
+    const parsed2 = { ...parsed, UID: parsed['u'], fullobjects: 1 };
+    const [params, setParams] = useState(parsed2);
     const [contactItem, setcontactItem] = useState({});
-    const { response, error, isLoading } = useAxios({
-        method: "get",
-        url: "",
-        baseURL: queryUrl,
-        headers: {
-            Accept: "application/json",
-        },
-        params: params,
-    });
+    const { response, error, isLoading } = useAxios(
+        {
+            method: "get",
+            url: "",
+            baseURL: queryUrl,
+            headers: {
+                Accept: "application/json",
+            },
+            params: params,
+
+        },[]
+    );
     useEffect(() => {
         if (response !== null) {
             setcontactItem(response.items[0]);
         }
     }, [response]);
 
-    useEffect(() => {
-        setParams({
-            UID: parsed.u,
-            fullobjects: 1,
-        });
-    }, []);
+    // useEffect(() => {
+    //     setParams({
+    //         UID: parsed.u,
+    //         fullobjects: 1,
+    //     });
+    // }, []);
 
 
     function handleClick() {
-        history.push(".");
+        history.push('./');
         onChange(null);
     }
     const lastModified = moment(contactItem.modified);
@@ -59,7 +63,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         }}
                     />
                 </figure>
-                <div class="r-content-date">
+                <div className="r-content-date">
                     <div className="r-content-date-publish">
                         <span>Publié le </span>
                         <Moment format='DD-MM-YYYY'>{publish}</Moment>
@@ -70,7 +74,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                     </div>
                 </div>
 
-                <div class="r-content-text"
+                <div className="r-content-text"
                     dangerouslySetInnerHTML={{
                         __html: contactItem.text && contactItem.text.data
                     }}></div>

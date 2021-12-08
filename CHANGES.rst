@@ -4,6 +4,10 @@ Changelog
 
 1.0a21 (unreleased)
 -------------------
+
+- Javascript refactoring
+  [thomlamb]
+
 - Distribution of css in the global file
   [thomlamb]
 

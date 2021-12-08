@@ -18,12 +18,11 @@ export default function Events(props) {
 }
 function EventsView(props) {
     const queryString = require("query-string");
-    const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 ={ ...parsed, UID: parsed['u'],b_size:5,fullobjects:1}
+    const {u, ...parsed} = Object.assign({b_size:5,fullobjects:1},queryString.parse(useFilterQuery().toString()))
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
-    const [filters, setFilters] = useState(parsed2);
+    const [filters, setFilters] = useState(parsed);
     const [batchSize, setBatchSize] = useState(5);
     const [refTop, setRefTop] = useState(null);
     const { response, error, isLoading } = useAxios(
@@ -65,11 +64,6 @@ function EventsView(props) {
     const callback = () => {
         setBatchSize(batchSize + 5);
     };
-
-    // set url param for fetch
-    // useEffect(() => {
-    //     setParams({ ...filters});
-    // }, [filters, batchSize]);
 
     // coditional list render
     let listRender;

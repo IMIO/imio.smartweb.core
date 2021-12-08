@@ -3,14 +3,12 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 
-const ContactContent = ({ queryUrl, onChange }) => {
+const ContactContent = ({queryUrl, onChange}) => {
     let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 ={UID: parsed['u'],fullobjects: 1}
-
+    const parsed2 = { ...parsed, UID: parsed['u'], fullobjects: 1 };
     const [params, setParams] = useState(parsed2);
-
     const [contactItem, setcontactItem] = useState({});
     const { response, error, isLoading } = useAxios(
         {
@@ -21,8 +19,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
                 Accept: "application/json",
             },
             params: params,
-        },
-        );
+        },[]
+    );
 
     // set all contacts state
     useEffect(() => {
@@ -31,16 +29,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
         }
     }, [response]);
 
-    // useEffect(() => {
-    //     setParams({
-    //         UID: parsed.u,
-    //         fullobjects: 1,
-    //     });
-    // }, []);
-
 
     function handleClick() {
-        history.push(".");
+        history.push("./");
         onChange(null);
     }
     return (

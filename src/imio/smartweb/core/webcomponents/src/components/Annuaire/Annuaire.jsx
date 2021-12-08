@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-    HashRouter as Router,
-    Switch,
-    Route,
-} from "react-router-dom";
+import {HashRouter as Router, Switch, Route} from "react-router-dom";
 import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
@@ -21,16 +17,12 @@ export default function Annuaire(props) {
     );
 }
 function AnnuaireView(props) {
-    // let history = useHistory();
     const queryString = require("query-string");
-    const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 ={ ...parsed, UID: parsed['u'],b_size:5,fullobjects:1}
+    const { u, ...parsed } = Object.assign({ b_size: 5, fullobjects: 1 }, queryString.parse(useFilterQuery().toString()))
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
+    const [filters, setFilters] = useState(parsed);
     const [hoverId, setHoverId] = useState(null);
-    const [params, setParams] = useState({});
-    const [filters, setFilters] = useState(parsed2);
-
     const [batchSize, setBatchSize] = useState(5);
     const [refTop, setRefTop] = useState(null);
     const { response, error, isLoading } = useAxios(
@@ -43,7 +35,7 @@ function AnnuaireView(props) {
             },
             params: filters,
         },
-        [params]
+        []
     );
 
     // set all contacts state
@@ -72,11 +64,6 @@ function AnnuaireView(props) {
     const callback = () => {
         setBatchSize(batchSize + 5);
     };
-
-    // set url param for fetch
-    useEffect(() => {
-        setParams({ ...filters});
-    }, [filters, batchSize]);
 
     // coditional list render
     let listRender;
