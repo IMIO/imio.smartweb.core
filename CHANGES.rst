@@ -5,6 +5,9 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
+- Section contact : Share address into 3 parts (street, entity, country) and display these parts into span
+  [boulch]
+
 - Javascript refactoring
   [thomlamb]
 

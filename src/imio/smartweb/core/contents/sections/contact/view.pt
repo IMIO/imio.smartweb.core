@@ -92,7 +92,10 @@
             tal:condition="show_main_title"
             i18n:translate="">Address</h3>
 
-        <span tal:replace="address"></span>
+        <span class="street" tal:content="address/street"></span>
+        <span class="entity" tal:content="address/entity"></span>
+        <span class="country" tal:content="address/country"></span>
+
         <div class="itinerary"
              tal:define="link view/get_itinerary_link"
              tal:condition="link">

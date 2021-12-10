@@ -197,7 +197,9 @@ class ContactView(SectionView):
         ]
         entity = " ".join(filter(None, entity_parts))
         country = contact.get("country") and contact.get("country").get("title") or ""
-        return ", ".join(filter(None, [street, entity, country]))
+        if not (street or entity or country):
+            return None
+        return {"street": street, "entity": entity, "country": country}
 
 
 def formatted_schedule(schedule):
