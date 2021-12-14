@@ -5,6 +5,9 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
+- Add events dates in events section
+  [laulaz]
+
 - Make HTML section folderish (can contain Images and Files)
   [laulaz]
 

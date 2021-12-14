@@ -73,6 +73,9 @@
                             <span class="pat-moment" data-pat-moment="format:relative;"
                                   tal:content="item/effective"/>
                           </tal:if>
+                          <tal:if tal:condition="item/event_date | nothing">
+                            <span tal:replace="item/event_date"/>
+                          </tal:if>
                         </div>
 
                         <div class="table_title">

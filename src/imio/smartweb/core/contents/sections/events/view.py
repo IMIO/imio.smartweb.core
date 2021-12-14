@@ -1,11 +1,34 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date
+from dateutil.parser import parse
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from Products.CMFPlone.utils import normalizeString
+from zope.globalrequest import getRequest
+from zope.i18n import translate
+
+
+def make_date_str(start, end):
+    if start and end and start.date() != end.date():
+        return translate(
+            _(
+                "From ${start} to ${end}",
+                mapping={
+                    "start": start.strftime("%d/%m"),
+                    "end": end.strftime("%d/%m"),
+                },
+            ),
+            context=getRequest(),
+        )
+
+    return translate(
+        _("On ${start}", mapping={"start": start.strftime("%d/%m")}),
+        context=getRequest(),
+    )
 
 
 class EventsView(CarouselOrTableSectionView):
@@ -50,11 +73,15 @@ class EventsView(CarouselOrTableSectionView):
             item_id = normalizeString(item["title"])
             item_url = item["@id"]
             item_uid = item["UID"]
+            start = item["start"] and parse(item["start"]) or None
+            end = item["end"] and parse(item["end"]) or None
+            date_str = make_date_str(start, end)
             results.append(
                 {
                     "title": item["title"],
                     "description": item["description"],
                     "category": item["category_title"],
+                    "event_date": date_str,
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                     "image": f"{item_url}/@@images/image/{image_scale}",
                     "has_image": item["has_leadimage"],

@@ -89,3 +89,4 @@ class SectionEvents(Section):
     """SectionEvents class"""
 
     manage_display = True
+    show_items_date = True
