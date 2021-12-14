@@ -17,7 +17,7 @@ class SelectionsView(CarouselOrTableSectionView):
             results.append(
                 {
                     "title": item.title,
-                    "description": item.description,
+                    "description": item.description.replace("**", ""),
                     "url": url,
                     "image": f"{url}/@@images/image/{image_scale}",
                     "has_image": has_image,

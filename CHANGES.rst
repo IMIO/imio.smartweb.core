@@ -29,7 +29,7 @@ Changelog
 - Add news items publication date in news section
   [laulaz]
 
-- Add option to display items descriptions in news / events sections
+- Add option to display items descriptions in news / events / selection sections
   [laulaz]
 
 

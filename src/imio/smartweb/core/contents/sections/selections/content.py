@@ -30,9 +30,13 @@ class ISectionSelections(ISection):
         values=[1, 3, 4],
     )
 
-    model.fieldset("layout", fields=["show_items_lead_image"])
+    model.fieldset("layout", fields=["show_items_lead_image", "show_items_description"])
     show_items_lead_image = schema.Bool(
-        title=_(u"Show items lead image"), default=False, required=False
+        title=_(u"Show items lead image"), required=False
+    )
+
+    show_items_description = schema.Bool(
+        title=_(u"Show items description"), required=False
     )
 
 
