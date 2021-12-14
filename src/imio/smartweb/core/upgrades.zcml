@@ -77,4 +77,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Reload types info to make HTML section folderish"
+      description=""
+      source="1008"
+      destination="1009"
+      handler=".upgrades.reload_types"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

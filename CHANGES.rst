@@ -5,6 +5,9 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
+- Make HTML section folderish (can contain Images and Files)
+  [laulaz]
+
 - Add description on HTML section
   [laulaz]
 
