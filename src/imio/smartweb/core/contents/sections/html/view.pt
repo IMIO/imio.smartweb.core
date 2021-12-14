@@ -15,8 +15,12 @@
     <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
          tal:attributes="class string:body-section ${collapse_klass};
                          id string:body-section-${context/id}">
+
+      <p tal:replace="structure context/@@description" />
+
       <div class="html"
            tal:content="structure context/html | nothing" />
+
     </div>
 </div>
 </metal:content-core>
