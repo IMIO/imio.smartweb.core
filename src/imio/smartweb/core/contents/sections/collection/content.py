@@ -75,7 +75,9 @@ class ISectionCollection(ISection):
         title=_(u"Show items description"), required=False
     )
 
-    show_items_date = schema.Bool(title=_(u"Show items date"), required=False)
+    show_items_date = schema.Bool(
+        title=_(u"Show items publication date"), required=False
+    )
 
 
 @implementer(ISectionCollection)
