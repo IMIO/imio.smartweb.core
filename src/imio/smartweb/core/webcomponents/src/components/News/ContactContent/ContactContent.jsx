@@ -52,7 +52,7 @@ const ContactContent = ({queryUrl, onChange }) => {
             <article>
                 <header>
                     <h1 className="r-content-title">{contactItem.title}</h1>
-                    <p>{contactItem.description}</p>
+                    <p className="r-content-description">{contactItem.description}</p>
                 </header>
                 <figure>
                     <div className="r-content-img"

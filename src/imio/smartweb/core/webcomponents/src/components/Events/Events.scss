@@ -1,10 +1,96 @@
-
-
+.icon-baseline{
+  display: inline-flex;
+  align-self: center;
+  margin-right: 0.4rem;
+  svg{
+    top: .125em;
+    position: relative;
+    height: 1em;
+    width: 1em;
+  }
+}
+.dpinlb{
+  display: inline-block;
+  vertical-align: top;
+}
 //// for bla ////
 // content
 
 .r-content-img{
   padding-bottom: 56.25%;
+}
+.r-content-title{
+  margin-bottom: 0;
+}
+.news-info-title{
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: block;
+  color: #008FD2;
+}
+.r-content-news-info{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.r-content-news-info-container{
+  column-count: 2;
+  // flex-flow: column wrap;
+  & > div{
+    margin: 0.6rem 0;
+    padding-right: 3rem;
+    width: max-content;
+    break-inside: avoid;
+    svg{
+      width: 16px;
+    }
+  }
+  .r-content-news-info--date{
+    display: flex;
+  }
+  .r-content-news-info-social{
+    svg{
+      width: 30px;
+      height: 30px;
+    }
+    ul{
+      display: flex;
+      align-items: center;
+      margin: 0;
+      li{
+        list-style: none;
+      }
+    }
+  }
+}
+.r-content-news-info-action{
+
+  a{
+    text-decoration: none;
+  }
+  & > div{
+    margin: .6rem 0;
+  }
+  .r-content-booking{
+    margin-top: 0;
+    a{
+      background: #000;
+      color: #fff;
+      padding: 0.4rem 1rem;
+      text-decoration: none;
+      display: block;
+      border-radius: 10px;
+      border-bottom-left-radius: 0px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      svg{
+        width: 22px;
+        fill: white;
+      }
+    }
+  }
 }
 
 

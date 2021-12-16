@@ -38,6 +38,7 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
             </ul>
             <button className="load-more-link"
                 onClick={(e) => {
+                    e.preventDefault();
                     parentCallback();
                 }}
             >

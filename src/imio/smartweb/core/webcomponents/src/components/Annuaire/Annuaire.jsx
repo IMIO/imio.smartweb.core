@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import {HashRouter as Router, Switch, Route} from "react-router-dom";
 import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
@@ -62,7 +62,12 @@ function AnnuaireView(props) {
 
     // set batch
     const callback = () => {
-        setBatchSize(batchSize + 5);
+        setFilters(prevFilters => {
+            return { 
+              ...prevFilters, 
+              b_size: batchSize + 5
+            }
+          })
     };
 
     // coditional list render
@@ -75,19 +80,30 @@ function AnnuaireView(props) {
     } else {
         listRender = <p>Aucun contact n'a été trouvé</p>
     }
-
+    const ref = React.useRef(0)
+    // console.log(headerHeight)
+    // let header = document.getElementById(content-header);
+    // let headerHeight = header.offsetHeight
     return (
         <Router>
             <div
                 className="ref"
-                ref={(el) => {
-                    if (!el) return;
-                    // let bodyRect = document.body.getBoundingClientRect();
-                    // let el = element.getBoundingClientRect();
-                    // let offset   = el.top - bodyRect.top;
-                    setRefTop(el.getBoundingClientRect().top + window.pageYOffse );
+                // ref={red => {
+                //     if (!el) return;
+                //     let bodyRect = document.body.getBoundingClientRect();
+                //     let el = element.getBoundingClientRect();
+                //     // element.getBoundingClientRect().top + document.documentElement.scrollTop
+                //     // // let offset   = el.top - bodyRect.top;
+                //     // console.log(el)
+                //     // setRefTop(el.getBoundingClientRect().top + window.pageYOffse );
+                // }}
+
+                // style={{ height: `calc(100vh -  ${refTop}px)` }}
+                ref={refElem => {
+                    if(refElem) {
+                        setRefTop(refElem.getBoundingClientRect().top + document.documentElement.scrollTop)
+                    }
                 }}
-                style={{ height: `calc(100vh -  ${refTop}px)` }}
             >
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">
@@ -113,7 +129,9 @@ function AnnuaireView(props) {
                             </Route>
                         </Switch>
                     </div>
-                    <div style={{ maxHeight: "500px" }}>
+                    <div 
+                        // style={{ marginTop: `-${refTop}px` }}
+                    >
                         {MapRender}
                     </div>
                 </div>

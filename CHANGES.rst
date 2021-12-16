@@ -4,6 +4,11 @@ Changelog
 
 1.0a21 (unreleased)
 -------------------
+- Adding load more button for react list element
+  [thomlamb]
+
+- Improvement js of the Schedule popup
+  [thomlamb]
 
 - Add events dates in events section
   [laulaz]

@@ -57,9 +57,13 @@ const NewsView = (props) => {
 
     // set batch
     const callback = () => {
-        setBatchSize(batchSize + 5);
+        setFilters(prevFilters => {
+            return { 
+              ...prevFilters, 
+              b_size: batchSize + 5
+            }
+          })
     };
-
 
     // coditional list render
     let listRender;
@@ -69,7 +73,6 @@ const NewsView = (props) => {
     } else {
         listRender = <p>Aucun actulité n'a été trouvé</p>
     }
-
     return (
         <div>
             <Router>
