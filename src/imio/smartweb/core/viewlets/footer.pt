@@ -1,6 +1,6 @@
 <div class="row">
   <div tal:condition="view/available"
-       class="actions-site_actions">
+       class="smartweb_footer">
 
     <div tal:define="footer nocall:view/footer"
          tal:attributes="id view/css_id;
