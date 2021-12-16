@@ -292,9 +292,9 @@ AlignmentVocabulary = AlignmentVocabularyFactory()
 class ImageSizeVocabularyFactory:
     def __call__(self, context=None):
         image_size = [
-            ("large", _("Full width")),
-            ("preview", _("Half page")),
-            ("mini", _("Third page")),
+            ("extralarge", _("Full width")),
+            ("large", _("Half page")),
+            ("medium", _("Third page")),
         ]
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in image_size]
         return SimpleVocabulary(terms)

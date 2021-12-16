@@ -5,6 +5,9 @@ Changelog
 1.0a21 (unreleased)
 -------------------
 
+- Change image size scales (that were too small)
+  [laulaz]
+
 - Add events dates in events section
   [laulaz]
 
