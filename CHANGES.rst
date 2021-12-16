@@ -2,8 +2,9 @@ Changelog
 =========
 
 
-1.0a21 (unreleased)
+1.0a21 (2021-12-16)
 -------------------
+
 - Adding load more button for react list element
   [thomlamb]
 
