@@ -10,6 +10,9 @@ Changelog
 - Improvement js of the Schedule popup
   [thomlamb]
 
+- Change image size scales (that were too small)
+  [laulaz]
+
 - Add events dates in events section
   [laulaz]
 
