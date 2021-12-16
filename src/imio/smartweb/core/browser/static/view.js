@@ -1,60 +1,61 @@
 jQuery(document).ready(function ($) {
 
   // Show full schedule table when clicking on today's schedule
-
-  $(".opening_informations").click(function(e){
-    $(this).siblings(".table_schedule").toggle("fast");
-    $(this).toggle("fast");
+  $(".opening_informations").click(function (e) {
+    $(this).siblings(".table_schedule").toggleClass("table_schedule--active");
+    // $(this).toggle("fast");
     e.preventDefault();
   });
-
-  $(".table_schedule").click(function(e){
-    $(this).siblings(".opening_informations").toggle("fast");
-    $(this).toggle("fast");
-    e.preventDefault();
+  $(document).click(function (e) {
+    if ($(".table_schedule").hasClass("table_schedule--active")) {
+      if (!$(".table_schedule").is(e.target)
+        && !$(".opening_informations").is(e.target)
+        && !$(".table_schedule td").is(e.target)) {
+        $(".table_schedule").toggleClass("table_schedule--active");
+      }
+    }
   });
-
 
   // swiper
   $('.swiper').each(function (index) {
     var batchSize = $(this).attr('data-nb-results-by-batch')
-    var mySwiper = new Swiper($(this)[0],{
-        slidesPerView: 1,
-        slidesPerGroup: 1,
-        spaceBetween:10,
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true
+    var mySwiper = new Swiper($(this)[0], {
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      spaceBetween: 10,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      breakpoints: {
+        // when window width is >= 320px
+        320: {
+          slidesPerView: 1,
+          slidesPerGroup: 1,
         },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+        // when window width is >= 480px
+        576: {
+          slidesPerView: batchSize > 1 ? 2 : 1,
+          slidesPerGroup: batchSize > 1 ? 2 : 1
         },
-        breakpoints: {
-            // when window width is >= 320px
-            320: {
-              slidesPerView: 1,
-              slidesPerGroup: 1,
-            },
-            // when window width is >= 480px
-            576: {
-              slidesPerView: batchSize > 1 ?2:1,
-              slidesPerGroup: batchSize > 1 ?2:1
-            },
-            // when window width is >= 640px
-            768: {
-              slidesPerView: batchSize > 2 ?2:batchSize,
-              slidesPerGroup: batchSize > 2 ?2:batchSize
-            },
-            992: {
-                slidesPerView: batchSize > 2 ?3:batchSize,
-                slidesPerGroup: batchSize > 2 ?3:batchSize
-            },
-            1200: {
-            slidesPerView: batchSize,
-            slidesPerGroup: batchSize
-            }
-          }
+        // when window width is >= 640px
+        768: {
+          slidesPerView: batchSize > 2 ? 2 : batchSize,
+          slidesPerGroup: batchSize > 2 ? 2 : batchSize
+        },
+        992: {
+          slidesPerView: batchSize > 2 ? 3 : batchSize,
+          slidesPerGroup: batchSize > 2 ? 3 : batchSize
+        },
+        1200: {
+          slidesPerView: batchSize,
+          slidesPerGroup: batchSize
+        }
+      }
     });
   });
 });
@@ -74,7 +75,7 @@ $(document).ready(function () {
       && menu.has(e.target).length === 0
       && !submenu.is(e.target)
       && submenu.has(e.target).length === 0
-      ) // ... nor a descendant of the container
+    ) // ... nor a descendant of the container
     {
       closeNav();
     }
@@ -86,7 +87,7 @@ $(document).ready(function () {
 
 
     // MENU
-    if($(this).closest(menu).length > 0){
+    if ($(this).closest(menu).length > 0) {
       if (!$("#portal-globalnav .show-nav").length > 0) {
         $(menu).toggleClass("activated");
         $(".mask-menu").toggleClass("in");
@@ -100,8 +101,8 @@ $(document).ready(function () {
       }
     }
 
-        // SUBMENU
-    if($(this).closest(submenu).length > 0){
+    // SUBMENU
+    if ($(this).closest(submenu).length > 0) {
       if (!$("#subsite-navigation .show-nav").length > 0) {
         $(submenu).toggleClass("activated");
       }
@@ -120,7 +121,7 @@ $(document).ready(function () {
   $(".prev-nav").click(function () {
     $(this).closest(".show-nav").toggleClass("show-nav")
   });
-  
+
   // close nav fonction
   function closeNav() {
     menu.removeClass('activated');
