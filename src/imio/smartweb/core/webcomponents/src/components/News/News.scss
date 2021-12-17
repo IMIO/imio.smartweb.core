@@ -6,11 +6,6 @@
 
 
   /* image */
-  .r-item-img{
-    width: 246px;
-    height: 149px;
-    flex: 0 0 246px;
-  }
     /* text */
 .r-item-text{
   margin: 20px 30px;
@@ -68,9 +63,13 @@
   }
   .r-actu-wrapper{
     .r-item-img{
-      width: 323px;
-      height: 220px;
-      flex: 0 0 323px;
+      height: 183px;
+      flex: 0 0 247px;
+      @media screen and (min-width:775px){
+        width: 323px;
+        height: 220px;
+        flex: 0 0 323px;
+      }
     }
   }
   /* arrow more */
@@ -100,5 +99,16 @@
       background-size: 20px;
       background-position: center;
     }
+    }
+  }
+
+  .r-list-item{
+    @media screen and (max-width:600px) {
+      flex-direction: column;
+    }
+  }
+  .r-item-read-more{
+    @media screen and (max-width:600px) {
+      position: relative;
     }
   }

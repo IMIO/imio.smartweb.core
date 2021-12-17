@@ -35,9 +35,9 @@ const ContactContent = ({queryUrl, onChange}) => {
         onChange(null);
     }
     return (
-        <div className="contact-content">
+        <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
-                Go home
+                Retour
             </button>
             <div className="contactCard">
                 <div className="contactText">

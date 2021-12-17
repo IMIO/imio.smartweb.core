@@ -1,133 +1,3 @@
-.icon-baseline{
-  display: inline-flex;
-  align-self: center;
-  margin-right: 0.4rem;
-  svg{
-    top: .125em;
-    position: relative;
-    height: 1em;
-    width: 1em;
-  }
-}
-.dpinlb{
-  display: inline-block;
-  vertical-align: top;
-}
-//// for bla ////
-// content
-
-.r-content-img{
-  padding-bottom: 56.25%;
-}
-.r-content-title{
-  margin-bottom: 0;
-}
-.news-info-title{
-  font-weight: 700;
-  margin-bottom: 1rem;
-  display: block;
-  color: #008FD2;
-}
-.r-content-news-info{
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 2rem;
-}
-.r-content-news-info-container{
-  column-count: 2;
-  // flex-flow: column wrap;
-  & > div{
-    margin: 0.6rem 0;
-    padding-right: 3rem;
-    width: max-content;
-    break-inside: avoid;
-    svg{
-      width: 16px;
-    }
-  }
-  .r-content-news-info--date{
-    display: flex;
-  }
-  .r-content-news-info-social{
-    svg{
-      width: 30px;
-      height: 30px;
-    }
-    ul{
-      display: flex;
-      align-items: center;
-      margin: 0;
-      li{
-        list-style: none;
-      }
-    }
-  }
-}
-.r-content-news-info-action{
-
-  a{
-    text-decoration: none;
-  }
-  & > div{
-    margin: .6rem 0;
-  }
-  .r-content-booking{
-    margin-top: 0;
-    a{
-      background: #000;
-      color: #fff;
-      padding: 0.4rem 1rem;
-      text-decoration: none;
-      display: block;
-      border-radius: 10px;
-      border-bottom-left-radius: 0px;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      svg{
-        width: 22px;
-        fill: white;
-      }
-    }
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //////
 
 .headerimg{
@@ -140,13 +10,15 @@
   width: 100vw;
 }
 .r-wrapper{
-  display: grid;
-  grid-template-columns: minmax(20px, 800px) minmax(20px, 100%);
-  justify-content: space-between;
-  width:     calc(648px + 50vw);
-  margin-left: auto;
-  gap: 40px;
-  overflow: hidden;
+  display: block;
+  @media screen and (min-width:1200px){
+    display: grid;
+    grid-template-columns: minmax(20px, 800px) minmax(20px, 100%);
+    justify-content: space-between;
+    width:     calc(648px + 50vw);
+    margin-left: auto;
+    gap: 40px;
+  }
   .r-result{
     margin-top: 2rem;
     &-filter{
@@ -169,13 +41,26 @@
         .r-list-item{
           display: flex;
           height: 100%;
+          flex-direction: column;
+          @media screen and (min-width:600px){
+          flex-direction: row;
+          }
           .r-item-img{
-            width: 246px;
-            height: 149px;
+            width: 100%;
+            padding-bottom: 56%;
+            @media screen and (min-width:600px){
+              width: 246px;
+              height: 149px;
+              padding-bottom: 0;
+            }
             background-size: cover;
           }
           .r-item-text{
-            margin-left: 1.5rem;
+            margin-top: 0.6rem;
+            @media screen and (min-width:600px){
+              margin-left: 1.5rem;
+              margin-top: 0;
+            }
             flex-grow: 1;
             a{
               position: relative;
@@ -202,8 +87,13 @@
     }
   }
   .r-map{
+    @media screen and (max-width:1200px){
+      margin-top: 2rem!important;
+    }
     .leaflet-container{
-
+      @media screen and (max-width:1200px){
+      height: 50vh!important;
+      }
     }
   }
 }
@@ -213,13 +103,7 @@
 // FOR BLA
 
 .r-wrapper{
-
   .r-result{
-    &-filter{
-
-      .r-filter{
-      }
-    }
     &-list{
       .r-list-item-group{
 
@@ -227,7 +111,6 @@
 
         }
         .r-list-item{
-
           .r-item-img{
             border-radius: 15px 15px 15px 0px;
           }
@@ -239,8 +122,6 @@
               height: 50px;
               background: yellow;
               border-radius: 50px;
-            }
-            a{
             }
             .r-item-title{
               font-size: 18px;
@@ -277,9 +158,112 @@
       }
     }
   }
-  .r-map{
-    .leaflet-container{
+}
 
+
+
+
+
+
+//////////////////////////////
+.icon-baseline{
+  display: inline-flex;
+  align-self: center;
+  margin-right: 0.4rem;
+  svg{
+    top: .125em;
+    position: relative;
+    height: 1em;
+    width: 1em;
+  }
+}
+.dpinlb{
+  display: inline-block;
+  vertical-align: top;
+}
+//// for bla ////
+// content
+
+.r-content-img{
+  padding-bottom: 56.25%;
+}
+.r-content-title{
+  margin-bottom: 0;
+}
+.news-info-title{
+  font-weight: 700;
+  margin-bottom: 1rem;
+  display: block;
+  color: #008FD2;
+}
+.r-content-news-info{
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  @media screen and (max-width:1000px){
+    flex-wrap: wrap;
+  }
+}
+.r-content-news-info-container{
+  @media screen and (min-width:600px) {
+    column-count: 2;
+  }
+  // flex-flow: column wrap;
+  & > div{
+    margin: 0.6rem 0;
+    padding-right: 3rem;
+    width: max-content;
+    break-inside: avoid;
+    svg{
+      width: 16px;
+    }
+  }
+  .r-content-news-info--date{
+    display: flex;
+  }
+  .r-content-news-info-social{
+    svg{
+      width: 30px;
+      height: 30px;
+    }
+    ul{
+      display: flex;
+      align-items: center;
+      margin: 0;
+      li{
+        list-style: none;
+      }
+    }
+  }
+}
+.r-content-news-info-action{
+  @media screen and (max-width:1000px) {
+    margin-top: 1.1rem;
+  }
+  a{
+    text-decoration: none;
+  }
+  & > div{
+    margin: .6rem 0;
+  }
+  .r-content-booking{
+    margin-top: 0;
+    a{
+      background: #000;
+      color: #fff;
+      padding: 0.4rem 1rem;
+      text-decoration: none;
+      display: block;
+      border-radius: 10px;
+      border-bottom-left-radius: 0px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      svg{
+        width: 22px;
+        fill: white;
+      }
     }
   }
 }

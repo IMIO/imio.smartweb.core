@@ -5,7 +5,8 @@ Changelog
 1.0a22 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add dynamic style for leaflet. + general styles
+  [thomlamb]
 
 
 1.0a21 (2021-12-16)

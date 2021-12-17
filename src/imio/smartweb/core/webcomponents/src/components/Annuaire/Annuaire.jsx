@@ -70,35 +70,24 @@ function AnnuaireView(props) {
           })
     };
 
+    // Map style
+    const ref = React.useRef(0)
+    let header = document.getElementById('portal-logo');
+    let headerHeight = header.offsetHeight
     // coditional list render
     let listRender;
     let MapRender;
     if (contactArray && contactArray.length > 0) {      
         listRender = <ContactList onChange={clickID} contactArray={contactArray}  onHover={hoverID} parentCallback={callback} />;
-        MapRender = <ContactMap clickId={clickId} hoverId={hoverId} items={contactArray} />;
+        MapRender = <ContactMap headerHeight={headerHeight} clickId={clickId} hoverId={hoverId} items={contactArray} />;
         
     } else {
         listRender = <p>Aucun contact n'a été trouvé</p>
     }
-    const ref = React.useRef(0)
-    // console.log(headerHeight)
-    // let header = document.getElementById(content-header);
-    // let headerHeight = header.offsetHeight
     return (
         <Router>
             <div
                 className="ref"
-                // ref={red => {
-                //     if (!el) return;
-                //     let bodyRect = document.body.getBoundingClientRect();
-                //     let el = element.getBoundingClientRect();
-                //     // element.getBoundingClientRect().top + document.documentElement.scrollTop
-                //     // // let offset   = el.top - bodyRect.top;
-                //     // console.log(el)
-                //     // setRefTop(el.getBoundingClientRect().top + window.pageYOffse );
-                // }}
-
-                // style={{ height: `calc(100vh -  ${refTop}px)` }}
                 ref={refElem => {
                     if(refElem) {
                         setRefTop(refElem.getBoundingClientRect().top + document.documentElement.scrollTop)
@@ -129,8 +118,8 @@ function AnnuaireView(props) {
                             </Route>
                         </Switch>
                     </div>
-                    <div 
-                        // style={{ marginTop: `-${refTop}px` }}
+                    <div className="r-map annuaire-map" 
+                        style={{ marginTop:`-${refTop - headerHeight}px`}}
                     >
                         {MapRender}
                     </div>

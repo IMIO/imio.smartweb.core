@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef} from "react";
 import {HashRouter as Router,Switch,Route,} from "react-router-dom";
 import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
@@ -70,12 +70,17 @@ function EventsView(props) {
           })
     };
 
+    // Map style
+    const ref = React.useRef(0)
+    let header = document.getElementById('portal-logo');
+    let headerHeight = header.offsetHeight
+
     // coditional list render
     let listRender;
     let MapRender;
     if (contactArray && contactArray.length > 0) {      
         listRender = <ContactList onChange={clickID} contactArray={contactArray}  onHover={hoverID} parentCallback={callback} />;
-        MapRender = <ContactMap clickId={clickId} hoverId={hoverId} items={contactArray} />;
+        MapRender = <ContactMap headerHeight={headerHeight} clickId={clickId} hoverId={hoverId} items={contactArray} />;
         
     } else {
         listRender = <p>Aucun événement n'a été trouvé</p>
@@ -84,14 +89,11 @@ function EventsView(props) {
         <Router>
             <div
                 className="ref"
-                ref={(el) => {
-                    if (!el) return;
-                    // let bodyRect = document.body.getBoundingClientRect();
-                    // let el = element.getBoundingClientRect();
-                    // let offset   = el.top - bodyRect.top;
-                    setRefTop(el.getBoundingClientRect().top + window.pageYOffse );
+                ref={refElem => {
+                    if(refElem) {
+                        setRefTop(refElem.getBoundingClientRect().top + document.documentElement.scrollTop)
+                    }
                 }}
-                style={{ height: `calc(100vh -  ${refTop}px)` }}
             >
                 <div className="r-wrapper r-annuaire-wrapper">
                     <div className="r-result r-annuaire-result">
@@ -117,7 +119,7 @@ function EventsView(props) {
                             </Route>
                         </Switch>
                     </div>
-                    <div style={{ maxHeight: "500px" }}>
+                    <div className="r-map annuaire-map" style={{ marginTop:`-${refTop - headerHeight}px`}}>
                         {MapRender}
                     </div>
                 </div>

@@ -95,8 +95,8 @@ function ContentMap(props) {
 
     const position = [50.85034, 4.35171];
     return (
-        <div className="r-map annuaire-map">
-            <MapContainer center={position} zoom={15}>
+        <div >
+            <MapContainer style={{height:`calc(100vh - ${props.headerHeight}px)`,minHeight: '600px' }} center={position} zoom={15}>
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

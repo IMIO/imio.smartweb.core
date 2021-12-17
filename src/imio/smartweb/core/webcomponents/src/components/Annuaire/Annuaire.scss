@@ -1,14 +1,25 @@
+#portal-header #portal-logo {
+
+	margin: 0!important;
+	padding: 1.5rem 0;
+
+}
+
+
+
 
 
 
 .r-wrapper{
-  display: grid;
-  grid-template-columns: minmax(20px, 800px) minmax(20px, 100%);
-  justify-content: space-between;
-  width:     calc(648px + 50vw);
-  margin-left: auto;
-  gap: 40px;
-  overflow: hidden;
+  display: block;
+  @media screen and (min-width:1200px){
+    display: grid;
+    grid-template-columns: minmax(20px, 800px) minmax(20px, 100%);
+    justify-content: space-between;
+    width:     calc(648px + 50vw);
+    margin-left: auto;
+    gap: 40px;
+  }
   .r-result{
     &-list{
       padding:0;
@@ -23,13 +34,26 @@
         .r-list-item{
           display: flex;
           height: 100%;
+          flex-direction: column;
+          @media screen and (min-width:600px){
+          flex-direction: row;
+          }
           .r-item-img{
-            width: 246px;
-            height: 149px;
+            width: 100%;
+            padding-bottom: 56%;
+            @media screen and (min-width:600px){
+              width: 246px;
+              height: 149px;
+              padding-bottom: 0;
+            }
             background-size: cover;
           }
           .r-item-text{
-            margin-left: 1.5rem;
+            margin-top: 0.6rem;
+            @media screen and (min-width:600px){
+              margin-left: 1.5rem;
+              margin-top: 0;
+            }
             flex-grow: 1;
             a{
               position: relative;
@@ -113,4 +137,16 @@
     }
   }
 
+}
+
+
+.r-map{
+  @media screen and (max-width:1200px){
+    margin-top: 2rem!important;
+  }
+  .leaflet-container{
+    @media screen and (max-width:1200px){
+    height: 50vh!important;
+    }
+  }
 }
