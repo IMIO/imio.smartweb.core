@@ -127,7 +127,7 @@ class ElementView(EditForm):
         old_default_page = self.context.get_default_item(object=True)
         changes = self.applyChanges(data)
         if changes:
-            self.context.set_default_item(old_default_page)
+            self.context.set_default_item(old_default_item=old_default_page)
             self.status = self.successMessage
         else:
             self.status = self.noChangesMessage
