@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a22 (unreleased)
+1.0a22 (2022-01-13)
 -------------------
 
 - Add dynamic style for leaflet. + general styles
