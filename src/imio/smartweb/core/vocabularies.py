@@ -311,7 +311,10 @@ class DirectoryViewsVocabularyFactory(object):
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.DirectoryView"
         )
-        terms = [SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject())) for b in brains]
+        terms = [
+            SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject()))
+            for b in brains
+        ]
         return SimpleVocabulary(terms)
 
 
@@ -325,7 +328,10 @@ class EventsViewsVocabularyFactory(object):
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.EventsView"
         )
-        terms = [SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject())) for b in brains]
+        terms = [
+            SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject()))
+            for b in brains
+        ]
         return SimpleVocabulary(terms)
 
 
@@ -337,7 +343,10 @@ class NewsViewsVocabularyFactory(object):
         if not isinstance(context, Item):
             context = api.portal.get()
         brains = api.content.find(context=context, portal_type="imio.smartweb.NewsView")
-        terms = [SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject())) for b in brains]
+        terms = [
+            SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject()))
+            for b in brains
+        ]
         return SimpleVocabulary(terms)
 
 
