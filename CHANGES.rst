@@ -5,7 +5,8 @@ Changelog
 1.0a23 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add breadcrumb to some select box in smartweb settings.
+  [boulch]
 
 
 1.0a22 (2022-01-13)

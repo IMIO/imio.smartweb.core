@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date
+from imio.smartweb.common.indexers import breadcrumb
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core.config import DIRECTORY_URL, EVENTS_URL, NEWS_URL
 from imio.smartweb.core.contents import IPages
@@ -310,7 +311,7 @@ class DirectoryViewsVocabularyFactory(object):
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.DirectoryView"
         )
-        terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
+        terms = [SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject())) for b in brains]
         return SimpleVocabulary(terms)
 
 
@@ -324,7 +325,7 @@ class EventsViewsVocabularyFactory(object):
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.EventsView"
         )
-        terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
+        terms = [SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject())) for b in brains]
         return SimpleVocabulary(terms)
 
 
@@ -336,7 +337,7 @@ class NewsViewsVocabularyFactory(object):
         if not isinstance(context, Item):
             context = api.portal.get()
         brains = api.content.find(context=context, portal_type="imio.smartweb.NewsView")
-        terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
+        terms = [SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject())) for b in brains]
         return SimpleVocabulary(terms)
 
 
