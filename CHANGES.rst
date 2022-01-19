@@ -5,6 +5,9 @@ Changelog
 1.0a23 (unreleased)
 -------------------
 
+- Avoid traceback when trying to display an empty schedule
+  [laulaz]
+
 - Add breadcrumb to some select box in smartweb settings.
   [boulch]
 

@@ -176,7 +176,7 @@ class ContactView(SectionView):
         contact = self.contact
         if contact is None:
             return
-        schedule = contact.get("schedule")
+        schedule = contact.get("schedule") or {}
         for day in schedule.values():
             for value in day.values():
                 if value:
