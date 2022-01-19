@@ -5,6 +5,9 @@ Changelog
 1.0a23 (unreleased)
 -------------------
 
+- Update buildout to use Plone 6.0.0a2 released version
+  [laulaz]
+
 - Avoid traceback when trying to display an empty schedule
   [laulaz]
 
