@@ -1,0 +1,18 @@
+<button class="btn btn-primary" type="button"
+        data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample"
+        aria-controls="offcanvasExample" i18n:translate="">Search
+</button>
+<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel"
+        i18n:translate="">Search
+    </h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="search">
+      <smartweb-search tal:attributes="query-url view/navroot_url">
+      </smartweb-search >
+    </div>
+  </div>
+</div>

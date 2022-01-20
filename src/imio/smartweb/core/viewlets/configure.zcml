@@ -250,4 +250,14 @@
       permission="zope2.View"
       />
 
+  <browser:viewlet
+      name="imio.smartweb.offcanvas"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalTop"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="offcanvas.pt"
+      class=".offcanvas.OffCanvasViewlet"
+      permission="zope2.View"
+      />
+
 </configure>
