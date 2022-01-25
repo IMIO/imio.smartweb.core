@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser import BrowserView
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.contents.pages.procedure.utils import sign_url
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.api.portal import get_registry_record
 from plone.formwidget.geolocation.vocabularies import _ as _geo
@@ -8,6 +10,7 @@ from zope.component import getMultiAdapter
 from zope.i18n import translate
 
 import json
+import requests
 
 
 class UtilsView(BrowserView):
@@ -47,3 +50,26 @@ class UtilsView(BrowserView):
             "longitude": get_registry_record("geolocation.default_longitude"),
         }
         return json.dumps(config)
+
+    def is_eguichet_aware(self):
+        self.request.response.setHeader("Content-Type", "application/json")
+        url = api.portal.get_registry_record("smartweb.url_formdefs_api")
+        key = api.portal.get_registry_record("smartweb.secret_key_api")
+        orig = "ia.smartweb"
+        if not url:
+            return json.dumps(
+                {"value": False, "text": _("smartweb.settings : No url define")}
+            )
+        if not key:
+            return json.dumps(
+                {"value": False, "text": _("smartweb.settings : No secret key define")}
+            )
+        query_full = sign_url(url, key, orig)
+        response = requests.get(query_full, timeout=10)
+        return json.dumps(
+            {
+                "status_code": response.status_code,
+                "value": True,
+                "text": _(response.reason),
+            }
+        )

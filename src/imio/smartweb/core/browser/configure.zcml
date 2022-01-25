@@ -74,4 +74,13 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="*"
+      name="is_eguichet_aware"
+      class=".utils.UtilsView"
+      attribute="is_eguichet_aware"
+      permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>
