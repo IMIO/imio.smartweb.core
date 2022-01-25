@@ -5,7 +5,8 @@ Changelog
 1.0a24 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add @@is_eguichet_aware view to get e-guichet configuration/connexion status
+  [boulch]
 
 
 1.0a23 (2022-01-19)
