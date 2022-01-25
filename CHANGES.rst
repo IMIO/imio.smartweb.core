@@ -5,6 +5,9 @@ Changelog
 1.0a24 (unreleased)
 -------------------
 
+- Fix street address formatting (number after street name)
+  [laulaz]
+
 - Add @@is_eguichet_aware view to get e-guichet configuration/connexion status
   [boulch]
 

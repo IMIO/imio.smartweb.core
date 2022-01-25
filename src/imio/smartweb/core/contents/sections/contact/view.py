@@ -186,8 +186,8 @@ class ContactView(SectionView):
     def formatted_address(self):
         contact = self.contact
         street_parts = [
-            contact.get("number") and str(contact.get("number")) or "",
             contact.get("street"),
+            contact.get("number") and str(contact.get("number")) or "",
             contact.get("complement"),
         ]
         street = " ".join(filter(None, street_parts))
