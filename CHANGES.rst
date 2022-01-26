@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a24 (unreleased)
+1.0a24 (2022-01-26)
 -------------------
 
 - New react build
