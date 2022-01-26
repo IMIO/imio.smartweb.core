@@ -36,14 +36,6 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
                     </li>
                 ))}
             </ul>
-            <button className="load-more-link"
-                onClick={(e) => {
-                    e.preventDefault();
-                    parentCallback();
-                }}
-            >
-                Afficher plus
-            </button>
         </React.Fragment>
     );
 };

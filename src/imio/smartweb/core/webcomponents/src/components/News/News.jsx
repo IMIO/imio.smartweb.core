@@ -24,7 +24,7 @@ const NewsView = (props) => {
     const [contactArray, setcontactArray] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [filters, setFilters] = useState(parsed);
-    const [batchSize, setBatchSize] = useState(5);
+    const [batchSize, setBatchSize] = useState(20);
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
