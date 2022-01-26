@@ -2,8 +2,9 @@
      tal:define="portal_state context/@@plone_portal_state;
                  nav_root_url portal_state/navigation_root_url;"
      i18n:domain="imio.smartweb">
-  <a href=""
-     tal:attributes="href string:${nav_root_url}/@@search">
+  <a data-bs-toggle="offcanvas" 
+     data-bs-target="#offcanvasSearch"
+     aria-controls="offcanvasSearch">
      <span class="sr-only"
            i18n:translate="">Search</span>
   </a>
