@@ -27,6 +27,8 @@ const ContactContent = ({queryUrl, onChange}) => {
         if (response !== null) {
             setcontactItem(response.items[0]);
         }
+        window.scrollTo(0, 0);
+
     }, [response]);
 
 
@@ -39,11 +41,26 @@ const ContactContent = ({queryUrl, onChange}) => {
             <button type="button" onClick={handleClick}>
                 Retour
             </button>
+            <article>
+            <header>
+                    <h2 className="r-content-title">{contactItem.title}</h2>
+                    {contactItem.subtitle?
+                        <h3 className="r-content-subtitle">{contactItem.subtitle}</h3>
+                        : ""
+                    }
+            </header>
+            {contactItem.logo ?
+                            <figure>
+                            <img className="r-content-img"
+                                src={contactItem.logo.scales.thumb.download}
+                                alt={contactItem.logo.filename}
+                            />
+                        </figure>
+                        : ""
+            }
+            </article>
             <div className="contactCard">
                 <div className="contactText">
-                    <div className="contactTextTitle">
-                        <span className="title">{contactItem.title}</span>
-                    </div>
                     <div className="contactTextAll">
                         {contactItem.category ? <span>{contactItem.category}</span> : ""}
                         <div className="adresse">

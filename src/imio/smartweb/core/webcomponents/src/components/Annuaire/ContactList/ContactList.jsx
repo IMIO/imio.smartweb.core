@@ -36,13 +36,13 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
                     </li>
                 ))}
             </ul>
-            <button className="load-more-link"
+            {/* <button className="load-more-link"
                 onClick={(e) => {
                     parentCallback();
                 }}
             >
                 Afficher plus
-            </button>
+            </button> */}
         </React.Fragment>
     );
 };

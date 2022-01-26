@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useRef,useCallback, useState } from "react";
 import Select from "react-select";
 import {useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
@@ -48,7 +48,7 @@ function Filters(props) {
     }, [response]);
 
     const onChangeHandler = useCallback(({ target: { name, value } }) =>{
-        if (value) {
+        if (value.length > 2) {
             setInputValues((state) => ({ ...state, [name]: value }), [])
         } else{
             setInputValues((prevState) => {
@@ -71,17 +71,23 @@ function Filters(props) {
         }
     });
 
+    // make to no launch useEffect first time
+    const firstUpdate = useRef(true);
     useEffect(() => {
+        if(firstUpdate.current){
+            firstUpdate.current = false;
+            return;
+        }
         history.push({
-            pathname: "",
+            pathname: "./",
             search: queryString.stringify(inputValues),
         });
-
         props.onChange(inputValues);
     }, [inputValues]);
 
     function handleSubmit(e) {
         e.preventDefault();
+
         props.onChange(inputValues);
     }
     // set default input value
@@ -113,7 +119,7 @@ function Filters(props) {
             </form>
 
             <div className="r-filter topics-Filter">
-                <span>Thématiques</span>
+                <label>Thématiques</label>
                 <Select
                     name={"topics"}
                     className="select-custom-class library-topics"
@@ -125,7 +131,7 @@ function Filters(props) {
                 />
             </div>
             <div className="r-filter  facilities-Filter">
-                <span>Catégories</span>
+                <label>Catégories</label>
                 <Select
                     name={"taxonomy_contact_category"}
                     className="select-custom-class library-facilities"
@@ -137,7 +143,7 @@ function Filters(props) {
                 />
             </div>
             <div className="r-filter  facilities-Filter">
-                <span>Facilité</span>
+                <label>Facilité</label>
                 <Select
                     name={"facilities"}
                     className="select-custom-class library-facilities"
