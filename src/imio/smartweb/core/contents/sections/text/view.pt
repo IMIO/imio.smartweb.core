@@ -14,7 +14,7 @@
        class="container section-container section-text">
     <metal:macro use-macro="context/@@sections_macros/section_title" />
     <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else '';
-                     klass string:body-section figure-${context/alignment} ${collapse_klass};"
+                     klass string:body-section figure-${context/alignment} figure-${context/image_size} ${collapse_klass};"
          tal:attributes="class python:'{} {}'.format(klass, 'no-image') if not image else klass;
                          id string:body-section-${context/id}">
       <tal:cond condition="context/image | nothing">

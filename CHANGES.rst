@@ -16,6 +16,8 @@ Changelog
 
 - Fix street address formatting (number after street name)
   [laulaz]
+- Add new css class in text section to stylize figure based on their size
+  [boulch]
 
 - Add @@is_eguichet_aware view to get e-guichet configuration/connexion status
   [boulch]
