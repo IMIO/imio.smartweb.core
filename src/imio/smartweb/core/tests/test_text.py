@@ -85,7 +85,9 @@ class TestText(ImioSmartwebTestCase):
         section.alignment = "left"
         section.image_size = "large"
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-left  no-image"', view())
+        self.assertIn(
+            '<div class="body-section figure-left figure-large  no-image"', view()
+        )
         self.assertNotIn("<figure", view())
         self.assertNotIn("@@images/image/large", view())
         self.assertNotIn("figcaption", view())
@@ -94,24 +96,23 @@ class TestText(ImioSmartwebTestCase):
             "ploneLeadImage", filename=get_leadimage_filename()
         )
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-left "', view())
-        self.assertIn("figure", view())
-        self.assertIn("figure-left", view())
+        self.assertIn('<div class="body-section figure-left figure-large "', view())
+        self.assertIn("<figure", view())
         self.assertIn("@@images/image/large", view())
         self.assertNotIn("figcaption", view())
 
         section.image_caption = "Kamoulox"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         # Assert section text has lead image
-        self.assertIn('<div class="body-section figure-left "', view())
-        self.assertIn("figure", view())
-        self.assertIn("figure-left", view())
+        self.assertIn('<div class="body-section figure-left figure-large "', view())
+        self.assertIn("<figure", view())
         self.assertIn("figcaption", view())
 
         section.alignment = "right"
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn("figure-right", view())
+        self.assertIn('<div class="body-section figure-right figure-large "', view())
 
         section.image_size = "mini"
         view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn('<div class="body-section figure-right figure-mini "', view())
         self.assertIn("@@images/image/mini", view())
