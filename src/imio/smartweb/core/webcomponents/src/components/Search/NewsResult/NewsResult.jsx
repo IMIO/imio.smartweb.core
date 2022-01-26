@@ -30,7 +30,7 @@ const NewsResult = (props) => {
             <ul className="r-search-list">
                 {resultArray.map((contactItem, i) => (
                     <li key={i} className="r-search-item">
-                        <a href={contactItem['@id']}>
+                        <a href={contactItem['_url']}>
                         <div
                             className="r-search-img"
                             style={{

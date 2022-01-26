@@ -5,6 +5,15 @@ Changelog
 1.0a24 (unreleased)
 -------------------
 
+- Improved query for search filters
+  [thomlamb]
+
+- Link changes for search results.
+  [thomlamb]
+
+- Update generated url for search items to match with react vue.
+  [thomlamb]
+
 - Fix street address formatting (number after street name)
   [laulaz]
 

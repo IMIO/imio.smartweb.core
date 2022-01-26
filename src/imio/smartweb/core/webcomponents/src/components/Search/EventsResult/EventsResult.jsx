@@ -31,7 +31,7 @@ const EventsResult = (props) => {
                     <li key={i}
                         className="r-search-item"
                     >
-                        <a href={contactItem['@id']}>
+                        <a href={contactItem['_url']}>
                         <Highlighter
                             highlightClassName="r-search-highlighter"
                             searchWords={[props.urlParams.SearchableText]}

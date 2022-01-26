@@ -20,7 +20,7 @@ export default function Search(props) {
 const SearchView = (props) => {
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 ={ ...parsed,b_size:6};
+    const parsed2 ={ ...parsed};
     const [filters, setFilters] = useState(parsed2);
     const [batchSize, setBatchSize] = useState(6);
 
@@ -31,10 +31,9 @@ const SearchView = (props) => {
     const callback = () => {
         setBatchSize(batchSize + 5);
     }
-    console.log(filters);
     return (
         <div className="ref">
-            <div className="r-search">
+            <div className="r-search r-search-container">
                 <div className="row r-search-filters">
                     <Filters url={props.queryUrl} activeFilter={filters} onChange={filtersChange} />
                 </div>

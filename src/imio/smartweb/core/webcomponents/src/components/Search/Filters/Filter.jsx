@@ -15,47 +15,12 @@ function Filters(props) {
     //     method: 'get',
     //     url: "",
     //     baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics',
-        // headers: {
-        //     Accept: "application/json",
-        //     Authorization: "Basic xxxxxxxxx=",
-        // },
+    //     headers: {
+    //         Accept: "application/json",
+    //         Authorization: "Basic YWRtaW46YWRtaW4=",
+    //     },
     // });
-    const headers = {
-        Accept: "application/json",
-        Authorization: "Basic xxxxxxx=",
-    }
-    let one = props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics';
-    let two = props.url+'/@vocabularies/imio.smartweb.vocabulary.IAm';
-    const requestOne = axios.get(one,headers);
-    const requestTwo = axios.get(two,headers);
 
-    axios
-    .all([requestOne, requestTwo])
-    .then(
-        axios.spread((...responses) => {
-        const responseOne = responses[0];
-        const responseTwo = responses[1];
-        if (responseOne !== null) {
-            const optionsTopics = responseOne.items.map(d => ({
-                value: d.token,
-                label: d.title
-            }))
-            setTopicsFilter(optionsTopics);
-        }
-        if (responseTwo !== null) {
-            const optionsIam = responseTwo.items.map(d => ({
-                value: d.token,
-                label: d.title
-            }))
-            setIamFilter(optionsIam);
-        }
-        console.log(responseOne, responseTwo);
-        })
-    )
-    .catch(errors => {
-        // react on errors.
-        console.error(errors);
-    });
 
     // useEffect(() => {
     //     if (response !== null) {
@@ -71,10 +36,61 @@ function Filters(props) {
 
 
 
+    const apiCall=()=>{
+        const requestOne = axios.request({
+            method: 'get',
+            url: "",
+            baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics',
+            headers: {
+                Accept: "application/json",
+                Authorization: "Basic YWRtaW46YWRtaW4=",
+        }})
+
+        const requestTwo = axios.request({
+            method: 'get',
+            url: "",
+            baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.IAm',
+            headers: {
+                Accept: "application/json",
+                Authorization: "Basic YWRtaW46YWRtaW4=",
+        }})
+
+        axios
+        .all([requestOne, requestTwo])
+        .then(
+            axios.spread((...responses) => {
+            const responseOne = responses[0];
+            const responseTwo = responses[1];
+            if (responseOne !== null) {
+                const optionsTopics = responseOne.data.items.map(d => ({
+                    value: d.token,
+                    label: d.title
+                }))
+                setTopicsFilter(optionsTopics);
+            }
+            if (responseTwo !== null) {
+                const optionsIam = responseTwo.data.items.map(d => ({
+                    value: d.token,
+                    label: d.title
+                }))
+                setIamFilter(optionsIam);
+            }
+            })
+        )
+        .catch(errors => {
+            // react on errors.
+            console.error('errors');
+        });
+    }
+    
+    useEffect(()=>{
+        apiCall()
+    },[])
+
 
     const HandlerText = (e) =>{
         setSearchValues({'SearchableText': e.target.value})
-        if (e.target.value) {
+        if (e.target.value.length > 2) {
             setInputValues(state => ({ ...state, 'SearchableText':e.target.value}), [])
         } else {
             setInputValues(prevState => {
@@ -160,7 +176,7 @@ function Filters(props) {
             <div className="col-md-2 r-search search-select-filter">
                 <Select
                     styles={customStyles}
-                    name={"topics"}
+                    name={"iam"}
                     className="r-search-select"
                     isClearable
                     onChange={onChangeHandlerSelect}
