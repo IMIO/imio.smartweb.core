@@ -5,6 +5,12 @@ Changelog
 1.0a24 (unreleased)
 -------------------
 
+- New react build
+  [thomlamb]
+
+- Adding loadmore for react vue
+  [thomlamb]
+
 - Improved query for search filters
   [thomlamb]
 
