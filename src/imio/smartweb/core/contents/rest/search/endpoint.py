@@ -118,9 +118,8 @@ class ExtendedSearchHandler(SearchHandler):
             return item
         type_mapping = mapping[item["@type"]]
         base_url = type_mapping.get(item["container_uid"], type_mapping["default"])
-        item["_url"] = "{base}/{item_id}/{item_uid}".format(
+        item["_url"] = "{base}#/u={item_uid}".format(
             base=base_url,
-            item_id=item["id"],
             item_uid=item["UID"],
         )
         return item
