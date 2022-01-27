@@ -5,6 +5,9 @@ Changelog
 1.0a25 (unreleased)
 -------------------
 
+- Avoid page reload after gallery spolight close
+  [laulaz]
+
 - Fix default value for search filters
   [thomlamb]
 
