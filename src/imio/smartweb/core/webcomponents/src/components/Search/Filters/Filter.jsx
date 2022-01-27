@@ -62,7 +62,7 @@ function Filters(props) {
 
     const HandlerText = (e) =>{
         setSearchValues({'SearchableText': e.target.value})
-        if (e.target.value.length > 2) {
+        if (e.target.value) {
             setInputValues(state => ({ ...state, 'SearchableText':e.target.value}), [])
         } else {
             setInputValues(prevState => {

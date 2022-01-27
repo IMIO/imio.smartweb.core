@@ -5,6 +5,9 @@ Changelog
 1.0a26 (unreleased)
 -------------------
 
+- Disable input search limit
+  [thomlamb]
+
 - Small correction of rendered data in views and scss
   [thomlamb]
 
