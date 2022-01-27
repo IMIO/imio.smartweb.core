@@ -5,6 +5,9 @@ Changelog
 1.0a25 (unreleased)
 -------------------
 
+- Add offcanvas bootstrap component in a viewlet and inherit from search browserview
+  [boulch, thomlamb]
+
 - Always keep (empty) placeholder div in carousel/table templates even if item
   has no image
   [laulaz]
