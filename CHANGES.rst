@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a26 (unreleased)
+1.0a26 (2022-01-27)
 -------------------
 
 - Disable input search limit
