@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a25 (unreleased)
+1.0a25 (2022-01-27)
 -------------------
 
 - Avoid page reload after gallery spolight close
