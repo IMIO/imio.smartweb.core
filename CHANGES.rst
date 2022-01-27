@@ -5,6 +5,9 @@ Changelog
 1.0a25 (unreleased)
 -------------------
 
+- Fix default value for search filters
+  [thomlamb]
+
 - Fix open_in_new_tab option for BlockLinks
   [laulaz]
 

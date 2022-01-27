@@ -1,7 +1,6 @@
 import React, { useEffect, useCallback, useState } from "react";
 import Select from 'react-select';
 import {useHistory } from "react-router-dom";
-import useAxios from '../../../hooks/useAxios';
 import axios from "axios";
 function Filters(props) {
     let history = useHistory();
@@ -108,6 +107,9 @@ function Filters(props) {
         props.onChange(inputValues);
     }, [inputValues]);
 
+    // set default input value
+    let actTopi = topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
+    let actIam = iamFilter && iamFilter.filter((option) => option.value === props.activeFilter.iam);
     const customStyles = {
         control: styles => ({ 
             ...styles,
@@ -143,7 +145,7 @@ function Filters(props) {
 
                         />
                     </label>
-                    <button type="submit">Chercher</button>
+                    <button type="submit"></button>
                 </form>
             </div>
             <div className="col-md-2 r-search search-select-filter">
@@ -155,6 +157,8 @@ function Filters(props) {
                     onChange={onChangeHandlerSelect}
                     options={iamFilter && iamFilter}
                     placeholder={'Je suis'}
+                    value={actIam && actIam[0]}
+
                 />
             </div> 
             <div className="col-md-2 r-search search-select-filter">
@@ -166,6 +170,7 @@ function Filters(props) {
                     onChange={onChangeHandlerSelect}
                     options={topicsFilter && topicsFilter}
                     placeholder={'Thématiques'}
+                    value={actTopi && actTopi[0]}
                 />
             </div>
         </React.Fragment>
