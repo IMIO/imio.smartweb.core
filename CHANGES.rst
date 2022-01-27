@@ -14,6 +14,9 @@ Changelog
 - Fix open_in_new_tab option for BlockLinks
   [laulaz]
 
+- Allow some python modules in restricted python (Usefull for collective.themefragments modules)
+  [boulch]
+
 - Add offcanvas bootstrap component in a viewlet and inherit from search browserview
   [boulch, thomlamb]
 
