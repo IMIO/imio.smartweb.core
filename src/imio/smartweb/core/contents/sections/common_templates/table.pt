@@ -58,7 +58,11 @@
                             <div class="image d-block w-100"
                                  tal:condition="python: item_has_image and not item_has_icon"
                                  tal:attributes="style string:background-image:url('${item/image}')">
-                           </div>
+                            </div>
+                            <div class="image d-block w-100"
+                                 tal:condition="python: not item_has_image and not item_has_icon">
+                              <!-- Empty placeholder tag -->
+                            </div>
                         </tal:if>
 
                         <div class="table_category"

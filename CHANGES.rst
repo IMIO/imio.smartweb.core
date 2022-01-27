@@ -5,6 +5,10 @@ Changelog
 1.0a25 (unreleased)
 -------------------
 
+- Always keep (empty) placeholder div in carousel/table templates even if item
+  has no image
+  [laulaz]
+
 - Fix traceback when section selection target has no description
   [laulaz]
 

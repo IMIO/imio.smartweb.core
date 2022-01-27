@@ -47,6 +47,10 @@
                          tal:condition="python: item_has_image and show_lead_image"
                          tal:attributes="style string:background-image:url(${item/image})">
                     </div>
+                    <div class="swiper-image"
+                         tal:condition="python: not item_has_image and show_lead_image">
+                      <!-- Empty placeholder tag -->
+                    </div>
                     <div class="swiper_category"
                          tal:condition="item/category | nothing">
                       <span tal:content="item/category" />
