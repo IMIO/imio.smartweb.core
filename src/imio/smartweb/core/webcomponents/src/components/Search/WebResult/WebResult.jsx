@@ -16,10 +16,10 @@ const WebResult = (props) => {
 
     useEffect(() => {
         if (response !== null) {
-            if(props.urlParams.SearchableText){
-                setresultArray(response.items);
-            }else{
+            if(Object.keys(props.urlParams).length == 0){
                 setresultArray([]);
+            }else{
+                setresultArray(response.items);
             }
         }
     }, [response]);

@@ -93,3 +93,19 @@
     }
   }
 }
+.r-search-container{
+  max-width: 1330px;
+  margin: 0 auto;
+  padding: 0 20px 0 20px;
+}
+.userrole-authenticated{
+  .r-search-container{
+      padding: 0 20px 0 123px;
+  }
+}
+
+.offcanvas-header .btn-close {
+	right: 10px;
+	position: absolute;
+	top: 10px;
+}
