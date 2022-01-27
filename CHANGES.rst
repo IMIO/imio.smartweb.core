@@ -5,7 +5,8 @@ Changelog
 1.0a25 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix traceback when section selection target has no description
+  [laulaz]
 
 
 1.0a24 (2022-01-26)

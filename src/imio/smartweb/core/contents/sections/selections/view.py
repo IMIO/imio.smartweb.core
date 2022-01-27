@@ -13,11 +13,12 @@ class SelectionsView(CarouselOrTableSectionView):
         results = []
         for item in items:
             url = item.absolute_url()
+            description = item.description or ""
             has_image = True if getattr(item.aq_base, "image", None) else False
             results.append(
                 {
                     "title": item.title,
-                    "description": item.description.replace("**", ""),
+                    "description": description.replace("**", ""),
                     "url": url,
                     "image": f"{url}/@@images/image/{image_scale}",
                     "has_image": has_image,
