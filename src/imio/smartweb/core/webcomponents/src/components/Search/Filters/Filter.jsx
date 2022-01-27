@@ -11,31 +11,6 @@ function Filters(props) {
     const [searchValues, setSearchValues] = useState({});
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [iamFilter, setIamFilter] = useState(null);
-    // const {response, topicsError, topicsIsLoading } = useAxios({
-    //     method: 'get',
-    //     url: "",
-    //     baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics',
-    //     headers: {
-    //         Accept: "application/json",
-    //         Authorization: "Basic YWRtaW46YWRtaW4=",
-    //     },
-    // });
-
-
-    // useEffect(() => {
-    //     if (response !== null) {
-    //         const optionsTopics = response.items.map(d => ({
-    //             value: d.token,
-    //             label: d.title
-    //         }))
-    //         setTopicsFilter(optionsTopics);
-    //     }
-    // }, [response]);
-
-
-
-
-
     const apiCall=()=>{
         const requestOne = axios.request({
             method: 'get',
@@ -43,7 +18,6 @@ function Filters(props) {
             baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.Topics',
             headers: {
                 Accept: "application/json",
-                Authorization: "Basic YWRtaW46YWRtaW4=",
         }})
 
         const requestTwo = axios.request({
@@ -52,7 +26,6 @@ function Filters(props) {
             baseURL: props.url+'/@vocabularies/imio.smartweb.vocabulary.IAm',
             headers: {
                 Accept: "application/json",
-                Authorization: "Basic YWRtaW46YWRtaW4=",
         }})
 
         axios
