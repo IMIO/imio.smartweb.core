@@ -200,6 +200,9 @@ article > header {
             }
             .r-item-categorie{
               margin-bottom: 5px;
+              text-transform: uppercase;
+              color: #747474;
+              font-weight: 400;
             }
             .r-item-all{
               color: #727272;
@@ -260,7 +263,7 @@ article > header {
   padding-bottom: 56.25%;
 }
 .r-content-title{
-  margin-bottom: 0;
+  margin: 1rem 0;
 }
 .news-info-title{
   font-weight: 700;
@@ -304,6 +307,11 @@ article > header {
       margin: 0;
       li{
         list-style: none;
+        a{
+          &:hover{
+            opacity: .7;
+          }
+        }
       }
     }
   }
@@ -332,9 +340,15 @@ article > header {
       display: flex;
       align-items: center;
       gap: 10px;
+      cursor: pointer;
       svg{
         width: 22px;
         fill: white;
+      }
+      &:hover{
+        color: #fff;
+        background: rgb(63, 63, 63);
+
       }
     }
   }

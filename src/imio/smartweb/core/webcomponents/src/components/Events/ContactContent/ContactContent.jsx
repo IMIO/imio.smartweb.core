@@ -29,6 +29,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
         if (response !== null) {
             setcontactItem(response.items[0]);
         }
+        window.scrollTo(0, 0);
     }, [response]);
 
     function handleClick() {
@@ -44,8 +45,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
             </button>
             <article>
                 <header>
-                    <h1 className="r-content-title">{contactItem.title}</h1>
-                    <div class="r-content-date">
+                    <h2 className="r-content-title">{contactItem.title}</h2>
+                    {/* <div class="r-content-date">
                         <div className="r-content-date-start">
                             <span>Du&nbsp;</span>
                             <Moment format='DD-MM-YYYY'>{start}</Moment>
@@ -54,7 +55,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                             <span>&nbsp;au&nbsp;</span>
                             <Moment format='DD-MM-YYYY'>{end}</Moment>
                         </div>
-                    </div>
+                    </div> */}
                 </header>
                 <figure>
                     <div className="r-content-img"
@@ -192,12 +193,15 @@ const ContactContent = ({ queryUrl, onChange }) => {
                     </div>
                     {/* booking */}
                     <div className="r-content-news-info-action">
-                        <div className="r-content-booking">
+                        {contactItem.ticket_url ? 
+                            <div className="r-content-booking">
+                                <a href={contactItem.ticket_url}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.41 19.41"><circle cx="13.03" cy="14.61" r="0.63" fill="fill:#fff" /><circle cx="11.59" cy="6.52" r="0.63" fill="fill:#fff" /><path d="M17.11,11.47h.62V7.71h-1.6a1.25,1.25,0,0,1-1.25-1.25,1.27,1.27,0,0,1,.67-1.12l.54-.28-1.6-3.39-12.8,6h0v3.76h.63a1.26,1.26,0,0,1,0,2.51H1.68v3.76H17.73V14h-.62a1.26,1.26,0,1,1,0-2.51Zm-6.9-6.4a.63.63,0,0,0,1.14-.53l2.54-1.2.58,1.23A2.52,2.52,0,0,0,14,7.71H4.63Zm6.27,10.08v1.34H13.66a.63.63,0,1,0-1.26,0H2.93V15.16a2.51,2.51,0,0,0,0-4.86V9H12.4a.63.63,0,0,0,1.26,0h2.82V10.3a2.51,2.51,0,0,0,0,4.86Z" fill="fill:#fff" /><circle cx="13.03" cy="10.85" r="0.63" fill="fill:#fff" /><circle cx="13.03" cy="12.73" r="0.63" fill="fill:#fff" /></svg>
+                                    Billetterie
+                                </a>
+                            </div>
+                        :""}
 
-                            <a href={contactItem.ticket_url}>
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.41 19.41"><circle cx="13.03" cy="14.61" r="0.63" fill="fill:#fff" /><circle cx="11.59" cy="6.52" r="0.63" fill="fill:#fff" /><path d="M17.11,11.47h.62V7.71h-1.6a1.25,1.25,0,0,1-1.25-1.25,1.27,1.27,0,0,1,.67-1.12l.54-.28-1.6-3.39-12.8,6h0v3.76h.63a1.26,1.26,0,0,1,0,2.51H1.68v3.76H17.73V14h-.62a1.26,1.26,0,1,1,0-2.51Zm-6.9-6.4a.63.63,0,0,0,1.14-.53l2.54-1.2.58,1.23A2.52,2.52,0,0,0,14,7.71H4.63Zm6.27,10.08v1.34H13.66a.63.63,0,1,0-1.26,0H2.93V15.16a2.51,2.51,0,0,0,0-4.86V9H12.4a.63.63,0,0,0,1.26,0h2.82V10.3a2.51,2.51,0,0,0,0,4.86Z" fill="fill:#fff" /><circle cx="13.03" cy="10.85" r="0.63" fill="fill:#fff" /><circle cx="13.03" cy="12.73" r="0.63" fill="fill:#fff" /></svg>
-                                Billetterie</a>
-                        </div>
                     </div>
                 </div>
                 <p className="r-content-description">{contactItem.description}</p>

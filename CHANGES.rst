@@ -5,7 +5,11 @@ Changelog
 1.0a26 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Small correction of rendered data in views and scss
+  [thomlamb]
+
+- Fix local search when no text in input
+  [thomlamb]
 
 
 1.0a25 (2022-01-27)
