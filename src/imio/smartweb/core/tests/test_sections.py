@@ -480,3 +480,31 @@ class TestSections(ImioSmartwebTestCase):
         page_html = getMultiAdapter((self.page, self.request), name="full_view")()
         self.assertIn("Perdu.com", page_html)
         self.assertNotIn("iframe", page_html)
+
+    def test_link_section(self):
+        links_section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionLinks",
+            title="Section links",
+        )
+        api.content.transition(self.page, "publish")
+        link = api.content.create(
+            container=links_section,
+            type="imio.smartweb.BlockLink",
+            title="My link",
+        )
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn(
+            '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="">',
+            view(),
+        )
+        link.open_in_new_tab = True
+        self.assertNotIn(
+            '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
+            view(),
+        )
+        logout()
+        self.assertIn(
+            '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
+            view(),
+        )

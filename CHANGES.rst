@@ -5,6 +5,9 @@ Changelog
 1.0a25 (unreleased)
 -------------------
 
+- Fix open_in_new_tab option for BlockLinks
+  [laulaz]
+
 - Add offcanvas bootstrap component in a viewlet and inherit from search browserview
   [boulch, thomlamb]
 

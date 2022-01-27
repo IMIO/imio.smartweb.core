@@ -27,6 +27,7 @@ class LinksView(CarouselOrTableSectionView):
                     "has_icon": has_icon,
                     "image": f"{url}/@@images/image/{image_scale}",
                     "has_image": has_image,
+                    "open_in_new_tab": item.open_in_new_tab,
                 }
             )
         return batch_results(results, self.context.nb_results_by_batch)
