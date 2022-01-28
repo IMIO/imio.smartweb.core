@@ -6,15 +6,12 @@ Changelog
 -------------------
 
 - Improve and resolv bug in load more in react vue
-  [laulaz]
+  [thomlamb]
 
 - Add new Sendinblue newsletter subscription section
   [laulaz]
 
 - disabling filter resets on search load (important, to settle a conflict with other react views)
-  [thomlamb]
-
-- Disable first 
   [thomlamb]
 
 - Precision so that the css of the search is unique to itself 
