@@ -60,6 +60,7 @@ setup(
         "plone.app.imagecropping",
         "eea.facetednavigation",
         "collective.anysurfer",
+        "collective.sendinblue",
         "collective.solr",
         "collective.taxonomy",
         "embeddify",

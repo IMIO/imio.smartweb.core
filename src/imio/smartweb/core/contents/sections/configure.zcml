@@ -12,6 +12,7 @@
   <include package=".map" />
   <include package=".news" />
   <include package=".selections" />
+  <include package=".sendinblue" />
   <include package=".text" />
   <include package=".video" />
 

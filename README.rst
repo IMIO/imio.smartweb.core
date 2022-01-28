@@ -53,6 +53,7 @@ Pages & Procedures can contain different "sections":
  - Galery : displays a galery of images stored in the section
  - Links : displays links stored in the section (carousel or table display)
  - Selection : displays links to selected contents (carousel or table display)
+ - Sendinblue : displays a subscription form for Sendinblue newsletter
  - Text : displays a rich text
  - Video : displays an embedded video
 

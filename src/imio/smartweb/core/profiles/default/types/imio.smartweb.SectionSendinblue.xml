@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.SectionSendinblue"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <!-- Basic properties -->
+  <property
+      i18n:translate=""
+      name="title">Sendinblue section</property>
+  <property
+      i18n:translate=""
+      name="description">Sendinblue section for a page</property>
+
+  <property name="icon_expr"></property>
+
+  <!-- Hierarchy control -->
+  <property name="global_allow">False</property>
+  <property name="filter_content_types">True</property>
+  <!-- Schema, class and security -->
+  <!-- if we can add a page, we can add a page section -->
+  <property name="add_permission">imio.smartweb.core.AddPage</property>
+  <property name="klass">imio.smartweb.core.contents.SectionSendinblue</property>
+  <property name="schema">imio.smartweb.core.contents.ISectionSendinblue</property>
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="plone.namefromtitle"/>
+    <element value="plone.locking"/>
+    <element value="plone.shortname"/>
+    <element value="plone.imagecropping"/>
+  </property>
+
+</object>

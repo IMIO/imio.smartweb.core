@@ -19,5 +19,6 @@ from .sections.links.content import ISectionLinks, SectionLinks  # NOQA
 from .sections.map.content import ISectionMap, SectionMap  # NOQA
 from .sections.news.content import ISectionNews, SectionNews  # NOQA
 from .sections.selections.content import ISectionSelections, SectionSelections  # NOQA
+from .sections.sendinblue.content import ISectionSendinblue, SectionSendinblue  # NOQA
 from .sections.text.content import ISectionText, SectionText  # NOQA
 from .sections.video.content import ISectionVideo, SectionVideo  # NOQA

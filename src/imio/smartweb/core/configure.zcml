@@ -7,6 +7,7 @@
   <include package="eea.facetednavigation" />
   <include package="collective.geolocationbehavior" />
   <include package="collective.instancebehavior" />
+  <include package="collective.sendinblue" />
   <include package="collective.taxonomy" />
 
   <!-- Temporary fix for plone.gallery 1.0.1 -->

@@ -5,6 +5,9 @@ Changelog
 1.0a27 (unreleased)
 -------------------
 
+- Add new Sendinblue newsletter subscription section
+  [laulaz]
+
 - disabling filter resets on search load (important, to settle a conflict with other react views)
   [thomlamb]
 

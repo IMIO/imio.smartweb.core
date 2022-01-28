@@ -8,7 +8,7 @@
 
     <records prefix="plone.bundles/smartweb-edit"
              interface='Products.CMFPlone.interfaces.IBundleRegistry'>
-      <value key="last_compilation">2021-09-16 11:25:00</value>
+      <value key="last_compilation">2022-01-28 15:45:00</value>
     </records>
 
     <records prefix="plone.bundles/smartweb-webcomponents"

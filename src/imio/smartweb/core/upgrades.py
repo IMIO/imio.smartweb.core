@@ -67,3 +67,8 @@ def reload_registry(context):
 def reload_types(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(PROFILEID, "typeinfo")
+
+
+def reload_workflows(context):
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runImportStepFromProfile(PROFILEID, "workflow")

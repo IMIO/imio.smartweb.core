@@ -25,6 +25,7 @@
     <element value="imio.smartweb.SectionLinks" />
     <element value="imio.smartweb.SectionMap" />
     <element value="imio.smartweb.SectionSelections" />
+    <element value="imio.smartweb.SectionSendinblue" />
     <element value="imio.smartweb.SectionText" />
     <element value="imio.smartweb.SectionVideo" />
   </property>

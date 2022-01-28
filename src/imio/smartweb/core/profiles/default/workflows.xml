@@ -12,6 +12,7 @@
     <type type_id="imio.smartweb.SectionLinks"/>
     <type type_id="imio.smartweb.SectionMap"/>
     <type type_id="imio.smartweb.SectionSelections"/>
+    <type type_id="imio.smartweb.SectionSendinblue"/>
     <type type_id="imio.smartweb.SectionNews"/>
     <type type_id="imio.smartweb.SectionText"/>
     <type type_id="imio.smartweb.SectionVideo"/>

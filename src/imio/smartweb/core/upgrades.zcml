@@ -86,4 +86,26 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="1009"
+      destination="1010"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Install collective.sendinblue add-on"
+        import_profile="collective.sendinblue:default"
+        />
+    <genericsetup:upgradeDepends
+        title="Update last compilation dates of CSS / JS bundles"
+        import_profile="imio.smartweb.core:last-compilation"
+        />
+    <genericsetup:upgradeStep
+        title="Reload types to add new Sendinblue section"
+        handler=".upgrades.reload_types"
+        />
+    <genericsetup:upgradeStep
+        title="Reload workflows"
+        handler=".upgrades.reload_workflows"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
