@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback,useRef, useState } from "react";
 import Select from 'react-select';
 import {useHistory } from "react-router-dom";
 import axios from "axios";
@@ -98,10 +98,15 @@ function Filters(props) {
             }
         }
     );
-
+    // make to no launch useEffect first time
+    const firstUpdate = useRef(true);
     useEffect(() => {
+        if(firstUpdate.current){
+            firstUpdate.current = false;
+            return;
+        }
         history.push({
-            pathname: "",
+            pathname: "./",
             search: queryString.stringify(inputValues),
         });
         props.onChange(inputValues);
