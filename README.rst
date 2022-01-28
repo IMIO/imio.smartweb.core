@@ -39,6 +39,7 @@ This products contains:
  - Content types: Folder, Page, Procedure, Sections ...
  - Behaviors to configure display in menus / navigations and handle sub-sites / minisites
  - Complete viewlets organization (header, footer) to get rid of portlets
+ - A view to test if the site and an eguichet are linked : @@is_eguichet_aware
 
 A folder can be transformed into a sub-site, which has its navigation viewlet, a logo viewlet, ...
 It can also be transformed into a minisite, which is a new navigation root.
