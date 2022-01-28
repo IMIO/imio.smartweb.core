@@ -5,7 +5,14 @@ Changelog
 1.0a27 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- disabling filter resets on search load (important, to settle a conflict with other react views)
+  [thomlamb]
+
+- Disable first 
+  [thomlamb]
+
+- Precision so that the css of the search is unique to itself 
+  [thomlamb]
 
 
 1.0a26 (2022-01-27)
