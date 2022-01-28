@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useCallback,useRef, useState } from "react";
 import Select from "react-select";
 import {useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
@@ -26,8 +26,8 @@ function Filters(props) {
                 value: d.token,
                 label: d.title,
             }));
-            const optionsTaxonomy = response.taxonomy_contact_category
-                ? response.taxonomy_contact_category.map((d) => ({
+            const optionsTaxonomy = response.category
+                ? response.category.map((d) => ({
                       value: d.token,
                       label: d.title,
                   }))
@@ -38,7 +38,7 @@ function Filters(props) {
     }, [response]);
 
     const onChangeHandler = useCallback(({ target: { name, value } }) =>{
-        if (value) {
+        if (value.length > 2) {
             setInputValues((state) => ({ ...state, [name]: value }), [])
         } else{
             setInputValues((prevState) => {
@@ -61,12 +61,17 @@ function Filters(props) {
         }
     });
 
+    // make to no launch useEffect first time
+    const firstUpdate = useRef(true);
     useEffect(() => {
+        if(firstUpdate.current){
+            firstUpdate.current = false;
+            return;
+        }
         history.push({
-            pathname: "",
+            pathname: "./",
             search: queryString.stringify(inputValues),
         });
-
         props.onChange(inputValues);
     }, [inputValues]);
 
@@ -82,7 +87,7 @@ function Filters(props) {
     let actTaxo =
         taxonomyFilter &&
         taxonomyFilter.filter(
-            (option) => option.value === props.activeFilter.taxonomy_contact_category
+            (option) => option.value === props.activeFilter.category
         );
     return (
         <React.Fragment>
@@ -114,7 +119,7 @@ function Filters(props) {
             <div className="r-filter  facilities-Filter">
                 <label>Catégories</label>
                 <Select
-                    name={"taxonomy_contact_category"}
+                    name={"category"}
                     className="select-custom-class library-facilities"
                     isClearable
                     onChange={onChangeHandlerSelect}

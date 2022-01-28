@@ -87,7 +87,6 @@ function Filters(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-
         props.onChange(inputValues);
     }
     // set default input value

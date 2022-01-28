@@ -11,21 +11,20 @@ import useFilterQuery from "../../hooks/useFilterQuery";
 export default function News(props) {
     return (
         <Router>
-            <NewsView localUrl={props.localUrl} queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
+            <NewsView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl+"?b_size=10"} />
         </Router>
     );
 }
 const NewsView = (props) => {
     const queryString = require("query-string");
-    // const parsed = queryString.parse(useFilterQuery().toString());
-    // const parsed2 ={ ...parsed,b_size:5,fullobjects:1}
-    // ===== v
-    const { u, ...parsed } = Object.assign({ b_size: 5, fullobjects: 1 }, queryString.parse(useFilterQuery().toString()))
+    const { u, ...parsed } = Object.assign({ b_start: 0, fullobjects: 1 }, queryString.parse(useFilterQuery().toString()))
     const [contactArray, setcontactArray] = useState([]);
+    const [contactNumber, setcontactNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [filters, setFilters] = useState(parsed);
-    const [batchSize, setBatchSize] = useState(20);
-    const { response, error, isLoading } = useAxios(
+    const [batchStart, setBatchStart] = useState(0);
+    const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
+    const { response, error, isLoading,isMore} = useAxios(
         {
             method: "get",
             url: "",
@@ -34,6 +33,7 @@ const NewsView = (props) => {
                 Accept: "application/json",
             },
             params: filters,
+            load:loadMoreLaunch,
         },
         []
     );
@@ -41,7 +41,12 @@ const NewsView = (props) => {
     // set all news in state
     useEffect(() => {
         if (response !== null) {
-            setcontactArray(response.items);
+            if(isMore){
+                setcontactArray((contactArray) => [...contactArray, ...response.items]);
+            }else{
+                setcontactArray(response.items);
+            }
+            setcontactNumber(response.items_total);
         }
     }, [response]);
 
@@ -52,26 +57,35 @@ const NewsView = (props) => {
 
     // set state filters when active filter selection
     const filtersChange = (value) => {
+        setLoadMoreLaunch(false);
+        setBatchStart((batchStart) => 0);
         setFilters(value);
     };
 
     // set batch
-    const callback = () => {
+    const loadMore = () => {
+        setBatchStart((batchStart) => batchStart + 10);
+        setLoadMoreLaunch(true);
+    };
+    console.log(batchStart)
+    console.log(isMore)
+
+    // Update filters Batch
+    useEffect(() => {
         setFilters(prevFilters => {
             return { 
               ...prevFilters, 
-              b_size: batchSize + 5
+              b_start: batchStart
             }
           })
-    };
-
+    }, [batchStart]);
     // coditional list render
     let listRender;
     if (contactArray && contactArray.length > 0) {
-        listRender = <ContactList onChange={clickID} contactArray={contactArray} parentCallback={callback} />;
+        listRender = <ContactList onChange={clickID} contactArray={contactArray} />;
 
     } else {
-        listRender = <p>Aucun actulité n'a été trouvé</p>
+        listRender = <p>Aucune actulité n'a été trouvée</p>
     }
     return (
         <div>
@@ -80,7 +94,7 @@ const NewsView = (props) => {
                     <div className="r-result r-annuaire-result">
                         <Switch>
                             <Route path={"/:name"}>
-                                <ContactContent onChange={clickID} onReturn={filtersChange} localUrl={props.localUrl} queryUrl={props.queryUrl} />
+                                <ContactContent onChange={clickID} onReturn={filtersChange} queryUrl={props.queryUrl} />
                             </Route>
                             <Route exact path="*">
                                 <div className="r-result-filter actu-result-filter">
@@ -88,14 +102,30 @@ const NewsView = (props) => {
                                         url={props.queryFilterUrl}
                                         activeFilter={filters}
                                         onChange={filtersChange} />
+                                        {contactNumber > 0 ? (
+                                            <p className="r-results-numbers"><span>{contactNumber}</span> {contactNumber > 1?'Actualités trouvées':'Actualité trouvée'}</p>
+                                        ) : (
+                                            <p className="r-results-numbers">Aucun résultat</p>
+                                        )}
                                 </div>
-                                {isLoading ? (
+                                {/* {isLoading ? (
                                     <div>
                                         <Skeleton /> <Skeleton /> <Skeleton />
                                     </div>
                                 ) : (
-                                    <div>{listRender}</div>
-                                )}
+                                )} */}
+                                <div>{listRender}</div>
+                                <div className="r-load-more">
+                                    {(contactNumber -10) > batchStart ? (
+                                        <button onClick={loadMore}  className="btn-grad">
+                                            {isLoading ? 'Chargement...' : 'Plus de résultats'}
+                                        </button>
+                                     ):(
+                                        <span className="no-more-result">
+                                            {isLoading ? 'Chargement...' : ''}
+                                        </span>
+                                    )}
+                                </div> 
                             </Route>
                         </Switch>
                     </div>

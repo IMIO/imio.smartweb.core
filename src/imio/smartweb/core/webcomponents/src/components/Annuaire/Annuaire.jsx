@@ -64,7 +64,9 @@ function AnnuaireView(props) {
     // set state filters when active filter selection
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
+        setBatchStart((batchStart) => 0);
         setFilters(value);
+        window.scrollTo(0, 0);
     };
 
     // set batch
@@ -128,11 +130,10 @@ function AnnuaireView(props) {
                         onChange={filtersChange}
                     />
                     {contactNumber > 0 ? (
-                        <p className="r-results-numbers"><span>{contactNumber}</span> contacts trouvé</p>
+                        <p className="r-results-numbers"><span>{contactNumber}</span>{contactNumber > 1?' contacts trouvés':' contact trouvé'}</p>
                     ) : (
-                        <p className="r-results-numbers">Aucun résultats</p>
-                    )
-                    }
+                        <p className="r-results-numbers">Aucun résultat</p>
+                    )}
                 </div>
             </div>
             <Switch>
@@ -159,9 +160,15 @@ function AnnuaireView(props) {
                             )} */}
                             <div>{listRender}</div>
                             <div className="r-load-more">
-                                <button onClick={loadMore} className="btn-grad">
-                                {isLoading ? 'Chargement...' : 'Plus de résultats'}
-                                </button>
+                                {(contactNumber -20) > batchStart ? (
+                                    <button onClick={loadMore}  className="btn-grad">
+                                        {isLoading ? 'Chargement...' : 'Plus de résultats'}
+                                    </button>
+                                    ):(
+                                    <span className="no-more-result">
+                                        {isLoading ? 'Chargement...' : ''}
+                                    </span>
+                                )}
                             </div> 
                         </div>
                         <div className="r-map annuaire-map" 
