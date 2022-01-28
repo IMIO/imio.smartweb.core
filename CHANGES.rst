@@ -5,6 +5,9 @@ Changelog
 1.0a27 (unreleased)
 -------------------
 
+- Improve and resolv bug in load more in react vue
+  [laulaz]
+
 - Add new Sendinblue newsletter subscription section
   [laulaz]
 
