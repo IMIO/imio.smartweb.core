@@ -14,7 +14,7 @@ class IDirectoryView(model.Schema):
 
     directives.widget(selected_categories=SelectFieldWidget)
     selected_categories = schema.List(
-        title=_(u"Selected Categories"),
+        title=_("Selected Categories"),
         value_type=schema.Choice(
             vocabulary="imio.smartweb.vocabulary.DirectoryCategories"
         ),
@@ -22,11 +22,11 @@ class IDirectoryView(model.Schema):
     )
 
     nb_results = schema.Int(
-        title=_(u"Number of items to display"), default=20, required=True
+        title=_("Number of items to display"), default=20, required=True
     )
 
     show_items_description = schema.Bool(
-        title=_(u"Show items description"), default=True, required=False
+        title=_("Show items description"), default=True, required=False
     )
 
 

@@ -222,14 +222,14 @@ def formatted_schedule(schedule):
     elif not morningend and not afternoonstart:
         str_opening = "{} - {}".format(morningstart, afternoonend)
     if not morningstart and not morningend and not afternoonstart and not afternoonend:
-        str_opening = translate(_(u"Closed"), target_language=current_lang)
+        str_opening = translate(_("Closed"), target_language=current_lang)
     return "{} ({})".format(str_opening, comment) if comment else str_opening
 
 
 # {'afternoonend': '', 'afternoonstart': '', 'comment': 'vendredi : apéro à midi', 'morningend': '11:00', 'morningstart': '08:30'}
 def get_schedule_for_today(schedule):
     current_lang = api.portal.get_current_language()[:2]
-    message = translate(_(u"Open"), target_language=current_lang)
+    message = translate(_("Open"), target_language=current_lang)
     morningstart = schedule.get("morningstart")
     morningend = schedule.get("morningend")
     afternoonstart = schedule.get("afternoonstart")
@@ -246,7 +246,7 @@ def get_schedule_for_today(schedule):
 
     now_str = float(datetime.now().strftime("%H.%M"))
     if not morningstart and not morningend and not afternoonstart and not afternoonend:
-        translated_closed = translate(_(u"Closed"), target_language=current_lang)
+        translated_closed = translate(_("Closed"), target_language=current_lang)
         return (
             "{} ({})".format(translated_closed, comment)
             if comment
@@ -255,17 +255,17 @@ def get_schedule_for_today(schedule):
 
     before_opened = now_str < (morningstart or afternoonstart)
     if before_opened:
-        translated_open_at = translate(_(u"Open at "), target_language=current_lang)
+        translated_open_at = translate(_("Open at "), target_language=current_lang)
         hour, minute = str(morningstart or afternoonstart).split(".")
         message = "{} {:02d}:{:02d}".format(translated_open_at, int(hour), int(minute))
 
     lunch_time = is_now_between(now_str, morningend, afternoonstart)
     if lunch_time:
-        message = translate(_(u"Lunch time"), target_language=current_lang)
+        message = translate(_("Lunch time"), target_language=current_lang)
 
     after_closed = now_str >= (afternoonend or morningend)
     if after_closed:
-        message = translate(_(u"Closed"), target_language=current_lang)
+        message = translate(_("Closed"), target_language=current_lang)
     return "{} ({})".format(message, comment) if comment else message
 
 

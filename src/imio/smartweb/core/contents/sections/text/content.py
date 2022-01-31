@@ -25,16 +25,16 @@ class ISectionText(ISection):
 
     directives.order_before(alignment="IVersionable.changeNote")
     alignment = schema.Choice(
-        title=_(u"Image alignment"),
-        description=_(u"Select where you want to display the image"),
+        title=_("Image alignment"),
+        description=_("Select where you want to display the image"),
         source="imio.smartweb.vocabulary.Alignment",
         default="left",
         required=True,
     )
     directives.order_after(image_size="alignment")
     image_size = schema.Choice(
-        title=_(u"Image size"),
-        description=_(u"Select image size"),
+        title=_("Image size"),
+        description=_("Select image size"),
         source="imio.smartweb.vocabulary.ImageSize",
         default="preview",
         required=True,

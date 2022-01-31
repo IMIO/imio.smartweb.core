@@ -22,21 +22,21 @@ class LinkField(TextLine):
 class IBlockLink(ILink):
     """Marker interface and Dexterity Python Schema for BlockLink"""
 
-    title = schema.TextLine(title=_(u"Title"), required=True)
+    title = schema.TextLine(title=_("Title"), required=True)
 
-    description = schema.Text(title=_(u"Description"), required=False)
+    description = schema.Text(title=_("Description"), required=False)
 
     open_in_new_tab = schema.Bool(
-        title=_(u"Open in a new tab"), required=False, default=False
+        title=_("Open in a new tab"), required=False, default=False
     )
 
-    remoteUrl = LinkField(title=_(u"URL"), required=True)
+    remoteUrl = LinkField(title=_("URL"), required=True)
 
-    image = NamedBlobImage(title=_(u"Image"), required=False)
+    image = NamedBlobImage(title=_("Image"), required=False)
 
     svg_icon = schema.Choice(
-        title=_(u"Icon"),
-        description=_(u"Only used in table view (takes precedence over image)"),
+        title=_("Icon"),
+        description=_("Only used in table view (takes precedence over image)"),
         source="imio.smartweb.vocabulary.Icons",
         required=False,
     )

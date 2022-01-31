@@ -11,7 +11,7 @@ class ISectionFiles(ISection):
     """Marker interface and Dexterity Python Schema for SectionFiles"""
 
     nb_results_by_batch = schema.Choice(
-        title=_(u"Number of items per batch"),
+        title=_("Number of items per batch"),
         required=True,
         default=3,
         values=[1, 3, 4],

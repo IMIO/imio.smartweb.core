@@ -19,7 +19,7 @@ from zope.schema.interfaces import IContextAwareDefaultFactory
 
 @provider(IContextAwareDefaultFactory)
 def see_all_default(context):
-    return translate(_(u"See all news"), context=getRequest())
+    return translate(_("See all news"), context=getRequest())
 
 
 class ISectionNews(ISection):
@@ -27,7 +27,7 @@ class ISectionNews(ISection):
 
     directives.widget(related_news=SelectFieldWidget)
     related_news = schema.Choice(
-        title=_(u"Related news folder"),
+        title=_("Related news folder"),
         source="imio.smartweb.vocabulary.RemoteNewsFolders",
         required=True,
     )
@@ -42,20 +42,20 @@ class ISectionNews(ISection):
         },
     )
     linking_rest_view = RelationChoice(
-        title=_(u"News view used to display news items details"),
+        title=_("News view used to display news items details"),
         source=CatalogSource(),
         required=True,
     )
 
     nb_results_by_batch = schema.Choice(
-        title=_(u"Number of items per batch"),
+        title=_("Number of items per batch"),
         required=True,
         default=3,
         values=[1, 3, 4],
     )
 
     max_nb_batches = schema.Int(
-        title=_(u"Maximum number of batches to display"),
+        title=_("Maximum number of batches to display"),
         required=True,
         default=2,
         min=1,
@@ -63,14 +63,14 @@ class ISectionNews(ISection):
     )
 
     link_text = schema.TextLine(
-        title=_(u"Text for the link to the news view"),
+        title=_("Text for the link to the news view"),
         defaultFactory=see_all_default,
         required=True,
     )
 
     model.fieldset("layout", fields=["show_items_description"])
     show_items_description = schema.Bool(
-        title=_(u"Show items description"), required=False
+        title=_("Show items description"), required=False
     )
 
 

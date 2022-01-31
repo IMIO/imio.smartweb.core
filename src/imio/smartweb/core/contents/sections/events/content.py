@@ -19,7 +19,7 @@ from zope.interface import provider
 
 @provider(IContextAwareDefaultFactory)
 def see_all_default(context):
-    return translate(_(u"See all events"), context=getRequest())
+    return translate(_("See all events"), context=getRequest())
 
 
 class ISectionEvents(ISection):
@@ -27,14 +27,14 @@ class ISectionEvents(ISection):
 
     directives.widget(related_events=SelectFieldWidget)
     related_events = schema.Choice(
-        title=_(u"Related agenda"),
+        title=_("Related agenda"),
         source="imio.smartweb.vocabulary.RemoteAgendas",
         required=True,
     )
 
     specific_related_events = schema.List(
-        title=_(u"Specific related events"),
-        description=_(u"Get priory on related agenda for these specifics events."),
+        title=_("Specific related events"),
+        description=_("Get priory on related agenda for these specifics events."),
         value_type=schema.Choice(
             vocabulary="imio.smartweb.vocabulary.EventsFromEntity"
         ),
@@ -52,20 +52,20 @@ class ISectionEvents(ISection):
         },
     )
     linking_rest_view = RelationChoice(
-        title=_(u"Events view used to display events details"),
+        title=_("Events view used to display events details"),
         source=CatalogSource(),
         required=True,
     )
 
     nb_results_by_batch = schema.Choice(
-        title=_(u"Number of items per batch"),
+        title=_("Number of items per batch"),
         required=True,
         default=3,
         values=[1, 3, 4],
     )
 
     max_nb_batches = schema.Int(
-        title=_(u"Maximum number of batches to display"),
+        title=_("Maximum number of batches to display"),
         required=True,
         default=2,
         min=1,
@@ -73,14 +73,14 @@ class ISectionEvents(ISection):
     )
 
     link_text = schema.TextLine(
-        title=_(u"Text for the link to the events view"),
+        title=_("Text for the link to the events view"),
         defaultFactory=see_all_default,
         required=True,
     )
 
     model.fieldset("layout", fields=["show_items_description"])
     show_items_description = schema.Bool(
-        title=_(u"Show items description"), required=False
+        title=_("Show items description"), required=False
     )
 
 

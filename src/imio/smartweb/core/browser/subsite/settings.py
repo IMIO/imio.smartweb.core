@@ -20,7 +20,7 @@ class SubSiteSettings(BrowserView):
             [IImioSmartwebSubsite],
         )
         api.portal.show_message(
-            _(u"Subsite has been successfully activated"), self.request
+            _("Subsite has been successfully activated"), self.request
         )
         self.request.response.redirect(self.context.absolute_url())
 
@@ -30,7 +30,7 @@ class SubSiteSettings(BrowserView):
             [IImioSmartwebSubsite.__identifier__],
             [IImioSmartwebSubsite],
         )
-        api.portal.show_message(_(u"Subsite has been disabled"), self.request)
+        api.portal.show_message(_("Subsite has been disabled"), self.request)
         self.request.response.redirect(self.context.absolute_url())
 
     @property

@@ -39,7 +39,7 @@ class TestSections(ImioSmartwebTestCase):
         self.assertNotIn("background-image", view)
         self.assertNotIn("<svg", view)
 
-        link.image = NamedBlobFile(data="file data", filename=u"file.png")
+        link.image = NamedBlobFile(data="file data", filename="file.png")
         view = queryMultiAdapter((self.page, self.request), name="full_view")()
         self.assertIn(
             "background-image:url('http://nohost/plone/page/links/link/@@images/image/vignette')",

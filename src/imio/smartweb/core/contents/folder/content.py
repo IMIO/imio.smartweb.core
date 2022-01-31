@@ -22,10 +22,10 @@ class IFolder(model.Schema):
     directives.widget(default_page_uid=RadioFieldWidget)
     directives.mode(default_page_uid="hidden")
     default_page_uid = schema.Choice(
-        title=_(u"Item(s) that can be selected as the folder default page."),
+        title=_("Item(s) that can be selected as the folder default page."),
         description=_(
-            u"For the anonymous visitor, the folder and the selected item are one. "
-            u"When he clicks on the folder, the item is displayed."
+            "For the anonymous visitor, the folder and the selected item are one. "
+            "When he clicks on the folder, the item is displayed."
         ),
         required=False,
         vocabulary="imio.smartweb.vocabulary.CurrentFolderPages",
@@ -33,13 +33,13 @@ class IFolder(model.Schema):
 
     model.fieldset(
         "layout",
-        label=_(u"Layout"),
+        label=_("Layout"),
         fields=["banner"],
     )
 
     banner = NamedBlobImage(
-        title=_(u"Banner"),
-        description=_(u"Define a banner for folder and children"),
+        title=_("Banner"),
+        description=_("Define a banner for folder and children"),
         required=False,
     )
 

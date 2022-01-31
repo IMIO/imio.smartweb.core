@@ -15,16 +15,16 @@ class ISectionSelections(ISection):
     """Marker interface and Dexterity Python Schema for SectionSelections"""
 
     selected_items = RelationList(
-        title=_(u"Selected items"),
+        title=_("Selected items"),
         value_type=RelationChoice(
-            title=u"",
+            title="",
             source=CatalogSource(),
         ),
         required=True,
     )
 
     nb_results_by_batch = schema.Choice(
-        title=_(u"Number of items per batch"),
+        title=_("Number of items per batch"),
         required=True,
         default=3,
         values=[1, 3, 4],
@@ -32,11 +32,11 @@ class ISectionSelections(ISection):
 
     model.fieldset("layout", fields=["show_items_lead_image", "show_items_description"])
     show_items_lead_image = schema.Bool(
-        title=_(u"Show items lead image"), required=False
+        title=_("Show items lead image"), required=False
     )
 
     show_items_description = schema.Bool(
-        title=_(u"Show items description"), required=False
+        title=_("Show items description"), required=False
     )
 
 

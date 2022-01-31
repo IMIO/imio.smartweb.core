@@ -12,17 +12,17 @@ class ISectionLinks(ISection):
     """Marker interface and Dexterity Python Schema for SectionLinks"""
 
     description = schema.Text(
-        title=_(u"Description"),
+        title=_("Description"),
         description=_(
-            u"Use **text** to set text in bold. Limited to ${max} characters.",
-            mapping={u"max": DESCRIPTION_MAX_LENGTH},
+            "Use **text** to set text in bold. Limited to ${max} characters.",
+            mapping={"max": DESCRIPTION_MAX_LENGTH},
         ),
         max_length=DESCRIPTION_MAX_LENGTH,
         required=False,
     )
 
     nb_results_by_batch = schema.Choice(
-        title=_(u"Number of items per batch"),
+        title=_("Number of items per batch"),
         required=True,
         default=3,
         values=range(1, 9),

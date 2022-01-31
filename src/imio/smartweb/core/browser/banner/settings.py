@@ -18,10 +18,10 @@ class BannerSettings(BrowserView):
     def switch_banner_display(self):
         if ILocallyHiddenBanner.providedBy(self.context):
             noLongerProvides(self.context, ILocallyHiddenBanner)
-            message = _(u"Banner is now again displayed from this item")
+            message = _("Banner is now again displayed from this item")
         else:
             alsoProvides(self.context, ILocallyHiddenBanner)
-            message = _(u"Banner is now hidden from this item")
+            message = _("Banner is now hidden from this item")
         api.portal.show_message(message, self.request)
         self.context.reindexObject(idxs=(["object_provides"]))
         self.request.response.redirect(self.context.absolute_url())

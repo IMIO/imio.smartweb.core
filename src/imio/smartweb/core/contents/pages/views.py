@@ -45,7 +45,7 @@ class PagesView(FolderView):
 
     @property
     def no_items_message(self):
-        return _(u"There is no section on this page.")
+        return _("There is no section on this page.")
 
     def get_class(self, obj):
         section_type = obj.portal_type.split(".")[-1]

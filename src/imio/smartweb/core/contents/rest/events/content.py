@@ -14,24 +14,24 @@ class IEventsView(model.Schema):
 
     directives.widget(selected_event_types=CheckBoxFieldWidget)
     selected_event_types = schema.List(
-        title=_(u"Selected event types"),
+        title=_("Selected event types"),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.EventsTypes"),
         required=True,
     )
 
     selected_agenda = schema.Choice(
-        title=_(u"Selected agenda"),
-        description=_(u"Select agenda to display"),
+        title=_("Selected agenda"),
+        description=_("Select agenda to display"),
         vocabulary="imio.smartweb.vocabulary.RemoteAgendas",
         required=True,
     )
 
     nb_results = schema.Int(
-        title=_(u"Number of items to display"), default=20, required=True
+        title=_("Number of items to display"), default=20, required=True
     )
 
     show_items_description = schema.Bool(
-        title=_(u"Show items description"), default=True, required=False
+        title=_("Show items description"), default=True, required=False
     )
 
 

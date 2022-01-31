@@ -17,10 +17,8 @@ class IListing(model.Schema):
 
     model.fieldset("settings", fields=["exclude_from_parent_listing"])
     exclude_from_parent_listing = schema.Bool(
-        title=_(u"Exclude from parent listing"),
-        description=_(
-            u"If selected, this item will not appear in parent listing views"
-        ),
+        title=_("Exclude from parent listing"),
+        description=_("If selected, this item will not appear in parent listing views"),
         required=False,
         default=False,
     )

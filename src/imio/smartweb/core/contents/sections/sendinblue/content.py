@@ -11,8 +11,8 @@ class ISectionSendinblue(ISection):
     """Marker interface and Dexterity Python Schema for SectionSendinblue"""
 
     newsletter_list = schema.Choice(
-        title=_(u"List"),
-        description=_(u"Select list to enable subscriptions to"),
+        title=_("List"),
+        description=_("Select list to enable subscriptions to"),
         required=True,
         vocabulary="collective.sendinblue.vocabularies.AvailableLists",
     )

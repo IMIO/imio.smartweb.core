@@ -15,9 +15,9 @@ from zope.interface import provider
 class IQuickAccessSelection(model.Schema):
 
     quick_access_items = RelationList(
-        title=_(u"Quick access contents"),
+        title=_("Quick access contents"),
         value_type=RelationChoice(
-            title=u"Items selection",
+            title="Items selection",
             source=CatalogSource(),
         ),
         required=False,
@@ -32,5 +32,5 @@ class IQuickAccessSelection(model.Schema):
     )
 
     model.fieldset(
-        "categorization", label=_(u"Categorization"), fields=["quick_access_items"]
+        "categorization", label=_("Categorization"), fields=["quick_access_items"]
     )

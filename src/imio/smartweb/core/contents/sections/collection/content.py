@@ -18,7 +18,7 @@ from zope.schema.interfaces import IContextAwareDefaultFactory
 
 @provider(IContextAwareDefaultFactory)
 def see_all_default(context):
-    return translate(_(u"See all"), context=getRequest())
+    return translate(_("See all"), context=getRequest())
 
 
 class ISectionCollection(ISection):
@@ -34,19 +34,19 @@ class ISectionCollection(ISection):
         },
     )
     collection = RelationChoice(
-        title=_(u"Select a collection"),
+        title=_("Select a collection"),
         source=CatalogSource(),
     )
 
     nb_results_by_batch = schema.Choice(
-        title=_(u"Number of items per batch"),
+        title=_("Number of items per batch"),
         required=True,
         default=3,
         values=[1, 3, 4],
     )
 
     max_nb_batches = schema.Int(
-        title=_(u"Maximum number of batches to display"),
+        title=_("Maximum number of batches to display"),
         required=True,
         default=2,
         min=1,
@@ -54,7 +54,7 @@ class ISectionCollection(ISection):
     )
 
     link_text = schema.TextLine(
-        title=_(u"Text for the link to the collection"),
+        title=_("Text for the link to the collection"),
         defaultFactory=see_all_default,
         required=True,
     )
@@ -68,15 +68,15 @@ class ISectionCollection(ISection):
         ],
     )
     show_items_lead_image = schema.Bool(
-        title=_(u"Show items lead image"), required=False
+        title=_("Show items lead image"), required=False
     )
 
     show_items_description = schema.Bool(
-        title=_(u"Show items description"), required=False
+        title=_("Show items description"), required=False
     )
 
     show_items_date = schema.Bool(
-        title=_(u"Show items publication date"), required=False
+        title=_("Show items publication date"), required=False
     )
 
 

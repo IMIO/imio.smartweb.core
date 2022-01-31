@@ -12,11 +12,11 @@ from zope.interface import implementer
 class ISection(model.Schema):
     """Shared base marker interface and schema for Sections"""
 
-    title = schema.TextLine(title=_(u"Title"), required=True)
+    title = schema.TextLine(title=_("Title"), required=True)
 
     model.fieldset(
         "layout",
-        label=_(u"Layout"),
+        label=_("Layout"),
         fields=[
             "hide_title",
             "collapsible_section",
@@ -27,9 +27,9 @@ class ISection(model.Schema):
     )
 
     hide_title = schema.Bool(
-        title=_(u"Hide title"),
+        title=_("Hide title"),
         description=_(
-            u"Hide title for anonymous user. Title stays visible for the editor."
+            "Hide title for anonymous user. Title stays visible for the editor."
         ),
         required=False,
         default=False,
@@ -37,10 +37,10 @@ class ISection(model.Schema):
 
     collapsible_section = schema.Bool(
         title=_(
-            u"Hide the content of the section that will be displayed by clicking on the title"
+            "Hide the content of the section that will be displayed by clicking on the title"
         ),
         description=_(
-            u"The title will always be displayed if this behavior is enabled."
+            "The title will always be displayed if this behavior is enabled."
         ),
         required=False,
         default=False,
@@ -48,18 +48,18 @@ class ISection(model.Schema):
 
     write_permission(background_image="cmf.ManagePortal")
     background_image = NamedBlobImage(
-        title=_(u"Background image"),
+        title=_("Background image"),
         required=False,
     )
 
     bootstrap_css_class = schema.Choice(
-        title=_(u"Section width"),
+        title=_("Section width"),
         required=False,
         vocabulary="imio.smartweb.vocabulary.BootstrapCSS",
     )
 
     write_permission(css_class="cmf.ManagePortal")
-    css_class = schema.TextLine(title=_(u"CSS class"), required=False)
+    css_class = schema.TextLine(title=_("CSS class"), required=False)
 
 
 @implementer(ISection)

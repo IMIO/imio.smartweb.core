@@ -12,18 +12,18 @@ class ISectionVideo(ISection):
     """Marker interface and Dexterity Python Schema for SectionVideo"""
 
     description = schema.Text(
-        title=_(u"Description"),
+        title=_("Description"),
         description=_(
-            u"Use **text** to set text in bold. Limited to ${max} characters.",
-            mapping={u"max": DESCRIPTION_MAX_LENGTH},
+            "Use **text** to set text in bold. Limited to ${max} characters.",
+            mapping={"max": DESCRIPTION_MAX_LENGTH},
         ),
         max_length=DESCRIPTION_MAX_LENGTH,
         required=False,
     )
 
     video_url = schema.URI(
-        title=_(u"Video url"),
-        description=_(u"Video url from youtube, vimeo"),
+        title=_("Video url"),
+        description=_("Video url from youtube, vimeo"),
         required=True,
     )
 

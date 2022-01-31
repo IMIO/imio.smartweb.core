@@ -15,20 +15,22 @@ import Missing
 
 class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
     _close_menu_markup = (
-        u'<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
-        u'<a aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></a>'
+        '<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
+        '<a aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></a>'
     )
     _prev_menu_markup = (
-        u'<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
+        '<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
     )
-    _subtree_markup_wrapper = u"<ul>{out}{qa_out}</ul>"
-    _submenu_markup_wrapper = u'<div class="has_subtree dropdown">{menu_action}<span>{title}</span>{sub}</div>'
-    _quickaccesses_markup_wrapper = u'<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
+    _subtree_markup_wrapper = "<ul>{out}{qa_out}</ul>"
+    _submenu_markup_wrapper = (
+        '<div class="has_subtree dropdown">{menu_action}<span>{title}</span>{sub}</div>'
+    )
+    _quickaccesses_markup_wrapper = '<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
     _item_markup_template = (
-        u'<li class="{id}{has_sub_class} nav-item">'
-        u'<a href="{url}" class="state-{review_state} nav-link"{aria_haspopup}>{title}</a>{opener}'  # noqa: E 501
-        u"{sub_wrapper}"
-        u"</li>"
+        '<li class="{id}{has_sub_class} nav-item">'
+        '<a href="{url}" class="state-{review_state} nav-link"{aria_haspopup}>{title}</a>{opener}'  # noqa: E 501
+        "{sub_wrapper}"
+        "</li>"
     )
 
     @property
@@ -86,10 +88,10 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
             return self._item_markup_template.format(**item)
 
         level = len(item["path"].split("/")) - self.root_depth
-        back_str = translate(_(u"Back"), target_language=self.current_lang)
+        back_str = translate(_("Back"), target_language=self.current_lang)
         if level == 1:
             # We add "Back" & "Close" buttons on the first dropdown menu level
-            close_str = translate(_(u"Close"), target_language=self.current_lang)
+            close_str = translate(_("Close"), target_language=self.current_lang)
             item["menu_action"] = self._close_menu_markup.format(
                 back=back_str, close=close_str
             )
@@ -105,9 +107,9 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
         )
         quick_access_uids = path_brains[0].related_quickaccess
         if quick_access_uids == Missing.Value:
-            return u""
+            return ""
         quick_access_brains = api.content.find(UID=path_brains[0].related_quickaccess)
-        out = u""
+        out = ""
         for brain in quick_access_brains:
             entry = {
                 "id": brain.getId,
@@ -167,18 +169,18 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
 
     def build_tree(self, path, first_run=True):
         """We add quick access contents to the standard Plone navigation"""
-        out = u""
+        out = ""
         for item in self.navtree.get(path, []):
             out += self.render_item(item, path)
 
         if not first_run and out:
             # Quick accesses are displayed on every levels of the menu
             qa_menu = self.build_quickaccess(path)
-            qa_out = u""
+            qa_out = ""
             if qa_menu:
                 qa_out = self._quickaccesses_markup_wrapper.format(
                     title=translate(
-                        _(u"Quick access"), target_language=self.current_lang
+                        _("Quick access"), target_language=self.current_lang
                     ),
                     out=qa_menu,
                 )

@@ -14,17 +14,17 @@ class IFooter(IPages):
     """Marker interface and Dexterity Python Schema for Footer"""
 
     model.fieldset(
-        "layout", label=_(u"Layout"), fields=["background_image", "css_class"]
+        "layout", label=_("Layout"), fields=["background_image", "css_class"]
     )
 
     write_permission(background_image="cmf.ManagePortal")
     background_image = NamedBlobImage(
-        title=_(u"Background image"),
+        title=_("Background image"),
         required=False,
     )
 
     write_permission(css_class="cmf.ManagePortal")
-    css_class = schema.TextLine(title=_(u"CSS class"), default="", required=False)
+    css_class = schema.TextLine(title=_("CSS class"), default="", required=False)
 
 
 @implementer(IFooter)

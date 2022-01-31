@@ -251,7 +251,7 @@ class TestMinisite(ImioSmartwebTestCase):
         self.folder.logo_display_mode = "logo_title"
         self.assertTrue(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())
-        self.folder.logo = NamedBlobFile(data="file data", filename=u"file.png")
+        self.folder.logo = NamedBlobFile(data="file data", filename="file.png")
         self.assertTrue(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
         self.assertTrue(viewlet.show_logo())

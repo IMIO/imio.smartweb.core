@@ -71,7 +71,7 @@ class TestPage(ImioSmartwebTestCase):
 
         self.assertTrue(
             IPage.providedBy(obj),
-            u"IPage not provided by {0}!".format(
+            "IPage not provided by {0}!".format(
                 obj,
             ),
         )
@@ -85,7 +85,7 @@ class TestPage(ImioSmartwebTestCase):
         )
         self.assertTrue(
             IPage.providedBy(page),
-            u"IPage not provided by {0}!".format(
+            "IPage not provided by {0}!".format(
                 page.id,
             ),
         )
@@ -99,9 +99,7 @@ class TestPage(ImioSmartwebTestCase):
     def test_ct_page_globally_addable(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.Page")
-        self.assertTrue(
-            fti.global_allow, u"{0} is not globally addable!".format(fti.id)
-        )
+        self.assertTrue(fti.global_allow, "{0} is not globally addable!".format(fti.id))
 
     def test_ct_page_filter_content_type_true(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])

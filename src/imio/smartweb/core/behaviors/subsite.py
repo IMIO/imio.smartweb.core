@@ -26,19 +26,19 @@ class IImioSmartwebSubsite(model.Schema):
 
     model.fieldset(
         "layout",
-        label=_(u"Layout"),
+        label=_("Layout"),
         fields=["logo", "logo_display_mode"],
     )
 
     logo = NamedBlobImage(
-        title=_(u"Logo"),
-        description=_(u"Define a logo for subsite and children"),
+        title=_("Logo"),
+        description=_("Define a logo for subsite and children"),
         required=False,
     )
 
     logo_display_mode = schema.Choice(
-        title=_(u"Logo display"),
-        description=_(u"Choose your display mode"),
+        title=_("Logo display"),
+        description=_("Choose your display mode"),
         source="imio.smartweb.vocabulary.SubsiteDisplayMode",
         required=True,
         default="title",
@@ -46,8 +46,8 @@ class IImioSmartwebSubsite(model.Schema):
 
     model.fieldset("settings", fields=["menu_depth"])
     menu_depth = schema.Int(
-        title=_(u"Menu depth"),
-        description=_(u"Define number of levels in menu navigation subsite"),
+        title=_("Menu depth"),
+        description=_("Define number of levels in menu navigation subsite"),
         required=True,
         default=2,
     )

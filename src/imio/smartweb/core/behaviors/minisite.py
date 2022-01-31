@@ -31,19 +31,19 @@ class IImioSmartwebMinisiteSettings(model.Schema):
 
     model.fieldset(
         "layout",
-        label=_(u"Layout"),
+        label=_("Layout"),
         fields=["logo", "logo_display_mode"],
     )
 
     logo = NamedBlobImage(
-        title=_(u"Logo"),
-        description=_(u"Define a logo for minisite"),
+        title=_("Logo"),
+        description=_("Define a logo for minisite"),
         required=False,
     )
 
     logo_display_mode = schema.Choice(
-        title=_(u"Logo display"),
-        description=_(u"Choose your display mode"),
+        title=_("Logo display"),
+        description=_("Choose your display mode"),
         source="imio.smartweb.vocabulary.SubsiteDisplayMode",
         required=True,
         default="title",

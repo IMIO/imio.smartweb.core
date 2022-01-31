@@ -17,12 +17,12 @@ class IProcedure(IPages):
 
     procedure_ts = schema.Choice(
         vocabulary="imio.smartweb.vocabulary.PublikProcedures",
-        title=_(u"E-Guichet procedure"),
+        title=_("E-Guichet procedure"),
         required=False,
         default=None,
     )
 
-    procedure_url = schema.URI(title=_(u"Procedure url"), required=False)
+    procedure_url = schema.URI(title=_("Procedure url"), required=False)
 
     @invariant
     def required_procedure(data):
@@ -30,7 +30,7 @@ class IProcedure(IPages):
         #     raise Invalid(_(u"Procedure field is required !"))
 
         if data.procedure_ts and data.procedure_url:
-            raise Invalid(_(u"Only one procedure field can be filled !"))
+            raise Invalid(_("Only one procedure field can be filled !"))
 
 
 @implementer(IProcedure)

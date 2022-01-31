@@ -71,7 +71,7 @@ class TestPortalPage(ImioSmartwebTestCase):
 
         self.assertTrue(
             IPortalPage.providedBy(obj),
-            u"IPortalPage not provided by {0}!".format(
+            "IPortalPage not provided by {0}!".format(
                 obj,
             ),
         )
@@ -85,7 +85,7 @@ class TestPortalPage(ImioSmartwebTestCase):
         )
         self.assertTrue(
             IPortalPage.providedBy(portal_page),
-            u"IPortalPage not provided by {0}!".format(
+            "IPortalPage not provided by {0}!".format(
                 portal_page.id,
             ),
         )
@@ -99,9 +99,7 @@ class TestPortalPage(ImioSmartwebTestCase):
     def test_ct_portal_page_globally_addable(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.PortalPage")
-        self.assertTrue(
-            fti.global_allow, u"{0} is not globally addable!".format(fti.id)
-        )
+        self.assertTrue(fti.global_allow, "{0} is not globally addable!".format(fti.id))
 
     def test_ct_portal_page_filter_content_type_true(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])

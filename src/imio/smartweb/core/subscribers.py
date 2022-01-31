@@ -27,7 +27,7 @@ def moved_folder(obj, event):
         minisite_settings.disable()
         api.portal.show_message(
             _(
-                u"Your Folder was a minisite but this behaviour has been disabled with this action"
+                "Your Folder was a minisite but this behaviour has been disabled with this action"
             ),
             request,
             type="warning",
