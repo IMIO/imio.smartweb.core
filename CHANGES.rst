@@ -5,6 +5,9 @@ Changelog
 1.0a27 (unreleased)
 -------------------
 
+- Add upgrade step to check contact itinerary if address is in visible blocks
+  [boulch]
+
 - Contact itinerary go out of contact address. Itinerary is displaying thanks to a new visible_blocks option value
   [boulch]
 

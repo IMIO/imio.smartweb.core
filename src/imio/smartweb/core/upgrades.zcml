@@ -108,4 +108,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Check contact itinerary if address was checked in visible blocks"
+      description=""
+      source="1010"
+      destination="1011"
+      handler=".upgrades.check_itinerary_if_address_is_checked"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

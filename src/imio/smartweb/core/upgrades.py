@@ -72,3 +72,13 @@ def reload_types(context):
 def reload_workflows(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(PROFILEID, "workflow")
+
+
+def check_itinerary_if_address_is_checked(context):
+    brains = api.content.find(portal_type="imio.smartweb.SectionContact")
+    for brain in brains:
+        obj = brain.getObject()
+        if "address" in obj.visible_blocks:
+            if "itinerary" not in obj.visible_blocks:
+                obj.visible_blocks.append("itinerary")
+                obj._p_changed = 1
