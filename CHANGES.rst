@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a27 (unreleased)
+1.0a27 (2022-01-31)
 -------------------
 
 - Add upgrade step to check contact itinerary if address is in visible blocks
