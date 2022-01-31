@@ -29,7 +29,7 @@ class ISectionContact(ISection):
         title=_(u"Visible blocks"),
         description=_(u"Blocks that will be displayed in contact"),
         value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.ContactBlocks"),
-        default=["address", "contact_informations", "schedule"],
+        default=["address", "itinerary", "contact_informations", "schedule"],
     )
 
 
