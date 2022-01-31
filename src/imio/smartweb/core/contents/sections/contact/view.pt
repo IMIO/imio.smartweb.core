@@ -80,9 +80,8 @@
           </li>
         </ul>
       </div>
-
+      <tal:address tal:define="address view/formatted_address">
       <div class="contact_address"
-           tal:define="address view/formatted_address"
            tal:condition="python:address and 'address' in visible_blocks">
 
         <h2 class="address"
@@ -95,7 +94,10 @@
         <span class="street" tal:content="address/street"></span>
         <span class="entity" tal:content="address/entity"></span>
         <span class="country" tal:content="address/country"></span>
+      </div>
 
+      <div class="contact_itinerary"
+           tal:condition="python:address and 'itinerary' in visible_blocks">
         <div class="itinerary"
              tal:define="link view/get_itinerary_link"
              tal:condition="link">
@@ -104,7 +106,7 @@
              i18n:translate="">Itinerary</a>
         </div>
       </div>
-
+      </tal:address>
       <div class="contact_map"
            tal:define="is_geolocated contact/is_geolocated"
            tal:condition="python:is_geolocated and 'map' in visible_blocks">

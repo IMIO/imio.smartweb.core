@@ -5,6 +5,9 @@ Changelog
 1.0a27 (unreleased)
 -------------------
 
+- Contact itinerary go out of contact address. Itinerary is displaying thanks to a new visible_blocks option value
+  [boulch]
+
 - Improve and resolv bug in load more in react vue
   [thomlamb]
 
@@ -14,7 +17,7 @@ Changelog
 - disabling filter resets on search load (important, to settle a conflict with other react views)
   [thomlamb]
 
-- Precision so that the css of the search is unique to itself 
+- Precision so that the css of the search is unique to itself
   [thomlamb]
 
 
