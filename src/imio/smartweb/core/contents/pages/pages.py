@@ -6,13 +6,11 @@ from zope.interface import implementer
 
 
 class IPages(Interface):
-    """Shared base marker interface and schema for Pages"""
+    """Shared interface and schema for Pages"""
 
 
 class IDefaultPages(Interface):
-    """
-    Marker interfaces for default Pages in Element view
-    """
+    """Marker interface for default Pages (used in Element view)"""
 
 
 @implementer(IPages)
