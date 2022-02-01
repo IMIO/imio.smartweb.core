@@ -5,6 +5,9 @@ Changelog
 1.0a28 (unreleased)
 -------------------
 
+- Allow collections as folders default view
+  [laulaz]
+
 - Add links on folder titles in navigation
   [laulaz]
 

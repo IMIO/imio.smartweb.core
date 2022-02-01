@@ -508,3 +508,34 @@ class TestSections(ImioSmartwebTestCase):
             '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
             view(),
         )
+
+    def test_background_style(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertEqual(view.background_style(section), "")
+        section.background_image = NamedBlobFile(data="file data", filename="file.png")
+        self.assertIn(
+            "background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')",
+            view.background_style(section),
+        )
+
+    def test_get_class(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertEqual(view.get_class(section), "sectiontext")
+        section.css_class = "my-css"
+        self.assertEqual(view.get_class(section), "sectiontext my-css")
+        section.bootstrap_css_class = "col-sm-3"
+        self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
+        section.background_image = NamedBlobFile(data="file data", filename="file.png")
+        self.assertEqual(
+            view.get_class(section), "sectiontext my-css col-sm-3 with-background"
+        )

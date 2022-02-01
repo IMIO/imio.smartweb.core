@@ -12,13 +12,13 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.app.z3cform.interfaces import IPloneFormLayer
-from plone.namedfile.file import NamedBlobFile
 from plone.testing.zope import Browser
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
-from zope.component import queryMultiAdapter
+from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.publisher.browser import TestRequest
+from zope.schema.interfaces import IVocabularyFactory
 import transaction
 
 
@@ -236,33 +236,24 @@ class TestPages(ImioSmartwebTestCase):
         self.assertFalse(copied_page.exclude_from_nav)
         self.assertFalse(IDefaultPages.providedBy(copied_page))
 
-    def test_background_style(self):
-        section = api.content.create(
-            container=self.defaultpage,
-            type="imio.smartweb.SectionText",
-            title="Section text",
+    def test_eligible_default_contents(self):
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.CurrentFolderPages"
         )
-        view = queryMultiAdapter((self.defaultpage, self.request), name="full_view")
-        self.assertEqual(view.background_style(section), "")
-        section.background_image = NamedBlobFile(data="file data", filename="file.png")
-        self.assertIn(
-            "background-image:url('http://nohost/plone/folder/defaultpage/section-text/@@images/background_image/large')",
-            view.background_style(section),
-        )
+        vocabulary = factory(self.folder)
+        self.assertEqual(len(vocabulary), 1)
 
-    def test_get_class(self):
-        section = api.content.create(
-            container=self.defaultpage,
-            type="imio.smartweb.SectionText",
-            title="Section text",
+        footer_settings = getMultiAdapter(
+            (self.folder, self.request), name="footer_settings"
         )
-        view = queryMultiAdapter((self.defaultpage, self.request), name="full_view")
-        self.assertEqual(view.get_class(section), "sectiontext")
-        section.css_class = "my-css"
-        self.assertEqual(view.get_class(section), "sectiontext my-css")
-        section.bootstrap_css_class = "col-sm-3"
-        self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
-        section.background_image = NamedBlobFile(data="file data", filename="file.png")
-        self.assertEqual(
-            view.get_class(section), "sectiontext my-css col-sm-3 with-background"
+        footer_settings.add_footer()
+        vocabulary = factory(self.folder)
+        self.assertEqual(len(vocabulary), 1)
+
+        api.content.create(
+            container=self.folder,
+            type="Collection",
+            title="Collection",
         )
+        vocabulary = factory(self.folder)
+        self.assertEqual(len(vocabulary), 2)

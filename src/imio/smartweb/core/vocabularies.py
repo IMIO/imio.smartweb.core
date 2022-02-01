@@ -14,6 +14,7 @@ from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.app.contenttypes.interfaces import ICollection
 from plone.dexterity.content import Item
 from plone.registry.interfaces import IRegistry
 from zExceptions import NotFound
@@ -97,7 +98,10 @@ RemoteProceduresVocabulary = RemoteProceduresVocabularyFactory()
 class CurrentFolderPagesVocabularyFactory:
     def __call__(self, context=None):
         brains = api.content.find(
-            context=context, depth=1, object_provides=IPages, sort_on="sortable_title"
+            context=context,
+            depth=1,
+            object_provides=[IPages, ICollection],
+            sort_on="sortable_title",
         )
         brains = [b for b in brains if b.portal_type != "imio.smartweb.Footer"]
         terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
