@@ -31,6 +31,7 @@ package-lock.json
 pip-selfcheck.json
 report.html
 .vscode/
+.idea/
 .tox/
 share/
 reports/
