@@ -5,6 +5,9 @@ Changelog
 1.0a28 (unreleased)
 -------------------
 
+- Update buildout to use Plone 6.0.0a3 packages versions
+  [boulch]
+
 - Allow collections as folders default view
   [laulaz]
 
@@ -18,9 +21,6 @@ Changelog
 
 1.0a27 (2022-01-31)
 -------------------
-
-- Update buildout to use Plone 6.0.0a3 packages versions
-  [boulch]
 
 - Add upgrade step to check contact itinerary if address is in visible blocks
   [boulch]
