@@ -11,6 +11,17 @@ from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewletManager
 
 
+class NavigationSettingsProxy(object):
+    generate_tabs = None
+    navigation_depth = None
+    displayed_types = None
+    sort_tabs_on = None
+    sort_tabs_reversed = None
+    nonfolderish_tabs = None
+    filter_on_workflow = None
+    show_excluded_items = None
+
+
 class SubsiteNavigationTabs(CatalogNavigationTabs):
     navtree_path = None
 
@@ -50,12 +61,25 @@ class BaseSubsiteViewlet(common.ViewletBase):
 
 class SubsiteNavigationViewlet(BaseSubsiteViewlet, ImprovedGlobalSectionsViewlet):
     @property
-    def navtree_path(self):
-        return "/".join(self.subsite_root.getPhysicalPath())
+    def settings(self):
+        settings = super(SubsiteNavigationViewlet, self).settings
+        mutable_settings = NavigationSettingsProxy()
+        mutable_settings.generate_tabs = settings.generate_tabs
+        mutable_settings.displayed_types = settings.displayed_types
+        mutable_settings.sort_tabs_on = settings.sort_tabs_on
+        mutable_settings.sort_tabs_reversed = settings.sort_tabs_reversed
+        mutable_settings.nonfolderish_tabs = settings.nonfolderish_tabs
+        mutable_settings.filter_on_workflow = settings.filter_on_workflow
+        mutable_settings.show_excluded_items = settings.show_excluded_items
+        # we need to change navigation_depth (but we cannot change registry
+        # value), so we use our own settings object proxy.
+        # This is caused by navtree_depth property deprecation.
+        mutable_settings.navigation_depth = self.subsite_root.menu_depth
+        return mutable_settings
 
     @property
-    def navtree_depth(self):
-        return self.subsite_root.menu_depth
+    def navtree_path(self):
+        return "/".join(self.subsite_root.getPhysicalPath())
 
     @property
     def nav_root(self):

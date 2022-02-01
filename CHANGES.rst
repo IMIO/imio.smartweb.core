@@ -5,6 +5,10 @@ Changelog
 1.0a28 (unreleased)
 -------------------
 
+- Fix navigation in subsites after navtree_depth property removal
+  See https://github.com/plone/plone.app.layout/commit/7e2178d2ae11780d9211c71d8c97e4f81cd27620
+  [laulaz]
+
 - Update buildout to use Plone 6.0.0a3 packages versions
   [boulch]
 
