@@ -79,11 +79,6 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
                 }
             )
 
-        if "title" in item and item["title"]:
-            item["title"] = escape(item["title"])
-        if "name" in item and item["name"]:
-            item["name"] = escape(item["name"])
-
         if not sub:
             return self._item_markup_template.format(**item)
 
@@ -116,7 +111,7 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
                 "path": brain.getPath(),
                 "uid": brain.UID,
                 "url": brain.getURL(),
-                "title": safe_unicode(brain.Title),
+                "title": escape(safe_unicode(brain.Title)),
                 "review_state": brain.review_state,
                 "sub": "",
                 "sub_wrapper": "",
