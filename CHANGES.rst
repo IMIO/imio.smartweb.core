@@ -5,6 +5,9 @@ Changelog
 1.0a28 (unreleased)
 -------------------
 
+- Add links on folder titles in navigation
+  [laulaz]
+
 - Fix double escaped navigation items
   See https://github.com/plone/plone.app.layout/issues/280
   [laulaz]
