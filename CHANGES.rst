@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a28 (unreleased)
+1.0a28 (2022-02-01)
 -------------------
 
 - Fix navigation in subsites after navtree_depth property removal
