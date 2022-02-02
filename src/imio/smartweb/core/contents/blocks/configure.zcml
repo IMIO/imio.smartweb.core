@@ -4,4 +4,22 @@
 
   <include package=".link" />
 
+  <subscriber
+      for="imio.smartweb.core.contents.IBlockLink
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscriber.modified_section_content"
+      />
+
+  <subscriber
+      for="plone.app.contenttypes.interfaces.IImage
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscriber.modified_section_content"
+      />
+
+  <subscriber
+      for="plone.app.contenttypes.interfaces.IFile
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscriber.modified_section_content"
+      />
+
 </configure>

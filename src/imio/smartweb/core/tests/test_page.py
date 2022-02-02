@@ -9,10 +9,12 @@ from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
+from time import sleep
 from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+from zope.lifecycleevent import modified
 
 
 class TestPage(ImioSmartwebTestCase):
@@ -143,3 +145,52 @@ class TestPage(ImioSmartwebTestCase):
         bundles = getattr(self.request, "enabled_bundles", [])
         self.assertEqual(len(bundles), 2)
         self.assertListEqual(bundles, ["spotlightjs", "flexbin"])
+
+    def test_modification_date(self):
+        page = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        first_modification = page.ModificationDate()
+        sleep(1)
+        modified(section)
+        next_modification = page.ModificationDate()
+        self.assertNotEqual(first_modification, next_modification)
+
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionGallery",
+            title="Section Gallery",
+        )
+        first_modification = page.ModificationDate()
+        sleep(1)
+        api.content.create(
+            container=section,
+            type="Image",
+            title="Image",
+        )
+        next_modification = page.ModificationDate()
+        self.assertNotEqual(first_modification, next_modification)
+
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionLinks",
+            title="Section Links",
+        )
+        link = api.content.create(
+            container=section,
+            type="imio.smartweb.BlockLink",
+            title="Link 1",
+        )
+        first_modification = page.ModificationDate()
+        sleep(1)
+        link.title = "Link 1 - new"
+        modified(link)
+        next_modification = page.ModificationDate()
+        self.assertNotEqual(first_modification, next_modification)

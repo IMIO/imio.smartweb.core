@@ -15,11 +15,13 @@ from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.namedfile.file import NamedBlobFile
 from plone.testing.zope import Browser
+from time import sleep
 from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
 from zope.interface import alsoProvides
+from zope.lifecycleevent import modified
 
 import json
 import transaction
@@ -261,3 +263,45 @@ class TestFolder(ImioSmartwebTestCase):
 
         result = json.loads(context_info_view())
         self.assertEqual(result["defaultPage"], "page1")
+
+    def test_modification_date(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            id="folder",
+        )
+        first_modification = folder.ModificationDate()
+        sleep(1)
+        page = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        next_modification = folder.ModificationDate()
+        self.assertNotEqual(first_modification, next_modification)
+
+        first_modification = folder.ModificationDate()
+        sleep(1)
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        modified(section)
+        next_modification = folder.ModificationDate()
+        self.assertEqual(first_modification, next_modification)
+
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionGallery",
+            title="Section Gallery",
+        )
+        first_modification = folder.ModificationDate()
+        sleep(1)
+        api.content.create(
+            container=section,
+            type="Image",
+            title="Image",
+        )
+        next_modification = folder.ModificationDate()
+        self.assertEqual(first_modification, next_modification)
