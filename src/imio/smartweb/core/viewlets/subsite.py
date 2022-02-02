@@ -19,6 +19,7 @@ class NavigationSettingsProxy(object):
     sort_tabs_reversed = None
     nonfolderish_tabs = None
     filter_on_workflow = None
+    workflow_states_to_show = None
     show_excluded_items = None
 
 
@@ -70,6 +71,7 @@ class SubsiteNavigationViewlet(BaseSubsiteViewlet, ImprovedGlobalSectionsViewlet
         mutable_settings.sort_tabs_reversed = settings.sort_tabs_reversed
         mutable_settings.nonfolderish_tabs = settings.nonfolderish_tabs
         mutable_settings.filter_on_workflow = settings.filter_on_workflow
+        mutable_settings.workflow_states_to_show = settings.workflow_states_to_show
         mutable_settings.show_excluded_items = settings.show_excluded_items
         # we need to change navigation_depth (but we cannot change registry
         # value), so we use our own settings object proxy.

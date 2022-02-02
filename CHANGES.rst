@@ -5,7 +5,8 @@ Changelog
 1.0a29 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix error in navigation when filtering on workflow state
+  [laulaz]
 
 
 1.0a28 (2022-02-01)
