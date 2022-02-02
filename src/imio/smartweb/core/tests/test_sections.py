@@ -54,7 +54,7 @@ class TestSections(ImioSmartwebTestCase):
             "http://nohost/plone/page#section-text",
         )
 
-    def test_mofication_date(self):
+    def test_modification_date(self):
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionText",

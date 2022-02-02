@@ -45,7 +45,6 @@ class TestFolder(ImioSmartwebTestCase):
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
-        self.parent = self.portal
 
     def test_ct_folder_schema(self):
         fti = queryUtility(IDexterityFTI, name="imio.smartweb.Folder")
