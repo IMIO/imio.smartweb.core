@@ -5,7 +5,8 @@ Changelog
 1.0a30 (unreleased)
 --------------------
 
-- Nothing changed yet.
+- Simplifying faceted macros
+  [boulch]
 
 
 1.0a29 (2022-02-03)
