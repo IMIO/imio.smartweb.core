@@ -8,6 +8,9 @@ Changelog
 - Fix error in navigation when filtering on workflow state
   [laulaz]
 
+- Adapt faceted macros to discern section video and other contents. Fix video redirect link thanks to css.
+  [boulch]
+
 
 1.0a28 (2022-02-01)
 -------------------
