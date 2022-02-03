@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a29 (unreleased)
+1.0a29 (2022-02-03)
 -------------------
 
 - Fix error in navigation when filtering on workflow state
