@@ -25,7 +25,6 @@
         <element value="imio.smartweb.core: Manage Minisite"/>
       </property>
       <property name="visible">True</property>
-
     </object>
     <object name="subsite_disable" meta_type="CMF Action" i18n:domain="imio.smartweb">
       <property name="title" i18n:translate="">Disable subsite</property>
@@ -64,6 +63,16 @@
       <property name="available_expr">object/@@footer_settings/available|nothing</property>
       <property name="permissions">
         <element value="Add portal content"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
+    <object name="instance_behaviors" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Manage taxonomies on this content</property>
+      <property name="description" i18n:translate=""></property>
+      <property name="url_expr">string:$object_url/@@instancebehaviors_form</property>
+      <property name="available_expr">object/@@is_instancebehaviors_assignable_content|nothing</property>
+      <property name="permissions">
+        <element value="Manage portal"/>
       </property>
       <property name="visible">True</property>
     </object>

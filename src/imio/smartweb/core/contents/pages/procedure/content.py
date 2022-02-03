@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.instancebehavior.interfaces import IInstanceBehaviorAssignableContent
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import Pages
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -33,7 +34,7 @@ class IProcedure(IPages):
             raise Invalid(_("Only one procedure field can be filled !"))
 
 
-@implementer(IProcedure)
+@implementer(IProcedure, IInstanceBehaviorAssignableContent)
 class Procedure(Pages):
     """Procedure class"""
 

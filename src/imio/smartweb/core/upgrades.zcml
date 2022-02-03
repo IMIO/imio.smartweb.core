@@ -117,4 +117,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Reload actions to add instancebehaviors action"
+      description=""
+      source="1011"
+      destination="1012"
+      handler=".upgrades.update_actions"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

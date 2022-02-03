@@ -5,6 +5,9 @@ Changelog
 1.0a30 (unreleased)
 --------------------
 
+- Allow to set instance behaviors on page or on procedure objects
+  [boulch, laulaz]
+
 - Improve react vue for mobile
   [thomlamb]
 

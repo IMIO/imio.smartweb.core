@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.taxonomy.interfaces import ITaxonomy
 from datetime import date
 from imio.smartweb.common.indexers import breadcrumb
 from imio.smartweb.common.utils import get_vocabulary
@@ -495,3 +496,20 @@ class EventsFromEntityVocabularyFactory:
 
 
 EventsFromEntityVocabulary = EventsFromEntityVocabularyFactory()
+
+
+class AvailableInstanceBehaviorsVocabularyFactory:
+    def __call__(selfself, context=None):
+        sm = getSite().getSiteManager()
+        utilities = sm.getUtilitiesFor(ITaxonomy)
+        # getGeneratedName is the behavior name.
+        return SimpleVocabulary(
+            [
+                SimpleTerm(value=utility.getGeneratedName(), title=utility.title)
+                for utility_name, utility in utilities
+                if utility.getShortName() not in ["procedure_category", "page_category"]
+            ]
+        )
+
+
+AvailableInstanceBehaviorsVocabulary = AvailableInstanceBehaviorsVocabularyFactory()

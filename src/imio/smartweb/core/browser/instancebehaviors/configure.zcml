@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+      for="plone.dexterity.interfaces.IDexterityContent"
+      name="instancebehaviors_form"
+      permission="cmf.ModifyPortalContent"
+      class=".form.InstanceBehaviors"
+      />
+
+  <browser:page
+      name="is_instancebehaviors_assignable_content"
+      for="*"
+      class=".utils.UtilsView"
+      attribute="is_instancebehaviors_assignable_content"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+</configure>

@@ -60,6 +60,8 @@ setup(
         "plone.app.imagecropping",
         "eea.facetednavigation",
         "collective.anysurfer",
+        "collective.geolocationbehavior",
+        "collective.instancebehavior",
         "collective.sendinblue",
         "collective.solr",
         "collective.taxonomy",
@@ -67,8 +69,6 @@ setup(
         "more-itertools",
         "imio.smartweb.common",
         "imio.smartweb.locales",
-        "collective.instancebehavior",
-        "collective.geolocationbehavior",
     ],
     extras_require={
         "test": [
