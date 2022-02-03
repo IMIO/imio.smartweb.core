@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0a30 (unreleased)
---------------------
+1.0a30 (2022-02-03)
+-------------------
 
 - Allow to set instance behaviors on page or on procedure objects
   [boulch, laulaz]
