@@ -105,6 +105,9 @@ $(document).ready(function () {
     if ($(this).closest(submenu).length > 0) {
       if (!$("#subsite-navigation .show-nav").length > 0) {
         $(submenu).toggleClass("activated");
+          document.body.classList.add('submenu-open-nav-overflow');
+          document.documentElement.classList.add('submenu-open-nav-overflow');
+
       }
       $(this).parent().toggleClass("show-nav");
       $(this).parent().find(".show-nav").toggleClass("show-nav");
@@ -126,6 +129,8 @@ $(document).ready(function () {
   function closeNav() {
     menu.removeClass('activated');
     submenu.removeClass('activated');
+    document.body.classList.remove('submenu-open-nav-overflow');
+    document.documentElement.classList.remove('submenu-open-nav-overflow');
     $('.show-nav').removeClass('show-nav');
     $(".mask-menu").removeClass("in");
   }

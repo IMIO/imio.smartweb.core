@@ -4,6 +4,8 @@
 }
 html, body {
   max-width: 100%;
+}
+body{
   overflow-x: hidden;
 }
 
@@ -31,7 +33,7 @@ html, body {
 #portal-header{
   display: grid;
   align-items: center;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 115px 1fr auto;
   grid-template-areas: "logo menu search" "bread bread bread" "sub sub sub";
   @media screen and (min-width:1000px) {
     grid-template-columns: auto auto auto;
@@ -55,7 +57,17 @@ html, body {
   }
 }
 
+
 //sub site
+#portal-globalnav-wrapper li > .has_subtree {
+	padding: 5em 2em 0 2em;
+    @include media-breakpoint-up(lg) {
+        padding: 2rem;
+    }
+}
+#subsite-navigation li > .has_subtree {
+	padding: 2em;
+}
 #subsite-navigation{
 
   & > ul{
@@ -75,7 +87,6 @@ html, body {
     display: block;
     & .opener ~ ul {
       height: auto;
-      transition: ease-in 0.35s;
   }
     > label{
       position: absolute;
@@ -125,6 +136,12 @@ html, body {
 }
 
 //*// SITE NAV //*//
+// hidden sur le body quand nav mobile open
+.open-nav-overflow{
+  overflow: hidden;
+}
+.submenu-open-nav-overflow{
+}
 header#content-header{
   position: relative;
   z-index: 9;
@@ -162,13 +179,6 @@ header#content-header{
         position: relative;
         margin-bottom: 0px;
       }
-      // @include media-breakpoint-up($nav-main-breakpoint) {
-        // &.has_subtree:hover>ul,
-        // &.has_subtree .has_subtree:hover>ul {
-        //   opacity: 1;
-        //   visibility: visible;
-        //   transition: ease-in .35s;
-        // }
         .dropdown{
           visibility: hidden;
           opacity: 0;
@@ -215,59 +225,31 @@ header#content-header{
       // Navigation sublevels
       ul {
         @include media-breakpoint-up($nav-main-breakpoint) {
-
-        }
-
-      //   padding-left: 0.5em;
-      //   visibility: hidden;
-      //   opacity: 0;
-      //   height: 0;
-
-        @include media-breakpoint-up($nav-main-breakpoint) {
-          //position: absolute;
-          // z-index: $zindex-dropdown;
           transition: ease-out 2.75s;
           left: 0;
         }
-
-        li {
-          a {
-            @include media-breakpoint-up($nav-main-breakpoint) {
-              // min-width: 16em;
-            }
-          }
-
-        }
       }
-
       .opener {
         display: none;
-
         &+label:after {
           transform: rotate(0deg);
           transition: ease-in 0.35s;
         }
-
         &:checked+label:after {
           transform: rotate(-180deg);
           transition: ease-in 0.35s;
-
           @include media-breakpoint-up($nav-main-breakpoint) {
             transform: rotate(0);
           }
         }
-
         &~ul {
           // transition: ease-out 0.35s;
           transition: opacity .35s ease,visibility 0s linear 0s;
-
         }
-
         &:checked~ul {
           height: auto;
           transition: ease-in 0.35s;
         }
-
         &:checked~ul {
           @include media-breakpoint-down($nav-main-breakpoint) {
             visibility: visible;
@@ -275,7 +257,6 @@ header#content-header{
           }
         }
       }
-
       label {
         position: absolute;
         right: 0em;
@@ -288,7 +269,6 @@ header#content-header{
         justify-content: center;
         align-items: flex-end;
         padding-right: 0.5em;
-
         @include media-breakpoint-up($nav-main-breakpoint) {
           align-items: flex-start;
           width: auto;
@@ -372,6 +352,7 @@ header#content-header{
   0 36px 255px rgba(0, 0, 0, 0.07);
   .has_subtree.dropdown {
     top: 0;
+    max-width: 100%;
   }
 }
 
@@ -402,7 +383,7 @@ header#content-header{
       background: #fff;
       z-index: 98;
       left: 100vw;
-      padding: 6em 2em;
+      padding: 6em 2em 0 2em;
       transition: all .5s cubic-bezier(.54,.01,.68,.64);
       .has_subtree.dropdown{
           top: 0;
@@ -434,7 +415,7 @@ header#content-header{
 
   #portal-globalnav-wrapper .navbar-nav li {
       .has_subtree.dropdown {
-          position: absolute;
+          position: fixed;
           right:-100vw;
           left: inherit;
           transition: right .5s cubic-bezier(.54, .01, .68, .64) , opacity 5s ease , .5s visibility ease;
@@ -454,7 +435,6 @@ header#content-header{
 
   // SUBSITE NAV
   #subsite-navigation{
-          transition: all .5s cubic-bezier(.54,.01,.68,.64);
           .has_subtree.dropdown{
               width: 100vw!important;
               box-shadow:
@@ -479,15 +459,13 @@ header#content-header{
                   position: absolute;
                   right:-100vw;
                   left: inherit;
-                  transition: right .5s cubic-bezier(.54, .01, .68, .64) , opacity 5s ease , .5s visibility ease;
                   z-index: 1;
-                  height: 100vh;
                   left: inherit!important;
               }
               &.show-nav > .has_subtree.dropdown{
                   right: 0;
-                  left: inherit!important;
-                  transition: right .5s cubic-bezier(.54,.01,.68,.64);
+                  left: 5%!important;
+                  max-width: 90%;
               }
           }
   }
