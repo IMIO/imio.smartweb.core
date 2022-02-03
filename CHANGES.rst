@@ -5,6 +5,12 @@ Changelog
 1.0a30 (unreleased)
 --------------------
 
+- Improve react vue for mobile
+  [thomlamb]
+
+- Change static js and css for mobile responsive search
+  [thomlamb]
+
 - Simplifying faceted macros
   [boulch]
 
