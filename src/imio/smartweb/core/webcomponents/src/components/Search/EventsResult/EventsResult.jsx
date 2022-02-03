@@ -20,7 +20,7 @@ const EventsResult = (props) => {
         }
     }, [response]);
     return (
-        <div className="search-events col-3">
+        <div className="search-events col-lg-3">
             <div className="r-search-header">
                 <h2 className="r-search-header-title">Événements</h2>
                 <p className="r-search-header-count">{resultArray ? resultArray.length : '0'} résultats</p>

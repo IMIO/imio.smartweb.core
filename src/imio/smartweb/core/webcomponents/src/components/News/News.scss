@@ -4,7 +4,15 @@
   list-style: none;
 }
 
-
+#portal-column-content{
+  h1{
+    font-size: 0px;
+    position: absolute;
+  }
+}
+#viewlet-below-content-title,#viewlet-below-content-description{
+  display: none;
+}
   /* image */
     /* text */
 .r-item-text{

@@ -136,10 +136,9 @@ function Filters(props) {
           };
         },
       };
-
     return (
         <React.Fragment>
-            <div className="col-md-6 r-search search-bar-filter">
+            <div className="col-md-6 py-1 r-search search-bar-filter">
                 <form onSubmit={handleSubmit}>
                     <label>
                         <input
@@ -153,7 +152,7 @@ function Filters(props) {
                     <button type="submit"></button>
                 </form>
             </div>
-            <div className="col-md-2 r-search search-select-filter">
+            <div className="col-md-3 col-lg-2 py-1 r-search search-select-filter">
                 <Select
                     styles={customStyles}
                     name={"iam"}
@@ -166,7 +165,7 @@ function Filters(props) {
 
                 />
             </div> 
-            <div className="col-md-2 r-search search-select-filter">
+            <div className="col-md-3 col-lg-2 py-1 r-search search-select-filter">
                 <Select
                     styles={customStyles}
                     name={"topics"}

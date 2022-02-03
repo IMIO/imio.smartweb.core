@@ -101,25 +101,46 @@ function Filters(props) {
     let actFaci =
         facilitiesFilter &&
         facilitiesFilter.filter((option) => option.value === props.activeFilter.facilities);
+    const customStyles = {
+        control: styles => ({ 
+            ...styles,
+            backgroundColor: 'white',
+            borderRadius:'0',
+            height:'50px',
+        }),
+        placeholder: styles =>({
+            ...styles,
+            color: '000',
+            fontWeight:'bold',
+            fontSize:'12px',
+            textTransform:'uppercase',
+            letterSpacing:'1.2px'
+        }),
+        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+            return {
+            ...styles,
+            };
+        },
+    };
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
-                <label>
-                    Recherche
-                </label>
+                {/* <label>Recherche</label> */}
                 <div className="r-filter-search">
                     <input
                         className="input-custom-class"
                         name="SearchableText" type="text"
                         value={inputValues.SearchableText}
-                        onChange={onChangeHandler} />
+                        onChange={onChangeHandler} 
+                        placeholder={'Recherche'}/>
                     <button type="submit"></button>
                 </div>
             </form>
 
             <div className="r-filter topics-Filter">
-                <label>Thématiques</label>
+                {/* <label>Thématiques</label> */}
                 <Select
+                    styles={customStyles}
                     name={"topics"}
                     className="select-custom-class library-topics"
                     isClearable
@@ -130,8 +151,9 @@ function Filters(props) {
                 />
             </div>
             <div className="r-filter  facilities-Filter">
-                <label>Catégories</label>
+                {/* <label>Catégories</label> */}
                 <Select
+                    styles={customStyles}
                     name={"taxonomy_contact_category"}
                     className="select-custom-class library-facilities"
                     isClearable
@@ -142,8 +164,9 @@ function Filters(props) {
                 />
             </div>
             <div className="r-filter  facilities-Filter">
-                <label>Facilité</label>
+                {/* <label>Facilité</label> */}
                 <Select
+                    styles={customStyles}
                     name={"facilities"}
                     className="select-custom-class library-facilities"
                     isClearable

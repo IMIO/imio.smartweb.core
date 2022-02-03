@@ -52,13 +52,16 @@
         line-height: 50px;
         border: 1px solid #CCCCCC;
         height: 50px;
-        padding: 0 25px;
+        padding: 0 10px;
         font-weight: bold;
         color: #000;
+        letter-spacing:1.2px;
         &::placeholder {
           color: #000;
+          font-size: 12px;
           opacity: 1;
-          font-size: 18px;
+          text-transform: uppercase;
+          letter-spacing:1.2px;
         }
         
       }
@@ -81,7 +84,9 @@
     }
     .r-search-list{
       margin-top: 20px;
-      max-height: 375px;
+      @media screen and (min-width:992px){
+       max-height: 375px;
+      }
       overflow-y: scroll;
       .r-search-item{
         list-style: none;

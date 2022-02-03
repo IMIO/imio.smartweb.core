@@ -91,43 +91,65 @@ function Filters(props) {
         categoryFilter.filter(
             (option) => option.value === props.activeFilter.category
         );
+    const customStyles = {
+        control: styles => ({ 
+            ...styles,
+            backgroundColor: 'white',
+            borderRadius:'0',
+            height:'50px',
+        }),
+        placeholder: styles =>({
+            ...styles,
+            color: '000',
+            fontWeight:'bold',
+            fontSize:'12px',
+            textTransform:'uppercase',
+            letterSpacing:'1.2px'
+        }),
+        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+            return {
+            ...styles,
+            };
+        },
+    };
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
-                    <label>
-                        Recherche
-                    </label>
+                    {/* <label>Recherche</label> */}
                 <div className="r-filter-search">
                         <input
                             className="input-custom-class"
                             name="SearchableText" type="text"
                             value={inputValues.SearchableText}
-                            onChange={onChangeHandler} />
-                    <button type="submit"></button>
+                            onChange={onChangeHandler}
+                            placeholder={'Recherche'}/>
+                        <button type="submit"></button>
                 </div>
             </form>
 
             <div className="r-filter topics-Filter">
-                <label>Thématiques</label>
+                {/* <label>Thématiques</label> */}
                 <Select
+                    styles={customStyles}
                     name={"topics"}
                     className="select-custom-class library-topics"
                     isClearable
                     onChange={onChangeHandlerSelect}
                     options={topicsFilter && topicsFilter}
-                    placeholder={"Toutes"}
+                    placeholder={"Thématiques"}
                     value={actTopi && actTopi[0]}
                 />
             </div>
             <div className="r-filter  facilities-Filter">
-                <label>Catégories</label>
+                {/* <label>Catégories</label> */}
                 <Select
+                    styles={customStyles}
                     name={"category"}
                     className="select-custom-class library-facilities"
                     isClearable
                     onChange={onChangeHandlerSelect}
                     options={categoryFilter && categoryFilter}
-                    placeholder={"Toutes"}
+                    placeholder={"Catégories"}
                     value={actCategory && actCategory[0]}
                 />
             </div>

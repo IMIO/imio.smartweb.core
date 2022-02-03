@@ -32,16 +32,16 @@ body .outer-wrapper {
     position: absolute;
   }
 }
-
+#viewlet-below-content-title,#viewlet-below-content-description{
+  display: none;
+}
 header#content-header {
 	position: sticky;
 	top: 0;
   background: #fff;
 }
 
-#viewlet-below-content-title,#viewlet-below-content-description{
-  display: none;
-}
+
 article > header {
 	margin-bottom: 0px;
 }
