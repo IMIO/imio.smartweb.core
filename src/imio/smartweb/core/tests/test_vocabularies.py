@@ -1,26 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from freezegun import freeze_time
+from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core import config
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from unittest.mock import patch
-from zope.component import getUtility
-from zope.schema.interfaces import IVocabularyFactory
 
 import json
 import requests
 import requests_mock
 
 GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
-
-
-def get_vocabulary(voc_name):
-    factory = getUtility(IVocabularyFactory, voc_name)
-    vocabulary = factory(api.portal.get())
-    return vocabulary
 
 
 class TestVocabularies(ImioSmartwebTestCase):
