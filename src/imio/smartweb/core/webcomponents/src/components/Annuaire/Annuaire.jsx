@@ -138,7 +138,7 @@ function AnnuaireView(props) {
             </div>
             <Switch>
                 <Route path={"/:name"}>
-                    <div className="r-wrapper r-annuaire-wrapper">
+                    <div className="r-wrapper container r-annuaire-wrapper">
                         <div className="r-result r-annuaire-result">
                                     <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
                         </div>
@@ -150,7 +150,7 @@ function AnnuaireView(props) {
                     </div>
                 </Route> 
                 <Route exact path="*">
-                    <div className="r-wrapper r-annuaire-wrapper">
+                    <div className="r-wrapper container r-annuaire-wrapper">
                         <div className="r-result r-annuaire-result">
                             {/* {isLoading ? (
                                     <div>

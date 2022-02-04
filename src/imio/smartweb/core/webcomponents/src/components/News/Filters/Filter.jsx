@@ -133,7 +133,7 @@ function Filters(props) {
                     isClearable
                     onChange={onChangeHandlerSelect}
                     options={topicsFilter && topicsFilter}
-                    placeholder={"Toutes"}
+                    placeholder={"Thématiques"}
                     value={actTopi && actTopi[0]}
                 />
             </div>
@@ -146,7 +146,7 @@ function Filters(props) {
                     isClearable
                     onChange={onChangeHandlerSelect}
                     options={taxonomyFilter && taxonomyFilter}
-                    placeholder={"Toutes"}
+                    placeholder={"Catégories"}
                     value={actTaxo && actTaxo[0]}
 
                 />

@@ -6,6 +6,9 @@ html, body {
   padding: 0;
   margin: 0;
 }
+.breadcrumb {
+	padding: 0;
+}
 // FOR SCROLL
 
 body .outer-wrapper {
@@ -15,11 +18,21 @@ body .outer-wrapper {
 
   }
 }
+.r-annuaire-wrapper{
+  @media screen and (min-width:1200px) {
+    max-width: 100%;
+    margin-right: inherit;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
 #portal-column-content{
   padding: 0!important;
 }
 .r-result-filter-container{
-  position: sticky;
+  @media screen and (min-width:1200px) {
+    position: sticky;
+  }
   background: #fff;
   z-index: 1;
 }
