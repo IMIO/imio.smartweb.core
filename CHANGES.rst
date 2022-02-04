@@ -5,6 +5,9 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Include source item url for `@search` service results
+  [mpeeters]
+
 - Enforce using SolR for `@search` service
   [mpeeters]
 

@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.config import DIRECTORY_URL
+from imio.smartweb.core.config import EVENTS_URL
+from imio.smartweb.core.config import NEWS_URL
 from plone import api
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.memoize import ram
 from plone.restapi.search.handler import SearchHandler
 from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.services import Service
-from plone.app.layout.navigation.interfaces import INavigationRoot
 from time import time
 
 
@@ -105,16 +108,26 @@ class ExtendedSearchHandler(SearchHandler):
                 query.update(parameters)
         result = super(ExtendedSearchHandler, self).search(query)
         if "core" in query:
-            return self._adapt_result(result)
+            return self._adapt_result(result, query["core"])
         return result
 
-    def _adapt_result(self, result):
+    def _get_source_url(self, path, core):
+        base_urls = {
+            "directory": DIRECTORY_URL,
+            "news": NEWS_URL,
+            "events": EVENTS_URL,
+        }
+        return "{0}/{1}".format(base_urls.get(core, ""), "/".join(path.split("/")[2:]))
+
+    def _adapt_result(self, result, core):
         """Transform result"""
         mapping = get_views_mapping(self._navigation_root)
-        result["items"] = [self._adapt_result_url(i, mapping) for i in result["items"]]
+        result["items"] = [
+            self._adapt_result_url(i, mapping, core) for i in result["items"]
+        ]
         return result
 
-    def _adapt_result_url(self, item, mapping):
+    def _adapt_result_url(self, item, mapping, core):
         """Ensure that url to external objects are adapted based on react views"""
         if item["@type"] not in mapping:
             return item
@@ -124,6 +137,7 @@ class ExtendedSearchHandler(SearchHandler):
             base=base_url,
             item_uid=item["UID"],
         )
+        item["_source_url"] = self._get_source_url(item["path_string"], core)
         return item
 
     @property
@@ -141,7 +155,13 @@ class ExtendedSearchHandler(SearchHandler):
         parameters = {
             "news": {
                 "portal_type": ["imio.news.NewsItem"],
-                "metadata_fields": ["id", "UID", "container_uid", "has_leadimage"],
+                "metadata_fields": [
+                    "id",
+                    "UID",
+                    "container_uid",
+                    "has_leadimage",
+                    "path_string",
+                ],
                 "selected_news_folders": {
                     "query": [
                         k
@@ -154,7 +174,13 @@ class ExtendedSearchHandler(SearchHandler):
             },
             "events": {
                 "portal_type": ["imio.events.Event"],
-                "metadata_fields": ["id", "UID", "container_uid", "has_leadimage"],
+                "metadata_fields": [
+                    "id",
+                    "UID",
+                    "container_uid",
+                    "has_leadimage",
+                    "path_string",
+                ],
                 "selected_agendas": {
                     "query": [
                         k for k in mapping["imio.events.Event"].keys() if k != "default"
@@ -165,7 +191,13 @@ class ExtendedSearchHandler(SearchHandler):
             },
             "directory": {
                 "portal_type": ["imio.directory.Contact"],
-                "metadata_fields": ["id", "UID", "container_uid", "has_leadimage"],
+                "metadata_fields": [
+                    "id",
+                    "UID",
+                    "container_uid",
+                    "has_leadimage",
+                    "path_string",
+                ],
                 "selected_entities": {
                     "query": [
                         k
