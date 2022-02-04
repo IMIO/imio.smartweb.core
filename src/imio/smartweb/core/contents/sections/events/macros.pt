@@ -2,12 +2,12 @@
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      lang="en"
-      i18n:domain="imio.smartweb">
+      lang="en">
   <metal:macro define-macro="event_date">
     <tal:def tal:define="start event_date/start;
                          end event_date/end;
-                         is_multi_dates python:view.is_multi_dates(start, end)">
+                         is_multi_dates python:view.is_multi_dates(start, end)"
+             i18n:domain="imio.smartweb">
       <tal:if tal:condition="is_multi_dates">
           <div class="start_date">
               <span class="from_on" i18n:translate="">From</span>

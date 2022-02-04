@@ -5,7 +5,8 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix translation domain for event macro
+  [laulaz]
 
 
 1.0a31 (2022-02-04)
