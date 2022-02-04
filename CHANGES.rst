@@ -5,6 +5,9 @@ Changelog
 1.0a31 (unreleased)
 -------------------
 
+- disable sticky map on mobile
+  [thomlamb]
+  
 - Refactor : Displaying dates from section event is now in a macro to have more html flexibility
   [boulch, laulaz]
 
