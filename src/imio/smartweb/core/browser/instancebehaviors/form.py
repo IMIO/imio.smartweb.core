@@ -66,8 +66,8 @@ class InstanceBehaviors(AutoExtensibleForm, form.Form):
             if voc.value not in selected_instance_behaviors
         ]
         disable_behaviors(self.context, disable_instance_behaviors, [])
-        delattr(self.request, ASSIGNABLE_CACHE_KEY)
-        # notify(SchemaInvalidatedEvent(self.context.portal_type))
+        if hasattr(self.request, ASSIGNABLE_CACHE_KEY):
+            delattr(self.request, ASSIGNABLE_CACHE_KEY)
         if errors:
             self.status = self.formErrorsMessage
             return
