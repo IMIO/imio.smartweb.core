@@ -5,6 +5,9 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Enforce using SolR for `@search` service
+  [mpeeters]
+
 - Fix translation domain for event macro
   [laulaz]
 
@@ -14,7 +17,7 @@ Changelog
 
 - Disable sticky map on mobile
   [thomlamb]
-  
+
 - Refactor : Displaying dates from section event is now in a macro to have more html flexibility
   [boulch, laulaz]
 

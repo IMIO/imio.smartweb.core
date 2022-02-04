@@ -90,6 +90,8 @@ class SearchGet(Service):
 
 class ExtendedSearchHandler(SearchHandler):
     def search(self, query):
+        if "use_solr" not in query:
+            query["use_solr"] = True  # enforce use of SolR by default
         if "_core" in query:
             parameters = self._core_query(query["_core"])
             del query["_core"]
