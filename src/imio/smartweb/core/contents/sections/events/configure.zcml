@@ -24,4 +24,12 @@
       title="Carousel view"
       />
 
+  <browser:page
+      for="imio.smartweb.core.contents.ISectionEvents"
+      name="macros"
+      template="macros.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>

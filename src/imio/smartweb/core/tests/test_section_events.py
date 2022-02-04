@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from datetime import datetime
 from freezegun import freeze_time
-from imio.smartweb.core.contents.sections.events.view import make_date_str
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -55,14 +53,3 @@ class TestEvents(ImioSmartwebTestCase):
         url = "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&start.query=2021-11-15&start.range=min&sort_on=start&sort_limit=6"
         m.get(url, text=json.dumps(self.json_events))
         self.assertEqual(events_view.items[0][0].get("title"), "Marche gourmande")
-
-    def test_make_date_str(self):
-        start = datetime(2021, 12, 15, 11, 00)
-        end = None
-        self.assertEqual(make_date_str(start, end), "On 15/12")
-        start = datetime(2021, 12, 15, 11, 00)
-        end = datetime(2021, 12, 15, 12, 00)
-        self.assertEqual(make_date_str(start, end), "On 15/12")
-        start = datetime(2021, 12, 15, 11, 00)
-        end = datetime(2021, 12, 16, 12, 00)
-        self.assertEqual(make_date_str(start, end), "From 15/12 to 16/12")

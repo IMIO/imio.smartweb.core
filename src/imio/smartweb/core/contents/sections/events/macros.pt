@@ -1,0 +1,32 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="imio.smartweb">
+  <metal:macro define-macro="event_date">
+    <tal:def tal:define="start event_date/start;
+                         end event_date/end;
+                         is_multi_dates python:view.is_multi_dates(start, end)">
+      <tal:if tal:condition="is_multi_dates">
+          <div class="start_date">
+              <span class="from_on" i18n:translate="">From</span>
+              <span class="day" tal:content="python:start.strftime('%d')">jour</span>
+              <span class="month" tal:content="python:start.strftime('%m')">mois</span>
+         </div>
+         <div class="end_date">
+             <span class="to" i18n:translate="">to</span>
+             <span class="day" tal:content="python:end.strftime('%d')">jour</span>
+             <span class="month" tal:content="python:end.strftime('%m')">mois</span>
+          </div>
+      </tal:if>
+      <tal:else tal:condition="not:is_multi_dates">
+          <div class="day_date">
+              <span class="from_on" i18n:translate="">On</span>
+              <span class="day" tal:content="python:start.strftime('%d')">jour</span>
+              <span class="month" tal:content="python:start.strftime('%m')">mois</span>
+         </div>
+      </tal:else>
+    </tal:def>
+  </metal:macro>
+</html>

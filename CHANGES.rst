@@ -5,7 +5,8 @@ Changelog
 1.0a31 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Refactor : Displaying dates from section event is now in a macro to have more html flexibility
+  [boulch, laulaz]
 
 
 1.0a30 (2022-02-03)

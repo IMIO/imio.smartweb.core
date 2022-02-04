@@ -63,7 +63,9 @@
                               tal:content="item/effective"/>
                       </tal:if>
                       <tal:if tal:condition="item/event_date | nothing">
-                        <span tal:replace="item/event_date"/>
+                        <tal:def tal:define="event_date item/event_date">
+                          <metal:macro use-macro="context/@@macros/event_date" />
+                        </tal:def>
                       </tal:if>
                     </div>
                     <div class="swiper_title">
