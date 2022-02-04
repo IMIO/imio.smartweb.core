@@ -32,7 +32,7 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
         import plone.restapi
 
         self.loadZCML(package=plone.restapi)
-        self.loadZCML(package=imio.smartweb.core)
+        self.loadZCML(package=imio.smartweb.core, name="testing.zcml")
 
     @requests_mock.Mocker()
     def setUpPloneSite(self, portal, m):

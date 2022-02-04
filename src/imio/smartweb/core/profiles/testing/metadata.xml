@@ -2,5 +2,6 @@
 <metadata>
   <dependencies>
     <dependency>profile-imio.smartweb.core:default</dependency>
+    <dependency>profile-collective.taxonomy:examples</dependency>
   </dependencies>
 </metadata>

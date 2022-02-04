@@ -1,0 +1,8 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+  <include file="configure.zcml" />
+
+  <include package="collective.taxonomy" file="testing.zcml" />
+
+</configure>
