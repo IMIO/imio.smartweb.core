@@ -48,10 +48,10 @@
 
         <h2 class="informations"
             tal:condition="not: show_main_title"
-            i18n:translate="">Contact informations</h2>
+            i18n:translate="">Contact</h2>
         <h3 class="informations"
             tal:condition="show_main_title"
-            i18n:translate="">Contact informations</h3>
+            i18n:translate="">Contact</h3>
 
         <span tal:replace="contact/vat_number | nothing"></span>
         <ul tal:define="phones contact/phones | nothing;
@@ -94,10 +94,8 @@
         <span class="street" tal:content="address/street"></span>
         <span class="entity" tal:content="address/entity"></span>
         <span class="country" tal:content="address/country"></span>
-      </div>
 
-      <div class="contact_itinerary"
-           tal:condition="python:address and 'itinerary' in visible_blocks">
+        <tal:itinerary tal:condition="python:address and 'itinerary' in visible_blocks">
         <div class="itinerary"
              tal:define="link view/get_itinerary_link"
              tal:condition="link">
@@ -105,15 +103,9 @@
              tal:attributes="href link"
              i18n:translate="">Itinerary</a>
         </div>
+        </tal:itinerary>
       </div>
       </tal:address>
-      <div class="contact_map"
-           tal:define="is_geolocated contact/is_geolocated"
-           tal:condition="python:is_geolocated and 'map' in visible_blocks">
-        <div class="pat-leaflet map"
-             tal:attributes="data-geojson view/data_geojson"
-             data-pat-leaflet='${utils_view/map_configuration}'></div>
-      </div>
 
       <div class="schedule"
            tal:condition="python:'schedule' in visible_blocks and not view.is_empty_schedule()">
@@ -134,6 +126,14 @@
             </tr>
           </table>
         </div>
+      </div>
+
+      <div class="contact_map"
+           tal:define="is_geolocated contact/is_geolocated"
+           tal:condition="python:is_geolocated and 'map' in visible_blocks">
+        <div class="pat-leaflet map"
+             tal:attributes="data-geojson view/data_geojson"
+             data-pat-leaflet='${utils_view/map_configuration}'></div>
       </div>
 
       <div class="contact_description"

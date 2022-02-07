@@ -5,6 +5,9 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Reorder SectionContact template + modify some translations
+  [boulch]
+
 - Fix generated url for search results
   [thomlamb]
 
