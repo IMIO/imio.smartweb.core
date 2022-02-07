@@ -5,6 +5,9 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Unauthorize to add imio.smartweb.SectionSendinblue on a Page but authorize it on PortalPage.
+  [boulch]
+
 - Include source item url for `@search` service results
   [mpeeters]
 

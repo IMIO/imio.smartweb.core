@@ -126,4 +126,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Reload types to unauthorize Sendinblue section on a Page but authorize it on a PortalPage."
+      description=""
+      source="1012"
+      destination="1013"
+      handler=".upgrades.reload_types"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
