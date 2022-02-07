@@ -51,7 +51,7 @@ const ContactContent = ({queryUrl, onChange }) => {
             </button>
             <article>
                 <header>
-                    <h1 className="r-content-title">{contactItem.title}</h1>
+                    <h2 className="r-content-title">{contactItem.title}</h2>
                     <p className="r-content-description">{contactItem.description}</p>
                 </header>
                 <figure>
