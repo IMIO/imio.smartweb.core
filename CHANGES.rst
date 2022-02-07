@@ -5,6 +5,9 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Fix generated url for search results
+  [thomlamb]
+
 - Unauthorize to add imio.smartweb.SectionSendinblue on a Page but authorize it on PortalPage.
   [boulch]
 
