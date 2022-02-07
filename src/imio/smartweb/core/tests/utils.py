@@ -14,7 +14,7 @@ def get_sections_types():
         "imio.smartweb.SectionMap",
         # "imio.smartweb.SectionNews",
         "imio.smartweb.SectionSelections",
-        "imio.smartweb.SectionSendinblue",
+        # "imio.smartweb.SectionSendinblue",
         "imio.smartweb.SectionText",
         "imio.smartweb.SectionVideo",
     ]
