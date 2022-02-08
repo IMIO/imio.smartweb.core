@@ -5,3 +5,5 @@ global-exclude *.pyc
 include *.GPL
 include *.txt
 exclude Makefile
+exclude package-lock.json
+prune src/imio/smartweb/core/webcomponents/node_modules
