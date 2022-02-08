@@ -16,11 +16,9 @@ const WebResult = (props) => {
 
     useEffect(() => {
         if (response !== null) {
-            if(Object.keys(props.urlParams).length == 0){
-                setresultArray([]);
-            }else{
-                setresultArray(response.items);
-            }
+            setresultArray(response.items);
+        }else{
+            setresultArray([]);
         }
     }, [response]);
     return (

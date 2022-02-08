@@ -17,6 +17,8 @@ const ContactResult = (props) => {
     useEffect(() => {
         if (response !== null) {
             setresultArray(response.items);
+        }else{
+            setresultArray([]);
         }
     }, [response]);
     return (

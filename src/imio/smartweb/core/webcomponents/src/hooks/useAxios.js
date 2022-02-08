@@ -7,31 +7,34 @@ const useAxios = (params) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isMore, setIsMore] = useState(false);
 
-
     const fetchData = async (params) => {
         setIsLoading(true);
 
-        if(params.load){
+        if (params.load) {
             setIsMore(true);
-        }else{
+        } else {
             setIsMore(false);
         }
-        try {
-            const res = await axios.request(params);
-            // console.log(params);
-            setResponse(res.data);
-            setError(null);
-        } catch (err) {
-            setError(err);
-        } finally {
-            setIsLoading(false);
+        if (Object.keys(params.params).length == 0) {
+            setResponse(null);
+            return;
+        } else {
+            try {
+                const res = await axios.request(params);
+                setResponse(res.data);
+                setError(null);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setIsLoading(false);
+            }
         }
     };
 
     useEffect(() => {
         fetchData(params);
     }, [params.params]);
-    return { response, error, isLoading,isMore };
+    return { response, error, isLoading, isMore };
 };
 
 export default useAxios;
