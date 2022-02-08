@@ -135,4 +135,14 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="1013"
+      destination="1014"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Reload smartweb base icons to add Twitter"
+        import_profile="imio.smartweb.core:icons-basic"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

@@ -315,6 +315,14 @@
       <value key="resource">++plone++imio.smartweb.core/icons/reseausocial-instagram.svg</value>
     </record>
 
+    <record name="smartweb.icon.socialnetwork.twitter"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Social network - Twitter</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/reseausocial-twitter.svg</value>
+    </record>
+
     <record name="smartweb.icon.socialnetwork.vimeo"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
