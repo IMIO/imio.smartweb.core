@@ -5,6 +5,10 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Be sure to reindex the container (& change modification date for cachinig) when
+  a page has been modified
+  [laulaz]
+
 - Reorder SectionContact template + modify some translations
   [boulch]
 

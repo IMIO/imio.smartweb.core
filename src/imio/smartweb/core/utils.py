@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
 from imio.smartweb.core.config import WCA_URL
 from more_itertools import chunked
@@ -85,3 +86,11 @@ def safe_html(html):
 
 def batch_results(iterable, batch_size):
     return list(chunked(iterable, batch_size, strict=False))
+
+
+def reindexParent(obj, event):
+    parent = aq_parent(obj)
+    if parent is not None:
+        # in some cases (ex: relation breaking), we do not get the object in
+        # its acquisition chain
+        parent.reindexObject()

@@ -282,6 +282,14 @@ class TestFolder(ImioSmartwebTestCase):
 
         first_modification = folder.ModificationDate()
         sleep(1)
+        page.title = "New Page"
+        modified(page)
+        page.reindexObject()
+        next_modification = folder.ModificationDate()
+        self.assertNotEqual(first_modification, next_modification)
+
+        first_modification = folder.ModificationDate()
+        sleep(1)
         section = api.content.create(
             container=page,
             type="imio.smartweb.SectionText",
@@ -289,7 +297,7 @@ class TestFolder(ImioSmartwebTestCase):
         )
         modified(section)
         next_modification = folder.ModificationDate()
-        self.assertEqual(first_modification, next_modification)
+        self.assertNotEqual(first_modification, next_modification)
 
         section = api.content.create(
             container=page,

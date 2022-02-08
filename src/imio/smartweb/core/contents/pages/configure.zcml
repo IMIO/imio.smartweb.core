@@ -43,6 +43,12 @@
       />
 
   <subscriber
+      for="imio.smartweb.core.contents.IPages
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler="imio.smartweb.core.utils.reindexParent"
+      />
+
+  <subscriber
       for="imio.smartweb.core.contents.IDefaultPages
            zope.lifecycleevent.interfaces.IObjectMovedEvent"
        handler=".subscriber.paste_default_page"
