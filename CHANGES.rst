@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a32 (unreleased)
+1.0a32 (2022-02-08)
 -------------------
 
 - Change Youtube & Parking base icons, and add Twitter
