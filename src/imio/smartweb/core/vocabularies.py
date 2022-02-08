@@ -152,8 +152,8 @@ class ContactBlocksVocabularyFactory:
             ("contact_informations", _("Contact informations")),
             ("address", _("Address")),
             ("itinerary", _("Itinerary")),
-            ("map", _("Map")),
             ("schedule", _("Schedule")),
+            ("map", _("Map")),
             ("description", _("Description")),
             ("gallery", _("Gallery")),
         ]

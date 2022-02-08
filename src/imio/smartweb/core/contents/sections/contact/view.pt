@@ -80,32 +80,33 @@
           </li>
         </ul>
       </div>
-      <tal:address tal:define="address view/formatted_address">
-      <div class="contact_address"
-           tal:condition="python:address and 'address' in visible_blocks">
+      <div class="address"
+           tal:define="address view/formatted_address"
+           tal:condition="address">
+        <div class="contact_address"
+             tal:condition="python:'address' in visible_blocks">
 
-        <h2 class="address"
-            tal:condition="not: show_main_title"
-            i18n:translate="">Address</h2>
-        <h3 class="address"
-            tal:condition="show_main_title"
-            i18n:translate="">Address</h3>
+          <h2 class="address"
+              tal:condition="not: show_main_title"
+              i18n:translate="">Address</h2>
+          <h3 class="address"
+              tal:condition="show_main_title"
+              i18n:translate="">Address</h3>
 
-        <span class="street" tal:content="address/street"></span>
-        <span class="entity" tal:content="address/entity"></span>
-        <span class="country" tal:content="address/country"></span>
-
-        <tal:itinerary tal:condition="python:address and 'itinerary' in visible_blocks">
-        <div class="itinerary"
-             tal:define="link view/get_itinerary_link"
-             tal:condition="link">
-          <a href="" target="_blank"
-             tal:attributes="href link"
-             i18n:translate="">Itinerary</a>
+          <span class="street" tal:content="address/street"></span>
+          <span class="entity" tal:content="address/entity"></span>
+          <span class="country" tal:content="address/country"></span>
         </div>
+        <tal:itinerary tal:condition="python:'itinerary' in visible_blocks">
+          <div class="itinerary"
+               tal:define="link view/get_itinerary_link"
+               tal:condition="link">
+            <a href="" target="_blank"
+               tal:attributes="href link"
+               i18n:translate="">Itinerary</a>
+          </div>
         </tal:itinerary>
       </div>
-      </tal:address>
 
       <div class="schedule"
            tal:condition="python:'schedule' in visible_blocks and not view.is_empty_schedule()">
