@@ -5,6 +5,9 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Change Youtube & Parking base icons
+  [laulaz] 
+
 - Add id on sections containers to ease styling
   [laulaz]
 
