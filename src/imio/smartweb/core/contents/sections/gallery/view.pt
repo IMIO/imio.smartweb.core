@@ -11,6 +11,8 @@
 <metal:content-core define-macro="content-core">
 <metal:macro use-macro="context/@@sections_macros/section_edition" />
 <div class="container section-container section-gallery"
+     id=""
+     tal:attributes="id string:container-section-${context/id}"
      tal:define="can_edit python: checkPermission('Modify portal content', context);
                  items context/listFolderContents;">
 

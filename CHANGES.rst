@@ -5,6 +5,9 @@ Changelog
 1.0a32 (unreleased)
 -------------------
 
+- Add id on sections containers to ease styling
+  [laulaz]
+
 - Be sure to reindex the container (& change modification date for cachinig) when
   a page has been modified
   [laulaz]
