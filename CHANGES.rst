@@ -5,7 +5,8 @@ Changelog
 1.0a33 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix search axios to not fetch with no filter set
+  [thomlamb]
 
 
 1.0a32 (2022-02-08)
