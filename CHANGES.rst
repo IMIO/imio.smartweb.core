@@ -5,6 +5,9 @@ Changelog
 1.0a34 (unreleased)
 -------------------
 
+- Fix missing permissions to add footer
+  [laulaz] 
+
 - Fix default item view for a collection when anonymous
   [laulaz] 
 

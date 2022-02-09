@@ -145,4 +145,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Reload rolemap to add missing Add Footer permission"
+      description=""
+      source="1014"
+      destination="1015"
+      handler=".upgrades.reload_rolemap"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

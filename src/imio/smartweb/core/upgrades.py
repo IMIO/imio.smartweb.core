@@ -64,6 +64,11 @@ def reload_registry(context):
     portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")
 
 
+def reload_rolemap(context):
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runImportStepFromProfile(PROFILEID, "rolemap")
+
+
 def reload_types(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(PROFILEID, "typeinfo")
