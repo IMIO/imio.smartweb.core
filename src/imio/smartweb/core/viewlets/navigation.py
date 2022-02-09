@@ -48,8 +48,6 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
         return current_lang
 
     def render_quickaccess(self, item):
-        if item["title"]:
-            item["title"] = escape(item["title"])
         return self._item_markup_template.format(**item)
 
     def render_item(self, item, path):

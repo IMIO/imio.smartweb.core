@@ -5,7 +5,9 @@ Changelog
 1.0a34 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix double escaped navigation items in quick accesses
+  See https://github.com/plone/plone.app.layout/issues/280
+  [laulaz] 
 
 
 1.0a33 (2022-02-08)
