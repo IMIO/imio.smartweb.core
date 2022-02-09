@@ -9,6 +9,7 @@ from plone.app.content.browser.contents import ContextInfo
 from plone.app.content.utils import json_dumps
 from plone.app.content.utils import json_loads
 from plone.app.contenttypes.browser.folder import FolderView as BaseFolderView
+from plone.app.contenttypes.interfaces import ICollection
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from z3c.form import button
 from z3c.form.browser.radio import RadioFieldWidget
@@ -103,9 +104,13 @@ class ElementView(EditForm):
         if api.user.is_anonymous():
             default_item = self.context.get_default_item(object=True)
             if default_item:
-                return queryMultiAdapter(
-                    (default_item, self.request), name="full_view"
-                )()
+                # we choose the view depending on content type (pages or collection)
+                view_name = (
+                    ICollection.providedBy(default_item)
+                    and "facetednavigation_view"
+                    or "full_view"
+                )
+                return queryMultiAdapter((default_item, self.request), name=view_name)()
             # Element view with no default item selected -> fallback to summary_view
             return queryMultiAdapter(
                 (self.context, self.request), name="summary_view"

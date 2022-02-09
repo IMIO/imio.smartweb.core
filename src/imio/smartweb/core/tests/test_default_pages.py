@@ -185,6 +185,31 @@ class TestPages(ImioSmartwebTestCase):
         self.assertEqual(len(breadcrumbs), 1)
         self.assertEqual(breadcrumbs[-1]["Title"], "Folder")
 
+    def test_page_anonymous(self):
+        page = api.content.create(
+            container=self.folder, type="imio.smartweb.Page", title="Page"
+        )
+        self.folder.setLayout("element_view")
+        self.folder.set_default_item(
+            old_default_item=self.defaultpage, new_default_item=page
+        )
+        logout()
+        view = getMultiAdapter((page, self.request), name="view")
+        self.assertIn("<h1>Page</h1>", view())
+
+    def test_collection_anonymous(self):
+        collection = api.content.create(
+            container=self.folder, type="Collection", title="Collection"
+        )
+        self.folder.setLayout("element_view")
+        self.folder.set_default_item(
+            old_default_item=self.defaultpage, new_default_item=collection
+        )
+        logout()
+        view = getMultiAdapter((collection, self.request), name="view")()
+        self.assertIn("<h1>Collection</h1>", view)
+        self.assertIn("faceted-block-view", view)
+
     def test_default_page_removal(self):
         self.assertTrue(self.defaultpage.exclude_from_nav)
         self.assertTrue(IDefaultPages.providedBy(self.defaultpage))

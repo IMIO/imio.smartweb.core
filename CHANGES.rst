@@ -5,6 +5,9 @@ Changelog
 1.0a34 (unreleased)
 -------------------
 
+- Fix default item view for a collection when anonymous
+  [laulaz] 
+
 - Fix double escaped navigation items in quick accesses
   See https://github.com/plone/plone.app.layout/issues/280
   [laulaz] 
