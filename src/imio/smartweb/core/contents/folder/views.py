@@ -119,9 +119,7 @@ class ElementView(EditForm):
 
     @property
     def fields(self):
-        fields = Fields(IFolder).select(
-            "default_page_uid",
-        )
+        fields = Fields(IFolder).select("default_page_uid")
         fields["default_page_uid"].required = True
         fields["default_page_uid"].widgetFactory = RadioFieldWidget
         return fields
