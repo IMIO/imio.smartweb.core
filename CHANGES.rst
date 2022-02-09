@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a34 (unreleased)
+1.0a34 (2022-02-09)
 -------------------
 
 - Fix missing permissions to add footer
