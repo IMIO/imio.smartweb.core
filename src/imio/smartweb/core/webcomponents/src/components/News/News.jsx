@@ -85,7 +85,7 @@ const NewsView = (props) => {
         listRender = <ContactList onChange={clickID} contactArray={contactArray} />;
 
     } else {
-        listRender = <p>Aucune actulité n'a été trouvée</p>
+        listRender = <p>Aucune actualité n'a été trouvée</p>
     }
     return (
         <div>

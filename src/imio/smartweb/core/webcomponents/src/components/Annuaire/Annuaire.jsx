@@ -325,7 +325,7 @@ function AnnuaireView(props) {
 //                     {contactNumber > 0 ? (
 //                         <p className="r-results-numbers"><span>{contactNumber}</span> contacts trouvé</p>
 //                     ) : (
-//                         <p className="r-results-numbers">Aucun résultats</p>
+//                         <p className="r-results-numbers">Aucun résultat</p>
 //                     )
 //                     }
 //                 </div>

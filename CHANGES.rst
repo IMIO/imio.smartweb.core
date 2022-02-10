@@ -5,6 +5,9 @@ Changelog
 1.0a35 (unreleased)
 -------------------
 
+- Correction of spelling mistakes
+  [thomlamb]
+
 - Get events with new event_dates index
   [laulaz]
 

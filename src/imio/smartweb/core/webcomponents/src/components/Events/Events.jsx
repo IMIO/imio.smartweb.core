@@ -135,7 +135,7 @@ function EventsView(props) {
                 {contactNumber > 0 ? (
                     <p className="r-results-numbers"><span>{contactNumber}</span>{contactNumber > 1?' événements trouvés':'événement trouvé'}</p>
                 ) : (
-                    <p className="r-results-numbers">Aucun résultats</p>
+                    <p className="r-results-numbers">Aucun résultat</p>
                 )
                 }
             </div>
