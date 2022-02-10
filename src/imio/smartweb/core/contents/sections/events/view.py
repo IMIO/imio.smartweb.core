@@ -14,7 +14,7 @@ class EventsView(CarouselOrTableSectionView):
 
     @property
     def items(self):
-        start = date.today().isoformat()
+        today = date.today().isoformat()
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
         selected_item = f"selected_agendas={self.context.related_events}"
         specific_related_events = self.context.specific_related_events
@@ -31,9 +31,9 @@ class EventsView(CarouselOrTableSectionView):
             "metadata_fields=end",
             "metadata_fields=has_leadimage",
             "metadata_fields=UID",
-            f"start.query={start}",
-            "start.range=min",
-            "sort_on=start",
+            f"event_dates.query={today}",
+            "event_dates.range=min",
+            "sort_on=event_dates",
             f"sort_limit={max_items}",
         ]
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))

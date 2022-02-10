@@ -468,7 +468,7 @@ class EventsFromEntityVocabularyFactory:
             f"selected_agendas={term.value}" for term in remote_agendas_vocabulary
         ]
         selected_agendas = "&".join(selected_agendas)
-        start = date.today().isoformat()
+        today = date.today().isoformat()
         params = [
             selected_agendas,
             "portal_type=imio.events.Event",
@@ -479,8 +479,8 @@ class EventsFromEntityVocabularyFactory:
             "metadata_fields=has_leadimage",
             "metadata_fields=breadcrumb",
             "metadata_fields=UID",
-            f"start.query={start}",
-            "start.range=min",
+            f"event_dates.query={today}",
+            "event_dates.range=min",
             "b_size=1000000",
         ]
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))

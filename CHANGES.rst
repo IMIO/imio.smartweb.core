@@ -5,6 +5,9 @@ Changelog
 1.0a35 (unreleased)
 -------------------
 
+- Get events with new event_dates index
+  [laulaz]
+
 - Change footer markup to have only one row
   [laulaz]
 

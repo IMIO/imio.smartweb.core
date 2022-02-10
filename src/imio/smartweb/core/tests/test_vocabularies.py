@@ -257,7 +257,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         json_agendas_raw_mock = get_json("resources/json_events_agendas_raw_mock.json")
         url = f"{config.EVENTS_URL}/imio-events-entity/@search?portal_type=imio.events.Agenda&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
         m.get(url, text=json.dumps(json_agendas_raw_mock))
-        url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&&selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&start.query=2021-11-15&start.range=min"
+        url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&&selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min"
         json_rest_events = get_json("resources/json_rest_events.json")
         m.get(url, text=json.dumps(json_rest_events))
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.EventsFromEntity")

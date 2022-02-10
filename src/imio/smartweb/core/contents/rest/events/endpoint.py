@@ -4,6 +4,7 @@ from datetime import date
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
+from imio.smartweb.core.utils import get_json
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.interface import implementer
@@ -13,7 +14,7 @@ from zope.interface import Interface
 class BaseEventsEndpoint(BaseEndpoint):
     @property
     def query_url(self):
-        start = date.today().isoformat()
+        today = date.today().isoformat()
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
             "portal_type=imio.events.Event",
@@ -23,9 +24,9 @@ class BaseEventsEndpoint(BaseEndpoint):
             "metadata_fields=end",
             "metadata_fields=has_leadimage",
             "metadata_fields=UID",
-            "start.query={}".format(start),
-            "start.range=min",
-            "sort_on=start",
+            "event_dates.query={}".format(today),
+            "event_dates.range=min",
+            "sort_on=event_dates",
             "sort_limit={}".format(self.context.nb_results),
         ]
         if self.context.selected_event_types is not None:
