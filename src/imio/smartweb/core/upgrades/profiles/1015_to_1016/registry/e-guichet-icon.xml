@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="smartweb.icon.action.eguichet"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Action - E-guichet</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/action-e-guichet.svg</value>
+    </record>
+
+</registry>

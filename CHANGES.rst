@@ -5,6 +5,9 @@ Changelog
 1.0a35 (unreleased)
 -------------------
 
+- Add new e-guichet icon
+  [laulaz]
+
 - Remove GDPR link from footer (it is already in colophon)
   [laulaz]
 

@@ -3,6 +3,14 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     i18n_domain="imio.smartweb">
 
+  <genericsetup:registerProfile
+      name="upgrade_1015_to_1016"
+      title="Upgrade core from 1015 to 1016"
+      directory="profiles/1015_to_1016"
+      description="Add new e-guichet icon to registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -153,5 +161,15 @@
       handler=".upgrades.reload_rolemap"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1015"
+      destination="1016"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new e-guichet icon to registry"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1015_to_1016"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>
