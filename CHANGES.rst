@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a35 (unreleased)
+1.0a35 (2022-02-10)
 -------------------
 
 - Use css class & background style also on footers sections
