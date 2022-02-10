@@ -7,10 +7,11 @@
                          style view/background_style;
                          class string:smartweb-footer ${footer/css_class}">
       <div class="container">
-         <div class="row"
-              tal:repeat="section view/sections">
-               <span tal:replace="structure section" />
-         </div>
+        <div class="row">
+          <tal:bcl tal:repeat="section view/sections">
+            <span tal:replace="structure section" />
+          </tal:bcl>
+        </div>
       </div>
     </div>
 

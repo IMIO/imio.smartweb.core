@@ -5,6 +5,9 @@ Changelog
 1.0a35 (unreleased)
 -------------------
 
+- Change footer markup to have only one row
+  [laulaz]
+
 - Add new e-guichet icon
   [laulaz]
 
