@@ -6,7 +6,6 @@ from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
 from Products.CMFPlone.utils import parent
-from zope.component import getMultiAdapter
 
 
 class BaseFooterViewlet(common.ViewletBase):
@@ -24,13 +23,12 @@ class BaseFooterViewlet(common.ViewletBase):
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])
 
-    def sections(self):
+    def update(self):
+        if not self.available():
+            return
         # we don't want to show edition tools in footer sections
         self.request.set("can_edit", False)
-        sections = self.footer.listFolderContents()
-        for section in sections:
-            view = getMultiAdapter((section, self.request), name="full_view_item")
-            yield view()
+        self.sections = self.footer.listFolderContents()
 
 
 class FooterViewlet(BaseFooterViewlet):

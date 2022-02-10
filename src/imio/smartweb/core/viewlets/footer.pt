@@ -9,7 +9,10 @@
       <div class="container">
         <div class="row">
           <tal:bcl tal:repeat="section view/sections">
-            <span tal:replace="structure section" />
+            <div tal:define="pages_view nocall:footer/@@full_view;"
+                 tal:attributes="class python:pages_view.get_class(section);
+                                 style python:pages_view.background_style(section);"
+                 tal:content="structure section/@@full_view_item" />
           </tal:bcl>
         </div>
       </div>

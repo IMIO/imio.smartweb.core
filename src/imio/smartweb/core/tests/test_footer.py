@@ -173,14 +173,21 @@ class TestFooter(ImioSmartwebTestCase):
         )
         footer_view.add_footer()
         footer = getattr(self.portal, "footer")
-        viewlet = FooterViewlet(footer, self.request, None, None)
-        viewlet.update()
         api.content.create(
             container=footer,
             type="imio.smartweb.SectionText",
             title="Section text",
         )
-        render = "\n".join(viewlet.sections())
+        viewlet = FooterViewlet(footer, self.request, None, None)
+        viewlet.update()
+        sections = viewlet.sections
+        self.assertEqual(len(sections), 1)
+        render = "\n".join(
+            [
+                getMultiAdapter((section, self.request), name="full_view_item")()
+                for section in sections
+            ]
+        )
         self.assertIn("Section text", render)
         self.assertNotIn('class="manage-section"', render)
         api.content.create(
@@ -188,7 +195,15 @@ class TestFooter(ImioSmartwebTestCase):
             type="imio.smartweb.SectionLinks",
             title="Section links",
         )
-        render = "\n".join(viewlet.sections())
+        viewlet.update()
+        sections = viewlet.sections
+        self.assertEqual(len(sections), 2)
+        render = "\n".join(
+            [
+                getMultiAdapter((section, self.request), name="full_view_item")()
+                for section in sections
+            ]
+        )
         self.assertIn("Section link", render)
 
     def test_has_gdpr_text(self):

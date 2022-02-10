@@ -5,6 +5,9 @@ Changelog
 1.0a35 (unreleased)
 -------------------
 
+- Use css class & background style also on footers sections
+  [laulaz]
+
 - Correction of spelling mistakes
   [thomlamb]
 
