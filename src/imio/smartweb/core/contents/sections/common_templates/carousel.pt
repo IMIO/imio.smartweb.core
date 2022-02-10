@@ -28,13 +28,13 @@
     <p tal:replace="structure context/@@description" />
 
     <div tal:condition="items"
-         tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
+         tal:define="collapse_klass python: 'collapse' if context.collapsible_section else '';
+                     nb_class string:nb-items-batch-${context/nb_results_by_batch};"
          class=""
-         tal:attributes="class string:body-section swiper carousel carousel-dark slide ${collapse_klass};
+         tal:attributes="class string:body-section swiper carousel carousel-dark slide ${collapse_klass} ${nb_class};
                          id string:body-section-${context/id};
                          data-nb-results-by-batch context/nb_results_by_batch;">
-      <div class="swiper-wrapper"
-           tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};">
+      <div class="swiper-wrapper">
         <tal:bcl tal:repeat="batch items">
           <div class="swiper-slide"
                tal:repeat="item batch">

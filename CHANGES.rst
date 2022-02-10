@@ -5,7 +5,8 @@ Changelog
 1.0a35 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Restore removed class to help styling carousel by batch size
+  [laulaz]
 
 
 1.0a34 (2022-02-09)
