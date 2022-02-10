@@ -5,6 +5,9 @@ Changelog
 1.0a35 (unreleased)
 -------------------
 
+- Remove GDPR link from footer (it is already in colophon)
+  [laulaz]
+
 - Restore removed class to help styling carousel by batch size
   [laulaz]
 
