@@ -22,13 +22,13 @@
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
   <include file="subscribers.zcml" />
-  <include file="upgrades.zcml" />
   <include file="vocabularies.zcml" />
 
   <include package=".contents" />
   <include package=".behaviors" />
   <include package=".browser" />
   <include package=".faceted" />
+  <include package=".upgrades" />
   <include package=".viewlets" />
   <include package=".webcomponents" />
 
