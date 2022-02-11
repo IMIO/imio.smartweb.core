@@ -5,7 +5,8 @@ Changelog
 1.0a37 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix bad css value
+  [thomlamb]
 
 
 1.0a36 (2022-02-11)
