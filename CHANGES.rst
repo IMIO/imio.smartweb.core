@@ -5,6 +5,9 @@ Changelog
 1.0a36 (unreleased)
 -------------------
 
+- Change default value for batch size in files section
+  [laulaz]
+
 - Improve css
   [thomlamb]
 

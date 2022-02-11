@@ -13,7 +13,7 @@ class ISectionFiles(ISection):
     nb_results_by_batch = schema.Choice(
         title=_("Number of items per batch"),
         required=True,
-        default=3,
+        default=1,
         values=[1, 3, 4],
     )
 
