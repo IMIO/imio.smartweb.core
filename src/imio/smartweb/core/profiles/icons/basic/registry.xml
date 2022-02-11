@@ -83,6 +83,14 @@
       <value key="resource">++plone++imio.smartweb.core/icons/categorie-cinema.svg</value>
     </record>
 
+    <record name="smartweb.icon.category.shop"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Shop</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-commerce.svg</value>
+    </record>
+
     <record name="smartweb.icon.category.concert"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">

@@ -11,6 +11,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1016_to_1017"
+      title="Upgrade core from 1016 to 1017"
+      directory="profiles/1016_to_1017"
+      description="Add new shop icon to registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -169,6 +177,16 @@
     <genericsetup:upgradeDepends
         title="Add new e-guichet icon to registry"
         import_profile="imio.smartweb.core.upgrades:upgrade_1015_to_1016"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1016"
+      destination="1017"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new shop icon to registry"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1016_to_1017"
         />
   </genericsetup:upgradeSteps>
 

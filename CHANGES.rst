@@ -5,7 +5,7 @@ Changelog
 1.0a36 (unreleased)
 -------------------
 
-- Update e-guichet icon file
+- Update e-guichet icon file & add new shopping icon
   [laulaz]
 
 - Change default value for batch size in files section
