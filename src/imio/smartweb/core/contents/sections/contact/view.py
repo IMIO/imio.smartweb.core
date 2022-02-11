@@ -7,6 +7,7 @@ from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.memoize.view import memoize
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 
@@ -17,6 +18,7 @@ class ContactView(SectionView):
     """Contact Section view"""
 
     @property
+    @memoize
     def contact(self):
         url = "{}/@search?UID={}&fullobjects=1".format(
             DIRECTORY_URL, self.context.related_contact

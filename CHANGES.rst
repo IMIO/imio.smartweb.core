@@ -5,7 +5,8 @@ Changelog
 1.0a36 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Avoid fetching contact from authentic source multiple times on the same view
+  [laulaz]
 
 
 1.0a35 (2022-02-10)
