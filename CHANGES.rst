@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a36 (unreleased)
+1.0a36 (2022-02-11)
 -------------------
 
 - Update e-guichet icon file & add new shopping icon
