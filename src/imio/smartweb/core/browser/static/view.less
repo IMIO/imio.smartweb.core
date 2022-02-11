@@ -16,8 +16,12 @@ body{
   width: 240px;
   padding-top: 56.25%;
 }
-
-//banner
+// for edition
+.template-folder_contents table .actionmenu a.action.set-default-page {
+  display: none;
+}
+//
+// banner
 #banner{
   grid-column-start: 1;
   grid-column-end: -1;
@@ -61,7 +65,7 @@ body{
 //sub site
 #portal-globalnav-wrapper li > .has_subtree {
 	padding: 5em 2em 0 2em;
-    @include media-breakpoint-up(lg) {
+    @media (min-width:992px) {
         padding: 2rem;
     }
 }
@@ -224,10 +228,8 @@ header#content-header{
 
       // Navigation sublevels
       ul {
-        @include media-breakpoint-up($nav-main-breakpoint) {
           transition: ease-out 2.75s;
           left: 0;
-        }
       }
       .opener {
         display: none;
@@ -238,7 +240,7 @@ header#content-header{
         &:checked+label:after {
           transform: rotate(-180deg);
           transition: ease-in 0.35s;
-          @include media-breakpoint-up($nav-main-breakpoint) {
+          @media (min-width:992px) {
             transform: rotate(0);
           }
         }
@@ -251,7 +253,7 @@ header#content-header{
           transition: ease-in 0.35s;
         }
         &:checked~ul {
-          @include media-breakpoint-down($nav-main-breakpoint) {
+          @media (max-width:992px) {
             visibility: visible;
             opacity: 1;
           }
@@ -269,12 +271,12 @@ header#content-header{
         justify-content: center;
         align-items: flex-end;
         padding-right: 0.5em;
-        @include media-breakpoint-up($nav-main-breakpoint) {
+        @media (min-width:992px) {
           align-items: flex-start;
           width: auto;
         }
         &:after {
-          @include media-breakpoint-up($nav-main-breakpoint) {
+          @media (min-width:992px) {
             font-size: 0.75em;
             background: transparent;
           }
@@ -457,10 +459,9 @@ header#content-header{
           li {
               .has_subtree.dropdown {
                   position: absolute;
-                  right:-100vw;
                   left: inherit;
                   z-index: 1;
-                  left: inherit!important;
+                  left: 0!important;
               }
               &.show-nav > .has_subtree.dropdown{
                   right: 0;
@@ -470,7 +471,6 @@ header#content-header{
           }
   }
   #subsite-navigation > ul{
-      white-space: nowrap;
       display: flex;
       flex-wrap: nowrap;
       overflow-x: scroll;

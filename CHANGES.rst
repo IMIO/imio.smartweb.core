@@ -5,6 +5,9 @@ Changelog
 1.0a36 (unreleased)
 -------------------
 
+- Improve css
+  [thomlamb]
+
 - Avoid fetching contact from authentic source multiple times on the same view
   [laulaz]
 
