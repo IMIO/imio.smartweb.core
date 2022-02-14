@@ -5,6 +5,15 @@ Changelog
 1.0a37 (unreleased)
 -------------------
 
+- Fix problem with react event map
+  [thomlamb]
+
+- Add background image for result search items
+  [thomlamb]
+
+- Refactor all js indent
+  [thomlamb]
+
 - Add placeholder class on contact logo & leadimage when they are empty
   [laulaz]
 
