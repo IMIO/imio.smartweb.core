@@ -5,7 +5,8 @@ Changelog
 1.0a39 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix missing value for placeholder
+  [thomlamb]
 
 
 1.0a38 (2022-02-14)

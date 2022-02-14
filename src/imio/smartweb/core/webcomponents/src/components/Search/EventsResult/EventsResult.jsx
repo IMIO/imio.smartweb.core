@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import useAxios from "../../../hooks/useAxios";
 import Highlighter from "react-highlight-words";
+import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
+
 
 const EventsResult = (props) => {
     const [resultArray, setresultArray] = useState([]);
