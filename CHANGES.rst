@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a40 (unreleased)
+1.0a40 (2022-02-14)
 -------------------
 
 - Fix bug with react import img
