@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a37 (unreleased)
+1.0a37 (2022-02-14)
 -------------------
 
 - Fix problem with react event map
