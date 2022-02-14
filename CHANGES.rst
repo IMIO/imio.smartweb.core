@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0a310 (unreleased)
---------------------
+1.0a40 (unreleased)
+-------------------
 
 - Nothing changed yet.
 
