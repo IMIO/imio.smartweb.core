@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a39 (unreleased)
+1.0a39 (2022-02-14)
 -------------------
 
 - Fix missing value for placeholder
