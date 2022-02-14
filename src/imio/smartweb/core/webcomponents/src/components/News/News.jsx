@@ -73,9 +73,6 @@ const NewsView = (props) => {
         setBatchStart((batchStart) => batchStart + 10);
         setLoadMoreLaunch(true);
     };
-    console.log(batchStart);
-    console.log(isMore);
-
     // Update filters Batch
     useEffect(() => {
         setFilters((prevFilters) => {

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import useAxios from "../../../hooks/useAxios";
 import Highlighter from "react-highlight-words";
-import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
-
 
 const EventsResult = (props) => {
     const [resultArray, setresultArray] = useState([]);
@@ -38,17 +36,17 @@ const EventsResult = (props) => {
                 {resultArray.map((contactItem, i) => (
                     <li key={i} className="r-search-item">
                         <a href={contactItem["_url"]}>
-                            <div
-                                className="r-search-img"
-                                style={{
-                                    backgroundImage: contactItem.has_leadimage[0]
-                                        ? "url(" +
-                                          contactItem._source_url +
-                                          "/@@images/image/preview" +
-                                          ")"
-                                        : "url(" + imgPlaceholder + ")",
-                                }}
-                            />
+                            <div className="r-search-img">
+                            {
+                                contactItem.has_leadimage[0] ? (
+                                    <div className="r-search-img" style={{
+                                        backgroundImage:"url(" + contactItem._source_url + "/@@images/image/preview" +")"
+                                    }}></div>
+                                ):(
+                                    <div className="r-search-img no-search-item-img"></div>
+                                )
+                            }
+                            </div>
                             <Highlighter
                                 highlightClassName="r-search-highlighter"
                                 searchWords={[props.urlParams.SearchableText]}

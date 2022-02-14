@@ -27,6 +27,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
         if (response !== null) {
             setcontactItem(response.items[0]);
         }
+        window.scrollTo(0, 0);
     }, [response]);
 
     // useEffect(() => {

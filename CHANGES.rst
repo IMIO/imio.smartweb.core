@@ -5,7 +5,8 @@ Changelog
 1.0a40 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix bug with react import img
+  [thomlamb]
 
 
 1.0a39 (2022-02-14)
