@@ -22,6 +22,9 @@
 
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
+  <div class=""
+     tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};"
+     tal:attributes="class nb_class">
 
     <metal:macro use-macro="context/@@sections_macros/section_title" />
 
@@ -118,7 +121,7 @@
       </tal:if>
 
     </div>
-
+  </div>
   </tal:if>
   </div>
 </tal:def>

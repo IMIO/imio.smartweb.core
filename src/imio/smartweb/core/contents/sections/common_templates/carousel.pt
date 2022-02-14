@@ -22,16 +22,18 @@
 
   <tal:if tal:define="show_section python: can_edit or items"
           tal:condition="show_section">
+    <div class=""
+         tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};"
+         tal:attributes="class nb_class">
 
     <metal:macro use-macro="context/@@sections_macros/section_title" />
 
     <p tal:replace="structure context/@@description" />
 
     <div tal:condition="items"
-         tal:define="collapse_klass python: 'collapse' if context.collapsible_section else '';
-                     nb_class string:nb-items-batch-${context/nb_results_by_batch};"
+         tal:define="collapse_klass python: 'collapse' if context.collapsible_section else '';"
          class=""
-         tal:attributes="class string:body-section swiper carousel carousel-dark slide ${collapse_klass} ${nb_class};
+         tal:attributes="class string:body-section swiper carousel carousel-dark slide ${collapse_klass};
                          id string:body-section-${context/id};
                          data-nb-results-by-batch context/nb_results_by_batch;">
       <div class="swiper-wrapper">
@@ -94,7 +96,7 @@
           tal:attributes="href view/see_all_url"
           tal:content="context/link_text"></a>
     </div>
-
+  </div>
   </tal:if>
   </div>
 </tal:def>

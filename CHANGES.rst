@@ -5,6 +5,10 @@ Changelog
 1.0a37 (unreleased)
 -------------------
 
+- Add new div with a nb-items-batch-[N] class
+  to ease stylizing multi items templates (table, carousel)
+  [boulch]
+
 - Fix bad css value
   [thomlamb]
 
@@ -54,14 +58,14 @@ Changelog
 -------------------
 
 - Fix missing permissions to add footer
-  [laulaz] 
+  [laulaz]
 
 - Fix default item view for a collection when anonymous
-  [laulaz] 
+  [laulaz]
 
 - Fix double escaped navigation items in quick accesses
   See https://github.com/plone/plone.app.layout/issues/280
-  [laulaz] 
+  [laulaz]
 
 
 1.0a33 (2022-02-08)
@@ -75,7 +79,7 @@ Changelog
 -------------------
 
 - Change Youtube & Parking base icons, and add Twitter
-  [laulaz] 
+  [laulaz]
 
 - Add id on sections containers to ease styling
   [laulaz]
