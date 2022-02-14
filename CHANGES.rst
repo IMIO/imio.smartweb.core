@@ -5,6 +5,9 @@ Changelog
 1.0a37 (unreleased)
 -------------------
 
+- Add placeholder class on contact logo & leadimage when they are empty
+  [laulaz]
+
 - Change/fix max number (30) of possible sections in pages before paging
   [boulch]
 

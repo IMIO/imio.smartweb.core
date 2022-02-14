@@ -25,15 +25,29 @@
                          id string:body-section-${context/id}"
          tal:condition="contact">
 
-      <div class="contact_logo"
-           tal:condition="python:'logo' in visible_blocks"
-           tal:attributes="style string:background-image:url(${contact/@id}/@@images/logo/medium)">
-      </div>
+      <tal:block tal:condition="python:'logo' in visible_blocks">
+        <tal:def tal:define="has_logo contact/logo | nothing">
+          <div class="contact_logo"
+               tal:condition="has_logo"
+               tal:attributes="style string:background-image:url(${contact/@id}/@@images/logo/medium)">
+          </div>
+          <div class="contact_logo contact_placeholder"
+               tal:condition="not: has_logo">
+          </div>
+        </tal:def>
+      </tal:block>
 
-      <div class="contact_leadimage"
-           tal:condition="python:'leadimage' in visible_blocks"
-           tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/medium)">
-      </div>
+      <tal:block tal:condition="python:'leadimage' in visible_blocks">
+        <tal:def tal:define="has_image contact/image | nothing">
+          <div class="contact_leadimage"
+               tal:condition="has_image"
+               tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/medium)">
+          </div>
+          <div class="contact_leadimage contact_placeholder"
+               tal:condition="not: has_image">
+          </div>
+        </tal:def>
+      </tal:block>
 
       <div class="contact_titles"
            tal:condition="python:'titles' in visible_blocks">
