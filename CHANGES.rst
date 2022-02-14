@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a38 (unreleased)
+1.0a38 (2022-02-14)
 -------------------
 
 - Fix condition to display search items img
