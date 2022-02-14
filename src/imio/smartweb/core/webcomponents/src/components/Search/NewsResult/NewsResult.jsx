@@ -40,7 +40,7 @@ const NewsResult = (props) => {
                             <div
                                 className="r-search-img"
                                 style={{
-                                    backgroundImage: contactItem.has_leadimage
+                                    backgroundImage: contactItem.has_leadimage[0]
                                         ? "url(" +
                                           contactItem._source_url +
                                           "/@@images/image/preview" +
