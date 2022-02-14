@@ -35,7 +35,7 @@ class PagesView(FolderView):
         # Extra filter
         kwargs.update(self.request.get("contentFilter", {}))
         kwargs.setdefault("batch", True)
-        kwargs.setdefault("b_size", self.b_size)
+        kwargs.setdefault("b_size", 30)
         kwargs.setdefault("b_start", self.b_start)
         kwargs.setdefault("orphan", 1)
 

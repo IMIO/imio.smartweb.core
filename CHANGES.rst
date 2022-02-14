@@ -5,6 +5,9 @@ Changelog
 1.0a37 (unreleased)
 -------------------
 
+- Change/fix max number (30) of possible sections in pages before paging
+  [boulch]
+
 - Add new div with a nb-items-batch-[N] class
   to ease stylizing multi items templates (table, carousel)
   [boulch]
