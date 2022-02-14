@@ -5,7 +5,8 @@ Changelog
 1.0a38 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix condition to display search items img
+  [thomlamb]
 
 
 1.0a37 (2022-02-14)
