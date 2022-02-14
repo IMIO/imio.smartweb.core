@@ -89,6 +89,7 @@ article > header {
   }
   .r-result{
     margin-top: 2rem;
+    padding-bottom: 2rem;
     &-filter{
       display: flex;
       gap: 20px;
@@ -170,6 +171,8 @@ article > header {
 
 // FOR BLA
 .r-load-more{
+  margin-bottom: 2rem;
+  text-align: center;
   button{
     background: #000;
     border: solid 1px transparent;

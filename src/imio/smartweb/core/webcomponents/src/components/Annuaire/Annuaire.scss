@@ -91,6 +91,7 @@ article > header {
     gap: 40px;
   }
   .r-result{
+    padding-bottom: 2rem;
     &-list{
       padding:0;
       .r-list-item-group{
@@ -211,6 +212,8 @@ article > header {
 }
 
 .r-load-more{
+  margin-bottom: 2rem;
+  text-align: center;
   button{
     background: #000;
     border: solid 1px transparent;

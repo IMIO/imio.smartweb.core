@@ -1,7 +1,7 @@
 import ContactCard from "../ContactCard/ContactCard";
 import { Link } from "react-router-dom";
 import React from "react";
-import removeAccents from 'remove-accents';
+import removeAccents from "remove-accents";
 const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
     function handleClick(event) {
         onChange(event);
@@ -25,7 +25,9 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
                             className="r-list-item-link"
                             style={{ textDecoration: "none" }}
                             to={{
-                                pathname: removeAccents(contactItem.title.replace(/\s/g, '-').toLowerCase()),
+                                pathname: removeAccents(
+                                    contactItem.title.replace(/\s/g, "-").toLowerCase()
+                                ),
                                 search: `?u=${contactItem.UID}`,
                                 state: {
                                     idItem: contactItem.UID,

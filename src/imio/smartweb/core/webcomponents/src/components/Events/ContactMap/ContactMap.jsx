@@ -19,7 +19,6 @@ function ChangeMapView({ activeItem, arrayOfLatLngs }) {
         map.fitBounds(bounds);
     }
     return null;
-
 }
 
 function ContentMap(props) {
@@ -29,7 +28,7 @@ function ContentMap(props) {
     const [allPosition, setAllPosition] = useState(null);
 
     useEffect(() => {
-        const filterArray = props.items.filter((isgeo) => isgeo.is_geolocated);
+        const filterArray = props.items.filter((isgeo) => isgeo.geolocation.latitude);
         setFilterGeoArray(filterArray);
     }, [props]);
 
@@ -93,19 +92,26 @@ function ContentMap(props) {
         }
     }, [filterGeoArray]);
 
-    const position = [50.85034, 4.35171];
+    const position = [50.6755292, 4.3806354];
     return (
         <div>
-            <MapContainer style={{height:`calc(100vh - ${props.headerHeight}px)`,minHeight: '600px' }} center={position} zoom={15}>
+            <MapContainer
+                style={{ height: `calc(100vh - ${props.headerHeight}px)`, minHeight: "600px" }}
+                center={position}
+                zoom={15}
+            >
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                {allPosition != null ?
-                    <ChangeMapView activeItem={activeItem} arrayOfLatLngs={allPosition && allPosition} />
-                    : ""
-                }
-                
+                {allPosition != null ? (
+                    <ChangeMapView
+                        activeItem={activeItem}
+                        arrayOfLatLngs={allPosition && allPosition}
+                    />
+                ) : (
+                    ""
+                )}
                 {filterGeoArray &&
                     filterGeoArray.map((mark, id) => (
                         <Marker

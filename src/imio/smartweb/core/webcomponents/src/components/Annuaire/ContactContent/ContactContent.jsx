@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 
-const ContactContent = ({queryUrl, onChange}) => {
+const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 = { ...parsed, UID: parsed['u'], fullobjects: 1 };
+    const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
     const [params, setParams] = useState(parsed2);
     const [contactItem, setcontactItem] = useState({});
     const { response, error, isLoading } = useAxios(
@@ -19,7 +19,8 @@ const ContactContent = ({queryUrl, onChange}) => {
                 Accept: "application/json",
             },
             params: params,
-        },[]
+        },
+        []
     );
 
     // set all contacts state
@@ -28,9 +29,7 @@ const ContactContent = ({queryUrl, onChange}) => {
             setcontactItem(response.items[0]);
         }
         window.scrollTo(0, 0);
-
     }, [response]);
-
 
     function handleClick() {
         history.push("./");
@@ -42,22 +41,25 @@ const ContactContent = ({queryUrl, onChange}) => {
                 Retour
             </button>
             <article>
-            <header>
+                <header>
                     <h2 className="r-content-title">{contactItem.title}</h2>
-                    {contactItem.subtitle?
+                    {contactItem.subtitle ? (
                         <h3 className="r-content-subtitle">{contactItem.subtitle}</h3>
-                        : ""
-                    }
-            </header>
-            {contactItem.logo ?
-                            <figure>
-                            <img className="r-content-img"
-                                src={contactItem.logo.scales.thumb.download}
-                                alt={contactItem.logo.filename}
-                            />
-                        </figure>
-                        : ""
-            }
+                    ) : (
+                        ""
+                    )}
+                </header>
+                {contactItem.logo ? (
+                    <figure>
+                        <img
+                            className="r-content-img"
+                            src={contactItem.logo.scales.thumb.download}
+                            alt={contactItem.logo.filename}
+                        />
+                    </figure>
+                ) : (
+                    ""
+                )}
             </article>
             <div className="contactCard">
                 <div className="contactText">

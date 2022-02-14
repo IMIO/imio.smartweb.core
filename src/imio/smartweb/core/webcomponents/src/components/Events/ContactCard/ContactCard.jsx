@@ -1,7 +1,7 @@
 import React from "react";
 import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
-import moment from 'moment'
-import Moment from 'react-moment';
+import moment from "moment";
+import Moment from "react-moment";
 const ContactCard = ({ contactItem }) => {
     const title = contactItem.title && contactItem.title;
     const category =
@@ -30,10 +30,19 @@ const ContactCard = ({ contactItem }) => {
             />
 
             <div className="r-item-text">
-                {contactItem.category ? <span className="r-item-categorie">{contactItem.category.title}</span> : ""}
+                {contactItem.category ? (
+                    <span className="r-item-categorie">{contactItem.category.title}</span>
+                ) : (
+                    ""
+                )}
                 <span className="r-item-title">{title}</span>
-                {start ? <span className="r-item-date"><Moment format='DD-MM-YYYY'>{start}</Moment></span> : ""}
-
+                {start ? (
+                    <span className="r-item-date">
+                        <Moment format="DD-MM-YYYY">{start}</Moment>
+                    </span>
+                ) : (
+                    ""
+                )}
             </div>
         </div>
     );

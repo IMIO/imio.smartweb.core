@@ -1,6 +1,6 @@
-import React, { useEffect, useCallback,useRef, useState } from "react";
+import React, { useEffect, useCallback, useRef, useState } from "react";
 import Select from "react-select";
-import {useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 
 function Filters(props) {
@@ -39,18 +39,17 @@ function Filters(props) {
         }
     }, [response]);
 
-    const onChangeHandler = useCallback(({ target: { name, value } }) =>{
+    const onChangeHandler = useCallback(({ target: { name, value } }) => {
         if (value.length > 2) {
-            setInputValues((state) => ({ ...state, [name]: value }), [])
-        } else{
+            setInputValues((state) => ({ ...state, [name]: value }), []);
+        } else {
             setInputValues((prevState) => {
                 const state = { ...prevState };
                 const { [name]: remove, ...rest } = state;
                 return rest;
             });
         }
-    }
-    );
+    });
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
         if (value) {
@@ -67,7 +66,7 @@ function Filters(props) {
     // make to no launch useEffect first time
     const firstUpdate = useRef(true);
     useEffect(() => {
-        if(firstUpdate.current){
+        if (firstUpdate.current) {
             firstUpdate.current = false;
             return;
         }
@@ -88,42 +87,42 @@ function Filters(props) {
 
     let actCategory =
         categoryFilter &&
-        categoryFilter.filter(
-            (option) => option.value === props.activeFilter.category
-        );
+        categoryFilter.filter((option) => option.value === props.activeFilter.category);
     const customStyles = {
-        control: styles => ({ 
+        control: (styles) => ({
             ...styles,
-            backgroundColor: 'white',
-            borderRadius:'0',
-            height:'50px',
+            backgroundColor: "white",
+            borderRadius: "0",
+            height: "50px",
         }),
-        placeholder: styles =>({
+        placeholder: (styles) => ({
             ...styles,
-            color: '000',
-            fontWeight:'bold',
-            fontSize:'12px',
-            textTransform:'uppercase',
-            letterSpacing:'1.2px'
+            color: "000",
+            fontWeight: "bold",
+            fontSize: "12px",
+            textTransform: "uppercase",
+            letterSpacing: "1.2px",
         }),
         option: (styles, { data, isDisabled, isFocused, isSelected }) => {
             return {
-            ...styles,
+                ...styles,
             };
         },
     };
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
-                    {/* <label>Recherche</label> */}
+                {/* <label>Recherche</label> */}
                 <div className="r-filter-search">
-                        <input
-                            className="input-custom-class"
-                            name="SearchableText" type="text"
-                            value={inputValues.SearchableText}
-                            onChange={onChangeHandler}
-                            placeholder={'Recherche'}/>
-                        <button type="submit"></button>
+                    <input
+                        className="input-custom-class"
+                        name="SearchableText"
+                        type="text"
+                        value={inputValues.SearchableText}
+                        onChange={onChangeHandler}
+                        placeholder={"Recherche"}
+                    />
+                    <button type="submit"></button>
                 </div>
             </form>
 

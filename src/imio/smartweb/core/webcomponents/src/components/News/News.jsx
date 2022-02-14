@@ -11,20 +11,26 @@ import useFilterQuery from "../../hooks/useFilterQuery";
 export default function News(props) {
     return (
         <Router>
-            <NewsView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl+"?b_size=10"} />
+            <NewsView
+                queryFilterUrl={props.queryFilterUrl}
+                queryUrl={props.queryUrl + "?b_size=10"}
+            />
         </Router>
     );
 }
 const NewsView = (props) => {
     const queryString = require("query-string");
-    const { u, ...parsed } = Object.assign({ b_start: 0, fullobjects: 1 }, queryString.parse(useFilterQuery().toString()))
+    const { u, ...parsed } = Object.assign(
+        { b_start: 0, fullobjects: 1 },
+        queryString.parse(useFilterQuery().toString())
+    );
     const [contactArray, setcontactArray] = useState([]);
     const [contactNumber, setcontactNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
     const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
-    const { response, error, isLoading,isMore} = useAxios(
+    const { response, error, isLoading, isMore } = useAxios(
         {
             method: "get",
             url: "",
@@ -33,7 +39,7 @@ const NewsView = (props) => {
                 Accept: "application/json",
             },
             params: filters,
-            load:loadMoreLaunch,
+            load: loadMoreLaunch,
         },
         []
     );
@@ -41,9 +47,9 @@ const NewsView = (props) => {
     // set all news in state
     useEffect(() => {
         if (response !== null) {
-            if(isMore){
+            if (isMore) {
                 setcontactArray((contactArray) => [...contactArray, ...response.items]);
-            }else{
+            } else {
                 setcontactArray(response.items);
             }
             setcontactNumber(response.items_total);
@@ -67,25 +73,24 @@ const NewsView = (props) => {
         setBatchStart((batchStart) => batchStart + 10);
         setLoadMoreLaunch(true);
     };
-    console.log(batchStart)
-    console.log(isMore)
+    console.log(batchStart);
+    console.log(isMore);
 
     // Update filters Batch
     useEffect(() => {
-        setFilters(prevFilters => {
-            return { 
-              ...prevFilters, 
-              b_start: batchStart
-            }
-          })
+        setFilters((prevFilters) => {
+            return {
+                ...prevFilters,
+                b_start: batchStart,
+            };
+        });
     }, [batchStart]);
     // coditional list render
     let listRender;
     if (contactArray && contactArray.length > 0) {
         listRender = <ContactList onChange={clickID} contactArray={contactArray} />;
-
     } else {
-        listRender = <p>Aucune actualité n'a été trouvée</p>
+        listRender = <p>Aucune actualité n'a été trouvée</p>;
     }
     return (
         <div>
@@ -94,38 +99,42 @@ const NewsView = (props) => {
                     <div className="r-result r-annuaire-result">
                         <Switch>
                             <Route path={"/:name"}>
-                                <ContactContent onChange={clickID} onReturn={filtersChange} queryUrl={props.queryUrl} />
+                                <ContactContent
+                                    onChange={clickID}
+                                    onReturn={filtersChange}
+                                    queryUrl={props.queryUrl}
+                                />
                             </Route>
                             <Route exact path="*">
                                 <div className="r-result-filter actu-result-filter">
                                     <Filters
                                         url={props.queryFilterUrl}
                                         activeFilter={filters}
-                                        onChange={filtersChange} />
-                                        {contactNumber > 0 ? (
-                                            <p className="r-results-numbers"><span>{contactNumber}</span> {contactNumber > 1?'Actualités trouvées':'Actualité trouvée'}</p>
-                                        ) : (
-                                            <p className="r-results-numbers">Aucun résultat</p>
-                                        )}
+                                        onChange={filtersChange}
+                                    />
+                                    {contactNumber > 0 ? (
+                                        <p className="r-results-numbers">
+                                            <span>{contactNumber}</span>{" "}
+                                            {contactNumber > 1
+                                                ? "Actualités trouvées"
+                                                : "Actualité trouvée"}
+                                        </p>
+                                    ) : (
+                                        <p className="r-results-numbers">Aucun résultat</p>
+                                    )}
                                 </div>
-                                {/* {isLoading ? (
-                                    <div>
-                                        <Skeleton /> <Skeleton /> <Skeleton />
-                                    </div>
-                                ) : (
-                                )} */}
-                                <div>{listRender}</div>
+                                {isLoading ? "" : <div>{listRender}</div>}
                                 <div className="r-load-more">
-                                    {(contactNumber -10) > batchStart ? (
-                                        <button onClick={loadMore}  className="btn-grad">
-                                            {isLoading ? 'Chargement...' : 'Plus de résultats'}
+                                    {contactNumber - 10 > batchStart ? (
+                                        <button onClick={loadMore} className="btn-grad">
+                                            {isLoading ? "Chargement..." : "Plus de résultats"}
                                         </button>
-                                     ):(
+                                    ) : (
                                         <span className="no-more-result">
-                                            {isLoading ? 'Chargement...' : ''}
+                                            {isLoading ? "Chargement..." : ""}
                                         </span>
                                     )}
-                                </div> 
+                                </div>
                             </Route>
                         </Switch>
                     </div>
@@ -134,4 +143,3 @@ const NewsView = (props) => {
         </div>
     );
 };
-

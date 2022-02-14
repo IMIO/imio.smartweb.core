@@ -31,15 +31,15 @@ const ContactCard = ({ contactItem }) => {
                 <span className="r-item-title">{title}</span>
                 {category ? <span className="r-item-categorie">{category.title}</span> : ""}
                 <div className="r-item-all">
-                    <div className="r-item-adresse">
-                        {number ? <span>{number + " "}</span> : ""}
-                        {street ? <span>{street + ", "}</span> : ""}
-                        {complement ? <span>{complement + ", "}</span> : ""}
-                        <br />
-                        {zipcode ? <span>{zipcode + " "}</span> : ""}
-                        {city ? <span>{city}</span> : ""}
-                        <div className="itineraty">
-                            {street ? (
+                    {street ? (
+                        <div className="r-item-adresse">
+                            {number ? <span>{number + " "}</span> : ""}
+                            {street ? <span>{street + ", "}</span> : ""}
+                            {complement ? <span>{complement + ", "}</span> : ""}
+                            <br />
+                            {zipcode ? <span>{zipcode + " "}</span> : ""}
+                            {city ? <span>{city}</span> : ""}
+                            <div className="itineraty">
                                 <a
                                     href={
                                         "https://www.google.com/maps/dir/?api=1&destination=" +
@@ -58,11 +58,11 @@ const ContactCard = ({ contactItem }) => {
                                 >
                                     Itinéraire
                                 </a>
-                            ) : (
-                                ""
-                            )}
+                            </div>
                         </div>
-                    </div>
+                    ) : (
+                        ""
+                    )}
                     <div className="r-item-contact">
                         <div className="phones">
                             {phones
