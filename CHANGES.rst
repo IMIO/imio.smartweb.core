@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a41 (unreleased)
+1.0a41 (2022-02-16)
 -------------------
 
 - Fix loadmore react views
