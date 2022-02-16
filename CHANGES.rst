@@ -5,6 +5,15 @@ Changelog
 1.0a41 (unreleased)
 -------------------
 
+- Fix loadmore react views
+  [thomlamb]
+
+- Update Axios module to 26.0
+  [thomlamb]
+
+- Add AbortController to prevent unnecessary requests
+  [thomlamb]
+
 - Use `use_site_search_settings` parameters by default to inherit query parameters from site search settings
   for `@search` endpoint
   [mpeeters]

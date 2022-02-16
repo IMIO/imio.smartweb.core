@@ -120,7 +120,7 @@ const NewsView = (props) => {
                                         <p className="r-results-numbers">Aucun résultat</p>
                                     )}
                                 </div>
-                                {isLoading ? "" : <div>{listRender}</div>}
+                                <div>{listRender}</div>
                                 <div className="r-load-more">
                                     {contactNumber - 10 > batchStart ? (
                                         <button onClick={loadMore} className="btn-grad">

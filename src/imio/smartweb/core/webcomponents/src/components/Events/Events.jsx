@@ -97,7 +97,7 @@ function EventsView(props) {
     // let rFilter = document.getElementById('r-result-filter');
     // let rFilterHeight = rFilter.offsetHeight + portalHeaderHeight;
     const filterRef = useRef();
-    const [style, setStyle] = React.useState({});
+    const [style, setStyle] = React.useState({height:0});
     useEffect(() => {
         setStyle({
             height: filterRef.current.clientHeight,
@@ -181,7 +181,7 @@ function EventsView(props) {
                     <Route exact path="*">
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
-                                {isLoading ? "" : <div>{listRender}</div>}
+                                <div>{listRender}</div>
                                 <div className="r-load-more">
                                     {contactNumber - 20 > batchStart ? (
                                         <button onClick={loadMore} className="btn-grad">

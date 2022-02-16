@@ -122,6 +122,7 @@ function Filters(props) {
             };
         },
     };
+
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
