@@ -6,6 +6,7 @@ const useAxios = (params) => {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [isMore, setIsMore] = useState(false);
+    const controller = new AbortController();
 
     const fetchData = async (params) => {
         setIsLoading(true);
@@ -32,7 +33,8 @@ const useAxios = (params) => {
     };
 
     useEffect(() => {
-        fetchData(params);
+        fetchData({...params,signal: controller.signal});
+        return() => controller.abort()
     }, [params.params]);
     return { response, error, isLoading, isMore };
 };
