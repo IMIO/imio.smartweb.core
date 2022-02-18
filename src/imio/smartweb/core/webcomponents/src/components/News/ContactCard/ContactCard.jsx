@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-
+import moment from "moment";
+import Moment from "react-moment";
 import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
@@ -19,6 +20,7 @@ const ContactCard = ({ contactItem }) => {
             setLimitDescription(description);
         }
     }, [contactItem]);
+    const lastModified = moment(contactItem.modified);
     return (
         <div className="r-list-item">
             <div
@@ -46,7 +48,10 @@ const ContactCard = ({ contactItem }) => {
                         },
                     }}
                 >
-                    Lire la suite
+                <div className="r-card-date-last">
+                    <span>Modifié le </span>
+                    <Moment format="DD-MM-YYYY">{lastModified}</Moment>
+                </div>
                 </Link>
             </div>
             <div className="r-item-arrow-more"></div>

@@ -5,6 +5,9 @@ Changelog
 1.0a42 (unreleased)
 -------------------
 
+- Fix bad html link for news items
+  [thomlamb]
+
 - Fix removed section subscriber. if we removed a folder, pages with sections stayed in catalog
   [boulch]
 

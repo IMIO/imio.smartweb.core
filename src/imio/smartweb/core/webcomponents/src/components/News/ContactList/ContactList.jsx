@@ -16,7 +16,7 @@ const ContactList = ({ contactArray, onChange, parentCallback }) => {
                         onClick={() => handleClick(contactItem.UID)}
                     >
                         <Link
-                            className="r-list-item-link"
+                            className="r-news-list-item-link"
                             style={{ textDecoration: "none" }}
                             to={{
                                 pathname: removeAccents(
@@ -27,8 +27,9 @@ const ContactList = ({ contactArray, onChange, parentCallback }) => {
                                     idItem: contactItem.UID,
                                 },
                             }}
-                        ></Link>
+                        >
                         <ContactCard contactItem={contactItem} key={contactItem.created} />
+                        </Link>
                     </li>
                 ))}
             </ul>

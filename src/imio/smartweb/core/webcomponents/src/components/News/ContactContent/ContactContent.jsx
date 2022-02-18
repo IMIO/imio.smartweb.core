@@ -70,7 +70,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         <Moment format="DD-MM-YYYY">{publish}</Moment>
                     </div>
                     <div className="r-content-date-last">
-                        <span>Modifié le</span>
+                        <span>Modifié le </span>
                         <Moment format="DD-MM-YYYY">{lastModified}</Moment>
                     </div>
                 </div>
