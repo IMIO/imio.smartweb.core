@@ -5,7 +5,8 @@ Changelog
 1.0a42 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix removed section subscriber. if we removed a folder, pages with sections stayed in catalog
+  [boulch]
 
 
 1.0a41 (2022-02-16)

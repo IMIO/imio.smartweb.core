@@ -66,7 +66,7 @@
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectRemovedEvent"
-      handler="imio.smartweb.core.utils.reindexParent"
+      handler=".subscriber.removed_section"
       />
 
 </configure>

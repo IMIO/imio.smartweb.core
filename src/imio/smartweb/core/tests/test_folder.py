@@ -11,6 +11,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
+from plone.app.textfield.value import RichTextValue
 from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.namedfile.file import NamedBlobFile
@@ -313,3 +314,56 @@ class TestFolder(ImioSmartwebTestCase):
         )
         next_modification = folder.ModificationDate()
         self.assertEqual(first_modification, next_modification)
+
+    def test_remove_folder_and_children(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            id="folder",
+        )
+        subfolder = api.content.create(
+            container=folder,
+            type="imio.smartweb.Folder",
+            id="subfolder",
+        )
+        page1 = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            id="page1",
+        )
+        page2 = api.content.create(
+            container=subfolder,
+            type="imio.smartweb.Page",
+            id="page1",
+        )
+        section_text = api.content.create(
+            container=page1,
+            type="imio.smartweb.SectionText",
+            id="txt",
+        )
+        section_text2 = api.content.create(
+            container=page2,
+            type="imio.smartweb.SectionText",
+            id="txt",
+        )
+        section_text.text = RichTextValue(
+            "<p>Textsectionbody</p>", "text/html", "text/html"
+        )
+        section_text.reindexObject()
+        api.content.delete(folder)
+
+        uuid = IUUID(folder)
+        brains = api.content.find(UID=uuid)
+        self.assertEqual(len(brains), 0)
+
+        uuid = IUUID(subfolder)
+        brains = api.content.find(UID=uuid)
+        self.assertEqual(len(brains), 0)
+
+        uuid = IUUID(page1)
+        brains = api.content.find(UID=uuid)
+        self.assertEqual(len(brains), 0)
+
+        uuid = IUUID(page2)
+        brains = api.content.find(UID=uuid)
+        self.assertEqual(len(brains), 0)
