@@ -5,7 +5,8 @@ Changelog
 1.0a43 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Limitate usage of site search settings to current website search
+  [mpeeters]
 
 
 1.0a42 (2022-02-21)

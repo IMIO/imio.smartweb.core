@@ -93,8 +93,8 @@ class SearchGet(Service):
 
 class ExtendedSearchHandler(SearchHandler):
     def search(self, query):
-        if "use_site_search_settings" not in query:
-            # Use site search settings by default
+        if "_core" not in query and "use_site_search_settings" not in query:
+            # Use site search settings by default only for current site search
             query["use_site_search_settings"] = True
         if "use_solr" not in query:
             query["use_solr"] = True  # enforce use of SolR by default
