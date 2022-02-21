@@ -18,7 +18,7 @@ class IQuickAccessSelection(model.Schema):
         title=_("Quick access contents"),
         value_type=RelationChoice(
             title="Items selection",
-            source=CatalogSource(),
+            vocabulary="plone.app.vocabularies.Catalog",
         ),
         required=False,
     )

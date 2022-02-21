@@ -35,7 +35,7 @@ class ISectionCollection(ISection):
     )
     collection = RelationChoice(
         title=_("Select a collection"),
-        source=CatalogSource(),
+        vocabulary="plone.app.vocabularies.Catalog",
     )
 
     nb_results_by_batch = schema.Choice(

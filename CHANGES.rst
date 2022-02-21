@@ -18,6 +18,9 @@ Changelog
 1.0a42 (2022-02-21)
 -------------------
 
+- Fix RelatedItems fields browser in minisite
+  [boulch, laulaz]
+
 - Fix bad html link for news items
   [thomlamb]
 

@@ -18,7 +18,7 @@ class ISectionSelections(ISection):
         title=_("Selected items"),
         value_type=RelationChoice(
             title="",
-            source=CatalogSource(),
+            vocabulary="plone.app.vocabularies.Catalog",
         ),
         required=True,
     )

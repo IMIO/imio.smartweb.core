@@ -43,7 +43,7 @@ class ISectionNews(ISection):
     )
     linking_rest_view = RelationChoice(
         title=_("News view used to display news items details"),
-        source=CatalogSource(),
+        vocabulary="plone.app.vocabularies.Catalog",
         required=True,
     )
 

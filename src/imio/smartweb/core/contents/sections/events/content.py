@@ -53,7 +53,7 @@ class ISectionEvents(ISection):
     )
     linking_rest_view = RelationChoice(
         title=_("Events view used to display events details"),
-        source=CatalogSource(),
+        vocabulary="plone.app.vocabularies.Catalog",
         required=True,
     )
 
