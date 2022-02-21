@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0a43 (unreleased)
+1.0a43 (2022-02-21)
 -------------------
 
 - Limitate usage of site search settings to current website search
