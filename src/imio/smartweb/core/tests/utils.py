@@ -37,3 +37,9 @@ def get_leadimage_filename():
         "resources/plone.png",
     )
     return leadimage
+
+
+def get_leadimage_data():
+    with open(get_leadimage_filename(), "rb") as f:
+        image_data = f.read()
+    return image_data

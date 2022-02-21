@@ -5,7 +5,9 @@ Changelog
 1.0a44 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Override social tags generation to get scaled images instead of full size.
+  We didn't override syndication to avoid any side effects in RSS / Atom
+  [laulaz]
 
 
 1.0a43 (2022-02-21)

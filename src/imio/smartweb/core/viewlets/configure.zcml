@@ -227,6 +227,24 @@
       permission="zope2.View"
       />
 
+  <configure package="plone.app.layout.viewlets">
+    <browser:viewlet
+        name="plone.socialtags"
+        manager=".interfaces.IAboveContentTitle"
+        class="imio.smartweb.core.viewlets.social.SocialTagsViewlet"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        template="social_tags_body.pt"
+        permission="zope2.View"
+        />
+    <browser:viewlet
+        name="plone.htmlhead.socialtags"
+        manager=".interfaces.IHtmlHead"
+        class="imio.smartweb.core.viewlets.social.SocialTagsViewlet"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        template="social_tags.pt"
+        permission="zope2.View"
+        />
+  </configure>
 
   <!-- Overrides to change viewlets managers -->
 
