@@ -4,7 +4,7 @@ from imio.smartweb.core.contents.folder.content import IFolder
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import get_leadimage_filename
+from imio.smartweb.core.tests.utils import get_leadimage_data
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.app.testing import TEST_USER_ID
@@ -133,7 +133,7 @@ class TestFolder(ImioSmartwebTestCase):
             type="imio.smartweb.Page",
             title="My page",
         )
-        page.image = NamedBlobFile("ploneLeadImage", filename=get_leadimage_filename())
+        page.image = NamedBlobFile(data=get_leadimage_data(), filename="plone.png")
         alsoProvides(self.request, IImioSmartwebCoreLayer)
         view = getMultiAdapter((folder, self.request), name="block_view")
         self.assertNotIn("newsImage", view())

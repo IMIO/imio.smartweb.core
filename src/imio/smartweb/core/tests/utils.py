@@ -31,15 +31,11 @@ def get_json(json_filename):
         return json_procedures_raw_mock
 
 
-def get_leadimage_filename():
-    leadimage = os.path.join(
+def get_leadimage_data():
+    leadimage_filename = os.path.join(
         os.path.dirname(__file__),
         "resources/plone.png",
     )
-    return leadimage
-
-
-def get_leadimage_data():
-    with open(get_leadimage_filename(), "rb") as f:
+    with open(leadimage_filename, "rb") as f:
         image_data = f.read()
     return image_data

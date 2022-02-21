@@ -36,10 +36,7 @@ class TestSocial(ImioSmartwebTestCase):
         page = api.content.create(
             container=folder, type="imio.smartweb.Page", title="Page", id="page"
         )
-        page.image = NamedBlobFile(
-            data=get_leadimage_data(),
-            filename="plone.png",
-        )
+        page.image = NamedBlobFile(data=get_leadimage_data(), filename="plone.png")
         api.content.transition(page, "publish")
         transaction.commit()
 
@@ -77,10 +74,7 @@ class TestSocial(ImioSmartwebTestCase):
             content,
         )
 
-        folder.image = NamedBlobFile(
-            data=get_leadimage_data(),
-            filename="plone.png",
-        )
+        folder.image = NamedBlobFile(data=get_leadimage_data(), filename="plone.png")
         transaction.commit()
         browser.open(folder.absolute_url())
         content = browser.contents
