@@ -5,6 +5,10 @@ Changelog
 1.0a44 (unreleased)
 -------------------
 
+- Add conditions on faceted and folder view (with images).
+  When we select one of this view and if a content hasn't image we display a no-image class
+  [boulch]
+
 - Fix css for news items
   [thomlamb]
 

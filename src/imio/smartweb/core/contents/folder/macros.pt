@@ -9,6 +9,8 @@
 
   <a tal:attributes="href item/getURL">
       <tal:if tal:condition="view/show_images">
+        <div condition="python: not item.has_leadimage or not thumb_scale"
+             class="newsImage card-img-top no-image" />
         <div class="newsImage card-img-top"
              tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale})"
              tal:condition="python: item.has_leadimage and thumb_scale" />
