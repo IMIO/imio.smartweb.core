@@ -5,6 +5,9 @@ Changelog
 1.0a44 (unreleased)
 -------------------
 
+- Add description in sendinblue section
+  [boulch]
+
 - Add conditions on faceted and folder view (with images).
   When we select one of this view and if a content hasn't image we display a no-image class
   [boulch]

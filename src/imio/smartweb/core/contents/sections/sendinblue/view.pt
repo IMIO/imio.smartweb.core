@@ -20,6 +20,8 @@
        tal:attributes="class string:body-section ${collapse_klass};
                        id string:body-section-${context/id}">
 
+    <p tal:replace="structure context/@@description" />
+
     <span tal:define="form view/get_subscription_form"
           tal:replace="structure form/render" />
 
