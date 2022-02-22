@@ -5,6 +5,9 @@ Changelog
 1.0a44 (unreleased)
 -------------------
 
+- Change event contact icon
+  [thomlamb]
+
 - Override social tags generation to get scaled images instead of full size.
   We didn't override syndication to avoid any side effects in RSS / Atom
   [laulaz]

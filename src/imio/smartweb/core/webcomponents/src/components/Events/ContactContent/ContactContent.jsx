@@ -154,13 +154,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         {/* contact */}
                         <div className="r-content-news-info-contact">
                             <div className="icon-baseline">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    preserveAspectRatio="xMinYMin"
-                                    viewBox="0 0 19.41 19.41"
-                                >
-                                    <path d="M16.09,2.74H14.35V.85a.44.44,0,0,0-.43-.44H12.47A.44.44,0,0,0,12,.85V2.74H7.38V.85A.44.44,0,0,0,7,.41H5.5a.44.44,0,0,0-.44.44V2.74H3.32A1.74,1.74,0,0,0,1.58,4.48V17.26A1.74,1.74,0,0,0,3.32,19H16.09a1.74,1.74,0,0,0,1.75-1.74V4.48A1.74,1.74,0,0,0,16.09,2.74Zm-.21,14.52H3.54A.22.22,0,0,1,3.32,17h0V6.22H16.09V17a.21.21,0,0,1-.21.22Z" />
-                                </svg>
+                            
                             </div>
                             <div className="dpinlb">
                                 <div className="r-content-news-info--name">
@@ -182,8 +176,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         </div>
                         {/* link  */}
                         {contactItem.event_url === null &&
-                        contactItem.online_participation === null &&
-                        contactItem.video_url === null ? (
+                            contactItem.online_participation === null &&
+                            contactItem.video_url === null ? (
                             ""
                         ) : (
                             <div className="r-content-news-info-link">
@@ -225,8 +219,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 
                         {/* Social */}
                         {contactItem.facebook === null &&
-                        contactItem.instagram === null &&
-                        contactItem.twitter === null ? (
+                            contactItem.instagram === null &&
+                            contactItem.twitter === null ? (
                             ""
                         ) : (
                             <div className="r-content-news-info-social">
