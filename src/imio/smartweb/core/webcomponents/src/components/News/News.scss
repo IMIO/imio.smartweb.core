@@ -20,6 +20,8 @@
 .r-item-text{
   margin: 20px 30px;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 .r-item-title{
   display: block;
@@ -113,8 +115,7 @@
   }
   /* arrow more */
   .r-item-read-more{
-    position: absolute;
-    bottom: 0;
+    margin-top: auto;
   }
   .r-item-arrow-more{
     width: 50px;

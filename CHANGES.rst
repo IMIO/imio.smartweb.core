@@ -5,6 +5,9 @@ Changelog
 1.0a44 (unreleased)
 -------------------
 
+- Fix css for news items
+  [thomlamb]
+
 - Change event contact icon
   [thomlamb]
 
