@@ -341,7 +341,7 @@ class TestFolder(ImioSmartwebTestCase):
             type="imio.smartweb.SectionText",
             id="txt",
         )
-        section_text2 = api.content.create(
+        api.content.create(
             container=page2,
             type="imio.smartweb.SectionText",
             id="txt",
