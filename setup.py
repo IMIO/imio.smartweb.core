@@ -16,7 +16,7 @@ long_description = "\n\n".join(
 
 setup(
     name="imio.smartweb.core",
-    version="1.0",
+    version="1.0.1.dev0",
     description="Core product for iMio websites",
     long_description=long_description,
     # Get more from https://pypi.org/classifiers/
