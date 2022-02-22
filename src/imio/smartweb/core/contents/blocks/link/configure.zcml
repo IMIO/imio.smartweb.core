@@ -1,12 +1,20 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="imio.smartweb">
 
   <adapter
       factory="plone.app.z3cform.widget.LinkFieldWidget"
-      for="imio.smartweb.core.contents.blocks.link.content.ILinkField
+      for=".fields.ILinkField
            plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget=".fields.IIconsRadioWidget"
+      layer="plone.app.z3cform.interfaces.IPloneFormLayer"
+      template="icons_input.pt"
       />
 
 </configure>

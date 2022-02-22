@@ -5,6 +5,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
+- Use new icons radio widget to select SVG icon for links
+  [laulaz]
+
 - Avoid problems with minisite & subsite simultaneous activation (for example,
   through a cached action)
   [laulaz]
