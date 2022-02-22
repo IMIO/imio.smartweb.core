@@ -196,6 +196,9 @@ class TestSubsite(ImioSmartwebTestCase):
         subsite_view = getMultiAdapter(
             (self.folder, self.request), name="subsite_settings"
         )
+        self.assertFalse(subsite_view.available)
+        self.assertFalse(subsite_view.enabled)
+        subsite_view.enable()
         self.assertFalse(subsite_view.enabled)
 
     def test_subsite_body_class(self):

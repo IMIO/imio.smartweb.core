@@ -18,6 +18,8 @@ class MiniSiteSettings(BrowserView):
     """Subsite settings"""
 
     def enable(self):
+        if not self.available:
+            return
         enable_behaviors(
             self.context,
             [IImioSmartwebMinisiteSettings.__identifier__],

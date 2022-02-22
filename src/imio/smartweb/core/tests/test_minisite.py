@@ -72,6 +72,17 @@ class TestMinisite(ImioSmartwebTestCase):
         subsite_view.enable()
         self.assertFalse(view.available)
 
+        subfolder = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Folder",
+            title="Subfolder",
+            id="subfolder",
+        )
+        view = getMultiAdapter((subfolder, self.request), name="minisite_settings")
+        self.assertFalse(view.available)
+        view.enable()
+        self.assertFalse(view.enabled)
+
     def test_minisite_exclude_from_nav(self):
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
         view.enable()
@@ -228,6 +239,19 @@ class TestMinisite(ImioSmartwebTestCase):
         view = getMultiAdapter((minisite2, self.request), name="minisite_settings")
         self.assertFalse(view.available)
 
+    def test_cannot_enable_minisite_on_subsite(self):
+        subsite_view = getMultiAdapter(
+            (self.folder, self.request), name="subsite_settings"
+        )
+        subsite_view.enable()
+        minisite_view = getMultiAdapter(
+            (self.folder, self.request), name="minisite_settings"
+        )
+        self.assertFalse(minisite_view.available)
+        self.assertFalse(minisite_view.enabled)
+        minisite_view.enable()
+        self.assertFalse(minisite_view.enabled)
+
     def test_minisite_viewlet_logo(self):
         viewlet = LogoViewlet(self.folder, self.request, None, None)
         viewlet.update()
@@ -273,27 +297,20 @@ class TestMinisite(ImioSmartwebTestCase):
         self.assertEqual(viewlet.navigation_root_url, "http://nohost/plone/folder")
 
     def test_minisite_body_class(self):
-        subfolder = api.content.create(
-            container=self.folder,
-            type="imio.smartweb.Folder",
-            title="Subfolder",
-            id="subfolder",
-        )
         page = api.content.create(
-            container=subfolder,
+            container=self.folder,
             type="imio.smartweb.Page",
             title="Subpage",
             id="subpage",
         )
-
-        view = getMultiAdapter((subfolder, self.request), name="minisite_settings")
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
         view.enable()
-        template = subfolder.restrictedTraverse("view")
+        template = self.folder.restrictedTraverse("view")
         layout_view = page.restrictedTraverse("@@plone_layout")
         body_class = layout_view.bodyClass(template, view)
         self.assertIn("is-in-minisite", body_class)
 
-        view = getMultiAdapter((subfolder, self.request), name="minisite_settings")
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
         view.disable()
         layout_view = page.restrictedTraverse("@@plone_layout")
         body_class = layout_view.bodyClass(template, view)

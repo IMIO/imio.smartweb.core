@@ -14,6 +14,8 @@ class SubSiteSettings(BrowserView):
     """Subsite settings"""
 
     def enable(self):
+        if not self.available:
+            return
         enable_behaviors(
             self.context,
             [IImioSmartwebSubsite.__identifier__],

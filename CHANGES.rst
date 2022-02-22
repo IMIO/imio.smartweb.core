@@ -5,7 +5,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Avoid problems with minisite & subsite simultaneous activation (for example,
+  through a cached action)
+  [laulaz]
 
 
 1.0 (2022-02-22)
