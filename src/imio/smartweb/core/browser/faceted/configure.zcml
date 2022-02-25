@@ -4,6 +4,8 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="imio.smartweb">
 
+  <include package=".widgets" />
+
   <!-- Unconfigure default faceted layout views -->
   <unconfigure package="eea.facetednavigation.views">
     <faceted:view

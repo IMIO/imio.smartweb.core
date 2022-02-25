@@ -1,0 +1,17 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:faceted="http://namespaces.zope.org/faceted">
+
+  <unconfigure package="eea.facetednavigation.widgets.select">
+    <faceted:widget
+        factory=".widget.Widget"
+        schema=".interfaces.ISelectSchema"
+        />
+  </unconfigure>
+
+  <faceted:widget
+      factory=".select.Select"
+      schema="eea.facetednavigation.widgets.select.interfaces.ISelectSchema"
+      />
+
+</configure>
