@@ -5,6 +5,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
+- Fix : Add a missing tal instruction
+  [boulch]
+
 - Use new icons radio widget to select SVG icon for links
   [laulaz]
 
