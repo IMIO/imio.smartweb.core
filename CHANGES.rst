@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.1 (unreleased)
+1.0.1 (2022-02-25)
 ------------------
 
 - Removal of the pointer if it is located at Imio (event and library view)
