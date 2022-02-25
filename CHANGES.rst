@@ -5,6 +5,9 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
+- Add placeholder to faceted text search (xml) + upgrade step
+  [boulch]
+
 - Fix : Add a missing tal instruction
   [boulch]
 

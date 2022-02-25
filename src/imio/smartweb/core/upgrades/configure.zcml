@@ -190,4 +190,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Add placeholder to faceted text search"
+      description=""
+      source="1017"
+      destination="1018"
+      handler=".upgrades.add_placeholder_to_faceted_textsearch"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

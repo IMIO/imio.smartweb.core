@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from eea.facetednavigation.interfaces import ICriteria
+from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
 from plone import api
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
@@ -87,3 +89,14 @@ def check_itinerary_if_address_is_checked(context):
             if "itinerary" not in obj.visible_blocks:
                 obj.visible_blocks.append("itinerary")
                 obj._p_changed = 1
+
+
+def add_placeholder_to_faceted_textsearch(context):
+    brains = api.content.find(object_provides=IFacetedNavigable)
+    for brain in brains:
+        obj = brain.getObject()
+        handler = ICriteria(obj)
+        for criterion in handler.criteria:
+            if criterion.widget == "text":
+                criterion.placeholder = "Recherche"
+                handler.criteria._p_changed = 1

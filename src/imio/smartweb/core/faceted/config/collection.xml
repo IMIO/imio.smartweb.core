@@ -10,6 +10,7 @@
    <property name="position">top</property>
    <property name="section">default</property>
    <property name="hidden">False</property>
+   <property name="placeholder">Recherche</property>
   </criterion>
   <criterion name="topics">
    <property name="widget">select</property>
