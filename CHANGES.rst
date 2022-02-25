@@ -5,6 +5,12 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
+- Removal of the pointer if it is located at Imio (event and library view)
+  [thomlamb]
+
+- Added times and fixed date display for event views
+  [thomlamb]
+
 - Override eea.facetednavigation select widget template.
   Display label as first value in select fields
   [boulch]

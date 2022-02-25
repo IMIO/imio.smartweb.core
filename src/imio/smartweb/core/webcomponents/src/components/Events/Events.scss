@@ -311,6 +311,10 @@ article > header {
   }
   .r-content-news-info--date{
     display: flex;
+    .r-content-date-start,.r-content-date-end,.r-content-date-start-hours{
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
   .r-content-news-info-social{
     svg{

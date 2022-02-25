@@ -28,7 +28,7 @@ function ContentMap(props) {
     const [allPosition, setAllPosition] = useState(null);
 
     useEffect(() => {
-        const filterArray = props.items.filter((isgeo) => isgeo.is_geolocated);
+        const filterArray = props.items.filter((isgeo) => isgeo.geolocation.latitude && isgeo.geolocation.latitude !== 50.4989185 && isgeo.geolocation.longitude !== 4.7184485);
         setFilterGeoArray(filterArray);
     }, [props]);
 
