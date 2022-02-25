@@ -5,6 +5,10 @@ Changelog
 1.0.1 (unreleased)
 ------------------
 
+- Override eea.facetednavigation select widget template.
+  Display label as first value in select fields
+  [boulch]
+
 - Add placeholder to faceted text search (xml) + upgrade step
   [boulch]
 

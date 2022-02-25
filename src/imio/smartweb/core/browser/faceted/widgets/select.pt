@@ -19,8 +19,10 @@
   tal:attributes="id string:${wid}_widget; class css"
   tal:condition="visible">
 
-<fieldset class="widget-fieldset" tal:define="title python:view.data.get('title', '')">
-  <legend tal:content="python:view.translate(title)" i18n:translate="">Current Search</legend>
+<fieldset class="widget-fieldset"
+          tal:define="title python:view.data.get('title', '');
+                      title python:view.translate(title)">
+  <legend tal:content="title" i18n:translate="">Current Search</legend>
 
   <tal:facet on-error="structure python:error_view(error=error, cid=wid)">
 
@@ -31,12 +33,13 @@
   <form action="." method="get">
     <label class="select-field"
       tal:attributes="for wid"
-      tal:content="python:view.translate(title)" />
+      tal:content="title" />
     <select tal:attributes="name wid; id wid" class="faceted_select">
-      <option title="All" value=""
+      <option value=""
         tal:condition="not:view/data/hidealloption|nothing"
-        tal:attributes="selected python: not default_value"
-        i18n:attributes="title" i18n:translate="">All</option>
+        tal:attributes="selected python: not default_value;
+                        title title"
+        tal:content="title">Title</option>
       <tal:option repeat="term vocabulary">
         <option tal:define="
           term_id python:term[0];
