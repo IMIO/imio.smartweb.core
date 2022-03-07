@@ -5,7 +5,8 @@ Changelog
 1.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add missing init file for faceted widgets
+  [laulaz]
 
 
 1.0.1 (2022-02-25)
