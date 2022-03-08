@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.2 (unreleased)
+1.0.2 (2022-03-08)
 ------------------
 
 - Add missing init file for faceted widgets
