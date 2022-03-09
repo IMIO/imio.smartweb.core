@@ -5,7 +5,14 @@ Changelog
 1.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change leaflet style
+  [thomlamb]
+
+- Adding info popup on leaflet marker
+  [thomlamb]
+
+- Add correct href on search link for tab navigation
+  [thomlamb]
 
 
 1.0.2 (2022-03-08)
