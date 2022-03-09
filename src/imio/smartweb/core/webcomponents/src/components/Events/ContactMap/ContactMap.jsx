@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import iconSvg from "../../../assets/location-bla.svg";
-import iconSvgActivated from "../../../assets/location-active-bla.svg";
-
+import iconSvg from "../../../assets/pin-react.svg";
+import iconSvgActivated from "../../../assets/pin-react-active.svg";
+import { Link } from "react-router-dom";
 import "./ContactMap.scss";
 import "leaflet/dist/leaflet.css";
+import removeAccents from "remove-accents";
 
 function ChangeMapView({ activeItem, arrayOfLatLngs }) {
     const map = useMap();
@@ -26,7 +27,7 @@ function ContentMap(props) {
     const [hoverItem, setHoverItem] = useState(null);
     const [filterGeoArray, setFilterGeoArray] = useState([]);
     const [allPosition, setAllPosition] = useState(null);
-
+    
     useEffect(() => {
         const filterArray = props.items.filter((isgeo) => isgeo.geolocation.latitude && isgeo.geolocation.latitude !== 50.4989185 && isgeo.geolocation.longitude !== 4.7184485);
         setFilterGeoArray(filterArray);
@@ -91,8 +92,8 @@ function ContentMap(props) {
             setAllPosition(posArray);
         }
     }, [filterGeoArray]);
+    const position = [50.85034, 4.35171];
 
-    const position = [50.6755292, 4.3806354];
     return (
         <div>
             <MapContainer
@@ -101,8 +102,8 @@ function ContentMap(props) {
                 zoom={15}
             >
                 <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                    url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
                 />
                 {allPosition != null ? (
                     <ChangeMapView
@@ -113,7 +114,7 @@ function ContentMap(props) {
                     ""
                 )}
                 {filterGeoArray &&
-                    filterGeoArray.map((mark, id) => (
+                    filterGeoArray.map((mark) => (
                         <Marker
                             key={mark.UID}
                             icon={getMarkerIcon(mark.UID)}
@@ -122,12 +123,32 @@ function ContentMap(props) {
                                 mark.geolocation ? mark.geolocation.latitude : "",
                                 mark.geolocation ? mark.geolocation.longitude : "",
                             ]}
-                            onClick={() => {
-                                setActiveItem(mark);
-                            }}
-                        />
+                            eventHandlers={{
+                                mouseover: (e) => {
+                                //   console.log(e.target.options.icon)
+                                },
+                              }}
+                        >
+                            <Popup closeButton={false}>
+                                <Link
+                                    className="r-map-popup"
+                                    style={{ textDecoration: "none" }}
+                                    to={{
+                                        pathname: removeAccents(
+                                            mark.title.replace(/\s/g, "-").toLowerCase()
+                                        ),
+                                        search: `?u=${mark.UID}`,
+                                        state: {
+                                            idItem: mark.UID,
+                                        },
+                                    }}
+                                >
+                                    <span className="r-map-popup-title">{mark.title}</span>
+                                    <p className="r-map-popup-category">{mark.category && mark.category.title}</p>
+                                </Link>
+                            </Popup>
+                        </ Marker>
                     ))}
-                ;
             </MapContainer>
         </div>
     );

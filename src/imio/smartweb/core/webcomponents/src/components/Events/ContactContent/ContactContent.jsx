@@ -5,11 +5,12 @@ import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from "moment";
 import Moment from "react-moment";
 const ContactContent = ({ queryUrl, onChange }) => {
-	let history = useHistory();
-	const queryString = require("query-string");
-	const parsed = queryString.parse(useFilterQuery().toString());
-	const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
-	const [params, setParams] = useState(parsed2);
+    let history = useHistory();
+    const queryString = require("query-string");
+    const { u, ...parsed } = Object.assign(
+        { UID : queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
+    );
+	const [params, setParams] = useState(parsed);
 	const [contactItem, setcontactItem] = useState({});
 	const { response, error, isLoading } = useAxios(
 		{
@@ -23,7 +24,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
 		},
 		[]
 	);
-
+	useEffect(() => {
+        setParams(parsed)
+    }, [queryString.parse(useFilterQuery().toString())['u']]);
 	// set all contacts state
 	useEffect(() => {
 		if (response !== null) {
@@ -41,8 +44,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
 	const end = moment.utc(contactItem.end).format('DD-MM-YYYY');
 	const startHours = moment.utc(contactItem.start).format('LT');
 	const endHours = moment.utc(contactItem.end).format('LT');
-	// console.log(moment.locale());
-	console.log(startHours);
 
 	return (
 		<div className="envent-content r-content">
