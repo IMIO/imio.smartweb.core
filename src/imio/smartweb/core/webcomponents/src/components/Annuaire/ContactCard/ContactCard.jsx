@@ -15,7 +15,6 @@ const ContactCard = ({ contactItem }) => {
     const phones = contactItem.phones ? contactItem.phones : "";
     const mails = contactItem.mails ? contactItem.mails : "";
     const topics = contactItem.topics ? contactItem.topics : "";
-    // console.log(category)
     return (
         <div className="r-list-item">
             <div
