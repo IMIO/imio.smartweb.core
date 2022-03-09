@@ -4,7 +4,8 @@
      i18n:domain="imio.smartweb">
   <a data-bs-toggle="offcanvas" 
      data-bs-target="#offcanvasSearch"
-     aria-controls="offcanvasSearch">
+     aria-controls="offcanvasSearch"
+     href="#offcanvasSearch">
      <span class="sr-only"
            i18n:translate="">Search</span>
   </a>
