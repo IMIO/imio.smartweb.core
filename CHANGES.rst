@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.4 (unreleased)
+1.0.4 (2022-03-16)
 ------------------
 
 - Improve leaflet css
