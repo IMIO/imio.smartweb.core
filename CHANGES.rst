@@ -5,7 +5,11 @@ Changelog
 1.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Improve leaflet css
+  [thomlamb]
+
+- Change leaflet tilelayer style
+  [thomlamb]
 
 
 1.0.3 (2022-03-09)
