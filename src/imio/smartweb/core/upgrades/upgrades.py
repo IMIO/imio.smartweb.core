@@ -100,3 +100,11 @@ def add_placeholder_to_faceted_textsearch(context):
             if criterion.widget == "text":
                 criterion.placeholder = "Recherche"
                 handler.criteria._p_changed = 1
+
+
+def exclude_footers_from_parent_listing(context):
+    brains = api.content.find(portal_type="imio.smartweb.Footer")
+    for brain in brains:
+        footer = brain.getObject()
+        footer.exclude_from_parent_listing = True
+        footer.reindexObject(idxs=("exclude_from_parent_listing"))

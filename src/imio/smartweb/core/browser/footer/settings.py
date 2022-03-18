@@ -36,6 +36,8 @@ class FooterSettings(BrowserView):
             container=self.context,
             type="imio.smartweb.Footer",
         )
+        footer.exclude_from_parent_listing = True
+        footer.reindexObject(idxs=("exclude_from_parent_listing"))
         allowed_content_types.remove("imio.smartweb.Footer")
         pt.getTypeInfo(portal_type).allowed_content_types = tuple(allowed_content_types)
         if IFolder.providedBy(self.context):

@@ -36,6 +36,7 @@
     <element value="plone.basic"/>
     <element value="plone.locking"/>
     <element value="plone.imagecropping"/>
+    <element value="imio.smartweb.listing"/>
   </property>
 
   <!-- View information -->

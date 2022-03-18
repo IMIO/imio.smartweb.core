@@ -152,6 +152,14 @@ class TestFooter(ImioSmartwebTestCase):
         viewlet.update()
         self.assertTrue(viewlet.available())
 
+    def test_exclude_from_parent_listing(self):
+        view = getMultiAdapter((self.portal, self.request), name="footer_settings")
+        view.add_footer()
+        footers = self.portal.listFolderContents(
+            contentFilter={"portal_type": "imio.smartweb.Footer"}
+        )
+        self.assertTrue(footers[0].exclude_from_parent_listing)
+
     def test_background_style(self):
         footer_view = getMultiAdapter(
             (self.portal, self.request), name="footer_settings"

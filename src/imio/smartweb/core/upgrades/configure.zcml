@@ -199,4 +199,19 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="1018"
+      destination="1019"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Reload types info to add exclude_from_parent_listing to Footer"
+        import_profile="imio.smartweb.core:default"
+        import_steps="typeinfo"
+        />
+    <genericsetup:upgradeStep
+        title="Exclude Footers from parent listing"
+        handler=".upgrades.exclude_footers_from_parent_listing"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

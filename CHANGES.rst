@@ -5,7 +5,8 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Exclude Footers from parent listings by default
+  [laulaz]
 
 
 1.0.4 (2022-03-16)
