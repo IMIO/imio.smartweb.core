@@ -62,6 +62,7 @@ setup(
         "collective.anysurfer",
         "collective.geolocationbehavior",
         "collective.instancebehavior",
+        "collective.messagesviewlet",
         "collective.sendinblue",
         "collective.solr",
         "collective.taxonomy",
