@@ -476,3 +476,25 @@ class TestContact(ImioSmartwebTestCase):
         is_empty = contact_view.is_empty_schedule()
         self.assertEqual(is_empty, False)
         self.assertIn('class="schedule"', view())
+
+    @requests_mock.Mocker()
+    def test_leadimage_is_in_portrait_mode(self, m):
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
+        contact.related_contact = authentic_contact_uid
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
+                authentic_contact_uid
+            )
+        )
+        contact.visible_blocks = ["titles", "leadimage"]
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        self.assertNotIn("contact_leadimage portrait", view())
+        contact.is_in_portrait_mode = True
+        self.assertIn("contact_leadimage portrait", view())

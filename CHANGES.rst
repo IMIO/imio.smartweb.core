@@ -5,6 +5,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Add a portrait mode on section contact leadimage
+  [boulch]
+
 - Exclude parents (folders) messages to traverse into partners sites
   [boulch]
 

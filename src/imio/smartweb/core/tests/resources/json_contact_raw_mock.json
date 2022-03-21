@@ -42,7 +42,86 @@
               "longitude": 4.7
       },
       "id": "2dc381f0fb584381b8e4a19c84f53b35",
-      "image": null,
+      "image": {
+                "content-type": "image/jpeg",
+                "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/a2e9d478-3d31-47d5-baf1-304751b07197.jpeg",
+                "filename": "eglise_hamoir.jpg",
+                "height": 1339,
+                "scales": {
+                    "affiche": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/5f1ced70-50f2-4806-84ab-d61b566ece34.jpeg",
+                        "height": 440,
+                        "width": 657
+                    },
+                    "banner": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/985e7be6-eac2-4234-810c-a0a2546d894c.jpeg",
+                        "height": 600,
+                        "width": 896
+                    },
+                    "extralarge": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/6eb1d3f7-c774-4e56-af4c-cc7d6813ec95.jpeg",
+                        "height": 883,
+                        "width": 1320
+                    },
+                    "icon": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/ab3e9a7e-b598-4de9-a28c-9417cc57258e.jpeg",
+                        "height": 21,
+                        "width": 32
+                    },
+                    "large": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/3d1f1c7d-2a75-4d98-a899-c53fc6484049.jpeg",
+                        "height": 514,
+                        "width": 768
+                    },
+                    "liste": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/3ee36922-9af7-47fd-9a6e-df457ff0719b.jpeg",
+                        "height": 100,
+                        "width": 150
+                    },
+                    "listing": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/46df39d6-f15a-4098-977f-754ce32da819.jpeg",
+                        "height": 10,
+                        "width": 16
+                    },
+                    "medium": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/3f469e93-3404-4ff2-a0c8-a05ec6d1befa.jpeg",
+                        "height": 401,
+                        "width": 600
+                    },
+                    "mini": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/0ef057b0-493b-44f1-904b-2388ea45c76f.jpeg",
+                        "height": 133,
+                        "width": 200
+                    },
+                    "preview": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/ba379659-aee7-4b08-8184-33ea6fd89dba.jpeg",
+                        "height": 267,
+                        "width": 400
+                    },
+                    "slide": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/980ff1d1-717e-4ecb-845d-dfea907f4567.jpeg",
+                        "height": 500,
+                        "width": 747
+                    },
+                    "thumb": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/eafceba8-6ee4-4f28-9355-cfe1ac35cabd.jpeg",
+                        "height": 85,
+                        "width": 128
+                    },
+                    "tile": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/7a0ecb30-e5d8-4ae2-a00d-06c52713e8eb.jpeg",
+                        "height": 42,
+                        "width": 64
+                    },
+                    "vignette": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/2797988e-fec9-48ce-9db0-b6cce1f4d044.jpeg",
+                        "height": 260,
+                        "width": 388
+                    }
+                },
+                "size": 769338,
+                "width": 2000
+      },
       "image_caption": null,
       "is_folderish": true,
       "is_geolocated": true,

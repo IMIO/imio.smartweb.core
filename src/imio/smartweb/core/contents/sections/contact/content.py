@@ -32,6 +32,10 @@ class ISectionContact(ISection):
         default=["address", "itinerary", "contact_informations", "schedule"],
     )
 
+    is_in_portrait_mode = schema.Bool(
+        title=_("Switch lead image to portrait mode"), required=False, default=False
+    )
+
 
 @implementer(ISectionContact)
 class SectionContact(Section):
