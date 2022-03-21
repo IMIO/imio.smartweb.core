@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
+
+from collective.messagesviewlet.message import add_timezone
+from collective.messagesviewlet.utils import add_message
+from datetime import datetime
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.logo import LogoViewlet
+from imio.smartweb.core.viewlets.messages import MessagesViewlet
 from imio.smartweb.core.viewlets.minisite import MinisitePortalLinkViewlet
 from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
 from plone import api
@@ -35,6 +40,7 @@ class TestMinisite(ImioSmartwebTestCase):
         """Custom shared utility setup for tests"""
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
+        self.message_config_folder = self.portal["messages-config"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
         self.folder = api.content.create(
             container=self.portal,
@@ -44,6 +50,16 @@ class TestMinisite(ImioSmartwebTestCase):
         )
         # avoid cached empty value for instance behaviors
         delattr(self.request, ASSIGNABLE_CACHE_KEY)
+
+    def _clean_cache(self):
+        # utils.get_messages_to_show is cached, remove infos in request annotation
+        cache_keys = [
+            k
+            for k in IAnnotations(self.request)
+            if k.startswith("messagesviewlet-utils-get_messages_to_show-")
+        ]
+        for cache_key in cache_keys:
+            del IAnnotations(self.request)[cache_key]
 
     def test_activation(self):
         view = getMultiAdapter((self.portal, self.request), name="minisite_settings")
@@ -332,3 +348,26 @@ class TestMinisite(ImioSmartwebTestCase):
         attr = {"absolute_url.return_value": "http://sub.test.be/folder/minisite"}
         with patch("plone.api.portal.get", return_value=mock.Mock(**attr)):
             self.assertEqual(viewlet.get_hostname(), "sub.test.be")
+
+    def test_messagesviewlet_in_minisite(self):
+        message = add_message(
+            "msg",
+            "My message title",
+            "My message text",
+            start=add_timezone(datetime(2019, 10, 26, 12, 0)),
+        )
+        viewlet = MessagesViewlet(self.folder, self.portal.REQUEST, None, None)
+        viewlet.update()
+        # no message in viewlet because the message is in "inactive" state
+        self.assertEqual(len(viewlet.getAllMessages()), 0)
+        api.content.transition(message, "activate")
+        message.reindexObject()
+        self._clean_cache()
+        self.assertEqual(len(viewlet.getAllMessages()), 1)
+
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        self.assertTrue(view.available)
+        self.assertFalse(view.enabled)
+        view.enable()
+        self.assertTrue(view.enabled)
+        self.assertEqual(len(viewlet.getAllMessages()), 0)

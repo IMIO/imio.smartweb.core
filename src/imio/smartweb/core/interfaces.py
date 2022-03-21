@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from collective.anysurfer.interfaces import ILayerSpecific
+from collective.messagesviewlet.interfaces import ICollectiveMessagesviewletLayer
 from collective.solr.browser.interfaces import IThemeSpecific
 from imio.smartweb.common.interfaces import IImioSmartwebCommonLayer
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
@@ -16,6 +17,10 @@ class IViewWithoutLeadImage(Interface):
 
 
 class IImioSmartwebCoreLayer(
-    IImioSmartwebCommonLayer, IPloneAppContenttypesLayer, ILayerSpecific, IThemeSpecific
+    IImioSmartwebCommonLayer,
+    IPloneAppContenttypesLayer,
+    ILayerSpecific,
+    IThemeSpecific,
+    ICollectiveMessagesviewletLayer,
 ):
     """Marker interface that defines a browser layer."""

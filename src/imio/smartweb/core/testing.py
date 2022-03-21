@@ -13,6 +13,7 @@ from plone.app.testing import (
 )
 from plone.testing.zope import WSGI_SERVER_FIXTURE
 from zope.component import getUtility
+from zope.globalrequest import setRequest
 from zope.schema.interfaces import IVocabularyFactory
 
 import imio.smartweb.core
@@ -36,6 +37,8 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
 
     @requests_mock.Mocker()
     def setUpPloneSite(self, portal, m):
+        request = portal.REQUEST
+        setRequest(request)
         json_directory_entities_raw_mock = get_json(
             "resources/json_directory_entities_raw_mock.json"
         )

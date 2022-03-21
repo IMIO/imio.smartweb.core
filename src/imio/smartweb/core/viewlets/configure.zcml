@@ -246,6 +246,18 @@
         />
   </configure>
 
+  <configure package="collective.messagesviewlet.browser">
+    <browser:viewlet
+        name="message-viewlet"
+        for="*"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class="imio.smartweb.core.viewlets.messages.MessagesViewlet"
+        template="messagesviewlet.pt"
+        permission="zope2.View"
+        />
+  </configure>
+
   <!-- Overrides to change viewlets managers -->
 
   <configure package="plone.app.i18n.locales.browser">

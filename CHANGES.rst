@@ -5,6 +5,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Exclude parents (folders) messages to traverse into partners sites
+  [boulch]
+
 - Exclude Footers from parent listings by default
   [laulaz]
 
