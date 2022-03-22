@@ -5,6 +5,9 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Add sections to procedure content type to be similar as page content type
+  [boulch]
+
 - Add a portrait mode on section contact leadimage
   [boulch]
 

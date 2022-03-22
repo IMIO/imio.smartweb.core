@@ -214,4 +214,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Reload types info to add some sections in procedure type"
+      description=""
+      source="1019"
+      destination="1020"
+      handler=".upgrades.reload_types"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
