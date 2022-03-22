@@ -3,6 +3,7 @@
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
 
@@ -15,6 +16,12 @@ class ISectionFiles(ISection):
         required=True,
         default=1,
         values=[1, 3, 4],
+    )
+
+    model.fieldset("layout", fields=["show_items_lead_image"])
+    show_items_lead_image = schema.Bool(
+        title=_("Show items lead image"),
+        required=False,
     )
 
 

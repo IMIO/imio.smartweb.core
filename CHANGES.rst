@@ -5,6 +5,10 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Add show_items_lead_image attributes on files section.
+  Add no-image css class in table template when there is no image to display
+  [boulch]
+
 - Add sections to procedure content type to be similar as page content type
   [boulch]
 

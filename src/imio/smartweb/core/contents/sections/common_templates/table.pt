@@ -49,14 +49,15 @@
                   tal:attributes="class string:col-md-${bs_col}">
                   <div tal:define="item_has_icon item/has_icon | nothing;
                                    item_has_image item/has_image;
+                                   no_icon_no_image python:not item_has_image and not item_has_icon;
                                    smartweb_icons python:context.restrictedTraverse('@@smartwebiconresolver');
                                    show_lead_image python:getattr(context, 'show_items_lead_image', True);
                                    portal context/@@plone_portal_state/portal;
                                    open_in_new_tab item/open_in_new_tab | nothing;"
                        class="table_display">
-                      <a class="table_image"
-                         tal:attributes="href item/url;
-                                         target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
+                      <a tal:attributes="class python:'table_image no-image' if no_icon_no_image else 'table_image';
+                                         href item/url;
+                                         target python:'_blank' if (open_in_new_tab and not can_edit) else '';">
                         <tal:if tal:condition="show_lead_image">
                             <div class="image d-block w-100"
                                  tal:condition="item_has_icon">
@@ -67,7 +68,7 @@
                                  tal:attributes="style string:background-image:url('${item/image}')">
                             </div>
                             <div class="image d-block w-100"
-                                 tal:condition="python: not item_has_image and not item_has_icon">
+                                 tal:condition="no_icon_no_image">
                               <!-- Empty placeholder tag -->
                             </div>
                         </tal:if>
