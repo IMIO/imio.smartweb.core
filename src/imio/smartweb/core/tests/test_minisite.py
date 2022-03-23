@@ -12,6 +12,7 @@ from imio.smartweb.core.viewlets.logo import LogoViewlet
 from imio.smartweb.core.viewlets.messages import MessagesViewlet
 from imio.smartweb.core.viewlets.minisite import MinisitePortalLinkViewlet
 from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
+from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.testing import TEST_USER_ID
@@ -20,7 +21,7 @@ from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
 from plone.testing.zope import Browser
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from unittest import mock
 from unittest.mock import patch
 from z3c.relationfield import RelationValue
@@ -271,6 +272,9 @@ class TestMinisite(ImioSmartwebTestCase):
     def test_minisite_viewlet_logo(self):
         viewlet = LogoViewlet(self.folder, self.request, None, None)
         viewlet.update()
+        self.assertFalse(viewlet.show_title)
+        self.assertTrue(viewlet.show_logo)
+        self.assertFalse(viewlet.is_svg)
         self.assertEqual(viewlet.navigation_root_url, "http://nohost/plone")
         html = viewlet.render()
         soup = BeautifulSoup(html)
@@ -283,18 +287,29 @@ class TestMinisite(ImioSmartwebTestCase):
         viewlet = LogoViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertEqual(viewlet.navigation_root_url, "http://nohost/plone/folder")
-        self.assertTrue(viewlet.show_title())
-        self.assertFalse(viewlet.show_logo())
+        self.assertTrue(viewlet.show_title)
+        self.assertFalse(viewlet.show_logo)
         self.folder.logo_display_mode = "logo"
-        self.assertFalse(viewlet.show_title())
-        self.assertFalse(viewlet.show_logo())
+        viewlet.update()
+        self.assertFalse(viewlet.show_title)
+        self.assertFalse(viewlet.show_logo)
         self.folder.logo_display_mode = "logo_title"
-        self.assertTrue(viewlet.show_title())
-        self.assertFalse(viewlet.show_logo())
-        self.folder.logo = NamedBlobFile(data="file data", filename="file.png")
-        self.assertTrue(viewlet.show_logo())
+        viewlet.update()
+        self.assertTrue(viewlet.show_title)
+        self.assertFalse(viewlet.show_logo)
+        self.folder.logo = NamedBlobImage(**make_named_image("plone.svg"))
+        viewlet.update()
+        self.assertTrue(viewlet.show_logo)
+        self.assertTrue(viewlet.is_svg)
+        self.assertIn(b"<svg", viewlet.svg_data)
+        self.folder.logo = NamedBlobImage(**make_named_image("plone.png"))
+        viewlet = LogoViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        self.assertTrue(viewlet.show_logo)
+        self.assertFalse(viewlet.is_svg)
         self.folder.logo_display_mode = "logo"
-        self.assertTrue(viewlet.show_logo())
+        viewlet.update()
+        self.assertTrue(viewlet.show_logo)
         html = viewlet.render()
         soup = BeautifulSoup(html)
         img = soup.find("img")

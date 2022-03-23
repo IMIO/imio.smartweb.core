@@ -1,16 +1,23 @@
 <a id="portal-logo"
-   class="minisite_logo"
-   title="Home"
+   class=""
    tal:define="href view/navigation_root_url;
                title view/navigation_root_title"
    tal:attributes="href href;
-                   title title">
-      <img src="logo.png" alt=""
-           tal:condition="view/show_logo"
-           tal:attributes="alt title;
-                           title title;
-                           src string:${href}/@@images/logo/preview;" />
-      <div class="minisite_title"
-           tal:condition="view/show_title"
-           tal:content="title"></div>
+                   title title;
+                   class python: 'minisite_logo' if view.is_in_minisite else ''">
+
+  <tal:if tal:condition="view/show_logo">
+    <img src="logo.png" alt=""
+         tal:condition="not: view/is_svg"
+         tal:attributes="alt view/logo_title;
+                         title view/logo_title;
+                         src view/img_src" />
+    <span tal:condition="view/is_svg"
+          tal:replace="structure view/svg_data" />
+  </tal:if>
+
+  <div class="minisite_title"
+       tal:condition="view/show_title"
+       tal:content="title"></div>
+
 </a>
