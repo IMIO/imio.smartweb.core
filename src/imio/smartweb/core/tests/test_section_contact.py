@@ -485,7 +485,6 @@ class TestContact(ImioSmartwebTestCase):
             title="My contact",
         )
         view = queryMultiAdapter((self.page, self.request), name="full_view")
-        contact_view = queryMultiAdapter((contact, self.request), name="view")
         authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
         contact.related_contact = authentic_contact_uid
         contact_search_url = (
