@@ -6,6 +6,7 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.subsite import SubsiteLogoViewlet
 from imio.smartweb.core.viewlets.subsite import SubsiteNavigationViewlet
+from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
@@ -131,7 +132,7 @@ class TestSubsite(ImioSmartwebTestCase):
         self.folder.logo_display_mode = "logo_title"
         self.assertTrue(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())
-        self.folder.logo = NamedBlobFile(data="file data", filename="file.png")
+        self.folder.logo = NamedBlobFile(**make_named_image())
         self.assertTrue(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
         self.assertTrue(viewlet.show_logo())

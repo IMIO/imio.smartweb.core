@@ -3,7 +3,7 @@
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import get_leadimage_data
+from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
@@ -36,7 +36,7 @@ class TestSocial(ImioSmartwebTestCase):
         page = api.content.create(
             container=folder, type="imio.smartweb.Page", title="Page", id="page"
         )
-        page.image = NamedBlobFile(data=get_leadimage_data(), filename="plone.png")
+        page.image = NamedBlobFile(**make_named_image())
         api.content.transition(page, "publish")
         transaction.commit()
 
@@ -74,7 +74,7 @@ class TestSocial(ImioSmartwebTestCase):
             content,
         )
 
-        folder.image = NamedBlobFile(data=get_leadimage_data(), filename="plone.png")
+        folder.image = NamedBlobFile(**make_named_image())
         transaction.commit()
         browser.open(folder.absolute_url())
         content = browser.contents

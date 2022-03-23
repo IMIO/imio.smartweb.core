@@ -5,7 +5,7 @@ from functools import reduce
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import get_leadimage_data
+from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
 from plone.app.testing import login
@@ -500,7 +500,7 @@ class TestSections(ImioSmartwebTestCase):
             '<a class="table_image no-image" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
         )
-        link.image = NamedBlobFile(data=get_leadimage_data(), filename="plone.png")
+        link.image = NamedBlobFile(**make_named_image())
         self.assertIn(
             '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
@@ -524,7 +524,7 @@ class TestSections(ImioSmartwebTestCase):
         )
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertEqual(view.background_style(section), "")
-        section.background_image = NamedBlobFile(data="file data", filename="file.png")
+        section.background_image = NamedBlobFile(**make_named_image())
         self.assertIn(
             "background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')",
             view.background_style(section),
@@ -542,7 +542,7 @@ class TestSections(ImioSmartwebTestCase):
         self.assertEqual(view.get_class(section), "sectiontext my-css")
         section.bootstrap_css_class = "col-sm-3"
         self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
-        section.background_image = NamedBlobFile(data="file data", filename="file.png")
+        section.background_image = NamedBlobFile(**make_named_image())
         self.assertEqual(
             view.get_class(section), "sectiontext my-css col-sm-3 with-background"
         )

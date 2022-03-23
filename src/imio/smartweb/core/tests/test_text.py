@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from bs4 import BeautifulSoup
-from imio.smartweb.core.tests.utils import get_leadimage_data
+from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
@@ -92,7 +92,7 @@ class TestText(ImioSmartwebTestCase):
         self.assertNotIn("@@images/image/large", view())
         self.assertNotIn("figcaption", view())
 
-        section.image = NamedBlobFile(data=get_leadimage_data(), filename="plone.png")
+        section.image = NamedBlobFile(**make_named_image())
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn('<div class="body-section figure-left figure-large "', view())
         self.assertIn("<figure", view())

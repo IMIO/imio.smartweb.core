@@ -3,7 +3,7 @@
 from imio.smartweb.common.interfaces import ICropping
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import get_leadimage_data
+from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
 from plone.app.testing import TEST_USER_ID
@@ -98,9 +98,7 @@ class TestCropping(ImioSmartwebTestCase):
                 self.assertEqual(
                     ["affiche"], adapter.get_scales("background_image", self.request)
                 )
-                section.image = NamedBlobFile(
-                    data=get_leadimage_data(), filename="plone.png"
-                )
+                section.image = NamedBlobFile(**make_named_image())
                 section.image_size = "preview"
                 self.assertEqual(["preview"], adapter.get_scales("image", self.request))
                 section.image_size = "large"

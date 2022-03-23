@@ -5,6 +5,7 @@ from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.viewlets.footer import FooterViewlet
 from imio.smartweb.core.viewlets.footer import MinisiteFooterViewlet
 from imio.smartweb.core.viewlets.footer import SubsiteFooterViewlet
+from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
@@ -169,7 +170,7 @@ class TestFooter(ImioSmartwebTestCase):
         viewlet = FooterViewlet(footer, self.request, None, None)
         viewlet.update()
         self.assertEqual(viewlet.background_style(), "")
-        footer.background_image = NamedBlobFile(data="file data", filename="file.png")
+        footer.background_image = NamedBlobFile(**make_named_image())
         self.assertIn(
             "background-image:url('http://nohost/plone/footer/@@images/background_image/large')",
             viewlet.background_style(),
