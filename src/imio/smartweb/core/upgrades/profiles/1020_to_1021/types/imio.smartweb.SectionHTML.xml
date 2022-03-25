@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.SectionHTML"
+    meta_type="Dexterity FTI">
+
+  <property name="add_permission">imio.smartweb.core.CanManageSectionHTML</property>
+
+</object>

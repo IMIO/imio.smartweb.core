@@ -4,4 +4,19 @@
   <roles>
     <role name="Local Manager"/>
   </roles>
+
+  <permissions>
+    <permission name="imio.smartweb.core: Edit Minisite Logo" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Local Manager" />
+    </permission>
+
+    <permission name="imio.smartweb.core: Can add section HTML" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Local Manager" />
+    </permission>
+  </permissions>
+
 </rolemap>
