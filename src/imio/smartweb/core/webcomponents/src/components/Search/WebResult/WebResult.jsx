@@ -12,7 +12,7 @@ const WebResult = (props) => {
             headers: {
                 Accept: "application/json",
             },
-            params: props && props.urlParams,
+            params: (props.urlParams.SearchableText || props.urlParams.iam || props.urlParams.topics) ? props.urlParams : {},
         },
         [props]
     );

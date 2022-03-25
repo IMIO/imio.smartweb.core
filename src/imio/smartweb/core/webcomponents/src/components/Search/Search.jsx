@@ -18,10 +18,12 @@ export default function Search(props) {
 const SearchView = (props) => {
     const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 = { ...parsed };
+    const { SearchableText, iam,topics } = parsed;
+    const parsed2 = {'SearchableText':SearchableText,'iam':iam,'topics':topics};
+    // const parsed2 = { ...parsed };
     const [filters, setFilters] = useState(parsed2);
     const [batchSize, setBatchSize] = useState(6);
-
+    
     const filtersChange = (value) => {
         setFilters(value);
     };

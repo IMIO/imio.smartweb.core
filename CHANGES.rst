@@ -8,6 +8,9 @@ Changelog
 - Add local permissions and a "Local Manager" role.
   Permissions : imio.smartweb.core.CanEditMinisiteLogo, imio.smartweb.core.CanManageSectionHTML
   [boulch]
+- Updated queries for search to only run with specific filters 
+  [thomlamb]
+
 - Handle inline SVG images for portal logo and minisite logo
   [laulaz]
 
