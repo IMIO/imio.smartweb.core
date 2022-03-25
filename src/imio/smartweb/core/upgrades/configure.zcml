@@ -240,4 +240,5 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1020_to_1021"
         />
   </genericsetup:upgradeSteps>
+
 </configure>

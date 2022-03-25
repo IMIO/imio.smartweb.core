@@ -1,8 +1,10 @@
 <?xml version="1.0"?>
 <rolemap>
+
   <roles>
     <role name="Local Manager"/>
   </roles>
+
   <permissions>
     <permission name="imio.smartweb.core: Add Folder" acquire="True">
       <role name="Manager"/>
@@ -58,6 +60,6 @@
       <role name="Site Administrator"/>
       <role name="Local Manager" />
     </permission>
-
   </permissions>
+
 </rolemap>

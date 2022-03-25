@@ -23,7 +23,6 @@
   </property>
 
   <!-- Schema, class and security -->
-  <!-- if we can add a page, we can add a page section -->
   <property name="add_permission">imio.smartweb.core.CanManageSectionHTML</property>
   <property name="klass">imio.smartweb.core.contents.SectionHTML</property>
   <property name="schema">imio.smartweb.core.contents.ISectionHTML</property>
