@@ -1,0 +1,10 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    i18n_domain="imio.smartweb">
+
+  <permission
+      id="plone.DelegateLocalManagerRole"
+      title="Sharing page: Delegate Local Manager role"
+      />
+
+</configure>

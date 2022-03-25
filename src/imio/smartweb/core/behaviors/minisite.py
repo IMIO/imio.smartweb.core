@@ -4,6 +4,7 @@ from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.contents.cropping import SmartwebCroppingProvider
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.autoform.directives import write_permission
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
@@ -35,6 +36,7 @@ class IImioSmartwebMinisiteSettings(model.Schema):
         fields=["logo", "logo_display_mode"],
     )
 
+    write_permission(logo="imio.smartweb.core.CanEditMinisiteLogo")
     logo = NamedBlobImage(
         title=_("Logo"),
         description=_("Define a logo for minisite"),

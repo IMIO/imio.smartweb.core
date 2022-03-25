@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope">
+
+  <include file="permissions.zcml" />
+
+  <!-- Local roles managed in the @@sharing view -->
+  <utility
+      name="Local Manager"
+      factory=".localroles.LocalManagerRole"
+      />
+
+</configure>

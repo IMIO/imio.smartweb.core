@@ -5,6 +5,10 @@ Changelog
 1.0.5 (unreleased)
 ------------------
 
+- Add local permissions and a "Local Manager" role.
+  Permissions : imio.smartweb.core.CanEditMinisiteLogo, imio.smartweb.core.CanManageSectionHTML
+  [boulch]
+
 - Add show_items_lead_image attributes on files section.
   Add no-image css class in table template when there is no image to display
   [boulch]

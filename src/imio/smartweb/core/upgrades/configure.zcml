@@ -19,6 +19,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1020_to_1021"
+      title="Upgrade core from 1020 to 1021"
+      directory="profiles/1020_to_1021"
+      description="Add local manager role and its specific permissions"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -223,4 +231,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="1020"
+      destination="1021"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add local manager role and its specific permissions"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1020_to_1021"
+        />
+  </genericsetup:upgradeSteps>
 </configure>

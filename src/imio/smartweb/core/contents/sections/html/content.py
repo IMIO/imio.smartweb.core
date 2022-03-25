@@ -4,6 +4,7 @@ from imio.smartweb.common.config import DESCRIPTION_MAX_LENGTH
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone.autoform.directives import write_permission
 from zope import schema
 from zope.interface import implementer
 
@@ -11,6 +12,7 @@ from zope.interface import implementer
 class ISectionHTML(ISection):
     """Marker interface and Dexterity Python Schema for SectionHTML"""
 
+    write_permission(html="imio.smartweb.core.CanManageSectionHTML")
     html = schema.SourceText(
         title=_("HTML"),
         description=_(
