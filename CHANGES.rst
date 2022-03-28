@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.5 (unreleased)
+1.0.5 (2022-03-28)
 ------------------
 
 - Add local permissions and a "Local Manager" role.
