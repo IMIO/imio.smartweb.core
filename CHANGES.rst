@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.6 (unreleased)
+1.0.6 (2022-03-29)
 ------------------
 
 - Fix: Change Leaflet Tilelayer map for fix bad attribution url
