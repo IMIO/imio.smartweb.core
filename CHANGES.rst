@@ -5,7 +5,8 @@ Changelog
 1.0.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix: Change Leaflet Tilelayer map for fix bad attribution url
+  [thomlamb]
 
 
 1.0.5 (2022-03-28)
