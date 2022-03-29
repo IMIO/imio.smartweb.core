@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from embeddify import Embedder
 from plone import api
 from plone.app.layout.viewlets import common
 

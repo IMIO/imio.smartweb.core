@@ -1,2 +1,1 @@
-# -*- coding: utf-8 -*-
-import imio.smartweb.core.sharing.permissions
+import imio.smartweb.core.sharing.permissions  # NOQA

@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
