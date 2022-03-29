@@ -27,6 +27,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1021_to_1022"
+      title="Upgrade core from 1021 to 1022"
+      directory="profiles/1021_to_1022"
+      description="Add Hero banner permissions and registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -266,7 +274,7 @@
         import_steps="rolemap"
         />
     <genericsetup:upgradeDepends
-        title="Add Hero banner permission and its roles"
+        title="Add Hero banner contents to types not searched"
         import_profile="imio.smartweb.core.upgrades:upgrade_1021_to_1022"
         import_steps="plone.app.registry"
         />
