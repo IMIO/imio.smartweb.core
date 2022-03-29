@@ -13,6 +13,7 @@
   <include package=".banner" />
   <include package=".faceted" />
   <include package=".footer" />
+  <include package=".herobanner" />
   <include package=".instancebehaviors" />
   <include package=".minisite" />
   <include package=".subsite" />

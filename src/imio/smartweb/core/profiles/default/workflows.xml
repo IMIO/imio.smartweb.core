@@ -3,6 +3,7 @@
   <bindings>
     <type type_id="imio.smartweb.BlockLink"/>
     <type type_id="imio.smartweb.Footer"/>
+    <type type_id="imio.smartweb.HeroBanner"/>
     <type type_id="imio.smartweb.SectionCollection"/>
     <type type_id="imio.smartweb.SectionContact"/>
     <type type_id="imio.smartweb.SectionEvents"/>
@@ -13,6 +14,7 @@
     <type type_id="imio.smartweb.SectionMap"/>
     <type type_id="imio.smartweb.SectionSelections"/>
     <type type_id="imio.smartweb.SectionSendinblue"/>
+    <type type_id="imio.smartweb.SectionSlide"/>
     <type type_id="imio.smartweb.SectionNews"/>
     <type type_id="imio.smartweb.SectionText"/>
     <type type_id="imio.smartweb.SectionVideo"/>

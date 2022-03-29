@@ -13,6 +13,11 @@
       />
 
   <permission
+      id="imio.smartweb.core.AddHeroBanner"
+      title="imio.smartweb.core: Add Hero banner"
+      />
+
+  <permission
       id="imio.smartweb.core.AddPage"
       title="imio.smartweb.core: Add Page"
       />

@@ -3,6 +3,7 @@
     xmlns:browser="http://namespaces.zope.org/browser">
 
   <include package=".footer" />
+  <include package=".herobanner" />
   <include package=".page" />
   <include package=".portal_page" />
   <include package=".procedure" />

@@ -1,0 +1,54 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="context/@@main_template/macros/master"
+      i18n:domain="plone">
+<body>
+
+<metal:main fill-slot="content-core">
+<metal:content-core define-macro="content-core">
+<metal:macro use-macro="context/@@sections_macros/section_edition" />
+<div class="container section-container section-contact"
+     id=""
+     tal:attributes="id string:container-section-${context/id}"
+     i18n:domain="imio.smartweb">
+    <metal:macro use-macro="context/@@sections_macros/section_title" />
+    <div class="swiper-slide">
+      <div class="swiper-banner-image"
+           tal:condition="python:context.image and not context.video_url"
+           tal:attributes="style string:background-image:url(${context/absolute_url}/@@images/image/banner)"></div>
+
+      <div class="swiper-banner-video"
+           tal:condition="context/video_url"
+           tal:content="structure view/get_embed_video"></div>
+
+      <div class="swiper-banner-color"
+           tal:condition="context/color"
+           tal:attributes="style string:background-color:${context/color}"></div>
+
+      <div class="swiper-banner-content"
+           tal:define="title context/title;
+                       description context/description;
+                       link context/remoteUrl"
+           tal:condition="python: context.show_title_and_description or link">
+        <span class="swiper-banner-title"
+              tal:condition="title"
+              tal:content="title">Title</span>
+        <span class="swiper-banner-description"
+              tal:condition="description"
+              tal:content="description">Description</span>
+        <span class="swiper-banner-link"
+              tal:condition="link">
+          <a tal:attributes="href link;
+                             target python:'_blank' if context.open_in_new_tab else ''"
+             tal:content="context/link_title | link">Link</a></span>
+      </div>
+    </div>
+</metal:content-core>
+</metal:main>
+
+</body>
+</html>
+

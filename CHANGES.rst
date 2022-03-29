@@ -5,7 +5,8 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add hero banner feature
+  [boulch]
 
 
 1.0.6 (2022-03-29)
@@ -22,7 +23,7 @@ Changelog
   Permissions : imio.smartweb.core.CanEditMinisiteLogo, imio.smartweb.core.CanManageSectionHTML
   [boulch]
 
-- Updated queries for search to only run with specific filters 
+- Updated queries for search to only run with specific filters
   [thomlamb]
 
 - Handle inline SVG images for portal logo and minisite logo

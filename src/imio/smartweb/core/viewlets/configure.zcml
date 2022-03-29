@@ -28,7 +28,7 @@
   <browser:viewlet
       name="imio.smartweb.header_actions"
       for="*"
-      manager=".actions.HeaderActionsViewletsManager"
+      manager=".actions.IHeaderActionsViewletsManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="header_actions.pt"
       class=".actions.HeaderActionsViewlet"
@@ -48,16 +48,34 @@
   <browser:viewlet
       name="plone.global_sections"
       for="*"
-      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      manager=".header.IPortalHeaderTopContainerViewletManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       class=".navigation.ImprovedGlobalSectionsViewlet"
+      permission="zope2.View"
+      />
+
+    <browser:viewlet
+      name="imio.smartweb.portal_header_top_viewlet"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="header_top_viewlet.pt"
+      class=".header.PortalHeaderTopContainerViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewletManager
+      name="imio.smartweb.portal_header_top_viewletmanager"
+      provides=".header.IPortalHeaderTopContainerViewletManager"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class="plone.app.viewletmanager.manager.OrderedViewletManager"
       permission="zope2.View"
       />
 
   <browser:viewlet
       name="imio.smartweb.header_actions_viewlet"
       for="*"
-      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      manager=".header.IPortalHeaderTopContainerViewletManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="header_actions_viewlet.pt"
       class=".actions.HeaderActionsContainerViewlet"
@@ -66,7 +84,7 @@
 
   <browser:viewletManager
       name="imio.smartweb.header_actions_viewletmanager"
-      provides=".actions.HeaderActionsViewletsManager"
+      provides=".actions.IHeaderActionsViewletsManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       class="plone.app.viewletmanager.manager.OrderedViewletManager"
       permission="zope2.View"
@@ -173,6 +191,16 @@
       />
 
   <browser:viewlet
+      name="imio.smartweb.herobanner"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="herobanner.pt"
+      class=".herobanner.HeroBannerViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="imio.smartweb.procedure"
       for="imio.smartweb.core.contents.IProcedure"
       manager="plone.app.layout.viewlets.interfaces.IAboveContentBody"
@@ -221,7 +249,7 @@
 
   <browser:viewlet
       name="plone.logo"
-      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      manager=".header.IPortalHeaderTopContainerViewletManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       class=".logo.LogoViewlet"
       permission="zope2.View"
@@ -263,7 +291,7 @@
   <configure package="plone.app.i18n.locales.browser">
     <browser:viewlet
         name="plone.app.i18n.locales.languageselector"
-        manager="imio.smartweb.core.viewlets.actions.HeaderActionsViewletsManager"
+        manager="imio.smartweb.core.viewlets.actions.IHeaderActionsViewletsManager"
         layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
         class=".selector.LanguageSelector"
         permission="zope2.View"
@@ -273,7 +301,7 @@
 
   <browser:viewlet
       name="plone.searchbox"
-      manager=".actions.HeaderActionsViewletsManager"
+      manager=".actions.IHeaderActionsViewletsManager"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       class="plone.app.layout.viewlets.common.SearchBoxViewlet"
       template="searchbox.pt"

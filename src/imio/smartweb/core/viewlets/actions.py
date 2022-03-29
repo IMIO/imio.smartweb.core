@@ -17,5 +17,5 @@ class HeaderActionsContainerViewlet(common.ViewletBase):
     """Viewlet containing the header actions viewlets manager"""
 
 
-class HeaderActionsViewletsManager(IViewletManager):
+class IHeaderActionsViewletsManager(IViewletManager):
     """Viewlet manager containing header actions viewlets"""

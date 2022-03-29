@@ -5,6 +5,7 @@
   <object meta_type="Dexterity FTI" name="imio.smartweb.EventsView"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Folder"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Footer"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.HeroBanner"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.NewsView"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Page"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.PortalPage"/>
@@ -20,6 +21,7 @@
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionNews"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSelections"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSendinblue"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSlide"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionText"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionVideo"/>
 </object>

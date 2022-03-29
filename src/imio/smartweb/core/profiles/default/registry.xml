@@ -55,11 +55,13 @@
       <value purge="false">
         <element>imio.smartweb.BlockLink</element>
         <element>imio.smartweb.Footer</element>
+        <element>imio.smartweb.HeroBanner</element>
         <element>imio.smartweb.SectionContact</element>
         <element>imio.smartweb.SectionFiles</element>
         <element>imio.smartweb.SectionGallery</element>
         <element>imio.smartweb.SectionLinks</element>
         <element>imio.smartweb.SectionSelections</element>
+        <element>imio.smartweb.SectionSlide</element>
         <element>imio.smartweb.SectionText</element>
         <element>imio.smartweb.SectionVideo</element>
       </value>

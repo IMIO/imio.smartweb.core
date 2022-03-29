@@ -241,4 +241,35 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1021"
+      destination="1022"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Reload types info to add imio.smartweb.HeroBanner and imio.smartweb.SectionSlide"
+        import_profile="imio.smartweb.core:default"
+        import_steps="typeinfo"
+        />
+    <genericsetup:upgradeDepends
+        title="Reload workflows to add imio.smartweb.HeroBanner and imio.smartweb.SectionSlide"
+        import_profile="imio.smartweb.core:default"
+        import_steps="workflow"
+        />
+    <genericsetup:upgradeDepends
+        title="Reload actions for managing imio.smartweb.HeroBanner"
+        import_profile="imio.smartweb.core:default"
+        import_steps="actions"
+        />
+    <genericsetup:upgradeDepends
+        title="Add Hero banner permission and its roles"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1021_to_1022"
+        import_steps="rolemap"
+        />
+    <genericsetup:upgradeDepends
+        title="Add Hero banner permission and its roles"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1021_to_1022"
+        import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

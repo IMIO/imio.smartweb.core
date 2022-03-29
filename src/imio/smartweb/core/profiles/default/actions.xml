@@ -66,6 +66,16 @@
       </property>
       <property name="visible">True</property>
     </object>
+    <object name="add_herobanner" meta_type="CMF Action" i18n:domain="imio.smartweb">
+      <property name="title" i18n:translate="">Add hero banner</property>
+      <property name="description" i18n:translate="">Click to add hero banner on this context.</property>
+      <property name="url_expr">string:$object_url/@@herobanner_settings/add_herobanner</property>
+      <property name="available_expr">object/@@herobanner_settings/available|nothing</property>
+      <property name="permissions">
+        <element value="Add portal content"/>
+      </property>
+      <property name="visible">True</property>
+    </object>
     <object name="instance_behaviors" meta_type="CMF Action" i18n:domain="imio.smartweb">
       <property name="title" i18n:translate="">Manage taxonomies on this content</property>
       <property name="description" i18n:translate=""></property>

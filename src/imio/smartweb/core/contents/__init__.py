@@ -2,6 +2,7 @@ from .blocks.link.content import IBlockLink, BlockLink  # NOQA
 from .pages.pages import IPages, IDefaultPages, Pages  # NOQA
 from .folder.content import IFolder, Folder  # NOQA
 from .pages.footer.content import IFooter, Footer  # NOQA
+from .pages.herobanner.content import IHeroBanner, HeroBanner  # NOQA
 from .pages.page.content import IPage, Page  # NOQA
 from .pages.portal_page.content import IPortalPage, PortalPage  # NOQA
 from .pages.procedure.content import IProcedure, Procedure  # NOQA
@@ -20,5 +21,6 @@ from .sections.map.content import ISectionMap, SectionMap  # NOQA
 from .sections.news.content import ISectionNews, SectionNews  # NOQA
 from .sections.selections.content import ISectionSelections, SectionSelections  # NOQA
 from .sections.sendinblue.content import ISectionSendinblue, SectionSendinblue  # NOQA
+from .sections.slide.content import ISectionSlide, SectionSlide  # NOQA
 from .sections.text.content import ISectionText, SectionText  # NOQA
 from .sections.video.content import ISectionVideo, SectionVideo  # NOQA

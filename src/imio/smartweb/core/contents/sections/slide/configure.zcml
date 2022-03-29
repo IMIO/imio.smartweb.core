@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="imio.smartweb">
+
+  <browser:page
+      name="view"
+      for="imio.smartweb.core.contents.ISectionSlide"
+      class="imio.smartweb.core.contents.sections.slide.view.SlideView"
+      template="view.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="view"
+      />
+</configure>

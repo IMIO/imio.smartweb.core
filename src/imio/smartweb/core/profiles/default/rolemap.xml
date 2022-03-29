@@ -20,6 +20,13 @@
       <role name="Contributor"/>
     </permission>
 
+    <permission name="imio.smartweb.core: Add Hero banner" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
     <permission name="imio.smartweb.core: Add Page" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
