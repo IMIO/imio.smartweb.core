@@ -46,6 +46,7 @@
              tal:content="context/link_title | link">Link</a></span>
       </div>
     </div>
+</div>
 </metal:content-core>
 </metal:main>
 
