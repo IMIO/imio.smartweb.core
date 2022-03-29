@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from plone import api
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
 
 
@@ -22,8 +22,9 @@ class HeroBannerViewlet(common.ViewletBase):
     def herobanner(self):
         if self._herobanner is not None:
             return self._herobanner
-        root = api.portal.get_navigation_root(self.context)
-        herobanners = root.listFolderContents(
+        if not INavigationRoot.providedBy(self.context):
+            return
+        herobanners = self.context.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.HeroBanner"}
         )
         if len(herobanners) > 0:
