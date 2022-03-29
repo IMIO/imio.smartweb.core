@@ -1,7 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:browser="http://namespaces.zope.org/browser"
-    i18n_domain="imio.smartweb">
+    xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page
       name="view"
@@ -10,7 +9,6 @@
       template="view.pt"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-      menu="plone_displayviews"
-      title="view"
       />
+
 </configure>
