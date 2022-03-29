@@ -38,13 +38,13 @@
               tal:content="title">Title</span>
         <span class="swiper-banner-description"
               tal:condition="description"
-              tal:content="description">Description</span>
         <span class="swiper-banner-link"
               tal:condition="link">
           <a tal:attributes="href link;
                              target python:'_blank' if context.open_in_new_tab else ''"
              tal:content="context/link_title | link">Link</a></span>
       </div>
+            tal:content="structure context/@@description">Description</span>
     </div>
 </div>
 </metal:content-core>
