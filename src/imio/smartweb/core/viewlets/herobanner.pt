@@ -1,15 +1,16 @@
 <div tal:condition="view/available"
      class="smartweb_herobanner">
 
-  <div class="swiper bannerswiper"
+  <div class="swiper bannerSwiper"
        tal:define="herobanner nocall:view/herobanner">
-  <tal:bcl tal:repeat="section view/sections">
-    <div tal:define="pages_view nocall:herobanner/@@full_view;"
-         tal:attributes="class python:pages_view.get_class(section);
-                         style python:pages_view.background_style(section);">
-      <span tal:replace="structure section/@@full_view_item" />
+    <div class="swiper-wrapper">
+      <tal:bcl tal:repeat="section view/sections">
+        <div tal:define="pages_view nocall:herobanner/@@full_view;"
+             tal:attributes="class python:pages_view.get_class(section)">
+          <span tal:replace="structure section/@@full_view_item" />
+        </div>
+      </tal:bcl>
     </div>
-  </tal:bcl>
   </div>
 
   <div class="swiper-button-next"></div>
