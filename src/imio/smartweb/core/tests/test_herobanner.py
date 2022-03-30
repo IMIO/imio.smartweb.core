@@ -86,12 +86,13 @@ class TestHeroBanner(ImioSmartwebTestCase):
         )
         herobanner_view.add_herobanner()
         herobanner = getattr(self.portal, "herobanner")
-        api.content.create(
+        slide = api.content.create(
             container=herobanner,
             type="imio.smartweb.SectionSlide",
             title="Section slide",
         )
-        viewlet = HeroBannerViewlet(herobanner, self.request, None, None)
+        slide.show_title_and_description = True
+        viewlet = HeroBannerViewlet(self.portal, self.request, None, None)
         viewlet.update()
         sections = viewlet.sections
         self.assertEqual(len(sections), 1)
@@ -102,4 +103,6 @@ class TestHeroBanner(ImioSmartwebTestCase):
             ]
         )
         self.assertIn("Section slide", render)
+        self.assertNotIn("<h2", render)
         self.assertNotIn('class="manage-section"', render)
+        self.assertNotIn("section-container", render)

@@ -167,7 +167,7 @@ class TestFooter(ImioSmartwebTestCase):
         )
         footer_view.add_footer()
         footer = getattr(self.portal, "footer")
-        viewlet = FooterViewlet(footer, self.request, None, None)
+        viewlet = FooterViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertEqual(viewlet.background_style(), "")
         footer.background_image = NamedBlobFile(**make_named_image())
@@ -187,7 +187,7 @@ class TestFooter(ImioSmartwebTestCase):
             type="imio.smartweb.SectionText",
             title="Section text",
         )
-        viewlet = FooterViewlet(footer, self.request, None, None)
+        viewlet = FooterViewlet(self.portal, self.request, None, None)
         viewlet.update()
         sections = viewlet.sections
         self.assertEqual(len(sections), 1)
