@@ -14,6 +14,8 @@ class HeroBannerViewlet(common.ViewletBase):
     def update(self):
         if not self.available():
             return
+        # we need to tell the template that we are rendering for the viewlet
+        self.request.set("viewlet_rendering", True)
         # we don't want to show edition tools in herobanner sections
         self.request.set("can_edit", False)
         self.sections = self.herobanner.listFolderContents()

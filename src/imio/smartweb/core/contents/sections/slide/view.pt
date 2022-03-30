@@ -12,9 +12,12 @@
 <metal:macro use-macro="context/@@sections_macros/section_edition" />
 <div class="container section-container section-slide"
      id=""
-     tal:attributes="id string:container-section-${context/id}">
+     tal:define="viewlet_rendering request/viewlet_rendering | nothing"
+     tal:attributes="id string:container-section-${context/id}"
+     tal:omit-tag="viewlet_rendering">
 
-  <metal:macro use-macro="context/@@sections_macros/section_title" />
+  <metal:macro use-macro="context/@@sections_macros/section_title"
+               tal:condition="not: viewlet_rendering"/>
 
   <div class="swiper-slide">
     <div class="swiper-banner-image"
