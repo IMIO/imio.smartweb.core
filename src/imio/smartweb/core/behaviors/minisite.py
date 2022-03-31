@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.interfaces import ILocalManagerAware
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.contents.cropping import SmartwebCroppingProvider
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -23,7 +24,7 @@ class MinisiteCroppingProvider(SmartwebCroppingProvider):
             return super(MinisiteCroppingProvider, self).get_scales(fieldname, request)
 
 
-class IImioSmartwebMinisite(INavigationRoot):
+class IImioSmartwebMinisite(INavigationRoot, ILocalManagerAware):
     """Marker interface to use minisite as a new navigation root"""
 
 

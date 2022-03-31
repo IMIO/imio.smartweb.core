@@ -5,6 +5,10 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
+- Move local manager role and sharing permissions to imio.smartweb.common
+  Use new common.interfaces.ILocalManagerAware to mark a locally manageable content
+  [boulch]
+
 - Add hero banner feature
   [boulch]
 
