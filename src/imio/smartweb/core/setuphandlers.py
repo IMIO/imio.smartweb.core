@@ -15,6 +15,12 @@ class HiddenProfiles(object):
             "imio.smartweb.core:uninstall",
         ]
 
+    def getNonInstallableProducts(self):
+        """Hide unwanted products from site-creation and quickinstaller."""
+        return [
+            "imio.smartweb.core.upgrades",
+        ]
+
 
 def post_install(context):
     """Post install script"""
