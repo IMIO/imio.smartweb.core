@@ -5,6 +5,9 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
+- Fix herobanner when there is a default (portal)page on site root or on partner sites
+  [boulch]
+
 - Hide unwanted upgrades from site-creation and quickinstaller
   [boulch]
 

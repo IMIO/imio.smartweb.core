@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_parent
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
+from Products.CMFPlone.utils import base_hasattr
 
 
 class HeroBannerViewlet(common.ViewletBase):
@@ -24,9 +27,26 @@ class HeroBannerViewlet(common.ViewletBase):
     def herobanner(self):
         if self._herobanner is not None:
             return self._herobanner
-        if not INavigationRoot.providedBy(self.context):
-            return
-        herobanners = self.context.listFolderContents(
+        obj = self.context
+        if IPloneSiteRoot.providedBy(obj):
+            pass
+        else:
+            if INavigationRoot.providedBy(obj):
+                pass
+            else:
+                parent = aq_parent(obj)
+                if not base_hasattr(parent, "default_page"):
+                    is_a_default_page = False
+                else:
+                    is_a_default_page = (
+                        parent.default_page == obj.id
+                        and INavigationRoot.providedBy(parent)
+                    )
+                if not is_a_default_page:
+                    return
+                else:
+                    obj = parent
+        herobanners = obj.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.HeroBanner"}
         )
         if len(herobanners) > 0:
