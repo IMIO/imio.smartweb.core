@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_parent
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
+from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.constrains import DISABLED
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 from Products.Five.browser import BrowserView
@@ -48,9 +50,19 @@ class HeroBannerSettings(BrowserView):
 
     @property
     def available(self):
-        if not INavigationRoot.providedBy(self.context):
-            return False
-        herobanners = self.context.listFolderContents(
+        obj = self.context
+        if not INavigationRoot.providedBy(obj):
+            parent = aq_parent(obj)
+            if not INavigationRoot.providedBy(parent):
+                return False
+
+            default_page = get_default_page(parent)
+            if default_page == obj.id:
+                obj = parent
+            else:
+                return False
+
+        herobanners = obj.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.HeroBanner"}
         )
         return len(herobanners) == 0
