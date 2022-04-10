@@ -41,6 +41,19 @@ class TestHeroBanner(ImioSmartwebTestCase):
         viewlet.update()
         self.assertTrue(viewlet.available())
         self.assertEqual(viewlet.herobanner, herobanners[0])
+
+        default_page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.PortalPage",
+            id="portal-page",
+        )
+        self.portal.setDefaultPage("portal-page")
+        viewlet = HeroBannerViewlet(default_page, self.request, None, None)
+        viewlet.update()
+        self.assertEqual(viewlet.herobanner, herobanners[0])
+        view = getMultiAdapter((default_page, self.request), name="herobanner_settings")
+        self.assertFalse(view.available)
+
         api.content.delete(herobanners[0])
         self.assertTrue(view.available)
 
@@ -69,6 +82,21 @@ class TestHeroBanner(ImioSmartwebTestCase):
         )
         self.assertEqual(len(herobanners), 1)
         self.assertFalse(herobanner_view.available)
+
+        default_page = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.PortalPage",
+            id="portal-page",
+        )
+        self.folder.setDefaultPage("portal-page")
+        viewlet = HeroBannerViewlet(default_page, self.request, None, None)
+        viewlet.update()
+        self.assertEqual(viewlet.herobanner, herobanners[0])
+        herobanner_view = getMultiAdapter(
+            (default_page, self.request), name="herobanner_settings"
+        )
+        self.assertFalse(herobanner_view.available)
+
         api.content.delete(herobanners[0])
         self.assertTrue(herobanner_view.available)
 
