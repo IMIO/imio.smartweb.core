@@ -5,6 +5,9 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
+- Improve slide view html
+  [thomlamb]
+
 - Clean core css
   [thomlamb]
 

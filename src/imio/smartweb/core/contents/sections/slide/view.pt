@@ -32,22 +32,24 @@
          tal:condition="context/color"
          tal:attributes="style string:background-color:${context/color}"></div>
 
-    <div class="swiper-banner-content"
+    <div class="swiper-banner-content-wrapper container"
          tal:define="title context/title;
                      description context/description;
                      link context/remoteUrl"
          tal:condition="python: context.show_title_and_description or link">
-      <span class="swiper-banner-title"
-            tal:condition="title"
-            tal:content="title">Title</span>
-      <span class="swiper-banner-description"
-            tal:condition="description"
-            tal:content="structure context/@@description">Description</span>
-      <span class="swiper-banner-link"
-            tal:condition="link">
-        <a tal:attributes="href link;
-                           target python:'_blank' if context.open_in_new_tab else ''"
-           tal:content="context/link_title | link">Link</a></span>
+      <div class="swiper-banner-content">
+          <span class="swiper-banner-title"
+               tal:condition="title"
+               tal:content="title">Title</span>
+          <div class="swiper-banner-description"
+               tal:condition="description"
+               tal:content="structure context/@@description">Description</div>
+          <span class="swiper-banner-link"
+               tal:condition="link">
+          <a tal:attributes="href link;
+                              target python:'_blank' if context.open_in_new_tab else ''"
+               tal:content="context/link_title | link">Link</a></span>
+      </div>
     </div>
   </div>
 
