@@ -5,6 +5,9 @@ Changelog
 1.0.7 (unreleased)
 ------------------
 
+- Clean core css
+  [thomlamb]
+
 - Fix herobanner when there is a default (portal)page on site root or on partner sites
   [boulch]
 
