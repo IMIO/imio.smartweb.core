@@ -275,6 +275,15 @@ class TestPages(ImioSmartwebTestCase):
         vocabulary = factory(self.folder)
         self.assertEqual(len(vocabulary), 1)
 
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        herobanner_settings = getMultiAdapter(
+            (self.folder, self.request), name="herobanner_settings"
+        )
+        herobanner_settings.add_herobanner()
+        vocabulary = factory(self.folder)
+        self.assertEqual(len(vocabulary), 1)
+
         api.content.create(
             container=self.folder,
             type="Collection",

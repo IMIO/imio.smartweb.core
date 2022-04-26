@@ -104,7 +104,11 @@ class CurrentFolderPagesVocabularyFactory:
             object_provides=[IPages, ICollection],
             sort_on="sortable_title",
         )
-        brains = [b for b in brains if b.portal_type != "imio.smartweb.Footer"]
+        brains = [
+            b
+            for b in brains
+            if b.portal_type not in ["imio.smartweb.Footer", "imio.smartweb.HeroBanner"]
+        ]
         terms = [SimpleTerm(value=b.UID, token=b.UID, title=b.Title) for b in brains]
         return SimpleVocabulary(terms)
 
