@@ -19,7 +19,7 @@ Changelog
   [thomlamb]
 
 - Fix herobanner when there is a default (portal)page on site root or on partner sites
-  [boulch]
+  [boulch, laulaz]
 
 - Hide unwanted upgrades from site-creation and quickinstaller
   [boulch]

@@ -2,10 +2,10 @@
 
 from Acquisition import aq_parent
 from imio.smartweb.core.contents import IFolder
+from imio.smartweb.core.utils import get_default_content_id
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
-from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.constrains import DISABLED
 from Products.CMFPlone.interfaces.constrains import ISelectableConstrainTypes
 from Products.Five.browser import BrowserView
@@ -21,12 +21,15 @@ class HeroBannerSettings(BrowserView):
             )
             self.request.response.redirect(self.context.absolute_url())
             return ""
-        if IFolder.providedBy(self.context):
-            container = ISelectableConstrainTypes(self.context)
+        obj = self.context
+        if not INavigationRoot.providedBy(obj):
+            obj = aq_parent(obj)
+        if IFolder.providedBy(obj):
+            container = ISelectableConstrainTypes(obj)
             constrain_types_mode = container.getConstrainTypesMode()
             container.setConstrainTypesMode(DISABLED)
         pt = api.portal.get_tool("portal_types")
-        portal_type = self.context.portal_type
+        portal_type = obj.portal_type
         allowed_content_types = pt.getTypeInfo(portal_type).allowed_content_types
         allowed_content_types = list(allowed_content_types)
         allowed_content_types.append("imio.smartweb.HeroBanner")
@@ -34,14 +37,14 @@ class HeroBannerSettings(BrowserView):
         herobanner = api.content.create(
             title=_("Hero banner"),
             id="herobanner",
-            container=self.context,
+            container=obj,
             type="imio.smartweb.HeroBanner",
         )
         herobanner.exclude_from_parent_listing = True
         herobanner.reindexObject(idxs=("exclude_from_parent_listing"))
         allowed_content_types.remove("imio.smartweb.HeroBanner")
         pt.getTypeInfo(portal_type).allowed_content_types = tuple(allowed_content_types)
-        if IFolder.providedBy(self.context):
+        if IFolder.providedBy(obj):
             container.setConstrainTypesMode(constrain_types_mode)
         api.portal.show_message(
             _("Hero banner has been successfully added"), self.request
@@ -56,8 +59,8 @@ class HeroBannerSettings(BrowserView):
             if not INavigationRoot.providedBy(parent):
                 return False
 
-            default_page = get_default_page(parent)
-            if default_page == obj.id:
+            default_page_id = get_default_content_id(parent)
+            if default_page_id == obj.id:
                 obj = parent
             else:
                 return False

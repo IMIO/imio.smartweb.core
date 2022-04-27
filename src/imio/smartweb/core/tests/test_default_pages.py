@@ -5,6 +5,7 @@ from imio.smartweb.core.contents import IDefaultPages
 from imio.smartweb.core.contents.folder.views import ElementView
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.utils import get_default_content_id
 from plone import api
 from plone.app.testing import logout
 from plone.app.testing import TEST_USER_ID
@@ -291,3 +292,10 @@ class TestPages(ImioSmartwebTestCase):
         )
         vocabulary = factory(self.folder)
         self.assertEqual(len(vocabulary), 2)
+
+    def test_get_default_content_id(self):
+        self.assertEqual(get_default_content_id(self.folder), "defaultpage")
+        folder_without_default = api.content.create(
+            container=self.portal, type="imio.smartweb.Folder", title="Folder"
+        )
+        self.assertEqual(get_default_content_id(folder_without_default), "")

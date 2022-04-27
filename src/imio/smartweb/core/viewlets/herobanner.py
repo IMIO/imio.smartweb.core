@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_parent
+from imio.smartweb.core.utils import get_default_content_id
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
-from Products.CMFPlone.defaultpage import get_default_page
 
 
 class HeroBannerViewlet(common.ViewletBase):
@@ -33,8 +33,8 @@ class HeroBannerViewlet(common.ViewletBase):
             if not INavigationRoot.providedBy(parent):
                 return
 
-            default_page = get_default_page(parent)
-            if default_page == obj.id:
+            default_page_id = get_default_content_id(parent)
+            if default_page_id == obj.id:
                 obj = parent
             else:
                 return

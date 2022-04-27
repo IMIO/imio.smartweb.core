@@ -4,6 +4,7 @@ from imio.smartweb.core.contents import IPortalPage
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.utils import get_default_content_id
 from plone import api
 from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles
@@ -152,3 +153,13 @@ class TestPortalPage(ImioSmartwebTestCase):
         )
         view = getMultiAdapter((portal_page, self.request), name="full_view")()
         self.assertNotIn("<h1>", view)
+
+    def test_get_default_content_id(self):
+        self.assertEqual(get_default_content_id(self.portal), "")
+        api.content.create(
+            container=self.portal,
+            type="imio.smartweb.PortalPage",
+            id="portal-page",
+        )
+        self.portal.setDefaultPage("portal-page")
+        self.assertEqual(get_default_content_id(self.portal), "portal-page")

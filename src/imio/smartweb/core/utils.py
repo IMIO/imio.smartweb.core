@@ -3,8 +3,11 @@
 from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
 from imio.smartweb.core.config import WCA_URL
+from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
 from plone import api
+from Products.CMFPlone.defaultpage import get_default_page
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
 
@@ -94,3 +97,14 @@ def reindexParent(obj, event):
         # in some cases (ex: relation breaking), we do not get the object in
         # its acquisition chain
         parent.reindexObject()
+
+
+def get_default_content_id(obj):
+    if IPloneSiteRoot.providedBy(obj):
+        # Plone default page
+        item_id = get_default_page(obj)
+        return item_id and item_id or ""
+    elif IFolder.providedBy(obj):
+        # Our folder default page
+        item = obj.get_default_item()
+        return item and item.getId or ""
