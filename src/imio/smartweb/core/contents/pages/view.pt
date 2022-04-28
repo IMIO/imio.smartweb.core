@@ -20,8 +20,8 @@
   <metal:listing use-macro="context/@@listing_view/macros/content-core">
     <!-- we don't want the dl -->
     <metal:entries fill-slot="entries">
-      <tal:def tal:define="can_edit python: checkPermission('Modify portal content', context)">
-        <script tal:condition="can_edit">
+      <tal:def tal:define="can_reorder python: checkPermission('Modify portal content', context)">
+        <script tal:condition="can_reorder">
           $(store_order);
           function store_order() {
             orderedSectionsIds = [];
@@ -50,7 +50,7 @@
         <span class="pat-sortable row"
               data-pat-sortable="selector:div.sortable-section;
                                  drop:reorder;"
-              tal:omit-tag="not: can_edit">
+              tal:omit-tag="not: can_reorder">
           <metal:block use-macro="context/@@listing_view/macros/entries">
             <metal:entry fill-slot="entry" tal:condition="python: item.UID != uuid">
               <tal:def define="obj item/getObject;">
