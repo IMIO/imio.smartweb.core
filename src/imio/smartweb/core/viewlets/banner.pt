@@ -4,7 +4,7 @@
        tal:attributes="style view/background_style;
                        class python:'hidden-banner' if is_hidden else ''"
        i18n:domain="imio.smartweb">
-    <tal:cond define="checkPermission python:context.restrictedTraverse('portal_membership').checkPermission;"
+    <tal:cond define="checkPermission nocall: context/portal_membership/checkPermission;"
               condition="python: checkPermission('Modify portal content', context)">
       <div class="show-hide-banner hide-in-preview" tal:condition="is_hidden">
          <span class="glyphicon-eye-open glyphicon"></span>
