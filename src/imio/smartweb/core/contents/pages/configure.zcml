@@ -27,6 +27,15 @@
       />
 
   <browser:page
+      name="full_view_item_without_edit"
+      for="imio.smartweb.core.contents.ISection"
+      class=".views.PagesFullViewItemWithoutEdit"
+      template="view_section.pt"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      permission="zope2.View"
+      />
+
+  <browser:page
       name="reorder-section"
       for="imio.smartweb.core.contents.IPages"
       class=".views.PagesOrderingView"

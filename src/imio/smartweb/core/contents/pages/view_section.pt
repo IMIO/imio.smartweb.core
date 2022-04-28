@@ -11,7 +11,8 @@
 
     <tal:block tal:condition="item_macro">
 
-      <tal:def2 tal:define="view nocall:view/default_view;
+      <tal:def2 tal:define="can_edit_sections view/can_edit_sections;
+                            view nocall:view/default_view;
                             plone_view context/@@plone;
                             portal_state context/@@plone_portal_state;
                             context_state context/@@plone_context_state;

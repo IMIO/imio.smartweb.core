@@ -13,10 +13,9 @@
 <div class="container section-container section-gallery"
      id=""
      tal:attributes="id string:container-section-${context/id}"
-     tal:define="can_edit python: checkPermission('Modify portal content', context);
-                 items context/listFolderContents;">
+     tal:define="items context/listFolderContents;">
 
-  <tal:if tal:define="show_section python: can_edit or items"
+  <tal:if tal:define="show_section python: can_edit_sections or items"
           tal:condition="show_section">
 
     <metal:macro use-macro="context/@@sections_macros/section_title" />

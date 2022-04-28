@@ -7,15 +7,13 @@
 
 <metal:macro define-macro="section_edition">
 
-  <tal:def tal:define="can_edit request/can_edit | nothing;
-                       can_edit python: can_edit is None and checkPermission('Modify portal content', context) or can_edit;
-                       token context/@@authenticator/token;
+  <tal:def tal:define="token context/@@authenticator/token;
                        hide_title context/hide_title;
                        collapsible_section context/collapsible_section;
                        can_toggle_title_visibility context/can_toggle_title_visibility"
            i18n:domain="imio.smartweb">
 
-    <div tal:condition="can_edit"
+    <div tal:condition="can_edit_sections"
          class="container header-section hide-in-preview">
 
       <div class="manage-section">
@@ -81,9 +79,7 @@
 
 <metal:macro define-macro="section_title">
 
-  <tal:def tal:define="can_edit request/can_edit | nothing;
-                       can_edit python: can_edit is None and checkPermission('Modify portal content', context) or can_edit;
-                       hide_title context/hide_title;
+  <tal:def tal:define="hide_title context/hide_title;
                        collapsible_section context/collapsible_section"
            i18n:domain="imio.smartweb">
 
@@ -98,7 +94,7 @@
          tal:attributes="data-bs-target string:#body-section-${context/id}"
          tal:content="context/title"
     /></h2>
-    <h2 tal:condition="python: can_edit and hide_title"
+    <h2 tal:condition="python: can_edit_sections and hide_title"
         class="hidden-section-title hide-in-preview"><a
          href=""
          role="button"

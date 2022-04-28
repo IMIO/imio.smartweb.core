@@ -5,6 +5,7 @@ from functools import reduce
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
@@ -511,6 +512,8 @@ class TestSections(ImioSmartwebTestCase):
             view(),
         )
         logout()
+        clear_cache(self.request)
+        view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
             '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
             view(),

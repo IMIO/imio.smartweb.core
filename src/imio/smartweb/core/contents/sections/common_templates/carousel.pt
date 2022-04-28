@@ -9,9 +9,8 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-<tal:def tal:define="can_edit python: checkPermission('Modify portal content', context);
-                     items view/items;">
-  <tal:if tal:define="show_section python: can_edit or items"
+<tal:def tal:define="items view/items;">
+  <tal:if tal:define="show_section python: can_edit_sections or items"
           tal:condition="show_section">
     <metal:macro use-macro="context/@@sections_macros/section_edition" />
   </tal:if>
@@ -20,7 +19,7 @@
        id=""
        tal:attributes="id string:container-section-${context/id}">
 
-  <tal:if tal:define="show_section python: can_edit or items"
+  <tal:if tal:define="show_section python: can_edit_sections or items"
           tal:condition="show_section">
     <div class=""
          tal:define="nb_class string:nb-items-batch-${context/nb_results_by_batch};"
@@ -45,7 +44,7 @@
                                portal context/@@plone_portal_state/portal;
                                open_in_new_tab item/open_in_new_tab | nothing;">
                   <a tal:attributes="href item/url;
-                                     target python:'_blank' if (open_in_new_tab and not can_edit) else ''">
+                                     target python:'_blank' if (open_in_new_tab and not can_edit_sections) else ''">
                     <div class="swiper-image"
                          tal:condition="python: item_has_image and show_lead_image"
                          tal:attributes="style string:background-image:url(${item/image})">

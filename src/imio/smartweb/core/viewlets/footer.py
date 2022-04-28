@@ -26,8 +26,6 @@ class BaseFooterViewlet(common.ViewletBase):
     def update(self):
         if not self.available():
             return
-        # we don't want to show edition tools in footer sections
-        self.request.set("can_edit", False)
         self.sections = self.footer.listFolderContents()
 
 

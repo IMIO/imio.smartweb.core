@@ -73,6 +73,18 @@ class PagesView(FolderView):
 class PagesFullViewItem(BaseFullViewItem):
     """Page view item"""
 
+    def __init__(self, context, request):
+        super(PagesFullViewItem, self).__init__(context, request)
+        self.can_edit_sections = api.user.has_permission(
+            "Modify portal content", obj=context
+        )
+
+
+class PagesFullViewItemWithoutEdit(BaseFullViewItem):
+    """Page view item without sections edit tools"""
+
+    can_edit_sections = False
+
 
 class PagesOrderingView(OrderContentsBaseAction):
     """Page sections ordering view"""

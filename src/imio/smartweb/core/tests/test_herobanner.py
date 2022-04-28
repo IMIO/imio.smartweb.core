@@ -137,7 +137,9 @@ class TestHeroBanner(ImioSmartwebTestCase):
         self.assertEqual(len(sections), 1)
         render = "\n".join(
             [
-                getMultiAdapter((section, self.request), name="full_view_item")()
+                getMultiAdapter(
+                    (section, self.request), name="full_view_item_without_edit"
+                )()
                 for section in sections
             ]
         )
