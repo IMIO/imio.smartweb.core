@@ -8,6 +8,7 @@ from imio.smartweb.core.contents.sections.contact.view import formatted_schedule
 from imio.smartweb.core.contents.sections.contact.view import get_schedule_for_today
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
@@ -15,18 +16,12 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.testing.zope import Browser
-from zope.annotation.interfaces import IAnnotations
 from zope.component import queryMultiAdapter
 
 import json
 import requests
 import requests_mock
 import transaction
-
-
-def clear_cache(request):
-    annotations = IAnnotations(request)
-    del annotations["plone.memoize"]
 
 
 class TestContact(ImioSmartwebTestCase):

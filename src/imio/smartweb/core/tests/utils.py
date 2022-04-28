@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+
+from zope.annotation.interfaces import IAnnotations
+
 import json
 import os
 
@@ -30,6 +33,11 @@ def get_json(json_filename):
     ) as json_file:
         json_procedures_raw_mock = json.load(json_file)
         return json_procedures_raw_mock
+
+
+def clear_cache(request):
+    annotations = IAnnotations(request)
+    del annotations["plone.memoize"]
 
 
 def make_named_image(filename="plone.png"):
