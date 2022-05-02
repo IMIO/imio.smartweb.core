@@ -5,6 +5,9 @@ Changelog
 1.0.8 (unreleased)
 ------------------
 
+- Add new icons
+  [boulch]
+
 - Fix section edition display for herobanner / content-core / footer
   [laulaz]
 

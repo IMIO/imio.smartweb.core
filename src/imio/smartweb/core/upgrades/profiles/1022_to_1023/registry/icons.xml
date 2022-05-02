@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="smartweb.icon.action.hiring"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Action - Hiring</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/action-engagement.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.publicsurvey"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Public survey</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-enquetes-publiques.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.worksinfo02"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Works info 2</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-infos-travaux-02.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.myaccount"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - My account</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-mon-dossier.svg</value>
+    </record>
+
+</registry>

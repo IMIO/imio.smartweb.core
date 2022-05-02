@@ -35,6 +35,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1022_to_1023"
+      title="Upgrade core from 1022 to 1023"
+      directory="profiles/1022_to_1023"
+      description="Add new icons to registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -277,6 +285,16 @@
         title="Add Hero banner contents to types not searched"
         import_profile="imio.smartweb.core.upgrades:upgrade_1021_to_1022"
         import_steps="plone.app.registry"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1022"
+      destination="1023"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new icons to registry"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1022_to_1023"
         />
   </genericsetup:upgradeSteps>
 

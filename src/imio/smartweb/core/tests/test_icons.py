@@ -54,7 +54,7 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn("<svg", view)
 
     def test_icons_override(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 47)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 51)
         portal_resources = getUtility(IResourceDirectory, name="persistent")
         portal_resources.makeDirectory("plone")
         portal_resources["plone"].makeDirectory("imio.smartweb.core")
