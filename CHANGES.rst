@@ -5,7 +5,8 @@ Changelog
 1.0.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove duplicate / useless new icons & change default workinfos icon
+  [laulaz]
 
 
 1.0.8 (2022-05-02)
