@@ -9,7 +9,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from plone.testing.zope import Browser
 from zope.component import getMultiAdapter
 
@@ -92,7 +92,7 @@ class TestText(ImioSmartwebTestCase):
         self.assertNotIn("@@images/image/large", view())
         self.assertNotIn("figcaption", view())
 
-        section.image = NamedBlobFile(**make_named_image())
+        section.image = NamedBlobImage(**make_named_image())
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn('<div class="body-section figure-left figure-large "', view())
         self.assertIn("<figure", view())

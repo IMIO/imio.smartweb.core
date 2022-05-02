@@ -9,7 +9,7 @@ from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from plone.registry import field
 from plone.registry import Record
 from plone.registry.interfaces import IRegistry
@@ -170,7 +170,7 @@ class TestFooter(ImioSmartwebTestCase):
         viewlet = FooterViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertEqual(viewlet.background_style(), "")
-        footer.background_image = NamedBlobFile(**make_named_image())
+        footer.background_image = NamedBlobImage(**make_named_image())
         self.assertIn(
             "background-image:url('http://nohost/plone/footer/@@images/background_image/large')",
             viewlet.background_style(),

@@ -15,6 +15,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.formwidget.geolocation.geolocation import Geolocation
 from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from plone.protect.authenticator import createToken
 from time import sleep
 from z3c.relationfield import RelationValue
@@ -501,7 +502,7 @@ class TestSections(ImioSmartwebTestCase):
             '<a class="table_image no-image" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
         )
-        link.image = NamedBlobFile(**make_named_image())
+        link.image = NamedBlobImage(**make_named_image())
         self.assertIn(
             '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
@@ -527,7 +528,7 @@ class TestSections(ImioSmartwebTestCase):
         )
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertEqual(view.background_style(section), "")
-        section.background_image = NamedBlobFile(**make_named_image())
+        section.background_image = NamedBlobImage(**make_named_image())
         self.assertIn(
             "background-image:url('http://nohost/plone/page/section-text/@@images/background_image/large')",
             view.background_style(section),
@@ -545,7 +546,7 @@ class TestSections(ImioSmartwebTestCase):
         self.assertEqual(view.get_class(section), "sectiontext my-css")
         section.bootstrap_css_class = "col-sm-3"
         self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
-        section.background_image = NamedBlobFile(**make_named_image())
+        section.background_image = NamedBlobImage(**make_named_image())
         self.assertEqual(
             view.get_class(section), "sectiontext my-css col-sm-3 with-background"
         )

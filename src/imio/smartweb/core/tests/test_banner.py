@@ -8,7 +8,7 @@ from plone import api
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from zope.component import getMultiAdapter
 
 
@@ -32,7 +32,7 @@ class TestBanner(ImioSmartwebTestCase):
         viewlet = BannerViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
-        self.folder.banner = NamedBlobFile(**make_named_image())
+        self.folder.banner = NamedBlobImage(**make_named_image())
         self.assertTrue(viewlet.available())
         self.assertIn(
             "background-image:url('http://nohost/plone/folder/@@images/banner/banner')",
@@ -53,7 +53,7 @@ class TestBanner(ImioSmartwebTestCase):
         self.assertNotIn("bloc-banner", body_class)
 
     def test_banner_root_locally_hidden(self):
-        self.folder.banner = NamedBlobFile(**make_named_image())
+        self.folder.banner = NamedBlobImage(**make_named_image())
         viewlet = BannerViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
@@ -83,7 +83,7 @@ class TestBanner(ImioSmartwebTestCase):
         self.assertNotIn("bloc-banner", body_class)
 
     def test_banner_child_locally_hidden(self):
-        self.folder.banner = NamedBlobFile(**make_named_image())
+        self.folder.banner = NamedBlobImage(**make_named_image())
         viewlet = BannerViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
@@ -134,7 +134,7 @@ class TestBanner(ImioSmartwebTestCase):
         )
 
     def test_banner_can_edit_locally_hidden(self):
-        self.folder.banner = NamedBlobFile(**make_named_image())
+        self.folder.banner = NamedBlobImage(**make_named_image())
         viewlet = BannerViewlet(self.folder, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
@@ -162,7 +162,7 @@ class TestBanner(ImioSmartwebTestCase):
         self.assertFalse(subfolder_viewlet.available())
 
     def test_banner_on_minisite(self):
-        self.folder.banner = NamedBlobFile(**make_named_image())
+        self.folder.banner = NamedBlobImage(**make_named_image())
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
         view.enable()
         viewlet = BannerViewlet(self.folder, self.request, None, None)

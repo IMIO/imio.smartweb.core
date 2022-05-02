@@ -11,7 +11,7 @@ from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from Products.Five.browser import BrowserView as View
 from zope.component import getMultiAdapter
 from zope.viewlet.interfaces import IViewlet
@@ -132,7 +132,7 @@ class TestSubsite(ImioSmartwebTestCase):
         self.folder.logo_display_mode = "logo_title"
         self.assertTrue(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())
-        self.folder.logo = NamedBlobFile(**make_named_image())
+        self.folder.logo = NamedBlobImage(**make_named_image())
         self.assertTrue(viewlet.show_logo())
         self.folder.logo_display_mode = "logo"
         self.assertTrue(viewlet.show_logo())

@@ -8,7 +8,7 @@ from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from zope.component import getMultiAdapter
 
 
@@ -98,7 +98,7 @@ class TestCropping(ImioSmartwebTestCase):
                 self.assertEqual(
                     ["affiche"], adapter.get_scales("background_image", self.request)
                 )
-                section.image = NamedBlobFile(**make_named_image())
+                section.image = NamedBlobImage(**make_named_image())
                 section.image_size = "preview"
                 self.assertEqual(["preview"], adapter.get_scales("image", self.request))
                 section.image_size = "large"

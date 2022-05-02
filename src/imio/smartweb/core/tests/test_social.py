@@ -7,7 +7,7 @@ from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from plone.testing.zope import Browser
 from zope.interface import alsoProvides
 
@@ -36,7 +36,7 @@ class TestSocial(ImioSmartwebTestCase):
         page = api.content.create(
             container=folder, type="imio.smartweb.Page", title="Page", id="page"
         )
-        page.image = NamedBlobFile(**make_named_image())
+        page.image = NamedBlobImage(**make_named_image())
         api.content.transition(page, "publish")
         transaction.commit()
 
@@ -74,7 +74,7 @@ class TestSocial(ImioSmartwebTestCase):
             content,
         )
 
-        folder.image = NamedBlobFile(**make_named_image())
+        folder.image = NamedBlobImage(**make_named_image())
         transaction.commit()
         browser.open(folder.absolute_url())
         content = browser.contents

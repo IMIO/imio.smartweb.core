@@ -14,7 +14,7 @@ from plone.app.testing import setRoles
 from plone.app.textfield.value import RichTextValue
 from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from plone.testing.zope import Browser
 from time import sleep
 from zope.annotation.interfaces import IAnnotations
@@ -133,7 +133,7 @@ class TestFolder(ImioSmartwebTestCase):
             type="imio.smartweb.Page",
             title="My page",
         )
-        page.image = NamedBlobFile(**make_named_image())
+        page.image = NamedBlobImage(**make_named_image())
         alsoProvides(self.request, IImioSmartwebCoreLayer)
         view = getMultiAdapter((folder, self.request), name="block_view")
         self.assertNotIn("newsImage", view())

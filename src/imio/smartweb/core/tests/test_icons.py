@@ -6,7 +6,7 @@ from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
-from plone.namedfile.file import NamedBlobFile
+from plone.namedfile.file import NamedBlobImage
 from plone.resource.interfaces import IResourceDirectory
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
@@ -40,7 +40,7 @@ class TestSections(ImioSmartwebTestCase):
         self.assertNotIn("background-image", view)
         self.assertNotIn("<svg", view)
 
-        link.image = NamedBlobFile(**make_named_image())
+        link.image = NamedBlobImage(**make_named_image())
         view = queryMultiAdapter((self.page, self.request), name="full_view")()
         self.assertIn(
             "background-image:url('http://nohost/plone/page/links/link/@@images/image/vignette')",
