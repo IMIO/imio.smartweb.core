@@ -24,11 +24,11 @@ const ContactCard = ({ contactItem }) => {
     return (
         <div className="r-list-item">
             <div
-                className="r-item-img"
+                className={contactItem.image?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
                     backgroundImage: contactItem["@id"]
                         ? "url(" + contactItem["@id"] + "/@@images/image/preview" + ")"
-                        : "url(" + imgPlaceholder + ")",
+                        : "",
                 }}
             />
             <div className="r-item-text">

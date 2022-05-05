@@ -1,6 +1,6 @@
 {
   "name": "imio.smartweb.core-webcomponents",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "Various React components exported as web components to use directly in template (.pt) files",
   "private": true,
   "scripts": {

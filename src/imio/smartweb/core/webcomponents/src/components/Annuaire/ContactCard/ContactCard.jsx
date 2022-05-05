@@ -18,11 +18,11 @@ const ContactCard = ({ contactItem }) => {
     return (
         <div className="r-list-item">
             <div
-                className="r-item-img"
+                className={contactItem.image?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
                     backgroundImage: contactItem.image
                         ? "url(" + contactItem.image.scales.preview.download + ")"
-                        : "url(" + imgPlaceholder + ")",
+                        : "",
                 }}
             />
 
