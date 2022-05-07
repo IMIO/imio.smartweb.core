@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
@@ -173,6 +174,7 @@ class ExtendedSearchHandler(SearchHandler):
                     ],
                     "operator": "or",
                 },
+                "expires": {"query": datetime.now(), "range": "min"},
                 "path": "",
             },
             "events": {
@@ -190,6 +192,8 @@ class ExtendedSearchHandler(SearchHandler):
                     ],
                     "operator": "or",
                 },
+                "event_dates": {"query": datetime.now().date(), "range": "min"},
+                "expires": {"query": datetime.now(), "range": "min"},
                 "path": "",
             },
             "directory": {
@@ -209,6 +213,7 @@ class ExtendedSearchHandler(SearchHandler):
                     ],
                     "operator": "or",
                 },
+                "expires": {"query": datetime.now(), "range": "min"},
                 "path": "",
             },
         }.get(core)

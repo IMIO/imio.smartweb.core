@@ -5,6 +5,9 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
+- Adapt `@search` endpoint to exclude expired elements and events in the past
+  [mpeeters]
+
 - Remove forced placeholder for image in react pages
   [thomlamb]
 
