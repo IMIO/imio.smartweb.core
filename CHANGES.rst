@@ -5,6 +5,9 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
+- Fix css for react items
+  [thomlamb]
+
 - Adaptation of the jsx to be able to render the markdown to html
   [thomlamb]
 
