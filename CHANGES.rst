@@ -5,6 +5,9 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
+- Adaptation of the jsx to be able to render the markdown to html
+  [thomlamb]
+
 - Adapt `@search` endpoint to exclude expired elements and events in the past
   [mpeeters]
 

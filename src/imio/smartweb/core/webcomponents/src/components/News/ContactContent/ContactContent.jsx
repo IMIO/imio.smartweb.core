@@ -4,6 +4,8 @@ import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from "moment";
 import Moment from "react-moment";
+import ReactMarkdown from 'react-markdown'
+
 const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
     const queryString = require("query-string");
@@ -52,7 +54,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
             <article>
                 <header>
                     <h2 className="r-content-title">{contactItem.title}</h2>
-                    <p className="r-content-description">{contactItem.description}</p>
+                    <div className="r-content-description">
+					    <ReactMarkdown>{contactItem.description}</ReactMarkdown>
+				    </div>
                 </header>
                 <figure>
                     <div
