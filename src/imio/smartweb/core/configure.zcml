@@ -10,6 +10,7 @@
   <include package="collective.messagesviewlet" />
   <include package="collective.sendinblue" />
   <include package="collective.taxonomy" />
+  <include package="collective.z3cform.datagridfield" />
 
   <!-- Temporary fix for plone.gallery 1.0.1 -->
   <include package="plone.app.contentmenu" />

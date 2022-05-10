@@ -5,7 +5,8 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add new content type : imio.smartweb.SectionPostit
+  [boulch]
 
 
 1.0.10 (2022-05-10)

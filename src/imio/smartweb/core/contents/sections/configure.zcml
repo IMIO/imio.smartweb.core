@@ -11,6 +11,7 @@
   <include package=".links" />
   <include package=".map" />
   <include package=".news" />
+  <include package=".postit" />
   <include package=".selections" />
   <include package=".sendinblue" />
   <include package=".slide" />

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.PortalPage"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <property name="allowed_content_types" purge="false">
+    <element value="imio.smartweb.SectionPostit" />
+  </property>
+
+</object>

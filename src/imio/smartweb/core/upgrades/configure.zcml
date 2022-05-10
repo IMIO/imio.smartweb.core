@@ -43,6 +43,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1023_to_1024"
+      title="Upgrade core from 1023 to 1024"
+      directory="profiles/1023_to_1024"
+      description="Add new content type : imio.smartweb.SectionPostit"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -295,6 +303,16 @@
     <genericsetup:upgradeDepends
         title="Add new icons to registry"
         import_profile="imio.smartweb.core.upgrades:upgrade_1022_to_1023"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1023"
+      destination="1024"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new content type : imio.smartweb.SectionPostit"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1023_to_1024"
         />
   </genericsetup:upgradeSteps>
 

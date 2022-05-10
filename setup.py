@@ -66,9 +66,10 @@ setup(
         "collective.sendinblue",
         "collective.solr",
         "collective.taxonomy",
+        "collective.z3cform.datagridfield",
         "embeddify",
         "more-itertools",
-        "imio.smartweb.common",
+        "imio.smartweb.common > 1.0.4",
         "imio.smartweb.locales",
     ],
     extras_require={

@@ -34,7 +34,7 @@ class TestSections(ImioSmartwebTestCase):
     def setUp(self):
         # Number of sections where there is a title if section is empty.
         # sectionHTML,...
-        self.NUMBER_OF_EMPTY_SECTIONS = 9
+        self.NUMBER_OF_EMPTY_SECTIONS = 10
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -433,7 +433,7 @@ class TestSections(ImioSmartwebTestCase):
             self.assertFalse(section.hide_title)
         view = queryMultiAdapter((page, self.request), name="full_view")()
         # portal_globalnav : count 5 collapses
-        self.assertEqual(view.count("collapse"), collapsable_elems + 17)
+        self.assertEqual(view.count("collapse"), collapsable_elems + 18)
 
     def test_sections_collapsible_hide_title(self):
         page = api.content.create(

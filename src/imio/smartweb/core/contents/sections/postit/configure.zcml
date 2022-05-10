@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+      name="view"
+      for="imio.smartweb.core.contents.ISectionPostit"
+      class="imio.smartweb.core.contents.sections.postit.view.PostitView"
+      template="../common_templates/carousel.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="Carousel view"
+      />
+
+</configure>

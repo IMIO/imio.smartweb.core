@@ -19,6 +19,7 @@
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionLinks"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionMap"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionNews"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionPostit"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSelections"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSendinblue"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSlide"/>

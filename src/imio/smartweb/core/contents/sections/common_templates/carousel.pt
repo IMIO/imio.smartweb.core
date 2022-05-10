@@ -43,7 +43,8 @@
                                show_lead_image python: getattr(context, 'show_items_lead_image', True);
                                portal context/@@plone_portal_state/portal;
                                open_in_new_tab item/open_in_new_tab | nothing;">
-                  <a tal:attributes="href item/url;
+                  <a  tal:omit-tag="not: item/url"
+                      tal:attributes="href item/url;
                                      target python:'_blank' if (open_in_new_tab and not can_edit_sections) else ''">
                     <div class="swiper-image"
                          tal:condition="python: item_has_image and show_lead_image"
@@ -73,9 +74,13 @@
                     <div class="swiper_title">
                       <h3 tal:content="item/title"></h3>
                     </div>
+                    <div tal:condition="item/subtitle"
+                         class="swiper_subtitle">
+                      <p tal:content="item/subtitle"></p>
+                    </div>
                     <div class="swiper_description"
                          tal:condition="context/show_items_description | nothing">
-                      <p tal:content="item/description" />
+                      <p tal:content="structure item/description" />
                     </div>
                   </a>
               </tal:def>
@@ -83,10 +88,9 @@
         </tal:bcl>
       </div>
 
-  <div class="swiper-pagination"></div>
-
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
+      <div class="swiper-pagination"></div>
+      <div class="swiper-button-prev"></div>
+      <div class="swiper-button-next"></div>
     </div>
 
     <div class="see_all"
