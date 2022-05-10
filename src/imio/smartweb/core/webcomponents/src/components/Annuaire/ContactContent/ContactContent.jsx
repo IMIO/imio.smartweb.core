@@ -2,6 +2,7 @@ import { useHistory, useParams, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
+import ReactMarkdown from 'react-markdown'
 
 const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
@@ -66,6 +67,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
             </article>
             <div className="contactCard">
                 <div className="contactText">
+                <div className="r-content-description">
+					<ReactMarkdown>{contactItem.description}</ReactMarkdown>
+				</div>
                     <div className="contactTextAll">
                         {contactItem.category ? <span>{contactItem.category}</span> : ""}
                         <div className="adresse">

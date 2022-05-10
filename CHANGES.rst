@@ -5,6 +5,9 @@ Changelog
 1.0.10 (unreleased)
 -------------------
 
+- Add description for directory items
+  [thomlamb]
+
 - Fix css for react items
   [thomlamb]
 
