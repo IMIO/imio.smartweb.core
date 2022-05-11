@@ -19,6 +19,8 @@ from zope.interface import implementer
 class PagesView(FolderView):
     """Pages view"""
 
+    b_size = 40
+
     def __call__(self):
         galleries_sections = self.context.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.SectionGallery"}
@@ -35,7 +37,7 @@ class PagesView(FolderView):
         # Extra filter
         kwargs.update(self.request.get("contentFilter", {}))
         kwargs.setdefault("batch", True)
-        kwargs.setdefault("b_size", 30)
+        kwargs.setdefault("b_size", self.b_size)
         kwargs.setdefault("b_start", self.b_start)
         kwargs.setdefault("orphan", 1)
 

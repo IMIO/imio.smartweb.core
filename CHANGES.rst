@@ -5,6 +5,9 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
+- Fix batch size (40) for pages pagination
+  [laulaz]
+
 - Add new content type : imio.smartweb.SectionPostit
   [boulch, laulaz]
 
