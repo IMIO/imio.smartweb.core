@@ -35,6 +35,9 @@ class TestIndexes(ImioSmartwebTestCase):
             if section_type == "imio.smartweb.SectionText":
                 # see test_SearchableText_sectiontext
                 continue
+            elif section_type == "imio.smartweb.SectionPostit":
+                # see test_SearchableText_sectionpostit
+                continue
             title = "Title{}".format(section_type.split(".")[-1])
             section = api.content.create(
                 container=self.page,
@@ -121,6 +124,44 @@ class TestIndexes(ImioSmartwebTestCase):
         brain = api.content.find(UID=uuid)[0]
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertEqual(indexes.get("SearchableText"), ["textsectionbody"])
+
+    def test_SearchableText_sectionpostit(self):
+        catalog = api.portal.get_tool("portal_catalog")
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionPostit",
+            title="Postitsectiontitle",
+        )
+        uuid = IUUID(section)
+        postit1 = {
+            "title": "title1",
+            "subtitle": "subtitle1",
+            "description": "description1 with **bold**",
+        }
+        postit2 = {
+            "title": "title2",
+            "subtitle": "subtitle2",
+            "description": "description2",
+        }
+        section.postits = [postit1, postit2]
+        section.reindexObject()
+        self.assertEqual(len(api.content.find(SearchableText="Postitsectiontitle")), 2)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(
+            indexes.get("SearchableText"),
+            [
+                "title1",
+                "subtitle1",
+                "description1",
+                "with",
+                "bold",
+                "title2",
+                "subtitle2",
+                "description2",
+                "postitsectiontitle",
+            ],
+        )
 
     def test_SearchableText_pages(self):
         catalog = api.portal.get_tool("portal_catalog")

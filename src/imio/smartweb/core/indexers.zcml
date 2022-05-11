@@ -18,6 +18,11 @@
 
   <adapter
       name="SearchableText"
+      factory=".indexers.SearchableText_sectionpostit"
+      />
+
+  <adapter
+      name="SearchableText"
       factory=".indexers.SearchableText_pages"
       />
 

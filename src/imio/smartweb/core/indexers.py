@@ -4,6 +4,7 @@ from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.contents import IPage
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import ISection
+from imio.smartweb.core.contents import ISectionPostit
 from imio.smartweb.core.contents import ISectionText
 from imio.smartweb.core.utils import concat_voca_term
 from plone import api
@@ -32,6 +33,19 @@ def SearchableText_section(obj):
         # Index descriptions (if any) withould bold
         terms.append(obj.description.replace("**", ""))
     return " ".join(terms)
+
+
+@indexer(ISectionPostit)
+def SearchableText_sectionpostit(obj):
+    terms = []
+    postits = obj.postits or []
+    for p in postits:
+        terms.append(p["title"])
+        terms.append(p["subtitle"])
+        terms.append(p["description"].replace("**", ""))
+    result = " ".join(terms)
+    result = " ".join((result, SearchableText_section(obj)()))
+    return result
 
 
 @indexer(ISectionText)
