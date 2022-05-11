@@ -6,7 +6,7 @@ Changelog
 -------------------
 
 - Add new content type : imio.smartweb.SectionPostit
-  [boulch]
+  [boulch, laulaz]
 
 
 1.0.10 (2022-05-10)
