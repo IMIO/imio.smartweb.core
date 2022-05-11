@@ -74,7 +74,7 @@
                     <div class="swiper_title">
                       <h3 tal:content="item/title"></h3>
                     </div>
-                    <div tal:condition="item/subtitle"
+                    <div tal:condition="item/subtitle | nothing"
                          class="swiper_subtitle">
                       <p tal:content="item/subtitle"></p>
                     </div>
