@@ -116,6 +116,8 @@ class TestIndexes(ImioSmartwebTestCase):
         section.text = RichTextValue("<p>Textsectionbody</p>", "text/html", "text/html")
         section.reindexObject()
         self.assertEqual(len(api.content.find(SearchableText="Textsectionbody")), 1)
+        self.page.reindexObject()
+        self.assertEqual(len(api.content.find(SearchableText="Textsectionbody")), 2)
         brain = api.content.find(UID=uuid)[0]
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertEqual(indexes.get("SearchableText"), ["textsectionbody"])
