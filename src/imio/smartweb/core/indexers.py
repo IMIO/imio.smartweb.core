@@ -29,7 +29,7 @@ def SearchableText_section(obj):
         # Only index titles that are shown to the visitor
         terms.append(obj.title)
     if base_hasattr(obj, "description") and obj.description:
-        # Index descriptinons (if any) withould bold
+        # Index descriptions (if any) withould bold
         terms.append(obj.description.replace("**", ""))
     return " ".join(terms)
 
