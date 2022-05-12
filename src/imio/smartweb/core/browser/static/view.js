@@ -18,7 +18,7 @@ jQuery(document).ready(function ($) {
 
   // swiper
   $('.swiper').each(function (index) {
-    var batchSize = $(this).attr('data-nb-results-by-batch')
+    var batchSize = parseInt($(this).attr('data-nb-results-by-batch'));
     var mySwiper = new Swiper($(this)[0], {
       slidesPerView: 1,
       slidesPerGroup: 1,
@@ -59,7 +59,6 @@ jQuery(document).ready(function ($) {
     });
   });
 });
-
 // New navigation
 
 $(document).ready(function () {
