@@ -33,11 +33,19 @@ class ISectionContact(ISection):
         default=["address", "itinerary", "contact_informations", "schedule"],
     )
 
+    model.fieldset(
+        "layout",
+        fields=[
+            "is_in_portrait_mode",
+            "gallery_mode",
+            "nb_results_by_batch",
+            "image_scale",
+        ],
+    )
+
     is_in_portrait_mode = schema.Bool(
         title=_("Switch lead image to portrait mode"), required=False, default=False
     )
-
-    model.fieldset("layout", fields=["gallery_mode", "image_scale"])
 
     gallery_mode = schema.Choice(
         title=_("Gallery mode"),
