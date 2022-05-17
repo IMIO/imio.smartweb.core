@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.11 (unreleased)
+1.0.11 (2022-05-17)
 -------------------
 
 - Update display for date in news view
