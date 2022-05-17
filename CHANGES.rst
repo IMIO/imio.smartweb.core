@@ -5,6 +5,15 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
+- Update display for date in news view
+  [thomlamb]
+
+- Add video,social,web url for news view
+  [thomlamb]
+
+- Update regex for routing items
+  [thomlamb]
+
 - Add carousel and gallery in contact view
   [boulch]
 

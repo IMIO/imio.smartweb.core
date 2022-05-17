@@ -20,7 +20,9 @@ const ContactCard = ({ contactItem }) => {
             setLimitDescription(description);
         }
     }, [contactItem]);
-    const lastModified = moment(contactItem.modified);
+    moment.locale('fr')
+    const created = moment(contactItem.created).startOf('day').fromNow();
+    const lastModified = moment(contactItem.modified).startOf('day').fromNow();
     return (
         <div className="r-list-item">
             <div
@@ -48,10 +50,21 @@ const ContactCard = ({ contactItem }) => {
                         },
                     }}
                 >
-                <div className="r-card-date-last">
-                    <span>Modifié le </span>
-                    <Moment format="DD-MM-YYYY">{lastModified}</Moment>
-                </div>
+                    {
+                        created === lastModified ? 
+                        (
+                        <div className="r-card-date-last">
+                            <span>Publié </span>
+                            <span>{created}</span>
+                        </div>
+                        ):
+                        (
+                        <div className="r-card-date-last">
+                            <span>Actualisé </span>
+                            <span>{lastModified}</span>
+                        </div>
+                        )
+                    }
                 </Link>
             </div>
             <div className="r-item-arrow-more"></div>
