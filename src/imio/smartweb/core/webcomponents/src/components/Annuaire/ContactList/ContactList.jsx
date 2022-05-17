@@ -25,9 +25,7 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
                             className="r-list-item-link"
                             style={{ textDecoration: "none" }}
                             to={{
-                                pathname: removeAccents(
-                                    contactItem.title.replace(/\s/g, "-").toLowerCase()
-                                ),
+                                pathname: removeAccents(contactItem.title).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase(),
                                 search: `?u=${contactItem.UID}`,
                                 state: {
                                     idItem: contactItem.UID,
