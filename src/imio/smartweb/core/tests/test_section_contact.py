@@ -111,7 +111,7 @@ class TestContact(ImioSmartwebTestCase):
         m.get(contact_images_url, text=json.dumps(self.json_contact_images))
         clear_cache(self.request)
         self.assertIn("contact_gallery", view())
-        self.assertEqual(len(contact_view.images), 2)
+        self.assertEqual(len(contact_view.images[0]), 2)
 
         m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)
         clear_cache(self.request)

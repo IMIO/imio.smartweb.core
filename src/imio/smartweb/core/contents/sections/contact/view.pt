@@ -11,19 +11,19 @@
 <metal:content-core define-macro="content-core">
 <metal:macro use-macro="context/@@sections_macros/section_edition" />
 <div class="container section-container section-contact"
-     id=""
-     tal:attributes="id string:container-section-${context/id}"
-     i18n:domain="imio.smartweb">
-    <metal:macro use-macro="context/@@sections_macros/section_title" />
-    <div class=""
-         tal:define="contact view/contact | nothing;
-                     utils_view context/@@utils;
-                     visible_blocks context/visible_blocks;
-                     show_main_title python:'titles' in visible_blocks;
-                     collapse_klass python: 'collapse' if context.collapsible_section else '';"
-         tal:attributes="class string:body-section ${view/contact_type_class} ${collapse_klass};
-                         id string:body-section-${context/id}"
-         tal:condition="contact">
+   id=""
+   tal:attributes="id string:container-section-${context/id}"
+   i18n:domain="imio.smartweb">
+  <metal:macro use-macro="context/@@sections_macros/section_title" />
+
+  <div tal:define="contact view/contact | nothing;
+                   utils_view context/@@utils;
+                   visible_blocks context/visible_blocks;
+                   show_main_title python:'titles' in visible_blocks;
+                   collapse_klass python: 'collapse' if context.collapsible_section else '';"
+       tal:attributes="class string:body-section ${view/contact_type_class} ${collapse_klass};
+                       id string:body-section-${context/id}"
+       tal:condition="contact">
 
       <tal:block tal:condition="python:'logo' in visible_blocks">
         <tal:def tal:define="has_logo contact/logo | nothing">
@@ -161,16 +161,57 @@
               tal:replace="description" />
       </div>
 
-      <div class="contact_gallery"
-           tal:condition="python:'gallery' in visible_blocks">
-        <div tal:define="images view/images">
-            <img tal:repeat="img images"
-                 tal:attributes="src python:img.get('@id');
-                                 alt img/title" />
-        </div>
-      </div>
+      <tal:cond tal:define="images view/images;"
+                tal:condition="python:'gallery' in visible_blocks and images">
+        <div tal:define="thumb_scale context/image_scale;
+                         nb_class string:nb-items-batch-${context/nb_results_by_batch};"
+             tal:attributes="class string:${nb_class} contact_gallery">
+          <!-- fix some css for usage in Plone  -->
+          <style type="text/css">
+           #spotlight .header { padding-right: 120px !important; }
+           #content-core a { border-bottom: 0px solid transparent !important;}
+          </style>
+          <div id="swiper1" class="swiper" style="width:100%"
+               tal:attributes="data-nb-results-by-batch context/nb_results_by_batch"
+               tal:condition="python:context.gallery_mode == 'carousel'">
+            <div class="swiper-wrapper">
+              <tal:bcl tal:repeat="batch images">
+                <div class="swiper-slide"
+                     tal:repeat="image batch">
+                  <a class="spotlight gallery_item"
+                     tal:define="image_url python:image.get('@id')"
+                     tal:attributes="href string:${image_url}/@@images/image/extralarge;">
+                  <div class="swiper-image"
+                       tal:attributes="style python:f'background-image:url({image_url}/@@images/image/{thumb_scale})'">
+                  </div>
+                  </a>
+                </div>
+              </tal:bcl>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+          </div>
 
-    </div>
+          <div tal:condition="python:context.gallery_mode == 'gallery'"
+               class="flexbin flexbin-margin">
+            <tal:batch tal:repeat="batch images">
+            <tal:images tal:repeat="image batch">
+              <a class="spotlight gallery_item"
+                 tal:define="image_url python:image.get('@id')"
+                 tal:attributes="href string:${image_url}/@@images/image/extralarge;
+                                 title image/title;
+                                 data-description image/description">
+                <img tal:attributes="src string:${image_url}/@@images/image/${thumb_scale};
+                                     alt image/title;
+                                     title image/title" />
+              </a>
+            </tal:images>
+            </tal:batch>
+          </div>
+        </div>
+      </tal:cond>
+  </div>
 </div>
 </metal:content-core>
 </metal:main>

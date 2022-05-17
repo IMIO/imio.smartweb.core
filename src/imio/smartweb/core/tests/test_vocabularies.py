@@ -194,6 +194,9 @@ class TestVocabularies(ImioSmartwebTestCase):
     def test_concat_category_topics_vocabulary(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 126)
 
+    def test_gallery_mode(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.GalleryMode", 2)
+
     def test_category_and_topics_vocabulary(self):
         self.assertVocabularyLen(
             "imio.smartweb.vocabulary.FilteredCategoryAndTopics", 0

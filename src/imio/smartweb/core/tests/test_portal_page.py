@@ -145,6 +145,35 @@ class TestPortalPage(ImioSmartwebTestCase):
         self.assertEqual(len(bundles), 2)
         self.assertListEqual(bundles, ["spotlightjs", "flexbin"])
 
+    def test_js_bundles_with_contact(self):
+        portal_page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.PortalPage",
+            title="portal_page",
+        )
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+
+        getMultiAdapter((portal_page, self.request), name="full_view")()
+        bundles = getattr(self.request, "enabled_bundles", [])
+        self.assertEqual(len(bundles), 0)
+
+        section_contact = api.content.create(
+            container=portal_page,
+            type="imio.smartweb.SectionContact",
+            title="Contact",
+        )
+        getMultiAdapter((portal_page, self.request), name="full_view")()
+        bundles = getattr(self.request, "enabled_bundles", [])
+        self.assertEqual(len(bundles), 2)
+        self.assertListEqual(bundles, ["spotlightjs", "flexbin"])
+
+        section_contact.gallery_mode = "swiper"
+        setattr(self.request, "enabled_bundles", [])
+        getMultiAdapter((portal_page, self.request), name="full_view")()
+        bundles = getattr(self.request, "enabled_bundles", [])
+        self.assertEqual(len(bundles), 1)
+        self.assertListEqual(bundles, ["spotlightjs"])
+
     def test_no_title(self):
         portal_page = api.content.create(
             container=self.portal,

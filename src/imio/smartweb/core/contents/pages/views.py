@@ -22,11 +22,24 @@ class PagesView(FolderView):
     b_size = 40
 
     def __call__(self):
+        # get gallery sections and sections with gallery
         galleries_sections = self.context.listFolderContents(
-            contentFilter={"portal_type": "imio.smartweb.SectionGallery"}
+            contentFilter={
+                "portal_type": [
+                    "imio.smartweb.SectionGallery",
+                    "imio.smartweb.SectionContact",
+                ]
+            }
         )
         if len(galleries_sections) > 0:
             add_bundle_on_request(self.request, "spotlightjs")
+        for index, gs in enumerate(galleries_sections):
+            if (
+                gs.portal_type == "imio.smartweb.SectionContact"
+                and gs.gallery_mode != "gallery"
+            ):
+                galleries_sections.pop(index)
+        if len(galleries_sections) > 0:
             add_bundle_on_request(self.request, "flexbin")
         return self.index()
 

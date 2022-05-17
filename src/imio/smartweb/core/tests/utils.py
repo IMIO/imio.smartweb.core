@@ -6,23 +6,60 @@ import json
 import os
 
 
-def get_sections_types():
-    return [
-        "imio.smartweb.SectionContact",
-        # "imio.smartweb.SectionEvents",
-        "imio.smartweb.SectionFiles",
-        "imio.smartweb.SectionGallery",
-        "imio.smartweb.SectionHTML",
-        "imio.smartweb.SectionLinks",
-        "imio.smartweb.SectionMap",
-        # "imio.smartweb.SectionNews",
-        "imio.smartweb.SectionPostit",
-        "imio.smartweb.SectionSelections",
-        # "imio.smartweb.SectionSendinblue",
-        # "imio.smartweb.SectionSlide",
-        "imio.smartweb.SectionText",
-        "imio.smartweb.SectionVideo",
+# "imio.smartweb.SectionContact",
+# "imio.smartweb.SectionEvents",
+# "imio.smartweb.SectionNews",
+# "imio.smartweb.SectionSendinblue",
+# "imio.smartweb.SectionSlide",
+
+
+def get_sections_types(kw="type"):
+    sections = [
+        {
+            "type": "imio.smartweb.SectionFiles",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionGallery",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionHTML",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionLinks",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionMap",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionPostit",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionSelections",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionText",
+            "empty_section": True,
+        },
+        {
+            "type": "imio.smartweb.SectionVideo",
+            "empty_section": True,
+        },
     ]
+    if kw == "empty_section":
+        return [
+            section.get("type")
+            for section in sections
+            if section.get("empty_section") is True
+        ]
+    else:
+        return [section.get("type") for section in sections]
 
 
 def get_json(json_filename):

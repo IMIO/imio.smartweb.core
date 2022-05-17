@@ -517,3 +517,19 @@ class AvailableInstanceBehaviorsVocabularyFactory:
 
 
 AvailableInstanceBehaviorsVocabulary = AvailableInstanceBehaviorsVocabularyFactory()
+
+
+class GalleryModeVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("gallery", _("Gallery")),
+            ("carousel", _("Carousel")),
+        ]
+        terms = [
+            SimpleVocabulary.createTerm(value[0], value[0], value[1])
+            for value in values
+        ]
+        return SimpleVocabulary(terms)
+
+
+GalleryModeVocabulary = GalleryModeVocabularyFactory()

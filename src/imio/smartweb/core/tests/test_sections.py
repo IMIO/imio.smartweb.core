@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from bs4 import BeautifulSoup
 from collective.geolocationbehavior.geolocation import IGeolocatable
 from functools import reduce
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
@@ -34,7 +35,8 @@ class TestSections(ImioSmartwebTestCase):
     def setUp(self):
         # Number of sections where there is a title if section is empty.
         # sectionHTML,...
-        self.NUMBER_OF_EMPTY_SECTIONS = 10
+        self.NUMBER_OF_EMPTY_SECTIONS = len(get_sections_types("empty_section"))
+
         self.request = self.layer["request"]
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
@@ -253,7 +255,7 @@ class TestSections(ImioSmartwebTestCase):
         )
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        self.assertEqual(view.count('<h2 class="section-title">Title of my '), 6)
+        self.assertEqual(view.count('<h2 class="section-title">Title of my '), 5)
         login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
@@ -416,6 +418,10 @@ class TestSections(ImioSmartwebTestCase):
             type="imio.smartweb.BlockLink",
             title="My link",
         )
+        postit_section = getattr(page, "title-of-my-imio-smartweb-sectionpostit")
+        postits = [{"title": "postit1", "subtitle": "", "description": ""}]
+        postit_section.postits = postits
+
         selections_section = getattr(
             page, "title-of-my-imio-smartweb-sectionselections"
         )
@@ -424,16 +430,15 @@ class TestSections(ImioSmartwebTestCase):
             RelationValue(intids.getId(self.page)),
         ]
 
-        view = queryMultiAdapter((page, self.request), name="full_view")()
-        collapsable_elems = view.count("collapse")
         for section_id in page.objectIds():
             section = getattr(page, section_id)
             section.collapsible_section = True
             modified(section)
             self.assertFalse(section.hide_title)
         view = queryMultiAdapter((page, self.request), name="full_view")()
-        # portal_globalnav : count 5 collapses
-        self.assertEqual(view.count("collapse"), collapsable_elems + 18)
+        soup = BeautifulSoup(view)
+        collapsables = soup.select("div.body-section.collapse")
+        self.assertEqual(len(collapsables), len(section_types))
 
     def test_sections_collapsible_hide_title(self):
         page = api.content.create(

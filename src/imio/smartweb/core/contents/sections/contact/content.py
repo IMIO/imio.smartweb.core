@@ -5,6 +5,7 @@ from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
+from plone.supermodel import model
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
 from zope import schema
 from zope.interface import implementer
@@ -34,6 +35,29 @@ class ISectionContact(ISection):
 
     is_in_portrait_mode = schema.Bool(
         title=_("Switch lead image to portrait mode"), required=False, default=False
+    )
+
+    model.fieldset("layout", fields=["gallery_mode", "image_scale"])
+
+    gallery_mode = schema.Choice(
+        title=_("Gallery mode"),
+        description=_("Choose your gallery layout mode"),
+        source="imio.smartweb.vocabulary.GalleryMode",
+        default="gallery",
+    )
+
+    nb_results_by_batch = schema.Choice(
+        title=_("Number of items per batch (only for carousel mode)"),
+        required=True,
+        default=3,
+        values=[1, 3, 4],
+    )
+
+    image_scale = schema.Choice(
+        title=_("Image scale for images (only for gallery mode)"),
+        default="preview",
+        vocabulary="plone.app.vocabularies.ImagesScales",
+        required=True,
     )
 
 

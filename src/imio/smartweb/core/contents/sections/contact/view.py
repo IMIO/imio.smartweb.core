@@ -4,6 +4,7 @@ from datetime import date, datetime
 from datetime import timedelta
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents.sections.views import SectionView
+from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -74,7 +75,7 @@ class ContactView(SectionView):
         json_images = get_json(images_url_request)
         if json_images is None or len(json_images.get("items", [])) == 0:
             return
-        return json_images.get("items")
+        return batch_results(json_images.get("items"), self.context.nb_results_by_batch)
 
     @property
     def days(self):

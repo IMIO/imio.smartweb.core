@@ -5,6 +5,9 @@ Changelog
 1.0.11 (unreleased)
 -------------------
 
+- Add carousel and gallery in contact view
+  [boulch]
+
 - Fix batch size (40) for pages pagination
   [laulaz]
 
