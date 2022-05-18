@@ -5,6 +5,7 @@ from imio.smartweb.core.contents.blocks.link.fields import LinkField
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone.autoform import directives
 from plone.namedfile.field import NamedBlobImage
 from zope import schema
 from zope.interface import implementer
@@ -12,6 +13,10 @@ from zope.interface import implementer
 
 class ISectionSlide(ISection):
     """Marker interface and Dexterity Python Schema for SectionSlide"""
+
+    directives.omitted(
+        "hide_title", "collapsible_section", "background_image", "bootstrap_css_class"
+    )
 
     description = schema.Text(
         title=_("Description"),

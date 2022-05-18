@@ -5,7 +5,8 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Omit some fields in slide section layout fieldset
+  [boulch]
 
 
 1.0.11 (2022-05-17)
