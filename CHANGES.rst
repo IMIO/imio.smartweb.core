@@ -5,6 +5,9 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
+- Ban required URL when Footer or HeroBanner modified
+  [boulch, laulaz]
+
 - Omit some fields in slide section layout fieldset
   [boulch]
 
