@@ -17,6 +17,9 @@ from zope.globalrequest import setRequest
 from zope.schema.interfaces import IVocabularyFactory
 
 import imio.smartweb.core
+import imio.smartweb.core.contents.pages.footer.content as footer_content
+import imio.smartweb.core.contents.pages.herobanner.content as herobanner_content
+import mock
 import json
 import requests_mock
 import unittest
@@ -63,6 +66,8 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
         applyProfile(portal, "imio.smartweb.core:testing")
         api.user.create(email="test@imio.be", username="test")
         api.user.grant_roles(username="test", roles=["Site Administrator"])
+        footer_content.ban_physicalpath = mock.Mock(return_value=None)
+        herobanner_content.ban_physicalpath = mock.Mock(return_value=None)
 
 
 IMIO_SMARTWEB_CORE_FIXTURE = ImioSmartwebCoreLayer()
