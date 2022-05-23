@@ -19,6 +19,9 @@ jQuery(document).ready(function ($) {
   // swiper
   $('.swiper').each(function (index) {
     var batchSize = parseInt($(this).attr('data-nb-results-by-batch'));
+    if (isNaN(batchSize)) {
+      batchSize = 1
+    }
     var mySwiper = new Swiper($(this)[0], {
       slidesPerView: 1,
       slidesPerGroup: 1,

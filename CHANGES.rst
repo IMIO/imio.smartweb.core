@@ -5,6 +5,9 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
+- Fix NaN value for batchsize in swiper
+  [thomlamb]
+
 - Ban required URL when Footer or HeroBanner modified
   [boulch, laulaz]
 
