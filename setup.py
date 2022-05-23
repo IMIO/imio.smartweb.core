@@ -69,7 +69,7 @@ setup(
         "collective.z3cform.datagridfield",
         "embeddify",
         "more-itertools",
-        "imio.smartweb.common > 1.0.4",
+        "imio.smartweb.common",
         "imio.smartweb.locales",
     ],
     extras_require={
