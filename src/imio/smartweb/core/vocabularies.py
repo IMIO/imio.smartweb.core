@@ -423,9 +423,9 @@ class DirectoryCategoriesVocabularyFactory:
     def __call__(self, context=None):
         client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
         client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
-        id_token = get_wca_token(client_id, client_secret)
+        auth = get_wca_token(client_id, client_secret)
         url = f"{DIRECTORY_URL}/@vocabularies/collective.taxonomy.contact_category?b_size=1000000"
-        categories_json = get_json(url, auth="Bearer {0}".format(id_token))
+        categories_json = get_json(url, auth=auth)
         if categories_json is None or len(categories_json.get("items", [])) == 0:
             return SimpleVocabulary([])
         return SimpleVocabulary(
@@ -445,9 +445,9 @@ class EventsTypesVocabularyFactory:
     def __call__(self, context=None):
         client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
         client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
-        id_token = get_wca_token(client_id, client_secret)
+        auth = get_wca_token(client_id, client_secret)
         url = f"{EVENTS_URL}/@vocabularies/imio.events.vocabulary.EventTypes"
-        eventstypes_json = get_json(url, auth="Bearer {0}".format(id_token))
+        eventstypes_json = get_json(url, auth=auth)
         if eventstypes_json is None or len(eventstypes_json.get("items", [])) == 0:
             return SimpleVocabulary([])
         return SimpleVocabulary(

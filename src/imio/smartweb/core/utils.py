@@ -62,20 +62,25 @@ def get_json(url, auth=None):
 
 
 def get_wca_token(client_id, client_secret):
+    username = os.environ.get("RESTAPI_USER_USERNAME")
+    password = os.environ.get("RESTAPI_USER_PASSWORD")
+
     payload = {
         "grant_type": "password",
         "client_id": client_id,
         "client_secret": client_secret,
-        "username": os.environ.get("RESTAPI_USER_USERNAME"),
-        "password": os.environ.get("RESTAPI_USER_PASSWORD"),
+        "username": username,
+        "password": password,
         "scope": ["openid"],
     }
+    if not client_id or not client_secret:
+        return (username, password)
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
     }
     response = requests.post(WCA_URL, headers=headers, data=payload)
     id_token = response.json().get("id_token")
-    return id_token
+    return "Bearer {0}".format(id_token)
 
 
 def safe_html(html):

@@ -5,6 +5,9 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
+- Adapt code to ease development with local sources
+  [mpeeters]
+
 - Fix NaN value for batchsize in swiper
   [thomlamb]
 
