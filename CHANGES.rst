@@ -5,6 +5,9 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
+- Update static css for edit view
+  [thomlamb]
+
 - Fix NaN value for batchsize in swiper
   [thomlamb]
 
