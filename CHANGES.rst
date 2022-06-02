@@ -7,6 +7,8 @@ Changelog
 
 - Adapt code to ease development with local sources
   [mpeeters]
+- Update static css for edit view
+  [thomlamb]
 
 - Fix NaN value for batchsize in swiper
   [thomlamb]
