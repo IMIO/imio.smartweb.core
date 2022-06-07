@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.12 (unreleased)
+1.0.12 (2022-06-07)
 -------------------
 
 - [WEB-3663] Fix contact schedule. Use Decimal instead of float. ( float("8.30") = 8.3.  8h03 != 8h30 )
