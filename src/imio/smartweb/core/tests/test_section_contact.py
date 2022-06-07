@@ -256,6 +256,9 @@ class TestContact(ImioSmartwebTestCase):
             "afternoonend": "",
             "comment": "",
         }
+        with freeze_time("2021-09-14 7:30:00"):
+            result = get_schedule_for_today(schedule)
+            self.assertEqual("Open at  08:30", result)
         with freeze_time("2021-09-14 8:00:00"):
             result = get_schedule_for_today(schedule)
             self.assertIn("Open at", result)

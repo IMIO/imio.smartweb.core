@@ -2,6 +2,7 @@
 
 from datetime import date, datetime
 from datetime import timedelta
+from decimal import Decimal
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import batch_results
@@ -237,17 +238,17 @@ def get_schedule_for_today(schedule):
     morningend = schedule.get("morningend")
     afternoonstart = schedule.get("afternoonstart")
     afternoonend = schedule.get("afternoonend")
-    comment = schedule.get("comment")
+    comment = schedule.get("comment") or ""
     if morningstart:
-        morningstart = float(schedule.get("morningstart").replace(":", "."))
+        morningstart = Decimal(schedule.get("morningstart").replace(":", "."))
     if morningend:
-        morningend = float(schedule.get("morningend").replace(":", "."))
+        morningend = Decimal(schedule.get("morningend").replace(":", "."))
     if afternoonstart:
-        afternoonstart = float(schedule.get("afternoonstart").replace(":", "."))
+        afternoonstart = Decimal(schedule.get("afternoonstart").replace(":", "."))
     if afternoonend:
-        afternoonend = float(schedule.get("afternoonend").replace(":", "."))
+        afternoonend = Decimal(schedule.get("afternoonend").replace(":", "."))
 
-    now_str = float(datetime.now().strftime("%H.%M"))
+    now_str = Decimal(datetime.now().strftime("%H.%M"))
     if not morningstart and not morningend and not afternoonstart and not afternoonend:
         translated_closed = translate(_("Closed"), target_language=current_lang)
         return (

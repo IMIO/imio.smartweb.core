@@ -5,6 +5,9 @@ Changelog
 1.0.12 (unreleased)
 -------------------
 
+- [WEB-3663] Fix contact schedule. Use Decimal instead of float. ( float("8.30") = 8.3.  8h03 != 8h30 )
+  [boulch]
+
 - Update static css for edit view
   [thomlamb]
 
