@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.12 (unreleased)
+1.0.12 (2022-06-07)
 -------------------
 
 - Adapt code to ease development with local sources
