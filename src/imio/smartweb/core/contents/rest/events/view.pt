@@ -5,7 +5,9 @@
     <metal:main fill-slot="content-core">
 
     <div class="full-width">
-      <smartweb-events tal:attributes="query-url view/local_query_url; query-filter-url view/local_filters_query_url"></smartweb-events>
+      <smartweb-events tal:attributes="query-url view/local_query_url;
+                                       query-filter-url view/local_filters_query_url;
+                                       propose-url view/propose_url;"></smartweb-events>
     </div>
     </metal:main>
   </body>

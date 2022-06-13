@@ -5,7 +5,8 @@ Changelog
 1.0.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Use new registry settings to store URL of news/events/contact proposal form
+  [laulaz]
 
 
 1.0.12 (2022-06-07)

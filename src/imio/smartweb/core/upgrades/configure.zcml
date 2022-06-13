@@ -51,6 +51,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1025_to_1026"
+      title="Upgrade core from 1025 to 1025"
+      directory="profiles/1025_to_1026"
+      description="Add new propose URLs settings to registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -323,6 +331,16 @@
     <genericsetup:upgradeDepends
         title="Install collective.faceted.map add-on"
         import_profile="collective.faceted.map:default"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1025"
+      destination="1026"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new propose URLs settings to registry"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1025_to_1026"
         />
   </genericsetup:upgradeSteps>
 

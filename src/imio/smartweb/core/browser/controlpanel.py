@@ -24,6 +24,21 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    propose_directory_url = schema.URI(
+        title=_("Url to propose a new citizen contact"),
+        required=False,
+    )
+
+    propose_events_url = schema.URI(
+        title=_("Url to propose a new citizen event"),
+        required=False,
+    )
+
+    propose_news_url = schema.URI(
+        title=_("Url to propose a new citizen news"),
+        required=False,
+    )
+
     directory_entity_uid = schema.Choice(
         title=_("Directory entity"),
         source="imio.smartweb.vocabulary.RemoteDirectoryEntities",
