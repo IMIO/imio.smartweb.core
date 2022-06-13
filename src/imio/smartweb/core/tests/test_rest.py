@@ -144,7 +144,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
     def test_render_rest_events(self):
         view = queryMultiAdapter((self.rest_events, self.request), name="view")
-        self.assertIn("full-width", view())
+        self.assertIn("<smartweb-events", view())
 
     @freeze_time("2021-11-15")
     def test_rest_events_results(self):
@@ -191,7 +191,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
     def test_render_rest_news(self):
         view = queryMultiAdapter((self.rest_news, self.request), name="view")
-        self.assertIn('id="root"', view())
+        self.assertIn("<smartweb-news", view())
 
     def test_rest_news_results(self):
         params = {}
