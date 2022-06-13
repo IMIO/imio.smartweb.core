@@ -4,9 +4,6 @@
   <body>
     <metal:main fill-slot="content-core">
 
-          <div id="root" tal:attributes="data-news view/local_query_url;
-                                         data-news-filters view/local_filters_query_url">
-          </div>
       <div class="full-width">
           <smartweb-news tal:attributes="query-url view/local_query_url; query-filter-url view/local_filters_query_url"></smartweb-news>
       </div>
