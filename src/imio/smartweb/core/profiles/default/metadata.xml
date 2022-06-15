@@ -1,11 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <metadata>
-  <version>1024</version>
+  <version>1025</version>
   <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-plone.app.imagecropping:default</dependency>
     <dependency>profile-eea.facetednavigation:default</dependency>
     <dependency>profile-collective.anysurfer:default</dependency>
+    <dependency>profile-collective.faceted.map:default</dependency>
     <dependency>profile-collective.geolocationbehavior:default</dependency>
     <dependency>profile-collective.messagesviewlet:default</dependency>
     <dependency>profile-collective.sendinblue:default</dependency>

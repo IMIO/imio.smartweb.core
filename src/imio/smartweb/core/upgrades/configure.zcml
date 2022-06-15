@@ -316,4 +316,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1024"
+      destination="1025"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Install collective.faceted.map add-on"
+        import_profile="collective.faceted.map:default"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
