@@ -5,6 +5,9 @@ Changelog
 1.0.13 (unreleased)
 -------------------
 
+- Allow pages to be geolocalized (latitude/longitude indexes) via their first map section
+  [laulaz]
+
 - Use new registry settings to store URL of news/events/contact proposal form
   [laulaz]
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from collective.geolocationbehavior.geolocation import IGeolocatable
 from imio.smartweb.core.contents import IPage
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
@@ -9,6 +10,8 @@ from plone.api.exc import InvalidParameterError
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.formwidget.geolocation.geolocation import Geolocation
+from plone.uuid.interfaces import IUUID
 from time import sleep
 from zope.component import createObject
 from zope.component import getMultiAdapter
@@ -223,3 +226,52 @@ class TestPage(ImioSmartwebTestCase):
         modified(link)
         next_modification = page.ModificationDate()
         self.assertNotEqual(first_modification, next_modification)
+
+    def test_geolocation(self):
+        catalog = api.portal.get_tool("portal_catalog")
+        page = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        uuid = IUUID(page)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("latitude"), "")
+        self.assertEqual(indexes.get("longitude"), "")
+
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionMap",
+            title="Section Map",
+        )
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("latitude"), "")
+        self.assertEqual(indexes.get("longitude"), "")
+
+        section2 = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionMap",
+            title="Section Map 2",
+        )
+        IGeolocatable(section2).geolocation = Geolocation(
+            latitude="4.5", longitude="45"
+        )
+        modified(section2)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("latitude"), "")
+        self.assertEqual(indexes.get("longitude"), "")
+
+        api.content.delete(obj=section)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("latitude"), 4.5)
+        self.assertEqual(indexes.get("longitude"), 45)
+
+        api.content.delete(obj=section2)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("latitude"), "")
+        self.assertEqual(indexes.get("longitude"), "")

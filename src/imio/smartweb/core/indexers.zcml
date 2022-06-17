@@ -22,6 +22,16 @@
       />
 
   <adapter
+      name="latitude"
+      factory=".indexers.latitude_page"
+      />
+
+  <adapter
+      name="longitude"
+      factory=".indexers.longitude_page"
+      />
+
+  <adapter
       name="SearchableText"
       factory=".indexers.SearchableText_pages"
       />

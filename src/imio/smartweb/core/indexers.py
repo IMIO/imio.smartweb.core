@@ -75,6 +75,32 @@ def SearchableText_pages(obj):
     return result
 
 
+@indexer(IPage)
+def latitude_page(obj):
+    map_sections = obj.listFolderContents(
+        contentFilter={"portal_type": "imio.smartweb.SectionMap"}
+    )
+    if not map_sections:
+        raise AttributeError
+    geolocation = map_sections[0].geolocation
+    if geolocation is None:
+        raise AttributeError
+    return geolocation.latitude
+
+
+@indexer(IPage)
+def longitude_page(obj):
+    map_sections = obj.listFolderContents(
+        contentFilter={"portal_type": "imio.smartweb.SectionMap"}
+    )
+    if not map_sections:
+        raise AttributeError
+    geolocation = map_sections[0].geolocation
+    if geolocation is None:
+        raise AttributeError
+    return geolocation.longitude
+
+
 @indexer(IFolder)
 def related_quickaccess(obj):
     if obj.quick_access_items is None:
