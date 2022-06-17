@@ -75,8 +75,8 @@ def SearchableText_pages(obj):
     return result
 
 
-@indexer(IPage)
-def latitude_page(obj):
+@indexer(IPages)
+def latitude_pages(obj):
     map_sections = obj.listFolderContents(
         contentFilter={"portal_type": "imio.smartweb.SectionMap"}
     )
@@ -88,8 +88,8 @@ def latitude_page(obj):
     return geolocation.latitude
 
 
-@indexer(IPage)
-def longitude_page(obj):
+@indexer(IPages)
+def longitude_pages(obj):
     map_sections = obj.listFolderContents(
         contentFilter={"portal_type": "imio.smartweb.SectionMap"}
     )

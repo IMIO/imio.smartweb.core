@@ -23,12 +23,12 @@
 
   <adapter
       name="latitude"
-      factory=".indexers.latitude_page"
+      factory=".indexers.latitude_pages"
       />
 
   <adapter
       name="longitude"
-      factory=".indexers.longitude_page"
+      factory=".indexers.longitude_pages"
       />
 
   <adapter
