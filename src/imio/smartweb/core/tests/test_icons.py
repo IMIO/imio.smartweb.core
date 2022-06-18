@@ -12,7 +12,7 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 
 
-class TestSections(ImioSmartwebTestCase):
+class TestIcons(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 

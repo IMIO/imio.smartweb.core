@@ -14,7 +14,7 @@ from zope.intid.interfaces import IIntIds
 import requests_mock
 
 
-class TestNews(ImioSmartwebTestCase):
+class TestSectionNews(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

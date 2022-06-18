@@ -23,7 +23,7 @@ from zope.schema.interfaces import IVocabularyFactory
 import transaction
 
 
-class TestPages(ImioSmartwebTestCase):
+class TestDefaultPages(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

@@ -16,7 +16,7 @@ import json
 import requests_mock
 
 
-class TestEvents(ImioSmartwebTestCase):
+class TestSectionEvents(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

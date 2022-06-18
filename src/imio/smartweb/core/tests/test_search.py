@@ -9,7 +9,7 @@ from plone.app.textfield.value import RichTextValue
 from zope.component import queryMultiAdapter
 
 
-class TestFaceted(ImioSmartwebTestCase):
+class TestSearch(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 

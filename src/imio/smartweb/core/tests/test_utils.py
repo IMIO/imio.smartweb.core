@@ -5,7 +5,7 @@ from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.utils import batch_results
 
 
-class TestVocabularies(ImioSmartwebTestCase):
+class TestUtils(ImioSmartwebTestCase):
 
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
