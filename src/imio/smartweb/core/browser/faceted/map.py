@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from collective.faceted.map.browser.map import MapView
+from imio.smartweb.core.browser.faceted.views import FolderView
 from Products.Five import BrowserView
+
+
+class FacetedMapView(FolderView, MapView):
+    """Faceted map view"""
 
 
 class FacetedGeoJSONPopup(BrowserView):

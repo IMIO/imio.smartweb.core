@@ -87,4 +87,13 @@
       permission="zope2.View"
       />
 
+  <faceted:view
+      name="faceted-map"
+      template="map.pt"
+      class=".map.FacetedMapView"
+      title="Faceted map"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>
