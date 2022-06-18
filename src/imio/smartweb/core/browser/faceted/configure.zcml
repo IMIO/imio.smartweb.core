@@ -51,6 +51,14 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="plone.app.contenttypes.interfaces.ICollection"
+      name="faceted-map-geojson-popup"
+      class=".map.FacetedGeoJSONPopup"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <faceted:view
       name="faceted-block-view"
       template="block_view.pt"
