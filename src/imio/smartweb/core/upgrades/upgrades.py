@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents import IPages
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
 from plone import api
@@ -108,3 +109,10 @@ def exclude_footers_from_parent_listing(context):
         footer = brain.getObject()
         footer.exclude_from_parent_listing = True
         footer.reindexObject(idxs=("exclude_from_parent_listing"))
+
+
+def reindex_all_pages(context):
+    brains = api.content.find(object_provides=IPages)
+    for brain in brains:
+        obj = brain.getObject()
+        obj.reindexObject()

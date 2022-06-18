@@ -344,4 +344,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Reindex all pages"
+      description=""
+      source="1026"
+      destination="1027"
+      handler=".upgrades.reindex_all_pages"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
