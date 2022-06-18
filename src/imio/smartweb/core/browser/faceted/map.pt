@@ -21,6 +21,7 @@
       <div class="eea-preview-items">
 
         <div id="faceted-results-items" class="no-map" data-geojson=''
+             tal:define="thumb_scale view/get_thumb_scale_list;"
              tal:attributes="data-geojson python:map_view.data_geo(batch)">
         <tal:entries repeat="brain batch">
           <tal:entry tal:define="obj brain/getObject|nothing"
@@ -35,7 +36,7 @@
                                  class python:self.css_class(brain)">
               <a tal:define="description brain/Description|string:;
                              title brain/pretty_title_or_id|string:;
-                             is_image python: getattr(obj,'image', None);
+                             is_image brain/has_leadimage;
                              url brain/getURL|string:#"
                  tal:attributes="href url;
                                  title title">
@@ -44,7 +45,7 @@
                   <div class="image">
                     <img style="border: none"
                          tal:condition="is_image"
-                         tal:attributes="src string:${brain/getURL}/@@images/image"/>
+                         tal:attributes="src string:${brain/getURL}/@@images/image/${thumb_scale}"/>
                   </div>
                   <div class="text">
                     <h4 tal:content="brain/pretty_title_or_id|string:">Title</h4>

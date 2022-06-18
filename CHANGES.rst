@@ -5,6 +5,9 @@ Changelog
 1.0.13 (unreleased)
 -------------------
 
+- Add collective.faceted.map with custom template & markers popups
+  [boulch, laulaz]
+
 - Allow pages to be geolocalized (latitude/longitude indexes) via their first map section
   [laulaz]
 

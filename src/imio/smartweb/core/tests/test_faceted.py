@@ -38,6 +38,10 @@ class TestFaceted(ImioSmartwebTestCase):
         body_class = layout_view.bodyClass(template, view)
         self.assertIn("faceted-summary-view-with-images", body_class)
 
+        IFacetedLayout(self.collection).update_layout("faceted-map")
+        body_class = layout_view.bodyClass(template, view)
+        self.assertIn("faceted-map", body_class)
+
         subtyper = self.collection.restrictedTraverse("@@faceted_subtyper")
         subtyper.disable()
         view = getMultiAdapter((self.collection, self.request), name="view")
