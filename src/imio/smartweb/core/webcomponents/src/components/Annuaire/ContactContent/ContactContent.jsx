@@ -39,6 +39,23 @@ const ContactContent = ({ queryUrl, onChange }) => {
         history.push("./");
         onChange(null);
     }
+    let countryTitle = contactItem.country && contactItem.country.title
+    let itineraryLink =
+		"https://www.google.com/maps/dir/?api=1&destination=" +
+		contactItem.street +
+		"+" +
+		contactItem.number +
+		"+" +
+		contactItem.complement +
+		"+" +
+		contactItem.zipcode +
+		"+" +
+		contactItem.city +
+        "+" +
+        countryTitle
+        
+	itineraryLink = itineraryLink.replaceAll('+null', '')
+ 
     return (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
@@ -85,22 +102,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         </div>
                         <div className="itineraty">
                             {contactItem.street ? (
-                                <a
-                                    href={
-                                        "https://www.google.com/maps/dir/?api=1&destination=" +
-                                        contactItem.street +
-                                        "+" +
-                                        contactItem.number +
-                                        "+" +
-                                        contactItem.complement +
-                                        "+" +
-                                        contactItem.zipcode +
-                                        "+" +
-                                        contactItem.city +
-                                        "+" +
-                                        contactItem.country
-                                    }
-                                >
+                                <a href={itineraryLink} target="_blank">
                                     Itinéraire
                                 </a>
                             ) : (
