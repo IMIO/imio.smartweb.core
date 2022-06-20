@@ -8,7 +8,7 @@ const ContactResult = (props) => {
         {
             method: "get",
             url: "",
-            baseURL: props.url + "/@search?&_core=directory", //props.queryUrl*/,
+            baseURL: props.url + "/@search?&_core=directory&b_size=100", //props.queryUrl*/,
             headers: {
                 Accept: "application/json",
             },
