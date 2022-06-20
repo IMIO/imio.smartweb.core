@@ -5,6 +5,12 @@ Changelog
 1.0.13 (unreleased)
 -------------------
 
+- [WEB-3674]Fix itinerary links
+  [remdub]
+  
+- [WEB-3661]Set b_size to 100 on search results
+  [remdub]
+
 - Add collective.faceted.map with custom template & markers popups
   [boulch, laulaz]
 
