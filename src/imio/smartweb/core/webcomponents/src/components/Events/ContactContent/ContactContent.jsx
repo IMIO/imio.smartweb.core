@@ -47,6 +47,19 @@ const ContactContent = ({ queryUrl, onChange }) => {
 	const startHours = moment.utc(contactItem.start).format('LT');
 	const endHours = moment.utc(contactItem.end).format('LT');
 
+	let itineraryLink =
+		"https://www.google.com/maps/dir/?api=1&destination=" +
+		contactItem.street +
+		"+" +
+		contactItem.number +
+		"+" +
+		contactItem.complement +
+		"+" +
+		contactItem.zipcode +
+		"+" +
+		contactItem.city
+	itineraryLink = itineraryLink.replaceAll('+null', '')
+
 	return (
 		<div className="envent-content r-content">
 			<button type="button" onClick={handleClick}>
@@ -135,20 +148,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 							<div className="dpinlb">
 								<div className="r-content-news-info--itinirary">
 									{contactItem.street ? (
-										<a
-											href={
-												"https://www.google.com/maps/dir/?api=1&destination=" +
-												contactItem.street +
-												"+" +
-												contactItem.number +
-												"+" +
-												contactItem.complement +
-												"+" +
-												contactItem.zipcode +
-												"+" +
-												contactItem.city
-											}
-										>
+										<a href={itineraryLink} target="_blank">
 											<span>Itinéraire</span>
 										</a>
 									) : (

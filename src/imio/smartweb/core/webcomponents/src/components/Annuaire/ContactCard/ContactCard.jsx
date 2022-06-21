@@ -15,6 +15,24 @@ const ContactCard = ({ contactItem }) => {
     const phones = contactItem.phones ? contactItem.phones : "";
     const mails = contactItem.mails ? contactItem.mails : "";
     const topics = contactItem.topics ? contactItem.topics : "";
+
+    let countryTitle = contactItem.country && contactItem.country.title
+    let itineraryLink =
+		"https://www.google.com/maps/dir/?api=1&destination=" +
+		contactItem.street +
+		"+" +
+		contactItem.number +
+		"+" +
+		contactItem.complement +
+		"+" +
+		contactItem.zipcode +
+		"+" +
+		contactItem.city +
+        "+" +
+        countryTitle
+        
+	itineraryLink = itineraryLink.replaceAll('+null', '')
+ 
     return (
         <div className="r-list-item">
             <div
@@ -39,22 +57,7 @@ const ContactCard = ({ contactItem }) => {
                             {zipcode ? <span>{zipcode + " "}</span> : ""}
                             {city ? <span>{city}</span> : ""}
                             <div className="itineraty">
-                                <a
-                                    href={
-                                        "https://www.google.com/maps/dir/?api=1&destination=" +
-                                        street +
-                                        "+" +
-                                        number +
-                                        "+" +
-                                        complement +
-                                        "+" +
-                                        zipcode +
-                                        "+" +
-                                        city +
-                                        "+" +
-                                        country
-                                    }
-                                >
+                                <a href={itineraryLink} target="_blank">
                                     Itinéraire
                                 </a>
                             </div>

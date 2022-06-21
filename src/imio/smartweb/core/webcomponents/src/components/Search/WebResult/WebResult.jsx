@@ -8,7 +8,7 @@ const WebResult = (props) => {
         {
             method: "get",
             url: "",
-            baseURL: props.url + "/@search?", //props.queryUrl*/,
+            baseURL: props.url + "/@search?&b_size=100", //props.queryUrl*/,
             headers: {
                 Accept: "application/json",
             },
