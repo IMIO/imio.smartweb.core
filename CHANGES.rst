@@ -5,6 +5,9 @@ Changelog
 1.0.13 (unreleased)
 -------------------
 
+- Avoid traceback if a selection item relation is broken
+  [laulaz]
+
 - Use rich description on contact sections
   [laulaz]
 
