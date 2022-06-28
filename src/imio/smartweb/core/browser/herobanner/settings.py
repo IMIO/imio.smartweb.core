@@ -41,7 +41,7 @@ class HeroBannerSettings(BrowserView):
             type="imio.smartweb.HeroBanner",
         )
         herobanner.exclude_from_parent_listing = True
-        herobanner.reindexObject(idxs=("exclude_from_parent_listing"))
+        herobanner.reindexObject(idxs=["exclude_from_parent_listing"])
         allowed_content_types.remove("imio.smartweb.HeroBanner")
         pt.getTypeInfo(portal_type).allowed_content_types = tuple(allowed_content_types)
         if IFolder.providedBy(obj):

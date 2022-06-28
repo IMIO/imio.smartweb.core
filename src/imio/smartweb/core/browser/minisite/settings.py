@@ -27,7 +27,7 @@ class MiniSiteSettings(BrowserView):
         )
         alsoProvides(self.context, IImioSmartwebMinisite)
         self.context.exclude_from_nav = True
-        self.context.reindexObject(idxs=("object_provides", "exclude_from_nav"))
+        self.context.reindexObject(idxs=["object_provides", "exclude_from_nav"])
         api.portal.show_message(
             _("Minisite has been successfully activated"), self.request
         )
@@ -41,7 +41,7 @@ class MiniSiteSettings(BrowserView):
         )
         noLongerProvides(self.context, IImioSmartwebMinisite)
         self.context.exclude_from_nav = False
-        self.context.reindexObject(idxs=("object_provides", "exclude_from_nav"))
+        self.context.reindexObject(idxs=["object_provides", "exclude_from_nav"])
         api.portal.show_message(_("Minisite has been disabled"), self.request)
         self.request.response.redirect(self.context.absolute_url())
 

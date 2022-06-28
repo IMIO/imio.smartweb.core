@@ -108,7 +108,7 @@ def exclude_footers_from_parent_listing(context):
     for brain in brains:
         footer = brain.getObject()
         footer.exclude_from_parent_listing = True
-        footer.reindexObject(idxs=("exclude_from_parent_listing"))
+        footer.reindexObject(idxs=["exclude_from_parent_listing"])
 
 
 def reindex_all_pages(context):

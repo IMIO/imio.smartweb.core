@@ -74,7 +74,7 @@ class Folder(Container):
         if old_default_item is not None:
             noLongerProvides(old_default_item, IDefaultPages)
             old_default_item.exclude_from_nav = False
-            old_default_item.reindexObject(idxs=("object_provides", "exclude_from_nav"))
+            old_default_item.reindexObject(idxs=["object_provides", "exclude_from_nav"])
         if new_default_item is None:
             # New default item has already been set on folder
             new_default_item = self.get_default_item(object=True)
@@ -84,4 +84,4 @@ class Folder(Container):
             self.default_page_uid = uuid
         alsoProvides(new_default_item, IDefaultPages)
         new_default_item.exclude_from_nav = True
-        new_default_item.reindexObject(idxs=("object_provides", "exclude_from_nav"))
+        new_default_item.reindexObject(idxs=["object_provides", "exclude_from_nav"])

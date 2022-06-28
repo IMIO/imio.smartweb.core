@@ -23,5 +23,5 @@ class BannerSettings(BrowserView):
             alsoProvides(self.context, ILocallyHiddenBanner)
             message = _("Banner is now hidden from this item")
         api.portal.show_message(message, self.request)
-        self.context.reindexObject(idxs=(["object_provides"]))
+        self.context.reindexObject(idxs=["object_provides"])
         self.request.response.redirect(self.context.absolute_url())
