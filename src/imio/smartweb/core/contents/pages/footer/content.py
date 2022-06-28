@@ -37,5 +37,8 @@ class Footer(Pages):
     def notifyModified(self):
         super(Footer, self).notifyModified()
         request = getRequest()
-        physical_path = parent(self).getPhysicalPath()
+        container = parent(self)
+        if not container:
+            return
+        physical_path = container.getPhysicalPath()
         ban_physicalpath(request, physical_path)
