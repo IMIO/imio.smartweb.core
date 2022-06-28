@@ -105,7 +105,10 @@ class TestSectionContact(ImioSmartwebTestCase):
         self.assertNotIn("contact_description", view())
         contact.visible_blocks = ["description"]
         self.assertIn("contact_description", view())
-        self.assertIn("Super description", view())
+        self.assertIn(
+            "Description &lt;strong&gt;avec gras&lt;/strong&gt; et &lt;br/&gt; retours à la ligne",
+            view(),
+        )
 
         contact.visible_blocks = ["titles", "gallery"]
         m.get(contact_images_url, text=json.dumps(self.json_contact_images))

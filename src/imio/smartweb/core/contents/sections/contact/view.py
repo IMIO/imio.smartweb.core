@@ -3,6 +3,7 @@
 from datetime import date, datetime
 from datetime import timedelta
 from decimal import Decimal
+from imio.smartweb.common.utils import rich_description
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import batch_results
@@ -40,6 +41,14 @@ class ContactView(SectionView):
             return ""
         contact_type = contact.get("type").get("token")
         return "contact-type-{}".format(contact_type)
+
+    @property
+    def description(self):
+        contact = self.contact
+        if contact is None:
+            return ""
+        description = rich_description(contact.get("description"))
+        return description
 
     def data_geojson(self):
         """Return the contact geolocation as GeoJSON string."""

@@ -156,7 +156,7 @@
 
       <div class="contact_description"
            tal:condition="python:'description' in visible_blocks">
-        <span tal:define="description contact/description | nothing"
+        <span tal:define="description view/description | nothing"
               tal:condition="description"
               tal:replace="description" />
       </div>
