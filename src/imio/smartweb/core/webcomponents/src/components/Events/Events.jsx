@@ -15,6 +15,7 @@ export default function Events(props) {
             <EventsView
                 queryFilterUrl={props.queryFilterUrl}
                 queryUrl={props.queryUrl + "?b_size=20"}
+                proposeUrl={props.proposeUrl}
             />
         </Router>
     );
@@ -142,24 +143,31 @@ function EventsView(props) {
                     ref={filterRef}
                     style={{ top: portalHeaderHeight }}
                 >
-                    <div
-                        id="r-result-filter"
-                        className="r-result-filter container annuaire-result-filter"
-                    >
-                        <Filters
-                            url={props.queryFilterUrl}
-                            activeFilter={filters}
-                            onChange={filtersChange}
-                        />
-                        {contactNumber > 0 ? (
-                            <p className="r-results-numbers">
-                                <span>{contactNumber}</span>
-                                {contactNumber > 1 ? " événements trouvés" : "événement trouvé"}
-                            </p>
-                        ) : (
-                            <p className="r-results-numbers">Aucun résultat</p>
-                        )}
-                    </div>
+                <div
+                    id="r-result-filter"
+                    className="r-result-filter container annuaire-result-filter"
+                >
+                    <Filters
+                        url={props.queryFilterUrl}
+                        activeFilter={filters}
+                        onChange={filtersChange}
+                    />
+                    {props.proposeUrl &&
+                        (
+                            <div className="r-add-event">
+                                <a target="_blank" href={props.proposeUrl}>Proposer un événement</a>
+                            </div>
+                        )
+                    }
+                    {contactNumber > 0 ? (
+                        <p className="r-results-numbers">
+                            <span>{contactNumber}</span>
+                            {contactNumber > 1 ? " événements trouvés" : "événement trouvé"}
+                        </p>
+                    ) : (
+                        <p className="r-results-numbers">Aucun résultat</p>
+                    )}
+                </div>
                 </div>
                 <Switch>
                     <Route path={"/:name"}>

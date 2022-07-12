@@ -14,6 +14,7 @@ export default function News(props) {
             <NewsView
                 queryFilterUrl={props.queryFilterUrl}
                 queryUrl={props.queryUrl + "?b_size=10"}
+                proposeUrl={props.proposeUrl}
             />
         </Router>
     );
@@ -109,6 +110,13 @@ const NewsView = (props) => {
                                         activeFilter={filters}
                                         onChange={filtersChange}
                                     />
+                                    {props.proposeUrl &&
+                                        (
+                                            <div className="r-add-news">
+                                                <a target="_blank" href={props.proposeUrl}>Proposer une actualité</a>
+                                            </div>
+                                        )
+                                    }
                                     {contactNumber > 0 ? (
                                         <p className="r-results-numbers">
                                             <span>{contactNumber}</span>{" "}

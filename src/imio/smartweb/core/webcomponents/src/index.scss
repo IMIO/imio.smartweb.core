@@ -10,6 +10,7 @@
     gap: 20px;
     padding-bottom: 20px;
     border-bottom: solid 1px #cccc;
+    align-items: center;
     .r-filter {
       width: 100%;
       max-width: 200px;
@@ -51,7 +52,14 @@
     }
   }
 }
-
+.r-add-event,.r-add-news,.r-add-contact{
+  a{
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    padding: 1rem;
+  }
+}
 /* list item */
 .r-list-item-link {
   inset: 0px !important;

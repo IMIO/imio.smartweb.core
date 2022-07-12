@@ -15,6 +15,7 @@ export default function Annuaire(props) {
             <AnnuaireView
                 queryFilterUrl={props.queryFilterUrl}
                 queryUrl={props.queryUrl + "?b_size=20"}
+                proposeUrl={props.proposeUrl}
             />
         </Router>
     );
@@ -148,6 +149,13 @@ function AnnuaireView(props) {
                             activeFilter={filters}
                             onChange={filtersChange}
                         />
+                        {props.proposeUrl &&
+                            (
+                                <div className="r-add-contact">
+                                    <a target="_blank" href={props.proposeUrl}>Proposer un contact</a>
+                                </div>
+                            )
+                        }
                         {contactNumber > 0 ? (
                             <p className="r-results-numbers">
                                 <span>{contactNumber}</span>
