@@ -42,16 +42,14 @@
                                  title title">
 
                 <div class="items-content">
-                  <div class="image">
+                  <div class="geo-item-image">
                     <img style="border: none"
                          tal:condition="is_image"
-                         tal:attributes="src string:${brain/getURL}/@@images/image/${thumb_scale}"/>
+                         tal:attributes="src string:${brain/getURL}/@@images/image/preview"/>
                   </div>
-                  <div class="text">
-                    <h4 tal:content="brain/pretty_title_or_id|string:">Title</h4>
-                    <div class="description">
-                      <div tal:replace="description"></div>
-                    </div>
+                  <div class="geo-item-text">
+                    <div class="geo-item-title" tal:content="brain/pretty_title_or_id|string:">Title</div>
+                    <div class="geo-item-description" tal:content="description"></div>
                   </div>
                 </div>
               </a>
@@ -79,6 +77,7 @@
         }
 
         jQuery(document).ready(function($) {
+          $("#faceted-map-container").insertAfter($("#faceted-results"));
           $(Faceted.Events).bind(Faceted.Events.AJAX_QUERY_SUCCESS, function() {
               refresh_map();
           });
