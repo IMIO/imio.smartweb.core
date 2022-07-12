@@ -5,6 +5,9 @@ Changelog
 1.0.13 (unreleased)
 -------------------
 
+- Adding button for add news,events,contacts
+  [thomlamb]
+
 - Avoid traceback if a selection item relation is broken
   [laulaz]
 
