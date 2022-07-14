@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.13 (unreleased)
+1.0.13 (2022-07-14)
 -------------------
 
 - Adding button for add news,events,contacts
