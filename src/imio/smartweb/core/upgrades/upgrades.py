@@ -114,5 +114,9 @@ def exclude_footers_from_parent_listing(context):
 def reindex_all_pages(context):
     brains = api.content.find(object_provides=IPages)
     for brain in brains:
-        obj = brain.getObject()
-        obj.reindexObject()
+        try:
+            obj = brain.getObject()
+        except KeyError:
+            logger.warn(f"getObject failed on {brain.getURL()}")
+        else:
+            obj.reindexObject()

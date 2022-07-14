@@ -5,7 +5,8 @@ Changelog
 1.0.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Avoid error on broken objects (reindex_all_pages upgrade step)
+  [laulaz]
 
 
 1.0.13 (2022-07-14)
