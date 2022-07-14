@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.14 (unreleased)
+1.0.14 (2022-07-14)
 -------------------
 
 - Avoid error on broken objects (reindex_all_pages upgrade step)
