@@ -19,7 +19,7 @@
   <metal:macro use-macro="context/@@sections_macros/section_title"
                tal:condition="not: viewlet_rendering"/>
 
-  <div class="swiper-slide">
+  <div class="section-slide">
     <div class="swiper-banner-image"
          tal:condition="python:context.image and not context.video_url"
          tal:attributes="style string:background-image:url(${context/absolute_url}/@@images/image/banner)"></div>

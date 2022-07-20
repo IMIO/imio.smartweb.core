@@ -5,7 +5,8 @@ Changelog
 1.0.15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Change class and css to make herobanner slider work
+  [thomlamb]
 
 
 1.0.14 (2022-07-14)

@@ -6,7 +6,7 @@
     <div class="swiper-wrapper">
       <tal:bcl tal:repeat="section view/sections">
         <div tal:define="pages_view nocall:herobanner/@@full_view;"
-             tal:attributes="class python:pages_view.get_class(section)">
+          class="swiper-slide">
           <span tal:replace="structure section/@@full_view_item_without_edit" />
         </div>
       </tal:bcl>
