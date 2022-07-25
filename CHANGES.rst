@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.15 (unreleased)
+1.0.15 (2022-07-25)
 -------------------
 
 - WEB-3687: Add botpress viewlet in footer
