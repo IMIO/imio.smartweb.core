@@ -191,6 +191,16 @@
       />
 
   <browser:viewlet
+      name="imio.smartweb.chatbot"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="chatbot.pt"
+      class=".chatbot.ChatbotViewlet"
+      permission="zope2.View"
+      />
+
+  <browser:viewlet
       name="imio.smartweb.herobanner"
       for="*"
       manager="plone.app.layout.viewlets.interfaces.IPortalHeader"

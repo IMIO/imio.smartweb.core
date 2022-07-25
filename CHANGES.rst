@@ -5,6 +5,9 @@ Changelog
 1.0.15 (unreleased)
 -------------------
 
+- WEB-3687: Add botpress viewlet in footer
+  [remdub]
+
 - Change class and css to make herobanner slider work
   [thomlamb]
 

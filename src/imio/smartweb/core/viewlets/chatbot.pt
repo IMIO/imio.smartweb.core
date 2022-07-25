@@ -1,0 +1,9 @@
+<div tal:condition="view/available">
+  <script tal:attributes="src string:${view/chatbot_url}/assets/modules/channel-web/inject.js"></script>
+  <script>
+    window.botpressWebChat.init({
+      host: "<span tal:replace="view/chatbot_url"></span>",
+      botId: "<span tal:replace="view/chatbot_id"></span>"
+    })
+  </script>
+</div>
