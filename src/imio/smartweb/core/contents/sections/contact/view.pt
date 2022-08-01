@@ -158,7 +158,7 @@
            tal:condition="python:'description' in visible_blocks">
         <span tal:define="description view/description | nothing"
               tal:condition="description"
-              tal:replace="description" />
+              tal:replace="structure description" />
       </div>
 
       <tal:cond tal:define="images view/images;"

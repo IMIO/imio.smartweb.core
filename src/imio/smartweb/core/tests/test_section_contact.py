@@ -106,7 +106,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         contact.visible_blocks = ["description"]
         self.assertIn("contact_description", view())
         self.assertIn(
-            "Description &lt;strong&gt;avec gras&lt;/strong&gt; et &lt;br/&gt; retours à la ligne",
+            "Description <strong>avec gras</strong> et <br/> retours à la ligne",
             view(),
         )
 

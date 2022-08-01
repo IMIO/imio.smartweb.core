@@ -5,7 +5,8 @@ Changelog
 1.0.16 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix rich description display on contact section
+  [laulaz]
 
 
 1.0.15 (2022-07-25)
