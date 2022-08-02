@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.16 (unreleased)
+1.0.16 (2022-08-02)
 -------------------
 
 - Fix rich description display on contact section
