@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
@@ -9,11 +8,13 @@ from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
 
+import datetime
+
 
 class BaseEventsEndpoint(BaseEndpoint):
     @property
     def query_url(self):
-        today = date.today().isoformat()
+        today = datetime.date.today()
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
             "portal_type=imio.events.Event",
@@ -40,6 +41,27 @@ class BaseEventsEndpoint(BaseEndpoint):
 @adapter(Interface, Interface)
 class EventsEndpoint(BaseEventsEndpoint):
     remote_endpoint = "@search"
+
+    def __call__(self):
+        res = super(EventsEndpoint, self).__call__()
+        if res == []:
+            return res
+        today = datetime.date.today()
+        results = []
+        for item in res.get("items"):
+            if not item.get("end") or len(item.get("end")) == 0:
+                pass
+            else:
+                enddate = datetime.datetime.strptime(
+                    item.get("end"), "%Y-%m-%dT%H:%M:%S+00:00"
+                ).date()
+                # Filter : Don't get past events
+                if enddate < today:
+                    continue
+            results.append(item)
+        res["items"] = results
+        res["items_total"] = len(results)
+        return res
 
 
 @implementer(IExpandableElement)

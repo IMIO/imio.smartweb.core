@@ -5,7 +5,8 @@ Changelog
 1.0.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3728 : Add Filter : Don't keep past events endpoint
+  [boulch]
 
 
 1.0.13 (2022-07-14)
@@ -22,7 +23,7 @@ Changelog
 
 - [WEB-3674]Fix itinerary links
   [remdub]
-  
+
 - [WEB-3661]Set b_size to 100 on search results
   [remdub]
 
