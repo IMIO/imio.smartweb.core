@@ -59,6 +59,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1027_to_1028"
+      title="Upgrade core from 1027 to 1028"
+      directory="profiles/1027_to_1028"
+      description="By default, Plone open external (Section text / Tiny) links in new tab"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -352,5 +360,15 @@
       handler=".upgrades.reindex_all_pages"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1027"
+      destination="1028"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="By default, Plone open external (Section text / Tiny) links in new tab"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1027_to_1028"
+    />
+  </genericsetup:upgradeSteps>
 
 </configure>

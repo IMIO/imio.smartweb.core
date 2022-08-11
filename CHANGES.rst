@@ -5,7 +5,8 @@ Changelog
 1.0.17 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3730 : By default, Plone open external (Section text / Tiny) links in new tab
+  [boulch]
 
 
 1.0.16 (2022-08-02)
@@ -46,7 +47,7 @@ Changelog
 
 - [WEB-3674]Fix itinerary links
   [remdub]
-  
+
 - [WEB-3661]Set b_size to 100 on search results
   [remdub]
 

@@ -147,4 +147,9 @@
       <value key="csscompilation">++plone++imio.smartweb.core/swiper-bundle.min.css</value>
     </records>
 
+    <records interface="Products.CMFPlone.interfaces.controlpanel.ILinkSchema"
+             prefix="plone">
+      <value key="external_links_open_new_window">True</value>
+    </records>
+
 </registry>

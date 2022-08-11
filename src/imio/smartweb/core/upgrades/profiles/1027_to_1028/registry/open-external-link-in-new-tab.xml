@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <records interface="Products.CMFPlone.interfaces.controlpanel.ILinkSchema"
+             prefix="plone">
+      <value key="external_links_open_new_window">True</value>
+    </records>
+
+</registry>
