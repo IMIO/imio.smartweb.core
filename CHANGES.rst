@@ -5,6 +5,9 @@ Changelog
 1.0.17 (unreleased)
 -------------------
 
+- WEB-3732 : Add smartweb settings to customize sendinblue subscribing button (text and position)
+  [boulch]
+
 - WEB-3730 : By default, Plone open external (Section text / Tiny) links in new tab
   [boulch]
 

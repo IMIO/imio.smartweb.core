@@ -67,6 +67,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1028_to_1029"
+      title="Upgrade core from 1028 to 1029"
+      directory="profiles/1028_to_1029"
+      description="Add some properties/registry keys about SendInblue button"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -371,4 +379,13 @@
     />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1028"
+      destination="1029"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add some properties/registry keys about SendInblue button"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1028_to_1029"
+    />
+  </genericsetup:upgradeSteps>
 </configure>

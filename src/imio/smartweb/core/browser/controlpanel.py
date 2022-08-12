@@ -1,11 +1,24 @@
 # -*- coding: utf-8 -*-
 
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.registry import DictRow
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
+from plone.autoform.directives import widget
 from plone.z3cform import layout
 from zope import schema
 from zope.interface import Interface
+
+
+class ITextRowSchema(Interface):
+
+    language = schema.TextLine(
+        title=_("Language (en, fr,...)"),
+        description=_("Enter the language code. Ex.: en"),
+    )
+
+    text = schema.TextLine(title=_("Text"), description=_("Your button title"))
 
 
 class ISmartwebControlPanel(Interface):
@@ -110,6 +123,23 @@ class ISmartwebControlPanel(Interface):
         ),
         required=False,
     )
+
+    sendinblue_button_position = schema.Choice(
+        title=_("SendInBlue : Define button position"),
+        default="button_bottom",
+        source="imio.smartweb.vocabulary.SendInBlueButtonPosition",
+    )
+
+    sendinblue_button_text = schema.List(
+        title=_("SendInBlue : Define button text"),
+        description=_("Choose SendInblue submission button text"),
+        value_type=DictRow(
+            title="Value",
+            schema=ITextRowSchema,
+        ),
+        required=True,
+    )
+    widget(sendinblue_button_text=DataGridFieldFactory)
 
 
 class SmartwebControlPanelForm(RegistryEditForm):
