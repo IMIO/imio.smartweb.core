@@ -2,9 +2,11 @@
 
 from collective.sendinblue.browser.portlet import PortletSubscribeForm
 from imio.smartweb.core.contents.sections.views import SectionView
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.z3cform.interfaces import IWrappedForm
-from zope.component import getMultiAdapter
+from z3c.form import button
+from zope.component import provideAdapter
 from zope.interface import alsoProvides
 
 
@@ -21,39 +23,32 @@ class SendinblueView(SectionView):
         data.newsletter_list = self.context.newsletter_list
         form = PortletSubscribeForm(self.context, self.request, data)
         alsoProvides(form, IWrappedForm)
+
+        # Change 'subscribe' action title
+        actions = button.ButtonActions(form, self.request, None)
+        ApplyLabel = button.StaticButtonActionAttribute(
+            self.button_text, button=form.buttons["subscribe"]
+        )
+        provideAdapter(ApplyLabel, name="title")
+        actions.update()
+
         form.enable_autofocus = False
-        button_text = self.button_text
-        if button_text is not None:
-            button_text_fr = (
-                row.get("text")
-                for row in button_text
-                if row.get("language") == self.language
-            )
-            for text in button_text_fr:
-                form.buttons._data_values[0].title = text
         form.update()
         return form
 
     @property
     def button_position(self):
-        return (
-            api.portal.get_registry_record("smartweb.sendinblue_button_position")
-            or "button_bottom"
+        return api.portal.get_registry_record(
+            "smartweb.sendinblue_button_position", default="button_bottom"
         )
 
     @property
     def button_text(self):
-        return (
-            None
-            if api.portal.get_registry_record("smartweb.sendinblue_button_text") == []
-            else api.portal.get_registry_record("smartweb.sendinblue_button_text")
+        current_lang = api.portal.get_current_language()[:2]
+        button_texts = api.portal.get_registry_record(
+            "smartweb.sendinblue_button_text", default=[]
         )
-
-    @property
-    def language(self):
-        context = self.context.aq_inner
-        portal_state = getMultiAdapter(
-            (context, self.request), name="plone_portal_state"
-        )
-        current_language = portal_state.language()
-        return current_language
+        for row in button_texts:
+            if row.get("language") == current_lang:
+                return row.get("text")
+        return _("Subscribe")

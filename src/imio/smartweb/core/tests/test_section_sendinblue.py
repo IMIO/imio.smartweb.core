@@ -31,7 +31,7 @@ class TestSectionNews(ImioSmartwebTestCase):
         section_view = queryMultiAdapter(
             (section_sendinblue, self.request), name="view"
         )
-        self.assertEquals("button_bottom", section_view.button_position)
+        self.assertEqual(section_view.button_position, "button_bottom")
 
         portal_page_view = queryMultiAdapter(
             (self.portalpage, self.request), name="full_view"
@@ -55,7 +55,7 @@ class TestSectionNews(ImioSmartwebTestCase):
         section_view = queryMultiAdapter(
             (section_sendinblue, self.request), name="view"
         )
-        self.assertIsNone(section_view.button_text)
+        self.assertEqual(section_view.button_text, "Subscribe")
 
         portal_page_view = queryMultiAdapter(
             (self.portalpage, self.request), name="full_view"
