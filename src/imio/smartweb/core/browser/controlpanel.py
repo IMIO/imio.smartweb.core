@@ -126,8 +126,9 @@ class ISmartwebControlPanel(Interface):
 
     sendinblue_button_position = schema.Choice(
         title=_("SendInBlue : Define button position"),
-        default="button_bottom",
         source="imio.smartweb.vocabulary.SendInBlueButtonPosition",
+        default="button_bottom",
+        required=True,
     )
 
     sendinblue_button_text = schema.List(
@@ -137,6 +138,7 @@ class ISmartwebControlPanel(Interface):
             title="Value",
             schema=ISendinblueTextRowSchema,
         ),
+        default=[],
         required=True,
     )
     widget(sendinblue_button_text=DataGridFieldFactory)
