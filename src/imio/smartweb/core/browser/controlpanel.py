@@ -11,7 +11,7 @@ from zope import schema
 from zope.interface import Interface
 
 
-class ITextRowSchema(Interface):
+class ISendinblueTextRowSchema(Interface):
 
     language = schema.TextLine(
         title=_("Language (en, fr,...)"),
@@ -135,7 +135,7 @@ class ISmartwebControlPanel(Interface):
         description=_("Choose SendInblue submission button text"),
         value_type=DictRow(
             title="Value",
-            schema=ITextRowSchema,
+            schema=ISendinblueTextRowSchema,
         ),
         required=True,
     )
