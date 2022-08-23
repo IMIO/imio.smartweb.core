@@ -101,7 +101,7 @@ class TestSubsite(ImioSmartwebTestCase):
         self.assertEqual(len(viewlet.portal_tabs), 2)
         self.assertEqual(
             viewlet.render_globalnav(),
-            '<li class="page1 nav-item"><a href="http://nohost/plone/folder/page1" class="state-private nav-link">Page 1</a></li><li class="subfolder nav-item"><a href="http://nohost/plone/folder/subfolder" class="state-private nav-link">Subfolder</a></li>',
+            '<li class="nav_page1 nav-item"><a href="http://nohost/plone/folder/page1" class="state-private nav-link">Page 1</a></li><li class="nav_subfolder nav-item"><a href="http://nohost/plone/folder/subfolder" class="state-private nav-link">Subfolder</a></li>',
         )
         self.assertNotIn("Sub Page 1", viewlet.render_globalnav())
 

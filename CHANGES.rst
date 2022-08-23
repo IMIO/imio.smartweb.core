@@ -5,6 +5,9 @@ Changelog
 1.0.17 (unreleased)
 -------------------
 
+- Ensure navigation elements don't use an already reserved/existing css Class
+  [boulch]
+
 - WEB-3730 : By default, Plone open external (Section text / Tiny) links in new tab
   [boulch]
 

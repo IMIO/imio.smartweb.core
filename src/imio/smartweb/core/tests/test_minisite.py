@@ -200,12 +200,12 @@ class TestMinisite(ImioSmartwebTestCase):
         self.assertIn('<li class="quick-access">', viewlet.render_globalnav())
 
         soup = BeautifulSoup(html)
-        qa = soup.find("li", {"class": "subfolder-level-2"}).find(
+        qa = soup.find("li", {"class": "nav_subfolder-level-2"}).find(
             "li", {"class": "quick-access"}
         )
 
         self.assertEqual(len(qa.find_all("li")), 2)
-        self.assertIsNotNone(qa.find("li", {"class": "quick-page-sub"}))
+        self.assertIsNotNone(qa.find("li", {"class": "nav_quick-page-sub"}))
 
     def test_delete_minisite(self):
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
