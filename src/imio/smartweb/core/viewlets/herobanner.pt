@@ -1,6 +1,5 @@
 <div tal:condition="view/available"
      class="smartweb_herobanner">
-
   <div class="swiper bannerSwiper"
        tal:define="herobanner nocall:view/herobanner">
     <div class="swiper-wrapper">
@@ -12,9 +11,7 @@
         </div>
       </tal:bcl>
     </div>
+    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev"></div>
   </div>
-
-  <div class="swiper-button-next"></div>
-  <div class="swiper-button-prev"></div>
-
 </div>
