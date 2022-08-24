@@ -5,6 +5,9 @@ Changelog
 1.0.17 (unreleased)
 -------------------
 
+- Fix bad position for swipper-button in herobanner
+  [thomlamb]
+
 - Ensure navigation elements don't use an already reserved/existing css Class
   [boulch]
 
