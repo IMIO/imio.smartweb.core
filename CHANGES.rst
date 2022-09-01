@@ -8,6 +8,12 @@ Changelog
 - WEB-3732 : Add smartweb settings to customize sendinblue subscribing button (text and position)
   [boulch]
 
+- Fix bad position for swipper-button in herobanner
+  [thomlamb]
+
+- Ensure navigation elements don't use an already reserved/existing css Class
+  [boulch]
+
 - WEB-3730 : By default, Plone open external (Section text / Tiny) links in new tab
   [boulch]
 

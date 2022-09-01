@@ -25,7 +25,7 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
     _submenu_markup_wrapper = '<div class="has_subtree dropdown">{menu_action}<span class="nav-title"><a href="{url}">{title}</span></a>{sub}</div>'
     _quickaccesses_markup_wrapper = '<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
     _item_markup_template = (
-        '<li class="{id}{has_sub_class} nav-item">'
+        '<li class="nav_{id}{has_sub_class} nav-item">'
         '<a href="{url}" class="state-{review_state} nav-link"{aria_haspopup}>{title}</a>{opener}'  # noqa: E 501
         "{sub_wrapper}"
         "</li>"

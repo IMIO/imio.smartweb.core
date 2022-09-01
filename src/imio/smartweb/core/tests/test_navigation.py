@@ -133,10 +133,12 @@ class TestNavigation(ImioSmartwebTestCase):
         self.assertEqual(html.count('<li class="quick-access">'), 1)
 
         soup = BeautifulSoup(html)
-        qa = soup.find("li", {"class": "folder"}).find("li", {"class": "quick-access"})
+        qa = soup.find("li", {"class": "nav_folder"}).find(
+            "li", {"class": "quick-access"}
+        )
 
         self.assertEqual(len(qa.find_all("li")), 1)
-        self.assertIsNotNone(qa.find("li", {"class": "quick-page-everywhere"}))
+        self.assertIsNotNone(qa.find("li", {"class": "nav_quick-page-everywhere"}))
 
         # Quick access on second level folder
         intids = getUtility(IIntIds)
@@ -149,12 +151,12 @@ class TestNavigation(ImioSmartwebTestCase):
         self.assertEqual(html.count('<li class="quick-access">'), 2)
 
         soup = BeautifulSoup(html)
-        qa = soup.find("li", {"class": "subfolder-level-2"}).find(
+        qa = soup.find("li", {"class": "nav_subfolder-level-2"}).find(
             "li", {"class": "quick-access"}
         )
 
         self.assertEqual(len(qa.find_all("li")), 2)
-        self.assertIsNotNone(qa.find("li", {"class": "quick-page-sub"}))
+        self.assertIsNotNone(qa.find("li", {"class": "nav_quick-page-sub"}))
 
         # Quick access on third level folder
         intids = getUtility(IIntIds)
@@ -167,9 +169,9 @@ class TestNavigation(ImioSmartwebTestCase):
         self.assertEqual(html.count('<li class="quick-access">'), 3)
 
         soup = BeautifulSoup(html)
-        qa = soup.find("li", {"class": "subfolder-level-3"}).find(
+        qa = soup.find("li", {"class": "nav_subfolder-level-3"}).find(
             "li", {"class": "quick-access"}
         )
 
         self.assertEqual(len(qa.find_all("li")), 2)
-        self.assertIsNotNone(qa.find("li", {"class": "quick-page-su-sub"}))
+        self.assertIsNotNone(qa.find("li", {"class": "nav_quick-page-su-sub"}))
