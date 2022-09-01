@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
 from plone import api
 from plone.registry.interfaces import IRegistry
 from zope.component import getUtility
+from zope.schema import getFieldNames
 
 import logging
 
@@ -120,3 +122,11 @@ def reindex_all_pages(context):
             logger.warn(f"getObject failed on {brain.getURL()}")
         else:
             obj.reindexObject()
+
+
+def add_sendinblue_button_settings(context):
+    fields = getFieldNames(ISmartwebControlPanel)
+    fields.remove("sendinblue_button_position")
+    fields.remove("sendinblue_button_text")
+    registry = getUtility(IRegistry)
+    registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")

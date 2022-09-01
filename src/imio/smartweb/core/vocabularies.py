@@ -533,3 +533,16 @@ class GalleryModeVocabularyFactory:
 
 
 GalleryModeVocabulary = GalleryModeVocabularyFactory()
+
+
+class SendInBlueButtonPosVocabularyFactory:
+    def __call__(self, context=None):
+        bootstrap_css = [
+            ("button_bottom", _("Bottom")),
+            ("button_right", _("Right")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in bootstrap_css]
+        return SimpleVocabulary(terms)
+
+
+SendInBlueButtonPosVocabulary = SendInBlueButtonPosVocabularyFactory()
