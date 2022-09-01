@@ -5,6 +5,10 @@ Changelog
 1.0.17 (unreleased)
 -------------------
 
+- WEB-3741 : Fix items in selectbox contact categories in rest view @search-filters endpoint ("match" with items in edit selectbox)
+  Fix contacts results depends of selected category in rest view (@search endpoint)
+  [boulch]
+
 - WEB-3732 : Add smartweb settings to customize sendinblue subscribing button (text and position)
   [boulch]
 
