@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.17 (unreleased)
+1.0.17 (2022-09-01)
 -------------------
 
 - WEB-3741 : Fix items in selectbox contact categories in rest view @search-filters endpoint ("match" with items in edit selectbox)
