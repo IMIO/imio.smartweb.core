@@ -145,4 +145,10 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+    name="imio.smartweb.vocabulary.SendInBlueButtonPosition"
+    component=".vocabularies.SendInBlueButtonPosVocabulary"
+    provides="zope.schema.interfaces.IVocabularyFactory"
+    />
+
 </configure>

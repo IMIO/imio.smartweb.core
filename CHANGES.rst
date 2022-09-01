@@ -9,6 +9,9 @@ Changelog
   Fix contacts results depends of selected category in rest view (@search endpoint)
   [boulch]
 
+- WEB-3732 : Add smartweb settings to customize sendinblue subscribing button (text and position)
+  [boulch]
+
 - Fix bad position for swipper-button in herobanner
   [thomlamb]
 

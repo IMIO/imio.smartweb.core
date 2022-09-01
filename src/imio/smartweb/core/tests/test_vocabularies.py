@@ -268,3 +268,6 @@ class TestVocabularies(ImioSmartwebTestCase):
             vocabulary.getTermByToken("1178188bddde4ced95a6cf8bf04c443b").title,
             "belleville >> communal >> Bon pied, bon oeil",
         )
+
+    def test_sendinblue_button_position(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.SendInBlueButtonPosition", 2)
