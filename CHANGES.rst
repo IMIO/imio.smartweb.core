@@ -5,7 +5,8 @@ Changelog
 1.0.18 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix css to display none accueil item in nav
+  [thomlamb]
 
 
 1.0.17 (2022-09-01)
