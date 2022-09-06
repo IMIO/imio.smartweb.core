@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.18 (unreleased)
+1.0.18 (2022-09-06)
 -------------------
 
 - Fix css to display none accueil item in nav
