@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.19 (unreleased)
+1.0.19 (2022-09-08)
 -------------------
 
 - WEB-3750 : Fix topics, categories and facilities items in selectboxes view when there is no preset selected categories
