@@ -71,6 +71,10 @@ class DirectoryFiltersEndpoint(BaseDirectoryEndpoint):
         if res == []:
             return res
         filtered_categories_title = []
+
+        if self.context.selected_categories is None:
+            return res
+
         for selected_category_token in self.context.selected_categories:
             for category in res.get("taxonomy_contact_category"):
                 if category.get("token") == selected_category_token:
