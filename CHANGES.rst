@@ -98,6 +98,9 @@ Changelog
 
 - WEB-3684 : Add fullobjects=1 to get inner news contents
   [boulch]
+- Migrate to Plone 6.0.0b1 : ensure all needed attributes are allowed (otherwise
+  action expressions doesn't work anymore)
+  [laulaz]
 
 
 1.0.19 (2022-09-08)

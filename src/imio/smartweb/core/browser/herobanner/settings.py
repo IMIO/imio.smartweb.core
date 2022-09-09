@@ -15,7 +15,7 @@ class HeroBannerSettings(BrowserView):
     """HeroBanner settings"""
 
     def add_herobanner(self):
-        if not self.available:
+        if not self.available():
             api.portal.show_message(
                 _("Hero banner cannot be added here"), self.request, type="error"
             )
@@ -51,7 +51,6 @@ class HeroBannerSettings(BrowserView):
         )
         self.request.response.redirect(herobanner.absolute_url())
 
-    @property
     def available(self):
         obj = self.context
         if not INavigationRoot.providedBy(obj):

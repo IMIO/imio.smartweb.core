@@ -18,7 +18,7 @@ class MiniSiteSettings(BrowserView):
     """Subsite settings"""
 
     def enable(self):
-        if not self.available:
+        if not self.available():
             return
         enable_behaviors(
             self.context,
@@ -45,7 +45,6 @@ class MiniSiteSettings(BrowserView):
         api.portal.show_message(_("Minisite has been disabled"), self.request)
         self.request.response.redirect(self.context.absolute_url())
 
-    @property
     def available(self):
         if IPloneSiteRoot.providedBy(self.context):
             # PloneSite can't become minisite
@@ -56,8 +55,7 @@ class MiniSiteSettings(BrowserView):
         if IImioSmartwebSubsite.providedBy(self.context):
             # Subsite can't be converted in minisite
             return False
-        return IFolder.providedBy(self.context) and not self.enabled
+        return IFolder.providedBy(self.context) and not self.enabled()
 
-    @property
     def enabled(self):
         return IImioSmartwebMinisite.providedBy(self.context)
