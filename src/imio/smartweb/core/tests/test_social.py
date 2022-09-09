@@ -45,55 +45,37 @@ class TestSocial(ImioSmartwebTestCase):
         browser.open(self.portal.absolute_url())
         content = browser.contents
         self.assertIn(
-            '<meta content="http://nohost/plone/logo.png" property="og:image"/>',
+            '<meta content="http://nohost/plone/++resource++plone-logo.svg" property="og:image"/>',
             content,
         )
         self.assertIn(
-            '<span itemprop="image">http://nohost/plone/logo.png</span>',
+            '<span itemprop="image">http://nohost/plone/++resource++plone-logo.svg</span>',
             content,
         )
 
         browser.open(folder.absolute_url())
         content = browser.contents
         self.assertIn(
-            '<meta content="http://nohost/plone/logo.png" property="og:image"/>',
+            '<meta content="http://nohost/plone/++resource++plone-logo.svg" property="og:image"/>',
             content,
         )
         self.assertIn(
-            '<span itemprop="image">http://nohost/plone/logo.png</span>',
+            '<span itemprop="image">http://nohost/plone/++resource++plone-logo.svg</span>',
             content,
         )
 
+        scales = page.restrictedTraverse("@@images")
+        image = scales.scale("image", scale="vignette")
         browser.open(page.absolute_url())
         content = browser.contents
-        self.assertIsNotNone(
-            re.search(
-                r'<meta content="http://nohost/plone/folder/page/@@images/.*" property="og:image"/>',
-                content,
-            )
-        )
-
-        self.assertIsNotNone(
-            re.search(
-                r'<span itemprop="image">http://nohost/plone/folder/page/@@images/.*</span>',
-                content,
-            )
-        )
+        self.assertIn(f'<meta content="{image.url}" property="og:image"/>', content)
+        self.assertIn(f'<span itemprop="image">{image.url}</span>', content)
 
         folder.image = NamedBlobImage(**make_named_image())
         transaction.commit()
+        scales = folder.restrictedTraverse("@@images")
+        image = scales.scale("image", scale="vignette")
         browser.open(folder.absolute_url())
         content = browser.contents
-        self.assertIsNotNone(
-            re.search(
-                r'<meta content="http://nohost/plone/folder/@@images/.*" property="og:image"/>',
-                content,
-            )
-        )
-
-        self.assertIsNotNone(
-            re.search(
-                r'<span itemprop="image">http://nohost/plone/folder/@@images/.*</span>',
-                content,
-            )
-        )
+        self.assertIn(f'<meta content="{image.url}" property="og:image"/>', content)
+        self.assertIn(f'<span itemprop="image">{image.url}</span>', content)
