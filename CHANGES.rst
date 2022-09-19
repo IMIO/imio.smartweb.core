@@ -5,7 +5,8 @@ Changelog
 1.0.20 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3684 : Add fullobjects=1 to get inner news contents
+  [boulch]
 
 
 1.0.19 (2022-09-08)

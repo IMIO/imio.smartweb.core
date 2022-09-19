@@ -12,6 +12,9 @@ from zope.interface import Interface
 class BaseNewsEndpoint(BaseEndpoint):
     @property
     def query_url(self):
+        # Temporary use fullobjects=1 to get inner news contents
+        # This should does the job !?
+        # https://github.com/IMIO/imio.news.core/commit/fe63e9945c2880abdf2d74374e8bbc2e86b7b6a3#diff-6a114600617a2e65a563a363d1825914a8d9afe1608812eb0e2373b3cec93e1fR16
         params = [
             "selected_news_folders={}".format(self.context.selected_news_folder),
             "portal_type=imio.news.NewsItem",
@@ -22,6 +25,7 @@ class BaseNewsEndpoint(BaseEndpoint):
             "sort_on=effective",
             "sort_order=descending",
             "sort_limit={}".format(self.context.nb_results),
+            "fullobjects=1",
         ]
         params = self.get_extra_params(params)
         url = f"{NEWS_URL}/{self.remote_endpoint}?{'&'.join(params)}"

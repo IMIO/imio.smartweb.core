@@ -183,7 +183,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=UID&"
             "sort_on=effective&"
             "sort_order=descending&"
-            "sort_limit=20".format(self.rest_news.selected_news_folder),
+            "sort_limit=20&fullobjects=1".format(self.rest_news.selected_news_folder),
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()
