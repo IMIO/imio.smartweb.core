@@ -17,7 +17,9 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.interfaces import ICollection
 from plone.dexterity.content import Item
+from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
+from time import time
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.component.hooks import getSite
@@ -442,6 +444,7 @@ DirectoryCategoriesVocabulary = DirectoryCategoriesVocabularyFactory()
 
 
 class EventsTypesVocabularyFactory:
+    @ram.cache(lambda *args: time() // (60 * 60))
     def __call__(self, context=None):
         client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
         client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")

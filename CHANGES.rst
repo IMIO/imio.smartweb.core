@@ -5,6 +5,9 @@ Changelog
 1.0.20 (unreleased)
 -------------------
 
+- Memoize EventsTypesVocabulary because that almost never change !
+  [boulch]
+
 - WEB-3684 : Add fullobjects=1 to get inner news contents
   [boulch]
 
