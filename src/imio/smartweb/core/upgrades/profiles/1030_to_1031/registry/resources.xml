@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <records prefix="plone.resources/smartweb-view"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             remove="true" />
+
+    <records prefix="plone.resources/smartweb-edit"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             remove="true" />
+
+    <records prefix="plone.bundles/smartweb-view"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-edit"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="depends">plone</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-webcomponents"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="depends">plone</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+    <records prefix="plone.bundles/swiper"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+</registry>

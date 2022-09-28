@@ -100,8 +100,8 @@ Changelog
   [boulch]
 - Migrate to Plone 6.0.0b1 : ensure all needed attributes are allowed (otherwise
   action expressions doesn't work anymore), consider new SVG / icons logic in
-  tests
-  [laulaz]
+  tests, use new simplified resources registry
+  [laulaz, boulch]
 
 
 1.0.19 (2022-09-08)
