@@ -5,6 +5,12 @@ Changelog
 1.0.20 (unreleased)
 -------------------
 
+- Adding section files download and gallery in react content view
+  [thomlamb]
+
+- Update svg plone-icon for better compatibility with color css
+  [thomlamb]
+
 - Use unique scale path (with hash) for better cache management
   [boulch, laz]
 
