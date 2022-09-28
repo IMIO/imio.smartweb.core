@@ -5,7 +5,8 @@ import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from "moment";
 import Moment from "react-moment";
 import ReactMarkdown from 'react-markdown'
-
+import Spotlight from "spotlight.js";
+import "../../../../node_modules/flexbin/flexbin.css"
 const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
     const queryString = require("query-string");
@@ -13,6 +14,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
     const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
     const [params, setParams] = useState(parsed2);
     const [contactItem, setcontactItem] = useState({});
+    const [files, setFiles] = useState(0);
+    const [gallery, setGallery] = useState(0);
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
@@ -32,12 +35,13 @@ const ContactContent = ({ queryUrl, onChange }) => {
         window.scrollTo(0, 0);
     }, [response]);
 
-    // useEffect(() => {
-    //     setParams({
-    //         UID: parsed.u,
-    //         fullobjects: 1,
-    //     });
-    // }, []);
+	/// use to set file and gallery items
+	useEffect(() => {
+        if (contactItem.items && contactItem.items.length > 0) {
+            setFiles(contactItem.items.filter(files => files['@type'] === 'File'));
+            setGallery(contactItem.items.filter(files => files['@type'] === 'Image'));
+        }
+    }, [contactItem]);
 
     function handleClick() {
         history.push("./");
@@ -46,6 +50,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 	moment.locale('fr')
     const created = moment(contactItem.created).startOf('day').fromNow();
     const lastModified = moment(contactItem.modified).startOf('day').fromNow();
+
     return (
         <div className="new-content r-content">
             <button type="button" onClick={handleClick}>
@@ -215,26 +220,43 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						)}
 					</div>
 				</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 <div
                     className="r-content-text"
                     dangerouslySetInnerHTML={{
                         __html: contactItem.text && contactItem.text.data,
                     }}
                 ></div>
+				{/* add files to download */}
+				{
+					files ? (
+						<div className="r-content-files">
+							<h2 className="r-content-files-title">Téléchargements</h2>
+							{files.map((file) => (
+								<div className="r-content-file">
+									<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
+										<span className="r-content-file-title">{file.title}</span>
+										{/* <span className="r-content-file-size">{file.file.size}</span> */}
+										<span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
+									</a>
+								</div>
+							))}
+						</div>
+					) : ("")
+				}
+				{/* add gallery */}
+				{
+					gallery ? (
+					<div className="r-content-gallery">
+						<div class="spotlight-group flexbin r-content-gallery">
+							{gallery.map((image) => (
+								<a class="spotlight" href={image.image.scales.extralarge.download} data-description="Lorem ipsum dolor sit amet, consetetur sadipscing.">
+									<img src={image.image.scales.preview.download} alt="Lorem ipsum dolor sit amet" />
+								</a>
+							))}
+						</div>
+					</div>
+					) : ("")
+				}
             </article>
         </div>
     );

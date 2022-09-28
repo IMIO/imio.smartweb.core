@@ -108,3 +108,41 @@
 .leaflet-container {
   opacity: 1 !important;
 }
+
+
+// Flies and gallery
+
+
+.r-content-files{
+  margin: 2rem 0;
+  &-title{
+    margin-bottom: 1rem;
+  }
+  .r-content-file{
+    margin: 1rem 0;
+    &-link{
+      text-decoration: none;
+      display: flex;
+      gap: 20px;
+      padding: 1rem;
+      border: solid 1px #e6e6e6;
+      justify-content: space-between;
+      &:hover{
+        border: solid 1px #868686;
+      }
+    }
+  }
+  span{
+    display: block;
+  }
+}
+
+.r-content-gallery{
+  margin: 2rem 0;
+  &.flexbin > * > img {
+    height: 226px;
+  }
+  &.flexbin > * {
+    height: 226px;
+  }
+}

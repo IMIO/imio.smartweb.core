@@ -143,6 +143,10 @@ article > header {
               .r-item-adresse{
                 width: 36%;
               }
+              .mails{
+                display: flex;
+                flex-direction: column;
+              }
             }
           }
         }

@@ -54,6 +54,7 @@
     "@loadable/component": "^5.15.0",
     "axios": "^0.26.0",
     "babel-polyfill": "^6.26.0",
+    "flexbin": "^0.2.0",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
@@ -70,6 +71,7 @@
     "react-select": "^4.3.1",
     "react-web-component": "^2.0.2",
     "react-web-component-style-loader": "^0.1.4-alpha",
-    "remove-accents": "^0.4.2"
+    "remove-accents": "^0.4.2",
+    "spotlight.js": "^0.7.8"
   }
 }
