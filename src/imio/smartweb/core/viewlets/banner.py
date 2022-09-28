@@ -5,6 +5,7 @@ from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
 from Products.CMFPlone.utils import base_hasattr
+from zope.component import queryMultiAdapter
 
 
 class BannerViewlet(common.ViewletBase):
@@ -48,7 +49,8 @@ class BannerViewlet(common.ViewletBase):
     def background_style(self):
         if self.is_banner_hidden:
             return ""
-        css_bg_image = "background-image:url('{}/@@images/banner/banner');"
-        css_bg_image = css_bg_image.format(self.banner_item.absolute_url())
+        images_view = queryMultiAdapter((self.banner_item, self.request), name="images")
+        scale = images_view.scale("banner", "banner")
+        css_bg_image = f"background-image:url({scale.url});"
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])

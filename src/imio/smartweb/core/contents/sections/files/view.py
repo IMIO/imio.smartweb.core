@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
+from imio.smartweb.core.utils import get_scale_url
 from zope.component import queryMultiAdapter
 
 
@@ -16,12 +17,13 @@ class FilesView(CarouselOrTableSectionView):
             url = item.absolute_url()
             has_image = True if getattr(item.aq_base, "image", None) else False
             file_view = queryMultiAdapter((item, self.request), name="file_view")
+            scale_url = get_scale_url(item, self.request, "image", image_scale)
             results.append(
                 {
                     "title": item.title,
                     "description": item.description,
                     "url": url,
-                    "image": f"{url}/@@images/image/{image_scale}",
+                    "image": scale_url,
                     "has_image": has_image,
                     "item_infos": file_view.human_readable_size(),
                 }

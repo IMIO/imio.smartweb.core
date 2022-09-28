@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.viewlets.banner import BannerViewlet
@@ -10,11 +10,12 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobImage
 from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 
 
 class TestBanner(ImioSmartwebTestCase):
 
-    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def setUp(self):
         """Custom shared utility setup for tests"""
@@ -35,7 +36,7 @@ class TestBanner(ImioSmartwebTestCase):
         self.folder.banner = NamedBlobImage(**make_named_image())
         self.assertTrue(viewlet.available())
         self.assertIn(
-            "background-image:url('http://nohost/plone/folder/@@images/banner/banner')",
+            "background-image:url(http://nohost/plone/folder/@@images/",
             viewlet.background_style(),
         )
         template = self.folder.restrictedTraverse("view")
@@ -120,8 +121,12 @@ class TestBanner(ImioSmartwebTestCase):
         subfolder_viewlet.update()
         self.assertTrue(subfolder_viewlet.available())
         self.assertFalse(subfolder_viewlet.is_banner_locally_hidden)
+        # images_view = queryMultiAdapter((self.folder, self.request), name="images")
+        # scale = images_view.scale("banner", "banner")
+        # css_bg_image = f"background-image:url({scale.url});"
+        # css_bg_size = "background-size:cover;"
         self.assertIn(
-            "background-image:url('http://nohost/plone/folder/@@images/banner/banner')",
+            "background-image:url(http://nohost/plone/folder/@@images/",
             subfolder_viewlet.background_style(),
         )
         page_viewlet = BannerViewlet(page, self.request, None, None)
@@ -129,7 +134,7 @@ class TestBanner(ImioSmartwebTestCase):
         self.assertTrue(page_viewlet.available())
         self.assertFalse(page_viewlet.is_banner_locally_hidden)
         self.assertIn(
-            "background-image:url('http://nohost/plone/folder/@@images/banner/banner')",
+            "background-image:url(http://nohost/plone/folder/@@images/",
             page_viewlet.background_style(),
         )
 

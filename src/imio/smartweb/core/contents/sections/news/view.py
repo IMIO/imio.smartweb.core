@@ -4,6 +4,7 @@ from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.core.utils import get_scale_url
 from Products.CMFPlone.utils import normalizeString
 
 
@@ -39,6 +40,7 @@ class NewsView(CarouselOrTableSectionView):
             item_id = normalizeString(item["title"])
             item_url = item["@id"]
             item_uid = item["UID"]
+            scale_url = get_scale_url(item, self.request, "image", image_scale)
             results.append(
                 {
                     "title": item["title"],
@@ -46,7 +48,7 @@ class NewsView(CarouselOrTableSectionView):
                     "category": item["category_title"],
                     "effective": item["effective"],
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                    "image": f"{item_url}/@@images/image/{image_scale}",
+                    "image": scale_url,
                     "has_image": item["has_leadimage"],
                 }
             )

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
@@ -18,8 +19,10 @@ class BaseFooterViewlet(common.ViewletBase):
         footer = self.footer
         if not footer.background_image:
             return ""
-        css_bg_image = "background-image:url('{}/@@images/background_image/large');"
-        css_bg_image = css_bg_image.format(footer.absolute_url())
+        scale_url = get_scale_url(
+            self.footer, self.request, "background_image", "large"
+        )
+        css_bg_image = f"background-image:url({scale_url});"
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])
 

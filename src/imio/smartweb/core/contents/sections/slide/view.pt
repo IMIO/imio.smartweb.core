@@ -21,8 +21,11 @@
 
   <div class="section-slide">
     <div class="swiper-banner-image"
+         tal:define="image_view context/@@images;
+                     scale python: image_view.scale('image', 'banner');
+                     image_url scale/url | nothing"
          tal:condition="python:context.image and not context.video_url"
-         tal:attributes="style string:background-image:url(${context/absolute_url}/@@images/image/banner)"></div>
+         tal:attributes="style string:background-image:url('${image_url}')"></div>
 
     <div class="swiper-banner-video"
          tal:condition="context/video_url"

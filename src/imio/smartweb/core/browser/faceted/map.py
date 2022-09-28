@@ -15,6 +15,7 @@ class FacetedGeoJSONPopup(BrowserView):
         title = brain.Title
         description = brain.Description
         if brain.has_leadimage:
+            # TODO : beta1 : Get scale url from catalog
             img_url = f"{url}/@@images/image/mini"
             return f"""<a href="{url}" title="{title}">
                          <img src="{img_url}" alt="{title}" />

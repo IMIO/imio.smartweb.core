@@ -80,6 +80,7 @@ class ContactView(SectionView):
         if contact is None:
             return
         contact_url = contact["@id"]
+        # TODO : beta1 : Get scale url from catalog (metadata=image_scales)
         query = "@search?portal_type=Image&path.depth=1"
         images_url_request = "{}/{}".format(contact_url, query)
         json_images = get_json(images_url_request)

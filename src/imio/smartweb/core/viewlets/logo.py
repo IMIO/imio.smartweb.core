@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from plone import api
 from plone.app.layout.viewlets.common import LogoViewlet as baseLogoViewlet
@@ -54,6 +55,8 @@ class LogoViewlet(baseLogoViewlet):
             self.show_logo = False
         else:
             self.show_logo = minisite.logo_display_mode in ["logo", "logo_title"]
+            scale_url = get_scale_url(minisite, self.request, "logo", "preview")
+            css_bg_image = f"background-image:url({scale_url});"
+            self.img_src = css_bg_image
         self.show_title = minisite.logo_display_mode in ["title", "logo_title"]
-        self.img_src = f"{minisite.absolute_url()}/@@images/logo/preview"
         self.logo_title = self.navigation_root_title

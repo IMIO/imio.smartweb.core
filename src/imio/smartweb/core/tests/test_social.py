@@ -11,6 +11,7 @@ from plone.namedfile.file import NamedBlobImage
 from plone.testing.zope import Browser
 from zope.interface import alsoProvides
 
+import re
 import transaction
 
 
@@ -65,24 +66,34 @@ class TestSocial(ImioSmartwebTestCase):
 
         browser.open(page.absolute_url())
         content = browser.contents
-        self.assertIn(
-            '<meta content="http://nohost/plone/folder/page/@@images/image/vignette" property="og:image"/>',
-            content,
+        self.assertIsNotNone(
+            re.search(
+                r'<meta content="http://nohost/plone/folder/page/@@images/.*" property="og:image"/>',
+                content,
+            )
         )
-        self.assertIn(
-            '<span itemprop="image">http://nohost/plone/folder/page/@@images/image/vignette</span>',
-            content,
+
+        self.assertIsNotNone(
+            re.search(
+                r'<span itemprop="image">http://nohost/plone/folder/page/@@images/.*</span>',
+                content,
+            )
         )
 
         folder.image = NamedBlobImage(**make_named_image())
         transaction.commit()
         browser.open(folder.absolute_url())
         content = browser.contents
-        self.assertIn(
-            '<meta content="http://nohost/plone/folder/@@images/image/vignette" property="og:image"/>',
-            content,
+        self.assertIsNotNone(
+            re.search(
+                r'<meta content="http://nohost/plone/folder/@@images/.*" property="og:image"/>',
+                content,
+            )
         )
-        self.assertIn(
-            '<span itemprop="image">http://nohost/plone/folder/@@images/image/vignette</span>',
-            content,
+
+        self.assertIsNotNone(
+            re.search(
+                r'<span itemprop="image">http://nohost/plone/folder/@@images/.*</span>',
+                content,
+            )
         )

@@ -313,8 +313,9 @@ class TestMinisite(ImioSmartwebTestCase):
         html = viewlet.render()
         soup = BeautifulSoup(html)
         img = soup.find("img")
-        self.assertEqual(
-            img.get("src"), "http://nohost/plone/folder/@@images/logo/preview"
+        self.assertIn(
+            "background-image:url(http://nohost/plone/folder/@@images/",
+            img.get("src"),
         )
 
         # Title should remain the same on sub-contents

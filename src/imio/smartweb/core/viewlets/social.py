@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.utils import get_scale_url
 from plone.app.layout.viewlets.social import SocialTagsViewlet as BaseSocialTagsViewlet
 from plone.memoize.view import memoize
 from Products.CMFPlone.browser.syndication.adapters import BaseItem
@@ -40,10 +41,11 @@ class SocialTagsViewlet(BaseSocialTagsViewlet):
         item = queryMultiAdapter((self.context, feed), IFeedItem, default=None)
         if item is None:
             item = BaseItem(self.context, feed)
-
         image_url = content_url = self.context.absolute_url()
         if item.file:
-            image_url = f"{content_url}/@@images/{item.field_name}/vignette"
+            image_url = get_scale_url(
+                self.context, self.request, item.field_name, "vignette"
+            )
         for tag in tags:
             if tag.get("property") != "og:image" and tag.get("itemprop") != "image":
                 continue

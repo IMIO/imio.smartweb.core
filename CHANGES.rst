@@ -5,6 +5,10 @@ Changelog
 1.0.20 (unreleased)
 -------------------
 
+- Use unique scale path (with hash) for better cache management
+  [boulch, laz]
+
+
 - Memoize EventsTypesVocabulary because that almost never change !
   [boulch]
 

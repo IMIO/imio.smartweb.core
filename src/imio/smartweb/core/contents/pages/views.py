@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
+from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from Products.CMFPlone.resources import add_bundle_on_request
@@ -79,8 +80,8 @@ class PagesView(FolderView):
     def background_style(self, obj):
         if not obj.background_image:
             return ""
-        css_bg_image = "background-image:url('{}/@@images/background_image/large');"
-        css_bg_image = css_bg_image.format(obj.absolute_url())
+        scale_url = get_scale_url(obj, self.request, "background_image", "large")
+        css_bg_image = f"background-image:url({scale_url});"
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])
 

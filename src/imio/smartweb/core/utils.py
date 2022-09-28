@@ -10,6 +10,7 @@ from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
+from zope.component import queryMultiAdapter
 
 import json
 import os
@@ -113,3 +114,13 @@ def get_default_content_id(obj):
         # Our folder default page
         item = obj.get_default_item()
         return item and item.getId or ""
+
+
+def get_scale_url(context, request, fieldname, scale):
+    images_view = queryMultiAdapter((context, request), name="images")
+    if images_view is None:
+        return ""
+    scale = images_view.scale(fieldname, scale)
+    if scale is None:
+        return ""
+    return scale.url

@@ -43,7 +43,7 @@ class TestIcons(ImioSmartwebTestCase):
         link.image = NamedBlobImage(**make_named_image())
         view = queryMultiAdapter((self.page, self.request), name="full_view")()
         self.assertIn(
-            "background-image:url('http://nohost/plone/page/links/link/@@images/image/vignette')",
+            "background-image:url('http://nohost/plone/page/links/link/@@images/",
             view,
         )
         self.assertNotIn("<svg", view)

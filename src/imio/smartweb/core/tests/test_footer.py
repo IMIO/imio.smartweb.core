@@ -172,7 +172,7 @@ class TestFooter(ImioSmartwebTestCase):
         self.assertEqual(viewlet.background_style(), "")
         footer.background_image = NamedBlobImage(**make_named_image())
         self.assertIn(
-            "background-image:url('http://nohost/plone/footer/@@images/background_image/large')",
+            "background-image:url(http://nohost/plone/footer/@@images/",
             viewlet.background_style(),
         )
 

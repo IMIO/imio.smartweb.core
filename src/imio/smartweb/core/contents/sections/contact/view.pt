@@ -29,7 +29,7 @@
         <tal:def tal:define="has_logo contact/logo | nothing">
           <div class="contact_logo"
                tal:condition="has_logo"
-               tal:attributes="style string:background-image:url(${contact/@id}/@@images/logo/medium)">
+               tal:attributes="style string:background-image:url(${contact/logo/scales/medium/download})">
           </div>
           <div class="contact_logo contact_placeholder"
                tal:condition="not: has_logo">
@@ -40,7 +40,7 @@
       <tal:block tal:condition="python:'leadimage' in visible_blocks">
         <tal:def tal:define="has_image contact/image | nothing">
           <div tal:condition="has_image"
-               tal:attributes="style string:background-image:url(${contact/@id}/@@images/image/medium);
+               tal:attributes="style string:background-image:url(${contact/image/scales/medium/download};
                                class python:'contact_leadimage portrait' if context.is_in_portrait_mode else 'contact_leadimage'">
           </div>
           <div class="contact_leadimage contact_placeholder"

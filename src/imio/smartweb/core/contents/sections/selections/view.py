@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
+from imio.smartweb.core.utils import get_scale_url
 
 import logging
 
@@ -25,12 +26,13 @@ class SelectionsView(CarouselOrTableSectionView):
             url = item.absolute_url()
             description = item.description or ""
             has_image = True if getattr(item.aq_base, "image", None) else False
+            scale_url = get_scale_url(item, self.request, "image", image_scale)
             results.append(
                 {
                     "title": item.title,
                     "description": description.replace("**", ""),
                     "url": url,
-                    "image": f"{url}/@@images/image/{image_scale}",
+                    "image": scale_url,
                     "has_image": has_image,
                 }
             )
