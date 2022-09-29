@@ -5,6 +5,9 @@ Changelog
 1.0.20 (unreleased)
 -------------------
 
+- Add fullobjects=1 to get inner events and inner directory contents
+  [boulch]
+
 - Adding section files download and gallery in react content view
   [thomlamb]
 

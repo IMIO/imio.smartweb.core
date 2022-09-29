@@ -21,6 +21,7 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             "metadata_fields=taxonomy_contact_category",
             "metadata_fields=topics",
             "metadata_fields=has_leadimage",
+            "fullobjects=1",
             "sort_on=sortable_title",
         ]
         if self.context.selected_categories is not None:

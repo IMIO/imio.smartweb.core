@@ -105,6 +105,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=taxonomy_contact_category&"
             "metadata_fields=topics&"
             "metadata_fields=has_leadimage&"
+            "fullobjects=1&"
             "sort_on=sortable_title&"
             'taxonomy_contact_category=("token")&'
             "topics=education",
@@ -135,6 +136,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "event_dates.query=2021-11-15&"
             "event_dates.range=min&"
             "sort_on=event_dates&"
+            "fullobjects=1&"
             "sort_limit=20&"
             "event_type=event-driven".format(self.rest_events.selected_agenda),
         )

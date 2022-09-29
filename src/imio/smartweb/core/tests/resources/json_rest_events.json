@@ -1,5 +1,5 @@
 {
-    "@id": "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&sort_limit=20&event_type=event-driven",
+    "@id": "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&fullobjects=1&sort_limit=20&event_type=event-driven",
     "items": [
         {
             "@id": "http://localhost:8080/Plone/belleville/communal/1178188bddde4ced95a6cf8bf04c443b",

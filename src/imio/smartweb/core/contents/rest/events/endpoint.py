@@ -26,6 +26,7 @@ class BaseEventsEndpoint(BaseEndpoint):
             "event_dates.query={}".format(today),
             "event_dates.range=min",
             "sort_on=event_dates",
+            "fullobjects=1",
             "sort_limit={}".format(self.context.nb_results),
         ]
         if self.context.selected_event_types is not None:
