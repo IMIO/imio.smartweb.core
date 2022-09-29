@@ -21,8 +21,8 @@ const ContactCard = ({ contactItem }) => {
         }
     }, [contactItem]);
     moment.locale('fr')
-    const created = moment(contactItem.created).startOf('day').fromNow();
-    const lastModified = moment(contactItem.modified).startOf('day').fromNow();
+    const created = moment(contactItem.created).startOf('minute').fromNow();
+    const lastModified = moment(contactItem.modified).startOf('minute').fromNow();
     return (
         <div className="r-list-item">
             <div

@@ -32,7 +32,7 @@ const ContactCard = ({ contactItem }) => {
         countryTitle
         
 	itineraryLink = itineraryLink.replaceAll('+null', '')
-    
+
     return (
         <div className="r-list-item">
             <div

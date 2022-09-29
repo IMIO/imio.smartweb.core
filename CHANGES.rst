@@ -5,6 +5,9 @@ Changelog
 1.0.20 (unreleased)
 -------------------
 
+- Fix React-moment: replace 'day' by 'minute' in sratOf fuction to fix bad hours display in news view 
+  [thomlamb]
+
 - Add fullobjects=1 to get inner events and inner directory contents
   [boulch]
 

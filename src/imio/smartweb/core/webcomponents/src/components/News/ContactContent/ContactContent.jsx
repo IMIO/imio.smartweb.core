@@ -48,8 +48,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
         onChange(null);
     }
 	moment.locale('fr')
-    const created = moment(contactItem.created).startOf('day').fromNow();
-    const lastModified = moment(contactItem.modified).startOf('day').fromNow();
+    const created = moment(contactItem.created).startOf('minute').fromNow();
+    const lastModified = moment(contactItem.modified).startOf('minute').fromNow();
 
     return (
         <div className="new-content r-content">
