@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- WEB-3755 : Adapt empty (without section) procedure message
+  [boulch, laulaz]
+
 - Handle search result types depending on available authentic sources for site
   [Julien]
 
