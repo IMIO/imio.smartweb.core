@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.20 (unreleased)
+1.0.20 (2022-10-05)
 -------------------
 
 - Fix React-moment: replace 'day' by 'minute' in sratOf fuction to fix bad hours display in news view 
