@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.21 (unreleased)
+1.0.21 (2022-10-07)
 -------------------
 
 - Waiting for authentics sources Plone6betaX to get automaticaly images scale hash on objects
