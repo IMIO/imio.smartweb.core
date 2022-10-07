@@ -5,13 +5,14 @@ Changelog
 1.0.21 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Waiting for authentics sources Plone6betaX to get automaticaly images scale hash on objects
+  [boulch]
 
 
 1.0.20 (2022-10-05)
 -------------------
 
-- Fix React-moment: replace 'day' by 'minute' in sratOf fuction to fix bad hours display in news view 
+- Fix React-moment: replace 'day' by 'minute' in sratOf fuction to fix bad hours display in news view
   [thomlamb]
 
 - Add fullobjects=1 to get inner events and inner directory contents

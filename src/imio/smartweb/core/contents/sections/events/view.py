@@ -6,7 +6,6 @@ from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
-from imio.smartweb.core.utils import get_scale_url
 from Products.CMFPlone.utils import normalizeString
 
 
@@ -55,7 +54,6 @@ class EventsView(CarouselOrTableSectionView):
             start = item["start"] and parse(item["start"]) or None
             end = item["end"] and parse(item["end"]) or None
             date_dict = {"start": start, "end": end}
-            scale_url = get_scale_url(item, self.request, "image", image_scale)
             results.append(
                 {
                     "title": item["title"],
@@ -63,7 +61,7 @@ class EventsView(CarouselOrTableSectionView):
                     "category": item["category_title"],
                     "event_date": date_dict,
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                    "image": scale_url,
+                    "image": f"{item_url}/@@images/image/{image_scale}",
                     "has_image": item["has_leadimage"],
                 }
             )
