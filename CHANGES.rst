@@ -5,7 +5,11 @@ Changelog
 1.0.22 (unreleased)
 -------------------
 
+- WEB-3766 : Ensure displaying footer even if sections in error (+ display section in error)
+  [boulch]
+
 - WEB-3764 : Fix : We Ensure we always compare Decimal
+  [boulch]
 
 
 1.0.21 (2022-10-07)

@@ -12,6 +12,7 @@
             <div tal:define="pages_view nocall:footer/@@full_view;"
                  tal:attributes="class python:pages_view.get_class(section);
                                  style python:pages_view.background_style(section);"
+                 tal:on-error="structure section/section_error"
                  tal:content="structure section/@@full_view_item_without_edit" />
           </tal:bcl>
         </div>

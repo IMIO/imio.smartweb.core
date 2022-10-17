@@ -153,6 +153,18 @@ class TestFooter(ImioSmartwebTestCase):
         viewlet.update()
         self.assertTrue(viewlet.available())
 
+        footer = getattr(self.folder, "footer")
+        api.content.create(
+            container=footer,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        viewlet = MinisiteFooterViewlet(self.folder, self.request, None, None)
+        viewlet.update()
+        sections = viewlet.sections
+        self.assertEqual(len(sections), 1)
+        self.assertIn("Section text", viewlet.footer())
+
     def test_exclude_from_parent_listing(self):
         view = getMultiAdapter((self.portal, self.request), name="footer_settings")
         view.add_footer()

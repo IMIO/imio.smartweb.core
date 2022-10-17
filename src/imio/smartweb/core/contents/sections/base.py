@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone import api
 from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container
 from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 from zope import schema
+from zope.i18n import translate
 from zope.interface import implementer
 
 
@@ -75,3 +77,13 @@ class Section(Container):
 
     def canSetDefaultPage(self):
         return False
+
+    def section_error(self, *args, **kwargs):
+        if api.user.is_anonymous():
+            return ""
+        return translate(
+            _(
+                '<div class="section_error_txt">Error in section : "{}" <a href="{}/edit">[edit]</a></div>'
+            ),
+            target_language=api.portal.get_current_language()[:2],
+        ).format(self.title, self.absolute_url())
