@@ -244,19 +244,11 @@ def formatted_schedule(schedule):
 def get_schedule_for_today(schedule):
     current_lang = api.portal.get_current_language()[:2]
     message = translate(_("Open"), target_language=current_lang)
-    morningstart = schedule.get("morningstart")
-    morningend = schedule.get("morningend")
-    afternoonstart = schedule.get("afternoonstart")
-    afternoonend = schedule.get("afternoonend")
     comment = schedule.get("comment") or ""
-    if morningstart:
-        morningstart = Decimal(schedule.get("morningstart").replace(":", "."))
-    if morningend:
-        morningend = Decimal(schedule.get("morningend").replace(":", "."))
-    if afternoonstart:
-        afternoonstart = Decimal(schedule.get("afternoonstart").replace(":", "."))
-    if afternoonend:
-        afternoonend = Decimal(schedule.get("afternoonend").replace(":", "."))
+    morningstart = Decimal(schedule.get("morningstart").replace(":", ".") or "0.00")
+    morningend = Decimal(schedule.get("morningend").replace(":", ".") or "0.00")
+    afternoonstart = Decimal(schedule.get("afternoonstart").replace(":", ".") or "0.00")
+    afternoonend = Decimal(schedule.get("afternoonend").replace(":", ".") or "0.00")
 
     now_str = Decimal(datetime.now().strftime("%H.%M"))
     if not morningstart and not morningend and not afternoonstart and not afternoonend:
@@ -266,7 +258,6 @@ def get_schedule_for_today(schedule):
             if comment
             else translated_closed
         )
-
     before_opened = now_str < (morningstart or afternoonstart)
     if before_opened:
         translated_open_at = translate(_("Open at "), target_language=current_lang)
