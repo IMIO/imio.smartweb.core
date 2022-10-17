@@ -5,7 +5,7 @@ Changelog
 1.0.22 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3764 : Fix : We Ensure we always compare Decimal
 
 
 1.0.21 (2022-10-07)
