@@ -5,6 +5,9 @@ Changelog
 1.0.22 (unreleased)
 -------------------
 
+- Fix problem with images urls in faceted navigation
+  [laulaz]
+
 - WEB-3766 : Ensure displaying pages / footers even if sections in error (+ display section in error)
   [boulch, laulaz]
 

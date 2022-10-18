@@ -22,12 +22,12 @@
   <tal:if tal:condition="python: not faceted_view.is_video(item)">
     <a tal:attributes="href item/getURL">
         <tal:if tal:condition="show_images">
-          <tal:def tal:define="image_url python: faceted_view.get_image_url(item)">
+          <tal:def tal:define="scale_url python: faceted_view.get_scale_url(item, thumb_scale)">
             <div class="newsImage card-img-top no-image"
-                 tal:condition="python: not image_url or not thumb_scale" />
+                 tal:condition="not: scale_url" />
             <div class="newsImage card-img-top"
-                 tal:attributes="style string:background-image:url(${image_url}/${thumb_scale})"
-                 tal:condition="python: image_url and thumb_scale" />
+                 tal:attributes="style string:background-image:url(${scale_url})"
+                 tal:condition="scale_url" />
           </tal:def>
         </tal:if>
         <div class="card-body">
@@ -57,9 +57,9 @@
     <a class="row" tal:attributes="href item/getURL">
         <tal:if tal:condition="show_images">
           <div class="newsImage card-img-left col-md-2"
-               tal:define="image_url python: faceted_view.get_image_url(item)"
-               tal:attributes="style string:background-image:url(${image_url}/${thumb_scale})"
-               tal:condition="python: image_url and thumb_scale" />
+               tal:define="scale_url python: faceted_view.get_scale_url(item, thumb_scale)"
+               tal:attributes="style string:background-image:url(${scale_url})"
+               tal:condition="scale_url" />
         </tal:if>
         <div class="list-card-body">
             <h2 class="list-card-title" tal:content="item/Title" />

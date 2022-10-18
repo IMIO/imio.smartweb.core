@@ -29,15 +29,15 @@ class FacetedView(FolderView):
     def is_video(self, item):
         return item.portal_type == "imio.smartweb.SectionVideo"
 
-    def get_image_url(self, item):
-        scale_url = ""
+    def get_scale_url(self, item, scale="vignette"):
         if item.portal_type == "imio.smartweb.SectionGallery":
             images = item.getObject().listFolderContents()
             if not images:
                 return ""
-            scale_url = get_scale_url(item, self.request, "image", "")
+            scale_url = get_scale_url(images[0], self.request, "image", scale)
             return scale_url
         if not item.has_leadimage:
             return ""
+        # TODO : beta1 : Get scale url from catalog
         url = item.getURL()
-        return scale_url
+        return f"{url}/@@images/image/{scale}"

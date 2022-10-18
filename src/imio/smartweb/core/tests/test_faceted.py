@@ -11,6 +11,7 @@ from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobImage
 from plone.uuid.interfaces import IUUID
 from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 
 
@@ -79,3 +80,57 @@ class TestFaceted(ImioSmartwebTestCase):
         self.assertIn(
             '<img src="http://nohost/plone/my-collection/@@images/image/mini"', popup
         )
+
+    def test_get_scale_url(self):
+        collection = api.content.create(
+            container=self.portal,
+            type="Collection",
+            title="My collection",
+        )
+        faceted_view = queryMultiAdapter(
+            (collection, self.request), name="faceted-view"
+        )
+
+        # page with no lead image
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        uuid = IUUID(page)
+        brain = api.content.find(UID=uuid)[0]
+        self.assertEqual(faceted_view.get_scale_url(brain), "")
+
+        # page with lead image
+        page.image = NamedBlobImage(**make_named_image())
+        page.reindexObject()
+        brain = api.content.find(UID=uuid)[0]
+        self.assertEqual(
+            faceted_view.get_scale_url(brain),
+            f"{page.absolute_url()}/@@images/image/vignette",
+        )
+
+        # empty gallery
+        gallery = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionGallery",
+            title="Gallery",
+        )
+        uuid = IUUID(gallery)
+        brain = api.content.find(UID=uuid)[0]
+        self.assertEqual(faceted_view.get_scale_url(brain), "")
+
+        # gallery with image
+        image = api.content.create(
+            container=gallery,
+            type="Image",
+            title="Image",
+        )
+        image.image = NamedBlobImage(**make_named_image())
+        brain = api.content.find(UID=uuid)[0]
+        faceted_view.get_scale_url(brain)
+        scale_url = faceted_view.get_scale_url(brain)
+        self.assertNotIn(
+            "http://nohost/plone/page/gallery/image/@@images/image/vignette", scale_url
+        )
+        self.assertIn("http://nohost/plone/page/gallery/image/@@images", scale_url)
