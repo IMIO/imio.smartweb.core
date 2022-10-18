@@ -5,8 +5,8 @@ Changelog
 1.0.22 (unreleased)
 -------------------
 
-- WEB-3766 : Ensure displaying footer even if sections in error (+ display section in error)
-  [boulch]
+- WEB-3766 : Ensure displaying pages / footers even if sections in error (+ display section in error)
+  [boulch, laulaz]
 
 - WEB-3764 : Fix : We Ensure we always compare Decimal
   [boulch]

@@ -7,12 +7,14 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.api.exc import InvalidParameterError
+from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.formwidget.geolocation.geolocation import Geolocation
 from plone.uuid.interfaces import IUUID
 from time import sleep
+from unittest.mock import patch
 from zope.component import createObject
 from zope.component import getMultiAdapter
 from zope.component import queryUtility
@@ -275,3 +277,25 @@ class TestPage(ImioSmartwebTestCase):
         indexes = catalog.getIndexDataForRID(brain.getRID())
         self.assertEqual(indexes.get("latitude"), "")
         self.assertEqual(indexes.get("longitude"), "")
+
+    def test_section_error(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        api.content.transition(page, "publish")
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionLinks",
+            title="Section links",
+        )
+        view = getMultiAdapter((page, self.request), name="full_view")
+        self.assertNotIn("Error in section :", view())
+        with patch(
+            "imio.smartweb.core.contents.sections.links.view.LinksView.items",
+            side_effect=Exception,
+        ):
+            self.assertIn('Error in section : "Section links"', view())
+            logout()
+            self.assertNotIn("Error in section :", view())

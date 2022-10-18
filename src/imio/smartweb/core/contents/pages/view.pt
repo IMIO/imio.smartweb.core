@@ -60,7 +60,8 @@
                                      data-id obj/id;
                                      style python:view.background_style(obj);">
                   <a tal:attributes="name string:section-${obj/id}" />
-                  <span tal:replace="structure obj/@@full_view_item | nothing" />
+                  <span tal:on-error="structure obj/section_error"
+                        tal:replace="structure obj/@@full_view_item | nothing" />
                 </div>
               </tal:def>
             </metal:entry>

@@ -7,12 +7,14 @@ from imio.smartweb.core.viewlets.footer import MinisiteFooterViewlet
 from imio.smartweb.core.viewlets.footer import SubsiteFooterViewlet
 from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
+from plone.app.testing import logout
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobImage
 from plone.registry import field
 from plone.registry import Record
 from plone.registry.interfaces import IRegistry
+from unittest.mock import patch
 from zope.component import getMultiAdapter
 from zope.component import getUtility
 
@@ -257,3 +259,30 @@ class TestFooter(ImioSmartwebTestCase):
             "imio.gdpr.interfaces.IGDPRSettings.is_text_ready", True
         )
         self.assertEqual(footer.restrictedTraverse("@@has_gdpr_text")(), True)
+
+    def test_section_error(self):
+        footer_view = getMultiAdapter(
+            (self.portal, self.request), name="footer_settings"
+        )
+        footer_view.add_footer()
+        footer = getattr(self.portal, "footer")
+        api.content.create(
+            container=footer,
+            type="imio.smartweb.SectionLinks",
+            title="Section links",
+        )
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        api.content.transition(page, "publish")
+        view = getMultiAdapter((page, self.request), name="full_view")
+        self.assertNotIn("Error in section :", view())
+        with patch(
+            "imio.smartweb.core.contents.sections.links.view.LinksView.items",
+            side_effect=Exception,
+        ):
+            self.assertIn('Error in section : "Section links"', view())
+            logout()
+            self.assertNotIn("Error in section :", view())
