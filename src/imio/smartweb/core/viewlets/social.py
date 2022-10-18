@@ -41,7 +41,7 @@ class SocialTagsViewlet(BaseSocialTagsViewlet):
         item = queryMultiAdapter((self.context, feed), IFeedItem, default=None)
         if item is None:
             item = BaseItem(self.context, feed)
-        image_url = content_url = self.context.absolute_url()
+        image_url = self.context.absolute_url()
         if item.file:
             image_url = get_scale_url(
                 self.context, self.request, item.field_name, "vignette"

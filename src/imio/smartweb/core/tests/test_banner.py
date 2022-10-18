@@ -10,7 +10,6 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobImage
 from zope.component import getMultiAdapter
-from zope.component import queryMultiAdapter
 
 
 class TestBanner(ImioSmartwebTestCase):
