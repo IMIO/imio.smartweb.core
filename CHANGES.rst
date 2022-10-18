@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.22 (unreleased)
+1.0.22 (2022-10-18)
 -------------------
 
 - Fix problem with images urls in faceted navigation
