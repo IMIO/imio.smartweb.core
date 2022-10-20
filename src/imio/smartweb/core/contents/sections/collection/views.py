@@ -17,7 +17,9 @@ class CollectionView(CarouselOrTableSectionView):
         results = []
         for item in items:
             url = item.getURL()
-            scale_url = get_scale_url(item, self.request, "image", image_scale)
+            scale_url = get_scale_url(
+                item.getObject(), self.request, "image", image_scale
+            )
             results.append(
                 {
                     "title": item.Title,

@@ -5,7 +5,8 @@ Changelog
 1.0.23 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix problem with images urls in collections
+  [boulch]
 
 
 1.0.22 (2022-10-18)
