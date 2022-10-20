@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.24 (unreleased)
+1.0.24 (2022-10-20)
 -------------------
 
 - Fix problem with images url in logo
