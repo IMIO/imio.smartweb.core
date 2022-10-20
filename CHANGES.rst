@@ -5,7 +5,8 @@ Changelog
 1.0.24 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix problem with images url in logo
+  [boulch]
 
 
 1.0.23 (2022-10-20)
