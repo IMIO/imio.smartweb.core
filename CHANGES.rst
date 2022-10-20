@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.23 (unreleased)
+1.0.23 (2022-10-20)
 -------------------
 
 - Fix problem with images urls in collections
