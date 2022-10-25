@@ -5,7 +5,8 @@ Changelog
 1.0.25 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3759 : Add portrait class even if there is no lead image to set placeholder with a good size
+  [boulch]
 
 
 1.0.24 (2022-10-20)

@@ -38,13 +38,14 @@
       </tal:block>
 
       <tal:block tal:condition="python:'leadimage' in visible_blocks">
-        <tal:def tal:define="has_image contact/image | nothing">
+        <tal:def tal:define="has_image contact/image | nothing;
+                             portrait_class python:'portrait' if context.is_in_portrait_mode else ''">
           <div tal:condition="has_image"
                tal:attributes="style string:background-image:url(${contact/image/scales/medium/download};
-                               class python:'contact_leadimage portrait' if context.is_in_portrait_mode else 'contact_leadimage'">
+                               class string:contact_leadimage ${portrait_class}">
           </div>
-          <div class="contact_leadimage contact_placeholder"
-               tal:condition="not: has_image">
+          <div tal:condition="not: has_image"
+               tal:attributes="class string:contact_leadimage contact_placeholder ${portrait_class}">
           </div>
         </tal:def>
       </tal:block>
