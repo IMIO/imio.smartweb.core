@@ -6,8 +6,10 @@ from imio.smartweb.core.contents.rest.base import BaseService
 from plone import api
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
+from zope.component import getUtility
 from zope.interface import implementer
 from zope.interface import Interface
+from zope.schema.interfaces import IVocabularyFactory
 
 
 class BaseDirectoryEndpoint(BaseEndpoint):
@@ -42,21 +44,27 @@ class DirectoryEndpoint(BaseDirectoryEndpoint):
         if res == []:
             return res
         filtered_items = []
+        # Selected category (in faceted view)
         selected_contact_category_token = self.request.form.get(
             "taxonomy_contact_category"
         )
-        if self.request.form is None or selected_contact_category_token is None:
+        if selected_contact_category_token is None:
             return res
+
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.DirectoryCategories"
+        )
+        vocabulary = factory(api.portal.get())
+        selected_contact_category_title = vocabulary.getTerm(
+            selected_contact_category_token
+        ).title
+
         for item in res.get("items"):
-            selected_contact_category_title = [
-                tcc.get("title")
-                for tcc in item.get("taxonomy_contact_category")
-                if tcc.get("token") == selected_contact_category_token
-            ]
-            if selected_contact_category_title and selected_contact_category_title[
-                0
-            ] in [tcc.get("title") for tcc in item.get("taxonomy_contact_category")]:
-                filtered_items.append(item)
+            for tcc in item.get("taxonomy_contact_category"):
+                if tcc.get("title").startswith(selected_contact_category_title):
+                    filtered_items.append(item)
+                    break
+
         res["items"] = filtered_items
         res["items_total"] = len(filtered_items)
         return res

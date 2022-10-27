@@ -5,6 +5,9 @@ Changelog
 1.0.25 (unreleased)
 -------------------
 
+- WEB-3777 : Fix DirectoryEndpoint filter by category
+  [boulch, laulaz]
+
 - WEB-3759 : Add portrait class even if there is no lead image to set placeholder with a good size
   [boulch]
 
