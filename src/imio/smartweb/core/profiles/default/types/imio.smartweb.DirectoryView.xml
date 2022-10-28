@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Display linked directory from imio directory instance.</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:file-person</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>

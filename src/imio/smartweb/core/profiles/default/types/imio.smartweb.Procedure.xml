@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Procedure</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:file-earmark-person</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>

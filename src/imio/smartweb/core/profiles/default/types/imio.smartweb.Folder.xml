@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Folder content type to structure website</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:folder2</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>

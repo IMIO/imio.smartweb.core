@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Footer content type</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:chevron-bar-down</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>
