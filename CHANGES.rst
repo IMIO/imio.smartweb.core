@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.25 (unreleased)
+1.0.25 (2022-10-28)
 -------------------
 
 - WEB-3771 : Harmonize procedure button label
