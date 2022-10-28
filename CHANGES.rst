@@ -5,6 +5,9 @@ Changelog
 1.0.25 (unreleased)
 -------------------
 
+- WEB-3771 : Harmonize procedure button label
+  [boulch]
+
 - WEB-3777 : Fix DirectoryEndpoint filter by category
   [boulch, laulaz]
 

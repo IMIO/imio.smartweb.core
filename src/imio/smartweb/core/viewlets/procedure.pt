@@ -8,8 +8,10 @@
 </div>
 <div class="procedure"
      tal:define="procedure view/get_selected_procedure_title"
-     tal:condition="procedure">
+     tal:condition="procedure"
+     i18n:domain="imio.smartweb">
   <a target="_blank"
-     tal:attributes="href procedure/value"
-     tal:content="procedure/title"/>
+     tal:attributes="href procedure/value;
+                     title python:'' if view.is_anonymous else procedure.title"
+     i18n:translate="">Complete this procedure online</a>
 </div>

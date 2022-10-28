@@ -15,3 +15,7 @@ class ProcedureViewlet(common.ViewletBase):
         vocabulary = factory()
         term = vocabulary.getTerm(self.context.procedure_ts)
         return term
+
+    @property
+    def is_anonymous(self):
+        return self.portal_state.anonymous()
