@@ -30,10 +30,6 @@ class IEventsView(model.Schema):
         title=_("Number of items to display"), default=20, required=True
     )
 
-    show_items_description = schema.Bool(
-        title=_("Show items description"), default=True, required=False
-    )
-
 
 @implementer(IEventsView)
 class EventsView(Container):
