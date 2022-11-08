@@ -25,6 +25,7 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             "metadata_fields=has_leadimage",
             "fullobjects=1",
             "sort_on=sortable_title",
+            "b_size={}".format(self.context.nb_results),
         ]
         if self.context.selected_categories is not None:
             for category in self.context.selected_categories:

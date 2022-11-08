@@ -24,7 +24,7 @@ class BaseNewsEndpoint(BaseEndpoint):
             "metadata_fields=UID",
             "sort_on=effective",
             "sort_order=descending",
-            "sort_limit={}".format(self.context.nb_results),
+            "b_size={}".format(self.context.nb_results),
             "fullobjects=1",
         ]
         params = self.get_extra_params(params)

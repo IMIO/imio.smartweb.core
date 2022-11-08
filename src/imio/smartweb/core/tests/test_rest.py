@@ -107,12 +107,18 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=has_leadimage&"
             "fullobjects=1&"
             "sort_on=sortable_title&"
+            "b_size=20&"
             'taxonomy_contact_category=("token")&'
             "topics=education",
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()
         self.assertEqual(call, [])
+
+        rest_directory.nb_results = 30
+        url = endpoint.query_url
+        self.assertNotIn("b_size=20", url)
+        self.assertIn("b_size=30", url)
 
     @requests_mock.Mocker()
     @freeze_time("2021-11-15")
@@ -137,12 +143,17 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "event_dates.range=min&"
             "sort_on=event_dates&"
             "fullobjects=1&"
-            "sort_limit=20&"
+            "b_size=20&"
             "event_type=event-driven".format(self.rest_events.selected_agenda),
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()
         self.assertEqual(call, [])
+
+        self.rest_events.nb_results = 30
+        url = endpoint.query_url
+        self.assertNotIn("b_size=20", url)
+        self.assertIn("b_size=30", url)
 
     def test_render_rest_events(self):
         view = queryMultiAdapter((self.rest_events, self.request), name="view")
@@ -185,11 +196,17 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=UID&"
             "sort_on=effective&"
             "sort_order=descending&"
-            "sort_limit=20&fullobjects=1".format(self.rest_news.selected_news_folder),
+            "b_size=20&"
+            "fullobjects=1".format(self.rest_news.selected_news_folder),
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()
         self.assertEqual(call, [])
+
+        self.rest_news.nb_results = 30
+        url = endpoint.query_url
+        self.assertNotIn("b_size=20", url)
+        self.assertIn("b_size=30", url)
 
     def test_render_rest_news(self):
         view = queryMultiAdapter((self.rest_news, self.request), name="view")

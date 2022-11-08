@@ -6,6 +6,7 @@
   <div class="full-width">
     <smartweb-annuaire tal:attributes="query-url view/local_query_url;
                                        query-filter-url view/local_filters_query_url;
+                                       batch-size view/batch_size;
                                        propose-url view/propose_url;"></smartweb-annuaire>
   </div>
 </metal:main>

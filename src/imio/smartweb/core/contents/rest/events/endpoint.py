@@ -27,7 +27,7 @@ class BaseEventsEndpoint(BaseEndpoint):
             "event_dates.range=min",
             "sort_on=event_dates",
             "fullobjects=1",
-            "sort_limit={}".format(self.context.nb_results),
+            "b_size={}".format(self.context.nb_results),
         ]
         if self.context.selected_event_types is not None:
             for event_type in self.context.selected_event_types:

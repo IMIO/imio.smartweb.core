@@ -5,7 +5,8 @@ Changelog
 1.0.26 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3777: Make nb_results field work on React views (as batch size)
+  [laulaz, thomlamb]
 
 
 1.0.25 (2022-10-28)
