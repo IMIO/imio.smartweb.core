@@ -13,7 +13,7 @@ export default function News(props) {
         <Router>
             <NewsView
                 queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl + "?b_size=10"}
+                queryUrl={props.queryUrl + "?b_size=20"}
                 proposeUrl={props.proposeUrl}
             />
         </Router>
@@ -71,7 +71,7 @@ const NewsView = (props) => {
 
     // set batch
     const loadMore = () => {
-        setBatchStart((batchStart) => batchStart + 10);
+        setBatchStart((batchStart) => batchStart + 20);
         setLoadMoreLaunch(true);
     };
     // Update filters Batch
@@ -130,7 +130,7 @@ const NewsView = (props) => {
                                 </div>
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
-                                    {contactNumber - 10 > batchStart ? (
+                                    {contactNumber - 20 > batchStart ? (
                                         <button onClick={loadMore} className="btn-grad">
                                             {isLoading ? "Chargement..." : "Plus de résultats"}
                                         </button>
