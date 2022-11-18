@@ -14,8 +14,9 @@ export default function Annuaire(props) {
         <Router>
             <AnnuaireView
                 queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl + "?b_size=20"}
+                queryUrl={props.queryUrl + "?b_size="+props.batchSize}
                 proposeUrl={props.proposeUrl}
+                batchSize={props.batchSize}
             />
         </Router>
     );
@@ -78,7 +79,7 @@ function AnnuaireView(props) {
 
     // set batch
     const loadMore = () => {
-        setBatchStart((batchStart) => batchStart + 20);
+        setBatchStart((batchStart) => batchStart + props.batchSize);
         setLoadMoreLaunch(true);
     };
     // Update filters Batch
@@ -188,7 +189,7 @@ function AnnuaireView(props) {
                             <div className="r-result r-annuaire-result">
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
-                                    {contactNumber - 20 > batchStart ? (
+                                    {contactNumber - props.batchSize > batchStart ? (
                                         <button onClick={loadMore} className="btn-grad">
                                             {isLoading ? "Chargement..." : "Plus de résultats"}
                                         </button>
