@@ -63,6 +63,12 @@
       <role name="Site Administrator"/>
       <role name="Local Manager" />
     </permission>
+
+    <permission name="imio.smartweb.core: Manage taxonomies on this content" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+    </permission>
+
   </permissions>
 
 </rolemap>

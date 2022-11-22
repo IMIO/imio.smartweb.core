@@ -57,4 +57,10 @@
     description=""
     />
 
+  <permission
+    id="imio.smartweb.core.ManageTaxoOnContent"
+    title="imio.smartweb.core: Manage taxonomies on this content"
+    description=""
+    />
+
 </configure>
