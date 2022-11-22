@@ -13,7 +13,7 @@ export default function News(props) {
         <Router>
             <NewsView
                 queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl + "?b_size="+props.batchSize}
+                queryUrl={props.queryUrl}
                 proposeUrl={props.proposeUrl}
                 batchSize={props.batchSize}
             />

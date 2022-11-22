@@ -14,7 +14,7 @@ export default function Annuaire(props) {
         <Router>
             <AnnuaireView
                 queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl + "?b_size="+props.batchSize}
+                queryUrl={props.queryUrl}
                 proposeUrl={props.proposeUrl}
                 batchSize={props.batchSize}
             />

@@ -14,7 +14,7 @@ export default function Events(props) {
         <Router>
             <EventsView
                 queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl + "?b_size="+props.batchSize}
+                queryUrl={props.queryUrl}
                 proposeUrl={props.proposeUrl}
                 batchSize={props.batchSize}
             />
