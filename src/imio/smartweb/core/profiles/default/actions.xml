@@ -82,7 +82,7 @@
       <property name="url_expr">string:$object_url/@@instancebehaviors_form</property>
       <property name="available_expr">object/@@is_instancebehaviors_assignable_content|nothing</property>
       <property name="permissions">
-        <element value="Manage portal"/>
+        <element value="imio.smartweb.core: Manage taxonomies on this content"/>
       </property>
       <property name="visible">True</property>
     </object>

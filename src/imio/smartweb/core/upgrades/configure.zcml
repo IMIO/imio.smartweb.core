@@ -67,6 +67,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1029_to_1030"
+      title="Upgrade core from 1029 to 1030"
+      directory="profiles/1029_to_1030"
+      description="Add new permission to authorize site admin to manage taxonomies on specific content"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -379,5 +387,15 @@
       handler=".upgrades.add_sendinblue_button_settings"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1029"
+      destination="1030"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new permission to authorize site admin to manage taxonomies on specific content"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1029_to_1030"
+    />
+  </genericsetup:upgradeSteps>
 
 </configure>

@@ -5,6 +5,9 @@ Changelog
 1.0.26 (unreleased)
 -------------------
 
+- WEB-3729 : Add site admin permission on action for managing taxonomies on specific contents
+  [boulch]
+
 - WEB-3777: Make nb_results field work on React views (as batch size)
   [laulaz, thomlamb]
 
