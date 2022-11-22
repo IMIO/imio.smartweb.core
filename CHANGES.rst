@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.26 (unreleased)
+1.0.26 (2022-11-22)
 -------------------
 
 - WEB-3729 : Add site admin permission on action for managing taxonomies on specific contents
