@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.0.27 (unreleased)
+1.0.27 (2022-11-23)
 -------------------
 
 - Add check for multiple categories directory views
