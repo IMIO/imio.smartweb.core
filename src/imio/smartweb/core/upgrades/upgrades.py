@@ -130,3 +130,21 @@ def add_sendinblue_button_settings(context):
     fields.remove("sendinblue_button_text")
     registry = getUtility(IRegistry)
     registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")
+
+
+def find_multiple_categories_directory_views(context):
+    brains = api.content.find(portal_type="imio.smartweb.DirectoryView")
+    for brain in brains:
+        directory = brain.getObject()
+        if (
+            directory.selected_categories is None
+            or len(directory.selected_categories) <= 1
+        ):
+            continue
+        msg = f"Found directory view with multiple categories : {directory.absolute_url()}"
+        logger.warning(msg)
+        api.portal.send_email(
+            recipient="boulch@imio.be",
+            subject="Multiple contacts categories in directory view",
+            body=msg,
+        )

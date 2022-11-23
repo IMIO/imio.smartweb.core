@@ -398,4 +398,13 @@
     />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Find multiple categories directory views"
+      description=""
+      source="1030"
+      destination="1031"
+      handler=".upgrades.find_multiple_categories_directory_views"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

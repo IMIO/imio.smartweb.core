@@ -5,7 +5,9 @@ Changelog
 1.0.27 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add check for multiple categories directory views
+  This is used to decide if the field will be changed to single category
+  [laulaz]
 
 
 1.0.26 (2022-11-22)
