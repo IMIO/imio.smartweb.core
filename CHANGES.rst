@@ -5,7 +5,8 @@ Changelog
 1.0.28 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3795 : Add Proactive trigger code to chatbot.
+  [remdub]
 
 
 1.0.27 (2022-11-23)

@@ -5,5 +5,15 @@
       host: "<span tal:replace="view/chatbot_url"></span>",
       botId: "<span tal:replace="view/chatbot_id"></span>"
     })
+
+    window.addEventListener("message", function (event) {
+      if (event.data.name === "webchatReady") {
+        window.botpressWebChat.sendEvent({
+          type: "proactive-trigger",
+          channel: "web",
+          payload: { text: "Bonjour" },
+        })
+      }
+    })
   </script>
 </div>
