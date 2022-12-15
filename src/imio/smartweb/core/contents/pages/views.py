@@ -33,7 +33,7 @@ class PagesView(FolderView):
             }
         )
         if len(galleries_sections) > 0:
-            add_bundle_on_request(self.request, "spotlightjs")
+            add_bundle_on_request(self.request, "spotlight")
         for index, gs in enumerate(galleries_sections):
             if (
                 gs.portal_type == "imio.smartweb.SectionContact"

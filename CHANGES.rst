@@ -98,6 +98,9 @@ Changelog
 
 - WEB-3684 : Add fullobjects=1 to get inner news contents
   [boulch]
+- Use custom spotlight to avoid bad gallery refresh
+  [boulch]
+
 - Migrate to Plone 6.0.0b1 : ensure all needed attributes are allowed (otherwise
   action expressions doesn't work anymore), consider new SVG / icons logic in
   tests, use new simplified resources registry
