@@ -1,3 +1,4 @@
+import './view.less'
 jQuery(document).ready(function ($) {
 
   // Show full schedule table when clicking on today's schedule
