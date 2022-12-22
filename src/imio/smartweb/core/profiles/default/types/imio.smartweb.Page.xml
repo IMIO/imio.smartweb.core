@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Standard Page content type to print informations</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:file-earmark</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>

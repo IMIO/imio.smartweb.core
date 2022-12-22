@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">News section for a page</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:newspaper</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>

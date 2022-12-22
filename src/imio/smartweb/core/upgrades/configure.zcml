@@ -75,6 +75,22 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1030_to_1031"
+      title="Upgrade core from 1030 to 1031"
+      directory="profiles/1030_to_1031"
+      description="Migrate bundles / resources to simplified resources registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1031_to_1032"
+      title="Upgrade common from 1031 to 1032"
+      directory="profiles/1031_to_1032"
+      description="Use custom spotlight to avoid bad gallery refresh"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -398,11 +414,31 @@
     />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1030"
+      destination="1031"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Migrate bundles / resources to simplified resources registry"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1030_to_1031"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1031"
+      destination="1032"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Use custom spotlight to avoid bad gallery refresh"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1030_to_1031"
+    />
+  </genericsetup:upgradeSteps>
+
   <genericsetup:upgradeStep
       title="Find multiple categories directory views"
       description=""
-      source="1030"
-      destination="1031"
+      source="1032"
+      destination="1033"
       handler=".upgrades.find_multiple_categories_directory_views"
       profile="imio.smartweb.core:default"
       />

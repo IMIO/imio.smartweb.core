@@ -14,7 +14,7 @@ class FooterSettings(BrowserView):
     """Footer settings"""
 
     def add_footer(self):
-        if not self.available:
+        if not self.available():
             api.portal.show_message(
                 _("Footer cannot be added here"), self.request, type="error"
             )
@@ -45,7 +45,6 @@ class FooterSettings(BrowserView):
         api.portal.show_message(_("Footer has been successfully added"), self.request)
         self.request.response.redirect(footer.absolute_url())
 
-    @property
     def available(self):
         if not INavigationRoot.providedBy(
             self.context

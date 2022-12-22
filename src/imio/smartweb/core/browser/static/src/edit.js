@@ -1,3 +1,4 @@
+import './edit.less'
 jQuery(document).ready(function ($) {
 
   // Hide / show editor's tools & messages when clicking on "Preview" in Plone toolbar

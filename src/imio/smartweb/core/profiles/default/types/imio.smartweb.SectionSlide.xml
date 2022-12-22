@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Slide section for a hero banner</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:layers</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>

@@ -27,7 +27,7 @@ class TestHeroBanner(ImioSmartwebTestCase):
 
     def test_add_herobanner_to_plonesite(self):
         view = getMultiAdapter((self.portal, self.request), name="herobanner_settings")
-        self.assertTrue(view.available)
+        self.assertTrue(view.available())
         viewlet = HeroBannerViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertFalse(viewlet.available())
@@ -36,7 +36,7 @@ class TestHeroBanner(ImioSmartwebTestCase):
             contentFilter={"portal_type": "imio.smartweb.HeroBanner"}
         )
         self.assertEqual(len(herobanners), 1)
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
         viewlet = HeroBannerViewlet(self.portal, self.request, None, None)
         viewlet.update()
         self.assertTrue(viewlet.available())
@@ -52,10 +52,10 @@ class TestHeroBanner(ImioSmartwebTestCase):
         viewlet.update()
         self.assertEqual(viewlet.herobanner, herobanners[0])
         view = getMultiAdapter((default_page, self.request), name="herobanner_settings")
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
 
         api.content.delete(herobanners[0])
-        self.assertTrue(view.available)
+        self.assertTrue(view.available())
 
         view = getMultiAdapter((default_page, self.request), name="herobanner_settings")
         view.add_herobanner()
@@ -70,7 +70,7 @@ class TestHeroBanner(ImioSmartwebTestCase):
 
     def test_add_herobanner_to_folder(self):
         view = getMultiAdapter((self.folder, self.request), name="herobanner_settings")
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
         view.add_herobanner()
         herobanners = self.portal.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.HeroBanner"}
@@ -81,18 +81,18 @@ class TestHeroBanner(ImioSmartwebTestCase):
         herobanner_view = getMultiAdapter(
             (self.folder, self.request), name="herobanner_settings"
         )
-        self.assertFalse(herobanner_view.available)
+        self.assertFalse(herobanner_view.available())
         minisite_view = getMultiAdapter(
             (self.folder, self.request), name="minisite_settings"
         )
         minisite_view.enable()
-        self.assertTrue(herobanner_view.available)
+        self.assertTrue(herobanner_view.available())
         herobanner_view.add_herobanner()
         herobanners = self.folder.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.HeroBanner"}
         )
         self.assertEqual(len(herobanners), 1)
-        self.assertFalse(herobanner_view.available)
+        self.assertFalse(herobanner_view.available())
 
         default_page = api.content.create(
             container=self.folder,
@@ -106,10 +106,10 @@ class TestHeroBanner(ImioSmartwebTestCase):
         herobanner_view = getMultiAdapter(
             (default_page, self.request), name="herobanner_settings"
         )
-        self.assertFalse(herobanner_view.available)
+        self.assertFalse(herobanner_view.available())
 
         api.content.delete(herobanners[0])
-        self.assertTrue(herobanner_view.available)
+        self.assertTrue(herobanner_view.available())
 
     def test_exclude_from_parent_listing(self):
         view = getMultiAdapter((self.portal, self.request), name="herobanner_settings")

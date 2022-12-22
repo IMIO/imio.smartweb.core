@@ -1,3 +1,4 @@
+import './view.less'
 jQuery(document).ready(function ($) {
 
   // Show full schedule table when clicking on today's schedule
@@ -65,7 +66,7 @@ jQuery(document).ready(function ($) {
 // New navigation
 
 $(document).ready(function () {
-  const menu = $('#portal-globalnav-collapse');
+  const menu = $('#portal-globalnav');
   const submenu = $('#subsite-navigation');
 
   $(".close-nav").click(function () {

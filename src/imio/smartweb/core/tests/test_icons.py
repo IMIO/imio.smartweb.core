@@ -38,7 +38,6 @@ class TestIcons(ImioSmartwebTestCase):
         link.remoteUrl = "https://www.imio.be"
         view = queryMultiAdapter((self.page, self.request), name="full_view")()
         self.assertNotIn("background-image", view)
-        self.assertNotIn("<svg", view)
 
         link.image = NamedBlobImage(**make_named_image())
         view = queryMultiAdapter((self.page, self.request), name="full_view")()
@@ -46,12 +45,14 @@ class TestIcons(ImioSmartwebTestCase):
             "background-image:url('http://nohost/plone/page/links/link/@@images/",
             view,
         )
-        self.assertNotIn("<svg", view)
 
-        link.svg_icon = "annuaire"
+        link.svg_icon = "view.directory"
         view = queryMultiAdapter((self.page, self.request), name="full_view")()
         self.assertNotIn("background-image", view)
-        self.assertIn("<svg", view)
+        # svg data (coming from ++plone++imio.smartweb.core/icons/vue-annuaire.svg)
+        # we can't get it directly from the file because of all Plone filters
+        # that changes the SVG content
+        self.assertIn('<path d="M18 0H2V2H18V0ZM2 24H18V22H2V24ZM18', view)
 
     def test_icons_override(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 49)

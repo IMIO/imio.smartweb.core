@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Link block for a links section</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:bounding-box-circles</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>

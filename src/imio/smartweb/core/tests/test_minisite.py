@@ -64,30 +64,30 @@ class TestMinisite(ImioSmartwebTestCase):
 
     def test_activation(self):
         view = getMultiAdapter((self.portal, self.request), name="minisite_settings")
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
 
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
-        self.assertTrue(view.available)
-        self.assertFalse(view.enabled)
+        self.assertTrue(view.available())
+        self.assertFalse(view.enabled())
 
         view.enable()
         self.assertTrue(IImioSmartwebMinisite.providedBy(self.folder))
         self.assertTrue(INavigationRoot.providedBy(self.folder))
 
-        self.assertFalse(view.available)
-        self.assertTrue(view.enabled)
+        self.assertFalse(view.available())
+        self.assertTrue(view.enabled())
 
         view.disable()
         self.assertFalse(IImioSmartwebMinisite.providedBy(self.folder))
         self.assertFalse(INavigationRoot.providedBy(self.folder))
-        self.assertTrue(view.available)
-        self.assertFalse(view.enabled)
+        self.assertTrue(view.available())
+        self.assertFalse(view.enabled())
 
         subsite_view = getMultiAdapter(
             (self.folder, self.request), name="subsite_settings"
         )
         subsite_view.enable()
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
 
         subfolder = api.content.create(
             container=self.folder,
@@ -96,9 +96,9 @@ class TestMinisite(ImioSmartwebTestCase):
             id="subfolder",
         )
         view = getMultiAdapter((subfolder, self.request), name="minisite_settings")
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
         view.enable()
-        self.assertFalse(view.enabled)
+        self.assertFalse(view.enabled())
 
     def test_minisite_exclude_from_nav(self):
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
@@ -223,8 +223,8 @@ class TestMinisite(ImioSmartwebTestCase):
         )
         moved_folder = api.content.move(self.folder, folder2)
         view = getMultiAdapter((moved_folder, self.request), name="minisite_settings")
-        self.assertFalse(view.available)
-        self.assertFalse(view.enabled)
+        self.assertFalse(view.available())
+        self.assertFalse(view.enabled())
         self.assertFalse(IImioSmartwebMinisite.providedBy(moved_folder))
 
     def test_copy_minisite_in_folder(self):
@@ -238,8 +238,8 @@ class TestMinisite(ImioSmartwebTestCase):
         )
         copied_folder = api.content.copy(self.folder, folder2)
         view = getMultiAdapter((copied_folder, self.request), name="minisite_settings")
-        self.assertFalse(view.available)
-        self.assertFalse(view.enabled)
+        self.assertFalse(view.available())
+        self.assertFalse(view.enabled())
         self.assertFalse(IImioSmartwebMinisite.providedBy(copied_folder))
 
     def test_minisite_in_minisite(self):
@@ -254,7 +254,7 @@ class TestMinisite(ImioSmartwebTestCase):
             id="minisite2",
         )
         view = getMultiAdapter((minisite2, self.request), name="minisite_settings")
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
 
     def test_cannot_enable_minisite_on_subsite(self):
         subsite_view = getMultiAdapter(
@@ -264,10 +264,10 @@ class TestMinisite(ImioSmartwebTestCase):
         minisite_view = getMultiAdapter(
             (self.folder, self.request), name="minisite_settings"
         )
-        self.assertFalse(minisite_view.available)
-        self.assertFalse(minisite_view.enabled)
+        self.assertFalse(minisite_view.available())
+        self.assertFalse(minisite_view.enabled())
         minisite_view.enable()
-        self.assertFalse(minisite_view.enabled)
+        self.assertFalse(minisite_view.enabled())
 
     def test_minisite_viewlet_logo(self):
         viewlet = LogoViewlet(self.folder, self.request, None, None)
@@ -279,7 +279,9 @@ class TestMinisite(ImioSmartwebTestCase):
         html = viewlet.render()
         soup = BeautifulSoup(html)
         img = soup.find("img")
-        self.assertEqual(img.get("src"), "http://nohost/plone/logo.png")
+        self.assertEqual(
+            img.get("src"), "http://nohost/plone/++resource++plone-logo.svg"
+        )
         annotations = IAnnotations(self.request)
         del annotations["plone.memoize"]
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
@@ -379,8 +381,8 @@ class TestMinisite(ImioSmartwebTestCase):
         self.assertEqual(len(viewlet.getAllMessages()), 1)
 
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
-        self.assertTrue(view.available)
-        self.assertFalse(view.enabled)
+        self.assertTrue(view.available())
+        self.assertFalse(view.enabled())
         view.enable()
-        self.assertTrue(view.enabled)
+        self.assertTrue(view.enabled())
         self.assertEqual(len(viewlet.getAllMessages()), 0)

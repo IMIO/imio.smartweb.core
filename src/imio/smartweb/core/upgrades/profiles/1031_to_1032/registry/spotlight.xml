@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <records prefix="plone.bundles/spotlight"
+             interface='Products.CMFPlone.interfaces.IBundleRegistry'>
+      <value key="enabled">False</value>
+      <value key="expression"></value>
+      <value key="jscompilation">++plone++imio.smartweb.core/spotlight-bundle.js</value>
+      <value key="depends">plone</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+</registry>

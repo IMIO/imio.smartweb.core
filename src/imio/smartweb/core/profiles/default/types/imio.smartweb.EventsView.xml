@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Display linked events from imio events instance.</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:calendar-event</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>

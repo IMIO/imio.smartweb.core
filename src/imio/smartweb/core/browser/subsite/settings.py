@@ -14,7 +14,7 @@ class SubSiteSettings(BrowserView):
     """Subsite settings"""
 
     def enable(self):
-        if not self.available:
+        if not self.available():
             return
         enable_behaviors(
             self.context,
@@ -35,13 +35,11 @@ class SubSiteSettings(BrowserView):
         api.portal.show_message(_("Subsite has been disabled"), self.request)
         self.request.response.redirect(self.context.absolute_url())
 
-    @property
     def available(self):
         if IImioSmartwebMinisite.providedBy(self.context):
             return False
-        return IFolder.providedBy(self.context) and not self.enabled
+        return IFolder.providedBy(self.context) and not self.enabled()
 
-    @property
     def enabled(self):
         if IImioSmartwebMinisite.providedBy(self.context):
             return False

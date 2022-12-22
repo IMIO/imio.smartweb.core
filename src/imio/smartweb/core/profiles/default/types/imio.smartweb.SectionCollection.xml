@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Collection section for a page</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:collection</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>

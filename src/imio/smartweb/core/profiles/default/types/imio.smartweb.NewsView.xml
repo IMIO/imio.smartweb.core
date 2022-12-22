@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Display linked news from imio news instance.</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:newspaper</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">True</property>

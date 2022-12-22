@@ -33,7 +33,9 @@ class TestLogo(ImioSmartwebTestCase):
         html = viewlet.render()
         soup = BeautifulSoup(html)
         img = soup.find("img")
-        self.assertEqual(img.get("src"), "http://nohost/plone/logo.png")
+        self.assertEqual(
+            img.get("src"), "http://nohost/plone/++resource++plone-logo.svg"
+        )
 
         registry = getUtility(IRegistry)
         settings = registry.forInterface(ISiteSchema, prefix="plone")

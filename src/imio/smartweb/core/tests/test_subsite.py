@@ -38,27 +38,27 @@ class TestSubsite(ImioSmartwebTestCase):
 
     def test_activation(self):
         view = getMultiAdapter((self.portal, self.request), name="subsite_settings")
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
 
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
-        self.assertTrue(view.available)
-        self.assertFalse(view.enabled)
+        self.assertTrue(view.available())
+        self.assertFalse(view.enabled())
 
         view.enable()
         self.assertTrue(IImioSmartwebSubsite.providedBy(self.folder))
-        self.assertFalse(view.available)
-        self.assertTrue(view.enabled)
+        self.assertFalse(view.available())
+        self.assertTrue(view.enabled())
 
         view.disable()
         self.assertFalse(IImioSmartwebSubsite.providedBy(self.folder))
-        self.assertTrue(view.available)
-        self.assertFalse(view.enabled)
+        self.assertTrue(view.available())
+        self.assertFalse(view.enabled())
 
         minisite_view = getMultiAdapter(
             (self.folder, self.request), name="minisite_settings"
         )
         minisite_view.enable()
-        self.assertFalse(view.available)
+        self.assertFalse(view.available())
 
     def test_viewlet_navigation(self):
         view = getMultiAdapter((self.folder, self.request), name="subsite_settings")
@@ -177,7 +177,7 @@ class TestSubsite(ImioSmartwebTestCase):
         subsite_view = getMultiAdapter(
             (self.folder, self.request), name="subsite_settings"
         )
-        self.assertFalse(subsite_view.available)
+        self.assertFalse(subsite_view.available())
 
         subsite = api.content.create(
             container=self.folder,
@@ -197,10 +197,10 @@ class TestSubsite(ImioSmartwebTestCase):
         subsite_view = getMultiAdapter(
             (self.folder, self.request), name="subsite_settings"
         )
-        self.assertFalse(subsite_view.available)
-        self.assertFalse(subsite_view.enabled)
+        self.assertFalse(subsite_view.available())
+        self.assertFalse(subsite_view.enabled())
         subsite_view.enable()
-        self.assertFalse(subsite_view.enabled)
+        self.assertFalse(subsite_view.enabled())
 
     def test_subsite_body_class(self):
         subfolder = api.content.create(

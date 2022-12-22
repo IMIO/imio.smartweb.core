@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">Contact section for a page</property>
 
-  <property name="icon_expr"></property>
+  <property name="icon_expr">string:person-plus</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>
