@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.0.28 (unreleased)
--------------------
+1.1 (2022-12-23)
+----------------
 
 - Update to Plone 6.0.0 final
   [boulch]
