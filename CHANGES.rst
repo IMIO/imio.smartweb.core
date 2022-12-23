@@ -5,6 +5,9 @@ Changelog
 1.0.28 (unreleased)
 -------------------
 
+- Update to Plone 6.0.0 final
+  [boulch]
+
 - WEB-3795 : Add Proactive trigger code to chatbot.
   [remdub]
 
