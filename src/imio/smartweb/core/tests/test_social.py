@@ -11,7 +11,6 @@ from plone.namedfile.file import NamedBlobImage
 from plone.testing.zope import Browser
 from zope.interface import alsoProvides
 
-import re
 import transaction
 
 
