@@ -5,7 +5,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix JS / CSS bundles names (restore old names : '-' instead of '.' separator)
+  [laulaz]
 
 
 1.1 (2022-12-23)

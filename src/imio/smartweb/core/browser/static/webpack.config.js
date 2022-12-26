@@ -11,7 +11,7 @@ module.exports = {
         edit: './src/edit.js',
     },
     output: {
-        filename: 'smartweb.[name].compiled.js',
+        filename: 'smartweb-[name]-compiled.js',
         path: path.resolve(__dirname, ''),
     },
     module: {
@@ -28,7 +28,7 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: 'smartweb.[name].compiled.css',
+            filename: 'smartweb-[name]-compiled.css',
         }),
     ],
     optimization: {
