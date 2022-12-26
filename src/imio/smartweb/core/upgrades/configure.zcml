@@ -91,6 +91,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1033_to_1034"
+      title="Upgrade common from 1033 to 1034"
+      directory="profiles/1033_to_1034"
+      description="Migrate content types icons"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -442,5 +450,15 @@
       handler=".upgrades.find_multiple_categories_directory_views"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1033"
+      destination="1034"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Migrate content types icons"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1033_to_1034"
+    />
+  </genericsetup:upgradeSteps>
 
 </configure>

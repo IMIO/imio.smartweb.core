@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Add upgrade step to change content types icons
+  [laulaz]
+
 - Fix JS / CSS bundles names (restore old names : '-' instead of '.' separator)
   [laulaz]
 
