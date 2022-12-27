@@ -6,6 +6,7 @@ from imio.smartweb.core.config import WCA_URL
 from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
 from plone import api
+from plone.app.multilingual.interfaces import ILanguageRootFolder
 from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
@@ -106,8 +107,8 @@ def reindexParent(obj, event):
 
 
 def get_default_content_id(obj):
-    if IPloneSiteRoot.providedBy(obj):
-        # Plone default page
+    if IPloneSiteRoot.providedBy(obj) or ILanguageRootFolder.providedBy(obj):
+        # Plone / LRF default page
         item_id = get_default_page(obj)
         return item_id and item_id or ""
     elif IFolder.providedBy(obj):

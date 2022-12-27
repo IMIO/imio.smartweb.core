@@ -5,7 +5,8 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
-- Multilingual: handle language in requests for REST views
+- Multilingual: handle language in requests for REST views, handle LRF navigation
+  roots
   [laulaz]
 
 - Add upgrade step to change content types icons

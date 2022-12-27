@@ -9,6 +9,7 @@ from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.app.multilingual.interfaces import ILanguageRootFolder
 from Products.Five.browser import BrowserView
 from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
@@ -49,8 +50,14 @@ class MiniSiteSettings(BrowserView):
         if IPloneSiteRoot.providedBy(self.context):
             # PloneSite can't become minisite
             return False
-        if not IPloneSiteRoot.providedBy(self.context.aq_parent):
-            # Minisite can only be added in PloneSite
+        if ILanguageRootFolder.providedBy(self.context):
+            # LRF can't become minisite
+            return False
+        parent = self.context.aq_parent
+        if not IPloneSiteRoot.providedBy(parent) and not ILanguageRootFolder.providedBy(
+            parent
+        ):
+            # Minisite can only be added in PloneSite / LRF
             return False
         if IImioSmartwebSubsite.providedBy(self.context):
             # Subsite can't be converted in minisite
