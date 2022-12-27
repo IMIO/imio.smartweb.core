@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="geolocation.default_latitude"
+            interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
+      <value>50.4989185</value>
+    </record>
+
+    <record name="geolocation.default_longitude"
+            interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
+      <value>4.7184485</value>
+    </record>
+
+    <record name="geolocation.use_default_geolocation_as_value"
+            interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
+      <value>False</value>
+    </record>
+
+    <record name="geolocation.map_layers"
+            interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
+      <value>
+        <element>OpenStreetMap.Mapnik</element>
+      </value>
+    </record>
+
+    <record name="geolocation.show_geosearch"
+            interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
+      <value>False</value>
+    </record>
+
+    <record name="geolocation.show_minimap"
+            interface="plone.formwidget.geolocation.interfaces.IGeolocationSettings">
+      <value>False</value>
+    </record>
+
+</registry>

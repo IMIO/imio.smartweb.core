@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="plone.thumb_scale_listing"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
+            field="thumb_scale_listing">
+      <value>liste</value>
+    </record>
+
+    <record name="plone.thumb_scale_summary"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
+            field="thumb_scale_summary">
+      <value>vignette</value>
+    </record>
+
+    <record name="plone.types_not_searched"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISearchSchema"
+            field="types_not_searched">
+      <value purge="false">
+        <element>imio.smartweb.BlockLink</element>
+        <element>imio.smartweb.Footer</element>
+        <element>imio.smartweb.HeroBanner</element>
+        <element>imio.smartweb.SectionContact</element>
+        <element>imio.smartweb.SectionFiles</element>
+        <element>imio.smartweb.SectionGallery</element>
+        <element>imio.smartweb.SectionLinks</element>
+        <element>imio.smartweb.SectionSelections</element>
+        <element>imio.smartweb.SectionSlide</element>
+        <element>imio.smartweb.SectionText</element>
+        <element>imio.smartweb.SectionVideo</element>
+      </value>
+    </record>
+
+    <record name="plone.show_excluded_items"
+            interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
+            field="show_excluded_items">
+      <value>False</value>
+    </record>
+
+    <record name="plone.displayed_types"
+            interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
+            field="displayed_types">
+      <value purge="false">
+        <element>imio.smartweb.DirectoryView</element>
+        <element>imio.smartweb.EventsView</element>
+        <element>imio.smartweb.Folder</element>
+        <element>imio.smartweb.NewsView</element>
+        <element>imio.smartweb.Page</element>
+        <element>imio.smartweb.PortalPage</element>
+        <element>imio.smartweb.Procedure</element>
+      </value>
+    </record>
+
+    <records interface="Products.CMFPlone.interfaces.controlpanel.ILinkSchema"
+             prefix="plone">
+      <value key="external_links_open_new_window">True</value>
+    </records>
+
+</registry>

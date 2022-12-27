@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <records prefix="plone.bundles/smartweb-view"
+             interface="Products.CMFPlone.interfaces.IBundleRegistry">
+      <value key="enabled">True</value>
+      <value key="expression"></value>
+      <value key="csscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.css</value>
+      <value key="jscompilation">++plone++imio.smartweb.core/smartweb-view-compiled.js</value>
+      <value key="depends">plone</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-edit"
+             interface="Products.CMFPlone.interfaces.IBundleRegistry">
+      <value key="enabled">True</value>
+      <value key="expression">python: member is not None</value>
+      <value key="csscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.css</value>
+      <value key="jscompilation">++plone++imio.smartweb.core/smartweb-edit-compiled.js</value>
+      <value key="depends">plone</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+    <records prefix="plone.bundles/smartweb-webcomponents"
+             interface="Products.CMFPlone.interfaces.IBundleRegistry">
+      <value key="enabled">True</value>
+      <value key="jscompilation">++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js</value>
+      <value key="csscompilation">++plone++imio.smartweb.webcomponents/css/smartweb-webcomponents-compiled.css</value>
+      <value key="depends">plone</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+    <records prefix="plone.bundles/swiper"
+             interface="Products.CMFPlone.interfaces.IBundleRegistry">
+      <value key="enabled">True</value>
+      <value key="csscompilation">++plone++imio.smartweb.core/swiper-bundle.min.css</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+    <records prefix="plone.bundles/spotlight"
+             interface="Products.CMFPlone.interfaces.IBundleRegistry">
+      <value key="enabled">False</value>
+      <value key="expression"></value>
+      <value key="jscompilation">++plone++imio.smartweb.core/spotlight-bundle.js</value>
+      <value key="depends">plone</value>
+      <value key="load_async">False</value>
+      <value key="load_defer">False</value>
+    </records>
+
+</registry>
