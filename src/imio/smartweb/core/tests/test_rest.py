@@ -69,7 +69,12 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         endpoint = DirectoryEndpoint(self.portal, request)
         params = endpoint.get_extra_params([])
         self.assertEqual(
-            params, ['taxonomy_contact_category=("token")', "topics=education"]
+            params,
+            [
+                'taxonomy_contact_category=("token")',
+                "topics=education",
+                "translated_in_en=1",
+            ],
         )
 
         request = TestRequest(
@@ -79,7 +84,12 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         params = endpoint.get_extra_params([])
         self.assertEqual(
             params,
-            ["topics=education", "metadata_fields=topics", "metadata_fields=category"],
+            [
+                "topics=education",
+                "metadata_fields=topics",
+                "metadata_fields=category",
+                "translated_in_en=1",
+            ],
         )
 
     @requests_mock.Mocker()
@@ -109,7 +119,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "sort_on=sortable_title&"
             "b_size=20&"
             'taxonomy_contact_category=("token")&'
-            "topics=education",
+            "topics=education&"
+            "translated_in_en=1",
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()
@@ -144,7 +155,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "sort_on=event_dates&"
             "fullobjects=1&"
             "b_size=20&"
-            "event_type=event-driven".format(self.rest_events.selected_agenda),
+            "event_type=event-driven&"
+            "translated_in_en=1".format(self.rest_events.selected_agenda),
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()
@@ -197,7 +209,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "sort_on=effective&"
             "sort_order=descending&"
             "b_size=20&"
-            "fullobjects=1".format(self.rest_news.selected_news_folder),
+            "fullobjects=1&"
+            "translated_in_en=1".format(self.rest_news.selected_news_folder),
         )
         m.get(url, text=json.dumps([]))
         call = endpoint()

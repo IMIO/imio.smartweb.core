@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.utils import get_json
+from plone import api
 from plone.rest import Service
 
 import json
@@ -33,6 +34,9 @@ class BaseEndpoint(object):
                     extra_params.append("{}={}".format(k, value))
             else:
                 extra_params.append("{}={}".format(k, v))
+        current_lang = api.portal.get_current_language()[:2]
+        if current_lang != "fr":
+            extra_params.append("translated_in_{}=1".format(current_lang))
         params = params + extra_params
         return params
 
