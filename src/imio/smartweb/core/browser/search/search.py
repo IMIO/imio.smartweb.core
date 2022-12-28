@@ -35,7 +35,10 @@ class Search(Search):
         if not view_type:
             # This should never happen
             raise NotImplementedError
-        content_view = api.content.find(context=api.portal.get(), portal_type=view_type)
+        content_view = api.content.find(
+            context=api.portal.get_navigation_root(item),
+            portal_type=view_type,
+        )
         if not content_view:
             # This mean that there is no content listing
             raise ValueError("Missing content type {0}".format(view_type))

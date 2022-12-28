@@ -43,8 +43,7 @@ class FooterViewlet(BaseFooterViewlet):
         if IImioSmartwebMinisite.providedBy(root):
             # don't display portal footer in a minisite
             return
-        portal = api.portal.get()
-        footers = portal.listFolderContents(
+        footers = root.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
         )
         if len(footers) > 0:

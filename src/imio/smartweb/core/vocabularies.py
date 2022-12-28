@@ -319,7 +319,7 @@ ImageSizeVocabulary = ImageSizeVocabularyFactory()
 class DirectoryViewsVocabularyFactory(object):
     def __call__(self, context=None):
         if not isinstance(context, Item):
-            context = api.portal.get()
+            context = api.portal.get_navigation_root(context)
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.DirectoryView"
         )
@@ -336,7 +336,7 @@ DirectoryViewsVocabulary = DirectoryViewsVocabularyFactory()
 class EventsViewsVocabularyFactory(object):
     def __call__(self, context=None):
         if not isinstance(context, Item):
-            context = api.portal.get()
+            context = api.portal.get_navigation_root(context)
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.EventsView"
         )
@@ -353,7 +353,7 @@ EventsViewsVocabulary = EventsViewsVocabularyFactory()
 class NewsViewsVocabularyFactory(object):
     def __call__(self, context=None):
         if not isinstance(context, Item):
-            context = api.portal.get()
+            context = api.portal.get_navigation_root(context)
         brains = api.content.find(context=context, portal_type="imio.smartweb.NewsView")
         terms = [
             SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject()))

@@ -10,8 +10,8 @@ class MinisitePortalLinkViewlet(common.ViewletBase):
     """ """
 
     def get_hostname(self):
-        portal_url = api.portal.get().absolute_url()
-        domain = urlparse(portal_url).netloc
+        root_url = api.portal.get_navigation_root(self.context).absolute_url()
+        domain = urlparse(root_url).netloc
         if domain.startswith("www."):
             domain = domain[4:]
         return domain

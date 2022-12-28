@@ -355,13 +355,22 @@ class TestMinisite(ImioSmartwebTestCase):
         view.enable()
         self.assertTrue(viewlet.available())
         attr = {"absolute_url.return_value": "http://www.test.be/folder/minisite"}
-        with patch("plone.api.portal.get", return_value=mock.Mock(**attr)):
+        with patch(
+            "plone.api.portal.get_navigation_root",
+            return_value=mock.Mock(**attr),
+        ):
             self.assertEqual(viewlet.get_hostname(), "test.be")
         attr = {"absolute_url.return_value": "http://test.be/folder/minisite"}
-        with patch("plone.api.portal.get", return_value=mock.Mock(**attr)):
+        with patch(
+            "plone.api.portal.get_navigation_root",
+            return_value=mock.Mock(**attr),
+        ):
             self.assertEqual(viewlet.get_hostname(), "test.be")
         attr = {"absolute_url.return_value": "http://sub.test.be/folder/minisite"}
-        with patch("plone.api.portal.get", return_value=mock.Mock(**attr)):
+        with patch(
+            "plone.api.portal.get_navigation_root",
+            return_value=mock.Mock(**attr),
+        ):
             self.assertEqual(viewlet.get_hostname(), "sub.test.be")
 
     def test_messagesviewlet_in_minisite(self):
