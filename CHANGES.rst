@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Enable autopublishing behavior on all types
+  [laulaz]
+
 - Handle events occurences in REST endpoint
   [laulaz]
 

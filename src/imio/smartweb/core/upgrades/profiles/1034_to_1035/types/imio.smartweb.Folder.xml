@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.Folder"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <property name="behaviors" purge="false">
+    <element value="collective.autopublishing.behavior.IAutoPublishing"/>
+  </property>
+
+</object>

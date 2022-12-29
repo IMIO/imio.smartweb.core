@@ -99,6 +99,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1034_to_1035"
+      title="Upgrade common from 1034 to 1035"
+      directory="profiles/1034_to_1035"
+      description="Enable autopublishing behavior on all types"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -458,6 +466,16 @@
     <genericsetup:upgradeDepends
         title="Migrate content types icons"
         import_profile="imio.smartweb.core.upgrades:upgrade_1033_to_1034"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1034"
+      destination="1035"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Enable autopublishing behavior on all types"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1034_to_1035"
     />
   </genericsetup:upgradeSteps>
 

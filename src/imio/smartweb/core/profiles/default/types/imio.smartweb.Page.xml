@@ -49,6 +49,7 @@
     <element value="imio.smartweb.topics"/>
     <element value="imio.smartweb.iam"/>
     <element value="plone.categorization"/>
+    <element value="collective.autopublishing.behavior.IAutoPublishing"/>
   </property>
 
   <!-- View information -->
