@@ -12,9 +12,12 @@
             "end": "2025-11-30T13:00:00+00:00",
             "has_leadimage": true,
             "review_state": "published",
+            "open_end": false,
+            "recurrence": null,
             "start": "2022-11-13T12:00:00+00:00",
             "title": "Marche gourmande",
-            "topics": null
+            "topics": null,
+            "whole_day": false
         }
     ],
     "items_total": 1
