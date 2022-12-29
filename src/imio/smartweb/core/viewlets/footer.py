@@ -6,6 +6,7 @@ from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
+from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import parent
 
 
@@ -43,6 +44,11 @@ class FooterViewlet(BaseFooterViewlet):
         if IImioSmartwebMinisite.providedBy(root):
             # don't display portal footer in a minisite
             return
+        available_langs = api.portal.get_registry_record("plone.available_languages")
+        if IPloneSiteRoot.providedBy(root) and len(available_langs) > 1:
+            # multilingual : we should display current lang footer
+            current_lang = api.portal.get_current_language()[:2]
+            root = getattr(root, current_lang)
         footers = root.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
         )

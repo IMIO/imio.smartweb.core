@@ -9,7 +9,8 @@ Changelog
   [laulaz]
 
 - Multilingual: handle language in requests for REST views, handle LRF navigation
-  roots, fix language selector viewlet
+  roots (minisites, footers, default pages, vocabularies), fix language selector
+  viewlet
   [laulaz]
 
 - Add upgrade step to change content types icons
