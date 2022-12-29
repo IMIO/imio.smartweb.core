@@ -3,6 +3,7 @@
 from freezegun import freeze_time
 from imio.smartweb.core.contents.rest.directory.endpoint import DirectoryEndpoint
 from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
+from imio.smartweb.core.contents.rest.events.endpoint import expand_occurences
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -191,6 +192,84 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "selected_agendas"
             ][0]
             self.assertEqual(patch_selected_agendas, response_selected_agendas)
+
+    @freeze_time("2022-11-10")
+    def test_expand_occurences(self):
+        # test without occurence
+        events = [
+            {
+                "start": "2022-11-13T12:00:00+00:00",
+                "end": "2022-11-13T13:00:00+00:00",
+                "recurrence": None,
+                "open_end": False,
+                "whole_day": False,
+            }
+        ]
+        expanded_events = expand_occurences(events)
+        self.assertEqual(len(expanded_events), 1)
+        events = [
+            {
+                "start": "2022-11-13T12:00:00+00:00",
+                "end": "2022-11-14T13:00:00+00:00",
+                "recurrence": None,
+                "open_end": False,
+                "whole_day": False,
+            }
+        ]
+        expanded_events = expand_occurences(events)
+        self.assertEqual(len(expanded_events), 1)
+
+        # test range start for occurences
+        events = [
+            {
+                "start": "2022-11-01T12:00:00+00:00",
+                "end": "2022-11-01T13:00:00+00:00",
+                "recurrence": "RRULE:FREQ=WEEKLY;COUNT=5",
+                "open_end": False,
+                "whole_day": False,
+            }
+        ]
+        expanded_events = expand_occurences(events)
+        self.assertEqual(len(expanded_events), 3)
+
+        # test occurences data
+        events = [
+            {
+                "start": "2022-11-13T12:00:00+00:00",
+                "end": "2022-11-13T13:00:00+00:00",
+                "recurrence": "RRULE:FREQ=WEEKLY;COUNT=5",
+                "open_end": False,
+                "whole_day": False,
+            }
+        ]
+        expanded_events = expand_occurences(events)
+        self.assertEqual(len(expanded_events), 5)
+        self.assertEqual(expanded_events[-1]["start"], "2022-12-11T12:00:00+00:00")
+        self.assertEqual(expanded_events[-1]["end"], "2022-12-11T13:00:00+00:00")
+        events = [
+            {
+                "start": "2022-11-13T12:00:00+00:00",
+                "end": "2022-11-13T12:00:00+00:00",
+                "recurrence": "RRULE:FREQ=WEEKLY;COUNT=5",
+                "open_end": False,
+                "whole_day": True,
+            }
+        ]
+        expanded_events = expand_occurences(events)
+        self.assertEqual(expanded_events[-1]["start"], "2022-12-11T12:00:00+00:00")
+        self.assertEqual(expanded_events[-1]["end"], "2022-12-12T11:59:59+00:00")
+        events = [
+            {
+                "start": "2022-11-13T00:00:00+00:00",
+                "end": "2022-11-13T23:59:59+00:00",
+                "recurrence": "RRULE:FREQ=WEEKLY;COUNT=5",
+                "open_end": True,
+                "whole_day": True,
+            }
+        ]
+        expanded_events = expand_occurences(events)
+        self.assertEqual(expanded_events[-1]["start"], "2022-12-11T00:00:00+00:00")
+        self.assertEqual(expanded_events[-1]["end"], "2022-12-11T23:59:59+00:00")
 
     @requests_mock.Mocker()
     def test_call_news(self, m):

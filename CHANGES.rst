@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Handle events occurences in REST endpoint
+  [laulaz]
+
 - Multilingual: handle language in requests for REST views, handle LRF navigation
   roots, fix language selector viewlet
   [laulaz]

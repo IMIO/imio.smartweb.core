@@ -1,13 +1,57 @@
 # -*- coding: utf-8 -*-
 
 from datetime import date
+from datetime import datetime
+from datetime import timedelta
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
+from plone.event.recurrence import recurrence_sequence_ical
+from plone.event.utils import pydt
 from plone.restapi.interfaces import IExpandableElement
+from plone.restapi.serializer.converters import json_compatible
+from pytz import utc
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
+
+import copy
+import dateutil
+
+
+def expand_occurences(events):
+    expanded_events = []
+
+    for event in events:
+        if not event["recurrence"]:
+            expanded_events.append(event)
+            continue
+        start_date = dateutil.parser.parse(event["start"])
+        start_date = start_date.astimezone(utc)
+        end_date = dateutil.parser.parse(event["end"])
+        end_date = end_date.astimezone(utc)
+
+        start_dates = recurrence_sequence_ical(
+            start=start_date,
+            recrule=event["recurrence"],
+            from_=datetime.now(),
+        )
+
+        if event["whole_day"] or event["open_end"]:
+            duration = timedelta(hours=23, minutes=59, seconds=59)
+        else:
+            duration = end_date - start_date
+
+        for occurence_start in start_dates:
+            if pydt(start_date.replace(microsecond=0)) == occurence_start:
+                expanded_events.append(event)
+            else:
+                new_event = copy.deepcopy(event)
+                new_event["start"] = json_compatible(occurence_start)
+                new_event["end"] = json_compatible(occurence_start + duration)
+                expanded_events.append(new_event)
+
+    return expanded_events
 
 
 class BaseEventsEndpoint(BaseEndpoint):
@@ -41,6 +85,17 @@ class BaseEventsEndpoint(BaseEndpoint):
 @adapter(Interface, Interface)
 class EventsEndpoint(BaseEventsEndpoint):
     remote_endpoint = "@search"
+
+    def __call__(self):
+        res = super(EventsEndpoint, self).__call__()
+        if res == []:
+            return res
+
+        expanded_events = expand_occurences(res["items"])
+        res["items"] = expanded_events
+        res["items_total"] = len(expanded_events)
+
+        return res
 
 
 @implementer(IExpandableElement)
