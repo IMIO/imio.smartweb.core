@@ -48,7 +48,7 @@ class FooterViewlet(BaseFooterViewlet):
         if IPloneSiteRoot.providedBy(root) and len(available_langs) > 1:
             # multilingual : we should display current lang footer
             current_lang = api.portal.get_current_language()[:2]
-            root = getattr(root, current_lang)
+            root = getattr(root, current_lang, root)
         footers = root.listFolderContents(
             contentFilter={"portal_type": "imio.smartweb.Footer"}
         )
