@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from freezegun import freeze_time
+from imio.smartweb.core import config
 from imio.smartweb.core.contents.rest.directory.endpoint import DirectoryEndpoint
 from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
 from imio.smartweb.core.contents.rest.events.endpoint import expand_occurences
@@ -103,7 +104,10 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
         # react additionnal fields request.
         request = TestRequest(
-            form={"taxonomy_contact_category": '("token")', "topics": "education"}
+            form={
+                "taxonomy_contact_category_for_filtering": ("token"),
+                "topics": "education",
+            }
         )
         endpoint = DirectoryEndpoint(rest_directory, request)
         url = endpoint.query_url
@@ -119,7 +123,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "fullobjects=1&"
             "sort_on=sortable_title&"
             "b_size=20&"
-            'taxonomy_contact_category=("token")&'
+            "taxonomy_contact_category_for_filtering=token&"
             "topics=education&"
             "translated_in_en=1",
         )
@@ -131,6 +135,37 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         url = endpoint.query_url
         self.assertNotIn("b_size=20", url)
         self.assertIn("b_size=30", url)
+
+        json_contact_category_raw_mock = get_json(
+            "resources/json_contact_category_raw_mock.json"
+        )
+        with patch(
+            "imio.smartweb.core.vocabularies.get_wca_token", return_value="kamoulox"
+        ):
+            url = f"{config.DIRECTORY_URL}/@vocabularies/collective.taxonomy.contact_category"
+            m.get(url, text=json.dumps(json_contact_category_raw_mock))
+
+            rest_directory.selected_categories = ["hlsm9bijb1", "9kgcmrj4lu"]
+            url = endpoint.query_url
+            self.assertEqual(
+                url,
+                "http://localhost:8080/Plone/@search?"
+                "selected_entities=396907b3b1b04a97896b12cc792c77f8&"
+                "portal_type=imio.directory.Contact&"
+                "metadata_fields=facilities&"
+                "metadata_fields=taxonomy_contact_category&"
+                "metadata_fields=topics&"
+                "metadata_fields=has_leadimage&"
+                "fullobjects=1&"
+                "sort_on=sortable_title&"
+                "b_size=30&"
+                "taxonomy_contact_category.query=hlsm9bijb1&"
+                "taxonomy_contact_category.query=9kgcmrj4lu&"
+                "taxonomy_contact_category.operator=or&"
+                "taxonomy_contact_category_for_filtering=token&"
+                "topics=education&"
+                "translated_in_en=1",
+            )
 
     @requests_mock.Mocker()
     @freeze_time("2021-11-15")

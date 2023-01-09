@@ -5,6 +5,10 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Allow querying contact category with React filter (A) while also querying
+  multiple categories defined in directory REST endpoint (B, C): A and (B or C)
+  [laulaz]
+
 - Enable autopublishing behavior on all types
   [laulaz]
 

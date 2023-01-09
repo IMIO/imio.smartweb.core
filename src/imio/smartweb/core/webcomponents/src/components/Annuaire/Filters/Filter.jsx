@@ -157,7 +157,7 @@ function Filters(props) {
                 {/* <label>Catégories</label> */}
                 <Select
                     styles={customStyles}
-                    name={"taxonomy_contact_category"}
+                    name={"taxonomy_contact_category_for_filtering"}
                     className="select-custom-class library-facilities"
                     isClearable
                     onChange={onChangeHandlerSelect}
