@@ -60,6 +60,7 @@ setup(
         "plone.app.imagecropping",
         "eea.facetednavigation",
         "collective.anysurfer",
+        "collective.autopublishing",
         "collective.faceted.map",
         "collective.geolocationbehavior",
         "collective.instancebehavior",

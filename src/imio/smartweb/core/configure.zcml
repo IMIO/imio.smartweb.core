@@ -5,6 +5,7 @@
   <include package="Products.CMFCore" file="permissions.zcml" />
   <include package="plone.app.imagecropping" />
   <include package="eea.facetednavigation" />
+  <include package="collective.autopublishing" />
   <include package="collective.faceted.map" />
   <include package="collective.geolocationbehavior" />
   <include package="collective.instancebehavior" />
