@@ -446,7 +446,7 @@
       profile="imio.smartweb.core:default">
     <genericsetup:upgradeDepends
         title="Use custom spotlight to avoid bad gallery refresh"
-        import_profile="imio.smartweb.core.upgrades:upgrade_1030_to_1031"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1031_to_1032"
     />
   </genericsetup:upgradeSteps>
 
