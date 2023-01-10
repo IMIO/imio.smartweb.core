@@ -21,17 +21,22 @@ def moved_folder(obj, event):
     if type(event) is ObjectRemovedEvent:
         # We don't have anything to do if minisite is being removed
         return
-    if not INavigationRoot.providedBy(event.newParent):
-        request = getRequest()
-        minisite_settings = getMultiAdapter((obj, request), name="minisite_settings")
-        minisite_settings.disable()
-        api.portal.show_message(
-            _(
-                "Your Folder was a minisite but this behaviour has been disabled with this action"
-            ),
-            request,
-            type="warning",
-        )
+    parent = event.newParent
+    if INavigationRoot.providedBy(parent):
+        # Minisites must always be under navigation root
+        if not IImioSmartwebMinisite.providedBy(parent):
+            # We are not in another minisite, everything is good
+            return
+    request = getRequest()
+    minisite_settings = getMultiAdapter((obj, request), name="minisite_settings")
+    minisite_settings.disable()
+    api.portal.show_message(
+        _(
+            "Your Folder was a minisite but this behaviour has been disabled with this action"
+        ),
+        request,
+        type="warning",
+    )
 
 
 def added_collection(obj, event):

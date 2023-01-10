@@ -242,6 +242,23 @@ class TestMinisite(ImioSmartwebTestCase):
         self.assertFalse(view.enabled())
         self.assertFalse(IImioSmartwebMinisite.providedBy(copied_folder))
 
+    def test_move_minisite_in_minisite(self):
+        view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
+        view.enable()
+        folder2 = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="Folder2",
+            id="folder2",
+        )
+        view = getMultiAdapter((folder2, self.request), name="minisite_settings")
+        view.enable()
+        moved_folder = api.content.move(self.folder, folder2)
+        view = getMultiAdapter((moved_folder, self.request), name="minisite_settings")
+        self.assertFalse(view.available())
+        self.assertFalse(view.enabled())
+        self.assertFalse(IImioSmartwebMinisite.providedBy(moved_folder))
+
     def test_minisite_in_minisite(self):
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
         view.enable()

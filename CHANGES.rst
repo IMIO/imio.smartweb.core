@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Forbid minisite to be copied / moved inside another minisite
+  [laulaz]
+
 - Allow querying contact category with React filter (A) while also querying
   multiple categories defined in directory REST endpoint (B, C): A and (B or C)
   [laulaz]
