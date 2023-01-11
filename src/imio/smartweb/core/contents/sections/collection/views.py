@@ -2,8 +2,7 @@
 
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
-
-import Missing
+from imio.smartweb.core.utils import get_scale_url
 
 
 class CollectionView(CarouselOrTableSectionView):
@@ -18,9 +17,7 @@ class CollectionView(CarouselOrTableSectionView):
         results = []
         for item in items:
             url = item.getURL()
-            scale_url = None
-            if hasattr(item, "image_scales") and item['image_scales'] != Missing.Value:
-                scale_url = "{}/{}".format(url, item['image_scales']['image'][0]['scales'][image_scale]['download'])
+            scale_url = get_scale_url(item, self.request, "image", image_scale)
             results.append(
                 {
                     "title": item.Title,

@@ -96,7 +96,7 @@ class TestText(ImioSmartwebTestCase):
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn('<div class="body-section figure-left figure-large "', view())
         self.assertIn("<figure", view())
-        self.assertIn("@@images/image/large", view())
+        self.assertIn("@@images/image-768-", view())
         self.assertNotIn("figcaption", view())
 
         section.image_caption = "Kamoulox"
@@ -113,4 +113,4 @@ class TestText(ImioSmartwebTestCase):
         section.image_size = "mini"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn('<div class="body-section figure-right figure-mini "', view())
-        self.assertIn("@@images/image/mini", view())
+        self.assertIn("@@images/image-200-", view())

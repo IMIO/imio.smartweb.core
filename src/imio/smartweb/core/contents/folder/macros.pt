@@ -11,9 +11,11 @@
       <tal:if tal:condition="view/show_images">
         <div tal:condition="python: not item.has_leadimage or not thumb_scale"
              class="newsImage card-img-top no-image" />
-        <div class="newsImage card-img-top"
-             tal:attributes="style python:'background-image:url({})'.format(view.get_scale_url(item, thumb_scale))"
-             tal:condition="python: item.has_leadimage and thumb_scale" />
+        <tal:img tal:condition="python: item.has_leadimage and thumb_scale">
+          <div class="newsImage card-img-top"
+               tal:define="image_url python:view.get_scale_url(item, thumb_scale)"
+               tal:attributes="style string:background-image:url(${image_url})" />
+        </tal:img>
       </tal:if>
       <div class="card-body">
           <h2 class="card-title" tal:content="item/Title" />
@@ -28,9 +30,11 @@
 
   <a class="row" tal:attributes="href item/getURL">
       <tal:if tal:condition="view/show_images">
-        <div class="newsImage card-img-left col-md-2"
-             tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale})"
-             tal:condition="python: item.has_leadimage and thumb_scale" />
+        <tal:img tal:condition="python: item.has_leadimage and thumb_scale">
+          <div class="newsImage card-img-left col-md-2"
+               tal:define="image_url python:view.get_scale_url(item, thumb_scale)"
+               tal:attributes="style string:background-image:url(${image_url})" />
+        </tal:img>
       </tal:if>
       <div class="list-card-body">
           <h2 class="list-card-title" tal:content="item/Title" />

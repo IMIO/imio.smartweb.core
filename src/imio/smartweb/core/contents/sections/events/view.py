@@ -30,6 +30,7 @@ class EventsView(CarouselOrTableSectionView):
             "metadata_fields=start",
             "metadata_fields=end",
             "metadata_fields=has_leadimage",
+            "metadata_fields=image_scales",
             "metadata_fields=UID",
             f"event_dates.query={today}",
             "event_dates.range=min",
@@ -54,6 +55,11 @@ class EventsView(CarouselOrTableSectionView):
             start = item["start"] and parse(item["start"]) or None
             end = item["end"] and parse(item["end"]) or None
             date_dict = {"start": start, "end": end}
+            image_url = ""
+            if item["has_leadimage"]:
+                scales = item["image_scales"]["image"][0]["scales"]
+                if image_scale in scales:
+                    image_url = f"{item_url}/{scales[image_scale]['download']}"
             results.append(
                 {
                     "title": item["title"],
@@ -61,7 +67,7 @@ class EventsView(CarouselOrTableSectionView):
                     "category": item["category_title"],
                     "event_date": date_dict,
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                    "image": f"{item_url}/@@images/image/{image_scale}",
+                    "image": image_url,
                     "has_image": item["has_leadimage"],
                 }
             )

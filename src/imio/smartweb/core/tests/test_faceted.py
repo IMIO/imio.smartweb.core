@@ -78,7 +78,7 @@ class TestFaceted(ImioSmartwebTestCase):
         brain = api.content.find(UID=uuid)[0]
         popup = popup_view.popup(brain)
         self.assertIn(
-            '<img src="http://nohost/plone/my-collection/@@images/image/mini"', popup
+            '<img src="http://nohost/plone/my-collection/@@images/image-200-', popup
         )
 
     def test_get_scale_url(self):
@@ -105,9 +105,9 @@ class TestFaceted(ImioSmartwebTestCase):
         page.image = NamedBlobImage(**make_named_image())
         page.reindexObject()
         brain = api.content.find(UID=uuid)[0]
-        self.assertEqual(
+        self.assertIn(
+            f"{page.absolute_url()}/@@images/image-390-",
             faceted_view.get_scale_url(brain),
-            f"{page.absolute_url()}/@@images/image/vignette",
         )
 
         # empty gallery

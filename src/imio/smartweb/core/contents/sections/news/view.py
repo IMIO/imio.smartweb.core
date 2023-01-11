@@ -18,6 +18,7 @@ class NewsView(CarouselOrTableSectionView):
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category_title",
             "metadata_fields=has_leadimage",
+            "metadata_fields=image_scales",
             "metadata_fields=effective",
             "metadata_fields=UID",
             "sort_on=effective",
@@ -39,6 +40,11 @@ class NewsView(CarouselOrTableSectionView):
             item_id = normalizeString(item["title"])
             item_url = item["@id"]
             item_uid = item["UID"]
+            image_url = ""
+            if item["has_leadimage"]:
+                scales = item["image_scales"]["image"][0]["scales"]
+                if image_scale in scales:
+                    image_url = f"{item_url}/{scales[image_scale]['download']}"
             results.append(
                 {
                     "title": item["title"],
@@ -46,7 +52,7 @@ class NewsView(CarouselOrTableSectionView):
                     "category": item["category_title"],
                     "effective": item["effective"],
                     "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                    "image": f"{item_url}/@@images/image/{image_scale}",
+                    "image": image_url,
                     "has_image": item["has_leadimage"],
                 }
             )

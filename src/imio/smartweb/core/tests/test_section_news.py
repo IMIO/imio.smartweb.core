@@ -2,7 +2,6 @@
 
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -27,12 +26,6 @@ class TestSectionNews(ImioSmartwebTestCase):
             type="imio.smartweb.PortalPage",
             id="Portal page",
         )
-        self.json_news = get_json("resources/json_rest_news.json")
-        # self.json_no_contact = get_json("resources/json_no_contact_raw_mock.json")
-        # self.json_contact_images = get_json(
-        #     "resources/json_contact_images_raw_mock.json"
-        # )
-        # self.json_no_image = get_json("resources/json_contact_no_image_raw_mock.json")
 
     @requests_mock.Mocker()
     def test_news(self, m):

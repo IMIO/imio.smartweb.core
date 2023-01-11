@@ -80,7 +80,7 @@ class ContactView(SectionView):
         if contact is None:
             return
         contact_url = contact["@id"]
-        query = "@search?portal_type=Image&path.depth=1&metadata=image_scales"
+        query = "@search?portal_type=Image&path.depth=1&metadata_fields=image_scales"
         images_url_request = "{}/{}".format(contact_url, query)
         json_images = get_json(images_url_request)
         if json_images is None or len(json_images.get("items", [])) == 0:
@@ -88,7 +88,7 @@ class ContactView(SectionView):
         results = []
         thumb_scale = self.context.image_scale
         for image in json_images.get("items"):
-            scales = image['image_scales']['image'][0]['scales']
+            scales = image["image_scales"]["image"][0]["scales"]
             url = large_url = image["@id"]
             if thumb_scale in scales:
                 url = f"{url}/{scales[thumb_scale]['download']}"
@@ -99,8 +99,9 @@ class ContactView(SectionView):
                     "title": image["title"],
                     "description": image["description"],
                     "image_url": url,
-                    "image_large_url":large_url,
-                })
+                    "image_large_url": large_url,
+                }
+            )
         return batch_results(results, self.context.nb_results_by_batch)
 
     @property
