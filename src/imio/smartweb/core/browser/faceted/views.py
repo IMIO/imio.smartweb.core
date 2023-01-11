@@ -8,6 +8,7 @@ from plone.app.contenttypes.browser.folder import FolderView
 from zope.component import queryAdapter
 from zope.interface import implementer
 
+import Missing
 
 @implementer(IViewWithoutLeadImage)
 class SmartwebFacetedContainerView(FacetedContainerView):
@@ -38,6 +39,6 @@ class FacetedView(FolderView):
             return scale_url
         if not item.has_leadimage:
             return ""
-        # TODO : beta1 : Get scale url from catalog
         url = item.getURL()
-        return f"{url}/@@images/image/{scale}"
+        scale_url = "{}/{}".format(url, item['image_scales']['image'][0]['scales'][scale]['download'])
+        return scale_url

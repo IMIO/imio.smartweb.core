@@ -38,9 +38,9 @@
              tal:attributes="href string:${item/absolute_url}/@@images/image/extralarge;
                              title item/title;
                              data-description item/description">
-            <img tal:attributes="src string:${item/absolute_url}/@@images/image/${thumb_scale};
-                                 alt item/title;
-                                 title item/title" />
+            <img tal:attributes="src python:view.get_scale_url(item);
+                                             alt item/title;
+                                             title item/title" />
           </a>
         </tal:images>
       </div>

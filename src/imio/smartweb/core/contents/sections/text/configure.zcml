@@ -11,7 +11,7 @@
   <browser:page
       name="view"
       for="imio.smartweb.core.contents.ISectionText"
-      class="imio.smartweb.core.contents.sections.views.SectionView"
+      class="imio.smartweb.core.contents.sections.text.views.TextView"
       template="view.pt"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"

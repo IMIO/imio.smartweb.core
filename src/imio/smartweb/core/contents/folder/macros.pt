@@ -12,7 +12,7 @@
         <div tal:condition="python: not item.has_leadimage or not thumb_scale"
              class="newsImage card-img-top no-image" />
         <div class="newsImage card-img-top"
-             tal:attributes="style string:background-image:url(${item/getURL}/@@images/image/${thumb_scale})"
+             tal:attributes="style python:'background-image:url({})'.format(view.get_scale_url(item, thumb_scale))"
              tal:condition="python: item.has_leadimage and thumb_scale" />
       </tal:if>
       <div class="card-body">
