@@ -5,6 +5,9 @@ Changelog
 1.1.1 (unreleased)
 ------------------
 
+- Use generated image scale urls to increase image caching
+  [boulch, laulaz]
+
 - Forbid minisite to be copied / moved inside another minisite
   [laulaz]
 
