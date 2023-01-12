@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.1 (unreleased)
+1.1.1 (2023-01-12)
 ------------------
 
 - Use generated image scale urls to increase image caching
