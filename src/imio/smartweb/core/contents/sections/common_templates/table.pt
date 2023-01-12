@@ -64,7 +64,7 @@
                             </div>
                             <div class="image d-block w-100"
                                  tal:condition="python: item_has_image and not item_has_icon"
-                                 tal:attributes="style string:background-image:url('${item/image}')">
+                                 tal:attributes="style string:background-image:url(${item/image})">
                             </div>
                             <div class="image d-block w-100"
                                  tal:condition="no_icon_no_image">

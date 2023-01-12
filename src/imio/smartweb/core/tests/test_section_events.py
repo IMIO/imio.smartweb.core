@@ -50,6 +50,6 @@ class TestSectionEvents(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.portalpage, self.request), name="full_view")
         self.assertIn("My events", view())
         events_view = queryMultiAdapter((events, self.request), name="carousel_view")
-        url = "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&sort_limit=6"
+        url = "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&sort_limit=6"
         m.get(url, text=json.dumps(self.json_events))
         self.assertEqual(events_view.items[0][0].get("title"), "Marche gourmande")

@@ -20,12 +20,12 @@
                tal:condition="not: viewlet_rendering"/>
 
   <div class="section-slide">
-    <div class="swiper-banner-image"
-         tal:define="image_view context/@@images;
-                     scale python: image_view.scale('image', 'banner');
-                     image_url scale/url | nothing"
-         tal:condition="python:context.image and not context.video_url"
-         tal:attributes="style string:background-image:url('${image_url}')"></div>
+
+    <tal:img tal:condition="python:context.image and not context.video_url">
+      <div class="swiper-banner-image"
+           tal:define="image_url view/get_scale_url"
+           tal:attributes="style string:background-image:url(${image_url})"></div>
+    </tal:img>
 
     <div class="swiper-banner-video"
          tal:condition="context/video_url"

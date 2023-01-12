@@ -7,6 +7,7 @@ from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
 from plone import api
 from plone.app.multilingual.interfaces import ILanguageRootFolder
+from plone.dexterity.interfaces import IDexterityContent
 from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
@@ -118,10 +119,29 @@ def get_default_content_id(obj):
 
 
 def get_scale_url(context, request, fieldname, scale):
-    images_view = queryMultiAdapter((context, request), name="images")
-    if images_view is None:
-        return ""
-    scale = images_view.scale(fieldname, scale)
-    if scale is None:
-        return ""
-    return scale.url
+    if IDexterityContent.providedBy(context):
+        # get scale url on an object
+        images_view = queryMultiAdapter((context, request), name="images")
+        if images_view is None:
+            return ""
+        scale = images_view.scale(fieldname, scale)
+        if scale is None:
+            return ""
+        return scale.url
+    else:
+        # get scale url on a brain
+        brain = context
+        if not getattr(brain, "image_scales", None):
+            return ""
+        if fieldname not in brain.image_scales:
+            return ""
+        try:
+            data = brain.image_scales[fieldname][0]["scales"][scale]
+        except (KeyError, IndexError):
+            return ""
+        url = (
+            data["download"]
+            if data["download"].startswith("http")
+            else f"{brain.getURL()}/{data['download']}"
+        )
+        return url

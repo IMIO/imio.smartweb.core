@@ -38,6 +38,4 @@ class FacetedView(FolderView):
             return scale_url
         if not item.has_leadimage:
             return ""
-        # TODO : beta1 : Get scale url from catalog
-        url = item.getURL()
-        return f"{url}/@@images/image/{scale}"
+        return get_scale_url(item, self.request, "image", scale)

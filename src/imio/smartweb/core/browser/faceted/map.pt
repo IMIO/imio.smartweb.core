@@ -45,7 +45,7 @@
                   <div class="geo-item-image">
                     <img style="border: none"
                          tal:condition="is_image"
-                         tal:attributes="src string:${brain/getURL}/@@images/image/preview"/>
+                         tal:attributes="src python:view.get_scale_url(obj);"/>
                   </div>
                   <div class="geo-item-text">
                     <div class="geo-item-title" tal:content="brain/pretty_title_or_id|string:">Title</div>

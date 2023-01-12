@@ -19,9 +19,9 @@
                      klass string:body-section figure-${context/alignment} figure-${context/image_size} ${collapse_klass};"
          tal:attributes="class python:'{} {}'.format(klass, 'no-image') if not image else klass;
                          id string:body-section-${context/id}">
-      <tal:cond condition="context/image | nothing">
+      <tal:cond condition="image">
         <figure>
-          <img alt="" tal:attributes="src string:${context/absolute_url}/@@images/image/${context/image_size};" />
+          <img alt="" tal:attributes="src python:view.get_scale_url(context);" />
           <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
         </figure>
       </tal:cond>

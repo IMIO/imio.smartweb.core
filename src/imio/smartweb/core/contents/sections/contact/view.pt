@@ -180,10 +180,9 @@
                 <div class="swiper-slide"
                      tal:repeat="image batch">
                   <a class="spotlight gallery_item"
-                     tal:define="image_url python:image.get('@id')"
-                     tal:attributes="href string:${image_url}/@@images/image/extralarge;">
+                     tal:attributes="href image/image_large_url">
                   <div class="swiper-image"
-                       tal:attributes="style python:f'background-image:url({image_url}/@@images/image/{thumb_scale})'">
+                       tal:attributes="style string:background-image:url(${image/image_url})">
                   </div>
                   </a>
                 </div>
@@ -199,11 +198,10 @@
             <tal:batch tal:repeat="batch images">
             <tal:images tal:repeat="image batch">
               <a class="spotlight gallery_item"
-                 tal:define="image_url python:image.get('@id')"
-                 tal:attributes="href string:${image_url}/@@images/image/extralarge;
+                 tal:attributes="href image/image_large_url;
                                  title image/title;
                                  data-description image/description">
-                <img tal:attributes="src string:${image_url}/@@images/image/${thumb_scale};
+                <img tal:attributes="src string:${image/image_url};
                                      alt image/title;
                                      title image/title" />
               </a>

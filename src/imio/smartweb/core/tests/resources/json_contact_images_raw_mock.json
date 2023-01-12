@@ -1,10 +1,28 @@
 {
-    "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1",
+    "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/@search?portal_type=Image&path.depth=1&metadata_fields=image_scales",
     "items": [
         {
             "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image1.jpg",
             "@type": "Image",
             "description": "",
+            "image_scales": {"image": [{"content-type": "image/png",
+                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
+                                        "filename": "image12.44.13.png",
+                                        "height": 920,
+                                        "scales": {
+                                            "extralarge": {
+                                                "download": "@@images/image-1320-8ccd2ce1297e19bfe1e6a4d506afb303.png",
+                                                "height": 540,
+                                                "width": 1320
+                                            },
+                                            "preview": {
+                                                "download": "@@images/image-400-b5b8304629d8af0ff32305173701bd4d.png",
+                                                "height": 163,
+                                                "width": 400
+                                            }
+                                        },
+                                        "size": 351932,
+                                        "width": 2246}]},
             "review_state": null,
             "title": "image1.jpg"
         },
@@ -12,6 +30,24 @@
             "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35/image2.jpg",
             "@type": "Image",
             "description": "",
+            "image_scales": {"image": [{"content-type": "image/png",
+                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42b.png",
+                                        "filename": "image12.44.14.png",
+                                        "height": 920,
+                                        "scales": {
+                                            "extralarge": {
+                                                "download": "@@images/image-1320-8ccd2ce1297e19bfe1e6a4d506afb304.png",
+                                                "height": 540,
+                                                "width": 1320
+                                            },
+                                            "preview": {
+                                                "download": "@@images/image-400-b5b8304629d8af0ff32305173701bd4e.png",
+                                                "height": 163,
+                                                "width": 400
+                                            }
+                                        },
+                                        "size": 351932,
+                                        "width": 2246}]},
             "review_state": null,
             "title": "image2.jpg"
         }

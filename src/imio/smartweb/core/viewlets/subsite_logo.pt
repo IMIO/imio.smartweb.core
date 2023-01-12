@@ -1,7 +1,7 @@
 <div id="subsite-logo" tal:condition="view/available">
     <a tal:attributes="href string:${view/subsite_root/absolute_url}">
         <img tal:condition="view/show_logo"
-             tal:attributes="src string:${view/subsite_root/absolute_url}/@@images/logo/preview;
+             tal:attributes="src view/get_logo_scale_url;
                              alt view/subsite_root/title;
                              title view/subsite_root/title" />
         <div class="subsite-title"
