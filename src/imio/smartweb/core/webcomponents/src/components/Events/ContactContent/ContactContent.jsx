@@ -71,7 +71,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
 		"+" +
 		contactItem.city
 	itineraryLink = itineraryLink.replaceAll('+null', '')
-
 	return (
 		<div className="envent-content r-content">
 			<button type="button" onClick={handleClick}>
@@ -85,8 +84,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					<div
 						className="r-content-img"
 						style={{
-							backgroundImage: contactItem["@id"]
-								? "url(" + contactItem["@id"] + "/@@images/image/affiche" + ")"
+							backgroundImage: contactItem.image
+								? "url(" + contactItem.image.scales.affiche.download + ")"
 								: "",
 						}}
 					/>

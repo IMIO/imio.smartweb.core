@@ -125,7 +125,6 @@ function ContentMap(props) {
                             ]}
                             eventHandlers={{
                                 mouseover: (e) => {
-                                //   console.log(e.target.options.icon)
                                 },
                               }}
                         >

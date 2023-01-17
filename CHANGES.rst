@@ -5,7 +5,8 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Replacement of hard coded urls for images
+  [thomlamb]
 
 
 1.1.1 (2023-01-12)

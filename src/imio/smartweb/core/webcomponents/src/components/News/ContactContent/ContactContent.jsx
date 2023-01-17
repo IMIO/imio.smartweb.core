@@ -67,8 +67,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
                     <div
                         className="r-content-img"
                         style={{
-                            backgroundImage: contactItem["@id"]
-                                ? "url(" + contactItem["@id"] + "/@@images/image/affiche" + ")"
+                            backgroundImage: contactItem.image
+                                ? "url(" + contactItem.image.scales.affiche.download + ")"
                                 : "",
                         }}
                     />
