@@ -5,7 +5,8 @@
         <metal:main fill-slot="content-core">
 
             <div class="">
-                <smartweb-search tal:attributes="query-url view/navroot_url">
+                <smartweb-search tal:attributes="query-url view/navroot_url;
+                                                result-option view/get_search_result_option">
                 </smartweb-search >
             </div>
 

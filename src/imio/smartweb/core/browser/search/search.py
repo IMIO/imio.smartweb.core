@@ -50,3 +50,14 @@ class Search(Search):
             id=item_id,
             uid=item.UID,
         )
+
+    def get_search_result_option(self):
+        directory_entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
+        events_entity_uid = api.portal.get_registry_record("smartweb.events_entity_uid")
+        news_entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
+
+        return {
+            "directory": bool(directory_entity_uid),
+            "events": bool(events_entity_uid),
+            "news": bool(news_entity_uid)
+        }

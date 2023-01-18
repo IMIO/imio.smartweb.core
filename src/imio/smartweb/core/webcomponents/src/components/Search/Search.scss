@@ -38,6 +38,9 @@
     }
     .r-search-result{
       margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
     }
     
     .r-search.search-bar-filter{
