@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Fix search webcomponent in offcanvas
+  [Julien]
+
 - Add option to display search result type depending of type assignation to city
   [Julien]
 

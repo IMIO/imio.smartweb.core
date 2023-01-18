@@ -4,8 +4,9 @@
   </div>
   <div class="offcanvas-body">
     <div class="search">
-      <smartweb-search tal:attributes="query-url view/navroot_url">
-      </smartweb-search >
+       <smartweb-search tal:attributes="query-url view/navroot_url;
+                                        result-option view/get_search_result_option">
+        </smartweb-search >
     </div>
   </div>
 </div>
