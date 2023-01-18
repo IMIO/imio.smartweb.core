@@ -10,21 +10,18 @@ import "./Search.scss";
 
 const jsonParse = (string) => {
     return JSON.parse(
-    string.replaceAll("'", '"')
-        .replaceAll("False", '"False"')
-        .replaceAll("True", '"True"'),
-    (key, value) => {
-        if (value === "True") {
-            return true;
+        string.replaceAll("'", '"').replaceAll("False", '"False"').replaceAll("True", '"True"'),
+        (key, value) => {
+            if (value === "True") {
+                return true;
+            }
+            if (value === "False") {
+                return false;
+            }
+            return value;
         }
-        if (value === "False") {
-            return false;
-        }
-        return value;
-    }
-);
-
-}
+    );
+};
 
 export default function Search(props) {
     return (
@@ -60,9 +57,15 @@ const SearchView = (props) => {
                 </div>
                 <div className="r-search-result">
                     <WebResult urlParams={filters} url={props.queryUrl} />
-                    {props.resultOption.news && <NewsResult urlParams={filters} url={props.queryUrl} />}
-                    {props.resultOption.events && <EventsResult urlParams={filters} url={props.queryUrl} />}
-                    {props.resultOption.directory && <ContactResult urlParams={filters} url={props.queryUrl} />}
+                    {props.resultOption.news && (
+                        <NewsResult urlParams={filters} url={props.queryUrl} />
+                    )}
+                    {props.resultOption.events && (
+                        <EventsResult urlParams={filters} url={props.queryUrl} />
+                    )}
+                    {props.resultOption.directory && (
+                        <ContactResult urlParams={filters} url={props.queryUrl} />
+                    )}
                 </div>
             </div>
         </div>
