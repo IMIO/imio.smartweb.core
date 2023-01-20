@@ -8,28 +8,15 @@ import WebResult from "./WebResult/WebResult";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import "./Search.scss";
 
-const jsonParse = (string) => {
-    return JSON.parse(
-        string.replaceAll("'", '"').replaceAll("False", '"False"').replaceAll("True", '"True"'),
-        (key, value) => {
-            if (value === "True") {
-                return true;
-            }
-            if (value === "False") {
-                return false;
-            }
-            return value;
-        }
-    );
-};
 
 export default function Search(props) {
+
     return (
         <Router>
             <SearchView
                 queryFilterUrl={props.queryFilterUrl}
                 queryUrl={props.queryUrl}
-                resultOption={jsonParse(props.resultOption)}
+                resultOption={JSON.parse(props.resultOption)}
             />
         </Router>
     );

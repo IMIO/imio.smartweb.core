@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Refactor and simplify webcomponent props
+  [Julien]
+
 - Fix search webcomponent in offcanvas
   [Julien]
 
