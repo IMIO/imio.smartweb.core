@@ -8,9 +8,7 @@ import WebResult from "./WebResult/WebResult";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import "./Search.scss";
 
-
 export default function Search(props) {
-
     return (
         <Router>
             <SearchView
