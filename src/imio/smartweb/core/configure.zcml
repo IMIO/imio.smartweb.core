@@ -11,6 +11,7 @@
   <include package="collective.instancebehavior" />
   <include package="collective.messagesviewlet" />
   <include package="collective.sendinblue" />
+  <include package="collective.solr" />
   <include package="collective.taxonomy" />
   <include package="collective.z3cform.datagridfield" />
 

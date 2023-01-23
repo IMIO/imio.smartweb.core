@@ -10,6 +10,7 @@
     <dependency>profile-collective.geolocationbehavior:default</dependency>
     <dependency>profile-collective.messagesviewlet:default</dependency>
     <dependency>profile-collective.sendinblue:default</dependency>
+    <dependency>profile-collective.solr:default</dependency>
     <dependency>profile-collective.taxonomy:default</dependency>
     <dependency>profile-collective.z3cform.datagridfield:default</dependency>
     <dependency>profile-plone.gallery:default</dependency>
