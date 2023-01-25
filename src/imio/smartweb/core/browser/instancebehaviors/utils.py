@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.common.utils import get_vocabulary
+from imio.smartweb.core.contents import ICirkwiView
 from imio.smartweb.core.contents import IPage
 from imio.smartweb.core.contents import IProcedure
 from Products.Five.browser import BrowserView
@@ -15,4 +16,8 @@ class UtilsView(BrowserView):
         )
         if len(instance_behaviors_voc) == 0:
             return False
-        return IPage.providedBy(self.context) or IProcedure.providedBy(self.context)
+        return (
+            IPage.providedBy(self.context)
+            or IProcedure.providedBy(self.context)
+            or ICirkwiView.providedBy(self.context)
+        )

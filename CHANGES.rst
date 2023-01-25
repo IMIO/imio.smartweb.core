@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Add new content type : imio.smartweb.CirkwiView
+  [boulch, laulaz]
+
 - Add authentic sources menu in toolbar
   [boulch, laulaz]
 

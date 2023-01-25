@@ -107,6 +107,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1035_to_1036"
+      title="Upgrade common from 1035 to 1036"
+      directory="profiles/1035_to_1036"
+      description="Add new content type : imio.smartweb.CirkwiView"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -476,6 +484,16 @@
     <genericsetup:upgradeDepends
         title="Enable autopublishing behavior on all types"
         import_profile="imio.smartweb.core.upgrades:upgrade_1034_to_1035"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1035"
+      destination="1036"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new content type : imio.smartweb.CirkwiView"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1035_to_1036"
     />
   </genericsetup:upgradeSteps>
 

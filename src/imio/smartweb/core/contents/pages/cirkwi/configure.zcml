@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+      name="view"
+      for="imio.smartweb.core.contents.ICirkwiView"
+      class=".view.CirkwiViewView"
+      template="view.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+</configure>

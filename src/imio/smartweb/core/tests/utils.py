@@ -73,6 +73,17 @@ def get_json(json_filename):
         return json_procedures_raw_mock
 
 
+def get_html(html_filename):
+    with open(
+        os.path.join(
+            os.path.dirname(__file__),
+            html_filename,
+        ),
+    ) as html_file:
+        html_raw_mock = html_file.read()
+        return html_raw_mock
+
+
 def clear_cache(request):
     annotations = IAnnotations(request)
     del annotations["plone.memoize"]

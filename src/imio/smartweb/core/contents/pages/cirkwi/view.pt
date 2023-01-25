@@ -1,0 +1,13 @@
+<html
+         metal:use-macro="context/main_template/macros/master"
+         i18n:domain="imio.smartweb">
+<body>
+<metal:main fill-slot="content-core">
+  <div class="full-width">
+    <div class="cirkwi_richtext" tal:content="structure context/text/output|nothing"></div>
+    <div class="cirkwi_contents" tal:content="structure view/get_cirkwi_html" />
+  </div>
+</metal:main>
+
+</body>
+</html>
