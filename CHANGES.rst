@@ -17,6 +17,9 @@ Changelog
 - WEB-3755 : Adapt empty (without section) procedure message
   [boulch, laulaz]
 
+- Bring current-language attribute in rest views templates (useful for translations in JS)
+  [boulch]
+
 - Handle search result types depending on available authentic sources for site
   [Julien]
 
