@@ -5,13 +5,7 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
-- Refactor and simplify webcomponent props
-  [Julien]
-
-- Fix search webcomponent in offcanvas
-  [Julien]
-
-- Add option to display search result type depending of type assignation to city
+- Handle search result types depending on available authentic sources for site
   [Julien]
 
 - Replacement of hard coded urls for images
