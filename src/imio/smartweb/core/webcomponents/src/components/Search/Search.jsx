@@ -11,7 +11,11 @@ import "./Search.scss";
 export default function Search(props) {
     return (
         <Router>
-            <SearchView queryFilterUrl={props.queryFilterUrl} queryUrl={props.queryUrl} />
+            <SearchView
+                queryFilterUrl={props.queryFilterUrl}
+                queryUrl={props.queryUrl}
+                resultOption={JSON.parse(props.resultOption)}
+            />
         </Router>
     );
 }
@@ -36,11 +40,17 @@ const SearchView = (props) => {
                 <div className="row r-search-filters">
                     <Filters url={props.queryUrl} activeFilter={filters} onChange={filtersChange} />
                 </div>
-                <div className="row r-search-result">
+                <div className="r-search-result">
                     <WebResult urlParams={filters} url={props.queryUrl} />
-                    <NewsResult urlParams={filters} url={props.queryUrl} />
-                    <EventsResult urlParams={filters} url={props.queryUrl} />
-                    <ContactResult urlParams={filters} url={props.queryUrl} />
+                    {props.resultOption.news && (
+                        <NewsResult urlParams={filters} url={props.queryUrl} />
+                    )}
+                    {props.resultOption.events && (
+                        <EventsResult urlParams={filters} url={props.queryUrl} />
+                    )}
+                    {props.resultOption.directory && (
+                        <ContactResult urlParams={filters} url={props.queryUrl} />
+                    )}
                 </div>
             </div>
         </div>

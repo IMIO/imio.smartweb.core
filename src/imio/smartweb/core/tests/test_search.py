@@ -8,6 +8,8 @@ from plone.app.testing import setRoles
 from plone.app.textfield.value import RichTextValue
 from zope.component import queryMultiAdapter
 
+import json
+
 
 class TestSearch(ImioSmartwebTestCase):
 
@@ -55,3 +57,8 @@ class TestSearch(ImioSmartwebTestCase):
             title="kamoulox",
         )
         self.assertEqual(len(search.results()), 2)
+
+    def test_search_result_option(self):
+        search = queryMultiAdapter((self.portal, self.request), name="search")
+        options = json.loads(search.get_search_result_option())
+        self.assertDictEqual(options, {"directory": True, "events": True, "news": True})

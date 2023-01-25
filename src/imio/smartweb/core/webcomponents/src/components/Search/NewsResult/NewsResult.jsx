@@ -25,7 +25,7 @@ const NewsResult = (props) => {
         }
     }, [response]);
     return (
-        <div className="search-news col-lg-3">
+        <div className="search-news">
             <div className="r-search-header">
                 <h2 className="r-search-header-title">Actualités</h2>
                 <p className="r-search-header-count">

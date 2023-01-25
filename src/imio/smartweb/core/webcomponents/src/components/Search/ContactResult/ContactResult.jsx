@@ -25,7 +25,7 @@ const ContactResult = (props) => {
         }
     }, [response]);
     return (
-        <div className="search-contact col-lg-3">
+        <div className="search-contact">
             <div className="r-search-header">
                 <h2 className="r-search-header-title">Contacts</h2>
                 <p className="r-search-header-count">
