@@ -1,0 +1,13 @@
+{
+    "@id": "http://localhost:8080/Plone/@search?UID=7c69f9a738ec497c819725c55888ee31",
+    "items": [
+        {
+            "@id": "http://localhost:8080/Plone/manage-events",
+            "@type": "imio.events.Entity",
+            "description": "",
+            "review_state": "published",
+            "title": "Manage"
+        }
+    ],
+    "items_total": 1
+}

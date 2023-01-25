@@ -1,0 +1,13 @@
+{
+    "@id": "http://localhost:8080/Plone/@search?UID=396907b3b1b04a97896b12cc792c77f8",
+    "items": [
+        {
+            "@id": "http://localhost:8080/Plone/manage-directory",
+            "@type": "imio.directory.Entity",
+            "description": "",
+            "review_state": "published",
+            "title": "Manage"
+        }
+    ],
+    "items_total": 1
+}
