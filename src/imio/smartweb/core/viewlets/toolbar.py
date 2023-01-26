@@ -35,10 +35,14 @@ class AuthenticSourcesMenuItem(BrowserSubMenuItem):
         permission = "cmf.ModifyPortalContent"
         if api.user.has_permission(permission, obj=self.context) is False:
             return False
-        news_entity_url = api.portal.get_registry_record("smartweb.news_entity_uid")
-        events_entity_url = api.portal.get_registry_record("smartweb.events_entity_uid")
+        news_entity_url = api.portal.get_registry_record(
+            "smartweb.news_entity_uid", default=None
+        )
+        events_entity_url = api.portal.get_registry_record(
+            "smartweb.events_entity_uid", default=None
+        )
         directory_entity_url = api.portal.get_registry_record(
-            "smartweb.directory_entity_uid"
+            "smartweb.directory_entity_uid", default=None
         )
         return news_entity_url or events_entity_url or directory_entity_url
 
