@@ -28,6 +28,11 @@
       />
 
   <permission
+      id="imio.smartweb.core.AddCirkwiView"
+      title="imio.smartweb.core: Add Cirkwi view"
+      />
+
+  <permission
     id="imio.smartweb.core.ManageMinisite"
     title="imio.smartweb.core: Manage Minisite"
     description=""

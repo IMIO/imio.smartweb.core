@@ -1,6 +1,7 @@
 from .blocks.link.content import IBlockLink, BlockLink  # NOQA
 from .pages.pages import IPages, IDefaultPages, Pages  # NOQA
 from .folder.content import IFolder, Folder  # NOQA
+from .pages.cirkwi.content import ICirkwiView, CirkwiView  # NOQA
 from .pages.footer.content import IFooter, Footer  # NOQA
 from .pages.herobanner.content import IHeroBanner, HeroBanner  # NOQA
 from .pages.page.content import IPage, Page  # NOQA

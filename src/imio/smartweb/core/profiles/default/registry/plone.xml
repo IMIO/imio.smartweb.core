@@ -43,6 +43,7 @@
             interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
             field="displayed_types">
       <value purge="false">
+        <element>imio.smartweb.CirkwiView</element>
         <element>imio.smartweb.DirectoryView</element>
         <element>imio.smartweb.EventsView</element>
         <element>imio.smartweb.Folder</element>

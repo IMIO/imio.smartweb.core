@@ -37,6 +37,13 @@
       <role name="Contributor"/>
     </permission>
 
+    <permission name="imio.smartweb.core: Add Cirkwi view" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Contributor"/>
+    </permission>
+
     <permission name="imio.smartweb.core: Manage Minisite" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
