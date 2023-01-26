@@ -1,1 +1,1 @@
-(()=>{"use strict";jQuery(document).ready((function(e){e("#contentview-preview a").click((function(t){e(".hide-in-preview, #section-byline, #global_statusmessage").toggle("fast"),t.preventDefault()}))}))})();
+(()=>{"use strict";jQuery(document).ready((function(e){e("#contentview-preview a").click((function(t){e(".hide-in-preview, #section-byline, #global_statusmessage").toggle("fast"),t.preventDefault()}));var t=e("#plone-authentic-sources-menu").wrap("<ul class='plonetoolbar-authentic-sources-menu'>").parent();e(".personaltools-wrapper").prepend(t)}))})();
