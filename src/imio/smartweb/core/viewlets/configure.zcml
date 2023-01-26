@@ -328,4 +328,16 @@
       permission="zope2.View"
       />
 
+  <browser:menu
+      id="authentic-sources-menu"
+      title=""
+      class=".toolbar.AuthenticSourcesMenu"
+      />
+
+  <adapter
+      for="* *"
+      name="smartweb.menu.authentic_sources"
+      factory=".toolbar.AuthenticSourcesMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+
 </configure>

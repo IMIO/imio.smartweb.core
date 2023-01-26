@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Add authentic sources menu in toolbar
+  [boulch, laulaz]
+
 - WEB-3755 : Adapt empty (without section) procedure message
   [boulch, laulaz]
 
