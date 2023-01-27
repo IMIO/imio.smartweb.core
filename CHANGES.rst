@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.2 (unreleased)
+1.1.2 (2023-01-27)
 ------------------
 
 - Adding react-translated and translate static React txt
