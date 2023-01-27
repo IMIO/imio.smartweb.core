@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Fix "zope.schema._bootstrapinterfaces.ConstraintNotSatisfied" in smartweb settings
+  [boulch]
+
 - Add new content type : imio.smartweb.CirkwiView
   [boulch, laulaz]
 

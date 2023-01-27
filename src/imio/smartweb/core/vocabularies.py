@@ -16,7 +16,7 @@ from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.interfaces import ICollection
-from plone.dexterity.content import Item
+from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
 from time import time
@@ -318,8 +318,10 @@ ImageSizeVocabulary = ImageSizeVocabularyFactory()
 
 class DirectoryViewsVocabularyFactory(object):
     def __call__(self, context=None):
-        if not isinstance(context, Item):
+        if IDexterityContent.providedBy(context):
             context = api.portal.get_navigation_root(context)
+        else:
+            context = api.portal.get()
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.DirectoryView"
         )
@@ -335,8 +337,10 @@ DirectoryViewsVocabulary = DirectoryViewsVocabularyFactory()
 
 class EventsViewsVocabularyFactory(object):
     def __call__(self, context=None):
-        if not isinstance(context, Item):
+        if IDexterityContent.providedBy(context):
             context = api.portal.get_navigation_root(context)
+        else:
+            context = api.portal.get()
         brains = api.content.find(
             context=context, portal_type="imio.smartweb.EventsView"
         )
@@ -352,8 +356,10 @@ EventsViewsVocabulary = EventsViewsVocabularyFactory()
 
 class NewsViewsVocabularyFactory(object):
     def __call__(self, context=None):
-        if not isinstance(context, Item):
+        if IDexterityContent.providedBy(context):
             context = api.portal.get_navigation_root(context)
+        else:
+            context = api.portal.get()
         brains = api.content.find(context=context, portal_type="imio.smartweb.NewsView")
         terms = [
             SimpleTerm(value=b.UID, token=b.UID, title=breadcrumb(b.getObject()))
