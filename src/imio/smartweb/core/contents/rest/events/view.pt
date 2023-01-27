@@ -8,7 +8,8 @@
       <smartweb-events tal:attributes="query-url view/local_query_url;
                                        query-filter-url view/local_filters_query_url;
                                        batch-size view/batch_size;
-                                       propose-url view/propose_url;"></smartweb-events>
+                                       propose-url view/propose_url;
+                                       current-language view/get_current_language;"></smartweb-events>
     </div>
     </metal:main>
   </body>
