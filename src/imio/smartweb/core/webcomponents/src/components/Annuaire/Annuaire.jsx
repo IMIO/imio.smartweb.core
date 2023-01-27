@@ -8,16 +8,20 @@ import ContactMap from "./ContactMap/ContactMap";
 import useAxios from "../../hooks/useAxios";
 import "./Annuaire.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
+import { Provider, Translate } from "react-translated";
+import translation from '../../utils/translation';
 
 export default function Annuaire(props) {
     return (
         <Router>
-            <AnnuaireView
-                queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl}
-                proposeUrl={props.proposeUrl}
-                batchSize={props.batchSize}
-            />
+            <Provider language="fr" translation={translation}>
+                <AnnuaireView
+                    queryFilterUrl={props.queryFilterUrl}
+                    queryUrl={props.queryUrl}
+                    proposeUrl={props.proposeUrl}
+                    batchSize={props.batchSize}
+                />
+            </Provider>
         </Router>
     );
 }
@@ -124,7 +128,7 @@ function AnnuaireView(props) {
             />
         );
     } else {
-        listRender = <p>Aucun contact n'a été trouvé</p>;
+        listRender = <p><Translate text="Aucun contact n'a été trouvé" /></p>;
     }
     return (
         <Router>
@@ -153,17 +157,19 @@ function AnnuaireView(props) {
                         {props.proposeUrl &&
                             (
                                 <div className="r-add-contact">
-                                    <a target="_blank" href={props.proposeUrl}>Proposer un contact</a>
+                                    <a target="_blank" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
                                 </div>
                             )
                         }
                         {contactNumber > 0 ? (
                             <p className="r-results-numbers">
                                 <span>{contactNumber}</span>
-                                {contactNumber > 1 ? " contacts trouvés" : " contact trouvé"}
+                                {contactNumber > 1 
+                                ? <Translate text=' contacts trouvés' />
+                                : <Translate text=' contact trouvé' />}
                             </p>
                         ) : (
-                            <p className="r-results-numbers">Aucun résultat</p>
+                            <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
                         )}
                     </div>
                 </div>
@@ -191,11 +197,11 @@ function AnnuaireView(props) {
                                 <div className="r-load-more">
                                     {contactNumber - props.batchSize > batchStart ? (
                                         <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? "Chargement..." : "Plus de résultats"}
+                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
                                         </button>
                                     ) : (
                                         <span className="no-more-result">
-                                            {isLoading ? "Chargement..." : ""}
+                                            {isLoading ? <Translate text='Chargement...' /> : ""}
                                         </span>
                                     )}
                                 </div>

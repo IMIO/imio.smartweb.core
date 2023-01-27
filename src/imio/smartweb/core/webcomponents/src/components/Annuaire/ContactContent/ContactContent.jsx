@@ -5,6 +5,7 @@ import useFilterQuery from "../../../hooks/useFilterQuery";
 import ReactMarkdown from 'react-markdown'
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css"
+import { Translate } from "react-translated";
 
 const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
@@ -71,7 +72,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
     return (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
-                Retour
+                <Translate text="Retour" />
             </button>
             <article>
                 <header>
@@ -232,7 +233,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 				{
 					files ? (
 						<div className="r-content-files">
-							<h2 className="r-content-files-title">Téléchargements</h2>
+							<h2 className="r-content-files-title"><Translate text="Téléchargements" /></h2>
 							{files.map((file) => (
 								<div className="r-content-file">
 									<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">

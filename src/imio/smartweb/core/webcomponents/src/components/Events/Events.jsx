@@ -8,16 +8,20 @@ import ContactMap from "./ContactMap/ContactMap";
 import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
+import { Provider, Translate } from "react-translated";
+import translation from '../../utils/translation';
 
 export default function Events(props) {
     return (
         <Router>
-            <EventsView
-                queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl}
-                proposeUrl={props.proposeUrl}
-                batchSize={props.batchSize}
-            />
+            <Provider language="fr" translation={translation}>
+                <EventsView
+                    queryFilterUrl={props.queryFilterUrl}
+                    queryUrl={props.queryUrl}
+                    proposeUrl={props.proposeUrl}
+                    batchSize={props.batchSize}
+                />
+            </Provider>
         </Router>
     );
 }
@@ -127,7 +131,7 @@ function EventsView(props) {
             />
         );
     } else {
-        listRender = <p>Aucun événement n'a été trouvé</p>;
+        listRender = <p><Translate text="Aucun événement n'a été trouvé" /></p>;
     }
     return (
         <Router>
@@ -156,17 +160,19 @@ function EventsView(props) {
                     {props.proposeUrl &&
                         (
                             <div className="r-add-event">
-                                <a target="_blank" href={props.proposeUrl}>Proposer un événement</a>
+                                <a target="_blank" href={props.proposeUrl}><Translate text='Proposer un événement' /></a>
                             </div>
                         )
                     }
                     {contactNumber > 0 ? (
                         <p className="r-results-numbers">
                             <span>{contactNumber}</span>
-                            {contactNumber > 1 ? " événements trouvés" : "événement trouvé"}
+                            {contactNumber > 1 
+                                ? <Translate text=' événements trouvés' />
+                                : <Translate text=' événement trouvé' />}
                         </p>
                     ) : (
-                        <p className="r-results-numbers">Aucun résultat</p>
+                        <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
                     )}
                 </div>
                 </div>
@@ -194,11 +200,11 @@ function EventsView(props) {
                                 <div className="r-load-more">
                                     {contactNumber - props.batchSize > batchStart ? (
                                         <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? "Chargement..." : "Plus de résultats"}
+                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
                                         </button>
                                     ) : (
                                         <span className="no-more-result">
-                                            {isLoading ? "Chargement..." : ""}
+                                            {isLoading ? <Translate text='Chargement...' /> : ""}
                                         </span>
                                     )}
                                 </div>

@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import Select from "react-select";
 import { useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
+import { Translator } from "react-translated";
 
 function Filters(props) {
     let history = useHistory();
@@ -114,43 +115,61 @@ function Filters(props) {
             <form className="r-filter" onSubmit={handleSubmit}>
                 {/* <label>Recherche</label> */}
                 <div className="r-filter-search">
-                    <input
-                        className="input-custom-class"
-                        name="SearchableText"
-                        type="text"
-                        value={inputValues.SearchableText}
-                        onChange={onChangeHandler}
-                        placeholder={"Recherche"}
-                    />
+                    <Translator>
+                        {({ translate }) => (
+                        <input
+                            className="input-custom-class"
+                            name="SearchableText"
+                            type="text"
+                            value={inputValues.SearchableText}
+                            onChange={onChangeHandler}
+                            placeholder={translate({
+                                text: 'Recherche'
+                              })}
+                        />
+                    )}
+                    </Translator>
                     <button type="submit"></button>
                 </div>
             </form>
 
             <div className="r-filter topics-Filter">
                 {/* <label>Thématiques</label> */}
-                <Select
-                    styles={customStyles}
-                    name={"topics"}
-                    className="select-custom-class library-topics"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={topicsFilter && topicsFilter}
-                    placeholder={"Thématiques"}
-                    value={actTopi && actTopi[0]}
-                />
+                <Translator>
+                    {({ translate }) => (
+                        <Select
+                            styles={customStyles}
+                            name={"topics"}
+                            className="select-custom-class library-topics"
+                            isClearable
+                            onChange={onChangeHandlerSelect}
+                            options={topicsFilter && topicsFilter}
+                            placeholder={translate({
+                                text: 'Thématiques'
+                            })}
+                            value={actTopi && actTopi[0]}
+                        />
+                    )}
+                </Translator>
             </div>
             <div className="r-filter  facilities-Filter">
                 {/* <label>Catégories</label> */}
-                <Select
-                    styles={customStyles}
-                    name={"category"}
-                    className="select-custom-class library-facilities"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={categoryFilter && categoryFilter}
-                    placeholder={"Catégories"}
-                    value={actCategory && actCategory[0]}
-                />
+                <Translator>
+                    {({ translate }) => (
+                        <Select
+                            styles={customStyles}
+                            name={"category"}
+                            className="select-custom-class library-facilities"
+                            isClearable
+                            onChange={onChangeHandlerSelect}
+                            options={categoryFilter && categoryFilter}
+                            placeholder={translate({
+                                text: 'Catégories'
+                              })}
+                            value={actCategory && actCategory[0]}
+                        />
+                    )}
+                </Translator>
             </div>
         </React.Fragment>
     );

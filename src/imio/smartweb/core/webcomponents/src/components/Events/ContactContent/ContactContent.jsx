@@ -7,6 +7,7 @@ import Moment from "react-moment";
 import ReactMarkdown from 'react-markdown'
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css"
+import { Translate } from "react-translated";
 
 const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
@@ -74,7 +75,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 	return (
 		<div className="envent-content r-content">
 			<button type="button" onClick={handleClick}>
-				Retour
+				<Translate text="Retour" />
 			</button>
 			<article>
 				<header>
@@ -90,7 +91,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						}}
 					/>
 				</figure>
-				<span className="news-info-title">Infos pratiques</span>
+				<span className="news-info-title"><Translate text="Infos pratiques" /></span>
 				<div className="r-content-news-info">
 					<div className="r-content-news-info-container">
 						{/* date */}
@@ -168,7 +169,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 								</div>
 								{contactItem.reduced_mobility_facilities === true ? (
 									<div className="r-content-news-info--reduced">
-										<span>Accessible aux PMR</span>
+										<span><Translate text="Accessible aux PMR" /></span>
 									</div>
 								) : (
 									""
@@ -218,7 +219,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 										""
 									) : (
 										<div className="r-content-news-info-event_link">
-											<a href={contactItem.event_url}>Lien de l'événement</a>
+											<a href={contactItem.event_url}><Translate text="Lien de l'événement" /></a>
 										</div>
 									)}
 									{contactItem.online_participation === null ? (
@@ -226,7 +227,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 									) : (
 										<div className="r-content-news-info--online_participation">
 											<a href={contactItem.online_participation}>
-												Participation en ligne
+												<Translate text="Participation en ligne" />
 											</a>
 										</div>
 									)}
@@ -234,7 +235,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 										""
 									) : (
 										<div className="r-content-news-info--video">
-											<a href={contactItem.video_url}>Lien vers la vidéo</a>
+											<a href={contactItem.video_url}><Translate text="Lien vers la vidéo" /></a>
 										</div>
 									)}
 								</div>
@@ -332,7 +333,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 										<circle cx="13.03" cy="10.85" r="0.63" fill="fill:#fff" />
 										<circle cx="13.03" cy="12.73" r="0.63" fill="fill:#fff" />
 									</svg>
-									Billetterie
+									<Translate text="Billetterie" />
 								</a>
 							</div>
 						) : (
@@ -353,7 +354,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 								{
 					files ? (
 						<div className="r-content-files">
-							<h2 className="r-content-files-title">Téléchargements</h2>
+							<h2 className="r-content-files-title"><Translate text="Téléchargements" /></h2>
 							{files.map((file) => (
 								<div className="r-content-file">
 									<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">

@@ -7,16 +7,20 @@ import ContactList from "./ContactList/ContactList";
 import useAxios from "../../hooks/useAxios";
 import "./News.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
+import { Provider, Translate } from "react-translated";
+import translation from '../../utils/translation';
 
 export default function News(props) {
     return (
         <Router>
-            <NewsView
-                queryFilterUrl={props.queryFilterUrl}
-                queryUrl={props.queryUrl}
-                proposeUrl={props.proposeUrl}
-                batchSize={props.batchSize}
-            />
+            <Provider language="fr" translation={translation}>
+                <NewsView
+                    queryFilterUrl={props.queryFilterUrl}
+                    queryUrl={props.queryUrl}
+                    proposeUrl={props.proposeUrl}
+                    batchSize={props.batchSize}
+                />
+            </Provider>
         </Router>
     );
 }
@@ -89,7 +93,7 @@ const NewsView = (props) => {
     if (contactArray && contactArray.length > 0) {
         listRender = <ContactList onChange={clickID} contactArray={contactArray} />;
     } else {
-        listRender = <p>Aucune actualité n'a été trouvée</p>;
+        listRender = <p><Translate text="Aucune actualité n'a été trouvée" /></p>;
     }
     return (
         <div>
@@ -114,7 +118,7 @@ const NewsView = (props) => {
                                     {props.proposeUrl &&
                                         (
                                             <div className="r-add-news">
-                                                <a target="_blank" href={props.proposeUrl}>Proposer une actualité</a>
+                                                <a target="_blank" href={props.proposeUrl}><Translate text='Proposer une actualité' /></a>
                                             </div>
                                         )
                                     }
@@ -122,22 +126,22 @@ const NewsView = (props) => {
                                         <p className="r-results-numbers">
                                             <span>{contactNumber}</span>{" "}
                                             {contactNumber > 1
-                                                ? "Actualités trouvées"
-                                                : "Actualité trouvée"}
+                                                ? <Translate text=' Actualités trouvées' />
+                                                : <Translate text=' Actualité trouvée' />}
                                         </p>
                                     ) : (
-                                        <p className="r-results-numbers">Aucun résultat</p>
+                                        <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
                                     )}
                                 </div>
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
                                     {contactNumber - props.batchSize > batchStart ? (
                                         <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? "Chargement..." : "Plus de résultats"}
+                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
                                         </button>
                                     ) : (
                                         <span className="no-more-result">
-                                            {isLoading ? "Chargement..." : ""}
+                                            {isLoading ? <Translate text='Chargement...' /> : ""}
                                         </span>
                                     )}
                                 </div>
