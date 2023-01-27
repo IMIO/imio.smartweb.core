@@ -5,6 +5,9 @@ Changelog
 1.1.2 (unreleased)
 ------------------
 
+- Adding react-translated and translate static React txt
+  [thomlamb]
+
 - Fix "zope.schema._bootstrapinterfaces.ConstraintNotSatisfied" in smartweb settings
   [boulch]
 
