@@ -58,6 +58,7 @@
     <permission name="imio.smartweb.core: Manage Subsite" acquire="True">
       <role name="Manager"/>
       <role name="Site Administrator"/>
+      <role name="Local Manager" />
     </permission>
 
     <permission name="imio.smartweb.core: Manage REST views" acquire="True">

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<rolemap>
+
+  <permissions>
+    <permission name="imio.smartweb.core: Manage Subsite" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Local Manager" />
+    </permission>
+  </permissions>
+
+</rolemap>
