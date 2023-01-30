@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.3 (unreleased)
+1.1.3 (2023-01-30)
 ------------------
 
 - WEB-3819 : Update permission : local manager can manage their subsites
