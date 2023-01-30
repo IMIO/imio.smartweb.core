@@ -22,7 +22,7 @@
       <property name="url_expr">string:$object_url/@@subsite_settings/enable</property>
       <property name="available_expr">object/@@subsite_settings/available|nothing</property>
       <property name="permissions">
-        <element value="imio.smartweb.core: Manage Minisite"/>
+        <element value="imio.smartweb.core: Manage Subsite"/>
       </property>
       <property name="visible">True</property>
     </object>

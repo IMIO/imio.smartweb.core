@@ -115,6 +115,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1036_to_1037"
+      title="Upgrade common from 1036 to 1037"
+      directory="profiles/1036_to_1037"
+      description="Update permission : local manager can manage their subsites"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -494,6 +502,16 @@
     <genericsetup:upgradeDepends
         title="Add new content type : imio.smartweb.CirkwiView"
         import_profile="imio.smartweb.core.upgrades:upgrade_1035_to_1036"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1036"
+      destination="1037"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Update permission : local manager can manage their subsites"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1036_to_1037"
     />
   </genericsetup:upgradeSteps>
 
