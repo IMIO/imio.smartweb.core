@@ -12,7 +12,7 @@ import translation from '../../utils/translation';
 export default function News(props) {
     return (
         <Router>
-            <Provider language="fr" translation={translation}>
+            <Provider language={props.currentLanguage} translation={translation}>
                 <NewsView
                     queryFilterUrl={props.queryFilterUrl}
                     queryUrl={props.queryUrl}

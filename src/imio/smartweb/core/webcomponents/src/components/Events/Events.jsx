@@ -13,7 +13,7 @@ import translation from '../../utils/translation';
 export default function Events(props) {
     return (
         <Router>
-            <Provider language="fr" translation={translation}>
+            <Provider language={props.currentLanguage} translation={translation}>
                 <EventsView
                     queryFilterUrl={props.queryFilterUrl}
                     queryUrl={props.queryUrl}
