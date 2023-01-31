@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useRef, useState } from "react";
+import React, { useEffect, useRef, useCallback, useState } from "react";
 import Select from "react-select";
 import { useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
@@ -7,7 +7,6 @@ import { Translator } from "react-translated";
 function Filters(props) {
     let history = useHistory();
     const queryString = require("query-string");
-
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [categoryFilter, setCategoryFilter] = useState(null);
@@ -72,7 +71,7 @@ function Filters(props) {
             return;
         }
         history.push({
-            pathname: "",
+            pathname: "./",
             search: queryString.stringify(inputValues),
         });
         props.onChange(inputValues);
@@ -110,6 +109,7 @@ function Filters(props) {
             };
         },
     };
+    
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
@@ -38,7 +37,6 @@ function EventsView(props) {
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
     const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
-    const [refTop, setRefTop] = useState(null);
     const { response, error, isLoading, isMore } = useAxios(
         {
             method: "get",
@@ -88,6 +86,7 @@ function EventsView(props) {
         setBatchStart((batchStart) => batchStart + props.batchSize);
         setLoadMoreLaunch(true);
     };
+
     // Update filters Batch
     useEffect(() => {
         setFilters((prevFilters) => {
@@ -97,23 +96,18 @@ function EventsView(props) {
             };
         });
     }, [batchStart]);
+
     // filter top style
     let portalHeader = document.getElementById("portal-header");
     let portalHeaderHeight = portalHeader.offsetHeight;
-    // let rFilter = document.getElementById('r-result-filter');
-    // let rFilterHeight = rFilter.offsetHeight + portalHeaderHeight;
+
     const filterRef = useRef();
-    const [style, setStyle] = React.useState({height:0});
+    const [style, setStyle] = React.useState({ height:0 });
     useEffect(() => {
         setStyle({
             height: filterRef.current.clientHeight,
         });
     }, [filterRef.current]);
-    // const rFilterHeight = filterRef.current.clientHeight;
-    // Map style
-    const ref = React.useRef(0);
-    let header = document.getElementById("portal-logo");
-    let headerHeight = header.offsetHeight;
 
     // coditional list render
     let listRender;
@@ -130,51 +124,47 @@ function EventsView(props) {
                 items={contactArray}
             />
         );
-    } else {
+    } else if (!isLoading) {
         listRender = <p><Translate text="Aucun événement n'a été trouvé" /></p>;
     }
+
+    const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
+
     return (
         <Router>
-            <div
-                className="ref"
-                ref={(refElem) => {
-                    if (refElem) {
-                        // setRefTop(refElem.getBoundingClientRect().top + document.documentElement.scrollTop)
-                    }
-                }}
-            >
+            <div className="ref">
                 <div
                     className="r-result-filter-container"
                     ref={filterRef}
                     style={{ top: portalHeaderHeight }}
                 >
-                <div
-                    id="r-result-filter"
-                    className="r-result-filter container annuaire-result-filter"
-                >
-                    <Filters
-                        url={props.queryFilterUrl}
-                        activeFilter={filters}
-                        onChange={filtersChange}
-                    />
-                    {props.proposeUrl &&
-                        (
-                            <div className="r-add-event">
-                                <a target="_blank" href={props.proposeUrl}><Translate text='Proposer un événement' /></a>
-                            </div>
-                        )
-                    }
-                    {contactNumber > 0 ? (
-                        <p className="r-results-numbers">
-                            <span>{contactNumber}</span>
-                            {contactNumber > 1 
-                                ? <Translate text=' événements trouvés' />
-                                : <Translate text=' événement trouvé' />}
-                        </p>
-                    ) : (
-                        <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
-                    )}
-                </div>
+                    <div
+                        id="r-result-filter"
+                        className="r-result-filter container annuaire-result-filter"
+                    >
+                        <Filters
+                            url={props.queryFilterUrl}
+                            activeFilter={filters}
+                            onChange={filtersChange}
+                        />
+                        {props.proposeUrl &&
+                            (
+                                <div className="r-add-event">
+                                    <a target="_blank" href={props.proposeUrl}><Translate text='Proposer un événement' /></a>
+                                </div>
+                            )
+                        }
+                        {contactNumber > 0 ? (
+                            <p className="r-results-numbers">
+                                <span>{contactNumber}</span>
+                                {contactNumber > 1
+                                    ? <Translate text=' événements trouvés' />
+                                    : <Translate text=' événement trouvé' />}
+                            </p>
+                        ) : (
+                            <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
+                        )}
+                    </div>
                 </div>
                 <Switch>
                     <Route path={"/:name"}>
@@ -199,12 +189,17 @@ function EventsView(props) {
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
                                     {contactNumber - props.batchSize > batchStart ? (
-                                        <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
-                                        </button>
+                                        <div>
+                                            <span className="no-more-result">
+                                                {isLoading ? divLoader : ""}
+                                            </span>
+                                            <button onClick={loadMore} className="btn-grad">
+                                                {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
+                                            </button>
+                                        </div>
                                     ) : (
                                         <span className="no-more-result">
-                                            {isLoading ? <Translate text='Chargement...' /> : ""}
+                                            {isLoading ? divLoader : ""}
                                         </span>
                                     )}
                                 </div>

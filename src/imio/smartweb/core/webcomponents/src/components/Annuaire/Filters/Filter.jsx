@@ -7,7 +7,6 @@ import { Translator } from "react-translated";
 function Filters(props) {
     let history = useHistory();
     const queryString = require("query-string");
-
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);

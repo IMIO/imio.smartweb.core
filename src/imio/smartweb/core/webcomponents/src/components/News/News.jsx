@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
-import Skeleton from "./Skeleton/Skeleton.jsx";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
@@ -92,9 +91,12 @@ const NewsView = (props) => {
     let listRender;
     if (contactArray && contactArray.length > 0) {
         listRender = <ContactList onChange={clickID} contactArray={contactArray} />;
-    } else {
+    } else if (!isLoading) {
         listRender = <p><Translate text="Aucune actualité n'a été trouvée" /></p>;
     }
+
+    const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
+
     return (
         <div>
             <Router>
@@ -136,12 +138,17 @@ const NewsView = (props) => {
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
                                     {contactNumber - props.batchSize > batchStart ? (
-                                        <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
-                                        </button>
+                                        <div>
+                                            <span className="no-more-result">
+                                                {isLoading ? divLoader : ""}
+                                            </span>
+                                            <button onClick={loadMore} className="btn-grad">
+                                                {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
+                                            </button>
+                                        </div>
                                     ) : (
                                         <span className="no-more-result">
-                                            {isLoading ? <Translate text='Chargement...' /> : ""}
+                                            {isLoading ? divLoader : ""}
                                         </span>
                                     )}
                                 </div>

@@ -23,14 +23,15 @@ const useAxios = (params) => {
             try {
                 const res = await axios.request(params);
                 setResponse(res.data);
+                setIsLoading(false);
                 setError(null);
             } catch (err) {
                 setError(err);
-            } finally {
-                setIsLoading(false);
             }
         }
     };
+    // console.log(isLoading);
+    // console.log(response);
 
     useEffect(() => {
         fetchData({...params,signal: controller.signal});
