@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.4 (unreleased)
+1.1.4 (2023-01-31)
 ------------------
 
 - Fix loader on React vue + add visual loader
