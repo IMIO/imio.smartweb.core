@@ -5,7 +5,8 @@ Changelog
 1.1.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix loader on React vue + add visual loader
+  [thomlamb]
 
 
 1.1.3 (2023-01-30)
