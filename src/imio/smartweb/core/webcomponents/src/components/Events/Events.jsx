@@ -158,8 +158,8 @@ function EventsView(props) {
                             <p className="r-results-numbers">
                                 <span>{contactNumber}</span>
                                 {contactNumber > 1
-                                    ? <Translate text=' événements trouvés' />
-                                    : <Translate text=' événement trouvé' />}
+                                    ? <Translate text='événements trouvés' />
+                                    : <Translate text='événement trouvé' />}
                             </p>
                         ) : (
                             <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>

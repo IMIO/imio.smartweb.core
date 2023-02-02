@@ -158,8 +158,8 @@ function AnnuaireView(props) {
                             <p className="r-results-numbers">
                                 <span>{contactNumber}</span>
                                 {contactNumber > 1 
-                                ? <Translate text=' contacts trouvés' />
-                                : <Translate text=' contact trouvé' />}
+                                ? <Translate text='contacts trouvés' />
+                                : <Translate text='contact trouvé' />}
                             </p>
                         ) : (
                             <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>

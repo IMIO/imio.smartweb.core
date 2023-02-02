@@ -128,8 +128,8 @@ const NewsView = (props) => {
                                         <p className="r-results-numbers">
                                             <span>{contactNumber}</span>{" "}
                                             {contactNumber > 1
-                                                ? <Translate text=' Actualités trouvées' />
-                                                : <Translate text=' Actualité trouvée' />}
+                                                ? <Translate text='Actualités trouvées' />
+                                                : <Translate text='Actualité trouvée' />}
                                         </p>
                                     ) : (
                                         <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>

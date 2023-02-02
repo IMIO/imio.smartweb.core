@@ -5,7 +5,11 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Adding display block on active dropdown
+  [thomlamb]
+
+- Fix traduction ID for React
+  [thomlamb]
 
 
 1.1.4 (2023-01-31)

@@ -49,12 +49,12 @@ export default {
         fr: 'Participation en ligne',
     },
     'Actualités trouvées': {
-        en: 'News found',
-        fr: 'actualités trouvées',
+        en: ' News found',
+        fr: ' actualités trouvées',
     },
     'Actualité trouvée': {
-        en: 'News found',
-        fr: 'actualité trouvée',
+        en: ' News found',
+        fr: ' actualité trouvée',
     },
     "Aucune actualité n'a été trouvée": {
         en: 'No news was found',
@@ -65,12 +65,12 @@ export default {
         fr: "Proposer une actualité",
     },
     'événements trouvés': {
-        en: 'events found',
-        fr: 'événements trouvés',
+        en: ' events found',
+        fr: ' événements trouvés',
     },
     'événement trouvé': {
-        en: 'event found',
-        fr: 'événement trouvé',
+        en: ' event found',
+        fr: ' événement trouvé',
     },
     "Aucun événement n'a été trouvé": {
         en: 'No events was found',
@@ -93,12 +93,12 @@ export default {
         fr: "Lien de l'événement",
     },
     'contacts trouvés': {
-        en: 'contact found',
-        fr: 'contacts trouvés',
+        en: ' contact found',
+        fr: ' contacts trouvés',
     },
     'contact trouvé': {
-        en: 'contact found',
-        fr: 'contact trouvé',
+        en: ' contact found',
+        fr: ' contact trouvé',
     },
     "Aucun contact n'a été trouvé": {
         en: 'No contact was found',
