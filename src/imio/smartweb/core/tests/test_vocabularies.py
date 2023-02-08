@@ -17,7 +17,6 @@ GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
 
 
 class TestVocabularies(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):

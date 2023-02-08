@@ -30,7 +30,6 @@ class IImioSmartwebMinisite(INavigationRoot, ILocalManagerAware):
 
 @provider(IFormFieldProvider)
 class IImioSmartwebMinisiteSettings(model.Schema):
-
     model.fieldset(
         "layout",
         label=_("Layout"),

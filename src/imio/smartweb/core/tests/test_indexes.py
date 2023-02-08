@@ -14,7 +14,6 @@ from zope.intid.interfaces import IIntIds
 
 
 class TestIndexes(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):

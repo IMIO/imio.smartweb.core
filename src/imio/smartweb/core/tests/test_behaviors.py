@@ -14,7 +14,6 @@ from zope.intid.interfaces import IIntIds
 
 
 class TestBehaviors(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def _changeUser(self, loginName):

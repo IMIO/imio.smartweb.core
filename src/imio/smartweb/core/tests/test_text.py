@@ -17,7 +17,6 @@ import transaction
 
 
 class TestText(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def setUp(self):

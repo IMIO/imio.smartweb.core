@@ -20,7 +20,6 @@ from zope.component import getUtility
 
 
 class TestFooter(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):

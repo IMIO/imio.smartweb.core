@@ -10,7 +10,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IListing(model.Schema):
-
     directives.order_after(
         exclude_from_parent_listing="IExcludeFromNavigation.exclude_from_nav"
     )

@@ -13,7 +13,6 @@ from zope.component import getMultiAdapter
 
 
 class TestCropping(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def setUp(self):

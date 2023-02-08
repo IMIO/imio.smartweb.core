@@ -19,7 +19,6 @@ from zope.viewlet.interfaces import IViewletManager
 
 
 class TestSubsite(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):

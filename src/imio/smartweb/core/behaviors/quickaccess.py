@@ -12,7 +12,6 @@ from zope.interface import provider
 
 @provider(IFormFieldProvider)
 class IQuickAccessSelection(model.Schema):
-
     quick_access_items = RelationList(
         title=_("Quick access contents"),
         value_type=RelationChoice(

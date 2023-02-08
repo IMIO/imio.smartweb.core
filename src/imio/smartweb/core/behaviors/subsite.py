@@ -23,7 +23,6 @@ class SubsiteCroppingProvider(SmartwebCroppingProvider):
 
 @provider(IFormFieldProvider)
 class IImioSmartwebSubsite(model.Schema):
-
     model.fieldset(
         "layout",
         label=_("Layout"),

@@ -8,7 +8,6 @@ import json
 
 
 class BaseEndpoint(object):
-
     language = "fr"
     remote_endpoint = ""
 

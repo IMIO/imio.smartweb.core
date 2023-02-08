@@ -29,7 +29,6 @@ from zope.lifecycleevent import modified
 
 
 class TestSections(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):

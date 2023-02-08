@@ -16,7 +16,6 @@ logger = logging.getLogger("imio.smartweb.core")
 
 @implementer(IPublishTraverse)
 class SmartwebIconsView(IconsView):
-
     prefix = "smartweb.icon."
 
     def _iconfile(self, icon):

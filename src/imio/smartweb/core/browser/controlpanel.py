@@ -12,7 +12,6 @@ from zope.interface import Interface
 
 
 class ISendinblueTextRowSchema(Interface):
-
     language = schema.TextLine(
         title=_("Language (en, fr,...)"),
         description=_("Enter the language code. Ex.: en"),
@@ -22,7 +21,6 @@ class ISendinblueTextRowSchema(Interface):
 
 
 class ISmartwebControlPanel(Interface):
-
     url_formdefs_api = schema.TextLine(
         title=_("Url to get forms from your e-guichet"),
         description=_(

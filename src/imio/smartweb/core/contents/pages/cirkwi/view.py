@@ -6,7 +6,6 @@ import requests
 
 
 class CirkwiViewView(BrowserView):
-
     cirwki_api_uri = "https://www.modulesbox.com/fr/api/module/"
 
     def get_cirkwi_html(self):
