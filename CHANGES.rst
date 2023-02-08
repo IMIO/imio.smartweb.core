@@ -5,6 +5,9 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
+- WEB-3837 : Can define specific news to get (instead of all news from news folders)
+  [boulch]
+
 - Adding display block on active dropdown
   [thomlamb]
 
