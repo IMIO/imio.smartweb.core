@@ -19,10 +19,9 @@ class EventsView(CarouselOrTableSectionView):
         selected_item = f"selected_agendas={self.context.related_events}"
         specific_related_events = self.context.specific_related_events
         if specific_related_events is not None:
-            for event_uid in specific_related_events:
-                selected_item = "&".join(
-                    [f"UID={event_uid}" for event_uid in specific_related_events]
-                )
+            selected_item = "&".join(
+                [f"UID={event_uid}" for event_uid in specific_related_events]
+            )
         params = [
             selected_item,
             "portal_type=imio.events.Event",
