@@ -7,7 +7,6 @@ from plone.app.layout.viewlets import common
 
 
 class HeroBannerViewlet(common.ViewletBase):
-
     _herobanner = None
 
     def available(self):

@@ -26,7 +26,6 @@ GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
 
 
 class TestProcedure(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def _changeUser(self, loginName):

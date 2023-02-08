@@ -16,7 +16,6 @@ import re
 
 @implementer(IBrowserMenu)
 class AuthenticSourcesMenuItem(BrowserSubMenuItem):
-
     title = _("Authentic sources")
     submenuId = "authentic-sources-menu"
     icon = "boxes"

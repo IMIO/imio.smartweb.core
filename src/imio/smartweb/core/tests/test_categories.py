@@ -9,7 +9,6 @@ from plone.app.testing import TEST_USER_ID
 
 
 class TestCategories(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):

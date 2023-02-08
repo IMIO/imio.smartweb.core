@@ -23,7 +23,6 @@ CIRKWI_API_BAD_WIDGET_URL = "https://www.modulesbox.com/fr/api/module/123"
 
 
 class TestCirkwiView(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def _changeUser(self, loginName):

@@ -17,7 +17,6 @@ from zope import schema
 
 
 class IInstanceBehaviors(model.Schema):
-
     directives.widget(instance_behaviors=CheckBoxFieldWidget)
     instance_behaviors = schema.List(
         title=_("Available taxonomies"),
@@ -31,7 +30,6 @@ class IInstanceBehaviors(model.Schema):
 
 
 class InstanceBehaviors(AutoExtensibleForm, form.Form):
-
     schema = IInstanceBehaviors
     ignoreContext = True
     enable_autofocus = False

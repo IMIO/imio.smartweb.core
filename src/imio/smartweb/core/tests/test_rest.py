@@ -25,7 +25,6 @@ import transaction
 
 
 class SectionsFunctionalTest(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING
 
     def setUp(self):

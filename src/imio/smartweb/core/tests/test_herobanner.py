@@ -10,7 +10,6 @@ from zope.component import getMultiAdapter
 
 
 class TestHeroBanner(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):

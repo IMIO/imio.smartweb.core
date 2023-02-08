@@ -15,7 +15,6 @@ import requests_mock
 
 
 class TestToolbar(ImioSmartwebTestCase):
-
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
     def setUp(self):
