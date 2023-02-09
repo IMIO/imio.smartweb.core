@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -10,6 +11,7 @@ from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.intid.interfaces import IIntIds
 
+import json
 import requests_mock
 
 
@@ -25,6 +27,8 @@ class TestSectionNews(ImioSmartwebTestCase):
             type="imio.smartweb.PortalPage",
             id="Portal page",
         )
+        self.json_news = get_json("resources/json_rest_news.json")
+        self.json_specific_news = get_json("resources/json_rest_specific_news.json")
 
     @requests_mock.Mocker()
     def test_news(self, m):
@@ -46,3 +50,14 @@ class TestSectionNews(ImioSmartwebTestCase):
         self.assertIn("My news", view())
         news_view = queryMultiAdapter((news, self.request), name="carousel_view")
         self.assertEqual(news_view.items, [])
+        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=effective&metadata_fields=UID&sort_on=effective&sort_order=descending&sort_limit=6"
+        m.get(url, text=json.dumps(self.json_news))
+        self.assertEqual(news_view.items[0][0].get("title"), "Première actualité")
+        self.assertEqual(len(news_view.items[0]), 3)
+        news.specific_related_newsitems = ["bfe2b4391a0f4a8db6d8b7fed63d1c4a"]
+        url = "http://localhost:8080/Plone/@search?UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=effective&metadata_fields=UID&sort_on=effective&sort_order=descending&sort_limit=6"
+        m.get(url, text=json.dumps(self.json_specific_news))
+        self.assertEqual(len(news_view.items[0]), 1)
+        self.assertEqual(
+            news_view.items[0][0].get("title"), "Restauration de la Bibliothèque"
+        )
