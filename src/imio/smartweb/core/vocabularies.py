@@ -521,7 +521,6 @@ class NewsItemsFromEntityVocabularyFactory:
             for term in remote_newsfolders_vocabulary
         ]
         selected_newsfolders = "&".join(selected_newsfolders)
-        today = date.today().isoformat()
         params = [
             selected_newsfolders,
             "portal_type=imio.news.NewsItem",
