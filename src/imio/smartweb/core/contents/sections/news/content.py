@@ -31,6 +31,16 @@ class ISectionNews(ISection):
         required=True,
     )
 
+    specific_related_newsitems = schema.List(
+        title=_("Specific related news"),
+        description=_("Get priory on related news for these specifics news."),
+        value_type=schema.Choice(
+            vocabulary="imio.smartweb.vocabulary.NewsItemsFromEntity"
+        ),
+        required=False,
+    )
+    directives.widget(specific_related_newsitems=SelectFieldWidget)
+
     directives.widget(
         "linking_rest_view",
         RelatedItemsFieldWidget,

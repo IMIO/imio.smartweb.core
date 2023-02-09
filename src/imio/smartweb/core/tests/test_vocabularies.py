@@ -268,5 +268,24 @@ class TestVocabularies(ImioSmartwebTestCase):
             "belleville >> communal >> Bon pied, bon oeil",
         )
 
+    @requests_mock.Mocker()
+    def test_news_from_entity(self, m):
+        json_entities_raw_mock = get_json("resources/json_news_entities_raw_mock.json")
+        url = f"{config.NEWS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee32"
+        m.get(url, text=json.dumps(json_entities_raw_mock))
+        json_newsfolders_raw_mock = get_json(
+            "resources/json_news_newsfolder_raw_mock.json"
+        )
+        url = f"{config.NEWS_URL}/imio-news-entity/@search?portal_type=imio.news.NewsFolder&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
+        m.get(url, text=json.dumps(json_newsfolders_raw_mock))
+        url = f"{config.NEWS_URL}/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&selected_news_folders=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.news.NewsItem&metadata_fields=category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&b_size=1000000"
+        json_rest_news = get_json("resources/json_rest_news.json")
+        m.get(url, text=json.dumps(json_rest_news))
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.NewsItemsFromEntity")
+        self.assertEqual(
+            vocabulary.getTermByToken("bfe2b4391a0f4a8db6d8b7fed63d1c4a").title,
+            "belleville >> commune >> Restauration de la Bibliothèque",
+        )
+
     def test_sendinblue_button_position(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SendInBlueButtonPosition", 2)

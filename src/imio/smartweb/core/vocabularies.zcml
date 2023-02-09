@@ -134,6 +134,12 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.NewsItemsFromEntity"
+      component=".vocabularies.NewsItemsFromEntityVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.AvailableInstanceBehaviors"
       component=".vocabularies.AvailableInstanceBehaviorsVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

@@ -511,6 +511,41 @@ class EventsFromEntityVocabularyFactory:
 EventsFromEntityVocabulary = EventsFromEntityVocabularyFactory()
 
 
+class NewsItemsFromEntityVocabularyFactory:
+    def __call__(selfself, context=None):
+        remote_newsfolders_vocabulary = get_vocabulary(
+            "imio.smartweb.vocabulary.RemoteNewsFolders"
+        )
+        selected_newsfolders = [
+            f"selected_news_folders={term.value}"
+            for term in remote_newsfolders_vocabulary
+        ]
+        selected_newsfolders = "&".join(selected_newsfolders)
+        params = [
+            selected_newsfolders,
+            "portal_type=imio.news.NewsItem",
+            "metadata_fields=category",
+            "metadata_fields=topics",
+            "metadata_fields=has_leadimage",
+            "metadata_fields=breadcrumb",
+            "metadata_fields=UID",
+            "b_size=1000000",
+        ]
+        url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
+        json_newsitems = get_json(url)
+        if json_newsitems is None or len(json_newsitems.get("items", [])) == 0:
+            return SimpleVocabulary([])
+        return SimpleVocabulary(
+            [
+                SimpleTerm(value=elem["UID"], title=elem["breadcrumb"])
+                for elem in json_newsitems.get("items")
+            ]
+        )
+
+
+NewsItemsFromEntityVocabulary = NewsItemsFromEntityVocabularyFactory()
+
+
 class AvailableInstanceBehaviorsVocabularyFactory:
     def __call__(selfself, context=None):
         sm = getSite().getSiteManager()

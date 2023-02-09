@@ -1,0 +1,42 @@
+{
+    "@id": "http://localhost:8080/Plone/@search?UID=1178188bddde4ced95a6cf8bf04c443c&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&sort_limit=6",
+    "items": [
+        {
+            "@id": "http://localhost:8080/Plone/belleville/communal/1178188bddde4ced95a6cf8bf04c443c",
+            "@type": "imio.events.Event",
+            "UID": "1178188bddde4ced95a6cf8bf04c443c",
+            "category": null,
+            "category_title": null,
+            "description": "Bonne cheville à Belleville",
+            "breadcrumb": "belleville >> communal >> Bonne cheville",
+            "end": "2025-11-30T13:00:00+00:00",
+            "has_leadimage": true,
+            "image_scales": {"image": [{"content-type": "image/png",
+                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
+                                        "filename": "image12.44.13.png",
+                                        "height": 920,
+                                        "scales": {
+                                            "extralarge": {
+                                                "download": "@@images/image-1320-8ccd2ce1297e19bfe1e6a4d506afb303.png",
+                                                "height": 540,
+                                                "width": 1320
+                                            },
+                                            "preview": {
+                                                "download": "@@images/image-400-b5b8304629d8af0ff32305173701bd4d.png",
+                                                "height": 163,
+                                                "width": 400
+                                            }
+                                        },
+                                        "size": 351932,
+                                        "width": 2246}]},
+            "review_state": "published",
+            "open_end": false,
+            "recurrence": null,
+            "start": "2022-11-13T12:00:00+00:00",
+            "title": "Bonne cheville",
+            "topics": null,
+            "whole_day": false
+        }
+    ],
+    "items_total": 1
+}

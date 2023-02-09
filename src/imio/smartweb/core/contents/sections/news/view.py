@@ -13,8 +13,14 @@ class NewsView(CarouselOrTableSectionView):
     @property
     def items(self):
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
+        selected_item = f"selected_news_folders={self.context.related_news}"
+        specific_related_newsitems = self.context.specific_related_newsitems
+        if specific_related_newsitems is not None:
+            selected_item = "&".join(
+                [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
+            )
         params = [
-            f"selected_news_folders={self.context.related_news}",
+            selected_item,
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category_title",
             "metadata_fields=has_leadimage",

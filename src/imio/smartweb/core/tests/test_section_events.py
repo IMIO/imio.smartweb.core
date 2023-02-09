@@ -29,6 +29,7 @@ class TestSectionEvents(ImioSmartwebTestCase):
             id="Portal page",
         )
         self.json_events = get_json("resources/json_rest_events.json")
+        self.json_specific_event = get_json("resources/json_rest_specific_events.json")
 
     @requests_mock.Mocker()
     @freeze_time("2021-11-15")
@@ -49,6 +50,13 @@ class TestSectionEvents(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.portalpage, self.request), name="full_view")
         self.assertIn("My events", view())
         events_view = queryMultiAdapter((events, self.request), name="carousel_view")
+        self.assertEqual(events_view.items, [])
         url = "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&sort_limit=6"
         m.get(url, text=json.dumps(self.json_events))
         self.assertEqual(events_view.items[0][0].get("title"), "Marche gourmande")
+        self.assertEqual(len(events_view.items[0]), 2)
+        events.specific_related_events = ["1178188bddde4ced95a6cf8bf04c443c"]
+        url = "http://localhost:8080/Plone/@search?UID=1178188bddde4ced95a6cf8bf04c443c&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&sort_limit=6"
+        m.get(url, text=json.dumps(self.json_specific_event))
+        self.assertEqual(len(events_view.items[0]), 1)
+        self.assertEqual(events_view.items[0][0].get("title"), "Bonne cheville")
