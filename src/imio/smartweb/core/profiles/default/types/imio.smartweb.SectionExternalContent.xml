@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">External content section for a page</property>
 
-  <property name="icon_expr">string:file-play</property>
+  <property name="icon_expr">string:window-plus</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>

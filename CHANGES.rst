@@ -168,6 +168,9 @@ Changelog
   [thomlamb]
 
 - Fixed faceted map
+- Change some icons : SectionHTML and SectionExternalContent
+  [boulch]
+
 - MWEBTUBA : Add new section : imio.smartweb.SectionExternalContent (Manage embeded contents)
   [boulch]
 

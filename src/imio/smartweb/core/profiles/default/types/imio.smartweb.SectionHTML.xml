@@ -12,7 +12,7 @@
       i18n:translate=""
       name="description">HTML section for a page</property>
 
-  <property name="icon_expr">string:code-slash</property>
+  <property name="icon_expr">string:filetype-html</property>
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>
