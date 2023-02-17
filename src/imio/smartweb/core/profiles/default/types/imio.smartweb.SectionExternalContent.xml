@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.SectionExternalContent"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <!-- Basic properties -->
+  <property
+      i18n:translate=""
+      name="title">External content section</property>
+  <property
+      i18n:translate=""
+      name="description">External content section for a page</property>
+
+  <property name="icon_expr">string:file-play</property>
+
+  <!-- Hierarchy control -->
+  <property name="global_allow">False</property>
+  <property name="filter_content_types">True</property>
+
+  <!-- Schema, class and security -->
+  <!-- if we can add a page, we can add a page section -->
+  <property name="add_permission">imio.smartweb.core.CanManageSectionExternalContent</property>
+  <property name="klass">imio.smartweb.core.contents.SectionExternalContent</property>
+  <property name="schema">imio.smartweb.core.contents.ISectionExternalContent</property>
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="plone.namefromtitle"/>
+    <element value="plone.locking"/>
+    <element value="plone.shortname"/>
+    <element value="plone.imagecropping"/>
+    <element value="imio.smartweb.topics"/>
+  </property>
+
+</object>

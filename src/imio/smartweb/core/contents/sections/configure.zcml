@@ -5,6 +5,7 @@
   <include package=".collection" />
   <include package=".contact" />
   <include package=".events" />
+  <include package=".external_content" />
   <include package=".files" />
   <include package=".gallery" />
   <include package=".html" />

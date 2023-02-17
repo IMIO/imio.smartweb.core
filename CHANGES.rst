@@ -168,6 +168,7 @@ Changelog
   [thomlamb]
 
 - Fixed faceted map
+- MWEBTUBA : Add new section : imio.smartweb.SectionExternalContent (Manage embeded contents)
   [boulch]
 
 - WEB-3837 : Can define specific news to get (instead of all news from news folders)

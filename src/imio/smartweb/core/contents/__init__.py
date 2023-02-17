@@ -14,6 +14,10 @@ from .sections.base import ISection, Section  # NOQA
 from .sections.collection.content import ISectionCollection, SectionCollection  # NOQA
 from .sections.contact.content import ISectionContact, SectionContact  # NOQA
 from .sections.events.content import ISectionEvents, SectionEvents  # NOQA
+from .sections.external_content.content import (
+    ISectionExternalContent,
+    SectionExternalContent,
+)  # NOQA
 from .sections.files.content import ISectionFiles, SectionFiles  # NOQA
 from .sections.gallery.content import ISectionGallery, SectionGallery  # NOQA
 from .sections.html.content import ISectionHTML, SectionHTML  # NOQA

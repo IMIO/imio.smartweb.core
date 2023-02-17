@@ -57,6 +57,12 @@
     />
 
   <permission
+    id="imio.smartweb.core.CanManageSectionExternalContent"
+    title="imio.smartweb.core: Can add section External Content"
+    description=""
+    />
+
+  <permission
     id="imio.smartweb.core.CanEditMinisiteLogo"
     title="imio.smartweb.core: Edit Minisite Logo"
     description=""

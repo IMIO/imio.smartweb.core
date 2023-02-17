@@ -20,6 +20,7 @@
   <property name="allowed_content_types">
     <element value="imio.smartweb.SectionCollection" />
     <element value="imio.smartweb.SectionContact" />
+    <element value="imio.smartweb.SectionExternalContent" />
     <element value="imio.smartweb.SectionGallery" />
     <element value="imio.smartweb.SectionHTML" />
     <element value="imio.smartweb.SectionEvents" />
