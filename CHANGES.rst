@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.5 (unreleased)
+1.1.5 (2023-02-20)
 ------------------
 
 - Delete lorem in React vue
