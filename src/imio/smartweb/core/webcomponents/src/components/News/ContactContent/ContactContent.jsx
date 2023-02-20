@@ -247,8 +247,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					<div className="r-content-gallery">
 						<div class="spotlight-group flexbin r-content-gallery">
 							{gallery.map((image) => (
-								<a class="spotlight" href={image.image.scales.extralarge.download} data-description="Lorem ipsum dolor sit amet, consetetur sadipscing.">
-									<img src={image.image.scales.preview.download} alt="Lorem ipsum dolor sit amet" />
+								<a class="spotlight" href={image.image.scales.extralarge.download} >
+									<img src={image.image.scales.preview.download} />
 								</a>
 							))}
 						</div>

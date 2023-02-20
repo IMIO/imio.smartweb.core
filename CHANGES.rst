@@ -5,6 +5,12 @@ Changelog
 1.1.5 (unreleased)
 ------------------
 
+- Delete lorem in React vue
+  [thomlamb]
+
+- Fixed accessibility nav attribute
+  [thomlamb]
+
 - Fixed faceted map
   [boulch]
 
