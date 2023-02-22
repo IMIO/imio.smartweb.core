@@ -5,7 +5,8 @@ Changelog
 1.1.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3858 : Fix displaying of authentic sources menu
+  [boulch]
 
 
 1.1.5 (2023-02-20)

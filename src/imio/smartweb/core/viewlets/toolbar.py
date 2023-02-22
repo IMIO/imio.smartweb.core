@@ -31,7 +31,7 @@ class AuthenticSourcesMenuItem(BrowserSubMenuItem):
         return "#"
 
     def available(self):
-        permission = "cmf.ModifyPortalContent"
+        permission = "Modify portal content"
         if api.user.has_permission(permission, obj=self.context) is False:
             return False
         news_entity_url = api.portal.get_registry_record(
