@@ -5,6 +5,9 @@ Changelog
 1.1.6 (unreleased)
 ------------------
 
+- WEB-3863 : Fix some dates displaying
+  [boulch]
+
 - WEB-3858 : Fix displaying of authentic sources menu
   [boulch]
 

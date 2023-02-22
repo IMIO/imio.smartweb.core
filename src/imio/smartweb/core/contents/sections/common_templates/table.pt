@@ -81,8 +81,9 @@
                              tal:condition="context/show_items_date | nothing">
                           <tal:if tal:condition="item/effective | nothing">
                             <span i18n:translate="">Published</span>
-                            <span class="pat-moment" data-pat-moment="format:relative;"
-                                  tal:content="item/effective"/>
+                            <span class="pat-display-time"
+                                  data-pat-display-time="from-now: true"
+                                  tal:attributes="datetime item/effective"/>
                           </tal:if>
                           <tal:if tal:condition="item/event_date | nothing">
                             <tal:def tal:define="event_date item/event_date">

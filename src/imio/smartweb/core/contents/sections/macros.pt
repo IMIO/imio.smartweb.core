@@ -63,7 +63,9 @@
             <span i18n:translate="">
               Modified
             </span>
-            <span class="pat-moment" data-pat-moment="format:relative;"
+            <span class="pat-display-time"
+                  data-pat-display-time="from-now: true"
+                  tal:attributes="datetime modified"
                   tal:content="modified">
               Modified
             </span>
