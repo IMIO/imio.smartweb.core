@@ -4,6 +4,7 @@ from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
+from plone import api
 from Products.CMFPlone.utils import normalizeString
 
 
@@ -31,6 +32,9 @@ class NewsView(CarouselOrTableSectionView):
             "sort_order=descending",
             f"sort_limit={max_items}",
         ]
+        current_lang = api.portal.get_current_language()[:2]
+        if current_lang != "fr":
+            params.append("translated_in_{}=1".format(current_lang))
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         json_search_news = get_json(url)
         if (

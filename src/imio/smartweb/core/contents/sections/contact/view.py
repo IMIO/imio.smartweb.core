@@ -26,6 +26,9 @@ class ContactView(SectionView):
         url = "{}/@search?UID={}&fullobjects=1".format(
             DIRECTORY_URL, self.context.related_contact
         )
+        current_lang = api.portal.get_current_language()[:2]
+        if current_lang != "fr":
+            url = f"{url}&translated_in_{current_lang}=1"
         json_search_contact = get_json(url)
         if (
             json_search_contact is None

@@ -6,6 +6,7 @@ from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
+from plone import api
 from Products.CMFPlone.utils import normalizeString
 
 
@@ -36,6 +37,9 @@ class EventsView(CarouselOrTableSectionView):
             "sort_on=event_dates",
             f"sort_limit={max_items}",
         ]
+        current_lang = api.portal.get_current_language()[:2]
+        if current_lang != "fr":
+            params.append("translated_in_{}=1".format(current_lang))
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
         json_search_events = get_json(url)
         if (

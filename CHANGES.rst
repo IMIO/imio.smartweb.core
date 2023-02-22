@@ -5,7 +5,8 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix annuaire, agenda, news sections with current language
+  [boulch]
 
 
 1.1.6 (2023-02-22)
