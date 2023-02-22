@@ -8,6 +8,7 @@ from Products.Five import BrowserView
 
 class FacetedMapView(FolderView, MapView):
     """Faceted map view"""
+
     def get_scale_url(self, item):
         request = self.request
         return get_scale_url(item, request, "image", "preview")
