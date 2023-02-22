@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.6 (unreleased)
+1.1.6 (2023-02-22)
 ------------------
 
 - WEB-3863 : Fix some dates displaying
