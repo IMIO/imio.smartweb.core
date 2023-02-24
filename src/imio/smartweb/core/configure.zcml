@@ -24,6 +24,7 @@
   <include package="imio.smartweb.locales" />
 
   <include file="indexers.zcml" />
+  <include file="monkey.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
   <include file="subscribers.zcml" />

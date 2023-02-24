@@ -4,6 +4,7 @@ from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
+from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
@@ -34,12 +35,14 @@ class ISectionNews(ISection):
     specific_related_newsitems = schema.List(
         title=_("Specific related news"),
         description=_("Get priory on related news for these specifics news."),
-        value_type=schema.Choice(
-            vocabulary="imio.smartweb.vocabulary.NewsItemsFromEntity"
-        ),
+        value_type=schema.Choice(source="imio.smartweb.vocabulary.NewsItemsFromEntity"),
         required=False,
     )
-    directives.widget(specific_related_newsitems=SelectFieldWidget)
+    directives.widget(
+        "specific_related_newsitems",
+        AjaxSelectFieldWidget,
+        source="imio.smartweb.vocabulary.NewsItemsFromEntity",
+    )
 
     directives.widget(
         "linking_rest_view",

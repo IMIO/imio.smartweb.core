@@ -34,12 +34,15 @@ class EventsView(CarouselOrTableSectionView):
             "metadata_fields=UID",
             f"event_dates.query={today}",
             "event_dates.range=min",
-            "sort_on=event_dates",
             f"sort_limit={max_items}",
         ]
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
             params.append("translated_in_{}=1".format(current_lang))
+        if not specific_related_events:
+            params += [
+                "sort_on=event_dates",
+            ]
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
         json_search_events = get_json(url)
         if (
@@ -63,17 +66,24 @@ class EventsView(CarouselOrTableSectionView):
                 scales = item["image_scales"]["image"][0]["scales"]
                 if image_scale in scales:
                     image_url = f"{item_url}/{scales[image_scale]['download']}"
-            results.append(
-                {
-                    "title": item["title"],
-                    "description": item["description"],
-                    "category": item["category_title"],
-                    "event_date": date_dict,
-                    "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                    "image": image_url,
-                    "has_image": item["has_leadimage"],
-                }
+            current_item = {
+                "title": item["title"],
+                "description": item["description"],
+                "category": item["category_title"],
+                "event_date": date_dict,
+                "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
+                "image": image_url,
+                "has_image": item["has_leadimage"],
+            }
+            if specific_related_events is not None:
+                results.append((item_uid, current_item))
+            else:
+                results.append(current_item)
+        if specific_related_events is not None:
+            sorted_results = sorted(
+                results, key=lambda x: specific_related_events.index(x[0])
             )
+            results = [v for k, v in sorted_results]
         return batch_results(results, self.context.nb_results_by_batch)
 
     @property

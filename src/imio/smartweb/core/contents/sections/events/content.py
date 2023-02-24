@@ -4,6 +4,7 @@ from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
+from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
@@ -34,12 +35,14 @@ class ISectionEvents(ISection):
     specific_related_events = schema.List(
         title=_("Specific related events"),
         description=_("Get priory on related agenda for these specifics events."),
-        value_type=schema.Choice(
-            vocabulary="imio.smartweb.vocabulary.EventsFromEntity"
-        ),
+        value_type=schema.Choice(source="imio.smartweb.vocabulary.EventsFromEntity"),
         required=False,
     )
-    directives.widget(specific_related_events=SelectFieldWidget)
+    directives.widget(
+        "specific_related_events",
+        AjaxSelectFieldWidget,
+        source="imio.smartweb.vocabulary.EventsFromEntity",
+    )
 
     directives.widget(
         "linking_rest_view",
