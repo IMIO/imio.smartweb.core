@@ -16,7 +16,7 @@ class NewsView(CarouselOrTableSectionView):
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
         selected_item = f"selected_news_folders={self.context.related_news}"
         specific_related_newsitems = self.context.specific_related_newsitems
-        if specific_related_newsitems is not None:
+        if specific_related_newsitems:
             selected_item = "&".join(
                 [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
             )
@@ -58,25 +58,22 @@ class NewsView(CarouselOrTableSectionView):
                 scales = item["image_scales"]["image"][0]["scales"]
                 if image_scale in scales:
                     image_url = f"{item_url}/{scales[image_scale]['download']}"
-            current_item = {
-                "title": item["title"],
-                "description": item["description"],
-                "category": item["category_title"],
-                "effective": item["effective"][:-6],
-                "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                "image": image_url,
-                "has_image": item["has_leadimage"],
-            }
-
-            if specific_related_newsitems is not None:
-                results.append((item_uid, current_item))
-            else:
-                results.append(current_item)
-        if specific_related_newsitems is not None:
-            sorted_results = sorted(
-                results, key=lambda x: specific_related_newsitems.index(x[0])
+            results.append(
+                {
+                    "uid": item_uid,
+                    "title": item["title"],
+                    "description": item["description"],
+                    "category": item["category_title"],
+                    "effective": item["effective"][:-6],
+                    "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
+                    "image": image_url,
+                    "has_image": item["has_leadimage"],
+                }
             )
-            results = [v for k, v in sorted_results]
+        if specific_related_newsitems:
+            results = sorted(
+                results, key=lambda x: specific_related_newsitems.index(x["uid"])
+            )
         return batch_results(results, self.context.nb_results_by_batch)
 
     @property

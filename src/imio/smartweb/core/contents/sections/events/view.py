@@ -19,7 +19,7 @@ class EventsView(CarouselOrTableSectionView):
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
         selected_item = f"selected_agendas={self.context.related_events}"
         specific_related_events = self.context.specific_related_events
-        if specific_related_events is not None:
+        if specific_related_events:
             selected_item = "&".join(
                 [f"UID={event_uid}" for event_uid in specific_related_events]
             )
@@ -66,24 +66,22 @@ class EventsView(CarouselOrTableSectionView):
                 scales = item["image_scales"]["image"][0]["scales"]
                 if image_scale in scales:
                     image_url = f"{item_url}/{scales[image_scale]['download']}"
-            current_item = {
-                "title": item["title"],
-                "description": item["description"],
-                "category": item["category_title"],
-                "event_date": date_dict,
-                "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                "image": image_url,
-                "has_image": item["has_leadimage"],
-            }
-            if specific_related_events is not None:
-                results.append((item_uid, current_item))
-            else:
-                results.append(current_item)
-        if specific_related_events is not None:
-            sorted_results = sorted(
-                results, key=lambda x: specific_related_events.index(x[0])
+            results.append(
+                {
+                    "uid": item_uid,
+                    "title": item["title"],
+                    "description": item["description"],
+                    "category": item["category_title"],
+                    "event_date": date_dict,
+                    "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
+                    "image": image_url,
+                    "has_image": item["has_leadimage"],
+                }
             )
-            results = [v for k, v in sorted_results]
+        if specific_related_events:
+            results = sorted(
+                results, key=lambda x: specific_related_events.index(x["uid"])
+            )
         return batch_results(results, self.context.nb_results_by_batch)
 
     @property
