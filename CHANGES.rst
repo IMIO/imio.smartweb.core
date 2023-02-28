@@ -5,6 +5,9 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
+- Avoid auto-appending new lines to Datagrid fields when clicked
+  [laulaz]
+
 - Fix annuaire, agenda, news sections with current language
   [boulch]
 

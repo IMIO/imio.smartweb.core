@@ -5,7 +5,7 @@ from collective.z3cform.datagridfield.registry import DictRow
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
-from plone.autoform.directives import widget
+from plone.autoform import directives
 from plone.z3cform import layout
 from zope import schema
 from zope.interface import Interface
@@ -139,7 +139,7 @@ class ISmartwebControlPanel(Interface):
         default=[],
         required=True,
     )
-    widget(sendinblue_button_text=DataGridFieldFactory)
+    directives.widget("sendinblue_button_text", DataGridFieldFactory, auto_append=False)
 
 
 class SmartwebControlPanelForm(RegistryEditForm):
