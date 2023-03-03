@@ -55,7 +55,9 @@ class ISectionPostit(ISection):
         required=False,
     )
 
-    directives.widget("postits", DataGridFieldFactory, allow_reorder=True)
+    directives.widget(
+        "postits", DataGridFieldFactory, allow_reorder=True, auto_append=False
+    )
     postits = schema.List(
         title=_("Post-its"),
         value_type=DictRow(title=_("Post-it"), schema=IPostit),

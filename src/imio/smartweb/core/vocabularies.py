@@ -473,7 +473,7 @@ EventsTypesVocabulary = EventsTypesVocabularyFactory()
 
 
 class EventsFromEntityVocabularyFactory:
-    def __call__(selfself, context=None):
+    def __call__(self, context=None):
         remote_agendas_vocabulary = get_vocabulary(
             "imio.smartweb.vocabulary.RemoteAgendas"
         )
@@ -512,7 +512,7 @@ EventsFromEntityVocabulary = EventsFromEntityVocabularyFactory()
 
 
 class NewsItemsFromEntityVocabularyFactory:
-    def __call__(selfself, context=None):
+    def __call__(self, context=None):
         remote_newsfolders_vocabulary = get_vocabulary(
             "imio.smartweb.vocabulary.RemoteNewsFolders"
         )
@@ -547,7 +547,7 @@ NewsItemsFromEntityVocabulary = NewsItemsFromEntityVocabularyFactory()
 
 
 class AvailableInstanceBehaviorsVocabularyFactory:
-    def __call__(selfself, context=None):
+    def __call__(self, context=None):
         sm = getSite().getSiteManager()
         utilities = sm.getUtilitiesFor(ITaxonomy)
         # getGeneratedName is the behavior name.
