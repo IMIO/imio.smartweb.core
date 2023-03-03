@@ -5,6 +5,12 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
+- Improved react views to better match bootstrap media queries and fix no wrap buttons
+  [thomlamb]
+
+- Fix no display img in news view
+  [thomlamb]
+
 - Migrate to Plone 6.0.2
   [boulch]
 
