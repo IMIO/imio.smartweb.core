@@ -16,7 +16,7 @@ class NewsView(CarouselOrTableSectionView):
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
         selected_item = f"selected_news_folders={self.context.related_news}"
         specific_related_newsitems = self.context.specific_related_newsitems
-        if specific_related_newsitems is not None:
+        if specific_related_newsitems:
             selected_item = "&".join(
                 [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
             )
@@ -28,13 +28,16 @@ class NewsView(CarouselOrTableSectionView):
             "metadata_fields=image_scales",
             "metadata_fields=effective",
             "metadata_fields=UID",
-            "sort_on=effective",
-            "sort_order=descending",
             f"sort_limit={max_items}",
         ]
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
             params.append("translated_in_{}=1".format(current_lang))
+        if not specific_related_newsitems:
+            params += [
+                "sort_on=effective",
+                "sort_order=descending",
+            ]
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         json_search_news = get_json(url)
         if (
@@ -57,6 +60,7 @@ class NewsView(CarouselOrTableSectionView):
                     image_url = f"{item_url}/{scales[image_scale]['download']}"
             results.append(
                 {
+                    "uid": item_uid,
                     "title": item["title"],
                     "description": item["description"],
                     "category": item["category_title"],
@@ -65,6 +69,10 @@ class NewsView(CarouselOrTableSectionView):
                     "image": image_url,
                     "has_image": item["has_leadimage"],
                 }
+            )
+        if specific_related_newsitems:
+            results = sorted(
+                results, key=lambda x: specific_related_newsitems.index(x["uid"])
             )
         return batch_results(results, self.context.nb_results_by_batch)
 

@@ -54,10 +54,23 @@ class TestSectionNews(ImioSmartwebTestCase):
         m.get(url, text=json.dumps(self.json_news))
         self.assertEqual(news_view.items[0][0].get("title"), "Première actualité")
         self.assertEqual(len(news_view.items[0]), 3)
-        news.specific_related_newsitems = ["bfe2b4391a0f4a8db6d8b7fed63d1c4a"]
-        url = "http://localhost:8080/Plone/@search?UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=effective&metadata_fields=UID&sort_on=effective&sort_order=descending&sort_limit=6"
+
+        news.specific_related_newsitems = [
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
+        ]
+        url = "http://localhost:8080/Plone/@search?UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&UID=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=effective&metadata_fields=UID&sort_limit=6"
         m.get(url, text=json.dumps(self.json_specific_news))
-        self.assertEqual(len(news_view.items[0]), 1)
+        self.assertEqual(len(news_view.items[0]), 2)
+        self.assertEqual(
+            news_view.items[0][0].get("title"), "Restauration de la piscine"
+        )
+
+        news.specific_related_newsitems = [
+            "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
+            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        ]
+        m.get(url, text=json.dumps(self.json_specific_news))
         self.assertEqual(
             news_view.items[0][0].get("title"), "Restauration de la Bibliothèque"
         )

@@ -1,5 +1,5 @@
 {
-    "@id": "https://actualites.enwallonie.be/@search?UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&portal_type=imio.news.NewsItem&metadata_fields=category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID",
+    "@id": "https://actualites.enwallonie.be/@search?UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&UID=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&portal_type=imio.news.NewsItem&metadata_fields=category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID",
     "items": [
         {
             "@id": "https://actualites.enwallonie.be/belleville/commune/bfe2b4391a0f4a8db6d8b7fed63d1c4a",
@@ -24,7 +24,31 @@
                 "culture",
                 "territory_public_space"
             ]
+        },
+        {
+            "@id": "https://actualites.enwallonie.be/belleville/commune/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "@type": "imio.news.NewsItem",
+            "UID": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "breadcrumb": "belleville >> commune >> Restauration de la piscine",
+            "category": "works",
+            "category_title": "Travaux",
+            "description": "La piscine communale doit être rénovée.",
+            "effective": "2021-05-11T13:31:00",
+            "has_leadimage": true,
+            "image_scales": {"image": [{"content-type": "image/png",
+                                        "download": "@@images/piscine.png",
+                                        "filename": "piscine.png",
+                                        "height": 920,
+                                        "scales": {},
+                                        "size": 351932,
+                                        "width": 2246}]},
+            "review_state": "published",
+            "title": "Restauration de la piscine",
+            "topics": [
+                "culture",
+                "territory_public_space"
+            ]
         }
     ],
-    "items_total": 1
+    "items_total": 2
 }

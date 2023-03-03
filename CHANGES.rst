@@ -5,6 +5,9 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
+- WEB-3865 : Ordering news section and events section in their views thanks to a manualy order in their widgets
+  [boulch]
+
 - Avoid auto-appending new lines to Datagrid fields when clicked
   [laulaz]
 

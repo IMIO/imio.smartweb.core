@@ -56,7 +56,7 @@ class TestSectionEvents(ImioSmartwebTestCase):
         self.assertEqual(events_view.items[0][0].get("title"), "Marche gourmande")
         self.assertEqual(len(events_view.items[0]), 2)
         events.specific_related_events = ["1178188bddde4ced95a6cf8bf04c443c"]
-        url = "http://localhost:8080/Plone/@search?UID=1178188bddde4ced95a6cf8bf04c443c&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&sort_limit=6"
+        url = "http://localhost:8080/Plone/@search?UID=1178188bddde4ced95a6cf8bf04c443c&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_limit=6"
         m.get(url, text=json.dumps(self.json_specific_event))
         self.assertEqual(len(events_view.items[0]), 1)
         self.assertEqual(events_view.items[0][0].get("title"), "Bonne cheville")
