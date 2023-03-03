@@ -354,7 +354,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
 								{
 					files ? (
 						<div className="r-content-files">
-							<h2 className="r-content-files-title"><Translate text="Téléchargements" /></h2>
 							{files.map((file) => (
 								<div className="r-content-file">
 									<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">

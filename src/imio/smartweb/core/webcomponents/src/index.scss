@@ -13,6 +13,9 @@
 /* Filters */
 .r-wrapper{
   position: relative;
+  figure{
+    display: block;
+  }
 }
 .r-result-filter-container,
 .r-actu-wrapper {

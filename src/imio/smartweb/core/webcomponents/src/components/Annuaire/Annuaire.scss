@@ -86,9 +86,12 @@ article > header {
     display: grid;
     grid-template-columns: minmax(20px, 800px) minmax(20px, 100%);
     justify-content: space-between;
-    width: calc(648px + 50vw);
+    width: calc(558px + 50vw);
     margin-left: auto;
     gap: 40px;
+  }
+  @media screen and (min-width:1400px){
+    width: calc(648px + 50vw);
   }
   .r-result{
     padding-bottom: 2rem;

@@ -83,10 +83,14 @@ article > header {
     display: grid;
     grid-template-columns: minmax(20px, 800px) minmax(20px, 100%);
     justify-content: space-between;
-    width:     calc(648px + 50vw);
+    width: calc(558px + 50vw);
     margin-left: auto;
     gap: 40px;
   }
+  @media screen and (min-width:1400px){
+    width: calc(648px + 50vw);
+  }
+
   .r-result{
     margin-top: 2rem;
     padding-bottom: 2rem;
@@ -291,9 +295,7 @@ article > header {
   display: flex;
   justify-content: space-between;
   margin-bottom: 2rem;
-  @media screen and (max-width:1000px){
-    flex-wrap: wrap;
-  }
+  flex-wrap: wrap;
 }
 .r-content-news-info-container{
   @media screen and (min-width:600px) {
