@@ -5,6 +5,9 @@ Changelog
 1.1.7 (unreleased)
 ------------------
 
+- Migrate to Plone 6.0.2
+  [boulch]
+
 - WEB-3865 : Ordering news section and events section in their views thanks to a manualy order in their widgets
   [boulch]
 
