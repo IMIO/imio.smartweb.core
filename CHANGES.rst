@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.7 (unreleased)
+1.1.7 (2023-03-07)
 ------------------
 
 - Improved react views to better match bootstrap media queries and fix no wrap buttons
