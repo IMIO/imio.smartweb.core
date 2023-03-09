@@ -5,7 +5,8 @@ Changelog
 1.1.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3769 : Get fullsize picture if scale is not present (ex: picture too small)
+  [boulch]
 
 
 1.1.7 (2023-03-07)

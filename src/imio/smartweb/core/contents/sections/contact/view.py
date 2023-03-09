@@ -93,18 +93,21 @@ class ContactView(SectionView):
         for image in json_images.get("items"):
             scales = image["image_scales"]["image"][0]["scales"]
             url = large_url = image["@id"]
-            if thumb_scale in scales:
-                url = f"{url}/{scales[thumb_scale]['download']}"
             if "extralarge" in scales:
                 large_url = f"{large_url}/{scales['extralarge']['download']}"
-            results.append(
-                {
-                    "title": image["title"],
-                    "description": image["description"],
-                    "image_url": url,
-                    "image_large_url": large_url,
-                }
-            )
+            dict_item = {
+                "title": image["title"],
+                "description": image["description"],
+                "image_large_url": large_url,
+            }
+            if thumb_scale in scales:
+                url = f"{url}/{scales[thumb_scale]['download']}"
+            else:
+                dict_item["bad_scale"] = thumb_scale
+                no_scale_so_download = image["image_scales"]["image"][0]["download"]
+                url = f"{url}/{no_scale_so_download}"
+            dict_item["image_url"] = url
+            results.append(dict_item)
         return batch_results(results, self.context.nb_results_by_batch)
 
     @property
