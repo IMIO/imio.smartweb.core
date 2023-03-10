@@ -38,7 +38,7 @@
     <div class="swiper-banner-content-wrapper container"
          tal:define="title context/title;
                      description context/description;
-                     link context/remoteUrl"
+                     link view/link"
          tal:condition="python: context.show_title_and_description or link">
       <div class="swiper-banner-content">
           <span class="swiper-banner-title"

@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - WEB-3769 : Get fullsize picture if scale is not present (ex: picture too small)
+- SUP-27477 : Fix internal link in herobanner
   [boulch]
 
 
