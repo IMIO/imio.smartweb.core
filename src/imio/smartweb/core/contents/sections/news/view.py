@@ -54,22 +54,25 @@ class NewsView(CarouselOrTableSectionView):
             item_url = item["@id"]
             item_uid = item["UID"]
             image_url = ""
+            dict_item = {
+                "uid": item_uid,
+                "title": item["title"],
+                "description": item["description"],
+                "category": item["category_title"],
+                "effective": item["effective"],
+                "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
+                "has_image": item["has_leadimage"],
+            }
             if item["has_leadimage"]:
                 scales = item["image_scales"]["image"][0]["scales"]
                 if image_scale in scales:
                     image_url = f"{item_url}/{scales[image_scale]['download']}"
-            results.append(
-                {
-                    "uid": item_uid,
-                    "title": item["title"],
-                    "description": item["description"],
-                    "category": item["category_title"],
-                    "effective": item["effective"],
-                    "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
-                    "image": image_url,
-                    "has_image": item["has_leadimage"],
-                }
-            )
+                else:
+                    dict_item["bad_scale"] = image_scale
+                    no_scale_so_download = item["image_scales"]["image"][0]["download"]
+                    image_url = f"{item_url}/{no_scale_so_download}"
+            dict_item["image"] = image_url
+            results.append(dict_item)
         if specific_related_newsitems:
             results = sorted(
                 results, key=lambda x: specific_related_newsitems.index(x["uid"])

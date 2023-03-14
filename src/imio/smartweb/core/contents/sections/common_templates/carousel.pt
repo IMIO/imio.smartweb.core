@@ -48,7 +48,10 @@
                                      target python:'_blank' if (open_in_new_tab and not can_edit_sections) else ''">
                     <div class="swiper-image"
                          tal:condition="python: item_has_image and show_lead_image"
-                         tal:attributes="style string:background-image:url(${item/image})">
+                         tal:attributes="style string:background-image:url(${item/image});
+                                         class python:'swiper-image {}'.format('bad_scale' if item.get('bad_scale') else '')">
+                      <span tal:condition="python:not view.is_anonymous and item.get('bad_scale')"
+                            i18n:translate="">Bad scale</span>
                     </div>
                     <div class="swiper-image"
                          tal:condition="python: not item_has_image and show_lead_image">

@@ -41,6 +41,10 @@ class SectionView(BrowserView):
         api.portal.show_message(_("Section title has been shown"), self.request)
         self.redirect_to_section(self.context.id)
 
+    @property
+    def is_anonymous(self):
+        return api.user.is_anonymous()
+
 
 class CarouselOrTableSectionView(SectionView):
     """Section view that can display a carousel"""
