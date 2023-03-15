@@ -1,5 +1,6 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
 
@@ -84,6 +85,13 @@
       attribute="is_eguichet_aware"
       permission="zope.Public"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <z3c:widgetTemplate
+      mode="input"
+      widget="plone.app.z3cform.interfaces.ILinkWidget"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      template="templates/link_input.pt"
       />
 
 </configure>
