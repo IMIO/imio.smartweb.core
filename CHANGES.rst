@@ -5,6 +5,9 @@ Changelog
 1.1.8 (unreleased)
 ------------------
 
+- WEB-3888 : We overrided link_input template widget to allow any link format in external tab (without browser blocking)
+  [boulch]
+
 - SUP-27477 : Fix internal link in herobanner
   [boulch]
 
