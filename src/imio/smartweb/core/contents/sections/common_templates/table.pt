@@ -64,7 +64,10 @@
                             </div>
                             <div class="image d-block w-100"
                                  tal:condition="python: item_has_image and not item_has_icon"
-                                 tal:attributes="style string:background-image:url(${item/image})">
+                                 tal:attributes="style string:background-image:url(${item/image});
+                                                 class python:'image d-block w-100 {}'.format('bad_scale' if item.get('bad_scale') else '')">
+                              <span tal:condition="python:not view.is_anonymous and item.get('bad_scale')"
+                                    i18n:translate="">Bad scale</span>
                             </div>
                             <div class="image d-block w-100"
                                  tal:condition="no_icon_no_image">

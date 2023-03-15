@@ -6,6 +6,7 @@ Changelog
 ------------------
 
 - WEB-3888 : We overrided link_input template widget to allow any link format in external tab (without browser blocking)
+- WEB-3769 : Get fullsize picture if scale is not present (ex: picture too small)
   [boulch]
 
 - SUP-27477 : Fix internal link in herobanner
