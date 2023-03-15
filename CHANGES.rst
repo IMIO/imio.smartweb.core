@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.8 (unreleased)
+1.1.8 (2023-03-15)
 ------------------
 
 - WEB-3888 : We overrided link_input template widget to allow any link format in external tab (without browser blocking)
