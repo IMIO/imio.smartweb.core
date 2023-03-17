@@ -4,6 +4,7 @@ from imio.smartweb.core.browser.banner.settings import ILocallyHiddenBanner
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
+from plone.namedfile.file import NamedBlobImage
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import queryMultiAdapter
 
@@ -32,7 +33,11 @@ class BannerViewlet(common.ViewletBase):
         for item in self.context.aq_chain:
             if ILocallyHiddenBanner.providedBy(item):
                 self._banner_is_hidden = True
-            if base_hasattr(item, "banner") and item.banner is not None:
+            if (
+                base_hasattr(item, "banner")
+                and item.banner is not None
+                and isinstance(item.banner, NamedBlobImage)
+            ):
                 self._banner_item = item
                 return item
             if INavigationRoot.providedBy(item):

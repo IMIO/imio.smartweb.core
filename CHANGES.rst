@@ -5,7 +5,8 @@ Changelog
 1.1.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3898 : Prevent error (error while rendering imio.smartweb.banner) if a content has his id = "banner"
+  [boulch]
 
 
 1.1.8 (2023-03-15)
