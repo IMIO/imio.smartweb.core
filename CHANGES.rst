@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.9 (unreleased)
+1.1.9 (2023-03-17)
 ------------------
 
 - WEB-3898 : Prevent error (error while rendering imio.smartweb.banner) if a content has his id = "banner"
