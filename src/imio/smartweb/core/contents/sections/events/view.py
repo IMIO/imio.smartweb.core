@@ -5,7 +5,9 @@ from dateutil.parser import parse
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
+from imio.smartweb.core.utils import expand_occurences
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.core.utils import get_start_date
 from plone import api
 from Products.CMFPlone.utils import normalizeString
 
@@ -32,6 +34,9 @@ class EventsView(CarouselOrTableSectionView):
             "metadata_fields=has_leadimage",
             "metadata_fields=image_scales",
             "metadata_fields=UID",
+            "metadata_fields=recurrence",
+            "metadata_fields=whole_day",
+            "metadata_fields=open_end",
             f"event_dates.query={today}",
             "event_dates.range=min",
             f"sort_limit={max_items}",
@@ -53,8 +58,21 @@ class EventsView(CarouselOrTableSectionView):
         linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
         image_scale = self.image_scale
         items = json_search_events.get("items")[:max_items]
+        expanded_events = expand_occurences(items)
+        expanded_events_sorted = sorted(expanded_events, key=get_start_date)
+        # If we have specified an event with recurrences in the list of specific events, then we only keep the 1st occurrence with a non-obsolete date
+        # expanded_events_sorted is sorted by "start"
+        # Note : specific_related_events will be sorted by UID.
+        if specific_related_events:
+            res = []
+            for item in items:
+                for expanded_event in expanded_events_sorted:
+                    if item.get("UID") == expanded_event.get("UID"):
+                        res.append(expanded_event)
+                        break
+            expanded_events_sorted = res
         results = []
-        for item in items:
+        for item in expanded_events_sorted:
             item_id = normalizeString(item["title"])
             item_url = item["@id"]
             item_uid = item["UID"]

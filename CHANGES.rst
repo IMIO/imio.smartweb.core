@@ -5,6 +5,9 @@ Changelog
 1.1.10 (unreleased)
 -------------------
 
+- WEB-3903 : Manage occurences in events sections
+  [boulch]
+
 - WEB-3902 : Sort events by start_date after expanded  event occurences
   [boulch]
 
