@@ -2,18 +2,26 @@
 
 from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
+from datetime import datetime
+from datetime import timedelta
 from imio.smartweb.core.config import WCA_URL
 from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
 from plone import api
 from plone.app.multilingual.interfaces import ILanguageRootFolder
 from plone.dexterity.interfaces import IDexterityContent
+from plone.event.recurrence import recurrence_sequence_ical
+from plone.event.utils import pydt
+from plone.restapi.serializer.converters import json_compatible
 from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
+from pytz import utc
 from zope.component import getSiteManager
 from zope.component import queryMultiAdapter
 
+import copy
+import dateutil
 import json
 import os
 import requests
@@ -145,3 +153,41 @@ def get_scale_url(context, request, fieldname, scale):
             else f"{brain.getURL()}/{data['download']}"
         )
         return url
+
+
+def get_start_date(event):
+    return datetime.fromisoformat(event["start"])
+
+
+def expand_occurences(events):
+    expanded_events = []
+
+    for event in events:
+        if not event["recurrence"]:
+            expanded_events.append(event)
+            continue
+        start_date = dateutil.parser.parse(event["start"])
+        start_date = start_date.astimezone(utc)
+        end_date = dateutil.parser.parse(event["end"])
+        end_date = end_date.astimezone(utc)
+
+        start_dates = recurrence_sequence_ical(
+            start=start_date,
+            recrule=event["recurrence"],
+            from_=datetime.now(),
+        )
+
+        if event["whole_day"] or event["open_end"]:
+            duration = timedelta(hours=23, minutes=59, seconds=59)
+        else:
+            duration = end_date - start_date
+
+        for occurence_start in start_dates:
+            if pydt(start_date.replace(microsecond=0)) == occurence_start:
+                expanded_events.append(event)
+            else:
+                new_event = copy.deepcopy(event)
+                new_event["start"] = json_compatible(occurence_start)
+                new_event["end"] = json_compatible(occurence_start + duration)
+                expanded_events.append(new_event)
+    return expanded_events
