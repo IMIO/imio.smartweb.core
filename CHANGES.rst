@@ -5,7 +5,8 @@ Changelog
 1.1.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3902 : Sort events by start_date after expanded  event occurences
+  [boulch]
 
 
 1.1.9 (2023-03-17)

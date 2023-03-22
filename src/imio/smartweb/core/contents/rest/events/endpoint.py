@@ -19,6 +19,10 @@ import copy
 import dateutil
 
 
+def get_start_date(event):
+    return datetime.fromisoformat(event["start"])
+
+
 def expand_occurences(events):
     expanded_events = []
 
@@ -50,8 +54,8 @@ def expand_occurences(events):
                 new_event["start"] = json_compatible(occurence_start)
                 new_event["end"] = json_compatible(occurence_start + duration)
                 expanded_events.append(new_event)
-
-    return expanded_events
+    expanded_events_sorted = sorted(expanded_events, key=get_start_date)
+    return expanded_events_sorted
 
 
 class BaseEventsEndpoint(BaseEndpoint):
