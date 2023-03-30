@@ -5,7 +5,8 @@ Changelog
 1.1.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3901 : Get fullsize picture if scale is not present (section collection)
+  [boulch]
 
 
 1.1.9 (2023-03-17)
