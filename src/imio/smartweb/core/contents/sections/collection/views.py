@@ -27,8 +27,7 @@ class CollectionView(CarouselOrTableSectionView):
             }
             if scale_url == "":
                 dict_item["bad_scale"] = image_scale
-                obj = item.getObject()
-                scale_url = f"{obj.absolute_url()}/@@images/image/{image_scale}"
+                scale_url = f"{url}/@@images/image/{image_scale}"
             dict_item["image"] = scale_url
             results.append(dict_item)
         return batch_results(results, self.context.nb_results_by_batch)
