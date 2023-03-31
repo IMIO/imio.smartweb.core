@@ -6,6 +6,7 @@ Changelog
 -------------------
 
 - WEB-3901 : Get fullsize picture if scale is not present (section collection)
+- WEB-3908 : Call new @events endpoint to get events occurrences
   [boulch]
 
 

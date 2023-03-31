@@ -25,7 +25,6 @@ class EventsView(CarouselOrTableSectionView):
             )
         params = [
             selected_item,
-            "portal_type=imio.events.Event",
             "metadata_fields=category_title",
             "metadata_fields=start",
             "metadata_fields=end",
@@ -34,7 +33,7 @@ class EventsView(CarouselOrTableSectionView):
             "metadata_fields=UID",
             f"event_dates.query={today}",
             "event_dates.range=min",
-            f"sort_limit={max_items}",
+            f"b_size={max_items}",
         ]
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
@@ -43,7 +42,7 @@ class EventsView(CarouselOrTableSectionView):
             params += [
                 "sort_on=event_dates",
             ]
-        url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
+        url = "{}/@events?{}".format(EVENTS_URL, "&".join(params))
         json_search_events = get_json(url)
         if (
             json_search_events is None
