@@ -496,6 +496,7 @@ class EventsFromEntityVocabularyFactory:
             "event_dates.range=min",
             "b_size=1000000",
         ]
+        # Keep default @search endpoint. Don't use @events endpoint.
         url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
         json_events = get_json(url)
         if json_events is None or len(json_events.get("items", [])) == 0:

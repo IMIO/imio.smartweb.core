@@ -1,78 +1,187 @@
 {
-    "@id": "http://localhost:8080/Plone/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&sort_on=event_dates&fullobjects=1&sort_limit=20&event_type=event-driven",
+    "@id": "http://localhost:8080/Plone/@events?metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.range=min&selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=image_scales&event_dates.query=2023-03-30",
+    "batching": {
+        "@id": "http://localhost:8080/Plone/@events?metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.range=min&sort_on=event_dates&selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=image_scales&b_size=2&event_dates.query=2023-03-30",
+        "first": "http://localhost:8080/Plone/@events?b_start=0&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.range=min&sort_on=event_dates&selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=image_scales&b_size=2&event_dates.query=2023-03-30",
+        "last": "http://localhost:8080/Plone/@events?b_start=50&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.range=min&sort_on=event_dates&selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=image_scales&b_size=2&event_dates.query=2023-03-30",
+        "next": "http://localhost:8080/Plone/@events?b_start=2&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&event_dates.range=min&sort_on=event_dates&selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=image_scales&b_size=2&event_dates.query=2023-03-30"
+    },
     "items": [
         {
-            "@id": "http://localhost:8080/Plone/belleville/communal/1178188bddde4ced95a6cf8bf04c443b",
+            "@id": "http://localhost:8080/Plone/belleville/accueil-temps-libre/97902f2e26774a369035117d56381a2a",
             "@type": "imio.events.Event",
-            "UID": "1178188bddde4ced95a6cf8bf04c443b",
-            "category": null,
+            "UID": "97902f2e26774a369035117d56381a2a",
+            "breadcrumb": "Belleville » Accueil temps libre » Journée de l'ATL",
             "category_title": null,
-            "description": "Bon pied, bon oeil et bonne bouche à Belleville",
-            "breadcrumb": "belleville >> communal >> Bon pied, bon oeil",
-            "end": "2025-11-30T13:00:00+00:00",
+            "description": "Description de mon événement",
+            "end": "2023-10-31T10:00:00+00:00",
+            "first_end": "2023-10-31T10:00:00+00:00",
+            "first_start": "2023-01-31T09:00:00+00:00",
             "has_leadimage": true,
-            "image_scales": {"image": [{"content-type": "image/png",
-                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
-                                        "filename": "image12.44.13.png",
-                                        "height": 920,
-                                        "scales": {
-                                            "extralarge": {
-                                                "download": "@@images/image-1320-8ccd2ce1297e19bfe1e6a4d506afb303.png",
-                                                "height": 540,
-                                                "width": 1320
-                                            },
-                                            "preview": {
-                                                "download": "@@images/image-400-b5b8304629d8af0ff32305173701bd4d.png",
-                                                "height": 163,
-                                                "width": 400
-                                            }
-                                        },
-                                        "size": 351932,
-                                        "width": 2246}]},
-            "review_state": "published",
+            "image_field": null,
+            "image_scales": {
+                "image": [
+                    {
+                        "content-type": "image/jpeg",
+                        "download": "@@images/image-1920-a2809c16e9e5aaee5be98467dbf2f881.jpeg",
+                        "filename": "pier-gdc03484e2_1920.jpg",
+                        "height": 1275,
+                        "scales": {
+                            "affiche": {
+                                "download": "@@images/image-1320-599135dcf981e80d93dc097fcc08f3c3.jpeg",
+                                "height": 440,
+                                "width": 663
+                            },
+                            "banner": {
+                                "download": "@@images/image-1920-e249163deb77224499bd297791a75cda.jpeg",
+                                "height": 600,
+                                "width": 903
+                            },
+                            "extralarge": {
+                                "download": "@@images/image-1320-80fdfcc1cebda1304624339d85e40262.jpeg",
+                                "height": 876,
+                                "width": 1320
+                            },
+                            "icon": {
+                                "download": "@@images/image-32-a5844e8c72519bd7f0499489647f23c4.jpeg",
+                                "height": 21,
+                                "width": 32
+                            },
+                            "large": {
+                                "download": "@@images/image-768-222ca7ae5ab4b58171f9874542c937b4.jpeg",
+                                "height": 510,
+                                "width": 768
+                            },
+                            "liste": {
+                                "download": "@@images/image-150-46cc7bb29b87ad428c27b0e0022ff00a.jpeg",
+                                "height": 99,
+                                "width": 150
+                            },
+                            "listing": {
+                                "download": "@@images/image-16-89215eb88d9d03c4956683ce9afca0dd.jpeg",
+                                "height": 10,
+                                "width": 16
+                            },
+                            "medium": {
+                                "download": "@@images/image-600-c6ad3fbf1746f1972efd19a254cfeb72.jpeg",
+                                "height": 398,
+                                "width": 600
+                            },
+                            "mini": {
+                                "download": "@@images/image-200-3528e8ff49e468676ef6f5ed99c5e0f4.jpeg",
+                                "height": 132,
+                                "width": 200
+                            },
+                            "preview": {
+                                "download": "@@images/image-400-31c832f7b299f1e67915310a3c5fd17b.jpeg",
+                                "height": 265,
+                                "width": 400
+                            },
+                            "slide": {
+                                "download": "@@images/image-750-5fadac5aa1363207c5792cb618278a54.jpeg",
+                                "height": 498,
+                                "width": 750
+                            },
+                            "thumb": {
+                                "download": "@@images/image-128-7113e4f87735437db4805d824b4b2b9f.jpeg",
+                                "height": 85,
+                                "width": 128
+                            },
+                            "tile": {
+                                "download": "@@images/image-64-c8f13e5a298a4db0f0d25d36bba312ab.jpeg",
+                                "height": 42,
+                                "width": 64
+                            },
+                            "vignette": {
+                                "download": "@@images/image-390-6ef46deb95eae3fab49f60144c6267cc.jpeg",
+                                "height": 258,
+                                "width": 390
+                            }
+                        },
+                        "size": 326076,
+                        "width": 1920
+                    }
+                ]
+            },
             "open_end": false,
             "recurrence": null,
-            "start": "2022-11-13T12:00:00+00:00",
-            "title": "Marche gourmande",
-            "topics": null,
-            "whole_day": false
+            "review_state": "published",
+            "start": "2023-01-31T09:00:00+00:00",
+            "title": "Journée de l'ATL",
+            "whole_day": true
         },
         {
-            "@id": "http://localhost:8080/Plone/belleville/communal/1178188bddde4ced95a6cf8bf04c443c",
+            "@id": "http://localhost:8080/Plone/belleville/communal/9ff5c526d28e473db0065a6845686cfe",
             "@type": "imio.events.Event",
-            "UID": "1178188bddde4ced95a6cf8bf04c443c",
-            "category": null,
+            "UID": "9ff5c526d28e473db0065a6845686cfe",
             "category_title": null,
-            "description": "Bonne cheville à Belleville",
-            "breadcrumb": "belleville >> communal >> Bonne cheville",
-            "end": "2025-11-30T13:00:00+00:00",
+            "description": "une description",
+            "end": "2023-04-01T20:02:00+00:00",
+            "first_end": "2023-03-18T20:02:00+00:00",
+            "first_start": "2023-03-18T17:07:00+00:00",
             "has_leadimage": true,
-            "image_scales": {"image": [{"content-type": "image/png",
-                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
-                                        "filename": "image12.44.13.png",
-                                        "height": 920,
-                                        "scales": {
-                                            "extralarge": {
-                                                "download": "@@images/image-1320-8ccd2ce1297e19bfe1e6a4d506afb303.png",
-                                                "height": 540,
-                                                "width": 1320
-                                            },
-                                            "preview": {
-                                                "download": "@@images/image-400-b5b8304629d8af0ff32305173701bd4d.png",
-                                                "height": 163,
-                                                "width": 400
-                                            }
-                                        },
-                                        "size": 351932,
-                                        "width": 2246}]},
-            "review_state": "published",
+            "image_field": null,
+            "image_scales": {
+                "image": [
+                    {
+                        "content-type": "image/png",
+                        "download": "@@images/image-498-28a115e3f3cfd20c4965d175dfcf4d3a.png",
+                        "filename": "blag.png",
+                        "height": 279,
+                        "scales": {
+                            "icon": {
+                                "download": "@@images/image-32-195f8a6c912e535cb3acbef9b19a7665.png",
+                                "height": 17,
+                                "width": 32
+                            },
+                            "liste": {
+                                "download": "@@images/image-150-0e0b0b2500a16950094263d28ec72e2a.png",
+                                "height": 84,
+                                "width": 150
+                            },
+                            "listing": {
+                                "download": "@@images/image-16-72c1cbb4678e8dfc3a4b643c496ece6b.png",
+                                "height": 8,
+                                "width": 16
+                            },
+                            "mini": {
+                                "download": "@@images/image-200-2d3a4c0377ed6baad33c8ce5a86e2c28.png",
+                                "height": 112,
+                                "width": 200
+                            },
+                            "preview": {
+                                "download": "@@images/image-400-4884cb08fe123655b60c6e5adf7111a5.png",
+                                "height": 224,
+                                "width": 400
+                            },
+                            "thumb": {
+                                "download": "@@images/image-128-77689dcb5c8f05fdab9247918bdef6b0.png",
+                                "height": 71,
+                                "width": 128
+                            },
+                            "tile": {
+                                "download": "@@images/image-64-e3ebcd77f20f3bba80f7f56e6a3d6826.png",
+                                "height": 35,
+                                "width": 64
+                            },
+                            "vignette": {
+                                "download": "@@images/image-390-f8c9623e7cba47fde921c6da7eed7747.png",
+                                "height": 218,
+                                "width": 390
+                            }
+                        },
+                        "size": 199025,
+                        "width": 498
+                    }
+                ]
+            },
             "open_end": false,
-            "recurrence": null,
-            "start": "2022-11-13T12:00:00+00:00",
-            "title": "Bonne cheville",
-            "topics": null,
+            "recurrence": "RRULE:FREQ=WEEKLY;COUNT=50",
+            "review_state": "published",
+            "start": "2023-04-01T17:07:00+00:00",
+            "title": "Evenement récurrent tous les samedi",
             "whole_day": false
         }
     ],
-    "items_total": 2
+    "items_total": 52
 }

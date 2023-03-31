@@ -1,0 +1,472 @@
+{
+    "@id": "http://localhost:8090/Plone/@search?selected_agendas=0b4c36bfaf2546488b0aceff5a25d385&selected_agendas=7067db6012454155b8508f69b9b36fa7&selected_agendas=e73e6a81afea4a579cd0da2773af8d29&selected_agendas=46d9793a6f394a029dc38565452dd035&selected_agendas=19c7a4e86f9b46be9ef93a038752a727&selected_agendas=e2b58524a91b4a558e9bc57dd0200761&portal_type=imio.events.Event&metadata_fields=category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min",
+    "items": [
+        {
+            "@id": "http://localhost:8090/Plone/belleville/accueil-temps-libre/97902f2e26774a369035117d56381a2a",
+            "@type": "imio.events.Event",
+            "UID": "97902f2e26774a369035117d56381a2a",
+            "breadcrumb": "Belleville » Accueil temps libre » Journée de l'ATL",
+            "category": null,
+            "description": "Description de mon événement",
+            "end": "2023-10-31T23:59:59+00:00",
+            "has_leadimage": true,
+            "image_field": null,
+            "image_scales": {
+                "image": [
+                    {
+                        "content-type": "image/jpeg",
+                        "download": "@@images/image-1920-a2809c16e9e5aaee5be98467dbf2f881.jpeg",
+                        "filename": "pier-gdc03484e2_1920.jpg",
+                        "height": 1275,
+                        "scales": {
+                            "affiche": {
+                                "download": "@@images/image-1320-599135dcf981e80d93dc097fcc08f3c3.jpeg",
+                                "height": 440,
+                                "width": 663
+                            },
+                            "banner": {
+                                "download": "@@images/image-1920-e249163deb77224499bd297791a75cda.jpeg",
+                                "height": 600,
+                                "width": 903
+                            },
+                            "extralarge": {
+                                "download": "@@images/image-1320-80fdfcc1cebda1304624339d85e40262.jpeg",
+                                "height": 876,
+                                "width": 1320
+                            },
+                            "icon": {
+                                "download": "@@images/image-32-a5844e8c72519bd7f0499489647f23c4.jpeg",
+                                "height": 21,
+                                "width": 32
+                            },
+                            "large": {
+                                "download": "@@images/image-768-222ca7ae5ab4b58171f9874542c937b4.jpeg",
+                                "height": 510,
+                                "width": 768
+                            },
+                            "liste": {
+                                "download": "@@images/image-150-46cc7bb29b87ad428c27b0e0022ff00a.jpeg",
+                                "height": 99,
+                                "width": 150
+                            },
+                            "listing": {
+                                "download": "@@images/image-16-89215eb88d9d03c4956683ce9afca0dd.jpeg",
+                                "height": 10,
+                                "width": 16
+                            },
+                            "medium": {
+                                "download": "@@images/image-600-c6ad3fbf1746f1972efd19a254cfeb72.jpeg",
+                                "height": 398,
+                                "width": 600
+                            },
+                            "mini": {
+                                "download": "@@images/image-200-3528e8ff49e468676ef6f5ed99c5e0f4.jpeg",
+                                "height": 132,
+                                "width": 200
+                            },
+                            "preview": {
+                                "download": "@@images/image-400-31c832f7b299f1e67915310a3c5fd17b.jpeg",
+                                "height": 265,
+                                "width": 400
+                            },
+                            "slide": {
+                                "download": "@@images/image-750-5fadac5aa1363207c5792cb618278a54.jpeg",
+                                "height": 498,
+                                "width": 750
+                            },
+                            "thumb": {
+                                "download": "@@images/image-128-7113e4f87735437db4805d824b4b2b9f.jpeg",
+                                "height": 85,
+                                "width": 128
+                            },
+                            "tile": {
+                                "download": "@@images/image-64-c8f13e5a298a4db0f0d25d36bba312ab.jpeg",
+                                "height": 42,
+                                "width": 64
+                            },
+                            "vignette": {
+                                "download": "@@images/image-390-6ef46deb95eae3fab49f60144c6267cc.jpeg",
+                                "height": 258,
+                                "width": 390
+                            }
+                        },
+                        "size": 326076,
+                        "width": 1920
+                    }
+                ]
+            },
+            "review_state": "published",
+            "start": "2023-01-31T00:00:00+00:00",
+            "title": "Journée de l'ATL",
+            "topics": null
+        },
+        {
+            "@id": "http://localhost:8090/Plone/belleville/communal/569519a1cc754ac3a559cbfc4a6b8d8a",
+            "@type": "imio.events.Event",
+            "UID": "569519a1cc754ac3a559cbfc4a6b8d8a",
+            "breadcrumb": "Belleville » Agenda communal » Portes ouvertes de l'administration communale",
+            "category": null,
+            "description": "Description des portes ouvertes",
+            "end": "2025-01-23T23:59:59+00:00",
+            "has_leadimage": true,
+            "image_field": null,
+            "image_scales": {
+                "image": [
+                    {
+                        "content-type": "image/jpeg",
+                        "download": "@@images/image-1920-aaf399cb0df8a5d19da3885ef1d9ecda.jpeg",
+                        "filename": "book-g78603e41d_1920.jpg",
+                        "height": 1125,
+                        "scales": {
+                            "affiche": {
+                                "download": "@@images/image-1320-7648ec9925cd22a82f11e479ce1eec9a.jpeg",
+                                "height": 440,
+                                "width": 751
+                            },
+                            "banner": {
+                                "download": "@@images/image-1920-1a74a8bc3945741e3faf1c15a725b660.jpeg",
+                                "height": 600,
+                                "width": 1024
+                            },
+                            "extralarge": {
+                                "download": "@@images/image-1320-f03d2f806d118e7098ce4675eddd6a1a.jpeg",
+                                "height": 773,
+                                "width": 1320
+                            },
+                            "icon": {
+                                "download": "@@images/image-32-cf8630074b6ead9f71fb937f6922310b.jpeg",
+                                "height": 18,
+                                "width": 32
+                            },
+                            "large": {
+                                "download": "@@images/image-768-91ae4acc64b3b0edfa87028b7b6d4dd4.jpeg",
+                                "height": 450,
+                                "width": 768
+                            },
+                            "liste": {
+                                "download": "@@images/image-150-c4b1d4d8c803f53bab57dbba1cd87c7f.jpeg",
+                                "height": 87,
+                                "width": 150
+                            },
+                            "listing": {
+                                "download": "@@images/image-16-1fb6471a002fc0d8694c109c85dc4fa2.jpeg",
+                                "height": 9,
+                                "width": 16
+                            },
+                            "medium": {
+                                "download": "@@images/image-600-93de8ae5a2d572369eef87d32d3fda64.jpeg",
+                                "height": 351,
+                                "width": 600
+                            },
+                            "mini": {
+                                "download": "@@images/image-200-e5ecf2daf745eac8c817d68c43778e91.jpeg",
+                                "height": 117,
+                                "width": 200
+                            },
+                            "preview": {
+                                "download": "@@images/image-400-c80330a4f0a1b43a1ed774ae85e48ea8.jpeg",
+                                "height": 234,
+                                "width": 400
+                            },
+                            "slide": {
+                                "download": "@@images/image-750-e544c0b0af0b444cd3f6bac5ad627cf2.jpeg",
+                                "height": 439,
+                                "width": 750
+                            },
+                            "thumb": {
+                                "download": "@@images/image-128-bc230b6f72b9cc208801574e8b00217d.jpeg",
+                                "height": 75,
+                                "width": 128
+                            },
+                            "tile": {
+                                "download": "@@images/image-64-28dd4be1472547b041bba8633408d355.jpeg",
+                                "height": 37,
+                                "width": 64
+                            },
+                            "vignette": {
+                                "download": "@@images/image-390-6fdf7cfd1b15983fb699f2a034789f82.jpeg",
+                                "height": 228,
+                                "width": 390
+                            }
+                        },
+                        "size": 306843,
+                        "width": 1920
+                    }
+                ]
+            },
+            "review_state": "published",
+            "start": "2025-01-23T00:00:00+00:00",
+            "title": "Portes ouvertes de l'administration communale",
+            "topics": null
+        },
+        {
+            "@id": "http://localhost:8090/Plone/belleville/communal/9ff5c526d28e473db0065a6845686cfe",
+            "@type": "imio.events.Event",
+            "UID": "9ff5c526d28e473db0065a6845686cfe",
+            "breadcrumb": "Belleville » Agenda communal » Evenement récurrent tous les samedi",
+            "category": null,
+            "description": "une description",
+            "end": "2023-04-01T20:02:00+00:00",
+            "has_leadimage": true,
+            "image_field": null,
+            "image_scales": {
+                "image": [
+                    {
+                        "content-type": "image/png",
+                        "download": "@@images/image-498-28a115e3f3cfd20c4965d175dfcf4d3a.png",
+                        "filename": "blag.png",
+                        "height": 279,
+                        "scales": {
+                            "icon": {
+                                "download": "@@images/image-32-195f8a6c912e535cb3acbef9b19a7665.png",
+                                "height": 17,
+                                "width": 32
+                            },
+                            "liste": {
+                                "download": "@@images/image-150-0e0b0b2500a16950094263d28ec72e2a.png",
+                                "height": 84,
+                                "width": 150
+                            },
+                            "listing": {
+                                "download": "@@images/image-16-72c1cbb4678e8dfc3a4b643c496ece6b.png",
+                                "height": 8,
+                                "width": 16
+                            },
+                            "mini": {
+                                "download": "@@images/image-200-2d3a4c0377ed6baad33c8ce5a86e2c28.png",
+                                "height": 112,
+                                "width": 200
+                            },
+                            "preview": {
+                                "download": "@@images/image-400-4884cb08fe123655b60c6e5adf7111a5.png",
+                                "height": 224,
+                                "width": 400
+                            },
+                            "thumb": {
+                                "download": "@@images/image-128-77689dcb5c8f05fdab9247918bdef6b0.png",
+                                "height": 71,
+                                "width": 128
+                            },
+                            "tile": {
+                                "download": "@@images/image-64-e3ebcd77f20f3bba80f7f56e6a3d6826.png",
+                                "height": 35,
+                                "width": 64
+                            },
+                            "vignette": {
+                                "download": "@@images/image-390-f8c9623e7cba47fde921c6da7eed7747.png",
+                                "height": 218,
+                                "width": 390
+                            }
+                        },
+                        "size": 199025,
+                        "width": 498
+                    }
+                ]
+            },
+            "review_state": "published",
+            "start": "2023-04-01T17:07:00+00:00",
+            "title": "Evenement récurrent tous les samedi",
+            "topics": null
+        },
+        {
+            "@id": "http://localhost:8090/Plone/belleville/communal/5715c81596414ceab98ed0a089f9420c",
+            "@type": "imio.events.Event",
+            "UID": "5715c81596414ceab98ed0a089f9420c",
+            "breadcrumb": "Belleville » Agenda communal » Un événement qui prend qq jours en avril",
+            "category": null,
+            "description": "",
+            "end": "2023-04-15T14:00:00+00:00",
+            "has_leadimage": true,
+            "image_field": null,
+            "image_scales": {
+                "image": [
+                    {
+                        "content-type": "image/jpeg",
+                        "download": "@@images/image-800-4711ff4685bebc9ca3b3e10d3d3751ac.jpeg",
+                        "filename": "126998418_1066889340419755_1279082291552253113_n.jpg",
+                        "height": 560,
+                        "scales": {
+                            "icon": {
+                                "download": "@@images/image-32-941c3ad452436d5f7d4043feba1318d8.jpeg",
+                                "height": 22,
+                                "width": 32
+                            },
+                            "large": {
+                                "download": "@@images/image-768-8c65123cb1fa62364ebaa4d9be1efbd0.jpeg",
+                                "height": 537,
+                                "width": 768
+                            },
+                            "liste": {
+                                "download": "@@images/image-150-b2fdd5757f10c493a4f5d475a0f23295.jpeg",
+                                "height": 100,
+                                "width": 142
+                            },
+                            "listing": {
+                                "download": "@@images/image-16-f6b7de4cbd2b963c2b6b00e9d3eceded.jpeg",
+                                "height": 11,
+                                "width": 16
+                            },
+                            "medium": {
+                                "download": "@@images/image-600-fab8a23236bffa6e3ef8b43537ab5025.jpeg",
+                                "height": 420,
+                                "width": 600
+                            },
+                            "mini": {
+                                "download": "@@images/image-200-682c44323edc0815e0cbd67d8fd147e1.jpeg",
+                                "height": 140,
+                                "width": 200
+                            },
+                            "preview": {
+                                "download": "@@images/image-400-74a52f0cb5b93ca5ab6016fa882532c6.jpeg",
+                                "height": 280,
+                                "width": 400
+                            },
+                            "slide": {
+                                "download": "@@images/image-750-92df0863c967a0bd02b607576b0d1298.jpeg",
+                                "height": 500,
+                                "width": 714
+                            },
+                            "thumb": {
+                                "download": "@@images/image-128-49e63fd1da5ae9037761b63b17b2c4d5.jpeg",
+                                "height": 89,
+                                "width": 128
+                            },
+                            "tile": {
+                                "download": "@@images/image-64-5900d87f9756ec203d9b1c9569f91d73.jpeg",
+                                "height": 44,
+                                "width": 64
+                            },
+                            "vignette": {
+                                "download": "@@images/image-390-ab35e1b0a8c361405d28b8f91a2ce69c.jpeg",
+                                "height": 260,
+                                "width": 371
+                            }
+                        },
+                        "size": 39669,
+                        "width": 800
+                    }
+                ]
+            },
+            "review_state": "published",
+            "start": "2023-04-09T13:00:00+00:00",
+            "title": "Un événement qui prend qq jours en avril",
+            "topics": null
+        },
+        {
+            "@id": "http://localhost:8090/Plone/belleville/communal/1e64a5c0ce544dcbbcd5efbe5df59f56",
+            "@type": "imio.events.Event",
+            "UID": "1e64a5c0ce544dcbbcd5efbe5df59f56",
+            "breadcrumb": "Belleville » Agenda communal » 2ème séance d'infos",
+            "category": null,
+            "description": "",
+            "end": "2025-03-20T15:00:00+00:00",
+            "has_leadimage": true,
+            "image_field": null,
+            "image_scales": {
+                "image": [
+                    {
+                        "content-type": "image/jpeg",
+                        "download": "@@images/image-1920-dd7bb95c40d01b7648a590ca77ed9286.jpeg",
+                        "filename": "nature-g305690c0f_1920.jpg",
+                        "height": 1280,
+                        "scales": {
+                            "affiche": {
+                                "download": "@@images/image-1320-4f1e47dd7192048b8b2e4bbe71b0a3e6.jpeg",
+                                "height": 440,
+                                "width": 660
+                            },
+                            "banner": {
+                                "download": "@@images/image-1920-f0b772d80a89e3326dcb8671a20d17e3.jpeg",
+                                "height": 600,
+                                "width": 900
+                            },
+                            "extralarge": {
+                                "download": "@@images/image-1320-45f675e60b1bf4a1648ddceb32ec2331.jpeg",
+                                "height": 880,
+                                "width": 1320
+                            },
+                            "icon": {
+                                "download": "@@images/image-32-4db8253cb8c6aafe69caf72df67e12ec.jpeg",
+                                "height": 21,
+                                "width": 32
+                            },
+                            "large": {
+                                "download": "@@images/image-768-e333619e140da6070b6e29a9eebd900a.jpeg",
+                                "height": 512,
+                                "width": 768
+                            },
+                            "liste": {
+                                "download": "@@images/image-150-a9fc0ef54e085644d37576c08d515326.jpeg",
+                                "height": 100,
+                                "width": 150
+                            },
+                            "listing": {
+                                "download": "@@images/image-16-c4ae5cf0ed91d94107ee820864f71356.jpeg",
+                                "height": 10,
+                                "width": 16
+                            },
+                            "medium": {
+                                "download": "@@images/image-600-cf923815026a70b6d2a3c0a368c10339.jpeg",
+                                "height": 400,
+                                "width": 600
+                            },
+                            "mini": {
+                                "download": "@@images/image-200-cb92bd553b66d56bae517b117439804e.jpeg",
+                                "height": 133,
+                                "width": 200
+                            },
+                            "preview": {
+                                "download": "@@images/image-400-e849f16467d9d2b2de15b41d77d946b1.jpeg",
+                                "height": 266,
+                                "width": 400
+                            },
+                            "slide": {
+                                "download": "@@images/image-750-6b0c3a016eb92e5bdcaaf0ce2f47eb4a.jpeg",
+                                "height": 500,
+                                "width": 750
+                            },
+                            "thumb": {
+                                "download": "@@images/image-128-b91fac86d833a35c9e14477b279526e4.jpeg",
+                                "height": 85,
+                                "width": 128
+                            },
+                            "tile": {
+                                "download": "@@images/image-64-11523c506669019e79ed5e541693e8ad.jpeg",
+                                "height": 42,
+                                "width": 64
+                            },
+                            "vignette": {
+                                "download": "@@images/image-390-59ccc533bd00398ffed76ff2539171c5.jpeg",
+                                "height": 260,
+                                "width": 390
+                            }
+                        },
+                        "size": 619738,
+                        "width": 1920
+                    }
+                ]
+            },
+            "review_state": "published",
+            "start": "2025-03-20T14:00:00+00:00",
+            "title": "2ème séance d'infos",
+            "topics": null
+        },
+        {
+            "@id": "http://localhost:8090/Plone/belleville/test-1/6a13c76a18ff4c85b3b90934fe2764e6",
+            "@type": "imio.events.Event",
+            "UID": "6a13c76a18ff4c85b3b90934fe2764e6",
+            "breadcrumb": "Belleville » Kamoulox123 » test2",
+            "category": null,
+            "description": "",
+            "end": "2023-04-01T23:59:59+00:00",
+            "has_leadimage": false,
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "start": "2023-04-01T00:00:00+00:00",
+            "title": "test2",
+            "topics": null
+        }
+    ],
+    "items_total": 6
+}
