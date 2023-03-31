@@ -21,6 +21,7 @@ from zope.publisher.browser import TestRequest
 import json
 import requests_mock
 import transaction
+
 # Get full string when string are too long in assertEqual errors
 # __import__('sys').modules['unittest.util']._MAX_LENGTH = 999999999
 
@@ -226,7 +227,6 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "selected_agendas"
             ][0]
             self.assertEqual(patch_selected_agendas, response_selected_agendas)
-
 
     @requests_mock.Mocker()
     def test_call_news(self, m):
