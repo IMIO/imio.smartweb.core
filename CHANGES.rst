@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.10 (unreleased)
+1.1.10 (2023-03-31)
 -------------------
 
 - WEB-3901 : Get fullsize picture if scale is not present (section collection)
