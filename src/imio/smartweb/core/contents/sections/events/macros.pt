@@ -13,13 +13,11 @@
               <span class="from_on" i18n:translate="">From</span>
               <span class="day" tal:content="python:start.strftime('%d')">jour</span>
               <span class="month" tal:content="python:start.strftime('%m')">mois</span>
-              <span class="year" tal:content="python:start.strftime('%Y')">an</span>
          </div>
          <div class="end_date">
              <span class="to" i18n:translate="">to</span>
              <span class="day" tal:content="python:end.strftime('%d')">jour</span>
              <span class="month" tal:content="python:end.strftime('%m')">mois</span>
-             <span class="year" tal:content="python:end.strftime('%Y')">an</span>
           </div>
       </tal:if>
       <tal:else tal:condition="not:is_multi_dates">
@@ -27,7 +25,6 @@
               <span class="from_on" i18n:translate="">On</span>
               <span class="day" tal:content="python:start.strftime('%d')">jour</span>
               <span class="month" tal:content="python:start.strftime('%m')">mois</span>
-              <span class="year" tal:content="python:start.strftime('%Y')">an</span>
          </div>
       </tal:else>
     </tal:def>
