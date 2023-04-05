@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.11 (unreleased)
+1.1.11 (2023-04-05)
 -------------------
 
 - WEB-3913 : Leadimages should not appear on rest views
