@@ -5,13 +5,16 @@ Changelog
 1.1.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3913 : Leadimages should not appear on rest views
+  [boulch]
 
 
 1.1.10 (2023-03-31)
 -------------------
 
 - WEB-3901 : Get fullsize picture if scale is not present (section collection)
+  [boulch]
+
 - WEB-3908 : Call new @events endpoint to get events occurrences
   [boulch]
 

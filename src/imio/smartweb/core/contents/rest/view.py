@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from plone import api
 from Products.Five import BrowserView
+from zope.interface import implementer
 
 
+@implementer(IViewWithoutLeadImage)
 class BaseRestView(BrowserView):
     @property
     def batch_size(self):
