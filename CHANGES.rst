@@ -5,7 +5,11 @@ Changelog
 1.1.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Don't use `image_scales` metadata anymore to get images scales URLs because we
+  had problems with cropped scales (they were not indexed).
+  We now use a hash in URL (based on modification date) to allow strong caching.
+  See https://github.com/collective/plone.app.imagecropping/issues/129
+  [laulaz]
 
 
 1.1.11 (2023-04-05)

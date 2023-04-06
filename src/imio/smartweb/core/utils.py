@@ -14,6 +14,7 @@ from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
 from zope.component import queryMultiAdapter
 
+import hashlib
 import json
 import os
 import requests
@@ -86,6 +87,10 @@ def get_wca_token(client_id, client_secret):
     return "Bearer {0}".format(id_token)
 
 
+def hash_md5(text):
+    return hashlib.md5(text.encode()).hexdigest()
+
+
 def safe_html(html):
     if not html:
         return
@@ -130,18 +135,16 @@ def get_scale_url(context, request, fieldname, scale):
         return scale.url
     else:
         # get scale url on a brain
+        # In this case, we need a modification hash to handle croppings, because
+        # catalog does not handle them correctly.
+        # See https://github.com/collective/plone.app.imagecropping/issues/129
         brain = context
-        if not getattr(brain, "image_scales", None):
+        if fieldname == "image" and not brain.has_leadimage:
             return ""
-        if fieldname not in brain.image_scales:
-            return ""
-        try:
-            data = brain.image_scales[fieldname][0]["scales"][scale]
-        except (KeyError, IndexError):
-            return ""
-        url = (
-            data["download"]
-            if data["download"].startswith("http")
-            else f"{brain.getURL()}/{data['download']}"
-        )
+        modification_date = brain.ModificationDate
+        if callable(modification_date):
+            # brain in content listing for example
+            modification_date = modification_date()
+        modified_hash = hash_md5(modification_date)
+        url = f"{brain.getURL()}/@@images/{fieldname}/{scale}?modified={modified_hash}"
         return url

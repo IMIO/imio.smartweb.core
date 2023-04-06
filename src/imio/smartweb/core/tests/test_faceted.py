@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from eea.facetednavigation.layout.interfaces import IFacetedLayout
+from freezegun import freeze_time
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -53,6 +54,7 @@ class TestFaceted(ImioSmartwebTestCase):
         body_class = layout_view.bodyClass(template, view)
         self.assertNotIn("faceted-summary-view-with-images", body_class)
 
+    @freeze_time("2021-09-14 8:00:00")
     def test_map_popup(self):
         alsoProvides(self.request, IImioSmartwebCoreLayer)
         collection = api.content.create(
@@ -77,9 +79,11 @@ class TestFaceted(ImioSmartwebTestCase):
         brain = api.content.find(UID=uuid)[0]
         popup = popup_view.popup(brain)
         self.assertIn(
-            '<img src="http://nohost/plone/my-collection/@@images/image-200-', popup
+            '<img src="http://nohost/plone/my-collection/@@images/image/mini?modified=2155e3f9408f4c6ddbd485f2b42d44e9',
+            popup,
         )
 
+    @freeze_time("2021-09-14 8:00:00")
     def test_get_scale_url(self):
         collection = api.content.create(
             container=self.portal,
@@ -104,9 +108,9 @@ class TestFaceted(ImioSmartwebTestCase):
         page.image = NamedBlobImage(**make_named_image())
         page.reindexObject()
         brain = api.content.find(UID=uuid)[0]
-        self.assertIn(
-            f"{page.absolute_url()}/@@images/image-390-",
+        self.assertEqual(
             faceted_view.get_scale_url(brain),
+            "http://nohost/plone/page/@@images/image/vignette?modified=2155e3f9408f4c6ddbd485f2b42d44e9",
         )
 
         # empty gallery
@@ -132,4 +136,6 @@ class TestFaceted(ImioSmartwebTestCase):
         self.assertNotIn(
             "http://nohost/plone/page/gallery/image/@@images/image/vignette", scale_url
         )
-        self.assertIn("http://nohost/plone/page/gallery/image/@@images", scale_url)
+        self.assertIn(
+            "http://nohost/plone/page/gallery/image/@@images/image-390-", scale_url
+        )

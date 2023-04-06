@@ -36,6 +36,4 @@ class FacetedView(FolderView):
                 return ""
             scale_url = get_scale_url(images[0], self.request, "image", scale)
             return scale_url
-        if not item.has_leadimage:
-            return ""
         return get_scale_url(item, self.request, "image", scale)

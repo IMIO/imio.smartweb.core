@@ -331,7 +331,7 @@ class TestMinisite(ImioSmartwebTestCase):
         html = viewlet.render()
         soup = BeautifulSoup(html)
         img = soup.find("img")
-        self.assertIn("http://nohost/plone/folder/@@images/", img.get("src"))
+        self.assertIn("http://nohost/plone/folder/@@images/logo-400", img.get("src"))
 
         # Title should remain the same on sub-contents
         subfolder = api.content.create(
