@@ -5,6 +5,9 @@ Changelog
 1.1.12 (unreleased)
 -------------------
 
+- WEB-3868 : Forbid creating content with same id as a parent field
+  [laulaz]
+
 - Don't use `image_scales` metadata anymore to get images scales URLs because we
   had problems with cropped scales (they were not indexed).
   We now use a hash in URL (based on modification date) to allow strong caching.

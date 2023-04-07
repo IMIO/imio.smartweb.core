@@ -2,6 +2,7 @@
 
 from collective.geolocationbehavior.geolocation import IGeolocatable
 from imio.smartweb.core.contents import IPage
+from imio.smartweb.core.contents import SectionText
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -13,6 +14,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.formwidget.geolocation.geolocation import Geolocation
 from plone.uuid.interfaces import IUUID
+from plone.base.utils import check_id
 from time import sleep
 from unittest.mock import patch
 from zope.component import createObject
@@ -127,6 +129,17 @@ class TestPage(ImioSmartwebTestCase):
                 type=t,
                 title="My {}".format(t),
             )
+
+    def test_checkValidId(self):
+        page = api.content.create(
+            container=self.folder,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        section = SectionText()
+        self.assertEqual(
+            check_id(section, "image", contained_by=page), "${name} is reserved."
+        )
 
     def test_js_bundles(self):
         page = api.content.create(

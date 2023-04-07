@@ -10,6 +10,7 @@ from plone.namedfile.field import NamedBlobImage
 from plone.supermodel import model
 from plone.uuid.interfaces import IUUID
 from z3c.form.browser.radio import RadioFieldWidget
+from zExceptions import BadRequest
 from zope import schema
 from zope.interface import implementer
 from zope.interface import alsoProvides
@@ -47,6 +48,10 @@ class IFolder(model.Schema):
 @implementer(IFolder, IInstanceBehaviorAssignableContent)
 class Folder(Container):
     """Folder class"""
+
+    def checkValidId(self, id, allow_dup=0):
+        if hasattr(self, id) and id not in self.contentIds():
+            raise BadRequest()
 
     def canSetDefaultPage(self):
         return False
