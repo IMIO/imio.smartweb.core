@@ -10,24 +10,7 @@
             "description": "Bonne cheville à Belleville",
             "end": "2025-11-30T13:00:00+00:00",
             "has_leadimage": true,
-            "image_scales": {"image": [{"content-type": "image/png",
-                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
-                                        "filename": "image12.44.13.png",
-                                        "height": 920,
-                                        "scales": {
-                                            "extralarge": {
-                                                "download": "@@images/image-1320-8ccd2ce1297e19bfe1e6a4d506afb303.png",
-                                                "height": 540,
-                                                "width": 1320
-                                            },
-                                            "preview": {
-                                                "download": "@@images/image-400-b5b8304629d8af0ff32305173701bd4d.png",
-                                                "height": 163,
-                                                "width": 400
-                                            }
-                                        },
-                                        "size": 351932,
-                                        "width": 2246}]},
+            "modified": "2021-05-11T13:31:00",
             "review_state": "published",
             "open_end": false,
             "recurrence": null,

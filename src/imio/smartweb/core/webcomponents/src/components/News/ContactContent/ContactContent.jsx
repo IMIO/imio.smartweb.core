@@ -69,7 +69,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         className="r-content-img"
                         style={{
                             backgroundImage: contactItem.image
-                                ? "url(" + contactItem.image.scales.affiche.download + ")"
+                                ? "url(" + contactItem.image_affiche_scale + ")"
                                 : "",
                         }}
                     />
@@ -91,7 +91,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 								<div className="r-content-news-info--date">
                                 <div className="r-content-date">
 								{
-									created === lastModified ? 
+									created === lastModified ?
 									(
 									<div className="r-content-date-publish">
 										<span>Publié {created}</span>
@@ -246,7 +246,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					<div className="r-content-gallery">
 						<div class="spotlight-group flexbin r-content-gallery">
 							{gallery.map((image) => (
-								<a class="spotlight" href={image.image.scales.extralarge.download} >
+								<a class="spotlight" href={image.image_extralarge_scale} >
 									<img src={image.image.scales.preview.download} />
 								</a>
 							))}

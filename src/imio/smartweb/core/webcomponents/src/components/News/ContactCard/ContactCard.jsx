@@ -29,7 +29,7 @@ const ContactCard = ({ contactItem }) => {
                 className={contactItem.image?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
                     backgroundImage: contactItem.image
-                        ? "url(" + contactItem.image.scales.preview.download + ")"
+                        ? "url(" + contactItem.image_preview_scale + ")"
                         : "",
                 }}
             />
@@ -51,7 +51,7 @@ const ContactCard = ({ contactItem }) => {
                     }}
                 >
                     {
-                        created === lastModified ? 
+                        created === lastModified ?
                         (
                         <div className="r-card-date-last">
                             <span>Publié </span>

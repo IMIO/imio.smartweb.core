@@ -61,7 +61,7 @@ class TestSectionContact(ImioSmartwebTestCase):
                 authentic_contact_uid
             )
         )
-        contact_images_url = "http://localhost:8080/Plone/{}/@search?portal_type=Image&path.depth=1&metadata_fields=image_scales".format(
+        contact_images_url = "http://localhost:8080/Plone/{}/@search?portal_type=Image&path.depth=1&metadata_fields=modified".format(
             authentic_contact_uid
         )
         m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)

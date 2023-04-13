@@ -86,7 +86,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						className="r-content-img"
 						style={{
 							backgroundImage: contactItem.image
-								? "url(" + contactItem.image.scales.affiche.download + ")"
+								? "url(" + contactItem.image_affiche_scale + ")"
 								: "",
 						}}
 					/>
@@ -107,7 +107,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 							</div>
 							<div className="dpinlb">
 								<div className="r-content-news-info--date">
-									{start === end 
+									{start === end
 										?(<div>
 												{contactItem.whole_day
 													? (<div className="r-content-date-start">
@@ -127,7 +127,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 															</div>
 													</div>)
 												}
-											</div>) 
+											</div>)
 										:(<div className="r-content-date-du-au">
 											<div className="r-content-date-start">
 												<span>Du&nbsp;</span>
@@ -372,8 +372,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					<div className="r-content-gallery">
 						<div className="spotlight-group flexbin r-content-gallery">
 							{gallery.map((image) => (
-								<a className="spotlight" href={image.image.scales.extralarge.download}>
-									<img src={image.image.scales.preview.download} />
+								<a className="spotlight" href={image.image_extralarge_scale}>
+									<img src={image.image_preview_scale} />
 								</a>
 							))}
 						</div>

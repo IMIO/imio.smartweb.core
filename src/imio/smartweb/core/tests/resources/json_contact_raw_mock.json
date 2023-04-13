@@ -154,7 +154,21 @@
         "token": "fr"
       },
       "layout": "view",
-      "logo": null,
+      "logo": {
+                "content-type": "image/jpeg",
+                "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/a2e9d478-3d31-47d5-baf1-304751b07197.jpeg",
+                "filename": "eglise_hamoir.jpg",
+                "height": 1339,
+                "scales": {
+                    "thumb": {
+                        "download": "http://localhost:8080/Plone/@search?UID=2dc381f0fb584381b8e4a19c84f53b35/@@images/eafceba8-6ee4-4f28-9355-cfe1ac35cabd.jpeg",
+                        "height": 85,
+                        "width": 128
+                    }
+                },
+                "size": 769338,
+                "width": 2000
+      },
       "mails": [],
       "modified": "2021-05-19T08:04:06+00:00",
       "next_item": {},

@@ -30,7 +30,7 @@ const ContactCard = ({ contactItem }) => {
 		contactItem.city +
         "+" +
         countryTitle
-        
+
 	itineraryLink = itineraryLink.replaceAll('+null', '')
 
     return (
@@ -39,7 +39,7 @@ const ContactCard = ({ contactItem }) => {
                 className={contactItem.image?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
                     backgroundImage: contactItem.image
-                        ? "url(" + contactItem.image.scales.preview.download + ")"
+                        ? "url(" + contactItem.image_preview_scale + ")"
                         : "",
                 }}
             />

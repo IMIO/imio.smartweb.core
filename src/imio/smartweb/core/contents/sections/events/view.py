@@ -6,6 +6,7 @@ from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.core.utils import hash_md5
 from plone import api
 from Products.CMFPlone.utils import normalizeString
 
@@ -29,7 +30,7 @@ class EventsView(CarouselOrTableSectionView):
             "metadata_fields=start",
             "metadata_fields=end",
             "metadata_fields=has_leadimage",
-            "metadata_fields=image_scales",
+            "metadata_fields=modified",
             "metadata_fields=UID",
             f"event_dates.query={today}",
             "event_dates.range=min",
@@ -60,7 +61,7 @@ class EventsView(CarouselOrTableSectionView):
             start = item["start"] and parse(item["start"]) or None
             end = item["end"] and parse(item["end"]) or None
             date_dict = {"start": start, "end": end}
-            image_url = ""
+            modified_hash = hash_md5(item["modified"])
             dict_item = {
                 "uid": item_uid,
                 "title": item["title"],
@@ -69,16 +70,8 @@ class EventsView(CarouselOrTableSectionView):
                 "event_date": date_dict,
                 "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                 "has_image": item["has_leadimage"],
+                "image": f"{item_url}/@@images/image/{image_scale}?cache_key={modified_hash}",
             }
-            if item["has_leadimage"]:
-                scales = item["image_scales"]["image"][0]["scales"]
-                if image_scale in scales:
-                    image_url = f"{item_url}/{scales[image_scale]['download']}"
-                else:
-                    dict_item["bad_scale"] = image_scale
-                    no_scale_so_download = item["image_scales"]["image"][0]["download"]
-                    image_url = f"{item_url}/{no_scale_so_download}"
-            dict_item["image"] = image_url
             results.append(dict_item)
         if specific_related_events:
             results = sorted(

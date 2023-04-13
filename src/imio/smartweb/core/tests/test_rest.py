@@ -43,6 +43,13 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.api_session = RelativeSession(self.portal_url)
         self.api_session.headers.update({"Accept": "application/json"})
 
+        self.rest_directory = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.DirectoryView",
+            title="directory view",
+        )
+        api.content.transition(self.rest_directory, "publish")
+
         self.rest_events = api.content.create(
             container=self.portal,
             type="imio.smartweb.EventsView",
@@ -128,9 +135,9 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "topics=education&"
             "translated_in_en=1",
         )
-        m.get(url, text=json.dumps([]))
+        m.get(url, text=json.dumps({}))
         call = endpoint()
-        self.assertEqual(call, [])
+        self.assertEqual(call, {})
 
         rest_directory.nb_results = 30
         url = endpoint.query_url
@@ -168,6 +175,25 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "translated_in_en=1",
             )
 
+    def test_render_rest_directory(self):
+        view = queryMultiAdapter((self.rest_directory, self.request), name="view")
+        self.assertIn("<smartweb-annuaire", view())
+
+    def test_rest_directory_results(self):
+        params = {}
+        with patch(
+            "imio.smartweb.core.contents.rest.base.get_json",
+            return_value=self.json_rest_directory,
+        ) as mypatch:
+            response = self.api_session.get("/directory-view/@results", params=params)
+            patch_url = mypatch.return_value.get("@id")
+            patch_urlparsed = urlparse(patch_url)
+            patch_directory = parse_qs(patch_urlparsed.query)
+            response_url = response.json().get("@id")
+            response_urlparsed = urlparse(response_url)
+            response_directory = parse_qs(response_urlparsed.query)
+            self.assertEqual(patch_directory, response_directory)
+
     @requests_mock.Mocker()
     @freeze_time("2021-11-15")
     def test_call_events(self, m):
@@ -194,9 +220,9 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "event_type=event-driven&"
             "translated_in_en=1".format(self.rest_events.selected_agenda),
         )
-        m.get(url, text=json.dumps([]))
+        m.get(url, text=json.dumps({}))
         call = endpoint()
-        self.assertEqual(call, [])
+        self.assertEqual(call, {})
 
         self.rest_events.nb_results = 30
         url = endpoint.query_url
@@ -248,9 +274,9 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "fullobjects=1&"
             "translated_in_en=1".format(self.rest_news.selected_news_folder),
         )
-        m.get(url, text=json.dumps([]))
+        m.get(url, text=json.dumps({}))
         call = endpoint()
-        self.assertEqual(call, [])
+        self.assertEqual(call, {})
 
         self.rest_news.nb_results = 30
         url = endpoint.query_url

@@ -4,6 +4,7 @@ from datetime import date
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
+from imio.smartweb.core.utils import hash_md5
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.interface import implementer
@@ -11,6 +12,26 @@ from zope.interface import Interface
 
 
 class BaseEventsEndpoint(BaseEndpoint):
+    def __call__(self):
+        results = super(BaseEventsEndpoint, self).__call__()
+        # https://agenda.enwallonie.be/braine-lalleud/citoyens/bc573e7592ee4f6498ad3cba8097358e/@@images/image/preview?
+        if not results.get("items"):
+            return results
+        for result in results["items"]:
+            if result.get("image"):
+                modified_hash = hash_md5(result["modified"])
+                preview_scale = (
+                    f"{result['@id']}/@@images/image/preview?cache_key={modified_hash}"
+                )
+                extralarge_scale = f"{result['@id']}/@@images/image/extralarge?cache_key={modified_hash}"
+                affiche_scale = (
+                    f"{result['@id']}/@@images/image/affiche?cache_key={modified_hash}"
+                )
+                result["image_preview_scale"] = preview_scale
+                result["image_extralarge_scale"] = extralarge_scale
+                result["image_affiche_scale"] = affiche_scale
+        return results
+
     @property
     def query_url(self):
         today = date.today().isoformat()

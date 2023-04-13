@@ -8,6 +8,7 @@ from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.memoize.view import memoize
@@ -53,6 +54,22 @@ class ContactView(SectionView):
         description = rich_description(contact.get("description"))
         return description
 
+    def logo(self):
+        contact = self.contact
+        if contact is None or contact.get("logo") is None:
+            return ""
+        modified_hash = hash_md5(contact["modified"])
+        logo = f"{contact['@id']}/@@images/logo/medium?cache_key={modified_hash}"
+        return logo
+
+    def leadimage(self):
+        contact = self.contact
+        if contact is None or contact.get("image") is None:
+            return ""
+        modified_hash = hash_md5(contact["modified"])
+        logo = f"{contact['@id']}/@@images/image/medium?cache_key={modified_hash}"
+        return logo
+
     def data_geojson(self):
         """Return the contact geolocation as GeoJSON string."""
         current_lang = api.portal.get_current_language()[:2]
@@ -83,7 +100,7 @@ class ContactView(SectionView):
         if contact is None:
             return
         contact_url = contact["@id"]
-        query = "@search?portal_type=Image&path.depth=1&metadata_fields=image_scales"
+        query = "@search?portal_type=Image&path.depth=1&metadata_fields=modified"
         images_url_request = "{}/{}".format(contact_url, query)
         json_images = get_json(images_url_request)
         if json_images is None or len(json_images.get("items", [])) == 0:
@@ -91,22 +108,18 @@ class ContactView(SectionView):
         results = []
         thumb_scale = self.context.image_scale
         for image in json_images.get("items"):
-            scales = image["image_scales"]["image"][0]["scales"]
-            url = large_url = image["@id"]
-            if "extralarge" in scales:
-                large_url = f"{large_url}/{scales['extralarge']['download']}"
+            base_url = image["@id"]
+            modified_hash = hash_md5(image["modified"])
+            large_url = (
+                f"{base_url}/@@images/image/extralarge?cache_key={modified_hash}"
+            )
+            url = f"{base_url}/@@images/image/{thumb_scale}?cache_key={modified_hash}"
             dict_item = {
                 "title": image["title"],
                 "description": image["description"],
                 "image_large_url": large_url,
+                "image_url": url,
             }
-            if thumb_scale in scales:
-                url = f"{url}/{scales[thumb_scale]['download']}"
-            else:
-                dict_item["bad_scale"] = thumb_scale
-                no_scale_so_download = image["image_scales"]["image"][0]["download"]
-                url = f"{url}/{no_scale_so_download}"
-            dict_item["image_url"] = url
             results.append(dict_item)
         return batch_results(results, self.context.nb_results_by_batch)
 

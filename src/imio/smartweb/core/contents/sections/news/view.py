@@ -4,6 +4,7 @@ from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.core.utils import hash_md5
 from plone import api
 from Products.CMFPlone.utils import normalizeString
 
@@ -25,7 +26,7 @@ class NewsView(CarouselOrTableSectionView):
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category_title",
             "metadata_fields=has_leadimage",
-            "metadata_fields=image_scales",
+            "metadata_fields=modified",
             "metadata_fields=effective",
             "metadata_fields=UID",
             f"sort_limit={max_items}",
@@ -53,7 +54,7 @@ class NewsView(CarouselOrTableSectionView):
             item_id = normalizeString(item["title"])
             item_url = item["@id"]
             item_uid = item["UID"]
-            image_url = ""
+            modified_hash = hash_md5(item["modified"])
             dict_item = {
                 "uid": item_uid,
                 "title": item["title"],
@@ -62,16 +63,8 @@ class NewsView(CarouselOrTableSectionView):
                 "effective": item["effective"],
                 "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                 "has_image": item["has_leadimage"],
+                "image": f"{item_url}/@@images/image/{image_scale}?cache_key={modified_hash}",
             }
-            if item["has_leadimage"]:
-                scales = item["image_scales"]["image"][0]["scales"]
-                if image_scale in scales:
-                    image_url = f"{item_url}/{scales[image_scale]['download']}"
-                else:
-                    dict_item["bad_scale"] = image_scale
-                    no_scale_so_download = item["image_scales"]["image"][0]["download"]
-                    image_url = f"{item_url}/{no_scale_so_download}"
-            dict_item["image"] = image_url
             results.append(dict_item)
         if specific_related_newsitems:
             results = sorted(

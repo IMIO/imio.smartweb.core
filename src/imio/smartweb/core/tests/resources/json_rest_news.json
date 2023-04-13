@@ -11,13 +11,32 @@
             "description": "Description",
             "effective": "2021-05-11T13:31:00",
             "has_leadimage": false,
-            "image_scales": {"image": [{"content-type": "image/png",
-                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
-                                        "filename": "image12.44.13.png",
-                                        "height": 920,
-                                        "scales": {},
-                                        "size": 351932,
-                                        "width": 2246}]},
+            "image": {
+                "content-type": "image/jpeg",
+                "download": "https://agenda.enwallonie.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-1920-ea4d266cfbb730c254745fd93b4b2df6.jpeg",
+                "filename": "Impro.jpg",
+                "height": 1080,
+                "scales": {
+                    "affiche": {
+                        "download": "https://agenda.enwallonie.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-1320-74309fd9cb622eb611321d4ba3f37536.jpeg",
+                        "height": 440,
+                        "width": 782
+                    },
+                    "extralarge": {
+                        "download": "https://agenda.enwallonie.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-1320-3b7af8de028868ebdc3a59eb7e0f515d.jpeg",
+                        "height": 742,
+                        "width": 1320
+                    },
+                    "preview": {
+                        "download": "https://agenda.enwallonie.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-400-b963678cd2367410ceec02428ebe093e.jpeg",
+                        "height": 225,
+                        "width": 400
+                    }
+                },
+                "size": 146445,
+                "width": 1920
+            },
+            "modified": "2021-05-11T13:31:00",
             "review_state": "published",
             "title": "Première actualité",
             "topics": null
@@ -32,13 +51,7 @@
             "description": "Description de mon actuatlié",
             "effective": "2021-05-11T13:31:00",
             "has_leadimage": true,
-            "image_scales": {"image": [{"content-type": "image/png",
-                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
-                                        "filename": "image12.44.13.png",
-                                        "height": 920,
-                                        "scales": {},
-                                        "size": 351932,
-                                        "width": 2246}]},
+            "modified": "2021-05-11T13:31:00",
             "review_state": "published",
             "title": "Ceci est une deuxième actualité",
             "topics": [
@@ -56,13 +69,7 @@
             "description": "Le bâtiment de la Bibliothèque communale doit être rénové, au niveau de la toiture et de la façade. Les travaux débuteront le 1er janvier 2022. Pour des raisons de sécurité, l'accès à la Bibliothèque sera modifié.",
             "effective": "2021-05-11T13:31:00",
             "has_leadimage": true,
-            "image_scales": {"image": [{"content-type": "image/png",
-                                        "download": "@@images/image-2246-ed17277f9f62cc8ce08cb13081e3a42a.png",
-                                        "filename": "image12.44.13.png",
-                                        "height": 920,
-                                        "scales": {},
-                                        "size": 351932,
-                                        "width": 2246}]},
+            "modified": "2021-05-11T13:31:00",
             "review_state": "published",
             "title": "Restauration de la Bibliothèque",
             "topics": [

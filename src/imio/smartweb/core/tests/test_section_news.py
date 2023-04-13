@@ -50,7 +50,7 @@ class TestSectionNews(ImioSmartwebTestCase):
         self.assertIn("My news", view())
         news_view = queryMultiAdapter((news, self.request), name="carousel_view")
         self.assertEqual(news_view.items, [])
-        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=effective&metadata_fields=UID&sort_on=effective&sort_order=descending&sort_limit=6"
+        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
         m.get(url, text=json.dumps(self.json_news))
         self.assertEqual(news_view.items[0][0].get("title"), "Première actualité")
         self.assertEqual(len(news_view.items[0]), 3)
@@ -59,7 +59,7 @@ class TestSectionNews(ImioSmartwebTestCase):
             "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
             "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
         ]
-        url = "http://localhost:8080/Plone/@search?UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&UID=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=image_scales&metadata_fields=effective&metadata_fields=UID&sort_limit=6"
+        url = "http://localhost:8080/Plone/@search?UID=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1"
         m.get(url, text=json.dumps(self.json_specific_news))
         self.assertEqual(len(news_view.items[0]), 2)
         self.assertEqual(

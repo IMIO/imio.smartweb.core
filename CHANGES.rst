@@ -12,7 +12,7 @@ Changelog
   had problems with cropped scales (they were not indexed).
   We now use a hash in URL (based on modification date) to allow strong caching.
   See https://github.com/collective/plone.app.imagecropping/issues/129
-  [laulaz]
+  [laulaz, boulch]
 
 
 1.1.11 (2023-04-05)

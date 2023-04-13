@@ -5,6 +5,47 @@
       "@id": "https://annuaire.preprod.imio.be/braine-l-alleud/d63d28c478bb4269b77e1ceae8410cc5",
       "@type": "imio.directory.Contact",
       "description": "Ouvert du lundi au jeudi de 8h30 \u00e0 12h et de 13h \u00e0 17h, le vendredi de 8h30 \u00e0 12h et de 13h \u00e0 16h.",
+      "image": {
+          "content-type": "image/jpeg",
+          "download": "https://annuaire.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-1920-ea4d266cfbb730c254745fd93b4b2df6.jpeg",
+          "filename": "Impro.jpg",
+          "height": 1080,
+          "scales": {
+              "affiche": {
+                  "download": "https://annuaire.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-1320-74309fd9cb622eb611321d4ba3f37536.jpeg",
+                  "height": 440,
+                  "width": 782
+              },
+              "extralarge": {
+                  "download": "https://annuaire.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-1320-3b7af8de028868ebdc3a59eb7e0f515d.jpeg",
+                  "height": 742,
+                  "width": 1320
+              },
+              "preview": {
+                  "download": "https://annuaire.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-400-b963678cd2367410ceec02428ebe093e.jpeg",
+                  "height": 225,
+                  "width": 400
+              }
+          },
+          "size": 146445,
+          "width": 1920
+      },
+      "logo": {
+          "content-type": "image/jpeg",
+          "download": "https://annuaire.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-1920-ea4d266cfbb730c254745fd93b4b2df6.jpeg",
+          "filename": "Impro.jpg",
+          "height": 1080,
+          "scales": {
+              "thumb": {
+                  "download": "https://annuaire.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/logo-1320-74309fd9cb622eb611321d4ba3f37536.jpeg",
+                  "height": 440,
+                  "width": 782
+              }
+          },
+          "size": 146445,
+          "width": 1920
+      },
+      "modified": "2021-05-11T13:31:00",
       "review_state": "published",
       "title": "Conf\u00e9d\u00e9ration construction du Brabant wallon (chambre artisanale et patronale)"
     },
@@ -12,6 +53,7 @@
       "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33",
       "@type": "imio.directory.Contact",
       "description": "Description de test",
+      "modified": "2021-05-11T13:31:00",
       "review_state": "published",
       "title": "Administration communale de Belleville"
     },
@@ -19,6 +61,7 @@
       "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33/512fca426f0a4db8b19fb0dc348ab134",
       "@type": "imio.directory.Contact",
       "description": "Ma description",
+      "modified": "2021-05-11T13:31:00",
       "review_state": "published",
       "title": "Service communication de l'administration communale de Belleville"
     },
@@ -26,6 +69,7 @@
       "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33/512fca426f0a4db8b19fb0dc348ab134/4d2437cd0634482f81fc3ef7f9872975",
       "@type": "imio.directory.Contact",
       "description": "",
+      "modified": "2021-05-11T13:31:00",
       "review_state": "published",
       "title": "Service finances de l'administration communale de Belleville"
     },
@@ -33,6 +77,7 @@
       "@id": "https://annuaire.preprod.imio.be/belleville/9197d3fe2bec49e08a52eeec87026d33/512fca426f0a4db8b19fb0dc348ab134/4d2437cd0634482f81fc3ef7f9872975/65f9a4fd1cf8489a808efb67a2743a4e",
       "@type": "imio.directory.Contact",
       "description": "",
+      "modified": "2021-05-11T13:31:00",
       "review_state": "published",
       "title": "Budget"
     },
@@ -40,6 +85,7 @@
       "@id": "https://annuaire.preprod.imio.be/belleville/9fbb2afd499e465983434f974fce8404",
       "@type": "imio.directory.Contact",
       "description": "Brasserie conviviale et cuisine du terroir.",
+      "modified": "2021-05-11T13:31:00",
       "review_state": "published",
       "title": "Chez Lucien"
     }
