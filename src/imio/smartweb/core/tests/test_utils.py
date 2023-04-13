@@ -55,9 +55,9 @@ class TestUtils(ImioSmartwebTestCase):
         brain = api.content.find(UID=uuid)[0]
         self.assertEqual(
             get_scale_url(brain, self.request, "image", "preview"),
-            "http://nohost/plone/page/@@images/image/preview?modified=78fd1bab198354b6877aed44e2ea0b4d",
+            "http://nohost/plone/page/@@images/image/preview?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         self.assertEqual(
             get_scale_url(brain, self.request, "image", "nonexisting"),
-            "http://nohost/plone/page/@@images/image/nonexisting?modified=78fd1bab198354b6877aed44e2ea0b4d",
+            "http://nohost/plone/page/@@images/image/nonexisting?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )

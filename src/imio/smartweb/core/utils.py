@@ -146,5 +146,5 @@ def get_scale_url(context, request, fieldname, scale):
             # brain in content listing for example
             modification_date = modification_date()
         modified_hash = hash_md5(modification_date)
-        url = f"{brain.getURL()}/@@images/{fieldname}/{scale}?modified={modified_hash}"
+        url = f"{brain.getURL()}/@@images/{fieldname}/{scale}?cache_key={modified_hash}"
         return url
