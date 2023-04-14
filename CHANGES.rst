@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.12 (unreleased)
+1.1.12 (2023-04-14)
 -------------------
 
 - WEB-3868 : Forbid creating content with same id as a parent field
