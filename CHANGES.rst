@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.13 (unreleased)
+1.1.13 (2023-04-24)
 -------------------
 
 - compile resources
