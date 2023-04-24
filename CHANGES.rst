@@ -5,7 +5,8 @@ Changelog
 1.1.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- compile resources
+  [boulch]
 
 
 1.1.12 (2023-04-14)
