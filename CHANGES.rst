@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.14 (unreleased)
+1.1.14 (2023-04-25)
 -------------------
 
 - Fix image display condition
