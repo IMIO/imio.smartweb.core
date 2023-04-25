@@ -5,13 +5,14 @@ Changelog
 1.1.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix json attributes to get the scaling pictures of news
+  [boulch]
 
 
 1.1.13 (2023-04-24)
 -------------------
 
-- compile resources
+- Compile resources
   [boulch]
 
 

@@ -25,9 +25,9 @@ class BaseNewsEndpoint(BaseEndpoint):
                 affiche_scale = (
                     f"{result['@id']}/@@images/image/affiche?cache_key={modified_hash}"
                 )
-                result["preview_scale"] = preview_scale
-                result["extralarge_scale"] = extralarge_scale
-                result["affiche_scale"] = affiche_scale
+                result["image_preview_scale"] = preview_scale
+                result["image_extralarge_scale"] = extralarge_scale
+                result["image_affiche_scale"] = affiche_scale
         return results
 
     @property
