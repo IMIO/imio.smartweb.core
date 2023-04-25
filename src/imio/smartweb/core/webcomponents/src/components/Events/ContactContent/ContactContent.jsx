@@ -85,7 +85,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					<div
 						className="r-content-img"
 						style={{
-							backgroundImage: contactItem.image
+							backgroundImage: contactItem.image_affiche_scale
 								? "url(" + contactItem.image_affiche_scale + ")"
 								: "",
 						}}

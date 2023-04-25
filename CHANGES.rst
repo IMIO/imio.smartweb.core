@@ -5,6 +5,9 @@ Changelog
 1.1.14 (unreleased)
 -------------------
 
+- Fix image display condition
+  [thomlamb]
+
 - Fix json attributes to get the scaling pictures of news
   [boulch]
 

@@ -22,7 +22,7 @@ const ContactCard = ({ contactItem }) => {
             <div
                 className={contactItem.image?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
-                    backgroundImage: contactItem.image
+                    backgroundImage: contactItem.image_preview_scale
                         ? "url(" + contactItem.image_preview_scale + ")"
                         : "",
                 }}
