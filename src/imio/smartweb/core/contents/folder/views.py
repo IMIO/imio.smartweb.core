@@ -67,7 +67,9 @@ class FolderView(BaseFolderView):
         if self.context.quick_access_items is None:
             return {"results": results, "quick_access": []}
         quick_access_uids = [
-            item.to_object.UID() for item in self.context.quick_access_items
+            item.to_object.UID()
+            for item in self.context.quick_access_items
+            if item.isBroken() is False
         ]
         quick_access_brains = api.content.find(
             UID=quick_access_uids,
