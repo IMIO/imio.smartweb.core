@@ -5,7 +5,8 @@ Changelog
 1.1.15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-30074 : Fix broken RelationValue "AttributeError: 'NoneType' object has no attribute 'UID'
+  [boulch]
 
 
 1.1.14 (2023-04-25)
