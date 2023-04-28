@@ -5,6 +5,9 @@ Changelog
 1.1.15 (unreleased)
 -------------------
 
+- Update static icon for better css implements
+  [thomlamb]
+
 - SUP-30074 : Fix broken RelationValue "AttributeError: 'NoneType' object has no attribute 'UID'
   [boulch]
 
