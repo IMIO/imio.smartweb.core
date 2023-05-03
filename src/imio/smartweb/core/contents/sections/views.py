@@ -1,10 +1,20 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.locking.browser.info import LockInfoViewlet
+from plone.protect.interfaces import IDisableCSRFProtection
 from Products.Five.browser import BrowserView
+from zope.annotation.interfaces import IAnnotations
+from zope.interface import alsoProvides
 from zope.interface import Interface
+from zope.lifecycleevent import modified
+
+import json
+
+
+SECTION_ITEMS_HASH_KEY = "sections-items-hash-key"
 
 
 class ISectionView(Interface):
@@ -59,3 +69,18 @@ class CarouselOrTableSectionView(SectionView):
             return self.context.nb_results_by_batch == 1 and "liste" or "vignette"
         else:
             return getattr(self.context, "image_scale", "")
+
+
+class HashableJsonSectionView(SectionView):
+    json_data = None
+
+    def refresh_modification_date(self):
+        new_hash = None
+        if self.json_data is not None:
+            new_hash = hash_md5(json.dumps(self.json_data))
+        annotations = IAnnotations(self.context)
+        stored_hash = annotations.get(SECTION_ITEMS_HASH_KEY)
+        if stored_hash != new_hash:
+            alsoProvides(self.request, IDisableCSRFProtection)
+            modified(self.context)
+            annotations[SECTION_ITEMS_HASH_KEY] = new_hash

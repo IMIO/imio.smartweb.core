@@ -6,6 +6,7 @@ from datetime import timedelta
 from freezegun import freeze_time
 from imio.smartweb.core.contents.sections.contact.view import formatted_schedule
 from imio.smartweb.core.contents.sections.contact.view import get_schedule_for_today
+from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import clear_cache
@@ -16,6 +17,8 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.testing.zope import Browser
+from time import sleep
+from zope.annotation.interfaces import IAnnotations
 from zope.component import queryMultiAdapter
 
 import json
@@ -497,3 +500,45 @@ class TestSectionContact(ImioSmartwebTestCase):
         self.assertNotIn("contact_leadimage portrait", view())
         contact.is_in_portrait_mode = True
         self.assertIn("contact_leadimage portrait", view())
+
+    @requests_mock.Mocker()
+    def test_contact_modified(self, m):
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
+        contact.related_contact = authentic_contact_uid
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
+                authentic_contact_uid
+            )
+        )
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+
+        annotations = IAnnotations(contact)
+        self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
+
+        self.assertIsNotNone(contact_view.contact)
+        hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
+        self.assertIsNotNone(hash_1)
+        first_modification = self.page.ModificationDate()
+
+        sleep(1)
+        clear_cache(self.request)
+        m.get(contact_search_url, text=json.dumps(self.json_no_contact))
+        self.assertIsNone(contact_view.contact)
+        next_modification = self.page.ModificationDate()
+        hash_2 = annotations.get(SECTION_ITEMS_HASH_KEY)
+        self.assertNotEqual(hash_1, hash_2)
+        self.assertNotEqual(first_modification, next_modification)
+
+        sleep(1)
+        clear_cache(self.request)
+        self.assertIsNone(contact_view.contact)
+        last_modification = self.page.ModificationDate()
+        hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
+        self.assertEqual(hash_2, hash_3)
+        self.assertEqual(next_modification, last_modification)
