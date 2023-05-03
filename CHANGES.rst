@@ -5,6 +5,9 @@ Changelog
 1.1.15 (unreleased)
 -------------------
 
+- WEB-3868 : Remove useless code (included in Plone 6.0.4)
+  See https://github.com/plone/plone.base/pull/37
+
 - Migrate to Plone 6.0.4
   [boulch]
 

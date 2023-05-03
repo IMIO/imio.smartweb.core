@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents import IFolder
-from imio.smartweb.core.contents import Page
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -17,7 +16,6 @@ from plone.uuid.interfaces import IUUID
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.namedfile.file import NamedBlobImage
 from plone.testing.zope import Browser
-from plone.base.utils import check_id
 from time import sleep
 from zope.annotation.interfaces import IAnnotations
 from zope.component import createObject
@@ -122,17 +120,6 @@ class TestFolder(ImioSmartwebTestCase):
                 type=t,
                 title="My {}".format(t),
             )
-
-    def test_checkValidId(self):
-        folder = api.content.create(
-            container=self.portal,
-            type="imio.smartweb.Folder",
-            title="Folder",
-        )
-        page = Page()
-        self.assertEqual(
-            check_id(page, "image", contained_by=folder), "${name} is reserved."
-        )
 
     def test_leadimage_in_folder_block_view(self):
         folder = api.content.create(
