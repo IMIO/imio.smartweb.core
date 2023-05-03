@@ -5,6 +5,9 @@ Changelog
 1.1.15 (unreleased)
 -------------------
 
+- Migrate to Plone 6.0.4
+  [boulch]
+
 - Update static icon for better css implements
   [thomlamb]
 
