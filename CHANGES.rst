@@ -5,6 +5,9 @@ Changelog
 1.1.15 (unreleased)
 -------------------
 
+- Cleanup `folder_contents` properties & add warning about Sections
+  [laulaz]
+
 - Store hash in an annotation to refresh "dynamic" sections
   [boulch, laulaz]
 
