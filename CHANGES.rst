@@ -5,6 +5,9 @@ Changelog
 1.1.15 (unreleased)
 -------------------
 
+- Avoid image cropping for banner scale (will have infinite height)
+  [laulaz]
+
 - Cleanup `folder_contents` properties & add warning about Sections
   [laulaz]
 

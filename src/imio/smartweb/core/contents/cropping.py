@@ -8,7 +8,7 @@ class SmartwebCroppingProvider(BaseCroppingProvider):
         """Define default cropping scales for all common fields"""
         if fieldname == "banner":
             # scale used for banner fields
-            return ["banner"]
+            return []
         elif fieldname == "background_image":
             # scales used for background_image fields
             return ["affiche"]
