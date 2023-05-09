@@ -11,6 +11,9 @@
   <script src=""
           tal:attributes="src string:${portal_url}/++plone++imio.smartweb.core/swiper-bundle.min.js">
   </script>
+  <script src=""
+          tal:attributes="src string:${portal_url}/++plone++imio.smartweb.core/smartweb-swiperconfig-compiled.js">
+  </script>
 </metal:head>
 
 <metal:content-core fill-slot="content-core">

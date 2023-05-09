@@ -5,6 +5,9 @@ Changelog
 1.1.15 (unreleased)
 -------------------
 
+- Fixed console error following unnecessary loading of js for swiper
+  [thomlamb]
+
 - Avoid image cropping for banner scale (will have infinite height)
   [laulaz]
 

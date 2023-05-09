@@ -9,6 +9,8 @@ module.exports = {
     entry: {
         view: './src/view.js',
         edit: './src/edit.js',
+        swiperconfig: './src/swiper-config.js',
+
     },
     output: {
         filename: 'smartweb-[name]-compiled.js',
