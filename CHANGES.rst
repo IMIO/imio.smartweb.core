@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.15 (unreleased)
+1.1.15 (2023-05-22)
 -------------------
 
 - Fixed console error following unnecessary loading of js for swiper
