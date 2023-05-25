@@ -68,13 +68,9 @@
             var data = $("#faceted-results-items").attr("data-geojson");
             if ( typeof data != "undefined"  && data ) {
               data = JSON.parse(data);
-              if ( data.features.length > 0 ) {
-                $('#faceted-map-container').trigger('leaflet.refresh', data);
-              }
-            } else {
-                $('#faceted-map-container').trigger('leaflet.refresh', data);
-            }
-        }
+              $('#faceted-map-container').trigger('leaflet.refresh', data);
+              window.dispatchEvent(new Event('resize'));
+        }};
 
         jQuery(document).ready(function($) {
           $("#faceted-map-container").insertAfter($("#faceted-results"));

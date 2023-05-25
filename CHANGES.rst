@@ -5,6 +5,9 @@ Changelog
 1.1.16 (unreleased)
 -------------------
 
+- Fix faceted map size after page loading.
+  [thomlamb]
+
 - Adapt `@search` endpoint to handle multilingual
   [mpeeters]
 
