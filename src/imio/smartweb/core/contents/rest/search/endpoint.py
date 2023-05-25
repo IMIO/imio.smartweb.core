@@ -100,7 +100,8 @@ class ExtendedSearchHandler(SearchHandler):
         if "use_solr" not in query:
             query["use_solr"] = True  # enforce use of SolR by default
         if "_core" in query:
-            parameters = self._core_query(query["_core"])
+            language = api.portal.get_current_language(context=self.context)
+            parameters = self._core_query(query["_core"], language=language)
             del query["_core"]
             if parameters:
                 if "metadata_fields" in query:
@@ -110,9 +111,16 @@ class ExtendedSearchHandler(SearchHandler):
                     )
                 self.request.form["metadata_fields"] = parameters["metadata_fields"]
                 query.update(parameters)
+                if language != "fr" and "SearchableText" in query:
+                    basesearch = query["SearchableText"]
+                    query[f"SearchableText_{language}"] = {
+                        "query": [basesearch, f"{basesearch}*"],
+                        "operator": "or",
+                    }
+                    del query["SearchableText"]
         result = super(ExtendedSearchHandler, self).search(query)
         if "core" in query:
-            return self._adapt_result(result, query["core"])
+            return self._adapt_result(result, query["core"], language=language)
         return result
 
     def _get_source_url(self, path, core):
@@ -123,18 +131,25 @@ class ExtendedSearchHandler(SearchHandler):
         }
         return "{0}/{1}".format(base_urls.get(core, ""), "/".join(path.split("/")[2:]))
 
-    def _adapt_result(self, result, core):
+    def _adapt_result(self, result, core, language=None):
         """Transform result"""
         mapping = get_views_mapping(self._navigation_root)
         result["items"] = [
-            self._adapt_result_url(i, mapping, core) for i in result["items"]
+            self._adapt_result_values(i, mapping, core, language=language)
+            for i in result["items"]
         ]
         return result
 
-    def _adapt_result_url(self, item, mapping, core):
+    def _adapt_result_values(self, item, mapping, core, language=None):
         """Ensure that url to external objects are adapted based on react views"""
         if item["@type"] not in mapping:
             return item
+        if language is not None and language != "fr":
+            for field in ("description", "title"):
+                fname = f"{field}_{language}"
+                if fname in item:
+                    item[field] = item[fname]
+                    del item[fname]
         type_mapping = mapping[item["@type"]]
         base_url = type_mapping.get(item["container_uid"], type_mapping["default"])
         item["_url"] = "{base}#/content?u={item_uid}".format(
@@ -153,7 +168,7 @@ class ExtendedSearchHandler(SearchHandler):
             original = [original]
         return [*original, *[e for e in new if e not in original]]
 
-    def _core_query(self, core):
+    def _core_query(self, core, language=None):
         """Return core specific query parameters"""
         mapping = get_views_mapping(self._navigation_root)
         parameters = {
@@ -232,4 +247,9 @@ class ExtendedSearchHandler(SearchHandler):
             if not parameters.get(required_field)["query"]:
                 # This avoid having unwanted results if no view was created
                 parameters[required_field] = ["None"]
+            if language is not None and language != "fr":
+                parameters["metadata_fields"].extend(
+                    [f"title_{language}", f"description_{language}"]
+                )
+                parameters[f"translated_in_{language}"] = True
         return parameters

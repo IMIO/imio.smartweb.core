@@ -5,7 +5,8 @@ Changelog
 1.1.16 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Adapt `@search` endpoint to handle multilingual
+  [mpeeters]
 
 
 1.1.15 (2023-05-22)
