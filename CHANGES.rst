@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.16 (unreleased)
+1.1.16 (2023-05-25)
 -------------------
 
 - Fix faceted map size after page loading.
