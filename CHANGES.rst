@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.17 (unreleased)
+1.1.17 (2023-05-31)
 -------------------
 
 - New React build
