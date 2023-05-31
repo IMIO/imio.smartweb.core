@@ -5,6 +5,9 @@ Changelog
 1.1.17 (unreleased)
 -------------------
 
+- New React build
+  [thomlamb]
+
 - Use hash in gallery images URL for directory, events and news rest views
   (based on modification date) to allow strong caching.
   [boulch, laulaz]
