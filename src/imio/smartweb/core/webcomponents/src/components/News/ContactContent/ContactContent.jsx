@@ -247,7 +247,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						<div class="spotlight-group flexbin r-content-gallery">
 							{gallery.map((image) => (
 								<a class="spotlight" href={image.image_extralarge_scale} >
-									<img src={image.image.scales.preview.download} />
+									<img src={image.image_preview_scale} />
 								</a>
 							))}
 						</div>
