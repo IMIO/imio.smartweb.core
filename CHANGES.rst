@@ -5,7 +5,9 @@ Changelog
 1.1.17 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Use hash in gallery images URL for directory, events and news rest views
+  (based on modification date) to allow strong caching.
+  [boulch]
 
 
 1.1.16 (2023-05-25)

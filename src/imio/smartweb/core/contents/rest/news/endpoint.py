@@ -28,6 +28,18 @@ class BaseNewsEndpoint(BaseEndpoint):
                 result["image_preview_scale"] = preview_scale
                 result["image_extralarge_scale"] = extralarge_scale
                 result["image_affiche_scale"] = affiche_scale
+            res = result.get("items")
+            if res is None:
+                continue
+            for item in res:
+                if item.get("image"):
+                    modified_hash = hash_md5(result["modified"])
+                    preview_item_scale = f"{item['@id']}/@@images/image/preview?cache_key={modified_hash}"
+                    extralarge_item_scale = f"{item['@id']}/@@images/image/extralarge?cache_key={modified_hash}"
+                    affiche_item_scale = f"{item['@id']}/@@images/image/affiche?cache_key={modified_hash}"
+                    item["image_preview_scale"] = preview_item_scale
+                    item["image_extralarge_scale"] = extralarge_item_scale
+                    item["image_affiche_scale"] = affiche_item_scale
         return results
 
     @property
