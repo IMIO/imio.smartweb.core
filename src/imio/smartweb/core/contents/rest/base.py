@@ -23,6 +23,22 @@ class BaseEndpoint(object):
     def query_url(self):
         raise NotImplementedError
 
+    def convert_cached_image_scales(
+        self,
+        item,
+        modified_hash,
+        field="image",
+        scales=["preview", "extralarge", "affiche"],
+    ):
+        """Remove image from result dict and add generated image scales URLs
+        with cache key"""
+        for scale in scales:
+            cached_scale_url = (
+                f"{item['@id']}/@@images/{field}/{scale}?cache_key={modified_hash}"
+            )
+            item[f"{field}_{scale}_scale"] = cached_scale_url
+        del item[field]
+
     def get_extra_params(self, params):
         form = self.request.form
         extra_params = []

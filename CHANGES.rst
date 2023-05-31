@@ -7,7 +7,7 @@ Changelog
 
 - Use hash in gallery images URL for directory, events and news rest views
   (based on modification date) to allow strong caching.
-  [boulch]
+  [boulch, laulaz]
 
 
 1.1.16 (2023-05-25)

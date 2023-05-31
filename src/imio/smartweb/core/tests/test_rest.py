@@ -2,6 +2,7 @@
 
 from freezegun import freeze_time
 from imio.smartweb.core import config
+from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.directory.endpoint import DirectoryEndpoint
 from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
@@ -71,6 +72,45 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
     def tearDown(self):
         self.api_session.close()
+
+    @freeze_time("2021-09-14 8:00:00")
+    def test_convert_cached_image_scales(self):
+        endpoint = BaseEndpoint(self.portal, self.request)
+        modified_hash = "78fd1bab198354b6877aed44e2ea0b4d"
+
+        item = {"@id": "http://host.com/content", "image": {"scales": {}}}
+        endpoint.convert_cached_image_scales(item, modified_hash)
+        self.assertNotIn("image", item.keys())
+        self.assertEqual(
+            item["image_preview_scale"],
+            "http://host.com/content/@@images/image/preview?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
+        self.assertEqual(
+            item["image_extralarge_scale"],
+            "http://host.com/content/@@images/image/extralarge?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
+        self.assertEqual(
+            item["image_affiche_scale"],
+            "http://host.com/content/@@images/image/affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
+
+        item = {"@id": "http://host.com/content", "logo": {"scales": {}}}
+        endpoint.convert_cached_image_scales(item, modified_hash, "logo", ["thumb"])
+        self.assertNotIn("logo", item.keys())
+        self.assertEqual(
+            item["logo_thumb_scale"],
+            "http://host.com/content/@@images/logo/thumb?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
+
+        item = {
+            "@id": "http://host.com/content",
+            "image": {"scales": {}},
+            "logo": {"scales": {}},
+        }
+        endpoint.convert_cached_image_scales(item, modified_hash, "logo", ["thumb"])
+        self.assertEqual(len(item.keys()), 3)
+        endpoint.convert_cached_image_scales(item, modified_hash)
+        self.assertEqual(len(item.keys()), 5)
 
     def test_get_extra_params(self):
         request = TestRequest(
