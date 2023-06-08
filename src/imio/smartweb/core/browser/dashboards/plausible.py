@@ -3,6 +3,7 @@ from Products.Five.browser import BrowserView
 import os
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
+
 class PlausibleView(BrowserView):
     index = ViewPageTemplateFile("plausible.pt")
 
