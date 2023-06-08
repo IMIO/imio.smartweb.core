@@ -4,7 +4,7 @@
     >
   <include package="plone.app.contentmenu" />
   <browser:page
-      name="plausible"
+      name="stats"
       title="Plausible dashboard"
       menu="plone_displayviews"
       for="plone.base.interfaces.siteroot.IPloneSiteRoot"
