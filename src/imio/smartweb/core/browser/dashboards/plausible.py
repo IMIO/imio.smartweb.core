@@ -2,6 +2,7 @@ from plone import api
 from Products.Five.browser import BrowserView
 import os
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from imio.smartweb.core.browser.utils import get_plausible_vars
 
 
 class PlausibleView(BrowserView):
@@ -11,25 +12,18 @@ class PlausibleView(BrowserView):
         return self.index()
 
     @property
-    def src_iframe(self):
-        env_plausible_url = os.getenv("SMARTWEB_PLAUSIBLE_URL")
-        env_plausible_site = os.getenv("SMARTWEB_PLAUSIBLE_SITE")
-        env_plausible_token = os.getenv("SMARTWEB_PLAUSIBLE_TOKEN")
+    def is_plausible_set(self):
+        if not get_plausible_vars(self):
+            return False
+        else:
+            return True
 
-        plausible_url = (
-            env_plausible_url
-            if (env_plausible_url and env_plausible_url != "")
-            else api.portal.get_registry_record("smartweb.plausible_url")
-        )
-        plausible_site = (
-            env_plausible_site
-            if (env_plausible_site and env_plausible_site != "")
-            else api.portal.get_registry_record("smartweb.plausible_site")
-        )
-        plausible_token = (
-            env_plausible_token
-            if (env_plausible_token and env_plausible_token != "")
-            else api.portal.get_registry_record("smartweb.plausible_token")
-        )
+    @property
+    def get_embedhostjs_src(self):
+        vars = get_plausible_vars(self)
+        return f"https://{vars['plausible_url']}/js/embed.host.js"
 
-        return f"https://{plausible_url}/share/{plausible_site}?auth={plausible_token}&embed=true&theme=light&background=transparent"
+    @property
+    def get_iframe_src(self):
+        vars = get_plausible_vars(self)
+        return f"https://{vars['plausible_url']}/share/{vars['plausible_site']}?auth={vars['plausible_token']}&embed=true&theme=light&background=transparent"

@@ -143,19 +143,25 @@ class ISmartwebControlPanel(Interface):
 
     plausible_url = schema.TextLine(
         title=_("Plausible URL"),
-        description=_("Example : plausible.imio.be"),
+        description=_(
+            "Example : plausible.imio.be /!\ SMARTWEB_PLAUSIBLE_URL varenv has precedence over this."
+        ),
         required=False,
     )
 
     plausible_site = schema.TextLine(
         title=_("Plausible Site"),
-        description=_("Example : namur.be"),
+        description=_(
+            "Example : namur.be /!\ SMARTWEB_PLAUSIBLE_SITE varenv has precedence over this."
+        ),
         required=False,
     )
 
     plausible_token = schema.TextLine(
         title=_("Plausible token"),
-        description=_("Plausible authentification token"),
+        description=_(
+            "Plausible authentification token /!\ SMARTWEB_PLAUSIBLE_TOKEN varenv has precedence over this."
+        ),
         required=False,
     )
 
