@@ -1,0 +1,22 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="imio.smartweb">
+    <body>
+        <metal:main fill-slot="content-core">
+          <h1 tal:content="context/Title" />
+          <iframe plausible-embed 
+                src="" 
+                scrolling="no" 
+                frameborder="0" 
+                loading="lazy" 
+                style="width: 1px; min-width: 100%; height: 1600px;"
+                tal:attributes="src view/src_iframe">
+          </iframe>
+
+        <script async src="https://plausible.imio-test.be/js/embed.host.js"></script>
+        </metal:main>
+    </body>
+</html>

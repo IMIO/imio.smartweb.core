@@ -123,6 +123,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1037_to_1038"
+      title="Upgrade core from 1037 to 1038"
+      directory="profiles/1037_to_1038"
+      description="Add plausible registry keys"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -514,5 +522,16 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1036_to_1037"
     />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1037"
+      destination="1038"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add plausible registry keys"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1037_to_1038"
+        />
+  </genericsetup:upgradeSteps>
+
 
 </configure>

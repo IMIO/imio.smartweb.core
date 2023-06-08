@@ -141,6 +141,24 @@ class ISmartwebControlPanel(Interface):
     )
     directives.widget("sendinblue_button_text", DataGridFieldFactory, auto_append=False)
 
+    plausible_url = schema.TextLine(
+        title=_("Plausible URL"),
+        description=_("Example : plausible.imio.be"),
+        required=False,
+    )
+
+    plausible_site = schema.TextLine(
+        title=_("Plausible Site"),
+        description=_("Example : namur.be"),
+        required=False,
+    )
+
+    plausible_token = schema.TextLine(
+        title=_("Plausible token"),
+        description=_("Plausible authentification token"),
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel

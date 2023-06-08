@@ -5,7 +5,8 @@ Changelog
 1.1.18 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add new browserview for Plausible
+  [remdub]
 
 
 1.1.17 (2023-05-31)

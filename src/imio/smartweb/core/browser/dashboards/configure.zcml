@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    >
+  <include package="plone.app.contentmenu" />
+  <browser:page
+      name="plausible"
+      title="Plausible dashboard"
+      menu="plone_displayviews"
+      for="plone.base.interfaces.siteroot.IPloneSiteRoot"
+      class=".plausible.PlausibleView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+</configure>
