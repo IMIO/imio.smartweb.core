@@ -5,7 +5,8 @@ Changelog
 1.1.18 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Removal of unnecessary css in sections contact and gallery
+  [thomlamb]
 
 
 1.1.17 (2023-05-31)

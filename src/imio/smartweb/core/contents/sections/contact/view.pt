@@ -169,8 +169,7 @@
              tal:attributes="class string:${nb_class} contact_gallery">
           <!-- fix some css for usage in Plone  -->
           <style type="text/css">
-           #spotlight .header { padding-right: 120px !important; }
-           #content-core a { border-bottom: 0px solid transparent !important;}
+           #spotlight .header { padding-right: 120px; }
           </style>
           <div id="swiper1" class="swiper" style="width:100%"
                tal:attributes="data-nb-results-by-batch context/nb_results_by_batch"
