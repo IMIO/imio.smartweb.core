@@ -6,16 +6,17 @@
     i18n:domain="imio.smartweb">
     <body>
         <metal:main fill-slot="content-core">
-          <iframe plausible-embed 
-                src="" 
-                scrolling="no" 
-                frameborder="0" 
-                loading="lazy" 
+          <iframe plausible-embed
+                src=""
+                scrolling="no"
+                frameborder="0"
+                loading="lazy"
+                id="plausible"
                 style="width: 1px; min-width: 100%; height: 1600px;"
                 tal:condition="view/is_plausible_set"
                 tal:attributes="src view/get_iframe_src">
           </iframe>
-        <script async 
+        <script async
           src=""
           tal:condition="view/is_plausible_set"
           tal:attributes="src view/get_embedhostjs_src">
