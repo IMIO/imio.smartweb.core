@@ -5,6 +5,7 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.browser.dashboards.plausible import PlausibleView
 from unittest import mock
+from zope.component import queryMultiAdapter
 
 import os
 
@@ -72,3 +73,11 @@ class Testplausible(ImioSmartwebTestCase):
             view.get_embedhostjs_src,
             "https://url-varenv.be/js/embed.host.js",
         )
+
+    def test_plausible_view(self):
+        view = queryMultiAdapter((self.portal, self.request), name="stats")
+        self.assertNotIn("iframe", view())
+        self.assertIn("Plausible analytics is not set", view())
+        self.set_registry_records()
+        self.assertIn("iframe", view())
+        self.assertNotIn("Plausible analytics is not set", view())
