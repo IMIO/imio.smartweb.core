@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
+    xmlns:metal="http://xml.zope.org/namespaces/metal"
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    metal:use-macro="context/main_template/macros/master"
+    i18n:domain="imio.smartweb">
+    <body>
+        <metal:main fill-slot="content-core">
+          <iframe plausible-embed
+                src=""
+                scrolling="no"
+                frameborder="0"
+                loading="lazy"
+                id="plausible"
+                style="width: 1px; min-width: 100%; height: 1600px;"
+                tal:condition="view/is_plausible_set"
+                tal:attributes="src view/get_iframe_src">
+          </iframe>
+        <script async
+          src=""
+          tal:condition="view/is_plausible_set"
+          tal:attributes="src view/get_embedhostjs_src">
+        </script>
+        <h2 tal:condition="not:view/is_plausible_set" i18n:domain="imio.smartweb" i18n:translate="">
+          Plausible analytics is not set
+        </h2>
+        </metal:main>
+    </body>
+</html>

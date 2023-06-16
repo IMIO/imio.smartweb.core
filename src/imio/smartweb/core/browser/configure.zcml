@@ -12,6 +12,7 @@
       />
 
   <include package=".banner" />
+  <include package=".dashboards" />
   <include package=".faceted" />
   <include package=".footer" />
   <include package=".herobanner" />

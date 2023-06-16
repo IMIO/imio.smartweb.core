@@ -141,6 +141,30 @@ class ISmartwebControlPanel(Interface):
     )
     directives.widget("sendinblue_button_text", DataGridFieldFactory, auto_append=False)
 
+    plausible_url = schema.TextLine(
+        title=_("Plausible URL"),
+        description=_(
+            "Example : plausible.imio.be (SMARTWEB_PLAUSIBLE_URL varenv has precedence over this.)"
+        ),
+        required=False,
+    )
+
+    plausible_site = schema.TextLine(
+        title=_("Plausible Site"),
+        description=_(
+            "Example : namur.be (SMARTWEB_PLAUSIBLE_SITE varenv has precedence over this.)"
+        ),
+        required=False,
+    )
+
+    plausible_token = schema.TextLine(
+        title=_("Plausible Token"),
+        description=_(
+            "Plausible authentification token (SMARTWEB_PLAUSIBLE_TOKEN varenv has precedence over this.)"
+        ),
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
