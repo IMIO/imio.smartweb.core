@@ -127,10 +127,18 @@
       name="upgrade_1037_to_1038"
       title="Upgrade core from 1037 to 1038"
       directory="profiles/1037_to_1038"
-      description="Add new content type : imio.smartweb.SectionExternalContent"
+      description="Add plausible registry keys"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1038_to_1039"
+      title="Upgrade core from 1038 to 1039"
+      directory="profiles/1038_to_1039"
+      description="Add new content type : imio.smartweb.SectionExternalContent"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+  
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -528,9 +536,19 @@
       destination="1038"
       profile="imio.smartweb.core:default">
     <genericsetup:upgradeDepends
-        title="Add new content type : imio.smartweb.SectionExternalContent"
+        title="Add plausible registry keys"
         import_profile="imio.smartweb.core.upgrades:upgrade_1037_to_1038"
         />
   </genericsetup:upgradeSteps>
-
+  
+  <genericsetup:upgradeSteps
+      source="1038"
+      destination="1039"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new content type : imio.smartweb.SectionExternalContent"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1038_to_1039"
+        />
+  </genericsetup:upgradeSteps>
+  
 </configure>

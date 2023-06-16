@@ -8,6 +8,9 @@ Changelog
 - Removal of unnecessary css in sections contact and gallery
   [thomlamb]
 
+- Add new browserview for Plausible
+  [remdub, boulch]
+
 
 1.1.17 (2023-05-31)
 -------------------
