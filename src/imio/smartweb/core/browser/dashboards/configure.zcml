@@ -9,7 +9,7 @@
       menu="plone_displayviews"
       for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       class=".plausible.PlausibleView"
-      permission="zope2.View"
+      permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
