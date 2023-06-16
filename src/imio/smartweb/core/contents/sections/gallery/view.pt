@@ -25,8 +25,7 @@
                          id string:body-section-${context/id}">
       <!-- fix some css for usage in Plone  -->
       <style type="text/css">
-       #spotlight .header { padding-right: 120px !important; }
-       #content-core a { border-bottom: 0px solid transparent !important;}
+       #spotlight .header { padding-right: 120px; }
       </style>
 
       <div tal:define="portal context/@@plone_portal_state/portal;
