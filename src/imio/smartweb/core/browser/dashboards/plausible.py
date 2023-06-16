@@ -6,11 +6,6 @@ from imio.smartweb.core.browser.utils import get_plausible_vars
 
 
 class PlausibleView(BrowserView):
-    index = ViewPageTemplateFile("plausible.pt")
-
-    def __call__(self):
-        return self.index()
-
     @property
     def is_plausible_set(self):
         if not get_plausible_vars(self):
