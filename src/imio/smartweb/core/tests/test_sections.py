@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from AccessControl.unauthorized import Unauthorized
 from bs4 import BeautifulSoup
 from collective.geolocationbehavior.geolocation import IGeolocatable
 from functools import reduce
@@ -109,6 +110,39 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn(
             "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed", embedded_video
         )
+
+    def test_external_content_section(self):
+        setRoles(self.portal, TEST_USER_ID, ["Contributor"])
+        with self.assertRaises(Unauthorized):
+            api.content.create(
+                container=self.page,
+                type="imio.smartweb.SectionExternalContent",
+                title="Section External Content",
+            )
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionExternalContent",
+            title="Section External Content",
+        )
+        section.external_content_url = (
+            "https://app.eaglebe.com/fr-be/map/la%20louvi%C3%A8re"
+        )
+        view = queryMultiAdapter((section, self.request), name="view")
+        embedded_content = view.get_embed_external_content()
+        self.assertIn("iframe", embedded_content)
+        self.assertIn('class="eaglebe"', embedded_content)
+        self.assertIn('scrolling="no"', embedded_content)
+        self.assertIn(
+            "https://app.eaglebe.com/fr-be/map/la%20louvi%C3%A8re", embedded_content
+        )
+
+        section.external_content_url = "http://www.perdu.com"
+        view = queryMultiAdapter((section, self.request), name="view")
+        embedded_content = view.get_embed_external_content()
+        self.assertNotIn("iframe", embedded_content)
+        self.assertNotIn("class='eaglebe'", embedded_content)
+        self.assertIn("<p class='unknow_service'>Unknow service</p>", embedded_content)
 
     def test_map_section(self):
         section = api.content.create(

@@ -7,6 +7,7 @@
     <type type_id="imio.smartweb.SectionCollection"/>
     <type type_id="imio.smartweb.SectionContact"/>
     <type type_id="imio.smartweb.SectionEvents"/>
+    <type type_id="imio.smartweb.SectionExternalContent"/>
     <type type_id="imio.smartweb.SectionFiles"/>
     <type type_id="imio.smartweb.SectionGallery"/>
     <type type_id="imio.smartweb.SectionHTML"/>
