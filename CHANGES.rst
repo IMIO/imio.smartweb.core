@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.18 (unreleased)
+1.1.18 (2023-06-19)
 -------------------
 
 - Removal of unnecessary css in sections contact and gallery
