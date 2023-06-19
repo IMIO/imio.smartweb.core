@@ -1,7 +1,4 @@
-from plone import api
 from Products.Five.browser import BrowserView
-import os
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from imio.smartweb.core.browser.utils import get_plausible_vars
 
 
