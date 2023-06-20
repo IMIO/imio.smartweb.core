@@ -74,6 +74,14 @@ class Testplausible(ImioSmartwebTestCase):
             "https://url-varenv.be/js/embed.host.js",
         )
 
+    @mock.patch.dict(
+        os.environ,
+        {
+            "SMARTWEB_PLAUSIBLE_SITE": "",
+            "SMARTWEB_PLAUSIBLE_TOKEN": "",
+            "SMARTWEB_PLAUSIBLE_URL": "",
+        },
+    )
     def test_plausible_view(self):
         view = queryMultiAdapter((self.portal, self.request), name="stats")
         self.assertNotIn("iframe", view())
