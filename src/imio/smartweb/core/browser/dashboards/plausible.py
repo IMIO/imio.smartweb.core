@@ -5,7 +5,7 @@ from imio.smartweb.core.browser.utils import get_plausible_vars
 class PlausibleView(BrowserView):
     @property
     def is_plausible_set(self):
-        return bool(get_plausible_vars(self))
+        return True if get_plausible_vars(self) else False
 
     @property
     def get_embedhostjs_src(self):
