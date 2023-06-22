@@ -5,7 +5,8 @@ Changelog
 1.1.19 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix condition for image placeholder on React vue
+  [thomlamb]
 
 
 1.1.18 (2023-06-19)
