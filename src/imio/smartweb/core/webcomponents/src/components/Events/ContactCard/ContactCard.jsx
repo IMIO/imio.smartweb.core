@@ -1,5 +1,4 @@
 import React from "react";
-import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
 import moment from "moment";
 import Moment from "react-moment";
 const ContactCard = ({ contactItem }) => {
@@ -20,7 +19,7 @@ const ContactCard = ({ contactItem }) => {
     return (
         <div className="r-list-item">
             <div
-                className={contactItem.image?"r-item-img":"r-item-img r-item-img-placeholder"}
+                className={contactItem.image_preview_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
                     backgroundImage: contactItem.image_preview_scale
                         ? "url(" + contactItem.image_preview_scale + ")"

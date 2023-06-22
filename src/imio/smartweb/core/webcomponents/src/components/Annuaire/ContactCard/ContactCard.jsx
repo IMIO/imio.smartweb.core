@@ -1,5 +1,4 @@
 import React from "react";
-import imgPlaceholder from "../../../assets/img-placeholder-bla.png";
 
 const ContactCard = ({ contactItem }) => {
     const title = contactItem.title && contactItem.title;
@@ -32,11 +31,11 @@ const ContactCard = ({ contactItem }) => {
         countryTitle
 
 	itineraryLink = itineraryLink.replaceAll('+null', '')
-
+    console.log(contactItem)
     return (
         <div className="r-list-item">
             <div
-                className={contactItem.image?"r-item-img":"r-item-img r-item-img-placeholder"}
+                className={contactItem.image_preview_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
                     backgroundImage: contactItem.image_preview_scale
                         ? "url(" + contactItem.image_preview_scale + ")"
