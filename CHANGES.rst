@@ -5,6 +5,9 @@ Changelog
 1.1.19 (unreleased)
 -------------------
 
+- Disable image cropping on Slide content type
+  [laulaz]
+
 - Fix condition for image placeholder on React vue
   [thomlamb]
 
