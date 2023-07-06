@@ -11,6 +11,11 @@ from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobImage
 from zope.component import getMultiAdapter
 
+UNCROPPABLE_SECTIONS = [
+    "imio.smartweb.SectionHTML",
+    "imio.smartweb.SectionSlide",
+]
+
 
 class TestCropping(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
@@ -32,6 +37,19 @@ class TestCropping(ImioSmartwebTestCase):
             title="Default Page",
             id="defaultpage",
         )
+
+    def test_can_crop(self):
+        section_types = get_sections_types()
+        for section_type in section_types:
+            section = api.content.create(
+                container=self.page,
+                type=section_type,
+                title="Title of my {}".format(section_type),
+            )
+            if section_type in UNCROPPABLE_SECTIONS:
+                self.assertFalse(section.can_crop())
+            else:
+                self.assertTrue(section.can_crop())
 
     def test_cropping_adapter(self):
         # footer cropping

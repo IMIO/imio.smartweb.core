@@ -5,6 +5,9 @@ Changelog
 1.1.19 (unreleased)
 -------------------
 
+- Make "Image cropping" link conditional
+  [laulaz]
+
 - Disable image cropping on Slide content type
   [laulaz]
 
