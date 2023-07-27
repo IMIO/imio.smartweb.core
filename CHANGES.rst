@@ -5,6 +5,9 @@ Changelog
 1.1.19 (unreleased)
 -------------------
 
+- WEB-3953 : Remove cropping from background_image field
+  [boulch]
+
 - WEB-3952 : Disable image cropping on section text
   [laulaz, boulch]
 

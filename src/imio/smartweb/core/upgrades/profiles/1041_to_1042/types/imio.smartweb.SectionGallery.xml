@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.SectionGallery"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="true">
+    <element value="plone.namefromtitle"/>
+    <element value="plone.locking"/>
+    <element value="plone.shortname"/>
+    <element value="imio.smartweb.topics"/>
+  </property>
+
+</object>

@@ -11,12 +11,6 @@ from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobImage
 from zope.component import getMultiAdapter
 
-UNCROPPABLE_SECTIONS = [
-    "imio.smartweb.SectionHTML",
-    "imio.smartweb.SectionSlide",
-    "imio.smartweb.SectionText",
-]
-
 
 class TestCropping(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
@@ -39,19 +33,6 @@ class TestCropping(ImioSmartwebTestCase):
             id="defaultpage",
         )
 
-    def test_can_crop(self):
-        section_types = get_sections_types()
-        for section_type in section_types:
-            section = api.content.create(
-                container=self.page,
-                type=section_type,
-                title="Title of my {}".format(section_type),
-            )
-            if section_type in UNCROPPABLE_SECTIONS:
-                self.assertFalse(section.can_crop())
-            else:
-                self.assertTrue(section.can_crop())
-
     def test_cropping_adapter(self):
         # footer cropping
         view = getMultiAdapter((self.portal, self.request), name="footer_settings")
@@ -60,9 +41,7 @@ class TestCropping(ImioSmartwebTestCase):
             contentFilter={"portal_type": "imio.smartweb.Footer"}
         )[0]
         adapter = ICropping(footer, alternate=None)
-        self.assertEqual(
-            ["affiche"], adapter.get_scales("background_image", self.request)
-        )
+        self.assertEqual([], adapter.get_scales("background_image", self.request))
 
         # minisite cropping
         view = getMultiAdapter((self.folder, self.request), name="minisite_settings")
@@ -108,9 +87,7 @@ class TestCropping(ImioSmartwebTestCase):
             )
             adapter = ICropping(section, alternate=None)
             self.assertIsNotNone(adapter)
-            self.assertIn(
-                "affiche", adapter.get_scales("background_image", self.request)
-            )
+            self.assertEqual([], adapter.get_scales("background_image", self.request))
             self.assertNotIn("banner", adapter.get_scales("image", self.request))
 
     def test_cropping_view(self):
@@ -122,11 +99,4 @@ class TestCropping(ImioSmartwebTestCase):
         cropping_view = getMultiAdapter(
             (self.page, self.request), name="croppingeditor"
         )
-        self.assertEqual(len(list(cropping_view._scales("image"))), 3)
-        section = api.content.create(
-            container=self.page,
-            type="imio.smartweb.SectionContact",
-            title="Text section",
-        )
-        cropping_view = getMultiAdapter((section, self.request), name="croppingeditor")
         self.assertEqual(len(list(cropping_view._scales("image"))), 3)

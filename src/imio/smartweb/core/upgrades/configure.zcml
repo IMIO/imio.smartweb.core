@@ -155,6 +155,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1041_to_1042"
+      title="Upgrade core from 1041 to 1042"
+      directory="profiles/1041_to_1042"
+      description="Disable image cropping on background_image field"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -584,6 +592,16 @@
     <genericsetup:upgradeDepends
         title="Disable image cropping on section text"
         import_profile="imio.smartweb.core.upgrades:upgrade_1040_to_1041"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1041"
+      destination="1042"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Disable image cropping on background_image field"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1041_to_1042"
         />
   </genericsetup:upgradeSteps>
 

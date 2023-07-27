@@ -2,7 +2,6 @@
 
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
-from plone.app.imagecropping.interfaces import IImageCroppingMarker
 from plone.autoform.directives import write_permission
 from plone.dexterity.content import Container
 from plone.namedfile.field import NamedBlobImage
@@ -78,9 +77,6 @@ class Section(Container):
 
     def canSetDefaultPage(self):
         return False
-
-    def can_crop(self):
-        return IImageCroppingMarker.providedBy(self)
 
     def section_error(self, *args, **kwargs):
         if api.user.is_anonymous():

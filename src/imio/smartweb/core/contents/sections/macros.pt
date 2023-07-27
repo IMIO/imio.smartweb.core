@@ -37,12 +37,6 @@
         <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
            i18n:translate="">Edit section</a>
 
-        <tal:if tal:condition="context/can_crop">
-          <span class="icon-image"></span>
-          <a class="edit-section-cropping" tal:attributes="href string:${context/absolute_url}/@@croppingeditor"
-             i18n:translate="">Image cropping</a>
-        </tal:if>
-
         <tal:if tal:condition="context/manage_content">
           <span class="icon-folderContents"></span>
           <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
