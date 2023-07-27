@@ -5,6 +5,9 @@ Changelog
 1.1.19 (unreleased)
 -------------------
 
+- WEB-3952 : Disable image cropping on section text
+  [laulaz, boulch]
+
 - Make "Image cropping" link conditional
   [laulaz]
 

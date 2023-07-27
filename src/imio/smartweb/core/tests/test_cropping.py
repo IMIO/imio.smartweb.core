@@ -14,6 +14,7 @@ from zope.component import getMultiAdapter
 UNCROPPABLE_SECTIONS = [
     "imio.smartweb.SectionHTML",
     "imio.smartweb.SectionSlide",
+    "imio.smartweb.SectionText",
 ]
 
 
@@ -111,17 +112,6 @@ class TestCropping(ImioSmartwebTestCase):
                 "affiche", adapter.get_scales("background_image", self.request)
             )
             self.assertNotIn("banner", adapter.get_scales("image", self.request))
-            if section_type == "imio.smartweb.SectionText":
-                self.assertEqual(
-                    ["affiche"], adapter.get_scales("background_image", self.request)
-                )
-                section.image = NamedBlobImage(**make_named_image())
-                section.image_size = "preview"
-                self.assertEqual(["preview"], adapter.get_scales("image", self.request))
-                section.image_size = "large"
-                self.assertEqual(["large"], adapter.get_scales("image", self.request))
-                section.image_size = "mini"
-                self.assertEqual(["mini"], adapter.get_scales("image", self.request))
 
     def test_cropping_view(self):
         cropping_view = getMultiAdapter(
@@ -135,8 +125,8 @@ class TestCropping(ImioSmartwebTestCase):
         self.assertEqual(len(list(cropping_view._scales("image"))), 3)
         section = api.content.create(
             container=self.page,
-            type="imio.smartweb.SectionText",
+            type="imio.smartweb.SectionContact",
             title="Text section",
         )
         cropping_view = getMultiAdapter((section, self.request), name="croppingeditor")
-        self.assertEqual(len(list(cropping_view._scales("image"))), 1)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 3)

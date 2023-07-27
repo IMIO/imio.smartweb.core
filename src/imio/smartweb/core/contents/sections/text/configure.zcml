@@ -2,12 +2,6 @@
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
 
-  <adapter
-      for=".content.SectionText"
-      provides="imio.smartweb.common.interfaces.ICropping"
-      factory=".content.SectionTextCroppingProvider"
-      />
-
   <browser:page
       name="view"
       for="imio.smartweb.core.contents.ISectionText"
