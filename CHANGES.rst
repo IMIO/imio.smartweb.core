@@ -5,6 +5,9 @@ Changelog
 1.1.19 (unreleased)
 -------------------
 
+- WEB-3934 : Hide image_size field
+  [boulch]
+
 - WEB-3953 : Remove cropping from background_image field
   [boulch]
 
