@@ -62,6 +62,7 @@ class Folder(Container):
                 idxs=("object_provides", "exclude_from_nav")
             )
             self.default_page_uid = None
+        self.reindexObject()
 
     def get_default_item(self, object=False):
         if self.default_page_uid:

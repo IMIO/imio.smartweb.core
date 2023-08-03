@@ -5,6 +5,9 @@ Changelog
 1.1.19 (unreleased)
 -------------------
 
+- WEB-3956 : Update folder modification date when its layout changed to fix cache
+  [boulch]
+
 - WEB-3934 : Hide image_size field
   [boulch]
 

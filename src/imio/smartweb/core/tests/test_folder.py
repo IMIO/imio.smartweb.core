@@ -366,3 +366,20 @@ class TestFolder(ImioSmartwebTestCase):
         uuid = IUUID(page2)
         brains = api.content.find(UID=uuid)
         self.assertEqual(len(brains), 0)
+
+    def test_select_view_template(self):
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="My folder",
+        )
+        self.request.form = {
+            "templateId": "block_view_with_images",
+            "form.buttons.apply": "Apply",
+        }
+        creation_date = folder.ModificationDate()
+        view = getMultiAdapter((folder, self.request), name="selectViewTemplate")
+        sleep(1)
+        view.selectViewTemplate()
+        new_date = folder.ModificationDate()
+        self.assertNotEqual(creation_date, new_date)
