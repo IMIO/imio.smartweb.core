@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.19 (unreleased)
+1.1.19 (2023-08-07)
 -------------------
 
 - WEB-3956 : Update folder modification date when its layout changed to fix cache
