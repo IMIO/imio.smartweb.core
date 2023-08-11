@@ -8,7 +8,7 @@ from plone.app.testing import TEST_USER_ID
 from zope.component import queryMultiAdapter
 
 
-class TestSectionNews(ImioSmartwebTestCase):
+class TestSectionSendInBlue(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 
     def setUp(self):
