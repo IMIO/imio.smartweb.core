@@ -26,6 +26,11 @@ class ISectionExternalContent(ISection):
         required=True,
     )
 
+    external_content_params = schema.Text(
+        title=_("External content parameters"),
+        required=False,
+    )
+
 
 @implementer(ISectionExternalContent)
 class SectionExternalContent(Section):

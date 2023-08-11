@@ -5,7 +5,8 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3972 : Add "elloha" plugin in external content section
+  [boulch]
 
 
 1.1.19 (2023-08-07)
