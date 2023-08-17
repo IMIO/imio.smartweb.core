@@ -1,16 +1,20 @@
 # -*- coding: utf-8 -*-
 
+from freezegun import freeze_time
 from imio.smartweb.core.viewlets.toolbar import AuthenticSourcesMenuItem
+from imio.smartweb.core.viewlets.toolbar import SmartwebHelpMenuItem
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.memoize.interfaces import ICacheChooser
 from zope.browsermenu.interfaces import IBrowserMenu
 from zope.component import getUtility
 
 import json
+import os
 import requests_mock
 
 
@@ -55,8 +59,46 @@ class TestToolbar(ImioSmartwebTestCase):
             "localhost:8080/Plone/manage-directory",
         )
 
-    def test_available(self):
+    def test_available_sources_authentic(self):
         menu = AuthenticSourcesMenuItem(self.portal, self.request)
+        self.assertTrue(menu.available())
+        logout()
+        self.assertFalse(menu.available())
+
+    def test_help_menu_url(self):
+        # freeze_time for _cache_key
+        with freeze_time("2023-08-18 11:19:50"):
+            menu = getUtility(
+                IBrowserMenu, name="plone_contentmenu", context=self.portal
+            )
+            items = menu.getMenuItems(self.portal, self.request)
+            smartweb_help_submenu = items[4].get("submenu")
+            self.assertEqual(
+                smartweb_help_submenu[0].get("action"),
+                "https://docs.imio.be/iasmartweb/smartweb_v6",
+            )
+            self.assertEqual(
+                smartweb_help_submenu[1].get("action"),
+                "https://support.imio.be",
+            )
+            self.assertEqual(
+                smartweb_help_submenu[2].get("action"),
+                "https://my-formulaires.imio.be/ateliers-imio/ateliers-iasmartweb-1",
+            )
+            os.environ["help_menu_rtfm"] = "https://kamoulox.docs.be"
+            cache_utility = getUtility(ICacheChooser)
+            ramcache = cache_utility("plone_smartweb_help_menu 5641167.0").ramcache
+            # clear ramcache
+            ramcache._getStorage()._data.clear()
+            items = menu.getMenuItems(self.portal, self.request)
+            smartweb_help_submenu = items[4].get("submenu")
+            self.assertEqual(
+                smartweb_help_submenu[0].get("action"),
+                "https://kamoulox.docs.be",
+            )
+
+    def test_available_help_menu(self):
+        menu = SmartwebHelpMenuItem(self.portal, self.request)
         self.assertTrue(menu.available())
         logout()
         self.assertFalse(menu.available())

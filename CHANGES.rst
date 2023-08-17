@@ -5,6 +5,9 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
+- WEB-3957 : Add new "Please help!" menu in Plone toolbar
+  [boulch]
+
 - WEB-3972 : Add "elloha" plugin in external content section
   [boulch]
 

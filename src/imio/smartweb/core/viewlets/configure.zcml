@@ -329,8 +329,8 @@
       />
 
   <browser:menu
-      id="authentic-sources-menu"
-      title=""
+      id="plone_authentic_sources_menu"
+      title="Authentic sources menu"
       class=".toolbar.AuthenticSourcesMenu"
       />
 
@@ -338,6 +338,18 @@
       for="* *"
       name="smartweb.menu.authentic_sources"
       factory=".toolbar.AuthenticSourcesMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
+
+  <browser:menu
+      id="plone_smartweb_help_menu"
+      title="Smartweb help menu"
+      class=".toolbar.SmartwebHelpMenu"
+      />
+
+  <adapter
+      for="* *"
+      name="smartweb.menu.smartweb_help"
+      factory=".toolbar.SmartwebHelpMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
 </configure>
