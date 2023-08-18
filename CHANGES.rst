@@ -5,6 +5,9 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
+- Fix of the calculation of the batch zise, ​​addition instead of concatenation
+  [thomlamb]
+
 - WEB-3972 : Add "elloha" plugin in external content section
   [boulch]
 

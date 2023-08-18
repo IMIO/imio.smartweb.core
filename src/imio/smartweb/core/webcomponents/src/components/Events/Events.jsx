@@ -83,7 +83,7 @@ function EventsView(props) {
 
     // set batch
     const loadMore = () => {
-        setBatchStart((batchStart) => batchStart + props.batchSize);
+        setBatchStart((batchStart) => batchStart + parseInt(props.batchSize));
         setLoadMoreLaunch(true);
     };
 
