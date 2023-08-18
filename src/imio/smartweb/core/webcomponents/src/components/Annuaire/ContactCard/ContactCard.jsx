@@ -57,7 +57,7 @@ const ContactCard = ({ contactItem }) => {
             ? <>
                 <div className="r-item-img">
                     <div className="r-content-figure-blur"
-                        style={{backgroundImage:"url(" + image.sr + ")"}}
+                        style={{backgroundImage:"url(" + image.src + ")"}}
                     />
                     <img className={"r-content-figure-img" + " " + image.className}
                             src={image.src} />
