@@ -5,6 +5,10 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
+- Display logo if no image in react contact card.
+  Display blurry background if image is in portrait
+  [thomlamb]
+
 - Fix of the calculation of the batch zise, ​​addition instead of concatenation
   [thomlamb]
 
