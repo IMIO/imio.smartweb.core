@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect,useState} from "react";
 
 const ContactCard = ({ contactItem }) => {
+    const [image, setImage] = useState(new Image());
     const title = contactItem.title && contactItem.title;
     const category =
         contactItem.taxonomy_contact_category && contactItem.taxonomy_contact_category[0];
-
     const number = contactItem.number ? contactItem.number : "";
     const street = contactItem.street ? contactItem.street : "";
     const complement = contactItem.complement ? contactItem.complement : "";
@@ -14,7 +14,6 @@ const ContactCard = ({ contactItem }) => {
     const phones = contactItem.phones ? contactItem.phones : "";
     const mails = contactItem.mails ? contactItem.mails : "";
     const topics = contactItem.topics ? contactItem.topics : "";
-
     let countryTitle = contactItem.country && contactItem.country.title
     let itineraryLink =
 		"https://www.google.com/maps/dir/?api=1&destination=" +
@@ -31,18 +30,43 @@ const ContactCard = ({ contactItem }) => {
         countryTitle
 
 	itineraryLink = itineraryLink.replaceAll('+null', '')
-    console.log(contactItem)
+
+    // set image
+    useEffect(() => {
+            const img = new Image();
+            img.src = contactItem.image_affiche_scale 
+            ? contactItem.image_affiche_scale 
+            : contactItem.logo_thumb_scale 
+                ? contactItem.logo_thumb_scale 
+                : ""
+            img.onload = () => {
+                setImage(img);
+            };
+    }, [contactItem]);
+
+    // set image className
+    useEffect(() => {
+        const img = image
+        img.className = img.width < image.height ? "contain" : "cover"
+        setImage(img);
+    }, [image.width]);
+
     return (
         <div className="r-list-item">
-            <div
-                className={contactItem.image_preview_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
-                style={{
-                    backgroundImage: contactItem.image_preview_scale
-                        ? "url(" + contactItem.image_preview_scale + ")"
-                        : "",
-                }}
-            />
-
+            {image && image.src
+            ? <>
+                <div className="r-item-img">
+                    <div className="r-content-figure-blur"
+                        style={{backgroundImage:"url(" + image.src + ")"}}
+                    />
+                    <img className={"r-content-figure-img" + " " + image.className}
+                            src={image.src} />
+                </div>
+            </>
+            : <>
+                <div className="r-item-img r-item-img-placeholder"></div>
+            </>
+            }
             <div className="r-item-text">
                 <span className="r-item-title">{title}</span>
                 {category ? <span className="r-item-categorie">{category.title}</span> : ""}

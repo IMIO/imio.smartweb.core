@@ -8,6 +8,13 @@ Changelog
 - WEB-3957 : Add new "Please help!" menu in Plone toolbar
   [boulch]
 
+- Display logo if no image in react contact card.
+  Display blurry background if image is in portrait
+  [thomlamb]
+
+- Fix of the calculation of the batch zise, ​​addition instead of concatenation
+  [thomlamb]
+
 - WEB-3972 : Add "elloha" plugin in external content section
   [boulch]
 
