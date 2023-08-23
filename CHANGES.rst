@@ -5,6 +5,9 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
+- WEB-3957 : Add new "Please help!" menu in Plone toolbar
+  [boulch]
+
 - Display logo if no image in react contact card.
   Display blurry background if image is in portrait
   [thomlamb]

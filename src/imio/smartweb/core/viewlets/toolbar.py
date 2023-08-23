@@ -2,22 +2,30 @@
 
 from imio.smartweb.core import config
 from imio.smartweb.core.utils import get_json
+from imio.smartweb.core.viewlets.interfaces import IAuthenticSourcesMenu
+from imio.smartweb.core.viewlets.interfaces import IAuthenticSourcesSubMenuItem
+from imio.smartweb.core.viewlets.interfaces import ISmartwebHelpMenu
+from imio.smartweb.core.viewlets.interfaces import ISmartwebHelpSubMenuItem
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contentmenu.menu import BrowserMenu
 from plone.app.contentmenu.menu import BrowserSubMenuItem
 from plone.memoize import ram
 from time import time
-from zope.browsermenu.interfaces import IBrowserMenu
 from zope.interface import implementer
 
+import os
 import re
 
 
-@implementer(IBrowserMenu)
+def _cache_key(func, obj, context, request):
+    return (obj.id, time() // (5 * 60))
+
+
+@implementer(IAuthenticSourcesSubMenuItem)
 class AuthenticSourcesMenuItem(BrowserSubMenuItem):
     title = _("Authentic sources")
-    submenuId = "authentic-sources-menu"
+    submenuId = "plone_authentic_sources_menu"
     icon = "boxes"
     extra = {
         "id": "plone-authentic-sources-menu",
@@ -49,9 +57,9 @@ class AuthenticSourcesMenuItem(BrowserSubMenuItem):
         return False
 
 
-@implementer(IBrowserMenu)
+@implementer(IAuthenticSourcesMenu)
 class AuthenticSourcesMenu(BrowserMenu):
-    @ram.cache(lambda *args: time() // (60 * 60))
+    @ram.cache(_cache_key)
     def getMenuItems(self, context, request):
         news_entity_url = self.get_entity_from_authentic_source(
             config.NEWS_URL, "smartweb.news_entity_uid"
@@ -62,9 +70,13 @@ class AuthenticSourcesMenu(BrowserMenu):
         directory_entity_url = self.get_entity_from_authentic_source(
             config.DIRECTORY_URL, "smartweb.directory_entity_uid"
         )
-        news = {"url": news_entity_url, "icon": "newspaper"}
-        events = {"url": events_entity_url, "icon": "calendar-event"}
-        directory = {"url": directory_entity_url, "icon": "file-person"}
+        news = {"url": news_entity_url, "icon": "newspaper", "id": "news"}
+        events = {"url": events_entity_url, "icon": "calendar-event", "id": "events"}
+        directory = {
+            "url": directory_entity_url,
+            "icon": "file-person",
+            "id": "directory",
+        }
         authentic_sources = [news, events, directory]
 
         menu_items = []
@@ -79,7 +91,11 @@ class AuthenticSourcesMenu(BrowserMenu):
                 "action": source["url"],
                 "selected": False,
                 "icon": source["icon"],
-                "extra": {"id": "some-id", "separator": None, "class": ""},
+                "extra": {
+                    "id": f'plone-authentic-sources-menu{source["id"]}',
+                    "separator": None,
+                    "class": "",
+                },
                 "submenu": None,
             }
             menu_items.append(menu_item)
@@ -93,3 +109,84 @@ class AuthenticSourcesMenu(BrowserMenu):
         if not result or not result.get("items"):
             return None
         return result.get("items")[0].get("@id")
+
+
+@implementer(ISmartwebHelpSubMenuItem)
+class SmartwebHelpMenuItem(BrowserSubMenuItem):
+    title = _("Please help!")
+    submenuId = "plone_smartweb_help_menu"
+    icon = "info-circle"
+    extra = {
+        "id": "plone-smartweb-help-menu",
+        "li_class": "plonetoolbar-smartweb-help-menu",
+    }
+
+    order = 50
+
+    @property
+    def action(self):
+        return "#"
+
+    def available(self):
+        permission = "Modify portal content"
+        return api.user.has_permission(permission, obj=self.context)
+
+
+@implementer(ISmartwebHelpMenu)
+class SmartwebHelpMenu(BrowserMenu):
+    @ram.cache(_cache_key)
+    def getMenuItems(self, context, request):
+        rtfm_action = os.environ.get(
+            "help_menu_rtfm", "https://docs.imio.be/iasmartweb/smartweb_v6"
+        )
+        support_action = os.environ.get("help_menu_support", "https://support.imio.be")
+        workshop_action = os.environ.get(
+            "help_menu_workshop",
+            "https://my-formulaires.imio.be/ateliers-imio/ateliers-iasmartweb-1",
+        )
+
+        # Read The Funny Manual... (no?)
+        rtfm = {
+            "title": _("Read documentation"),
+            "description": "",
+            "action": rtfm_action,
+            "selected": False,
+            "icon": "eye-fill",
+            "extra": {
+                "id": "plone-smartweb-help-menu-rtfm",
+                "separator": None,
+                "class": "",
+            },
+            "submenu": None,
+        }
+
+        support = {
+            "title": _("Ask a question"),
+            "description": "",
+            "action": support_action,
+            "selected": False,
+            "icon": "chat-square-heart-fill",
+            "extra": {
+                "id": "plone-smartweb-help-menu-support",
+                "separator": None,
+                "class": "",
+            },
+            "submenu": None,
+        }
+
+        workshop = {
+            "title": _("Take part of workshop"),
+            "description": "",
+            "action": workshop_action,
+            "selected": False,
+            "icon": "rocket-takeoff-fill",
+            "extra": {
+                "id": "plone-smartweb-help-menu-workshop",
+                "separator": None,
+                "class": "",
+            },
+            "submenu": None,
+        }
+
+        menu_items = [rtfm, support, workshop]
+        return menu_items
