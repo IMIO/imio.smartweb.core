@@ -5,6 +5,9 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
+- Refactor section text : image_size field is no more required because field is now hidden!
+  [boulch]
+
 - WEB-3957 : Add new "Please help!" menu in Plone toolbar
   [boulch]
 
