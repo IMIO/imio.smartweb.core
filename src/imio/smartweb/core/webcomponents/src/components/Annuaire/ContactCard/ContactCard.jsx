@@ -47,7 +47,7 @@ const ContactCard = ({ contactItem }) => {
     // set image className
     useEffect(() => {
         const img = image
-        img.className = img.width < image.height ? "contain" : "cover"
+        img.className = img.width < image.height ? "img-contain" : "img-cover"
         setImage(img);
     }, [image.width]);
 
