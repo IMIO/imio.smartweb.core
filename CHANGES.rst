@@ -5,6 +5,9 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
+- Refactor React contact view
+  [thomlamb]
+
 - Refactor section text : image_size field is no more required because field is now hidden!
   [boulch]
 

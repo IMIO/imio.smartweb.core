@@ -1,8 +1,8 @@
-import { useHistory, useParams, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css"
 import { Translate } from "react-translated";
@@ -11,12 +11,16 @@ const ContactContent = ({ queryUrl, onChange }) => {
     let history = useHistory();
     const queryString = require("query-string");
     const { u, ...parsed } = Object.assign(
-        { UID : queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
+        { UID: queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
     );
     const [params, setParams] = useState(parsed);
     const [contactItem, setcontactItem] = useState({});
     const [files, setFiles] = useState(0);
     const [gallery, setGallery] = useState(0);
+    const [social, setSocial] = useState([]);
+    const [website, setWebsite] = useState([]);
+    const [image, setImage] = useState();
+
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
@@ -32,6 +36,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
     useEffect(() => {
         setParams(parsed)
     }, [queryString.parse(useFilterQuery().toString())['u']]);
+
     // set all contacts state
     useEffect(() => {
         if (response !== null) {
@@ -40,8 +45,26 @@ const ContactContent = ({ queryUrl, onChange }) => {
         window.scrollTo(0, 0);
     }, [response]);
 
+    // set image
+    useEffect(() => {
+        if (contactItem.image_affiche_scale) {
+            const img = new Image();
+            img.src = contactItem.image_affiche_scale
+            img.onload = () => {
+                setImage(img);
+            };
+        }
+    }, [contactItem]);
+
+
+    // set social link
+    useEffect(() => {
+        contactItem.urls && setSocial(contactItem.urls.filter(urls => urls.type !== 'website'));
+        contactItem.urls && setWebsite(contactItem.urls.filter(urls => urls.type === 'website'));
+    }, [contactItem]);
+
     /// use to set file and gallery items
-	useEffect(() => {
+    useEffect(() => {
         if (contactItem.items && contactItem.items.length > 0) {
             setFiles(contactItem.items.filter(files => files['@type'] === 'File'));
             setGallery(contactItem.items.filter(files => files['@type'] === 'Image'));
@@ -54,21 +77,20 @@ const ContactContent = ({ queryUrl, onChange }) => {
     }
     let countryTitle = contactItem.country && contactItem.country.title
     let itineraryLink =
-		"https://www.google.com/maps/dir/?api=1&destination=" +
-		contactItem.street +
-		"+" +
-		contactItem.number +
-		"+" +
-		contactItem.complement +
-		"+" +
-		contactItem.zipcode +
-		"+" +
-		contactItem.city +
+        "https://www.google.com/maps/dir/?api=1&destination=" +
+        contactItem.street +
+        "+" +
+        contactItem.number +
+        "+" +
+        contactItem.complement +
+        "+" +
+        contactItem.zipcode +
+        "+" +
+        contactItem.city +
         "+" +
         countryTitle
 
-	itineraryLink = itineraryLink.replaceAll('+null', '')
-
+    itineraryLink = itineraryLink.replaceAll('+null', '')
     return (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
@@ -83,6 +105,17 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         ""
                     )}
                 </header>
+                {contactItem.image_affiche_scale && (
+                    <figure className="r-content-figure">
+                        <div
+                            className="r-content-figure-blur"
+                            style={{ backgroundImage: "url(" + contactItem.image_affiche_scale + ")" }} />
+                        <img className="r-content-figure-img"
+                            src={contactItem.image_affiche_scale}
+                            style={{ objectFit: image && image.width >= image.height ? "cover" : "contain" }} />
+                    </figure>
+                )}
+
                 {contactItem.logo ? (
                     <figure>
                         <img
@@ -97,168 +130,223 @@ const ContactContent = ({ queryUrl, onChange }) => {
             </article>
             <div className="contactCard">
                 <div className="contactText">
-                <div className="r-content-description">
-					<ReactMarkdown>{contactItem.description}</ReactMarkdown>
-				</div>
+                    <div className="r-content-description">
+                        <ReactMarkdown>{contactItem.description}</ReactMarkdown>
+                    </div>
                     <div className="contactTextAll">
+                        <p className="annuaire-info-title">Infos pratiques</p>
                         {contactItem.category ? <span>{contactItem.category}</span> : ""}
-                        <div className="adresse">
-                            {contactItem.number ? <span>{contactItem.number + " "}</span> : ""}
-                            {contactItem.street ? <span>{contactItem.street + ", "}</span> : ""}
-                            {contactItem.complement ? (
-                                <span>{contactItem.complement + ", "}</span>
-                            ) : (
-                                ""
-                            )}
-                            {contactItem.zipcode ? <span>{contactItem.zipcode + " "}</span> : ""}
-                            {contactItem.city ? <span>{contactItem.city}</span> : ""}
-                        </div>
-                        <div className="itineraty">
-                            {contactItem.street ? (
-                                <a href={itineraryLink} target="_blank">
-                                    Itinéraire
-                                </a>
-                            ) : (
-                                ""
-                            )}
-                        </div>
-                        <div className="phones">
-                            {contactItem.phones
-                                ? contactItem.phones.map((phone) => {
-                                      return (
+                        {contactItem.street ? (
+                            <div className="annaire-adresse">
+                                <div className="annaire-adresse-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
+                                        <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+                                    </svg>
+                                </div>
+                                <div className="annaire-adresse-content">
+                                    <a href={itineraryLink} target="_blank">
+                                        {contactItem.number ? <span>{contactItem.number + " "}</span> : ""}
+                                        {contactItem.street ? <span>{contactItem.street + ", "}</span> : ""}
+                                        {contactItem.complement ? (
+                                            <span>{contactItem.complement + ", "}</span>
+                                        ) : (
+                                            ""
+                                        )}
+                                        {contactItem.zipcode ? <span>{contactItem.zipcode + " "}</span> : ""}
+                                        {contactItem.city ? <span>{contactItem.city}</span> : ""}
+                                    </a>
+                                </div>
+
+                            </div>
+
+                        ) : (
+                            ""
+                        )}
+
+                        {contactItem.phones && contactItem.phones.length > 0
+                            ? (<div className="annuaire-phone">
+                                <div className="annuaire-phone-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z" />
+                                    </svg>
+                                </div>
+                                <div className="annuaire-phone-content">
+                                    {contactItem.phones.map((phone) => {
+                                        return (
                                             <span>
-                                                <a href={"tel:"+phone.number}>
+                                                {phone.label ? phone.label + ": " : ""}
+                                                <a href={"tel:" + phone.number}>
                                                     {phone.number}
                                                 </a>
                                             </span>
-                                            );
-                                  })
-                                : ""}
-                        </div>
-                        <div className="mails">
-                            {contactItem.mails
-                                ? contactItem.mails.map((mail) => {
-                                      return (
-                                        <span>
-                                            <a href={"mailto:"+mail.mail_address}>
-                                                {mail.mail_address}
-                                            </a>
-                                        </span>
                                         );
-                                  })
-                                : ""}
-                        </div>
-                        <div className="urls">
-                            {contactItem.urls
-                                ? contactItem.urls.map((url) => {
-                                      return (
-                                            <>
+                                    })}
+                                </div>
+                            </div>)
+                            : ""}
+
+                        {contactItem.mails && contactItem.mails.length > 0
+                            ? <div className="annuaire-website-mails">
+                                <div className="annuaire-website-mails-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
+                                        <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555ZM0 4.697v7.104l5.803-3.558L0 4.697ZM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757Zm3.436-.586L16 11.801V4.697l-5.803 3.546Z" />
+                                    </svg>
+                                </div>
+                                <div className="annuaire-website-mails-content">
+                                    {contactItem.mails.map((mail) => {
+                                        return (
                                             <span>
-                                                <a href={url.url} target="_blank">
-                                                    { url.type === "facebook" ?  (
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            height="40"
-                                                            width="60"
-                                                            viewBox="-204.79995 -341.33325 1774.9329 2047.9995"
-                                                        >
-                                                            <path
-                                                                d="M1365.333 682.667C1365.333 305.64 1059.693 0 682.667 0 305.64 0 0 305.64 0 682.667c0 340.738 249.641 623.16 576 674.373V880H402.667V682.667H576v-150.4c0-171.094 101.917-265.6 257.853-265.6 74.69 0 152.814 13.333 152.814 13.333v168h-86.083c-84.804 0-111.25 52.623-111.25 106.61v128.057h189.333L948.4 880H789.333v477.04c326.359-51.213 576-333.635 576-674.373"
-                                                                fill="#100f0d"
-                                                            />
-                                                            <path
-                                                                d="M948.4 880l30.267-197.333H789.333V554.609C789.333 500.623 815.78 448 900.584 448h86.083V280s-78.124-13.333-152.814-13.333c-155.936 0-257.853 94.506-257.853 265.6v150.4H402.667V880H576v477.04a687.805 687.805 0 00106.667 8.293c36.288 0 71.91-2.84 106.666-8.293V880H948.4"
-                                                                fill="#fff"
-                                                            />
-                                                        </svg>
-                                                    )
-                                                    : url.type === "instagram" ?  (
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            height="40"
-                                                            width="60"
-                                                            viewBox="-100.7682 -167.947 873.3244 1007.682"
-												        >
-                                                            <g fill="#100f0d">
-                                                                <path d="M335.895 0c-91.224 0-102.663.387-138.49 2.021-35.752 1.631-60.169 7.31-81.535 15.612-22.088 8.584-40.82 20.07-59.493 38.743-18.674 18.673-30.16 37.407-38.743 59.495C9.33 137.236 3.653 161.653 2.02 197.405.386 233.232 0 244.671 0 335.895c0 91.222.386 102.661 2.02 138.488 1.633 35.752 7.31 60.169 15.614 81.534 8.584 22.088 20.07 40.82 38.743 59.495 18.674 18.673 37.405 30.159 59.493 38.743 21.366 8.302 45.783 13.98 81.535 15.612 35.827 1.634 47.266 2.021 138.49 2.021 91.222 0 102.661-.387 138.488-2.021 35.752-1.631 60.169-7.31 81.534-15.612 22.088-8.584 40.82-20.07 59.495-38.743 18.673-18.675 30.159-37.407 38.743-59.495 8.302-21.365 13.981-45.782 15.612-81.534 1.634-35.827 2.021-47.266 2.021-138.488 0-91.224-.387-102.663-2.021-138.49-1.631-35.752-7.31-60.169-15.612-81.534-8.584-22.088-20.07-40.822-38.743-59.495-18.675-18.673-37.407-30.159-59.495-38.743-21.365-8.302-45.782-13.981-81.534-15.612C438.556.387 427.117 0 335.895 0zm0 60.521c89.686 0 100.31.343 135.729 1.959 32.75 1.493 50.535 6.965 62.37 11.565 15.68 6.094 26.869 13.372 38.622 25.126 11.755 11.754 19.033 22.944 25.127 38.622 4.6 11.836 10.072 29.622 11.565 62.371 1.616 35.419 1.959 46.043 1.959 135.73 0 89.687-.343 100.311-1.959 135.73-1.493 32.75-6.965 50.535-11.565 62.37-6.094 15.68-13.372 26.869-25.127 38.622-11.753 11.755-22.943 19.033-38.621 25.127-11.836 4.6-29.622 10.072-62.371 11.565-35.413 1.616-46.036 1.959-135.73 1.959-89.694 0-100.315-.343-135.73-1.96-32.75-1.492-50.535-6.964-62.37-11.564-15.68-6.094-26.869-13.372-38.622-25.127-11.754-11.753-19.033-22.943-25.127-38.621-4.6-11.836-10.071-29.622-11.565-62.371-1.616-35.419-1.959-46.043-1.959-135.73 0-89.687.343-100.311 1.959-135.73 1.494-32.75 6.965-50.535 11.565-62.37 6.094-15.68 13.373-26.869 25.126-38.622 11.754-11.755 22.944-19.033 38.622-25.127 11.836-4.6 29.622-10.072 62.371-11.565 35.419-1.616 46.043-1.959 135.73-1.959" />
-                                                                <path d="M335.895 447.859c-61.838 0-111.966-50.128-111.966-111.964 0-61.838 50.128-111.966 111.966-111.966 61.836 0 111.964 50.128 111.964 111.966 0 61.836-50.128 111.964-111.964 111.964zm0-284.451c-95.263 0-172.487 77.224-172.487 172.487 0 95.261 77.224 172.485 172.487 172.485 95.261 0 172.485-77.224 172.485-172.485 0-95.263-77.224-172.487-172.485-172.487m219.608-6.815c0 22.262-18.047 40.307-40.308 40.307-22.26 0-40.307-18.045-40.307-40.307 0-22.261 18.047-40.308 40.307-40.308 22.261 0 40.308 18.047 40.308 40.308" />
-                                                            </g>
-												        </svg>
-                                                    )
-                                                    : url.type === "twitter" ? (
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            height="40"
-                                                            width="60"
-                                                            viewBox="-44.7006 -60.54775 387.4052 363.2865"
-												        >
-                                                            <path
-                                                                fill="#000"
-                                                                d="M93.719 242.19c112.46 0 173.96-93.168 173.96-173.96 0-2.646-.054-5.28-.173-7.903a124.338 124.338 0 0030.498-31.66c-10.955 4.87-22.744 8.148-35.11 9.626 12.622-7.57 22.313-19.543 26.885-33.817a122.62 122.62 0 01-38.824 14.841C239.798 7.433 223.915 0 206.326 0c-33.764 0-61.144 27.381-61.144 61.132 0 4.798.537 9.465 1.586 13.941-50.815-2.557-95.874-26.886-126.03-63.88a60.977 60.977 0 00-8.279 30.73c0 21.212 10.794 39.938 27.208 50.893a60.685 60.685 0 01-27.69-7.647c-.009.257-.009.507-.009.781 0 29.61 21.075 54.332 49.051 59.934a61.218 61.218 0 01-16.122 2.152 60.84 60.84 0 01-11.491-1.103c7.784 24.293 30.355 41.971 57.115 42.465-20.926 16.402-47.287 26.171-75.937 26.171-4.929 0-9.798-.28-14.584-.846 27.059 17.344 59.189 27.464 93.722 27.464"
-                                                            />
-												        </svg>
-                                                    )
-                                                    : url.type === "youtube" ? (
-                                                        <svg
-                                                            xmlns="http://www.w3.org/2000/svg"
-                                                            height="40"
-                                                            width="60"
-                                                            viewBox="-18 -8 60 40"
-												        >
-                                                            <path
-                                                                fill="#000"
-                                                                d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"
-                                                            />
-                                                        </svg>
-                                                    )
-                                                    : (url.type)
-                                                }
+                                                {mail.label ? mail.label + ": " : ""}
+                                                <a href={"mailto:" + mail.mail_address}>
+                                                    {mail.mail_address}
                                                 </a>
                                             </span>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                            : ""}
+
+                        {contactItem.urls && contactItem.urls.length > 0
+                            ? <div className="annuaire-website-link">
+                                <div className="annuaire-website-link-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-laptop-fill" viewBox="0 0 16 16">
+                                        <path d="M2.5 2A1.5 1.5 0 0 0 1 3.5V12h14V3.5A1.5 1.5 0 0 0 13.5 2h-11zM0 12.5h16a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 0 12.5z" />
+                                    </svg>
+                                </div>
+                                <ul className="annuaire-website-link-content">
+                                    {contactItem.urls.filter(url => url.type === "website").map(website => {
+                                        return (
+                                            <>
+                                                <li>
+                                                    <a href={website.url} target="_blank">
+                                                        {(website.url)}
+                                                    </a>
+                                                </li>
                                             </>
-                                            );
-                                  })
-                                : ""}
-                        </div>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                            : ""}
+
+                        {/* add social icons */}
+                        {social &&
+                            <div className="annuaire-social-link">
+                                {social.length > 1 ? (
+                                    <ul>
+                                        {social.map(url => {
+                                            return (
+                                                <li>
+                                                    <a href={url.url} target="_blank">
+                                                        {url.type === "facebook" ? (
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                                                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                                                            </svg>
+                                                        )
+                                                            : url.type === "instagram" ? (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                                                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+                                                                </svg>
+                                                            )
+                                                                : url.type === "twitter" ? (
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                                                                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                                                    </svg>
+                                                                )
+                                                                    : url.type === "youtube" ? (
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                                                                            <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z" />
+                                                                        </svg>
+                                                                    )
+                                                                        : url.type === "pinterest" ? (
+                                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pinterest" viewBox="0 0 16 16">
+                                                                                <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z" />
+                                                                            </svg>
+                                                                        )
+                                                                            : ""
+                                                        }
+                                                    </a>
+                                                </li>)
+                                        })}
+                                    </ul>
+                                ) : (
+                                    <div>
+                                        <a href={social[0] && social[0].url} target="_blank">
+                                            {social[0] && social[0].type === "facebook" ? (
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z" />
+                                                </svg>
+                                            )
+                                                : social[0] && social[0].type === "instagram" ? (
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                                        <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.917 3.917 0 0 0-1.417.923A3.927 3.927 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.916 3.916 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.926 3.926 0 0 0-.923-1.417A3.911 3.911 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0h.003zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.47 2.47 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.478 2.478 0 0 1-.92-.598 2.48 2.48 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233 0-2.136.008-2.388.046-3.231.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92.28-.28.546-.453.92-.598.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045v.002zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92zm-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217zm0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334z" />
+                                                    </svg>
+                                                )
+                                                    : social[0] && social[0].type === "twitter" ? (
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-twitter" viewBox="0 0 16 16">
+                                                            <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z" />
+                                                        </svg>
+                                                    )
+                                                        : social[0] && social[0].type === "youtube" ? (
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+                                                                <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z" />
+                                                            </svg>
+                                                        )
+                                                            : social[0] && social[0].type === "pinterest" ? (
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-pinterest" viewBox="0 0 16 16">
+                                                                    <path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.422 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z" />
+                                                                </svg>
+                                                            )
+                                                                : ""
+                                            }
+                                        </a>
+                                    </div>
+                                )
+                                }
+                            </div>
+                        }
+
+                        {/* add topics */}
                         <div className="topics">
                             {contactItem.topics
                                 ? contactItem.topics.map((mail) => {
-                                      return <span>{mail.title}</span>;
-                                  })
+                                    return <span>{mail.title}</span>;
+                                })
                                 : ""}
                         </div>
                     </div>
                 </div>
-                				{/* add files to download */}
-				{
-					files ? (
-						<div className="r-content-files">
-							{files.map((file) => (
-								<div className="r-content-file">
-									<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
-										<span className="r-content-file-title">{file.title}</span>
-										{/* <span className="r-content-file-size">{file.file.size}</span> */}
-										<span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
-									</a>
-								</div>
-							))}
-						</div>
-					) : ("")
-				}
-				{/* add gallery */}
-				{
-					gallery ? (
-					<div className="r-content-gallery">
-						<div className="spotlight-group flexbin r-content-gallery">
-							{gallery.map((image) => (
-								<a className="spotlight" href={image.image_extralarge_scale} >
-									<img src={image.image_preview_scale} />
-								</a>
-							))}
-						</div>
-					</div>
-					) : ("")
-				}
+                {/* add files to download */}
+                {
+                    files ? (
+                        <div className="r-content-files">
+                            {files.map((file) => (
+                                <div className="r-content-file">
+                                    <a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
+                                        <span className="r-content-file-title">{file.title}</span>
+                                        {/* <span className="r-content-file-size">{file.file.size}</span> */}
+                                        <span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
+                                    </a>
+                                </div>
+                            ))}
+                        </div>
+                    ) : ("")
+                }
+                {/* add gallery */}
+                {
+                    gallery ? (
+                        <div className="r-content-gallery">
+                            <div className="spotlight-group flexbin r-content-gallery">
+                                {gallery.map((image) => (
+                                    <a className="spotlight" href={image.image_extralarge_scale} >
+                                        <img src={image.image_preview_scale} />
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    ) : ("")
+                }
             </div>
         </div>
     );
