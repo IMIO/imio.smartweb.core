@@ -115,6 +115,9 @@ article > header {
           .r-item-img{
             width: 100%;
             padding-bottom: 56%;
+            position: relative;
+            z-index: -1;
+            background-color: #000;
             @media screen and (min-width:600px){
               width: 246px;
               height: 149px;
@@ -122,6 +125,10 @@ article > header {
               flex: 246px 0 0;
             }
             background-size: cover;
+            border-radius: 5px;
+            div,img {
+              border-radius: 5px;
+            }
           }
           .r-item-text{
             margin-top: 0.6rem;
@@ -158,8 +165,77 @@ article > header {
   }
 }
 
+// content
+.r-content-description {
+  border-bottom: solid 1px #e6e6e6;
+}
+.contactTextAll {
+  margin-top: 1rem;
+}
+.annuaire-info-title {
+  font-weight: bold;
+}
+.annuaire-website-link,.annaire-adresse,.annuaire-phone,.annuaire-website-mails,.annuaire-social-link {
+  display: flex;
+  gap: 10px;
+  align-items: first baseline;
+  margin-bottom: .5rem;
+}
+.annuaire-phone,.annuaire-website-mails {
+  span {
+    display: block;
+    font-weight: 500;
+    a {
+      font-weight: 400;
+    }
+  }
+}
+.annuaire-website-mails {
+
+  div{
+
+    span {
+      display: block;
+    }
+  }
+}
 
 
+.annuaire-social-link {
+  margin: .5rem 0;
+  ul{
+  display: flex;
+  gap: 10px;
+  margin:0;
+    li{
+      list-style: none;
+    }
+  }
+}
+
+.annuaire-website-link {
+  // display: flex;
+  // gap: 10px;
+  // position: relative;
+  // overflow: hidden;
+  // margin: .5rem 0;
+  ul{
+    // display: flex;
+    // flex-direction: row;
+    // flex-wrap: wrap;
+    // margin-left: -.5em;
+    // margin-bottom: 0;
+    li {
+      // padding: 0 .5em;
+      // text-align: center;
+      // border-left: 1.5px solid #000;
+      // background-color: #fff;
+      list-style: none;
+      // line-height: 0.8;
+      // margin: .3rem 0;
+    }
+  }
+}
 // FOR BLA
 
 .r-wrapper{
@@ -169,7 +245,6 @@ article > header {
       .r-list-item-group{
         .r-list-item{
           .r-item-img{
-            border-radius: 15px 15px 15px 0px;
           }
           .r-item-text{
             font-size: 13px;
