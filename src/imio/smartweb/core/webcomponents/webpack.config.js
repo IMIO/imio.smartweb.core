@@ -136,7 +136,7 @@ module.exports = (env, argv) => {
             maxEntrypointSize: 750 * 1024, // 750 Ko max for entrypoint, if need more, use code-splitting with
         },
         devServer: {
-            port: 3000,
+            port: 2000,
             hot: true,
             watchFiles: {
                 paths: ["./../**/*.pt"], // Also watch for .pt file change
@@ -156,7 +156,7 @@ module.exports = (env, argv) => {
                 },
                 {
                     context: [`**/${BUNDLE_NAME}/**`],
-                    target: "http://localhost:3000",
+                    target: "http://localhost:2000",
                     pathRewrite: function (path) {
                         if (path.includes("++unique++")) {
                             // We need to rewrite the path as Plone 5 add some crap timestamp

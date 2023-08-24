@@ -5,6 +5,9 @@ Changelog
 1.1.20 (unreleased)
 -------------------
 
+- Fix display of hours on events react view
+  [thomlamb]
+
 - Refactor React contact view
   [thomlamb]
 

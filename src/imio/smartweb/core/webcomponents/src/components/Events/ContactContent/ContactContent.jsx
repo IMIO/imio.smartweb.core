@@ -10,15 +10,15 @@ import "../../../../node_modules/flexbin/flexbin.css"
 import { Translate } from "react-translated";
 
 const ContactContent = ({ queryUrl, onChange }) => {
-    let history = useHistory();
-    const queryString = require("query-string");
-    const { u, ...parsed } = Object.assign(
-        { UID : queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
-    );
+	let history = useHistory();
+	const queryString = require("query-string");
+	const { u, ...parsed } = Object.assign(
+		{ UID: queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
+	);
 	const [params, setParams] = useState(parsed);
 	const [contactItem, setcontactItem] = useState({});
 	const [files, setFiles] = useState(0);
-    const [gallery, setGallery] = useState(0);
+	const [gallery, setGallery] = useState(0);
 	const { response, error, isLoading } = useAxios(
 		{
 			method: "get",
@@ -32,8 +32,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 		[]
 	);
 	useEffect(() => {
-        setParams(parsed)
-    }, [queryString.parse(useFilterQuery().toString())['u']]);
+		setParams(parsed)
+	}, [queryString.parse(useFilterQuery().toString())['u']]);
 	// set all contacts state
 	useEffect(() => {
 		if (response !== null) {
@@ -72,6 +72,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 		"+" +
 		contactItem.city
 	itineraryLink = itineraryLink.replaceAll('+null', '')
+
 	return (
 		<div className="envent-content r-content">
 			<button type="button" onClick={handleClick}>
@@ -108,13 +109,27 @@ const ContactContent = ({ queryUrl, onChange }) => {
 							<div className="dpinlb">
 								<div className="r-content-news-info--date">
 									{start === end
-										?(<div>
-												{contactItem.whole_day
-													? (<div className="r-content-date-start">
-															<span>Le&nbsp;</span>
-															<div className="r-time">{start}</div>
-													</div>)
-													: (<div className="r-content-date-one-day">
+										? (<div>
+											{contactItem.whole_day
+												? <div className="r-content-date-start">
+													<span>Le&nbsp;</span>
+													<div className="r-time">{start}</div>
+												</div>
+												: contactItem.open_end ?
+													<>
+														<div className="r-content-date-one-day">
+															<div className="r-content-date-start">
+																<span>Le&nbsp;</span>
+																<div className="r-time">{start}</div>
+																<span>&nbsp;à&nbsp;</span>
+																<div className="r-time-hours">{startHours}</div>
+															</div>
+
+														</div>
+													</>
+													:
+													<>
+														<div className="r-content-date-one-day">
 															<div className="r-content-date-start">
 																<span>Le&nbsp;</span>
 																<div className="r-time">{start}</div>
@@ -125,10 +140,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
 																<span>&nbsp;à&nbsp;</span>
 																<div className="r-time-hours">{endHours}</div>
 															</div>
-													</div>)
-												}
-											</div>)
-										:(<div className="r-content-date-du-au">
+														</div>
+													</>
+											}
+										</div>)
+										: (<div className="r-content-date-du-au">
 											<div className="r-content-date-start">
 												<span>Du&nbsp;</span>
 												<div className="r-time">{start}</div>
@@ -350,8 +366,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						__html: contactItem.text && contactItem.text.data,
 					}}
 				></div>
-								{/* add files to download */}
-								{
+				{/* add files to download */}
+				{
 					files ? (
 						<div className="r-content-files">
 							{files.map((file) => (
@@ -369,15 +385,15 @@ const ContactContent = ({ queryUrl, onChange }) => {
 				{/* add gallery */}
 				{
 					gallery ? (
-					<div className="r-content-gallery">
-						<div className="spotlight-group flexbin r-content-gallery">
-							{gallery.map((image) => (
-								<a className="spotlight" href={image.image_extralarge_scale}>
-									<img src={image.image_preview_scale} />
-								</a>
-							))}
+						<div className="r-content-gallery">
+							<div className="spotlight-group flexbin r-content-gallery">
+								{gallery.map((image) => (
+									<a className="spotlight" href={image.image_extralarge_scale}>
+										<img src={image.image_preview_scale} />
+									</a>
+								))}
+							</div>
 						</div>
-					</div>
 					) : ("")
 				}
 			</article>
