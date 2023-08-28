@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.20 (unreleased)
+1.1.20 (2023-08-28)
 -------------------
 
 - Fix display of hours on events react view
