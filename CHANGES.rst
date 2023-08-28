@@ -5,6 +5,9 @@ Changelog
 1.1.21 (unreleased)
 -------------------
 
+- Add smartweb content types icons
+  [laulaz, boulch]
+
 - Show help & authentic sources menus only if product is installed
   [laulaz, boulch]
 

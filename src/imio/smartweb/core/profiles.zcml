@@ -38,6 +38,14 @@
       />
 
   <genericsetup:registerProfile
+      name="icons-contenttypes"
+      title="imio.smartweb.core content types icons"
+      directory="profiles/icons/contenttypes"
+      description="Installs smartweb content types icons"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
       name="last-compilation"
       title="imio.smartweb.core last compilation dates"
       directory="profiles/last_compilation"

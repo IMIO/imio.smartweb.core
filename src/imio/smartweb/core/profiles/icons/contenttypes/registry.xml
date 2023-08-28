@@ -1,0 +1,195 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="plone.icon.contenttype/imio-smartweb-blocklink">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">BlockLink content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/bounding-box-circles.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-cirkwiview">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">CirkwiView content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/file-person.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-directoryview">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">DirectoryView content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/file-person.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-eventsview">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">EventsView content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/calendar-event.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-folder">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Folder content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/folder2.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-footer">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Footer content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/chevron-bar-down.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-herobanner">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">HeroBanner content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/image-alt.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-newsview">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">NewsView content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/newspaper.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-page">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Page content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/file-earmark.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-portalpage">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">PortalPage content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/file-earmark-image.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-procedure">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Procedure content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/file-earmark-person.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectioncollection">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionCollection content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/collection.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectioncontact">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionContact content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/person-plus.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionevents">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionEvents content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/calendar-event.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionexternalcontent">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionExternalContent content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/window-plus.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionfiles">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionFiles content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/paperclip.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectiongallery">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionGallery content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/images.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionhtml">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionHTML content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/filetype-html.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionlinks">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionLinks content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/link-45deg.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionmap">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionMap content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/map.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionnews">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionNews content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/newspaper.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionpostit">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionPostit content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/stickies.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionselections">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionSelections content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/node-plus.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionsendinblue">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionSendinblue content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/send.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionslide">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionSlide content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/layers.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectiontext">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionText content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/card-text.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionvideo">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionVideo content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/file-play.svg</value>
+    </record>
+
+</registry>
