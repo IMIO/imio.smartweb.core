@@ -605,4 +605,14 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1042"
+      destination="1043"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Install smartweb content types icons"
+        import_profile="imio.smartweb.core:icons-contenttypes"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>
