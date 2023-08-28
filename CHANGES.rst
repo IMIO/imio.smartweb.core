@@ -5,6 +5,9 @@ Changelog
 1.1.21 (unreleased)
 -------------------
 
+- Update compiled resources to fix help menu
+  [boulch]
+
 - Refactor Plausible
   [remdub]
 
