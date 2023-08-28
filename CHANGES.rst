@@ -5,7 +5,8 @@ Changelog
 1.1.21 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Refactor Plausible
+  [remdub]
 
 
 1.1.20 (2023-08-28)
