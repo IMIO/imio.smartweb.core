@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core import config
+from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.viewlets.interfaces import IAuthenticSourcesMenu
 from imio.smartweb.core.viewlets.interfaces import IAuthenticSourcesSubMenuItem
@@ -39,6 +40,8 @@ class AuthenticSourcesMenuItem(BrowserSubMenuItem):
         return "#"
 
     def available(self):
+        if not IImioSmartwebCoreLayer.providedBy(self.request):
+            return False
         permission = "Modify portal content"
         if api.user.has_permission(permission, obj=self.context) is False:
             return False
@@ -128,6 +131,8 @@ class SmartwebHelpMenuItem(BrowserSubMenuItem):
         return "#"
 
     def available(self):
+        if not IImioSmartwebCoreLayer.providedBy(self.request):
+            return False
         permission = "Modify portal content"
         return api.user.has_permission(permission, obj=self.context)
 

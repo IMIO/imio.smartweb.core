@@ -5,6 +5,9 @@ Changelog
 1.1.21 (unreleased)
 -------------------
 
+- Show help & authentic sources menus only if product is installed
+  [laulaz, boulch]
+
 - Update compiled resources to fix help menu
   [boulch]
 
