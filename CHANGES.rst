@@ -5,7 +5,8 @@ Changelog
 1.1.22 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Delete useless css for edition
+  [thomlamb]
 
 
 1.1.21 (2023-08-29)
