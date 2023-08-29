@@ -5,6 +5,9 @@ Changelog
 1.1.22 (unreleased)
 -------------------
 
+- Add smartweb content types icons (Message, MessagesConfig)
+  [boulch]
+
 - Delete useless css for edition
   [thomlamb]
 

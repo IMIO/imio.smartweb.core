@@ -192,4 +192,18 @@
       <value key="resource">++plone++bootstrap-icons/file-play.svg</value>
     </record>
 
+    <record name="plone.icon.contenttype/message">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Message content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/megaphone.svg</value>
+    </record>
+
+    <record name="plone.icon.contenttype/messagesconfig">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">MessagesConfig content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/megaphone-fill.svg</value>
+    </record>
+
 </registry>
