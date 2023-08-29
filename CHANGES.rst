@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.22 (unreleased)
+1.1.22 (2023-08-29)
 -------------------
 
 - Add smartweb content types icons (Message, MessagesConfig)
