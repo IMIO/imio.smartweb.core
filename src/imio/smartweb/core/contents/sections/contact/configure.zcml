@@ -11,6 +11,15 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="contact_macros"
+      for="imio.smartweb.core.contents.ISectionContact"
+      class="imio.smartweb.core.contents.sections.contact.view.ContactView"
+      template="macros.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <!-- Custom add view and form - invoked from ++add++ traverser -->
   <adapter
       for="Products.CMFCore.interfaces.IFolderish

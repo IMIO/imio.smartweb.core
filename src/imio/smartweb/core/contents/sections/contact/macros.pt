@@ -1,0 +1,207 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="imio.smartweb">
+
+  <metal:macro define-macro="contact_body">
+
+    <div tal:define="utils_view context/@@utils;
+                     visible_blocks context/visible_blocks;
+                     show_main_title python:'titles' in visible_blocks;
+                     collapse_klass python: 'collapse' if context.collapsible_section else '';"
+         tal:attributes="class python:'{} {} {} {}'.format('col', 'body-section', contact.contact_type_class, collapse_klass);
+                         id string:body-section-${context/id}"
+         tal:condition="items">
+        <tal:block tal:condition="python:'logo' in visible_blocks">
+          <tal:def tal:define="logo python:contact.logo()">
+            <div class="contact_logo"
+                 tal:condition="logo"
+                 tal:attributes="style string:background-image:url(${logo})">
+            </div>
+            <div class="contact_logo contact_placeholder"
+                 tal:condition="not: logo">
+            </div>
+          </tal:def>
+        </tal:block>
+
+        <tal:block tal:condition="python:'leadimage' in visible_blocks">
+          <tal:def tal:define="leadimage python:contact.leadimage();
+                               portrait_class python:'portrait' if context.is_in_portrait_mode else ''">
+            <div tal:condition="leadimage"
+                 tal:attributes="style string:background-image:url(${leadimage};
+                                 class string:contact_leadimage ${portrait_class}">
+            </div>
+            <div tal:condition="not: leadimage"
+                 tal:attributes="class string:contact_leadimage contact_placeholder ${portrait_class}">
+            </div>
+          </tal:def>
+        </tal:block>
+
+        <div class="contact_titles"
+             tal:condition="python:'titles' in visible_blocks">
+          <h2 tal:define="title python:contact.title"
+              tal:condition="title"
+              tal:content="title"></h2>
+          <div class="contact_subtitle"
+               tal:define="subtitle python:contact.subtitle"
+               tal:condition="subtitle"
+               tal:content="subtitle"></div>
+        </div>
+
+        <div class="contact_informations"
+             tal:condition="python:'contact_informations' in visible_blocks">
+
+          <h2 class="informations"
+              tal:condition="not: show_main_title"
+              i18n:translate="">Contact</h2>
+          <h3 class="informations"
+              tal:condition="show_main_title"
+              i18n:translate="">Contact</h3>
+
+          <span tal:replace="python:contact.vat_number"></span>
+          <ul tal:define="phones python:contact.phones;
+                          mails python:contact.mails;
+                          urls python:contact.urls">
+            <li class="phones"
+                tal:repeat="phone phones"
+                tal:attributes="class python:phone.get('type') or ''">
+              <span tal:replace="python:phone.get('label') or ''"></span>
+              <a tal:attributes="href python:'tel:{}'.format(phone.get('number'))"
+                 tal:content="python:'{}'.format(phone.get('number'))" />
+            </li>
+            <li class="mails"
+                tal:repeat="mail mails"
+                tal:attributes="class python:mail.get('type') or ''">
+              <span tal:replace="python:'{}'.format(mail.get('label') or '')"></span>
+              <a tal:attributes="href  python:'mailto:{}'.format(mail.get('mail_address'))"
+                 tal:content="python:'{}'.format(mail.get('mail_address'))" />
+            </li>
+            <li class="urls"
+                tal:repeat="url urls"
+                tal:attributes="class python:url.get('type') or ''">
+              <a tal:attributes="href python:url.get('url')"
+                 tal:content="python:'{}'.format(url.get('type'))"
+                 target="_blank" />
+            </li>
+          </ul>
+        </div>
+        <div class="address"
+             tal:define="address python:contact.formatted_address()"
+             tal:condition="address">
+          <div class="contact_address"
+               tal:condition="python:'address' in visible_blocks">
+
+            <h2 class="address"
+                tal:condition="not: show_main_title"
+                i18n:translate="">Address</h2>
+            <h3 class="address"
+                tal:condition="show_main_title"
+                i18n:translate="">Address</h3>
+
+            <span class="street" tal:content="address/street"></span>
+            <span class="entity" tal:content="address/entity"></span>
+            <span class="country" tal:content="address/country"></span>
+          </div>
+          <tal:itinerary tal:condition="python:'itinerary' in visible_blocks">
+            <div class="itinerary"
+                 tal:define="link python:contact.get_itinerary_link()"
+                 tal:condition="link">
+              <a href="" target="_blank"
+                 tal:attributes="href link"
+                 i18n:translate="">Itinerary</a>
+            </div>
+          </tal:itinerary>
+        </div>
+
+        <div class="schedule"
+             tal:condition="python:'schedule' in visible_blocks and not contact.is_empty_schedule()">
+
+          <h2 class="schedule"
+              tal:condition="not: show_main_title"
+              i18n:translate="">Schedule</h2>
+          <h3 class="schedule"
+              tal:condition="show_main_title"
+              i18n:translate="">Schedule</h3>
+
+          <div tal:define="opening_informations python:contact.get_opening_informations()">
+            <a class="opening_informations" href="#" tal:content="python:contact.get_schedule_for_today(opening_informations)"></a>
+            <table class="table_schedule" tal:define="table_date python:contact.get_week_days()">
+              <tr tal:repeat="a_date table_date">
+                <td tal:content="python:next(iter(a_date))"></td>
+                <td tal:content="python:contact.formatted_schedule(list(a_date.values())[0])"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div class="contact_map"
+             tal:define="is_geolocated python:contact.is_geolocated"
+             tal:condition="python:is_geolocated and 'map' in visible_blocks">
+          <div class="pat-leaflet map"
+               tal:attributes="data-geojson python:contact.data_geojson()"
+               data-pat-leaflet='${utils_view/map_configuration}'></div>
+        </div>
+
+        <div class="contact_description"
+             tal:condition="python:'description' in visible_blocks">
+          <span tal:define="description python:contact.description"
+                tal:condition="description"
+                tal:replace="structure description" />
+        </div>
+
+        <tal:cond tal:define="thumb_scale context/image_scale;
+                              nb_results_by_batch context/nb_results_by_batch;
+                              images python:contact.images(thumb_scale, nb_results_by_batch);"
+                  tal:condition="python:'gallery' in visible_blocks and images">
+          <div tal:define="nb_class string:nb-items-batch-${nb_results_by_batch};"
+               tal:attributes="class string:${nb_class} contact_gallery">
+            <!-- fix some css for usage in Plone  -->
+            <style type="text/css">
+             #spotlight .header { padding-right: 120px; }
+            </style>
+            <div id="swiper1" class="swiper" style="width:100%"
+                 tal:attributes="data-nb-results-by-batch nb_results_by_batch"
+                 tal:condition="python:context.gallery_mode == 'carousel'">
+              <div class="swiper-wrapper">
+                <tal:bcl tal:repeat="batch images">
+                  <div class="swiper-slide"
+                       tal:repeat="image batch">
+                    <a class="spotlight gallery_item"
+                       tal:attributes="href image/image_large_url">
+                    <div class="swiper-image"
+                         tal:attributes="style string:background-image:url(${image/image_url})">
+                    </div>
+                    </a>
+                  </div>
+                </tal:bcl>
+              </div>
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-prev"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+
+            <div tal:condition="python:context.gallery_mode == 'gallery'"
+                 class="flexbin flexbin-margin">
+              <tal:batch tal:repeat="batch images">
+              <tal:images tal:repeat="image batch">
+                <a class="spotlight gallery_item"
+                   tal:attributes="href image/image_large_url;
+                                   title image/title;
+                                   data-description image/description">
+                  <img tal:attributes="src string:${image/image_url};
+                                       alt image/title;
+                                       title image/title" />
+                </a>
+              </tal:images>
+              </tal:batch>
+            </div>
+          </div>
+        </tal:cond>
+    </div>
+
+
+  </metal:macro>
+
+</html>

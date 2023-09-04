@@ -4,12 +4,12 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from datetime import timedelta
 from freezegun import freeze_time
-from imio.smartweb.core.contents.sections.contact.view import formatted_schedule
-from imio.smartweb.core.contents.sections.contact.view import get_schedule_for_today
+from imio.smartweb.core.contents.sections.contact.utils import ContactProperties
+from imio.smartweb.core.contents.sections.contact.utils import formatted_schedule
+from imio.smartweb.core.contents.sections.contact.utils import get_schedule_for_today
 from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
@@ -56,7 +56,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("My contact", view())
         contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.contacts)
+        self.assertIsNone(contact_view.contacts())
         authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
         contact.related_contacts = [authentic_contact_uid]
         contact_search_url = (
@@ -68,19 +68,15 @@ class TestSectionContact(ImioSmartwebTestCase):
             authentic_contact_uid
         )
         m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.contacts)
+        self.assertIsNone(contact_view.contacts())
         m.get(contact_search_url, status_code=404)
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.contacts)
+        self.assertIsNone(contact_view.contacts())
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.contacts)
-        self.assertEqual(contact_view.contact_type_class, "")
+        self.assertIsNone(contact_view.contacts())
         m.get(contact_search_url, text=json.dumps(self.json_contact))
-        contact_view.set_current_contact(None)
-        self.assertIsNotNone(contact_view.contacts)
-        self.assertEqual(contact_view.contact_type_class, "contact-type-organization")
+        self.assertIsNotNone(contact_view.contacts())
+        json_contact = ContactProperties(self.json_contact.get("items")[0])
+        self.assertEqual(json_contact.contact_type_class, "contact-type-organization")
         self.assertNotIn("contact_titles", view())
         self.assertIn("contact_address", view())
         self.assertIn("contact_informations", view())
@@ -114,29 +110,24 @@ class TestSectionContact(ImioSmartwebTestCase):
 
         contact.visible_blocks = ["titles", "gallery"]
         m.get(contact_images_url, text=json.dumps(self.json_contact_images))
-        contact_view.set_current_contact(None)
         self.assertIn("contact_gallery", view())
-        self.assertEqual(len(contact_view.images[0]), 2)
-        m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.images)
-        m.get(contact_search_url, status_code=404)
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.images)
-        m.get(contact_search_url, text=json.dumps(self.json_no_contact))
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.images)
 
-        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        json_contact = ContactProperties(self.json_contact.get("items")[0])
+        images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
+        self.assertEqual(len(images[0]), 2)
+
+        json_contact = ContactProperties(self.json_contact.get("items")[0])
         m.get(contact_images_url, text=json.dumps(self.json_no_image))
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.images)
+        images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
+        self.assertIsNone(images)
+
         m.get(contact_images_url, status_code=404)
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.images)
+        images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
+        self.assertIsNone(images)
+
         m.get(contact_images_url, exc=requests.exceptions.ConnectTimeout)
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.images)
+        images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
+        self.assertIsNone(images)
 
     def test_toggle_title_visibility(self):
         page = api.content.create(
@@ -192,17 +183,10 @@ class TestSectionContact(ImioSmartwebTestCase):
             title="My contact",
         )
         contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.get_opening_informations())
-        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
-        contact.related_contacts = [authentic_contact_uid]
-        contact_search_url = (
-            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
-                authentic_contact_uid
-            )
+        json_contact = contact_view.get_contact_properties(
+            self.json_contact.get("items")[0]
         )
-        m.get(contact_search_url, text=json.dumps(self.json_contact))
-        contact_view.set_current_contact(None)
-        self.assertIsNotNone(contact_view.get_opening_informations())
+        self.assertIsNotNone(json_contact.get_opening_informations())
 
         today = datetime.now()
         today_str = today.strftime("%Y-%m-%d")
@@ -212,24 +196,27 @@ class TestSectionContact(ImioSmartwebTestCase):
         self.json_contact["items"][0]["exceptional_closure"] = [
             {"date": today_str, "title": "Exceptional closure !"}
         ]
-        m.get(contact_search_url, text=json.dumps(self.json_contact))
-        contact_view.set_current_contact(None)
-        self.assertIsNotNone(contact_view.get_opening_informations())
+        json_contact = contact_view.get_contact_properties(
+            self.json_contact.get("items")[0]
+        )
+        self.assertIsNotNone(json_contact.get_opening_informations())
 
         today = datetime.now().strftime("%Y-%m-%d")
         self.json_contact["items"][0]["multi_schedule"][0]["dates"] = [
             {"end_date": tomorrow_str, "start_date": yesterday_str}
         ]
-        m.get(contact_search_url, text=json.dumps(self.json_contact))
-        contact_view.set_current_contact(None)
-        self.assertIsNotNone(contact_view.get_opening_informations())
+        json_contact = contact_view.get_contact_properties(
+            self.json_contact.get("items")[0]
+        )
+        self.assertIsNotNone(json_contact.get_opening_informations())
 
         self.json_contact["items"][0]["multi_schedule"][0]["dates"] = [
             {"end_date": yesterday_str, "start_date": yesterday_str}
         ]
-        m.get(contact_search_url, text=json.dumps(self.json_contact))
-        contact_view.set_current_contact(None)
-        self.assertIsNotNone(contact_view.get_opening_informations())
+        json_contact = contact_view.get_contact_properties(
+            self.json_contact.get("items")[0]
+        )
+        self.assertIsNotNone(json_contact.get_opening_informations())
 
     # {'afternoonend': '', 'afternoonstart': '', 'comment': 'vendredi : apéro à midi', 'morningend': '11:00', 'morningstart': '08:30'}
     def test_get_schedule_for_today(self):
@@ -404,8 +391,6 @@ class TestSectionContact(ImioSmartwebTestCase):
             type="imio.smartweb.SectionContact",
             title="My contact",
         )
-        contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.get_opening_informations())
         authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
         contact.related_contacts = [authentic_contact_uid]
         contact_search_url = (
@@ -414,30 +399,30 @@ class TestSectionContact(ImioSmartwebTestCase):
             )
         )
         m.get(contact_search_url, text=json.dumps(self.json_contact))
-        contact_view.set_current_contact(None)
+        json_contact = ContactProperties(self.json_contact.get("items")[0])
         with freeze_time("2021-06-30 12:20:00"):
-            schedule = contact_view.get_opening_informations()
+            schedule = json_contact.get_opening_informations()
             self.assertEqual(
                 "13:00 - 17:30 (Ouverture PM)",
-                contact_view.formatted_schedule(schedule),
+                json_contact.formatted_schedule(schedule),
             )
         with freeze_time("2021-07-07 12:20:00"):
-            schedule = contact_view.get_opening_informations()
+            schedule = json_contact.get_opening_informations()
             self.assertEqual(
                 "13:00 - 15:00 (Ouverture PM vacances)",
-                contact_view.formatted_schedule(schedule),
+                json_contact.formatted_schedule(schedule),
             )
         with freeze_time("2021-09-01 12:20:00"):
-            schedule = contact_view.get_opening_informations()
+            schedule = json_contact.get_opening_informations()
             self.assertEqual(
                 "13:00 - 17:30 (Ouverture PM)",
-                contact_view.formatted_schedule(schedule),
+                json_contact.formatted_schedule(schedule),
             )
         with freeze_time("2021-12-29 12:20:00"):
-            schedule = contact_view.get_opening_informations()
+            schedule = json_contact.get_opening_informations()
             self.assertEqual(
                 "13:00 - 15:00 (Ouverture PM vacances)",
-                contact_view.formatted_schedule(schedule),
+                json_contact.formatted_schedule(schedule),
             )
 
     @requests_mock.Mocker()
@@ -451,8 +436,6 @@ class TestSectionContact(ImioSmartwebTestCase):
             title="My contact",
         )
         contact.visible_blocks = ["titles", "gallery", "schedule"]
-        contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.get_opening_informations())
         authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
         contact.related_contacts = [authentic_contact_uid]
         contact_search_url = (
@@ -461,9 +444,9 @@ class TestSectionContact(ImioSmartwebTestCase):
             )
         )
         m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
-        contact_view.set_current_contact(None)
         view = queryMultiAdapter((self.page, self.request), name="full_view")
-        is_empty = contact_view.is_empty_schedule()
+        json_contact = ContactProperties(json_contact_empty_schedule.get("items")[0])
+        is_empty = json_contact.is_empty_schedule()
         self.assertEqual(is_empty, True)
         self.assertNotIn('class="schedule"', view())
         json_contact_empty_schedule["items"][0].get("schedule")["monday"] = {
@@ -474,8 +457,8 @@ class TestSectionContact(ImioSmartwebTestCase):
             "comments": "",
         }
         m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
-        contact_view.set_current_contact(None)
-        is_empty = contact_view.is_empty_schedule()
+        json_contact = ContactProperties(json_contact_empty_schedule.get("items")[0])
+        is_empty = json_contact.is_empty_schedule()
         self.assertEqual(is_empty, False)
         self.assertIn('class="schedule"', view())
 
@@ -520,23 +503,21 @@ class TestSectionContact(ImioSmartwebTestCase):
         annotations = IAnnotations(contact)
         self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
 
-        self.assertIsNotNone(contact_view.contacts)
+        self.assertIsNotNone(contact_view.contacts())
         hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertIsNotNone(hash_1)
         first_modification = self.page.ModificationDate()
 
         sleep(1)
-        contact_view.set_current_contact(None)
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
-        self.assertIsNone(contact_view.contacts)
+        self.assertIsNone(contact_view.contacts())
         next_modification = self.page.ModificationDate()
         hash_2 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertNotEqual(hash_1, hash_2)
         self.assertNotEqual(first_modification, next_modification)
 
         sleep(1)
-        contact_view.set_current_contact(None)
-        self.assertIsNone(contact_view.contacts)
+        self.assertIsNone(contact_view.contacts())
         last_modification = self.page.ModificationDate()
         hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertEqual(hash_2, hash_3)
