@@ -615,4 +615,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Upgrade related_contact to related_contacts"
+      description="Upgrade related_contact to related_contacts which can get most contacts"
+      source="1043"
+      destination="1044"
+      handler=".upgrades.to_related_contacts"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

@@ -11,7 +11,6 @@ from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
-from plone.memoize.view import memoize
 from zope.i18n import translate
 from zope.i18nmessageid import MessageFactory
 
@@ -21,12 +20,15 @@ import json
 class ContactView(HashableJsonSectionView):
     """Contact Section view"""
 
+    _current_contact = None
+
     @property
-    @memoize
-    def contact(self):
-        url = "{}/@search?UID={}&fullobjects=1".format(
-            DIRECTORY_URL, self.context.related_contact
-        )
+    def contacts(self):
+        print("contacts!!!")
+        if self.context.related_contacts is None:
+            return
+        uids = "&UID=".join(self.context.related_contacts)
+        url = "{}/@search?UID={}&fullobjects=1".format(DIRECTORY_URL, uids)
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
             url = f"{url}&translated_in_{current_lang}=1"
@@ -34,11 +36,24 @@ class ContactView(HashableJsonSectionView):
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:  # NOQA
             return
-        return self.json_data.get("items")[0]
+        self._current_contact = self.json_data.get("items")[0]
+        return batch_results(
+            self.json_data.get("items"), self.context.nb_contact_by_line
+        )
+
+    @property
+    def current_contact(self):
+        if self._current_contact is None:
+            self.contacts
+        return self._current_contact
+
+    def set_current_contact(self, current_contact):
+        self._current_contact = current_contact
+        return self._current_contact
 
     @property
     def contact_type_class(self):
-        contact = self.contact
+        contact = self.current_contact
         if contact is None:
             return ""
         contact_type = contact.get("type").get("token")
@@ -46,14 +61,14 @@ class ContactView(HashableJsonSectionView):
 
     @property
     def description(self):
-        contact = self.contact
+        contact = self.current_contact
         if contact is None:
             return ""
         description = rich_description(contact.get("description"))
         return description
 
     def logo(self):
-        contact = self.contact
+        contact = self.current_contact
         if contact is None or contact.get("logo") is None:
             return ""
         modified_hash = hash_md5(contact["modified"])
@@ -61,7 +76,7 @@ class ContactView(HashableJsonSectionView):
         return logo
 
     def leadimage(self):
-        contact = self.contact
+        contact = self.current_contact
         if contact is None or contact.get("image") is None:
             return ""
         modified_hash = hash_md5(contact["modified"])
@@ -70,8 +85,9 @@ class ContactView(HashableJsonSectionView):
 
     def data_geojson(self):
         """Return the contact geolocation as GeoJSON string."""
+        contact = self.current_contact
         current_lang = api.portal.get_current_language()[:2]
-        coordinates = self.contact.get("geolocation")
+        coordinates = contact.get("geolocation")
         longitude = coordinates.get("longitude")
         latitude = coordinates.get("latitude")
         link_text = translate(_("Itinerary"), target_language=current_lang)
@@ -94,7 +110,7 @@ class ContactView(HashableJsonSectionView):
 
     @property
     def images(self):
-        contact = self.contact
+        contact = self.current_contact
         if contact is None:
             return
         contact_url = contact["@id"]
@@ -134,7 +150,7 @@ class ContactView(HashableJsonSectionView):
         )
 
     def get_itinerary_link(self):
-        contact = self.contact
+        contact = self.current_contact
         if contact is None:
             return
         address_parts = [
@@ -153,7 +169,7 @@ class ContactView(HashableJsonSectionView):
 
     def get_opening_informations(self, a_date=None):
         current_date = a_date or date.today()
-        contact = self.contact
+        contact = self.current_contact
         if contact is None:
             return
         schedule = contact.get("schedule")
@@ -220,7 +236,7 @@ class ContactView(HashableJsonSectionView):
         return formatted_schedule(schedule)
 
     def is_empty_schedule(self):
-        contact = self.contact
+        contact = self.current_contact
         if contact is None:
             return
         schedule = contact.get("schedule") or {}
@@ -231,7 +247,7 @@ class ContactView(HashableJsonSectionView):
         return True
 
     def formatted_address(self):
-        contact = self.contact
+        contact = self.current_contact
         street_parts = [
             contact.get("street"),
             contact.get("number") and str(contact.get("number")) or "",

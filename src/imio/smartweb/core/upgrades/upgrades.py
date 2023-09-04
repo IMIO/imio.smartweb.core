@@ -148,3 +148,13 @@ def find_multiple_categories_directory_views(context):
             subject="Multiple contacts categories in directory view",
             body=msg,
         )
+
+
+def to_related_contacts(context):
+    brains = api.content.find(portal_type="imio.smartweb.SectionContact")
+    for brain in brains:
+        obj = brain.getObject()
+        if hasattr(obj, "related_contact"):
+            setattr(obj, "related_contacts", [obj.related_contact])
+            setattr(obj, "nb_contact_by_line", 1)
+            delattr(obj, "related_contact")
