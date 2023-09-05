@@ -14,14 +14,14 @@ from zope.interface import implementer
 class ISectionContact(ISection):
     """Marker interface and Dexterity Python Schema for SectionContact"""
 
-    directives.widget(related_contact=SelectFieldWidget)
-    related_contact = schema.Choice(
-        title=_("Related contact"),
+    directives.widget(related_contacts=SelectFieldWidget)
+    related_contacts = schema.List(
+        title=_("Related contacts"),
         description=_(
-            "Select a contact. If you can't find the contact you want, make sure "
+            "Select contacts. If you can't find contacts you want, make sure "
             """it exists in the directory and that its "state" is published."""
         ),
-        source="imio.smartweb.vocabulary.RemoteContacts",
+        value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.RemoteContacts"),
         required=True,
     )
 
@@ -59,6 +59,14 @@ class ISectionContact(ISection):
         required=True,
         default=3,
         values=[1, 3, 4],
+    )
+
+    nb_contact_by_line = schema.Choice(
+        title=_("Maximum number of contacts by line"),
+        description=_("Maximum number of contacts by line (on PC)"),
+        required=True,
+        default=4,
+        values=[1, 2, 3, 4],
     )
 
     image_scale = schema.Choice(

@@ -5,7 +5,8 @@ Changelog
 1.1.23 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3932 : Transform contact section to contactS section
+  [laulaz, boulch]
 
 
 1.1.22 (2023-08-29)
