@@ -5,6 +5,9 @@ Changelog
 1.1.23 (unreleased)
 -------------------
 
+- WEB-3981 : Add Cognitoforms as an external section
+  [boulch]
+
 - WEB-3932 : Transform contact section to contactS section
   [laulaz, boulch]
 

@@ -11,11 +11,17 @@ import json
 
 class ExternalContentView(SectionView):
     def get_embed_external_content(self, width="100%", height=600):
-        plugins = [EaglebePlugin(), EllohaPlugin(), UnknowServicePlugin()]
+        plugins = [
+            EaglebePlugin(),
+            EllohaPlugin(),
+            CognitoformPlugin(),
+            UnknowServicePlugin(),
+        ]
         extra_params = self.context.external_content_params
         plugin_config = {
             "eaglebeplugin": {"width": width},
             "ellohaplugin": {"width": width, "extra_params": extra_params},
+            "cognitoformplugin": {"width": width, "extra_params": extra_params},
             "unknowserviceplugin": {"width": width},
         }
         embedder = Embedder(plugins=plugins, plugin_config=plugin_config)
@@ -73,6 +79,31 @@ class EllohaPlugin(Plugin):
                 f'constellationTypeModule{cw2}=1; constellationWidgetLoad("ConstellationWidgetContainer{cw1}");'
                 f'constellationWidgetAddEvent(window, "resize", function () {{constellationWidgetSetAppearance("ConstellationWidgetContainer{cw1}");}});</script>'
             )
+        #
+        return None
+
+
+class CognitoformPlugin(Plugin):
+    def __call__(self, parts, config={}):
+        extra_params = config["extra_params"]
+        error_message = '<div class="cognitoform">With a cognitoform plugin, extra params can be void but if you complete it you must specify : scrolling:(yes/no) and overflow:(hidden/scroll/auto)</div>'
+        if "cognitoforms" in parts.netloc:
+            if extra_params is None:
+                return f'<iframe src="{parts.geturl()}" style="border: 0px none; width: {config["width"]}%; overflow: auto;" scrolling="yes"></iframe>'
+            else:
+                if extra_params[0] != "{" or extra_params[-1] != "}":
+                    return error_message
+                try:
+                    res = json.loads(extra_params.lower())
+                except JSONDecodeError:
+                    return error_message
+
+                if res.get("overflow") is None or res.get("scrolling") is None:
+                    return error_message
+
+                overflow = res.get("overflow")
+                scrolling = res.get("scrolling")
+                return f'<iframe src="{parts.geturl()}" style="border: 0px none; width: {config["width"]}%; overflow: {overflow};" scrolling="{scrolling}"></iframe>'
         #
         return None
 
