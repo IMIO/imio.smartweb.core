@@ -5,6 +5,9 @@ Changelog
 1.1.23 (unreleased)
 -------------------
 
+- WEB-3980 : Fix help and authentic sources menus double displaying in folder_contents view
+  [boulch]
+
 - fix calculating image size on loading (add async in useEffect)
   [thomlamb]
 
