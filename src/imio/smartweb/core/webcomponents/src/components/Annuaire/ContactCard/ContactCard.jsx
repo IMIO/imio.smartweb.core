@@ -1,4 +1,4 @@
-import React, { useEffect,useState} from "react";
+import React, { useEffect, useState } from "react";
 
 const ContactCard = ({ contactItem }) => {
     const [image, setImage] = useState(new Image());
@@ -17,82 +17,60 @@ const ContactCard = ({ contactItem }) => {
     const topics = contactItem.topics ? contactItem.topics : "";
     let countryTitle = contactItem.country && contactItem.country.title
     let itineraryLink =
-		"https://www.google.com/maps/dir/?api=1&destination=" +
-		contactItem.street +
-		"+" +
-		contactItem.number +
-		"+" +
-		contactItem.complement +
-		"+" +
-		contactItem.zipcode +
-		"+" +
-		contactItem.city +
+        "https://www.google.com/maps/dir/?api=1&destination=" +
+        contactItem.street +
+        "+" +
+        contactItem.number +
+        "+" +
+        contactItem.complement +
+        "+" +
+        contactItem.zipcode +
+        "+" +
+        contactItem.city +
         "+" +
         countryTitle
 
-	itineraryLink = itineraryLink.replaceAll('+null', '')
-
-    // // set image
-    // useEffect(() => {
-    //         const img = new Image();
-    //         img.src = contactItem.image_affiche_scale 
-    //         ? contactItem.image_affiche_scale 
-    //         : contactItem.logo_thumb_scale 
-    //             ? contactItem.logo_thumb_scale 
-    //             : ""
-    //         img.onload = () => {
-    //             setImage(img);
-    //         };
-    // }, [contactItem]);
-
-    // // set image className
-    // useEffect(() => {
-    //     const img = image
-    //     img.className = img.width < image.height ? "img-contain" : "img-cover"
-    //     setImage(img);
-    // }, [image]);
+    itineraryLink = itineraryLink.replaceAll('+null', '')
 
     // Set image and image className
-useEffect(() => {
-    const loadImage = async () => {
-        const img = new Image();
-        const src = contactItem.image_affiche_scale || contactItem.logo_thumb_scale || "";
+    useEffect(() => {
+        const loadImage = async () => {
+            const img = new Image();
+            const src = contactItem.image_affiche_scale || contactItem.logo_thumb_scale || "";
 
-        img.src = src;
+            img.src = src;
 
-        try {
-            await img.decode(); // Wait for the image to be decoded
-            setImage(img);
-            const imgClassName = img.width < img.height ? "img-contain" : "img-cover";
-            setImageClassName(imgClassName);
-        } catch (error) {
-            // Handle image loading errors here
-            console.error("Error loading image:", error);
+            try {
+                await img.decode(); // Wait for the image to be decoded
+                setImage(img);
+                const imgClassName = img.width < img.height ? "img-contain" : "img-cover";
+                setImageClassName(imgClassName);
+            } catch (error) {
+                // Handle image loading errors here
+                console.error("Error loading image:", error);
+            }
+        };
+
+        if (contactItem) {
+            loadImage();
         }
-    };
-
-    if (contactItem) {
-        loadImage();
-    }
-}, [contactItem]);
-    console.log(image);
-    console.log(imageClassName);
+    }, [contactItem]);
 
     return (
         <div className="r-list-item">
             {image && image.src
-            ? <>
-                <div className="r-item-img">
-                    <div className="r-content-figure-blur"
-                        style={{backgroundImage:"url(" + image.src + ")"}}
-                    />
-                    <img className={"r-content-figure-img" + " " + imageClassName}
+                ? <>
+                    <div className="r-item-img">
+                        <div className="r-content-figure-blur"
+                            style={{ backgroundImage: "url(" + image.src + ")" }}
+                        />
+                        <img className={"r-content-figure-img" + " " + imageClassName}
                             src={image.src} />
-                </div>
-            </>
-            : <>
-                <div className="r-item-img r-item-img-placeholder"></div>
-            </>
+                    </div>
+                </>
+                : <>
+                    <div className="r-item-img r-item-img-placeholder"></div>
+                </>
             }
             <div className="r-item-text">
                 <span className="r-item-title">{title}</span>
@@ -119,22 +97,22 @@ useEffect(() => {
                         <div className="phones">
                             {phones
                                 ? phones.map((phone, i) => {
-                                      return <span key={i}>{phone.number}</span>;
-                                  })
+                                    return <span key={i}>{phone.number}</span>;
+                                })
                                 : ""}
                         </div>
                         <div className="mails">
                             {mails
                                 ? mails.map((mail, i) => {
-                                      return <span key={i}>{mail.mail_address}</span>;
-                                  })
+                                    return <span key={i}>{mail.mail_address}</span>;
+                                })
                                 : ""}
                         </div>
                         <div className="topics">
                             {topics
                                 ? topics.map((mail, i) => {
-                                      return <span key={i}>{mail.title}</span>;
-                                  })
+                                    return <span key={i}>{mail.title}</span>;
+                                })
                                 : ""}
                         </div>
                     </div>
