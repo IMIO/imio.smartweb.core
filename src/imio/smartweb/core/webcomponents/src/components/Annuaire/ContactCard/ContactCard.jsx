@@ -2,6 +2,7 @@ import React, { useEffect,useState} from "react";
 
 const ContactCard = ({ contactItem }) => {
     const [image, setImage] = useState(new Image());
+    const [imageClassName, setImageClassName] = useState("");
     const title = contactItem.title && contactItem.title;
     const category =
         contactItem.taxonomy_contact_category && contactItem.taxonomy_contact_category[0];
@@ -31,25 +32,51 @@ const ContactCard = ({ contactItem }) => {
 
 	itineraryLink = itineraryLink.replaceAll('+null', '')
 
-    // set image
-    useEffect(() => {
-            const img = new Image();
-            img.src = contactItem.image_affiche_scale 
-            ? contactItem.image_affiche_scale 
-            : contactItem.logo_thumb_scale 
-                ? contactItem.logo_thumb_scale 
-                : ""
-            img.onload = () => {
-                setImage(img);
-            };
-    }, [contactItem]);
+    // // set image
+    // useEffect(() => {
+    //         const img = new Image();
+    //         img.src = contactItem.image_affiche_scale 
+    //         ? contactItem.image_affiche_scale 
+    //         : contactItem.logo_thumb_scale 
+    //             ? contactItem.logo_thumb_scale 
+    //             : ""
+    //         img.onload = () => {
+    //             setImage(img);
+    //         };
+    // }, [contactItem]);
 
-    // set image className
-    useEffect(() => {
-        const img = image
-        img.className = img.width < image.height ? "img-contain" : "img-cover"
-        setImage(img);
-    }, [image.width]);
+    // // set image className
+    // useEffect(() => {
+    //     const img = image
+    //     img.className = img.width < image.height ? "img-contain" : "img-cover"
+    //     setImage(img);
+    // }, [image]);
+
+    // Set image and image className
+useEffect(() => {
+    const loadImage = async () => {
+        const img = new Image();
+        const src = contactItem.image_affiche_scale || contactItem.logo_thumb_scale || "";
+
+        img.src = src;
+
+        try {
+            await img.decode(); // Wait for the image to be decoded
+            setImage(img);
+            const imgClassName = img.width < img.height ? "img-contain" : "img-cover";
+            setImageClassName(imgClassName);
+        } catch (error) {
+            // Handle image loading errors here
+            console.error("Error loading image:", error);
+        }
+    };
+
+    if (contactItem) {
+        loadImage();
+    }
+}, [contactItem]);
+    console.log(image);
+    console.log(imageClassName);
 
     return (
         <div className="r-list-item">
@@ -59,7 +86,7 @@ const ContactCard = ({ contactItem }) => {
                     <div className="r-content-figure-blur"
                         style={{backgroundImage:"url(" + image.src + ")"}}
                     />
-                    <img className={"r-content-figure-img" + " " + image.className}
+                    <img className={"r-content-figure-img" + " " + imageClassName}
                             src={image.src} />
                 </div>
             </>

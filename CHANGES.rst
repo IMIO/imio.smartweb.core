@@ -5,6 +5,9 @@ Changelog
 1.1.23 (unreleased)
 -------------------
 
+- fix calculating image size on loading (add async in useEffect)
+  [thomlamb]
+
 - WEB-3981 : Add Cognitoforms as an external section
   [boulch]
 
