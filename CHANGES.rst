@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.23 (unreleased)
+1.1.23 (2023-09-06)
 -------------------
 
 - WEB-3983 : Fix contacts bootstrap grid
