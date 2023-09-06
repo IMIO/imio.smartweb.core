@@ -18,11 +18,11 @@
   <metal:macro use-macro="context/@@sections_macros/section_title" />
     <div class="row"
          tal:repeat="items batch">
-      <span tal:repeat="item items">
+      <tal:loop tal:repeat="item items">
         <metal:macro use-macro="context/@@contact_macros/contact_body"
                      tal:define="section_view nocall:view;
                                  contact python:view.get_contact_properties(item)" />
-      </span>
+      </tal:loop>
     </div>
 </div>
 </metal:content-core>

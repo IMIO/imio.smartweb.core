@@ -5,6 +5,9 @@ Changelog
 1.1.23 (unreleased)
 -------------------
 
+- WEB-3983 : Fix contacts bootstrap grid
+  [boulch]
+
 - WEB-3980 : Fix help and authentic sources menus double displaying in folder_contents view
   [boulch]
 
