@@ -5,7 +5,9 @@ from imio.smartweb.core.contents import IPages
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
 from plone import api
+from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.registry.interfaces import IRegistry
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.schema import getFieldNames
 
@@ -158,3 +160,17 @@ def to_related_contacts(context):
             setattr(obj, "related_contacts", [obj.related_contact])
             setattr(obj, "nb_contact_by_line", 1)
             delattr(obj, "related_contact")
+
+
+def remove_deprecated_cropping_annotations(context):
+    brains = api.content.find(portal_type="imio.smartweb.Folder")
+    for brain in brains:
+        obj = brain.getObject()
+        annotations = IAnnotations(obj)
+        scales = annotations.get(PAI_STORAGE_KEY)
+        if scales is not None and "banner_banner" in scales:
+            del scales["banner_banner"]
+            obj.reindexObject()
+            logger.info(
+                f"Remove deprecated banner_banner cropping annotation on {obj.absolute_url()}"
+            )
