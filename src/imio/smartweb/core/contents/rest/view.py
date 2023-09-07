@@ -23,5 +23,9 @@ class BaseRestView(BrowserView):
         return f"{base_url}/@results-filters"
 
     @property
+    def orientation(self):
+        return self.context.orientation
+
+    @property
     def current_language(self):
         return api.portal.get_current_language()[:2]
