@@ -135,6 +135,22 @@ class BootstrapCSSVocabularyFactory:
 BootstrapCSSVocabulary = BootstrapCSSVocabularyFactory()
 
 
+class OrientationVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("portrait", _("Portrait")),
+            ("landscape", _("Landscape")),
+        ]
+        terms = [
+            SimpleVocabulary.createTerm(value[0], value[0], value[1])
+            for value in values
+        ]
+        return SimpleVocabulary(terms)
+
+
+OrientationVocabulary = OrientationVocabularyFactory()
+
+
 class SubsiteDisplayModeVocabularyFactory:
     def __call__(self, context=None):
         display_mode = [

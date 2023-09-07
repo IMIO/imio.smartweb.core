@@ -163,6 +163,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1045_to_1046"
+      title="Upgrade core from 1045 to 1046"
+      directory="profiles/1045_to_1046"
+      description="Add orientation behavior on elected types"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -632,5 +640,15 @@
       handler=".upgrades.remove_deprecated_cropping_annotations"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1045"
+      destination="1046"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add orientation behavior on elected types"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1045_to_1046"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>
