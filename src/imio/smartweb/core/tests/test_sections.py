@@ -217,7 +217,7 @@ class TestSections(ImioSmartwebTestCase):
         items = view.items()
         self.assertEqual(len(items), 2)
         self.assertEqual(len(items[0]), 3)
-        self.assertEqual(reduce(lambda count, l: count + len(l), items, 0), 6)
+        self.assertEqual(reduce(lambda count, r: count + len(r), items, 0), 6)
         section_collection.nb_results_by_batch = 1
         section_collection.max_nb_batches = 4
         view = queryMultiAdapter((section_collection, self.request), name="table_view")
