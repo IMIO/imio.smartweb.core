@@ -5,7 +5,8 @@ Changelog
 1.1.24 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Remove banner field from cropping editor
+  [laulaz]
 
 
 1.1.23 (2023-09-06)

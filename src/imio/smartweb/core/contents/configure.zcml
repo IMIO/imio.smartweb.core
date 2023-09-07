@@ -8,12 +8,15 @@
   <include package=".sections" />
 
   <unconfigure>
+    <adapter factory="plone.app.imagecropping.dx.CroppingUtilsDexterity" />
     <adapter
         for="plone.dexterity.interfaces.IDexterityContent"
         provides="imio.smartweb.common.interfaces.ICropping"
         factory="imio.smartweb.common.adapters.BaseCroppingProvider"
         />
   </unconfigure>
+
+  <adapter factory=".cropping.SmartwebCroppingUtilsDexterity" />
 
   <adapter
       for="plone.dexterity.interfaces.IDexterityContent"

@@ -3,9 +3,10 @@
 from imio.smartweb.common.interfaces import ICropping
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.tests.utils import get_sections_types
+from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
+from plone.app.imagecropping.interfaces import IImageCroppingUtils
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobImage
@@ -90,13 +91,21 @@ class TestCropping(ImioSmartwebTestCase):
             self.assertEqual([], adapter.get_scales("background_image", self.request))
             self.assertNotIn("banner", adapter.get_scales("image", self.request))
 
+    def test_uncroppable_fields(self):
+        self.folder.banner = NamedBlobImage(**make_named_image("plone.png"))
+        self.folder.image = NamedBlobImage(**make_named_image("plone.png"))
+        adapter = IImageCroppingUtils(self.folder, alternate=None)
+        self.assertIsNotNone(adapter)
+        self.assertEqual(len(list(adapter._image_field_values())), 1)
+        self.assertEqual(adapter.image_field_names(), ["image"])
+
     def test_cropping_view(self):
+        self.folder.banner = NamedBlobImage(**make_named_image("plone.png"))
+        self.folder.image = NamedBlobImage(**make_named_image("plone.png"))
         cropping_view = getMultiAdapter(
             (self.folder, self.request), name="croppingeditor"
         )
         self.assertEqual(len(list(cropping_view._scales("banner"))), 0)
         self.assertEqual(len(list(cropping_view._scales("image"))), 3)
-        cropping_view = getMultiAdapter(
-            (self.page, self.request), name="croppingeditor"
-        )
-        self.assertEqual(len(list(cropping_view._scales("image"))), 3)
+        self.assertNotIn("Banner", cropping_view())
+        self.assertIn("Lead Image", cropping_view())
