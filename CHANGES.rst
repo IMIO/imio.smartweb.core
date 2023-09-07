@@ -5,7 +5,10 @@ Changelog
 1.1.24 (unreleased)
 -------------------
 
-- Remove banner field from cropping editor
+- WEB-3984 : Don't get banner scale anymore. Get full banner image directly
+  [boulch, laulaz]
+
+- WEB-3984 : Remove banner field from cropping editor
   [laulaz]
 
 

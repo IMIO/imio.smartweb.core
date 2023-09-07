@@ -34,7 +34,7 @@ class TestBanner(ImioSmartwebTestCase):
         self.folder.banner = NamedBlobImage(**make_named_image())
         self.assertTrue(viewlet.available())
         self.assertIn(
-            "background-image:url(http://nohost/plone/folder/@@images/banner-1920",
+            "background-image:url(http://nohost/plone/folder/@@images/banner?cache_key=",
             viewlet.background_style(),
         )
         template = self.folder.restrictedTraverse("view")
@@ -124,7 +124,7 @@ class TestBanner(ImioSmartwebTestCase):
         # css_bg_image = f"background-image:url({scale.url});"
         # css_bg_size = "background-size:cover;"
         self.assertIn(
-            "background-image:url(http://nohost/plone/folder/@@images/banner-1920",
+            "background-image:url(http://nohost/plone/folder/@@images/banner?cache_key=",
             subfolder_viewlet.background_style(),
         )
         page_viewlet = BannerViewlet(page, self.request, None, None)
@@ -132,7 +132,7 @@ class TestBanner(ImioSmartwebTestCase):
         self.assertTrue(page_viewlet.available())
         self.assertFalse(page_viewlet.is_banner_locally_hidden)
         self.assertIn(
-            "background-image:url(http://nohost/plone/folder/@@images/banner-1920",
+            "background-image:url(http://nohost/plone/folder/@@images/banner?cache_key=",
             page_viewlet.background_style(),
         )
 

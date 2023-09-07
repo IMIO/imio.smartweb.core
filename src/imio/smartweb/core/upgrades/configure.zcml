@@ -624,4 +624,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Remove deprecated cropping annotations on banner"
+      description="Remove deprecated cropping annotations on banner"
+      source="1044"
+      destination="1045"
+      handler=".upgrades.remove_deprecated_cropping_annotations"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
