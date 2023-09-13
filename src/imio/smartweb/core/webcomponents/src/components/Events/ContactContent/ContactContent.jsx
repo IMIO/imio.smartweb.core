@@ -209,7 +209,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 									</span>
 								</div>
 								<div className="r-content-news-info--email">
-									<a href={`tel:${contactItem.contact_email}`}>
+									<a href={`mailto:${contactItem.contact_email}`}>
 										{contactItem.contact_email}
 									</a>
 								</div>
