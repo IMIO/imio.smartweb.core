@@ -5,6 +5,9 @@ Changelog
 1.1.24 (unreleased)
 -------------------
 
+- WEB-3986 : Fix : email must be open thank to "mailto:" tag instead of "tel:"
+  [boulch]
+
 - WEB-3984 : Remove deprecated cropping annotations on banner
   [boulch, laulaz]
 
