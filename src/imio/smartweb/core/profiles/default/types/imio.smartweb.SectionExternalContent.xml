@@ -27,6 +27,7 @@
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
     <element value="plone.namefromtitle"/>
+    <element value="plone.leadimage"/>
     <element value="plone.locking"/>
     <element value="plone.shortname"/>
     <element value="imio.smartweb.topics"/>

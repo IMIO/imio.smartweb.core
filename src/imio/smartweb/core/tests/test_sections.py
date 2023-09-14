@@ -142,7 +142,7 @@ class TestSections(ImioSmartwebTestCase):
         embedded_content = view.get_embed_external_content()
         self.assertNotIn("iframe", embedded_content)
         self.assertNotIn("class='eaglebe'", embedded_content)
-        self.assertIn("<p class='unknow_service'>Unknow service</p>", embedded_content)
+        self.assertIn('<p class="unknow_service">Unknow service</p>', embedded_content)
 
     def test_map_section(self):
         section = api.content.create(
