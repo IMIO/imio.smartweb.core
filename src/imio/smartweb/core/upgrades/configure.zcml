@@ -167,7 +167,7 @@
       name="upgrade_1045_to_1046"
       title="Upgrade core from 1045 to 1046"
       directory="profiles/1045_to_1046"
-      description="Add orientation behavior on elected types"
+      description="Handle orientations for images scales"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
@@ -646,7 +646,7 @@
       destination="1046"
       profile="imio.smartweb.core:default">
     <genericsetup:upgradeDepends
-        title="Add orientation behavior on elected types"
+        title="Handle orientations for images scales"
         import_profile="imio.smartweb.core.upgrades:upgrade_1045_to_1046"
         />
   </genericsetup:upgradeSteps>

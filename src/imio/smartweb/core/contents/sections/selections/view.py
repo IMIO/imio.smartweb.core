@@ -13,6 +13,7 @@ class SelectionsView(CarouselOrTableSectionView):
     """Selection Section view"""
 
     def items(self):
+        orientation = self.context.orientation
         image_scale = self.image_scale
         items = [rel.to_object for rel in self.context.selected_items]
         results = []
@@ -26,7 +27,9 @@ class SelectionsView(CarouselOrTableSectionView):
             url = item.absolute_url()
             description = item.description or ""
             has_image = True if getattr(item.aq_base, "image", None) else False
-            scale_url = get_scale_url(item, self.request, "image", image_scale)
+            scale_url = get_scale_url(
+                item, self.request, "image", image_scale, orientation
+            )
             results.append(
                 {
                     "title": item.title,

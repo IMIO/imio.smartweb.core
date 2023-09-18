@@ -16,8 +16,9 @@ import json
 
 
 class ContactProperties:
-    def __init__(self, json_dict):
+    def __init__(self, json_dict, section):
         self.contact = json_dict
+        self.context = section
 
     def __getattr__(self, name):
         return self.contact.get(name)
@@ -36,15 +37,15 @@ class ContactProperties:
         if self.contact.get("logo") is None:
             return ""
         modified_hash = hash_md5(self.contact["modified"])
-        logo = f"{self.contact['@id']}/@@images/logo/medium?cache_key={modified_hash}"
+        logo = f"{self.contact['@id']}/@@images/logo/preview?cache_key={modified_hash}"
         return logo
 
     def leadimage(self):
         if self.contact.get("image") is None:
             return ""
         modified_hash = hash_md5(self.contact["modified"])
-        logo = f"{self.contact['@id']}/@@images/image/medium?cache_key={modified_hash}"
-        return logo
+        leadimage = f"{self.contact['@id']}/@@images/image/{self.context.orientation}_affiche?cache_key={modified_hash}"
+        return leadimage
 
     def data_geojson(self):
         """Return the contact geolocation as GeoJSON string."""
@@ -82,9 +83,7 @@ class ContactProperties:
         for image in json_images.get("items"):
             base_url = image["@id"]
             modified_hash = hash_md5(image["modified"])
-            large_url = (
-                f"{base_url}/@@images/image/extralarge?cache_key={modified_hash}"
-            )
+            large_url = f"{base_url}/@@images/image/affiche?cache_key={modified_hash}"
             url = f"{base_url}/@@images/image/{thumb_scale}?cache_key={modified_hash}"
             dict_item = {
                 "title": image["title"],

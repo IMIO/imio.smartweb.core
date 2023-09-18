@@ -6,13 +6,13 @@
     <record name="plone.thumb_scale_listing"
             interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
             field="thumb_scale_listing">
-      <value>liste</value>
+      <value>paysage_liste</value>
     </record>
 
     <record name="plone.thumb_scale_summary"
             interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
             field="thumb_scale_summary">
-      <value>vignette</value>
+      <value>paysage_vignette</value>
     </record>
 
     <record name="plone.types_not_searched"

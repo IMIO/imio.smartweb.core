@@ -40,7 +40,7 @@ const EventsResult = (props) => {
                             {
                                 contactItem.has_leadimage[0] ? (
                                     <div className="r-search-img" style={{
-                                        backgroundImage:"url(" + contactItem._source_url + "/@@images/image/preview" +")"
+                                        backgroundImage:"url(" + contactItem.image_url +")"
                                     }}></div>
                                 ):(
                                     <div className="r-search-img no-search-item-img"></div>

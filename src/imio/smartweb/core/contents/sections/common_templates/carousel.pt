@@ -17,7 +17,8 @@
 
   <div class="container section-container"
        id=""
-       tal:attributes="id string:container-section-${context/id}">
+       tal:attributes="id string:container-section-${context/id};
+                       class string:container section-container display-${context/orientation}">
 
   <tal:if tal:define="show_section python: can_edit_sections or items"
           tal:condition="show_section">

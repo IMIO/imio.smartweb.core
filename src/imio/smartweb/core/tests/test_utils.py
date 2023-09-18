@@ -35,10 +35,12 @@ class TestUtils(ImioSmartwebTestCase):
             type="imio.smartweb.Page",
             id="page",
         )
-        self.assertEqual(get_scale_url(content, self.request, "image", "preview"), "")
+        self.assertEqual(
+            get_scale_url(content, self.request, "image", "preview", ""), ""
+        )
         uuid = IUUID(content)
         brain = api.content.find(UID=uuid)[0]
-        self.assertEqual(get_scale_url(brain, self.request, "image", "preview"), "")
+        self.assertEqual(get_scale_url(brain, self.request, "image", "preview", ""), "")
 
         content.image = NamedBlobImage(**make_named_image())
         content.reindexObject()

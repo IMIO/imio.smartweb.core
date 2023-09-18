@@ -139,7 +139,7 @@ class OrientationVocabularyFactory:
     def __call__(self, context=None):
         values = [
             ("portrait", _("Portrait")),
-            ("landscape", _("Landscape")),
+            ("paysage", _("Paysage")),
         ]
         terms = [
             SimpleVocabulary.createTerm(value[0], value[0], value[1])

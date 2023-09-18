@@ -28,4 +28,4 @@ class ContactView(HashableJsonSectionView):
         )
 
     def get_contact_properties(self, json_dict):
-        return ContactProperties(json_dict)
+        return ContactProperties(json_dict, self.context)

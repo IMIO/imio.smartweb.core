@@ -123,13 +123,14 @@ def get_default_content_id(obj):
         return item and item.getId or ""
 
 
-def get_scale_url(context, request, fieldname, scale):
+def get_scale_url(context, request, fieldname, scale_name, orientation=""):
+    scale_name = "_".join(filter(None, [orientation, scale_name]))
     if IDexterityContent.providedBy(context):
         # get scale url on an object
         images_view = queryMultiAdapter((context, request), name="images")
         if images_view is None:
             return ""
-        scale = images_view.scale(fieldname, scale)
+        scale = images_view.scale(fieldname, scale_name)
         if scale is None:
             return ""
         return scale.url
@@ -146,5 +147,5 @@ def get_scale_url(context, request, fieldname, scale):
             # brain in content listing for example
             modification_date = modification_date()
         modified_hash = hash_md5(modification_date)
-        url = f"{brain.getURL()}/@@images/{fieldname}/{scale}?cache_key={modified_hash}"
+        url = f"{brain.getURL()}/@@images/{fieldname}/{scale_name}?cache_key={modified_hash}"
         return url

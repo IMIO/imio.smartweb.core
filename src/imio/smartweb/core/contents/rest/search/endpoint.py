@@ -4,6 +4,7 @@ from datetime import datetime
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
+from imio.smartweb.core.utils import hash_md5
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.memoize import ram
@@ -157,6 +158,10 @@ class ExtendedSearchHandler(SearchHandler):
             item_uid=item["UID"],
         )
         item["_source_url"] = self._get_source_url(item["path_string"], core)
+        modified_hash = hash_md5(item["modified"])
+        item[
+            "image_url"
+        ] = f'{item["_source_url"]}/@@images/image/vignette?cache_key={modified_hash}'
         return item
 
     @property
@@ -180,6 +185,7 @@ class ExtendedSearchHandler(SearchHandler):
                     "container_uid",
                     "has_leadimage",
                     "path_string",
+                    "modified",
                 ],
                 "selected_news_folders": {
                     "query": [
@@ -200,6 +206,7 @@ class ExtendedSearchHandler(SearchHandler):
                     "container_uid",
                     "has_leadimage",
                     "path_string",
+                    "modified",
                 ],
                 "selected_agendas": {
                     "query": [
@@ -219,6 +226,7 @@ class ExtendedSearchHandler(SearchHandler):
                     "container_uid",
                     "has_leadimage",
                     "path_string",
+                    "modified",
                 ],
                 "selected_entities": {
                     "query": [

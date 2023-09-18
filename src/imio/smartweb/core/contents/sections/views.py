@@ -64,7 +64,7 @@ class CarouselOrTableSectionView(SectionView):
         layout = self.context.getLayout()
         # scales used depend on the batch size
         if layout == "carousel_view":
-            return self.context.nb_results_by_batch == 1 and "slide" or "vignette"
+            return self.context.nb_results_by_batch == 1 and "affiche" or "vignette"
         elif layout == "table_view":
             return self.context.nb_results_by_batch == 1 and "liste" or "vignette"
         else:

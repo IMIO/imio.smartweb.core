@@ -71,8 +71,8 @@ class ISectionContact(ISection):
 
     image_scale = schema.Choice(
         title=_("Image scale for images (only for gallery mode)"),
-        default="preview",
-        vocabulary="plone.app.vocabularies.ImagesScales",
+        default="affiche",
+        vocabulary="imio.smartweb.vocabulary.Scales",
         required=True,
     )
 
