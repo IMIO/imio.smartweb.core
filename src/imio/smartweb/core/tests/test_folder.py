@@ -139,7 +139,7 @@ class TestFolder(ImioSmartwebTestCase):
 
         view = getMultiAdapter((folder, self.request), name="block_view_with_images")
         self.assertIn("newsImage", view())
-        self.assertEqual(view.get_thumb_scale_summary(), "vignette")
+        self.assertEqual(view.get_thumb_scale_summary(), "paysage_vignette")
 
         api.portal.set_registry_record("plone.thumb_scale_summary", "preview")
         annotations = IAnnotations(self.request)

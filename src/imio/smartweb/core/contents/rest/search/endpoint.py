@@ -161,7 +161,7 @@ class ExtendedSearchHandler(SearchHandler):
         modified_hash = hash_md5(item["modified"])
         item[
             "image_url"
-        ] = f'{item["_source_url"]}/@@images/image/vignette?cache_key={modified_hash}'
+        ] = f'{item["_source_url"]}/@@images/image/paysage_vignette?cache_key={modified_hash}'
         return item
 
     @property

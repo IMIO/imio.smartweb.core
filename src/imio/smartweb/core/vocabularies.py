@@ -321,10 +321,11 @@ AlignmentVocabulary = AlignmentVocabularyFactory()
 class ImageSizeVocabularyFactory:
     def __call__(self, context=None):
         image_size = [
-            ("extralarge", _("Full width")),
-            ("large", _("Half page")),
-            ("medium", _("Third page")),
+            ("affiche", _("Full width")),
+            # ("affiche", _("Half page")),  # unique values only (see WEB-3934)
+            ("vignette", _("Third page")),
         ]
+        _("Half page")  # don't throw away term translation
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in image_size]
         return SimpleVocabulary(terms)
 

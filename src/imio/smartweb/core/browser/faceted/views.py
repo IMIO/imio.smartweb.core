@@ -34,6 +34,8 @@ class FacetedView(FolderView):
             images = item.getObject().listFolderContents()
             if not images:
                 return ""
-            scale_url = get_scale_url(images[0], self.request, "image", scale)
+            scale_url = get_scale_url(
+                images[0], self.request, "image", scale, "paysage"
+            )
             return scale_url
-        return get_scale_url(item, self.request, "image", scale)
+        return get_scale_url(item, self.request, "image", scale, "paysage")

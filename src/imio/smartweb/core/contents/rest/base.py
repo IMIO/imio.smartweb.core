@@ -29,13 +29,19 @@ class BaseEndpoint(object):
         modified_hash,
         field="image",
         scales=["vignette", "affiche"],
+        orientation="paysage",
     ):
-        orientation = "paysage"
         """Remove image from result dict and add generated image scales URLs
         with cache key"""
         for scale in scales:
-            cached_scale_url = f"{item['@id']}/@@images/{field}/{orientation}_{scale}?cache_key={modified_hash}"
+            scale_name = "_".join(filter(None, [orientation, scale]))
+            cached_scale_url = (
+                f"{item['@id']}/@@images/{field}/{scale_name}?cache_key={modified_hash}"
+            )
             item[f"{field}_{scale}_scale"] = cached_scale_url
+        item[
+            f"{field}_full_scale"
+        ] = f"{item['@id']}/@@images/{field}/?cache_key={modified_hash}"
         del item[field]
 
     def get_extra_params(self, params):

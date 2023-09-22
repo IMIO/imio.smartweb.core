@@ -191,7 +191,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Alignment", 4)
 
     def test_image_size(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 3)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 2)
 
     def test_concat_category_topics_vocabulary(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 126)

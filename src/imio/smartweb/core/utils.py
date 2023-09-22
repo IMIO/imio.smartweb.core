@@ -127,6 +127,10 @@ def get_scale_url(context, request, fieldname, scale_name, orientation=""):
     scale_name = "_".join(filter(None, [orientation, scale_name]))
     if IDexterityContent.providedBy(context):
         # get scale url on an object
+        if not scale_name:
+            # return the full image
+            modified_hash = hash_md5(context.ModificationDate())
+            return f"{context.absolute_url()}/@@images/{fieldname}/?cache_key={modified_hash}"
         images_view = queryMultiAdapter((context, request), name="images")
         if images_view is None:
             return ""

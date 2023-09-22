@@ -63,7 +63,7 @@ class TestSocial(ImioSmartwebTestCase):
         )
 
         scales = page.restrictedTraverse("@@images")
-        image = scales.scale("image", scale="vignette")
+        image = scales.scale("image", scale="paysage_vignette")
         browser.open(page.absolute_url())
         content = browser.contents
         self.assertIn(f'<meta content="{image.url}" property="og:image"/>', content)
@@ -72,7 +72,7 @@ class TestSocial(ImioSmartwebTestCase):
         folder.image = NamedBlobImage(**make_named_image())
         transaction.commit()
         scales = folder.restrictedTraverse("@@images")
-        image = scales.scale("image", scale="vignette")
+        image = scales.scale("image", scale="paysage_vignette")
         browser.open(folder.absolute_url())
         content = browser.contents
         self.assertIn(f'<meta content="{image.url}" property="og:image"/>', content)

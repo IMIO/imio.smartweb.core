@@ -83,8 +83,8 @@ class ContactProperties:
         for image in json_images.get("items"):
             base_url = image["@id"]
             modified_hash = hash_md5(image["modified"])
-            large_url = f"{base_url}/@@images/image/affiche?cache_key={modified_hash}"
-            url = f"{base_url}/@@images/image/{thumb_scale}?cache_key={modified_hash}"
+            large_url = f"{base_url}/@@images/image/?cache_key={modified_hash}"
+            url = f"{base_url}/@@images/image/paysage_{thumb_scale}?cache_key={modified_hash}"
             dict_item = {
                 "title": image["title"],
                 "description": image["description"],
