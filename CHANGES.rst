@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.24 (unreleased)
+1.1.24 (2023-10-09)
 -------------------
 
 - WEB-3986 : Fix : email must be open thank to "mailto:" tag instead of "tel:"
