@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.25 (unreleased)
+1.1.25 (2023-10-09)
 -------------------
 
 - SUP-32169 : Add new external content plugins : ArcgisPlugin
