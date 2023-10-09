@@ -5,7 +5,8 @@ Changelog
 1.1.25 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-32169 : Add new external content plugins : ArcgisPlugin
+  [boulch]
 
 
 1.1.24 (2023-10-09)

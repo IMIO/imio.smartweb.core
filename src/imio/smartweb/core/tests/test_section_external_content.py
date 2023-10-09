@@ -29,7 +29,7 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
         section_view = queryMultiAdapter((sec, self.request), name="view")
         self.assertEqual(
             section_view.get_embed_external_content(),
-            "<p class='unknow_service'>Unknow service</p>",
+            '<p class="unknow_service">Unknow service</p>',
         )
 
     def test_eaglebe_plugin(self):
@@ -41,7 +41,7 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
         section_view = queryMultiAdapter((sec, self.request), name="view")
         self.assertEqual(
             section_view.get_embed_external_content(),
-            "<p class='unknow_service'>Unknow service</p>",
+            '<p class="unknow_service">Unknow service</p>',
         )
 
         sec.external_content_url = "https://app.eaglebe.com/auth/start"
@@ -63,7 +63,7 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
         section_view = queryMultiAdapter((sec, self.request), name="view")
         self.assertEqual(
             section_view.get_embed_external_content(),
-            '<div class="elloha">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>',
+            '<div class="elloha elloha_error">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>',
         )
 
         # with good extra params
@@ -87,14 +87,14 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
         # with bad params
         sec.external_content_params = "kamoulox"
         section_view = queryMultiAdapter((sec, self.request), name="view")
-        result = '<div class="elloha">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>'
+        result = '<div class="elloha elloha_error">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>'
         self.assertEqual(section_view.get_embed_external_content(), result)
 
         sec.external_content_params = """{
             "ConstellationWidgetContainer" : "11111111-1111-1111-1111-111111111111"
         }"""
         section_view = queryMultiAdapter((sec, self.request), name="view")
-        result = '<div class="elloha">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>'
+        result = '<div class="elloha elloha_error">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>'
         self.assertEqual(section_view.get_embed_external_content(), result)
 
         sec.external_content_params = """{
@@ -102,5 +102,5 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
             "IDOI" : "22222222-2222-2222-2222-222222222222"
         """
         section_view = queryMultiAdapter((sec, self.request), name="view")
-        result = '<div class="elloha">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>'
+        result = '<div class="elloha elloha_error">With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi</div>'
         self.assertEqual(section_view.get_embed_external_content(), result)
