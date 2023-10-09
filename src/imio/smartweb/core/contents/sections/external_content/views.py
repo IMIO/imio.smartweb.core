@@ -80,8 +80,10 @@ class EllohaPlugin(Plugin):
             current_lang = config["current_lang"]
             extra_params = config["extra_params"]
 
-            error_message = "With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi"
-            error_message = translate(_(error_message), target_language=current_lang)
+            error_message = _(
+                "With an elloha plugin, extra params must contain a dictionary with two keys : ConstellationWidgetContainer, Idoi"
+            )
+            error_message = translate(error_message, target_language=current_lang)
             error_message = f'<div class="elloha elloha_error">{error_message}</div>'
 
             if (
@@ -125,8 +127,10 @@ class CognitoformPlugin(Plugin):
             current_lang = config["current_lang"]
             extra_params = config["extra_params"]
 
-            error_message = "With a cognitoform plugin, extra params can be void but if you complete it you must specify : scrolling:(yes/no) and overflow:(hidden/scroll/auto)"
-            error_message = translate(_(error_message), target_language=current_lang)
+            error_message = _(
+                "With a cognitoform plugin, extra params can be void but if you complete it you must specify : scrolling:(yes/no) and overflow:(hidden/scroll/auto)"
+            )
+            error_message = translate(error_message, target_language=current_lang)
             error_message = (
                 f'<div class="cognitoform cognitoform_error">{error_message}</div>'
             )
@@ -160,8 +164,10 @@ class ArcgisPlugin(Plugin):
             extra_params = config["extra_params"]
             url = config["url"]
 
-            error_message = "With arcgis plugin, extra params must contain a dictionary with one key : portal_item_id"
-            error_message = translate(_(error_message), target_language=current_lang)
+            error_message = _(
+                "With arcgis plugin, extra params must contain a dictionary with one key : portal_item_id"
+            )
+            error_message = translate(error_message, target_language=current_lang)
             error_message = f'<div class="arcgis arcgis_error">{error_message}</div>'
 
             if (
@@ -190,8 +196,8 @@ class ArcgisPlugin(Plugin):
 class UnknowServicePlugin(Plugin):
     def __call__(self, parts, config={}):
         current_lang = config["current_lang"]
-        msg = "Unknow service"
-        msg = translate(_(msg), target_language=current_lang)
+        msg = _("Unknow service")
+        msg = translate(msg, target_language=current_lang)
         return f'<p class="unknow_service">{msg}</p>'
 
 

@@ -5,7 +5,8 @@ Changelog
 1.1.26 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix some translations in external content plugins
+  [boulch]
 
 
 1.1.25 (2023-10-09)
