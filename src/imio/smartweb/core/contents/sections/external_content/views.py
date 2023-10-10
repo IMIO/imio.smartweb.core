@@ -184,8 +184,8 @@ class ArcgisPlugin(Plugin):
                 return error_message
 
             portal_item_id = res.get("portal_item_id")
-            msg = "Consult the map"
-            msg = translate(_(msg), target_language=current_lang)
+            msg = _("Consult the map")
+            msg = translate(msg, target_language=current_lang)
             return (
                 f'<a href="{url}/view_arcgis?portal_item_id={portal_item_id}">{msg}</a>'
             )
