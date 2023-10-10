@@ -37,6 +37,17 @@
     />
 
   <browser:viewlet
+    name="imio.smartweb.ogp_header"
+    for="*"
+    view="imio.smartweb.core.interfaces.IOgpViewUtils"
+    manager="plone.app.layout.viewlets.interfaces.IHTTPHeaders"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    template="ogp_tag_header.pt"
+    class=".ogptags.OgpTagsViewlet"
+    permission="zope.Public"
+    />
+
+  <browser:viewlet
       name="imio.smartweb.header_actions"
       for="*"
       manager=".actions.IHeaderActionsViewletsManager"

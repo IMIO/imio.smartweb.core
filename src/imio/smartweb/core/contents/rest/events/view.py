@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.rest.view import BaseRestView
+from imio.smartweb.core.interfaces import IOgpViewUtils
 from plone import api
+from zope.interface import implementer
 
 
+@implementer(IOgpViewUtils)
 class EventsViewView(BaseRestView):
     """EventsView view"""
 

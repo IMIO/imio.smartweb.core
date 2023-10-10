@@ -5,7 +5,8 @@ Changelog
 1.1.29 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3783 : Add new header viewlet to manage og:tags in REACT views
+  [boulch]
 
 
 1.1.28 (2023-10-13)
