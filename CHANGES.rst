@@ -5,6 +5,9 @@ Changelog
 1.1.26 (unreleased)
 -------------------
 
+- Add missing upgrade step to add leadimage behavior on external content section
+  [boulch]
+
 - Fix some translations in external content plugins
   [boulch]
 
