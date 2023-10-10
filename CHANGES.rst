@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.26 (unreleased)
+1.1.26 (2023-10-10)
 -------------------
 
 - Add missing upgrade step to add leadimage behavior on external content section
