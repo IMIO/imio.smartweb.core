@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.27 (unreleased)
+1.1.27 (2023-10-11)
 -------------------
 
 - Add <div> in view_argis.pt template to fix map displaying
