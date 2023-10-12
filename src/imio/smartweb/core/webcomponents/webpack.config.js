@@ -12,7 +12,7 @@ module.exports = (env, argv) => {
     const mode = argv.mode ? argv.mode : "development";
     return {
         mode: mode,
-        entry: ["@babel/polyfill", path.resolve(__dirname, "./src/index.jsx")],
+        entry: ["core-js/stable", path.resolve(__dirname, "./src/index.jsx")],
         output: {
             path: path.resolve(__dirname, "./build"),
             filename: "js/smartweb-webcomponents-compiled.js",
