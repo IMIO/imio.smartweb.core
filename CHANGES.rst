@@ -5,7 +5,8 @@ Changelog
 1.1.28 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3803 : Add upgrade step : collective.pivot.Family content type can be add in an imio.smartweb.Folder
+  [boulch]
 
 
 1.1.27 (2023-10-11)
