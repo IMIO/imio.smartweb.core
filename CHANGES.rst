@@ -5,7 +5,8 @@ Changelog
 1.1.28 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3998 : Set requests timeout to 8'' when we populate RemoteContacts vocabulary
+  [boulch]
 
 
 1.1.27 (2023-10-11)
