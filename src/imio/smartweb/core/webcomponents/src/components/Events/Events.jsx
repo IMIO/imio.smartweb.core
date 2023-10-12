@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
-import ContactContent from "./ContactContent/ContactContent";
-import ContactList from "./ContactList/ContactList";
-import ContactMap from "./ContactMap/ContactMap";
+import EventContent from "./EventContent/EventContent";
+import EventList from "./EventList/EventList";
+import EventMap from "./EventMap/EventMap";
 import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
@@ -114,10 +114,10 @@ function EventsView(props) {
     let MapRender;
     if (contactArray && contactArray.length > 0) {
         listRender = (
-            <ContactList onChange={clickID} contactArray={contactArray} onHover={hoverID} />
+            <EventList onChange={clickID} contactArray={contactArray} onHover={hoverID} />
         );
         MapRender = (
-            <ContactMap
+            <EventMap
                 headerHeight={style.height + portalHeaderHeight}
                 clickId={clickId}
                 hoverId={hoverId}
@@ -129,6 +129,8 @@ function EventsView(props) {
     }
 
     const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
+
+    console.log("effee");
     return (
         <Router>
             <div className="ref">
@@ -169,7 +171,7 @@ function EventsView(props) {
                     <Route path={"/:name"}>
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
-                                <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
+                                <EventContent queryUrl={props.queryUrl} onChange={clickID} />
                             </div>
                             <div
                                 className="r-map annuaire-map"
