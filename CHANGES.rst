@@ -5,6 +5,9 @@ Changelog
 1.1.28 (unreleased)
 -------------------
 
+- WEB-3803 : Add upgrade step : collective.pivot.Family content type can be add in an imio.smartweb.Folder
+  [boulch]
+
 - WEB-3998 : Set requests timeout to 8'' when we populate RemoteContacts vocabulary
   [boulch]
 
