@@ -6,4 +6,11 @@
   <include package=".news" />
   <include package=".search" />
 
+  <adapter
+      for="imio.smartweb.core.contents.IRestView
+           zope.publisher.interfaces.http.IHTTPRequest"
+      provides="zope.publisher.interfaces.IPublishTraverse"
+      factory=".traversal.RestViewTraversable"
+      />
+
 </configure>

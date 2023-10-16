@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents import RestView
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
-from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
@@ -27,5 +27,5 @@ class IDirectoryView(model.Schema):
 
 
 @implementer(IDirectoryView)
-class DirectoryView(Container):
+class DirectoryView(RestView):
     """DirectoryView class"""
