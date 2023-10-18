@@ -347,3 +347,22 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             self.assertEqual(
                 patch_selected_news_folders, response_selected_news_folders
             )
+
+    def test_display_map(self):
+        self.rest_directory = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.DirectoryView",
+            title="directory view",
+        )
+        self.rest_directory.display_map = True
+        view = queryMultiAdapter((self.rest_directory, self.request), name="view")
+        self.assertIn('display_map="True"', view())
+
+        self.rest_events = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            title="events view",
+        )
+        self.rest_events.display_map = True
+        view = queryMultiAdapter((self.rest_events, self.request), name="view")
+        self.assertIn('display_map="True"', view())

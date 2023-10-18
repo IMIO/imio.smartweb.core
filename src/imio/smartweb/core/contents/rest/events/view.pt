@@ -9,7 +9,8 @@
                                        query-filter-url view/local_filters_query_url;
                                        batch-size view/batch_size;
                                        propose-url view/propose_url;
-                                       current-language view/get_current_language;"></smartweb-events>
+                                       current-language view/get_current_language;
+                                       display_map view/display_map;"></smartweb-events>
     </div>
     </metal:main>
   </body>

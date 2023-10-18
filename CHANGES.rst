@@ -5,7 +5,8 @@ Changelog
 1.1.29 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4000 : Add display_map Bool field on directory and events views
+  [boulch]
 
 
 1.1.28 (2023-10-13)
