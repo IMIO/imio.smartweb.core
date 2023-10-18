@@ -23,6 +23,7 @@ class ExternalContentView(SectionView):
             EllohaPlugin(),
             CognitoformPlugin(),
             ArcgisPlugin(),
+            GiveADayPlugin(),
             UnknowServicePlugin(),
         ]
         extra_params = self.context.external_content_params
@@ -44,6 +45,7 @@ class ExternalContentView(SectionView):
                 "current_lang": current_lang,
                 "extra_params": extra_params,
             },
+            "giveadayplugin": {},
             "unknowserviceplugin": {"width": width, "current_lang": current_lang},
         }
         embedder = Embedder(plugins=plugins, plugin_config=plugin_config)
@@ -65,10 +67,8 @@ class EaglebePlugin(Plugin):
     def __call__(self, parts, config={}):
         return None
 
-        if "app.eaglebe.com" in parts.netloc:
-            return f'<iframe class="eaglebe" src="{parts.geturl()}" scrolling="no" width="{config["width"]}">'
-        #
-
+        # if "app.eaglebe.com" in parts.netloc:
+        #    return f'<iframe class="eaglebe" src="{parts.geturl()}" scrolling="no" width="{config["width"]}">'
 
 
 class EllohaPlugin(Plugin):
@@ -190,6 +190,22 @@ class ArcgisPlugin(Plugin):
             msg = translate(msg, target_language=current_lang)
             return (
                 f'<a href="{url}/view_arcgis?portal_item_id={portal_item_id}">{msg}</a>'
+            )
+        #
+        return None
+
+
+class GiveADayPlugin(Plugin):
+    def __call__(self, parts, config={}):
+        if "www.giveaday.be" in parts.netloc:
+            return (
+                '<div id="giveaday-widget"></div>'
+                "<script src=https://www.giveaday.be/assets/giveaday_v1.js></script>"
+                "<script>"
+                "function renderWidget() {"
+                'giveADayWidget.initialize("giveaday-widget", 2924, "organization", "large", "fr","#34B78F");}'
+                "renderWidget();"
+                "</script>"
             )
         #
         return None
