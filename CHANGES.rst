@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.29 (unreleased)
+1.1.29 (2023-10-18)
 -------------------
 
 - SUP-32814 : Add new external content plugins : GiveADayPlugin
