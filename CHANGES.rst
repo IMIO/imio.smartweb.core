@@ -5,6 +5,10 @@ Changelog
 1.1.29 (unreleased)
 -------------------
 
+- SUP-32814 : Add new external content plugins : GiveADayPlugin
+  see : https://github.com/IMIO/imio.smartweb.core/commit/a4dfca2
+  [boulch]
+
 - WEB-4000 : Add display_map Bool field on directory and events views
   [boulch]
 
