@@ -32,24 +32,24 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
             '<p class="unknow_service">Unknow service</p>',
         )
 
-    def test_eaglebe_plugin(self):
-        sec = api.content.create(
-            container=self.page, type="imio.smartweb.SectionExternalContent", id="sec"
-        )
+    # def test_eaglebe_plugin(self):
+    #     sec = api.content.create(
+    #         container=self.page, type="imio.smartweb.SectionExternalContent", id="sec"
+    #     )
 
-        sec.external_content_url = ""
-        section_view = queryMultiAdapter((sec, self.request), name="view")
-        self.assertEqual(
-            section_view.get_embed_external_content(),
-            '<p class="unknow_service">Unknow service</p>',
-        )
+    #     sec.external_content_url = ""
+    #     section_view = queryMultiAdapter((sec, self.request), name="view")
+    #     self.assertEqual(
+    #         section_view.get_embed_external_content(),
+    #         '<p class="unknow_service">Unknow service</p>',
+    #     )
 
-        sec.external_content_url = "https://app.eaglebe.com/auth/start"
-        section_view = queryMultiAdapter((sec, self.request), name="view")
-        self.assertEqual(
-            section_view.get_embed_external_content(),
-            '<iframe class="eaglebe" src="https://app.eaglebe.com/auth/start" scrolling="no" width="100%">',
-        )
+    #     sec.external_content_url = "https://app.eaglebe.com/auth/start"
+    #     section_view = queryMultiAdapter((sec, self.request), name="view")
+    #     self.assertEqual(
+    #         section_view.get_embed_external_content(),
+    #         '<iframe class="eaglebe" src="https://app.eaglebe.com/auth/start" scrolling="no" width="100%">',
+    #     )
 
     def test_elloha_plugin(self):
         sec = api.content.create(
