@@ -20,7 +20,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
     const [social, setSocial] = useState([]);
     const [website, setWebsite] = useState([]);
     const [image, setImage] = useState();
-
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
@@ -56,7 +55,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
         }
     }, [contactItem]);
 
-
     // set social link
     useEffect(() => {
         contactItem.urls && setSocial(contactItem.urls.filter(urls => urls.type !== 'website'));
@@ -75,6 +73,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
         history.push("./");
         onChange(null);
     }
+    // set itinerary
     let countryTitle = contactItem.country && contactItem.country.title
     let itineraryLink =
         "https://www.google.com/maps/dir/?api=1&destination=" +
@@ -91,6 +90,14 @@ const ContactContent = ({ queryUrl, onChange }) => {
         countryTitle
 
     itineraryLink = itineraryLink.replaceAll('+null', '')
+    if (!contactItem.UID) {
+        return <div>Chargement en cours...</div>;
+    }
+    // set schedule order
+    const sort = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+    const scheduleDay = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"];
+    const isHoraireFerme = Object.values(contactItem.schedule).every(day => day.morningstart === "" && day.afternoonstart === "");
+    console.log(isHoraireFerme)
     return (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
@@ -99,11 +106,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
             <article>
                 <header>
                     <h2 className="r-content-title">{contactItem.title}</h2>
-                    {contactItem.subtitle ? (
-                        <h3 className="r-content-subtitle">{contactItem.subtitle}</h3>
-                    ) : (
-                        ""
-                    )}
+                    {contactItem.subtitle && <h3 className="r-content-subtitle">{contactItem.subtitle}</h3>}
                 </header>
                 {contactItem.image_affiche_scale && (
                     <figure className="r-content-figure">
@@ -125,7 +128,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
                     <div className="contactTextAll">
                         <p className="annuaire-info-title">Infos pratiques</p>
                         {contactItem.category ? <span>{contactItem.category}</span> : ""}
-                        {contactItem.street ? (
+                        {/* location */}
+                        {contactItem.street &&
                             <div className="annaire-adresse">
                                 <div className="annaire-adresse-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
@@ -147,11 +151,39 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                 </div>
 
                             </div>
+                        }
+                        {/* schedule */}
+                        {!isHoraireFerme && sort.map((jour, i) => (
+                            <div className="annuaire-schedule">
+                                <ul>
+                                    <li className="annuaire-schedule-row" key={jour}>
+                                        <span className="annuaire-schedule-row-day">{scheduleDay[i]}</span>
+                                        <div className="annuaire-schedule-row-hours">
+                                            {contactItem.schedule[jour].morningstart || contactItem.schedule[jour].afternoonstart ?
+                                                <>
+                                                    <span className="annuaire-schedule-row-morning">
+                                                        {contactItem.schedule[jour].morningstart ? `${contactItem.schedule[jour].morningstart} - ${contactItem.schedule[jour].morningend || 'Fermé'}` : 'Fermé'}
+                                                    </span>
+                                                    <span className="annuaire-schedule-hours-sep"> | </span>
+                                                    <span className="annuaire-schedule-row-afternoon">
+                                                        {contactItem.schedule[jour].afternoonstart ? `${contactItem.schedule[jour].afternoonstart} - ${contactItem.schedule[jour].afternoonend || 'Fermé'}` : 'Fermé'}
+                                                    </span>
+                                                </>
+                                                :
+                                                (
+                                                    <>
+                                                        <span className="annuaire-schedule-row-morning">
+                                                            Fermé
+                                                        </span>
+                                                    </>
+                                                )}
 
-                        ) : (
-                            ""
-                        )}
-
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        ))}
+                        {/* phone */}
                         {contactItem.phones && contactItem.phones.length > 0
                             ? (<div className="annuaire-phone">
                                 <div className="annuaire-phone-icon">
@@ -305,15 +337,13 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                 : ""}
                         </div>
 
-                        {contactItem.logo_thumb_scale ? (
-                                <img
-                                    className="annuaire-logo"
-                                    src={contactItem.logo_thumb_scale}
-                                    alt="Logo"
-                                />
-                        ) : (
-                            ""
-                        )}
+                        {contactItem.logo_thumb_scale &&
+                            <img
+                                className="annuaire-logo"
+                                src={contactItem.logo_thumb_scale}
+                                alt="Logo"
+                            />
+                        }
                     </div>
                 </div>
                 {/* add files to download */}

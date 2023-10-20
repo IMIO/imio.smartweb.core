@@ -178,6 +178,18 @@ article > header {
 .annuaire-info-title {
   font-weight: bold;
 }
+
+//  annuaire content schedule
+.annuaire-schedule {
+  max-width: 230px;
+  .annuaire-schedule-row {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+
+
 .annuaire-website-link,.annaire-adresse,.annuaire-phone,.annuaire-website-mails,.annuaire-social-link {
   display: flex;
   gap: 10px;
