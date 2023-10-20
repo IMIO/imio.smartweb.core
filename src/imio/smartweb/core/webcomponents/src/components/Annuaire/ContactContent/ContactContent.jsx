@@ -14,9 +14,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
         { UID: queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
     );
     const [params, setParams] = useState(parsed);
-    const [contactItem, setcontactItem] = useState({});
-    const [files, setFiles] = useState(0);
-    const [gallery, setGallery] = useState(0);
+    const [item, setitem] = useState({});
+    const [files, setFiles] = useState();
+    const [gallery, setGallery] = useState();
     const [social, setSocial] = useState([]);
     const [website, setWebsite] = useState([]);
     const [image, setImage] = useState();
@@ -40,53 +40,53 @@ const ContactContent = ({ queryUrl, onChange }) => {
     // set all contacts state
     useEffect(() => {
         if (response !== null) {
-            setcontactItem(response.items[0]);
+            setitem(response.items[0]);
         }
         window.scrollTo(0, 0);
     }, [response]);
 
     // set image
     useEffect(() => {
-        if (contactItem.image_affiche_scale) {
+        if (item.image_affiche_scale) {
             const img = new Image();
-            img.src = contactItem.image_affiche_scale
+            img.src = item.image_affiche_scale
             img.onload = () => {
                 setImage(img);
             };
         }
-    }, [contactItem]);
+    }, [item]);
 
 
     // set social link
     useEffect(() => {
-        contactItem.urls && setSocial(contactItem.urls.filter(urls => urls.type !== 'website'));
-        contactItem.urls && setWebsite(contactItem.urls.filter(urls => urls.type === 'website'));
-    }, [contactItem]);
+        item.urls && setSocial(item.urls.filter(urls => urls.type !== 'website'));
+        item.urls && setWebsite(item.urls.filter(urls => urls.type === 'website'));
+    }, [item]);
 
     /// use to set file and gallery items
     useEffect(() => {
-        if (contactItem.items && contactItem.items.length > 0) {
-            setFiles(contactItem.items.filter(files => files['@type'] === 'File'));
-            setGallery(contactItem.items.filter(files => files['@type'] === 'Image'));
+        if (item.items && item.items.length > 0) {
+            setFiles(item.items.filter(files => files['@type'] === 'File'));
+            setGallery(item.items.filter(files => files['@type'] === 'Image'));
         }
-    }, [contactItem]);
+    }, [item]);
 
     function handleClick() {
         history.push("./");
         onChange(null);
     }
-    let countryTitle = contactItem.country && contactItem.country.title
+    let countryTitle = item.country && item.country.title
     let itineraryLink =
         "https://www.google.com/maps/dir/?api=1&destination=" +
-        contactItem.street +
+        item.street +
         "+" +
-        contactItem.number +
+        item.number +
         "+" +
-        contactItem.complement +
+        item.complement +
         "+" +
-        contactItem.zipcode +
+        item.zipcode +
         "+" +
-        contactItem.city +
+        item.city +
         "+" +
         countryTitle
 
@@ -98,20 +98,20 @@ const ContactContent = ({ queryUrl, onChange }) => {
             </button>
             <article>
                 <header>
-                    <h2 className="r-content-title">{contactItem.title}</h2>
-                    {contactItem.subtitle ? (
-                        <h3 className="r-content-subtitle">{contactItem.subtitle}</h3>
+                    <h2 className="r-content-title">{item.title}</h2>
+                    {item.subtitle ? (
+                        <h3 className="r-content-subtitle">{item.subtitle}</h3>
                     ) : (
                         ""
                     )}
                 </header>
-                {contactItem.image_affiche_scale && (
+                {item.image_affiche_scale && (
                     <figure className="r-content-figure">
                         <div
                             className="r-content-figure-blur"
-                            style={{ backgroundImage: "url(" + contactItem.image_affiche_scale + ")" }} />
+                            style={{ backgroundImage: "url(" + item.image_affiche_scale + ")" }} />
                         <img className="r-content-figure-img"
-                            src={contactItem.image_affiche_scale}
+                            src={item.image_affiche_scale}
                             style={{ objectFit: image && image.width >= image.height ? "cover" : "contain" }} />
                     </figure>
                 )}
@@ -120,12 +120,12 @@ const ContactContent = ({ queryUrl, onChange }) => {
             <div className="contactCard">
                 <div className="contactText">
                     <div className="r-content-description">
-                        <ReactMarkdown>{contactItem.description}</ReactMarkdown>
+                        <ReactMarkdown>{item.description}</ReactMarkdown>
                     </div>
                     <div className="contactTextAll">
                         <p className="annuaire-info-title">Infos pratiques</p>
-                        {contactItem.category ? <span>{contactItem.category}</span> : ""}
-                        {contactItem.street ? (
+                        {item.category ? <span>{item.category}</span> : ""}
+                        {item.street ? (
                             <div className="annaire-adresse">
                                 <div className="annaire-adresse-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt-fill" viewBox="0 0 16 16">
@@ -134,15 +134,15 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                 </div>
                                 <div className="annaire-adresse-content">
                                     <a href={itineraryLink} target="_blank">
-                                        {contactItem.number ? <span>{contactItem.number + " "}</span> : ""}
-                                        {contactItem.street ? <span>{contactItem.street + ", "}</span> : ""}
-                                        {contactItem.complement ? (
-                                            <span>{contactItem.complement + ", "}</span>
+                                        {item.number ? <span>{item.number + " "}</span> : ""}
+                                        {item.street ? <span>{item.street + ", "}</span> : ""}
+                                        {item.complement ? (
+                                            <span>{item.complement + ", "}</span>
                                         ) : (
                                             ""
                                         )}
-                                        {contactItem.zipcode ? <span>{contactItem.zipcode + " "}</span> : ""}
-                                        {contactItem.city ? <span>{contactItem.city}</span> : ""}
+                                        {item.zipcode ? <span>{item.zipcode + " "}</span> : ""}
+                                        {item.city ? <span>{item.city}</span> : ""}
                                     </a>
                                 </div>
 
@@ -152,7 +152,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                             ""
                         )}
 
-                        {contactItem.phones && contactItem.phones.length > 0
+                        {item.phones && item.phones.length > 0
                             ? (<div className="annuaire-phone">
                                 <div className="annuaire-phone-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
@@ -160,9 +160,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                     </svg>
                                 </div>
                                 <div className="annuaire-phone-content">
-                                    {contactItem.phones.map((phone) => {
+                                    {item.phones.map((phone, i) => {
                                         return (
-                                            <span>
+                                            <span key={i}>
                                                 {phone.label ? phone.label + ": " : ""}
                                                 <a href={"tel:" + phone.number}>
                                                     {phone.number}
@@ -174,7 +174,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                             </div>)
                             : ""}
 
-                        {contactItem.mails && contactItem.mails.length > 0
+                        {item.mails && item.mails.length > 0
                             ? <div className="annuaire-website-mails">
                                 <div className="annuaire-website-mails-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-envelope-fill" viewBox="0 0 16 16">
@@ -182,9 +182,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                     </svg>
                                 </div>
                                 <div className="annuaire-website-mails-content">
-                                    {contactItem.mails.map((mail) => {
+                                    {item.mails.map((mail, i) => {
                                         return (
-                                            <span>
+                                            <span key={i}>
                                                 {mail.label ? mail.label + ": " : ""}
                                                 <a href={"mailto:" + mail.mail_address}>
                                                     {mail.mail_address}
@@ -196,7 +196,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                             </div>
                             : ""}
 
-                        {contactItem.urls && contactItem.urls.length > 0
+                        {item.urls && item.urls.length > 0
                             ? <div className="annuaire-website-link">
                                 <div className="annuaire-website-link-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-laptop-fill" viewBox="0 0 16 16">
@@ -204,10 +204,10 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                     </svg>
                                 </div>
                                 <ul className="annuaire-website-link-content">
-                                    {contactItem.urls.filter(url => url.type === "website").map(website => {
+                                    {item.urls.filter(url => url.type === "website").map((website, i) => {
                                         return (
                                             <>
-                                                <li>
+                                                <li key={i}>
                                                     <a href={website.url} target="_blank">
                                                         {(website.url)}
                                                     </a>
@@ -224,9 +224,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
                             <div className="annuaire-social-link">
                                 {social.length > 1 ? (
                                     <ul>
-                                        {social.map(url => {
+                                        {social.map((url, i) => {
                                             return (
-                                                <li>
+                                                <li key={i}>
                                                     <a href={url.url} target="_blank">
                                                         {url.type === "facebook" ? (
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
@@ -298,19 +298,19 @@ const ContactContent = ({ queryUrl, onChange }) => {
 
                         {/* add topics */}
                         <div className="topics">
-                            {contactItem.topics
-                                ? contactItem.topics.map((mail) => {
-                                    return <span>{mail.title}</span>;
+                            {item.topics
+                                ? item.topics.map((mail, i) => {
+                                    return <span key={i}>{mail.title}</span>;
                                 })
                                 : ""}
                         </div>
 
-                        {contactItem.logo_thumb_scale ? (
-                                <img
-                                    className="annuaire-logo"
-                                    src={contactItem.logo_thumb_scale}
-                                    alt="Logo"
-                                />
+                        {item.logo_thumb_scale ? (
+                            <img
+                                className="annuaire-logo"
+                                src={item.logo_thumb_scale}
+                                alt="Logo"
+                            />
                         ) : (
                             ""
                         )}
@@ -318,33 +318,30 @@ const ContactContent = ({ queryUrl, onChange }) => {
                 </div>
                 {/* add files to download */}
                 {
-                    files ? (
-                        <div className="r-content-files">
-                            {files.map((file) => (
-                                <div className="r-content-file">
-                                    <a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
-                                        <span className="r-content-file-title">{file.title}</span>
-                                        {/* <span className="r-content-file-size">{file.file.size}</span> */}
-                                        <span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
-                                    </a>
-                                </div>
-                            ))}
-                        </div>
-                    ) : ("")
+                    files &&
+                    <div className="r-content-files">
+                        {files.map((file, i) => (
+                            <div key={i} className="r-content-file">
+                                <a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
+                                    <span className="r-content-file-title">{file.title}</span>
+                                    <span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
+                                </a>
+                            </div>
+                        ))}
+                    </div>
                 }
                 {/* add gallery */}
                 {
-                    gallery ? (
-                        <div className="r-content-gallery">
-                            <div className="spotlight-group flexbin r-content-gallery">
-                                {gallery.map((image) => (
-                                    <a className="spotlight" href={image.image_extralarge_scale} >
-                                        <img src={image.image_preview_scale} />
-                                    </a>
-                                ))}
-                            </div>
+                    gallery &&
+                    <div className="r-content-gallery">
+                        <div className="spotlight-group flexbin r-content-gallery">
+                            {gallery.map((image, i) => (
+                                <a key={i} className="spotlight" href={image.image_extralarge_scale} >
+                                    <img src={image.image_preview_scale} />
+                                </a>
+                            ))}
                         </div>
-                    ) : ("")
+                    </div>
                 }
             </div>
         </div>

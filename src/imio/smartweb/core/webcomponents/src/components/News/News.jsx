@@ -29,8 +29,8 @@ const NewsView = (props) => {
         { b_start: 0, fullobjects: 1 },
         queryString.parse(useFilterQuery().toString())
     );
-    const [contactArray, setcontactArray] = useState([]);
-    const [contactNumber, setcontactNumber] = useState([]);
+    const [itemsArray, setItemsArray] = useState([]);
+    const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
@@ -53,11 +53,11 @@ const NewsView = (props) => {
     useEffect(() => {
         if (response !== null) {
             if (isMore) {
-                setcontactArray((contactArray) => [...contactArray, ...response.items]);
+                setItemsArray((itemsArray) => [...itemsArray, ...response.items]);
             } else {
-                setcontactArray(response.items);
+                setItemsArray(response.items);
             }
-            setcontactNumber(response.items_total);
+            setItemsNumber(response.items_total);
         }
     }, [response]);
 
@@ -89,8 +89,8 @@ const NewsView = (props) => {
     }, [batchStart]);
     // coditional list render
     let listRender;
-    if (contactArray && contactArray.length > 0) {
-        listRender = <NewsList onChange={clickID} contactArray={contactArray} />;
+    if (itemsArray && itemsArray.length > 0) {
+        listRender = <NewsList onChange={clickID} itemsArray={itemsArray} />;
     } else if (!isLoading) {
         listRender = <p><Translate text="Aucune actualité n'a été trouvée" /></p>;
     }
@@ -124,10 +124,10 @@ const NewsView = (props) => {
                                             </div>
                                         )
                                     }
-                                    {contactNumber > 0 ? (
+                                    {itemsNumber > 0 ? (
                                         <p className="r-results-numbers">
-                                            <span>{contactNumber}</span>{" "}
-                                            {contactNumber > 1
+                                            <span>{itemsNumber}</span>{" "}
+                                            {itemsNumber > 1
                                                 ? <Translate text='Actualités trouvées' />
                                                 : <Translate text='Actualité trouvée' />}
                                         </p>
@@ -137,7 +137,7 @@ const NewsView = (props) => {
                                 </div>
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
-                                    {contactNumber - props.batchSize > batchStart ? (
+                                    {itemsNumber - props.batchSize > batchStart ? (
                                         <div>
                                             <span className="no-more-result">
                                                 {isLoading ? divLoader : ""}

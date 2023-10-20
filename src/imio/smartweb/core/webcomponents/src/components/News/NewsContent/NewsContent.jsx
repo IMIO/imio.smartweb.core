@@ -14,9 +14,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
     const parsed = queryString.parse(useFilterQuery().toString());
     const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
     const [params, setParams] = useState(parsed2);
-    const [contactItem, setcontactItem] = useState({});
-    const [files, setFiles] = useState(0);
-    const [gallery, setGallery] = useState(0);
+    const [item, setitem] = useState({});
+    const [files, setFiles] = useState();
+    const [gallery, setGallery] = useState();
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
@@ -31,26 +31,26 @@ const ContactContent = ({ queryUrl, onChange }) => {
     );
     useEffect(() => {
         if (response !== null) {
-            setcontactItem(response.items[0]);
+            setitem(response.items[0]);
         }
         window.scrollTo(0, 0);
     }, [response]);
 
 	/// use to set file and gallery items
 	useEffect(() => {
-        if (contactItem.items && contactItem.items.length > 0) {
-            setFiles(contactItem.items.filter(files => files['@type'] === 'File'));
-            setGallery(contactItem.items.filter(files => files['@type'] === 'Image'));
+        if (item.items && item.items.length > 0) {
+            setFiles(item.items.filter(files => files['@type'] === 'File'));
+            setGallery(item.items.filter(files => files['@type'] === 'Image'));
         }
-    }, [contactItem]);
+    }, [item]);
 
     function handleClick() {
         history.push("./");
         onChange(null);
     }
 	moment.locale('fr')
-    const created = moment(contactItem.created).startOf('minute').fromNow();
-    const lastModified = moment(contactItem.modified).startOf('minute').fromNow();
+    const created = moment(item.created).startOf('minute').fromNow();
+    const lastModified = moment(item.modified).startOf('minute').fromNow();
 
     return (
         <div className="new-content r-content">
@@ -59,17 +59,17 @@ const ContactContent = ({ queryUrl, onChange }) => {
             </button>
             <article>
                 <header>
-                    <h2 className="r-content-title">{contactItem.title}</h2>
+                    <h2 className="r-content-title">{item.title}</h2>
                     <div className="r-content-description">
-					    <ReactMarkdown>{contactItem.description}</ReactMarkdown>
+					    <ReactMarkdown>{item.description}</ReactMarkdown>
 				    </div>
                 </header>
                 <figure>
                     <div
                         className="r-content-img"
                         style={{
-                            backgroundImage: contactItem.image_affiche_scale
-                                ? "url(" + contactItem.image_affiche_scale + ")"
+                            backgroundImage: item.image_affiche_scale
+                                ? "url(" + item.image_affiche_scale + ")"
                                 : "",
                         }}
                     />
@@ -113,8 +113,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 							</div>
 						</div>
 						{/* link  */}
-						{contactItem.site_url === null &&
-							contactItem.video_url === null ? (
+						{item.site_url === null &&
+							item.video_url === null ? (
 							""
 						) : (
 							<div className="r-content-news-info-link">
@@ -127,36 +127,36 @@ const ContactContent = ({ queryUrl, onChange }) => {
 									</svg>
 								</div>
 								<div className="dpinlb">
-									{contactItem.site_url === null ? (
+									{item.site_url === null ? (
 										""
 									) : (
 										<div className="r-content-news-info-event_link">
-											<a href={contactItem.site_url}>{contactItem.site_url}</a>
+											<a href={item.site_url}>{item.site_url}</a>
 										</div>
 									)}
-									{contactItem.video_url === null ? (
+									{item.video_url === null ? (
 										""
 									) : (
 										<div className="r-content-news-info--video">
-											<a href={contactItem.video_url}>Lien vers la vidéo</a>
+											<a href={item.video_url}>Lien vers la vidéo</a>
 										</div>
 									)}
 								</div>
 							</div>
 						)}
 						{/* Social */}
-						{contactItem.facebook === null &&
-							contactItem.instagram === null &&
-							contactItem.twitter === null ? (
+						{item.facebook === null &&
+							item.instagram === null &&
+							item.twitter === null ? (
 							""
 						) : (
 							<div className="r-content-news-info-social">
 								<ul>
-									{!contactItem.facebook ? (
+									{!item.facebook ? (
 										""
 									) : (
 										<li>
-											<a href={contactItem.facebook} target="_blank">
+											<a href={item.facebook} target="_blank">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													height="800"
@@ -175,11 +175,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
 											</a>
 										</li>
 									)}
-									{!contactItem.instagram ? (
+									{!item.instagram ? (
 										""
 									) : (
 										<li>
-											<a href={contactItem.instagram} target="_blank">
+											<a href={item.instagram} target="_blank">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													height="800"
@@ -194,11 +194,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
 											</a>
 										</li>
 									)}
-									{!contactItem.twitter ? (
+									{!item.twitter ? (
 										""
 									) : (
 										<li>
-											<a href={contactItem.twitter} target="_blank">
+											<a href={item.twitter} target="_blank">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													height="800"
@@ -221,38 +221,35 @@ const ContactContent = ({ queryUrl, onChange }) => {
                 <div
                     className="r-content-text"
                     dangerouslySetInnerHTML={{
-                        __html: contactItem.text && contactItem.text.data,
+                        __html: item.text && item.text.data,
                     }}
                 ></div>
 				{/* add files to download */}
 				{
-					files ? (
+					files &&
 						<div className="r-content-files">
-							{files.map((file) => (
+							{files.map((file, i) => (
 								<div className="r-content-file">
-									<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
+									<a key={i} href={file.targetUrl} className="r-content-file-link" rel="nofollow">
 										<span className="r-content-file-title">{file.title}</span>
-										{/* <span className="r-content-file-size">{file.file.size}</span> */}
 										<span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
 									</a>
 								</div>
 							))}
 						</div>
-					) : ("")
 				}
 				{/* add gallery */}
 				{
-					gallery ? (
+					gallery &&
 					<div className="r-content-gallery">
 						<div class="spotlight-group flexbin r-content-gallery">
-							{gallery.map((image) => (
-								<a class="spotlight" href={image.image_extralarge_scale} >
+							{gallery.map((image,i) => (
+								<a key={i} class="spotlight" href={image.image_extralarge_scale} >
 									<img src={image.image_preview_scale} />
 								</a>
 							))}
 						</div>
 					</div>
-					) : ("")
 				}
             </article>
         </div>

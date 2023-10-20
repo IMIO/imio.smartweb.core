@@ -1,35 +1,35 @@
 import React from "react";
 import moment from "moment";
 import Moment from "react-moment";
-const ContactCard = ({ contactItem }) => {
-    const title = contactItem.title && contactItem.title;
+const ContactCard = ({ item }) => {
+    const title = item.title && item.title;
     const category =
-        contactItem.taxonomy_contact_category && contactItem.taxonomy_contact_category[0];
-    const start = moment(contactItem.start && contactItem.start);
+        item.taxonomy_contact_category && item.taxonomy_contact_category[0];
+    const start = moment(item.start && item.start);
 
-    const number = contactItem.number ? contactItem.number : "";
-    const street = contactItem.street ? contactItem.street : "";
-    const complement = contactItem.complement ? contactItem.complement : "";
-    const zipcode = contactItem.zipcode ? contactItem.zipcode : "";
-    const city = contactItem.city ? contactItem.city : "";
-    const country = contactItem.country ? contactItem.country : "";
-    const phones = contactItem.phones ? contactItem.phones : "";
-    const mails = contactItem.mails ? contactItem.mails : "";
-    const topics = contactItem.topics ? contactItem.topics : "";
+    const number = item.number ? item.number : "";
+    const street = item.street ? item.street : "";
+    const complement = item.complement ? item.complement : "";
+    const zipcode = item.zipcode ? item.zipcode : "";
+    const city = item.city ? item.city : "";
+    const country = item.country ? item.country : "";
+    const phones = item.phones ? item.phones : "";
+    const mails = item.mails ? item.mails : "";
+    const topics = item.topics ? item.topics : "";
     return (
         <div className="r-list-item">
             <div
-                className={contactItem.image_preview_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
+                className={item.image_preview_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
-                    backgroundImage: contactItem.image_preview_scale
-                        ? "url(" + contactItem.image_preview_scale + ")"
+                    backgroundImage: item.image_preview_scale
+                        ? "url(" + item.image_preview_scale + ")"
                         : "",
                 }}
             />
 
             <div className="r-item-text">
-                {contactItem.category ? (
-                    <span className="r-item-categorie">{contactItem.category.title}</span>
+                {item.category ? (
+                    <span className="r-item-categorie">{item.category.title}</span>
                 ) : (
                     ""
                 )}

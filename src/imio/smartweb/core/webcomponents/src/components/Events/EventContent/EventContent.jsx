@@ -16,9 +16,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
 		{ UID: queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
 	);
 	const [params, setParams] = useState(parsed);
-	const [contactItem, setcontactItem] = useState({});
-	const [files, setFiles] = useState(0);
-	const [gallery, setGallery] = useState(0);
+	const [item, setitem] = useState({});
+	const [files, setFiles] = useState();
+	const [gallery, setGallery] = useState();
 	const { response, error, isLoading } = useAxios(
 		{
 			method: "get",
@@ -37,40 +37,40 @@ const ContactContent = ({ queryUrl, onChange }) => {
 	// set all contacts state
 	useEffect(() => {
 		if (response !== null) {
-			setcontactItem(response.items[0]);
+			setitem(response.items[0]);
 		}
 		window.scrollTo(0, 0);
 	}, [response]);
 
 	/// use to set file and gallery items
 	useEffect(() => {
-		if (contactItem.items && contactItem.items.length > 0) {
-			setFiles(contactItem.items.filter(files => files['@type'] === 'File'));
-			setGallery(contactItem.items.filter(files => files['@type'] === 'Image'));
+		if (item.items && item.items.length > 0) {
+			setFiles(item.items.filter(files => files['@type'] === 'File'));
+			setGallery(item.items.filter(files => files['@type'] === 'Image'));
 		}
-	}, [contactItem]);
+	}, [item]);
 
 	function handleClick() {
 		history.push("./");
 		onChange(null);
 	}
 	moment.locale('be');
-	const start = moment.utc(contactItem.start).format('DD-MM-YYYY');
-	const end = moment.utc(contactItem.end).format('DD-MM-YYYY');
-	const startHours = moment.utc(contactItem.start).format('LT');
-	const endHours = moment.utc(contactItem.end).format('LT');
+	const start = moment.utc(item.start).format('DD-MM-YYYY');
+	const end = moment.utc(item.end).format('DD-MM-YYYY');
+	const startHours = moment.utc(item.start).format('LT');
+	const endHours = moment.utc(item.end).format('LT');
 
 	let itineraryLink =
 		"https://www.google.com/maps/dir/?api=1&destination=" +
-		contactItem.street +
+		item.street +
 		"+" +
-		contactItem.number +
+		item.number +
 		"+" +
-		contactItem.complement +
+		item.complement +
 		"+" +
-		contactItem.zipcode +
+		item.zipcode +
 		"+" +
-		contactItem.city
+		item.city
 	itineraryLink = itineraryLink.replaceAll('+null', '')
 
 	return (
@@ -80,14 +80,14 @@ const ContactContent = ({ queryUrl, onChange }) => {
 			</button>
 			<article>
 				<header>
-					<h2 className="r-content-title">{contactItem.title}</h2>
+					<h2 className="r-content-title">{item.title}</h2>
 				</header>
 				<figure>
 					<div
 						className="r-content-img"
 						style={{
-							backgroundImage: contactItem.image_affiche_scale
-								? "url(" + contactItem.image_affiche_scale + ")"
+							backgroundImage: item.image_affiche_scale
+								? "url(" + item.image_affiche_scale + ")"
 								: "",
 						}}
 					/>
@@ -110,12 +110,12 @@ const ContactContent = ({ queryUrl, onChange }) => {
 								<div className="r-content-news-info--date">
 									{start === end
 										? (<div>
-											{contactItem.whole_day
+											{item.whole_day
 												? <div className="r-content-date-start">
 													<span>Le&nbsp;</span>
 													<div className="r-time">{start}</div>
 												</div>
-												: contactItem.open_end ?
+												: item.open_end ?
 													<>
 														<div className="r-content-date-one-day">
 															<div className="r-content-date-start">
@@ -160,7 +160,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						</div>
 						{/* adress */}
 						<div className="r-content-news-info-aera">
-							{contactItem.street ? (
+							{item.street ? (
 								<div className="icon-baseline">
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -175,7 +175,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 
 							<div className="dpinlb">
 								<div className="r-content-news-info--itinirary">
-									{contactItem.street ? (
+									{item.street ? (
 										<a href={itineraryLink} target="_blank">
 											<span>Itinéraire</span>
 										</a>
@@ -183,7 +183,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 										""
 									)}
 								</div>
-								{contactItem.reduced_mobility_facilities === true ? (
+								{item.reduced_mobility_facilities === true ? (
 									<div className="r-content-news-info--reduced">
 										<span><Translate text="Accessible aux PMR" /></span>
 									</div>
@@ -199,26 +199,26 @@ const ContactContent = ({ queryUrl, onChange }) => {
 							</div>
 							<div className="dpinlb">
 								<div className="r-content-news-info--name">
-									<span>{contactItem.contact_name}</span>
+									<span>{item.contact_name}</span>
 								</div>
 								<div className="r-content-news-info--phone">
 									<span>
-										<a href={`tel:${contactItem.contact_phone}`}>
-											{contactItem.contact_phone}
+										<a href={`tel:${item.contact_phone}`}>
+											{item.contact_phone}
 										</a>
 									</span>
 								</div>
 								<div className="r-content-news-info--email">
-									<a href={`mailto:${contactItem.contact_email}`}>
-										{contactItem.contact_email}
+									<a href={`mailto:${item.contact_email}`}>
+										{item.contact_email}
 									</a>
 								</div>
 							</div>
 						</div>
 						{/* link  */}
-						{contactItem.event_url === null &&
-							contactItem.online_participation === null &&
-							contactItem.video_url === null ? (
+						{item.event_url === null &&
+							item.online_participation === null &&
+							item.video_url === null ? (
 							""
 						) : (
 							<div className="r-content-news-info-link">
@@ -231,27 +231,27 @@ const ContactContent = ({ queryUrl, onChange }) => {
 									</svg>
 								</div>
 								<div className="dpinlb">
-									{contactItem.event_url === null ? (
+									{item.event_url === null ? (
 										""
 									) : (
 										<div className="r-content-news-info-event_link">
-											<a href={contactItem.event_url}><Translate text="Lien de l'événement" /></a>
+											<a href={item.event_url}><Translate text="Lien de l'événement" /></a>
 										</div>
 									)}
-									{contactItem.online_participation === null ? (
+									{item.online_participation === null ? (
 										""
 									) : (
 										<div className="r-content-news-info--online_participation">
-											<a href={contactItem.online_participation}>
+											<a href={item.online_participation}>
 												<Translate text="Participation en ligne" />
 											</a>
 										</div>
 									)}
-									{contactItem.video_url === null ? (
+									{item.video_url === null ? (
 										""
 									) : (
 										<div className="r-content-news-info--video">
-											<a href={contactItem.video_url}><Translate text="Lien vers la vidéo" /></a>
+											<a href={item.video_url}><Translate text="Lien vers la vidéo" /></a>
 										</div>
 									)}
 								</div>
@@ -259,18 +259,18 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						)}
 
 						{/* Social */}
-						{contactItem.facebook === null &&
-							contactItem.instagram === null &&
-							contactItem.twitter === null ? (
+						{item.facebook === null &&
+							item.instagram === null &&
+							item.twitter === null ? (
 							""
 						) : (
 							<div className="r-content-news-info-social">
 								<ul>
-									{!contactItem.facebook ? (
+									{!item.facebook ? (
 										""
 									) : (
 										<li>
-											<a href={contactItem.facebook} target="_blank">
+											<a href={item.facebook} target="_blank">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													height="800"
@@ -289,11 +289,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
 											</a>
 										</li>
 									)}
-									{!contactItem.instagram ? (
+									{!item.instagram ? (
 										""
 									) : (
 										<li>
-											<a href={contactItem.instagram} target="_blank">
+											<a href={item.instagram} target="_blank">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													height="800"
@@ -308,11 +308,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
 											</a>
 										</li>
 									)}
-									{!contactItem.twitter ? (
+									{!item.twitter ? (
 										""
 									) : (
 										<li>
-											<a href={contactItem.twitter} target="_blank">
+											<a href={item.twitter} target="_blank">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
 													height="800"
@@ -333,9 +333,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					</div>
 					{/* booking */}
 					<div className="r-content-news-info-action">
-						{contactItem.ticket_url ? (
+						{item.ticket_url ? (
 							<div className="r-content-booking">
-								<a href={contactItem.ticket_url}>
+								<a href={item.ticket_url}>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
 										viewBox="0 0 19.41 19.41"
@@ -358,43 +358,38 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					</div>
 				</div>
 				<div className="r-content-description">
-					<ReactMarkdown>{contactItem.description}</ReactMarkdown>
+					<ReactMarkdown>{item.description}</ReactMarkdown>
 				</div>
 				<div
 					className="r-content-text"
 					dangerouslySetInnerHTML={{
-						__html: contactItem.text && contactItem.text.data,
+						__html: item.text && item.text.data,
 					}}
 				></div>
 				{/* add files to download */}
-				{
-					files ? (
-						<div className="r-content-files">
-							{files.map((file) => (
-								<div className="r-content-file">
-									<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
-										<span className="r-content-file-title">{file.title}</span>
-										{/* <span className="r-content-file-size">{file.file.size}</span> */}
-										<span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
-									</a>
-								</div>
-							))}
-						</div>
-					) : ("")
+				{files &&
+					<div className="r-content-files">
+						{files.map((file, i) => (
+							<div key={i} className="r-content-file">
+								<a href={file.targetUrl} className="r-content-file-link" rel="nofollow">
+									<span className="r-content-file-title">{file.title}</span>
+									<span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
+								</a>
+							</div>
+						))}
+					</div>
 				}
 				{/* add gallery */}
-				{
-					gallery ? (
-						<div className="r-content-gallery">
-							<div className="spotlight-group flexbin r-content-gallery">
-								{gallery.map((image) => (
-									<a className="spotlight" href={image.image_extralarge_scale}>
-										<img src={image.image_preview_scale} />
-									</a>
-								))}
-							</div>
+				{gallery &&
+					<div className="r-content-gallery">
+						<div className="spotlight-group flexbin r-content-gallery">
+							{gallery.map((image, i) => (
+								<a key={i} className="spotlight" href={image.image_extralarge_scale}>
+									<img src={image.image_preview_scale} />
+								</a>
+							))}
 						</div>
-					) : ("")
+					</div>
 				}
 			</article>
 		</div>

@@ -1,32 +1,32 @@
 import React, { useEffect, useState } from "react";
 
-const ContactCard = ({ contactItem }) => {
+const ContactCard = ({ item }) => {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
-    const title = contactItem.title && contactItem.title;
+    const title = item.title && item.title;
     const category =
-        contactItem.taxonomy_contact_category && contactItem.taxonomy_contact_category[0];
-    const number = contactItem.number ? contactItem.number : "";
-    const street = contactItem.street ? contactItem.street : "";
-    const complement = contactItem.complement ? contactItem.complement : "";
-    const zipcode = contactItem.zipcode ? contactItem.zipcode : "";
-    const city = contactItem.city ? contactItem.city : "";
-    const country = contactItem.country ? contactItem.country : "";
-    const phones = contactItem.phones ? contactItem.phones : "";
-    const mails = contactItem.mails ? contactItem.mails : "";
-    const topics = contactItem.topics ? contactItem.topics : "";
-    let countryTitle = contactItem.country && contactItem.country.title
+        item.taxonomy_contact_category && item.taxonomy_contact_category[0];
+    const number = item.number ? item.number : "";
+    const street = item.street ? item.street : "";
+    const complement = item.complement ? item.complement : "";
+    const zipcode = item.zipcode ? item.zipcode : "";
+    const city = item.city ? item.city : "";
+    const country = item.country ? item.country : "";
+    const phones = item.phones ? item.phones : "";
+    const mails = item.mails ? item.mails : "";
+    const topics = item.topics ? item.topics : "";
+    let countryTitle = item.country && item.country.title
     let itineraryLink =
         "https://www.google.com/maps/dir/?api=1&destination=" +
-        contactItem.street +
+        item.street +
         "+" +
-        contactItem.number +
+        item.number +
         "+" +
-        contactItem.complement +
+        item.complement +
         "+" +
-        contactItem.zipcode +
+        item.zipcode +
         "+" +
-        contactItem.city +
+        item.city +
         "+" +
         countryTitle
 
@@ -36,7 +36,7 @@ const ContactCard = ({ contactItem }) => {
     useEffect(() => {
         const loadImage = async () => {
             const img = new Image();
-            const src = contactItem.image_affiche_scale || contactItem.logo_thumb_scale || "";
+            const src = item.image_affiche_scale || item.logo_thumb_scale || "";
 
             img.src = src;
 
@@ -51,10 +51,10 @@ const ContactCard = ({ contactItem }) => {
             }
         };
 
-        if (contactItem) {
+        if (item) {
             loadImage();
         }
-    }, [contactItem]);
+    }, [item]);
 
     return (
         <div className="r-list-item">
