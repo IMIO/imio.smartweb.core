@@ -5,7 +5,8 @@ Changelog
 1.1.30 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3999 : Keep order of contacts in its view through manualy sorted related_contacts in edit form
+  [boulch]
 
 
 1.1.29 (2023-10-18)

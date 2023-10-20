@@ -40,6 +40,7 @@ class TestSectionContact(ImioSmartwebTestCase):
             id="page",
         )
         self.json_contact = get_json("resources/json_contact_raw_mock.json")
+        self.json_contacts = get_json("resources/json_contacts_raw_mock.json")
         self.json_no_contact = get_json("resources/json_no_contact_raw_mock.json")
         self.json_contact_images = get_json(
             "resources/json_contact_images_raw_mock.json"
@@ -128,6 +129,48 @@ class TestSectionContact(ImioSmartwebTestCase):
         m.get(contact_images_url, exc=requests.exceptions.ConnectTimeout)
         images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
         self.assertIsNone(images)
+
+    @requests_mock.Mocker()
+    def test_sorted_contacts(self, m):
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertIsNone(contact_view.contacts())
+        authentic_contact_uid = [
+            "2dc381f0fb584381b8e4a19c84f53b35",
+            "af7bd1f547034b24a2e0da16c0ba0358",
+        ]
+        contact.related_contacts = authentic_contact_uid
+        uids = "&UID=".join(contact.related_contacts)
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(uids)
+        )
+        m.get(contact_search_url, text=json.dumps(self.json_contacts))
+        self.assertIsNotNone(contact_view.contacts())
+        # contact_view.contacts()[0][0] : first contact of first bash
+        self.assertEqual(
+            contact.related_contacts[0], contact_view.contacts()[0][0].get("UID")
+        )
+
+        # Change sort order
+        authentic_contact_uid = [
+            "af7bd1f547034b24a2e0da16c0ba0358",
+            "2dc381f0fb584381b8e4a19c84f53b35",
+        ]
+        contact.related_contacts = authentic_contact_uid
+        uids = "&UID=".join(contact.related_contacts)
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(uids)
+        )
+        m.get(contact_search_url, text=json.dumps(self.json_contacts))
+        self.assertIsNotNone(contact_view.contacts())
+        # contact_view.contacts()[0][0] : first contact of first bash
+        self.assertEqual(
+            contact.related_contacts[0], contact_view.contacts()[0][0].get("UID")
+        )
 
     def test_toggle_title_visibility(self):
         page = api.content.create(
