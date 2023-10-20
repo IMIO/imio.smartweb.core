@@ -1,4 +1,4 @@
-import ContactCard from "../ContactCard/ContactCard";
+import EventCard from "../EventCard/EventCard";
 import { Link } from "react-router-dom";
 import React from "react";
 import removeAccents from "remove-accents";
@@ -32,7 +32,7 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
                                 },
                             }}
                         ></Link>
-                        <ContactCard contactItem={contactItem} key={contactItem.created} />
+                        <EventCard contactItem={contactItem} key={contactItem.created} />
                     </li>
                 ))}
             </ul>

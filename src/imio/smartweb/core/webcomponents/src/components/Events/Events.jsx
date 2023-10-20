@@ -130,7 +130,6 @@ function EventsView(props) {
 
     const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
 
-    console.log("effee");
     return (
         <Router>
             <div className="ref">
