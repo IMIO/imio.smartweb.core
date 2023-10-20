@@ -3,7 +3,7 @@
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.app.z3cform.widget import SelectFieldWidget
+from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
@@ -14,14 +14,18 @@ from zope.interface import implementer
 class ISectionContact(ISection):
     """Marker interface and Dexterity Python Schema for SectionContact"""
 
-    directives.widget(related_contacts=SelectFieldWidget)
+    directives.widget(
+        "related_contacts",
+        AjaxSelectFieldWidget,
+        source="imio.smartweb.vocabulary.RemoteContacts",
+    )
     related_contacts = schema.List(
         title=_("Related contacts"),
         description=_(
             "Select contacts. If you can't find contacts you want, make sure "
             """it exists in the directory and that its "state" is published."""
         ),
-        value_type=schema.Choice(vocabulary="imio.smartweb.vocabulary.RemoteContacts"),
+        value_type=schema.Choice(source="imio.smartweb.vocabulary.RemoteContacts"),
         required=True,
     )
 
