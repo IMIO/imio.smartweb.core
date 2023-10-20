@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import ReactMarkdown from 'react-markdown';
 
-const ContactCard = ({ contactItem }) => {
+const NewsCard = ({ contactItem }) => {
     const [limitDescription, setLimitDescription] = useState();
     const numberLimit = 150;
     const title = contactItem.title && contactItem.title;
@@ -75,4 +75,4 @@ const ContactCard = ({ contactItem }) => {
     );
 };
 
-export default ContactCard;
+export default NewsCard;

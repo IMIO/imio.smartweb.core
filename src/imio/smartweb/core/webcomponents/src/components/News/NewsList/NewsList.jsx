@@ -1,8 +1,8 @@
-import ContactCard from "../ContactCard/ContactCard";
+import NewsCard from "../NewsCard/NewsCard";
 import { Link } from "react-router-dom";
 import React from "react";
 import removeAccents from "remove-accents";
-const ContactList = ({ contactArray, onChange, parentCallback }) => {
+const NewsList = ({ contactArray, onChange, parentCallback }) => {
     function handleClick(event) {
         onChange(event);
     }
@@ -26,7 +26,7 @@ const ContactList = ({ contactArray, onChange, parentCallback }) => {
                                 },
                             }}
                         >
-                        <ContactCard contactItem={contactItem} key={contactItem.created} />
+                        <NewsCard contactItem={contactItem} key={contactItem.created} />
                         </Link>
                     </li>
                 ))}
@@ -34,4 +34,4 @@ const ContactList = ({ contactArray, onChange, parentCallback }) => {
         </React.Fragment>
     );
 };
-export default ContactList;
+export default NewsList;

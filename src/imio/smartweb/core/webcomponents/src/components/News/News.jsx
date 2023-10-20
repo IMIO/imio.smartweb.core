@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
-import ContactContent from "./ContactContent/ContactContent";
-import ContactList from "./ContactList/ContactList";
+import NewsContent from "./NewsContent/NewsContent";
+import NewsList from "./NewsList/NewsList";
 import useAxios from "../../hooks/useAxios";
 import "./News.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
@@ -90,7 +90,7 @@ const NewsView = (props) => {
     // coditional list render
     let listRender;
     if (contactArray && contactArray.length > 0) {
-        listRender = <ContactList onChange={clickID} contactArray={contactArray} />;
+        listRender = <NewsList onChange={clickID} contactArray={contactArray} />;
     } else if (!isLoading) {
         listRender = <p><Translate text="Aucune actualité n'a été trouvée" /></p>;
     }
@@ -104,7 +104,7 @@ const NewsView = (props) => {
                     <div className="r-result r-annuaire-result">
                         <Switch>
                             <Route path={"/:name"}>
-                                <ContactContent
+                                <NewsContent
                                     onChange={clickID}
                                     onReturn={filtersChange}
                                     queryUrl={props.queryUrl}
