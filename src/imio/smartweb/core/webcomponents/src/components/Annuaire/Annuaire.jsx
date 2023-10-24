@@ -37,7 +37,7 @@ function AnnuaireView(props) {
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
     const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
-    const { response, error, isLoading, isMore } = useAxios(
+    const { response, isLoading, isMore } = useAxios(
         {
             method: "get",
             url: "",
@@ -76,7 +76,7 @@ function AnnuaireView(props) {
     // set state filters when active filter selection
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
-        setBatchStart((batchStart) => 0);
+        setBatchStart(() => 0);
         setFilters(value);
         window.scrollTo(0, 0);
     };
@@ -149,7 +149,7 @@ function AnnuaireView(props) {
                         {props.proposeUrl &&
                             (
                                 <div className="r-add-contact">
-                                    <a target="_blank" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
+                                    <a target="_blank" rel="noreferrer" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
                                 </div>
                             )
                         }

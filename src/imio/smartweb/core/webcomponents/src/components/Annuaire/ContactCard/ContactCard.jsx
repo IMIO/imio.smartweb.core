@@ -11,7 +11,6 @@ const ContactCard = ({ item }) => {
     const complement = item.complement ? item.complement : "";
     const zipcode = item.zipcode ? item.zipcode : "";
     const city = item.city ? item.city : "";
-    const country = item.country ? item.country : "";
     const phones = item.phones ? item.phones : "";
     const mails = item.mails ? item.mails : "";
     const topics = item.topics ? item.topics : "";
@@ -85,7 +84,7 @@ const ContactCard = ({ item }) => {
                             {zipcode ? <span>{zipcode + " "}</span> : ""}
                             {city ? <span>{city}</span> : ""}
                             <div className="itineraty">
-                                <a href={itineraryLink} target="_blank">
+                                <a href={itineraryLink} target="_blank" rel="noreferrer">
                                     Itinéraire
                                 </a>
                             </div>
