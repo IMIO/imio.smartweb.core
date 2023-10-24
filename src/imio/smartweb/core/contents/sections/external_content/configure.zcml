@@ -11,4 +11,12 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="view_arcgis"
+      for="*"
+      class="imio.smartweb.core.contents.sections.external_content.views.ArcgisView"
+      template="view_arcgis.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
 </configure>

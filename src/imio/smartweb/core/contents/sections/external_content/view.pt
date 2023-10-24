@@ -10,16 +10,21 @@
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
 <metal:macro use-macro="context/@@sections_macros/section_edition" />
-<div class="container section-container section-video"
+<div class="container section-container section-external-content"
      id=""
      tal:attributes="id string:container-section-${context/id}">
+
+
+    <tal:check tal:condition="view/has_leadimage">
+        <img tal:attributes="src view/image" />
+    </tal:check>
 
   <metal:macro use-macro="context/@@sections_macros/section_title" />
 
   <p tal:replace="structure context/@@description" />
 
   <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else ''"
-       tal:attributes="class string:body-section ratio ratio-16x9 ${collapse_klass};
+       tal:attributes="class string:body-section ratio ${collapse_klass};
                        id string:body-section-${context/id}"
        tal:content="structure view/get_embed_external_content" />
 

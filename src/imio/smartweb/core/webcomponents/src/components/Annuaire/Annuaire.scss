@@ -153,6 +153,11 @@ article > header {
               .r-item-adresse{
                 width: 36%;
               }
+              .phones {
+                display: flex;
+                gap: 0 5px;
+                flex-wrap: wrap;
+              }
               .mails{
                 display: flex;
                 flex-direction: column;
@@ -171,8 +176,18 @@ article > header {
 }
 .contactTextAll {
   margin-top: 1rem;
+  position: relative;
+  @media screen and (min-width:700px) {
+    padding-right: 128px;
+  }
     .annuaire-logo {
       margin-top: .5rem;
+      max-width: 128px;
+      @media screen and (min-width:700px) {
+        position: absolute;
+        top: 0;
+        right: 0;
+      }
     }
 }
 .annuaire-info-title {
@@ -324,5 +339,88 @@ article > header {
     @media screen and (max-width:1200px){
     height: 50vh!important;
     }
+  }
+}
+
+
+
+// //  No Map
+//   // Main
+.no-map {
+  @media screen and (min-width: 600px) {
+    .r-annuaire-wrapper {
+        display: block;
+    }
+    .r-wrapper {
+      .r-result-list {
+          max-width: 1296px;
+          display: grid;
+          grid-template-columns: repeat(auto-fill,minmax(244px,1fr));
+          gap: 20px;
+      }
+      .r-list-item-group {
+        display: block!important;
+          transition: all .2s ease;
+          &:hover,&:focus {
+              transform: translateY(-10px)!important;
+          }
+          .r-list-item {
+              flex-direction: column!important;
+              box-shadow: 0 8px 26px rgba(0, 0, 0, 0.08);
+              .r-item-img {
+                  flex: inherit;
+                  width: 100%!important;
+                  aspect-ratio: 5 / 3;
+                  margin-bottom: 0;
+                  height: auto;
+              }
+              .r-item-text {
+                  display: block;
+                  margin-right: 1.5rem;
+                  margin-bottom: .5rem;
+                  margin-top: .5rem;
+                  &:after {
+                    display: none;
+                  }
+                  .r-item-categorie {
+                    margin-bottom: .25rem;
+                    margin-top: .25rem;
+                  } 
+                  .r-item-title {
+                      margin-bottom: .25rem;
+                      margin-top: .25rem;
+                      font-size: 16px;
+                  }
+                  .r-item-all {
+                    display: block!important;
+                    .r-item-adresse {
+                      margin-bottom: .25rem;
+                      margin-top: .25rem;
+                      width: auto;
+                    }
+                    .phones{
+
+                    }
+                    .mails,.phones,.topics {
+                      margin-bottom: .25rem;
+                      margin-top: .25rem;
+                    }
+                  }
+              }
+          }
+      }
+    }
+  }
+}
+
+// content
+
+.no-map {
+  .r-result.r-annuaire-result {
+    max-width: 1296px;
+  }
+  .annuaire-content {
+    max-width: 700px;
+    margin: 0 auto;
   }
 }

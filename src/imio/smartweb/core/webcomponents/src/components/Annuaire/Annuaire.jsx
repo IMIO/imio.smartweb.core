@@ -19,6 +19,7 @@ export default function Annuaire(props) {
                     queryUrl={props.queryUrl}
                     proposeUrl={props.proposeUrl}
                     batchSize={props.batchSize}
+                    displayMap={props.displayMap}
                 />
             </Provider>
         </Router>
@@ -37,7 +38,8 @@ function AnnuaireView(props) {
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
     const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
-    const { response, isLoading, isMore } = useAxios(
+    const displayMap =  props.displayMap === "True" ? true : false;
+    const { response, error, isLoading, isMore } = useAxios(
         {
             method: "get",
             url: "",
@@ -131,7 +133,7 @@ function AnnuaireView(props) {
     const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
     return (
         <Router>
-            <div className="ref">
+            <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
                 <div
                     className="r-result-filter-container"
                     ref={filterRef}
@@ -171,7 +173,7 @@ function AnnuaireView(props) {
                             <div className="r-result r-annuaire-result">
                                 <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
                             </div>
-                            <div
+                            {displayMap && <div
                                 className="r-map annuaire-map"
                                 style={{
                                     top: style.height + portalHeaderHeight,
@@ -179,7 +181,7 @@ function AnnuaireView(props) {
                                 }}
                             >
                                 {MapRender}
-                            </div>
+                            </div>}
                         </div>
                     </Route>
                     <Route exact path="*">
@@ -203,7 +205,7 @@ function AnnuaireView(props) {
                                     )}
                                 </div>
                             </div>
-                            <div
+                            {displayMap && <div
                                 className="r-map annuaire-map"
                                 style={{
                                     top: style.height + portalHeaderHeight,
@@ -211,7 +213,7 @@ function AnnuaireView(props) {
                                 }}
                             >
                                 {MapRender}
-                            </div>
+                            </div>}
                         </div>
                     </Route>
                 </Switch>

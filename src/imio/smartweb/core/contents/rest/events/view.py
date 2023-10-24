@@ -10,3 +10,7 @@ class EventsViewView(BaseRestView):
     @property
     def propose_url(self):
         return api.portal.get_registry_record("smartweb.propose_events_url")
+
+    @property
+    def display_map(self):
+        return self.context.display_map

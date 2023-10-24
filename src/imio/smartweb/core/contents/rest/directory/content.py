@@ -25,6 +25,13 @@ class IDirectoryView(model.Schema):
         title=_("Number of items to display"), default=20, required=True
     )
 
+    display_map = schema.Bool(
+        title=_("Display map"),
+        description=_("If selected, map will be displayed"),
+        required=False,
+        default=True,
+    )
+
 
 @implementer(IDirectoryView)
 class DirectoryView(Container):

@@ -312,6 +312,13 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         ) : (
                             ""
                         )}
+                        {contactItem.logo_thumb_scale && 
+                                <img
+                                    className="annuaire-logo"
+                                    src={contactItem.logo_thumb_scale}
+                                    alt="Logo"
+                                />
+                        }
                     </div>
                 </div>
                 {/* add files to download */}

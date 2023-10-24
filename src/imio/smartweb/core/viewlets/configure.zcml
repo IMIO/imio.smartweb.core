@@ -26,6 +26,17 @@
       />
 
   <browser:viewlet
+    name="imio.smartweb.arcgis_header"
+    for="*"
+    view="imio.smartweb.core.interfaces.IArcgisViewUtils"
+    manager="plone.app.layout.viewlets.interfaces.IHTTPHeaders"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    template="arcgis_header.pt"
+    class=".external_content.ArcgisHeaderViewlet"
+    permission="zope.Public"
+    />
+
+  <browser:viewlet
       name="imio.smartweb.header_actions"
       for="*"
       manager=".actions.IHeaderActionsViewletsManager"

@@ -1,0 +1,143 @@
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- FontAwesome CSS -->
+	<link rel="stylesheet" href="../assets/fontawesome-free-6.4.0-web/css/all.css" rel="stylesheet">
+
+	<!-- Bootstrap CSS -->
+	<!--link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous"-->
+	<!-- Latest compiled and minified CSS -->
+	<!--script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script-->
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.27/esri/themes/light/main.css" />
+    <!--link rel="stylesheet" href="https://www.brabantwallon.be/carto/portail/viewer/assets/css/style.css" /-->
+  <style>
+    #viewDiv {
+      top: 71px;
+      height: calc(100% - 71px);
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+    }
+
+    .navbar-viewer {
+      height: 71px;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      background-image: url('../../../assets/img/navapp.png');
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    .container-fluid{
+      overflow: hidden;
+    }
+
+    .action-button {
+      font-size: 16px;
+      background-color: transparent;
+      border: 1px solid #d3d3d3;
+      color: #6e6e6e;
+      height: 32px;
+      width: 32px;
+      text-align: center;
+      box-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+    }
+
+    .action-button:hover,
+    .action-button:focus {
+      background: #0079c1;
+      color: #e4e4e4;
+    }
+
+    .active {
+      background: #0079c1;
+      color: #e4e4e4;
+    }
+
+    #toolbar {
+      height: 50px;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: end;
+    }
+
+    #backbar {
+      position: fixed;
+      height: 35px;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      bottom: 0;
+    }
+
+    #backbar a {
+      padding: 0;
+      margin: 0;
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    #linkBack {
+      width: 250px;
+      height: 100%;
+      padding: 5px 20px;
+      background-color: #006F7F;
+      border-radius: 20px 20px 0 0;
+    }
+
+    #linkBack i {
+      margin-right: 15px;
+    }
+
+    #disciplines-filter {
+      height: 240px;
+      width: 150px;
+      visibility: hidden;
+      overflow: scroll;
+    }
+
+    .discipline-item {
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      vertical-align: baseline;
+      cursor: pointer;
+      height: 40px;
+      background-color: #ffffff;
+    }
+
+    .discipline-item:focus {
+      background-color: dimgrey;
+    }
+
+    .discipline-item:hover {
+      background-color: dimgrey;
+    }
+
+    #titleDiv {
+      padding: 20px;
+      background-color: #006F7F;
+      color: #FFFFFF;
+      border-radius: 5px;
+    }
+
+    #titleText {
+      font-size: 20pt;
+      font-weight: 100;
+      padding-bottom: 10px;
+    }
+  </style>
+  <!--script src="https://js.arcgis.com/4.27/"></script-->
+  <!-- src="https://www.brabantwallon.be/carto/portail/viewer/assets/js/data_voiriesv.js" -->
+
+
+	<title>Portail CADPAT - Cellule Cartographie (s32)</title>
