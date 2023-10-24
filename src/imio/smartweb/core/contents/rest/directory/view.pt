@@ -9,7 +9,7 @@
                                        batch-size view/batch_size;
                                        propose-url view/propose_url;
                                        current-language view/get_current_language;
-                                       display_map view/display_map;"></smartweb-annuaire>
+                                       display-map view/display_map;"></smartweb-annuaire>
   </div>
 </metal:main>
 </body>
