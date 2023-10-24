@@ -5,6 +5,9 @@ Changelog
 1.1.30 (unreleased)
 -------------------
 
+- Adaptation of react to show or hide the map
+  [thomlamb]
+
 - WEB-3999 : Keep order of contacts in its view through manualy sorted related_contacts in edit form
   [boulch]
 
