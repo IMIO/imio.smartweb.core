@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.1.30 (unreleased)
+1.1.30 (2023-10-24)
 -------------------
 
 - Adaptation of react to show or hide the map
