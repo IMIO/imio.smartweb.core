@@ -356,7 +356,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
         self.rest_directory.display_map = True
         view = queryMultiAdapter((self.rest_directory, self.request), name="view")
-        self.assertIn('display_map="True"', view())
+        self.assertIn('display-map="True"', view())
 
         self.rest_events = api.content.create(
             container=self.portal,
@@ -365,4 +365,4 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
         self.rest_events.display_map = True
         view = queryMultiAdapter((self.rest_events, self.request), name="view")
-        self.assertIn('display_map="True"', view())
+        self.assertIn('display-map="True"', view())
