@@ -9,6 +9,7 @@ class LinksView(CarouselOrTableSectionView):
     """Links Section view"""
 
     def items(self):
+        orientation = self.context.orientation
         image_scale = self.image_scale
         items = self.context.listFolderContents()
         results = []
@@ -19,7 +20,9 @@ class LinksView(CarouselOrTableSectionView):
                 has_icon = True
             elif getattr(item.aq_base, "image", None):
                 has_image = True
-            scale_url = get_scale_url(item, self.request, "image", image_scale)
+            scale_url = get_scale_url(
+                item, self.request, "image", image_scale, orientation
+            )
             results.append(
                 {
                     "title": item.title,

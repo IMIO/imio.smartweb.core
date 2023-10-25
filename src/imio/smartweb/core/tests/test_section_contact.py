@@ -76,7 +76,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         self.assertIsNone(contact_view.contacts())
         m.get(contact_search_url, text=json.dumps(self.json_contact))
         self.assertIsNotNone(contact_view.contacts())
-        json_contact = ContactProperties(self.json_contact.get("items")[0])
+        json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
         self.assertEqual(json_contact.contact_type_class, "contact-type-organization")
         self.assertNotIn("contact_titles", view())
         self.assertIn("contact_address", view())
@@ -113,11 +113,11 @@ class TestSectionContact(ImioSmartwebTestCase):
         m.get(contact_images_url, text=json.dumps(self.json_contact_images))
         self.assertIn("contact_gallery", view())
 
-        json_contact = ContactProperties(self.json_contact.get("items")[0])
+        json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
         images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
         self.assertEqual(len(images[0]), 2)
 
-        json_contact = ContactProperties(self.json_contact.get("items")[0])
+        json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
         m.get(contact_images_url, text=json.dumps(self.json_no_image))
         images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
         self.assertIsNone(images)
@@ -442,7 +442,7 @@ class TestSectionContact(ImioSmartwebTestCase):
             )
         )
         m.get(contact_search_url, text=json.dumps(self.json_contact))
-        json_contact = ContactProperties(self.json_contact.get("items")[0])
+        json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
         with freeze_time("2021-06-30 12:20:00"):
             schedule = json_contact.get_opening_informations()
             self.assertEqual(
@@ -488,7 +488,9 @@ class TestSectionContact(ImioSmartwebTestCase):
         )
         m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
         view = queryMultiAdapter((self.page, self.request), name="full_view")
-        json_contact = ContactProperties(json_contact_empty_schedule.get("items")[0])
+        json_contact = ContactProperties(
+            json_contact_empty_schedule.get("items")[0], contact
+        )
         is_empty = json_contact.is_empty_schedule()
         self.assertEqual(is_empty, True)
         self.assertNotIn('class="schedule"', view())
@@ -500,7 +502,9 @@ class TestSectionContact(ImioSmartwebTestCase):
             "comments": "",
         }
         m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
-        json_contact = ContactProperties(json_contact_empty_schedule.get("items")[0])
+        json_contact = ContactProperties(
+            json_contact_empty_schedule.get("items")[0], contact
+        )
         is_empty = json_contact.is_empty_schedule()
         self.assertEqual(is_empty, False)
         self.assertIn('class="schedule"', view())

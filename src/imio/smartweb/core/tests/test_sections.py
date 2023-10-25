@@ -568,7 +568,7 @@ class TestSections(ImioSmartwebTestCase):
         self.assertEqual(view.background_style(section), "")
         section.background_image = NamedBlobImage(**make_named_image())
         self.assertIn(
-            "background-image:url(http://nohost/plone/page/section-text/@@images/background_image-768",
+            "background-image:url(http://nohost/plone/page/section-text/@@images/background_image-750",
             view.background_style(section),
         )
 

@@ -10,6 +10,7 @@ class CollectionView(CarouselOrTableSectionView):
 
     def items(self):
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
+        orientation = self.context.orientation
         image_scale = self.image_scale
         items = self.context.collection.to_object.results(
             batch=False, brains=True, limit=max_items
@@ -17,7 +18,9 @@ class CollectionView(CarouselOrTableSectionView):
         results = []
         for item in items:
             url = item.getURL()
-            scale_url = get_scale_url(item, self.request, "image", image_scale)
+            scale_url = get_scale_url(
+                item, self.request, "image", image_scale, orientation
+            )
             dict_item = {
                 "title": item.Title,
                 "description": item.Description,

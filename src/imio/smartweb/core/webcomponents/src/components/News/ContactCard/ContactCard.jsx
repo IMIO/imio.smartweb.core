@@ -26,10 +26,10 @@ const ContactCard = ({ contactItem }) => {
     return (
         <div className="r-list-item">
             <div
-                className={contactItem.image_preview_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
+                className={contactItem.image_vignette_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
-                    backgroundImage: contactItem.image_preview_scale
-                        ? "url(" + contactItem.image_preview_scale + ")"
+                    backgroundImage: contactItem.image_vignette_scale
+                        ? "url(" + contactItem.image_vignette_scale + ")"
                         : "",
                 }}
             />

@@ -21,7 +21,7 @@ class BaseFooterViewlet(common.ViewletBase):
         if not footer.background_image:
             return ""
         scale_url = get_scale_url(
-            self.footer, self.request, "background_image", "large"
+            self.footer, self.request, "background_image", "affiche", "paysage"
         )
         css_bg_image = f"background-image:url({scale_url});"
         css_bg_size = "background-size:cover;"

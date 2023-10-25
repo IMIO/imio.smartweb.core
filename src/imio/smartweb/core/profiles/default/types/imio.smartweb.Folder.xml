@@ -47,6 +47,7 @@
     <element value="plone.leadimage"/>
     <element value="plone.imagecropping"/>
     <element value="plone.constraintypes"/>
+    <element value="imio.smartweb.orientation"/>
     <element value="imio.smartweb.listing"/>
     <element value="imio.smartweb.quickaccessselection"/>
     <element value="collective.autopublishing.behavior.IAutoPublishing"/>

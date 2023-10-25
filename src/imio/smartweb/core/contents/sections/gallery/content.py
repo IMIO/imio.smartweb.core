@@ -14,8 +14,8 @@ class ISectionGallery(ISection):
     model.fieldset("layout", fields=["image_scale"])
     image_scale = schema.Choice(
         title=_("Image scale for images"),
-        default="preview",
-        vocabulary="plone.app.vocabularies.ImagesScales",
+        default="affiche",
+        vocabulary="imio.smartweb.vocabulary.Scales",
         required=True,
     )
 

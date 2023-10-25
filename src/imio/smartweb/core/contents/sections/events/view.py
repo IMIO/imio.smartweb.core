@@ -51,6 +51,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             return []
         linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
         image_scale = self.image_scale
+        orientation = self.context.orientation
         items = self.json_data.get("items")[:max_items]
         results = []
         for item in items:
@@ -69,7 +70,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "event_date": date_dict,
                 "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
                 "has_image": item["has_leadimage"],
-                "image": f"{item_url}/@@images/image/{image_scale}?cache_key={modified_hash}",
+                "image": f"{item_url}/@@images/image/{orientation}_{image_scale}?cache_key={modified_hash}",
             }
             results.append(dict_item)
         if specific_related_events:

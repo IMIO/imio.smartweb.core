@@ -84,6 +84,9 @@ class TestVocabularies(ImioSmartwebTestCase):
     def test_bootstrap_css(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 6)
 
+    def test_orientation(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Orientation", 2)
+
     def test_subsite_display_mode(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SubsiteDisplayMode", 3)
 
@@ -188,7 +191,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Alignment", 4)
 
     def test_image_size(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 3)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.ImageSize", 2)
 
     def test_concat_category_topics_vocabulary(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.CategoryAndTopics", 126)
