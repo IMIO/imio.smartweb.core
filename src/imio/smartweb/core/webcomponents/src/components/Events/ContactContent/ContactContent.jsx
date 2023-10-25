@@ -194,9 +194,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						</div>
 						{/* contact */}
 						<div className="r-content-news-info-contact">
-							<div className="icon-baseline">
-
-							</div>
 							<div className="dpinlb">
 								<div className="r-content-news-info--name">
 									<span>{contactItem.contact_name}</span>

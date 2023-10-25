@@ -5,7 +5,8 @@ Changelog
 1.1.31 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix css for Event content view
+  [thomlamb]
 
 
 1.1.30 (2023-10-24)
