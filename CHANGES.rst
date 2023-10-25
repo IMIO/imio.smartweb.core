@@ -5,6 +5,14 @@ Changelog
 1.1.31 (unreleased)
 -------------------
 
+- WEB-3985 : New portrait / paysage scales & logic.
+  We have re-defined the scales & sizes used in smartweb.
+  We let the user crop only 2 big portrait / paysage scales and make the calculation behind the scenes for all
+  other smaller scales.
+  We also fixed the cropping information clearing on images changes.
+  A new orientation behavior allow the editor to choose with type of image he wants.
+  [boulch, laulaz]
+
 - Fix css for Event content view
   [thomlamb]
 
