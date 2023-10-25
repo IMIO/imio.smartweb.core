@@ -10,7 +10,8 @@
                                        batch-size view/batch_size;
                                        propose-url view/propose_url;
                                        orientation view/orientation;
-                                       current-language view/current_language;"></smartweb-events>
+                                       current-language view/current_language;
+                                       display-map view/display_map;"></smartweb-events>
     </div>
     </metal:main>
   </body>

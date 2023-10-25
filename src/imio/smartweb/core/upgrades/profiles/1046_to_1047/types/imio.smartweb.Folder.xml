@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.Folder"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <property name="allowed_content_types">
+    <element value="Collection" />
+    <element value="Message" />
+    <element value="Link" />
+    <element value="imio.smartweb.CirkwiView" />
+    <element value="imio.smartweb.DirectoryView" />
+    <element value="imio.smartweb.EventsView" />
+    <element value="imio.smartweb.Folder" />
+    <element value="imio.smartweb.NewsView" />
+    <element value="imio.smartweb.Page" />
+    <element value="imio.smartweb.PortalPage" />
+    <element value="imio.smartweb.Procedure" />
+    <element value="collective.pivot.Family" />
+  </property>
+
+</object>

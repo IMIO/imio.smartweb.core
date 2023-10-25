@@ -3,6 +3,7 @@ import moment from "moment";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
+import ReactMarkdown from 'react-markdown';
 
 const ContactCard = ({ contactItem }) => {
     const [limitDescription, setLimitDescription] = useState();
@@ -35,7 +36,10 @@ const ContactCard = ({ contactItem }) => {
             <div className="r-item-text">
                 {category ? <span className="r-item-categorie">{category}</span> : ""}
                 <span className="r-item-title">{title}</span>
-                {description ? <p className="r-item-description">{limitDescription}</p> : ""}
+                {description ? 
+                    <ReactMarkdown className="r-item-description">{limitDescription}</ReactMarkdown> 
+                    : ""
+                }
                 <Link
                     className="r-item-read-more"
                     style={{ textDecoration: "none" }}

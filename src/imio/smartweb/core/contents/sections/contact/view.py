@@ -14,7 +14,8 @@ class ContactView(HashableJsonSectionView):
     def contacts(self):
         if self.context.related_contacts is None:
             return
-        uids = "&UID=".join(self.context.related_contacts)
+        related_contacts = self.context.related_contacts
+        uids = "&UID=".join(related_contacts)
         url = "{}/@search?UID={}&fullobjects=1".format(DIRECTORY_URL, uids)
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
@@ -23,9 +24,10 @@ class ContactView(HashableJsonSectionView):
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:  # NOQA
             return
-        return batch_results(
-            self.json_data.get("items"), self.context.nb_contact_by_line
-        )
+        results = self.json_data.get("items")
+        index_map = {value: index for index, value in enumerate(related_contacts)}
+        results = sorted(results, key=lambda x: index_map[x["UID"]])
+        return batch_results(results, self.context.nb_contact_by_line)
 
     def get_contact_properties(self, json_dict):
         return ContactProperties(json_dict, self.context)

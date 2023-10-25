@@ -16,8 +16,11 @@ from zope.component import queryMultiAdapter
 
 import hashlib
 import json
+import logging
 import os
 import requests
+
+logger = logging.getLogger("imio.smartweb.core")
 
 
 def get_category(context):
@@ -52,12 +55,15 @@ def concat_voca_title(title1, title2):
     return "{0} - {1}".format(title1, title2)
 
 
-def get_json(url, auth=None):
+def get_json(url, auth=None, timeout=5):
     headers = {"Accept": "application/json"}
     if auth is not None:
         headers["Authorization"] = auth
     try:
-        response = requests.get(url, headers=headers, timeout=5)
+        response = requests.get(url, headers=headers, timeout=timeout)
+    except requests.exceptions.Timeout:
+        logger.warning(f"Timeout raised for requests : {url}")
+        return None
     except Exception:
         return None
     if response.status_code != 200:

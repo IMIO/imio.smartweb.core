@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="plone.thumb_scale_listing"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
+            field="thumb_scale_listing">
+      <value>paysage_liste</value>
+    </record>
+
+    <record name="plone.thumb_scale_summary"
+            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
+            field="thumb_scale_summary">
+      <value>paysage_vignette</value>
+    </record>
+
+</registry>

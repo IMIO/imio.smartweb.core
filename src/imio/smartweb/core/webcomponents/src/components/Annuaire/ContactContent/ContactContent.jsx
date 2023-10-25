@@ -116,17 +116,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
                     </figure>
                 )}
 
-                {contactItem.logo ? (
-                    <figure>
-                        <img
-                            className="r-content-img"
-                            src={contactItem.logo_thumb_scale}
-                            alt={contactItem.logo.filename}
-                        />
-                    </figure>
-                ) : (
-                    ""
-                )}
             </article>
             <div className="contactCard">
                 <div className="contactText">
@@ -306,15 +295,13 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                 }
                             </div>
                         }
-
-                        {/* add topics */}
-                        <div className="topics">
-                            {contactItem.topics
-                                ? contactItem.topics.map((mail) => {
-                                    return <span>{mail.title}</span>;
-                                })
-                                : ""}
-                        </div>
+                        {contactItem.logo_thumb_scale && 
+                                <img
+                                    className="annuaire-logo"
+                                    src={contactItem.logo_thumb_scale}
+                                    alt="Logo"
+                                />
+                        }
                     </div>
                 </div>
                 {/* add files to download */}

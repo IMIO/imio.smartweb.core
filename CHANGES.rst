@@ -2,8 +2,72 @@ Changelog
 =========
 
 
-1.1.24 (unreleased)
+1.1.31 (unreleased)
 -------------------
+
+- Nothing changed yet.
+
+
+1.1.30 (2023-10-24)
+-------------------
+
+- Adaptation of react to show or hide the map
+  [thomlamb]
+
+- WEB-3999 : Keep order of contacts in its view through manualy sorted related_contacts in edit form
+  [boulch]
+
+
+1.1.29 (2023-10-18)
+-------------------
+
+- SUP-32814 : Add new external content plugins : GiveADayPlugin
+  see : https://github.com/IMIO/imio.smartweb.core/commit/a4dfca2
+  [boulch]
+
+- WEB-4000 : Add display_map Bool field on directory and events views
+  [boulch]
+
+
+1.1.28 (2023-10-13)
+-------------------
+
+- WEB-3803 : Add upgrade step : collective.pivot.Family content type can be add in an imio.smartweb.Folder
+  [boulch]
+
+- WEB-3998 : Set requests timeout to 8'' when we populate RemoteContacts vocabulary
+  [boulch]
+
+
+1.1.27 (2023-10-11)
+-------------------
+
+- Add <div> in view_argis.pt template to fix map displaying
+  [thomlamb, jhero]
+
+
+1.1.26 (2023-10-10)
+-------------------
+
+- Add missing upgrade step to add leadimage behavior on external content section
+  [boulch]
+
+- Fix some translations in external content plugins
+  [boulch]
+
+
+1.1.25 (2023-10-09)
+-------------------
+
+- SUP-32169 : Add new external content plugins : ArcgisPlugin
+  [boulch]
+
+
+1.1.24 (2023-10-09)
+-------------------
+
+- WEB-3986 : Fix : email must be open thank to "mailto:" tag instead of "tel:"
+  [boulch]
 
 - WEB-3984 : Remove deprecated cropping annotations on banner
   [boulch, laulaz]
