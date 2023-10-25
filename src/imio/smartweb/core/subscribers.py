@@ -80,6 +80,8 @@ def check_image_field(obj, interface, class_name, field_name):
         return
     annotations = IAnnotations(obj)
     scales = annotations.get(PAI_STORAGE_KEY)
+    if scales is None:
+        return
     scales_to_purge = []
     for scale in scales:
         if scale.startswith(field_name):

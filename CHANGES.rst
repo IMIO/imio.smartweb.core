@@ -5,7 +5,8 @@ Changelog
 1.2.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3985 : Fix traceback when cropping scale information is not present on image change
+  [laulaz]
 
 
 1.2 (2023-10-25)

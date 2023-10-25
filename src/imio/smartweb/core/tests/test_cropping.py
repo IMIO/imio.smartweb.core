@@ -128,6 +128,12 @@ class TestCropping(ImioSmartwebTestCase):
         annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
         self.assertEqual(annotation, None)
 
+        modified(
+            self.folder, Attributes(ILeadImageBehavior, "ILeadImageBehavior.image")
+        )
+        annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
+        self.assertEqual(annotation, None)
+
         view = self.folder.restrictedTraverse("@@crop-image")
         view._crop(fieldname="image", scale="portrait_affiche", box=(1, 1, 200, 200))
         annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
