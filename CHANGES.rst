@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.1.31 (unreleased)
--------------------
+1.2 (2023-10-25)
+----------------
 
 - WEB-3985 : New portrait / paysage scales & logic.
   We have re-defined the scales & sizes used in smartweb.
