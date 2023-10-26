@@ -5,7 +5,8 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-3985 : Fix React build
+  [thomlamb]
 
 
 1.2.1 (2023-10-25)
