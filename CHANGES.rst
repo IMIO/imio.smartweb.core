@@ -5,6 +5,9 @@ Changelog
 1.2.2 (unreleased)
 ------------------
 
+- WEB-3985 : Fix condition to load image or logo in contact view
+  [thomlamb]
+
 - WEB-3985 : Fix logo scale URL (no orientation there) for Directory view
   [laulaz]
 

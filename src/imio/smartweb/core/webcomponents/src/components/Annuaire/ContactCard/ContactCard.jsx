@@ -51,11 +51,11 @@ const ContactCard = ({ contactItem }) => {
             }
         };
 
-        if (contactItem) {
+        if (contactItem.image_affiche_scale || contactItem.logo_thumb_scale) {
             loadImage();
         }
     }, [contactItem]);
-
+    
     return (
         <div className="r-list-item">
             {image && image.src
