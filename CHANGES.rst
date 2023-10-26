@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.2 (unreleased)
+1.2.2 (2023-10-26)
 ------------------
 
 - WEB-3985 : Fix condition to load image or logo in contact view
