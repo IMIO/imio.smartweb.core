@@ -22,7 +22,7 @@ class BaseDirectoryEndpoint(BaseEndpoint):
                 self.convert_cached_image_scales(result, modified_hash)
             if result.get("logo"):
                 self.convert_cached_image_scales(
-                    result, modified_hash, "logo", ["thumb"]
+                    result, modified_hash, "logo", ["thumb"], ""
                 )
             for sub_content in result.get("items", []):
                 if sub_content["@type"] != "Image":
