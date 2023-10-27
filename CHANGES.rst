@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Handle orientation in REST views images & fix galleries
+  [laulaz]
+
 - Change default orientation to landscape
   [laulaz]
 

@@ -16,10 +16,13 @@ class BaseDirectoryEndpoint(BaseEndpoint):
         results = super(BaseDirectoryEndpoint, self).__call__()
         if not results.get("items"):
             return results
+        orientation = self.context.orientation
         for result in results["items"]:
             modified_hash = hash_md5(result["modified"])
             if result.get("image"):
-                self.convert_cached_image_scales(result, modified_hash)
+                self.convert_cached_image_scales(
+                    result, modified_hash, orientation=orientation
+                )
             if result.get("logo"):
                 self.convert_cached_image_scales(
                     result, modified_hash, "logo", ["thumb"], ""
@@ -27,7 +30,9 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             for sub_content in result.get("items", []):
                 if sub_content["@type"] != "Image":
                     continue
-                self.convert_cached_image_scales(sub_content, modified_hash)
+                self.convert_cached_image_scales(
+                    sub_content, modified_hash, "image", ["preview"], ""
+                )
         return results
 
     @property
