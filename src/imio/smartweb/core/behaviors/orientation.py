@@ -14,5 +14,5 @@ class IOrientation(model.Schema):
         title=_("Orientation"),
         required=True,
         vocabulary="imio.smartweb.vocabulary.Orientation",
-        default="portrait",
+        default="paysage",
     )

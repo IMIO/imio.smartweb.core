@@ -5,7 +5,8 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change default orientation to landscape
+  [laulaz]
 
 
 1.2.2 (2023-10-26)
