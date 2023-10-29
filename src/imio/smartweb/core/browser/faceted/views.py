@@ -30,12 +30,13 @@ class FacetedView(FolderView):
         return item.portal_type == "imio.smartweb.SectionVideo"
 
     def get_scale_url(self, item, scale="vignette"):
+        orientation = self.context.orientation
         if item.portal_type == "imio.smartweb.SectionGallery":
             images = item.getObject().listFolderContents()
             if not images:
                 return ""
             scale_url = get_scale_url(
-                images[0], self.request, "image", scale, "paysage"
+                images[0], self.request, "image", scale, orientation
             )
             return scale_url
-        return get_scale_url(item, self.request, "image", scale, "paysage")
+        return get_scale_url(item, self.request, "image", scale, orientation)

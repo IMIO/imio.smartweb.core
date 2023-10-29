@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Handle image orientation on Collection type
+  [laulaz]
+
 - Remove unused `gallery_view.pt` template
   [laulaz]
 
