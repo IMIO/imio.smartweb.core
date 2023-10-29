@@ -84,7 +84,8 @@ class FolderView(BaseFolderView):
 
     def get_scale_url(self, item, scale):
         request = self.request
-        return get_scale_url(item, request, "image", scale)
+        orientation = self.context.orientation
+        return get_scale_url(item, request, "image", scale, orientation)
 
 
 @implementer(IViewWithoutLeadImage)
