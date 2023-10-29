@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Remove unused `gallery_view.pt` template
+  [laulaz]
+
 - Change order of orientation options (default first)
   [laulaz]
 
