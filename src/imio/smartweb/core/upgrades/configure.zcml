@@ -695,4 +695,12 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Migrate deprecated image scales from Section Contact / Gallery"
+      source="1049"
+      destination="1050"
+      handler=".upgrades.migrate_old_scales_from_vocabulary"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

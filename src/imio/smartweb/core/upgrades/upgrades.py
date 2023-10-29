@@ -186,3 +186,24 @@ def migrate_is_in_portrait_mode(context):
             logger.info(
                 f"Migrated potrait mode to orientation portrait for {obj.absolute_url()}"
             )
+
+
+def migrate_old_scales_from_vocabulary(context):
+    brains = api.content.find(
+        portal_type=[
+            "imio.smartweb.SectionContact",
+            "imio.smartweb.SectionGallery",
+        ]
+    )
+    for brain in brains:
+        obj = brain.getObject()
+        old_scale = obj.image_scale
+        if old_scale in ["affiche", "vignette", "liste"]:
+            continue
+        new_scale = "affiche"
+        if old_scale == "preview":
+            new_scale = "vignette"
+        obj.image_scale = new_scale
+        logger.info(
+            f"Migrated deprecated scale from {old_scale} to {new_scale} for {obj.absolute_url()}"
+        )

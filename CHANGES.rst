@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Migrate deprecated image scales from Section Contact / Gallery
+  [laulaz]
+
 - Migrate "Is in portrait mode" option to orientation behavior for Section Contact
   [laulaz]
 
