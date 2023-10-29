@@ -18,6 +18,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 import requests
 
 logger = logging.getLogger("imio.smartweb.core")
@@ -130,6 +131,11 @@ def get_default_content_id(obj):
 
 
 def get_scale_url(context, request, fieldname, scale_name, orientation=""):
+    if orientation:
+        m = re.match(r"(portrait|paysage)_(\w+)", scale_name)
+        if m:
+            # remove existing orientation (if any) from scale name
+            scale_name = m.group(2)
     scale_name = "_".join(filter(None, [orientation, scale_name]))
     if IDexterityContent.providedBy(context):
         # get scale url on an object

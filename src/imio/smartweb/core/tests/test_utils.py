@@ -88,3 +88,7 @@ class TestUtils(ImioSmartwebTestCase):
             get_scale_url(brain, self.request, "image", ""),
             "http://nohost/plone/page/@@images/image/?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
+        self.assertEqual(
+            get_scale_url(brain, self.request, "image", "portrait_affiche", "portrait"),
+            "http://nohost/plone/page/@@images/image/portrait_affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
