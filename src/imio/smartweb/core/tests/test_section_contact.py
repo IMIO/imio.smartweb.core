@@ -510,7 +510,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         self.assertIn('class="schedule"', view())
 
     @requests_mock.Mocker()
-    def test_leadimage_is_in_portrait_mode(self, m):
+    def test_leadimage_orientation(self, m):
         contact = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionContact",
@@ -527,7 +527,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         contact.visible_blocks = ["titles", "leadimage"]
         m.get(contact_search_url, text=json.dumps(self.json_contact))
         self.assertNotIn("contact_leadimage portrait", view())
-        contact.is_in_portrait_mode = True
+        contact.orientation = "portrait"
         self.assertIn("contact_leadimage portrait", view())
 
     @requests_mock.Mocker()

@@ -40,15 +40,10 @@ class ISectionContact(ISection):
     model.fieldset(
         "layout",
         fields=[
-            "is_in_portrait_mode",
             "gallery_mode",
             "nb_results_by_batch",
             "image_scale",
         ],
-    )
-
-    is_in_portrait_mode = schema.Bool(
-        title=_("Switch lead image to portrait mode"), required=False, default=False
     )
 
     gallery_mode = schema.Choice(

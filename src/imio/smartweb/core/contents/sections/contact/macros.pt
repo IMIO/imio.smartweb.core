@@ -28,7 +28,7 @@
 
         <tal:block tal:condition="python:'leadimage' in visible_blocks">
           <tal:def tal:define="leadimage python:contact.leadimage();
-                               portrait_class python:'portrait' if context.is_in_portrait_mode else ''">
+                               portrait_class python:'portrait' if context.orientation == 'portrait' else ''">
             <div tal:condition="leadimage"
                  tal:attributes="style string:background-image:url(${leadimage};
                                  class string:contact_leadimage ${portrait_class}">

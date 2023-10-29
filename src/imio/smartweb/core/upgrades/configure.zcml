@@ -687,4 +687,12 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Migrate is_in_portrait_mode field to orientation for Section Contact"
+      source="1048"
+      destination="1049"
+      handler=".upgrades.migrate_is_in_portrait_mode"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

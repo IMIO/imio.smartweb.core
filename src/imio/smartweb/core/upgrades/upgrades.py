@@ -174,3 +174,15 @@ def remove_deprecated_cropping_annotations(context):
             logger.info(
                 f"Remove deprecated banner_banner cropping annotation on {obj.absolute_url()}"
             )
+
+
+def migrate_is_in_portrait_mode(context):
+    brains = api.content.find(portal_type="imio.smartweb.SectionContact")
+    for brain in brains:
+        obj = brain.getObject()
+        is_in_portrait_mode = getattr(obj, "is_in_portrait_mode", False)
+        if is_in_portrait_mode:
+            obj.orientation = "portrait"
+            logger.info(
+                f"Migrated potrait mode to orientation portrait for {obj.absolute_url()}"
+            )

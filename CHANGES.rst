@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Migrate "Is in portrait mode" option to orientation behavior for Section Contact
+  [laulaz]
+
 - Handle image orientation on Collection & Foler types
   [laulaz]
 
