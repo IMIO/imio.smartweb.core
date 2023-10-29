@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.3 (unreleased)
+1.2.3 (2023-10-29)
 ------------------
 
 - Migrate deprecated image scales from Section Contact / Gallery
