@@ -5,6 +5,9 @@ Changelog
 1.2.3 (unreleased)
 ------------------
 
+- Change order of orientation options (default first)
+  [laulaz]
+
 - Handle orientation in REST views images & fix galleries
   [laulaz]
 
