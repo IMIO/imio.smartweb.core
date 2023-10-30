@@ -23,6 +23,20 @@
         />
   </unconfigure>
 
+  <!-- Unconfigure gallery view on collections -->
+  <unconfigure package="plone.gallery.views">
+    <browser:page
+      name="photo-gallery"
+      title="Photo gallery"
+      menu="plone_displayviews"
+      for="plone.app.contenttypes.behaviors.collection.ISyndicatableCollection"
+      class=".photo_gallery.PhotoGalleryCollection"
+      template="photo_gallery.pt"
+      permission="zope2.View"
+      layer="plone.gallery.interfaces.IPloneGalleryLayer"
+      />
+  </unconfigure>
+
   <!-- Override faceted view to hide lead image -->
   <configure package="eea.facetednavigation.browser">
     <browser:page

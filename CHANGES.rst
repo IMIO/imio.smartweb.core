@@ -5,7 +5,8 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Remove unused Photo Gallery from collections layouts
+  [laulaz]
 
 
 1.2.3 (2023-10-29)
