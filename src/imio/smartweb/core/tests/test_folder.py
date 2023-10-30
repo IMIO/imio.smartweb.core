@@ -141,6 +141,10 @@ class TestFolder(ImioSmartwebTestCase):
         self.assertIn("newsImage", view())
         self.assertEqual(view.get_thumb_scale_summary(), "paysage_vignette")
 
+        self.assertIn("display-paysage", view())
+        folder.orientation = "portrait"
+        self.assertIn("display-portrait", view())
+
         api.portal.set_registry_record("plone.thumb_scale_summary", "preview")
         annotations = IAnnotations(self.request)
         del annotations["plone.memoize"]

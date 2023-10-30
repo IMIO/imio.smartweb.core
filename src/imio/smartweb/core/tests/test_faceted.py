@@ -119,6 +119,13 @@ class TestFaceted(ImioSmartwebTestCase):
             "http://nohost/plone/page/@@images/image/paysage_vignette?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
 
+        # image orientation
+        collection.orientation = "portrait"
+        self.assertEqual(
+            faceted_view.get_scale_url(brain),
+            "http://nohost/plone/page/@@images/image/portrait_vignette?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
+
         # empty gallery
         gallery = api.content.create(
             container=page,
@@ -130,6 +137,7 @@ class TestFaceted(ImioSmartwebTestCase):
         self.assertEqual(faceted_view.get_scale_url(brain), "")
 
         # gallery with image
+        collection.orientation = "paysage"
         image = api.content.create(
             container=gallery,
             type="Image",
