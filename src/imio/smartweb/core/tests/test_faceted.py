@@ -79,7 +79,13 @@ class TestFaceted(ImioSmartwebTestCase):
         brain = api.content.find(UID=uuid)[0]
         popup = popup_view.popup(brain)
         self.assertIn(
-            '<img src="http://nohost/plone/my-collection/@@images/image/mini?cache_key=78fd1bab198354b6877aed44e2ea0b4d',
+            '<img src="http://nohost/plone/my-collection/@@images/image/paysage_liste?cache_key=78fd1bab198354b6877aed44e2ea0b4d',
+            popup,
+        )
+        collection.orientation = "portrait"
+        popup = popup_view.popup(brain)
+        self.assertIn(
+            '<img src="http://nohost/plone/my-collection/@@images/image/portrait_liste?cache_key=78fd1bab198354b6877aed44e2ea0b4d',
             popup,
         )
 

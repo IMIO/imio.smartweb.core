@@ -5,6 +5,9 @@ Changelog
 1.2.4 (unreleased)
 ------------------
 
+- Handle image orientation on faceted map layout
+  [laulaz]
+
 - Remove unused Photo Gallery from collections layouts
   [laulaz]
 
