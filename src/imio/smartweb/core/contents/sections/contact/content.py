@@ -3,7 +3,7 @@
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.app.z3cform.widget import AjaxSelectFieldWidget
+from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
@@ -16,8 +16,9 @@ class ISectionContact(ISection):
 
     directives.widget(
         "related_contacts",
-        AjaxSelectFieldWidget,
-        source="imio.smartweb.vocabulary.RemoteContacts",
+        SelectFieldWidget,
+        vocabulary="imio.smartweb.vocabulary.RemoteContacts",
+        pattern_options={"multiple": True},
     )
     related_contacts = schema.List(
         title=_("Related contacts"),

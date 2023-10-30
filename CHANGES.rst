@@ -5,7 +5,8 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4012 : Restored filter on related contacts field
+  [boulch]
 
 
 1.2.4 (2023-10-30)
