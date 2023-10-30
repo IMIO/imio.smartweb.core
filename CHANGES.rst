@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.4 (unreleased)
+1.2.4 (2023-10-30)
 ------------------
 
 - Handle image orientation on faceted map layout
