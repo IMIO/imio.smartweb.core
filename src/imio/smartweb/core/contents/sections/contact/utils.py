@@ -121,6 +121,11 @@ class ContactProperties:
             return
         return "https://www.google.com/maps/dir/?api=1&destination={}".format(address)
 
+    def get_translated_url_type(self, url_type_id):
+        current_lang = api.portal.get_current_language()[:2]
+        url_type_label = url_type_id[0].upper() + url_type_id[1:]
+        return translate(_(url_type_label), target_language=current_lang)
+
     def get_opening_informations(self, a_date=None):
         current_date = a_date or date.today()
         schedule = self.contact.get("schedule")

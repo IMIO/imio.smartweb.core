@@ -5,6 +5,9 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
+- WEB-4014 : Display "websites" urls instead of labels (facebook, website, instagram, ...)
+  [boulch]
+
 - WEB-4012 : Restored filter on related contacts field
   [boulch]
 
