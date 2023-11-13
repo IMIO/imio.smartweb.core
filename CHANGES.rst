@@ -5,6 +5,9 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
+- Fix wrong type name in `imio.smartweb.CirkwiView` type profile
+  [laulaz]
+
 - WEB-4014 : Display "websites" urls instead of labels (facebook, website, instagram, ...)
   [boulch]
 
