@@ -5,6 +5,10 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
+- Fix last upgrade steps: when run from command line, we need to adopt admin
+  user to find private objects
+  [laulaz]
+
 - Fix wrong type name in `imio.smartweb.CirkwiView` type profile
   [laulaz]
 
