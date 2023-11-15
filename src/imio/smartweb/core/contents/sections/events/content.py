@@ -63,7 +63,7 @@ class ISectionEvents(ISection):
         title=_("Number of items per batch"),
         required=True,
         default=3,
-        values=[1, 3, 4],
+        values=[1, 2, 3, 4],
     )
 
     max_nb_batches = schema.Int(
