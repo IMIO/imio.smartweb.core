@@ -5,6 +5,9 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
+- Rebuild React to fix js errors
+  [thomlamb]
+
 - WEB-4017 : Add Number 2 for items per batch
   [thomlamb]
 
