@@ -5,6 +5,9 @@ Changelog
 1.2.5 (unreleased)
 ------------------
 
+- WEB-4017 : Add Number 2 for items per batch
+  [thomlamb]
+
 - Fix last upgrade steps: when run from command line, we need to adopt admin
   user to find private objects
   [laulaz]

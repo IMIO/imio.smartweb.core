@@ -58,7 +58,7 @@ class ISectionContact(ISection):
         title=_("Number of items per batch (only for carousel mode)"),
         required=True,
         default=3,
-        values=[1, 3, 4],
+        values=[1, 2, 3, 4],
     )
 
     nb_contact_by_line = schema.Choice(

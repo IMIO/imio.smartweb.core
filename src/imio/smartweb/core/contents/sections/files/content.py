@@ -15,7 +15,7 @@ class ISectionFiles(ISection):
         title=_("Number of items per batch"),
         required=True,
         default=1,
-        values=[1, 3, 4],
+        values=[1, 2, 3, 4],
     )
 
     model.fieldset("layout", fields=["show_items_lead_image"])
