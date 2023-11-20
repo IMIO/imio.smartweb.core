@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.5 (unreleased)
+1.2.5 (2023-11-20)
 ------------------
 
 - Rebuild React to fix js errors
