@@ -55,7 +55,7 @@ class TestUtils(ImioSmartwebTestCase):
             content, self.request, "image", "affiche", "portrait"
         )
         self.assertIn("http://nohost/plone/page/@@images/image-750-", paysage_scale)
-        self.assertIn("http://nohost/plone/page/@@images/image-750-", portrait_scale)
+        self.assertIn("http://nohost/plone/page/@@images/image-448-", portrait_scale)
         self.assertNotEqual(paysage_scale, portrait_scale)
         self.assertEqual(
             get_scale_url(content, self.request, "image", "nonexisting"), ""

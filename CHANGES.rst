@@ -5,7 +5,8 @@ Changelog
 1.2.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix tests after scales dimensions change
+  [laulaz]
 
 
 1.2.5 (2023-11-20)
