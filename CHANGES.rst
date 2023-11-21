@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.6 (unreleased)
+1.2.6 (2023-11-21)
 ------------------
 
 - Fix tests after scales dimensions change
