@@ -130,7 +130,7 @@ def get_default_content_id(obj):
         return item and item.getId or ""
 
 
-def get_scale_url(context, request, fieldname, scale_name, orientation=""):
+def get_scale_url(context, request, fieldname, scale_name="", orientation=""):
     if orientation:
         m = re.match(r"(portrait|paysage)_(\w+)", scale_name)
         if m:

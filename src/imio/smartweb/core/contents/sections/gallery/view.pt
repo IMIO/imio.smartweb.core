@@ -28,16 +28,15 @@
        #spotlight .header { padding-right: 120px; }
       </style>
 
-      <div tal:define="portal context/@@plone_portal_state/portal;
-                       thumb_scale context/image_scale"
+      <div tal:define="portal context/@@plone_portal_state/portal;"
            tal:condition="items"
            class="flexbin flexbin-margin">
         <tal:images tal:repeat="item items">
           <a class="spotlight section_gallery_item"
-             tal:attributes="href python:view.get_scale_url(item, '');
+             tal:attributes="href python:view.get_scale_url(item);
                              title item/title;
                              data-description item/description">
-            <img tal:attributes="src python:view.get_scale_url(item, thumb_scale);
+            <img tal:attributes="src python:view.get_scale_url(item);
                                  alt item/title;
                                  title item/title" />
           </a>

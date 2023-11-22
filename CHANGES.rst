@@ -5,6 +5,9 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
+- WEB-3985 : Fix images in galleries
+  [boulch]
+
 - WEB-3992 : Uncheck icon when clincking on checked icon (in edit form of imio.smartweb.BlockLink)
   [boulch]
 
@@ -114,7 +117,7 @@ Changelog
 
 - Adaptation of react to show or hide the map
   [thomlamb]
-  
+
 - WEB-3999 : Keep order of contacts in its view through manualy sorted related_contacts in edit form
   [boulch]
 
