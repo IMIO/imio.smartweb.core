@@ -5,6 +5,9 @@ Changelog
 1.2.7 (unreleased)
 ------------------
 
+- Fix image scales URLs for gallery view thumbnails
+  [laulaz]
+
 - WEB-3992 : Uncheck icon when clincking on checked icon (in edit form of imio.smartweb.BlockLink)
   [boulch]
 
