@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.7 (unreleased)
+1.2.7 (2023-11-22)
 ------------------
 
 - Fix image scales URLs for gallery view thumbnails
