@@ -5,7 +5,8 @@ Changelog
 1.2.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix (lead) image scales URLs for text section
+  [boulch]
 
 
 1.2.7 (2023-11-22)
@@ -123,7 +124,7 @@ Changelog
 
 - Adaptation of react to show or hide the map
   [thomlamb]
-  
+
 - WEB-3999 : Keep order of contacts in its view through manualy sorted related_contacts in edit form
   [boulch]
 

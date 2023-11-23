@@ -21,7 +21,7 @@
                          id string:body-section-${context/id}">
       <tal:cond condition="image">
         <figure>
-          <img alt="" tal:attributes="src python:view.get_scale_url(context);" />
+          <img alt="" tal:attributes="src python:view.get_scale_url(context, '', '');" />
           <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
         </figure>
       </tal:cond>
