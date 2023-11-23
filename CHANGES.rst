@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.8 (unreleased)
+1.2.8 (2023-11-23)
 ------------------
 
 - Fix (lead) image sizes URLs for text section & migrate old values
