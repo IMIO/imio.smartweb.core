@@ -5,8 +5,8 @@ Changelog
 1.2.8 (unreleased)
 ------------------
 
-- Fix (lead) image scales URLs for text section
-  [boulch]
+- Fix (lead) image sizes URLs for text section & migrate old values
+  [boulch, laulaz]
 
 
 1.2.7 (2023-11-22)

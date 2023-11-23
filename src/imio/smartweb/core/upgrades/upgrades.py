@@ -210,3 +210,20 @@ def migrate_old_scales_from_vocabulary(context):
             logger.info(
                 f"Migrated deprecated scale from {old_scale} to {new_scale} for {obj.absolute_url()}"
             )
+
+
+def migrate_old_sizes_from_section_text(context):
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(portal_type=["imio.smartweb.SectionText"])
+        for brain in brains:
+            obj = brain.getObject()
+            old_scale = obj.image_size
+            if old_scale in ["affiche", "vignette"]:
+                continue
+            new_scale = "affiche"
+            if old_scale == "preview":
+                new_scale = "vignette"
+            obj.image_size = new_scale
+            logger.info(
+                f"Migrated deprecated scale from {old_scale} to {new_scale} for {obj.absolute_url()}"
+            )

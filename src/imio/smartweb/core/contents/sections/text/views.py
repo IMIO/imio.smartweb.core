@@ -7,6 +7,7 @@ from imio.smartweb.core.contents.sections.views import SectionView
 class TextView(SectionView):
     """Gallery Section view"""
 
-    def get_scale_url(self, item, scale, orientation="paysage"):
+    def get_scale_url(self, item):
         request = self.request
-        return get_scale_url(item, request, "image", scale, orientation)
+        scale = self.context.image_size
+        return get_scale_url(item, request, "image", scale, "paysage")

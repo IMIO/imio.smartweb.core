@@ -703,4 +703,12 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Migrate deprecated image sizes from Section Text"
+      source="1050"
+      destination="1051"
+      handler=".upgrades.migrate_old_sizes_from_section_text"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
