@@ -5,7 +5,8 @@ Changelog
 1.2.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4021 : Fix lead image displaying with files section
+  [boulch]
 
 
 1.2.8 (2023-11-23)
