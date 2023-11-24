@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.9 (unreleased)
+1.2.9 (2023-11-24)
 ------------------
 
 - WEB-4021 : Fix lead image displaying with files section
