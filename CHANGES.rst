@@ -5,7 +5,8 @@ Changelog
 1.2.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add RequestForwarder views
+  [laulaz, boulch]
 
 
 1.2.9 (2023-11-24)
