@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.10 (unreleased)
+1.2.10 (2023-11-28)
 -------------------
 
 - Add RequestForwarder views
