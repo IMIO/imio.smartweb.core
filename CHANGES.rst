@@ -5,7 +5,8 @@ Changelog
 1.2.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Transform requests forwarders into REST API Services
+  [laulaz]
 
 
 1.2.10 (2023-11-28)
