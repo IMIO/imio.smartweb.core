@@ -3,6 +3,7 @@
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
+from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
@@ -29,10 +30,7 @@ class BaseRequestForwarder(Service):
         method = self.request.method
         headers = {"Accept": "application/json"}
         params = self.request.form
-
-        data = {}
-        if self.request.get("BODY") is not None:
-            data = self.request.get("BODY")
+        data = json_body(self.request)
 
         # Forward the request to the authentic source
         auth_source_response = requests.request(
