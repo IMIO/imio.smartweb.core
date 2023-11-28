@@ -5,6 +5,9 @@ Changelog
 1.2.11 (unreleased)
 -------------------
 
+- Add Smartweb related URLs in forwarded json responses
+  [laulaz]
+
 - Transform requests forwarders into REST API Services
   [laulaz]
 
