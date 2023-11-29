@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.12 (unreleased)
+1.2.12 (2023-11-29)
 -------------------
 
 - Deactivate Plone protect / Add token for queries
