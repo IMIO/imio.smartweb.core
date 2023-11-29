@@ -5,6 +5,9 @@ Changelog
 1.2.12 (unreleased)
 -------------------
 
+- Deactivate Plone protect / Add token for queries
+  [laulaz, boulch]
+
 - Handle `PATCH` & `DELETE` in request forwarders
   [laulaz]
 

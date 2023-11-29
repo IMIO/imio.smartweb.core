@@ -4,11 +4,15 @@ from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
+from imio.smartweb.core.utils import get_wca_token
+from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
+from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
+import os
 import requests
 
 
@@ -19,6 +23,7 @@ class BaseRequestForwarder(Service):
         self.traversal_stack = []
 
     def reply(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
         url = "/".join(self.traversal_stack)
         auth_source_url = f"{self.base_url}/{url}"
         response = self.forward_request(auth_source_url)
@@ -31,7 +36,8 @@ class BaseRequestForwarder(Service):
 
     def forward_request(self, url):
         method = self.request.method
-        headers = {"Accept": "application/json"}
+        token = get_wca_token(self.client_id, self.client_secret)
+        headers = {"Accept": "application/json", "Authorization": token}
         params = self.request.form
         params = self.add_missing_metadatas(params)
         data = json_body(self.request)
@@ -50,6 +56,8 @@ class BaseRequestForwarder(Service):
         return auth_source_response.json()
 
     def add_smartweb_urls(self, json_data):
+        if "items" not in json_data:
+            return json_data
         for item in json_data.get("items", []):
             if "@id" in item and "UID" in item:
                 # we can construct a Smartweb-related URL for item
@@ -76,14 +84,20 @@ class BaseRequestForwarder(Service):
 
 class DirectoryRequestForwarder(BaseRequestForwarder):
     request_type = "directory"
+    client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
+    client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
     base_url = DIRECTORY_URL
 
 
 class EventsRequestForwarder(BaseRequestForwarder):
     request_type = "events"
+    client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
+    client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
     base_url = EVENTS_URL
 
 
 class NewsRequestForwarder(BaseRequestForwarder):
     request_type = "news"
+    client_id = os.environ.get("RESTAPI_NEWS_CLIENT_ID")
+    client_secret = os.environ.get("RESTAPI_NEWS_CLIENT_SECRET")
     base_url = NEWS_URL
