@@ -64,12 +64,12 @@ class BaseRequestForwarder(Service):
     def add_missing_metadatas(self, params):
         if "fullobjects" in params:
             return params
-        if not "metadata_fields" in params:
+        if "metadata_fields" not in params:
             params["metadata_fields"] = ["id", "UID"]
         else:
-            if not "id" in params["metadata_fields"]:
+            if "id" not in params["metadata_fields"]:
                 params["metadata_fields"].append("id")
-            if not "UID" in params["metadata_fields"]:
+            if "UID" not in params["metadata_fields"]:
                 params["metadata_fields"].append("UID")
         return params
 
