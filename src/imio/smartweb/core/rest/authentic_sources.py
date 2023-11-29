@@ -33,6 +33,7 @@ class BaseRequestForwarder(Service):
         method = self.request.method
         headers = {"Accept": "application/json"}
         params = self.request.form
+        params = self.add_missing_metadatas(params)
         data = json_body(self.request)
 
         # Forward the request to the authentic source
@@ -54,11 +55,23 @@ class BaseRequestForwarder(Service):
                 # we can construct a Smartweb-related URL for item
                 # TODO: handle other views & translations (use/refactor code in
                 # search endpoint)
-                # TODO 2: always get UID and ID to construct URL ?
                 default_view_url = get_default_view_url(self.request_type)
                 item_uid = item["UID"]
-                item["smartweb_url"] = f"{default_view_url}/#content?u={item_uid}"
+                item_id = item["id"]
+                item["smartweb_url"] = f"{default_view_url}#/{item_id}?u={item_uid}"
         return json_data
+
+    def add_missing_metadatas(self, params):
+        if "fullobjects" in params:
+            return params
+        if not "metadata_fields" in params:
+            params["metadata_fields"] = ["id", "UID"]
+        else:
+            if not "id" in params["metadata_fields"]:
+                params["metadata_fields"].append("id")
+            if not "UID" in params["metadata_fields"]:
+                params["metadata_fields"].append("UID")
+        return params
 
 
 class DirectoryRequestForwarder(BaseRequestForwarder):

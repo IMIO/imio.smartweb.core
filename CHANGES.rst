@@ -5,7 +5,8 @@ Changelog
 1.2.12 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix smartweb url and fix metadatas if missing fullobject
+  [boulch]
 
 
 1.2.11 (2023-11-29)
