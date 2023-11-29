@@ -124,6 +124,7 @@ function EventsView(props) {
                 clickId={clickId}
                 hoverId={hoverId}
                 items={itemsArray}
+                queryUrl={props.queryUrl}
             />
         );
     } else if (!isLoading) {

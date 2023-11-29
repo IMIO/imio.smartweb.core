@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import useFilterQuery from "../../../hooks/useFilterQuery";
 import L from "leaflet";
 import iconSvg from "../../../assets/pin-react.svg";
 import iconSvgActivated from "../../../assets/pin-react-active.svg";
@@ -24,24 +25,28 @@ function ChangeMapView({ activeItem, arrayOfLatLngs }) {
 
 function ContentMap(props) {
     const [activeItem, setActiveItem] = useState(null);
-    const [hoverItem, setHoverItem] = useState(null);
     const [filterGeoArray, setFilterGeoArray] = useState([]);
     const [allPosition, setAllPosition] = useState(null);
-    
+    const queryString = require("query-string");
+    const { u, ...parsed } = Object.assign(
+        { UID: queryString.parse(useFilterQuery().toString())['u']},
+    );
+    // Delete Imio positions
     useEffect(() => {
         const filterArray = props.items.filter((isgeo) => isgeo.geolocation.latitude && isgeo.geolocation.latitude !== 50.4989185 && isgeo.geolocation.longitude !== 4.7184485);
         setFilterGeoArray(filterArray);
     }, [props]);
 
-    function mapIcon(url) {
+    // Setup Maker Icon
+    const mapIcon = (url) => {
         return new L.Icon({
             iconUrl: url,
             iconSize: [29, 37],
         });
     }
-
+    // Get Marker Icon and Z-index
     const getMarkerIcon = (index) => {
-        if (index === props.clickId) {
+        if (index === parsed.UID) {
             return mapIcon(iconSvgActivated);
         }
         if (index === props.hoverId) {
@@ -60,26 +65,15 @@ function ContentMap(props) {
     };
 
     useEffect(() => {
-        if (props.clickId !== null) {
-            var result =
-                filterGeoArray &&
-                filterGeoArray.filter((obj) => {
-                    return obj.UID === props.clickId;
-                });
-            setActiveItem(result[0]);
-        } else setActiveItem(null);
-    }, [props.clickId]);
+        console.log(filterGeoArray)
+        var result =
+            filterGeoArray &&
+            filterGeoArray.filter((obj) => {
+                return obj.UID === parsed.UID;
+            });
+        setActiveItem(result[0]);
+    }, [filterGeoArray]);
 
-    useEffect(() => {
-        if (props.hoverId) {
-            var result =
-                filterGeoArray &&
-                filterGeoArray.filter((obj) => {
-                    return obj.UID === props.hoverId;
-                });
-            setHoverItem(result[0]);
-        } else setHoverItem(null);
-    }, [props.hoverId]);
 
     useEffect(() => {
         if (filterGeoArray.length > 0) {
@@ -93,6 +87,42 @@ function ContentMap(props) {
         }
     }, [filterGeoArray]);
     const position = [50.85034, 4.35171];
+
+    const markers = filterGeoArray.map((mark) => (
+        <Marker
+            key={mark.UID}
+            icon={getMarkerIcon(mark.UID)}
+            zIndexOffset={getMarkerZindex(mark.UID)}
+            position={[
+                mark.geolocation ? mark.geolocation.latitude : "",
+                mark.geolocation ? mark.geolocation.longitude : "",
+            ]}
+            eventHandlers={{
+                mouseover: (e) => {
+                    // Gérer les événements ici
+                },
+            }}
+        >
+            <Popup closeButton={false}>
+                <Link
+                    className="r-map-popup"
+                    style={{ textDecoration: "none" }}
+                    to={{
+                        pathname: removeAccents(
+                            mark.title.replace(/\s/g, "-").toLowerCase()
+                        ),
+                        search: `?u=${mark.UID}`,
+                        state: {
+                            idItem: mark.UID,
+                        },
+                    }}
+                >
+                    <span className="r-map-popup-title">{mark.title}</span>
+                    <p className="r-map-popup-category">{mark.category && mark.category.title}</p>
+                </Link>
+            </Popup>
+        </Marker>
+    ));
 
     return (
         <div>
@@ -108,46 +138,13 @@ function ContentMap(props) {
                 {allPosition != null ? (
                     <ChangeMapView
                         activeItem={activeItem}
+                        activeItemUID={parsed.UID}
                         arrayOfLatLngs={allPosition && allPosition}
                     />
                 ) : (
                     ""
                 )}
-                {filterGeoArray &&
-                    filterGeoArray.map((mark) => (
-                        <Marker
-                            key={mark.UID}
-                            icon={getMarkerIcon(mark.UID)}
-                            zIndexOffset={getMarkerZindex(mark.UID)}
-                            position={[
-                                mark.geolocation ? mark.geolocation.latitude : "",
-                                mark.geolocation ? mark.geolocation.longitude : "",
-                            ]}
-                            eventHandlers={{
-                                mouseover: (e) => {
-                                },
-                              }}
-                        >
-                            <Popup closeButton={false}>
-                                <Link
-                                    className="r-map-popup"
-                                    style={{ textDecoration: "none" }}
-                                    to={{
-                                        pathname: removeAccents(
-                                            mark.title.replace(/\s/g, "-").toLowerCase()
-                                        ),
-                                        search: `?u=${mark.UID}`,
-                                        state: {
-                                            idItem: mark.UID,
-                                        },
-                                    }}
-                                >
-                                    <span className="r-map-popup-title">{mark.title}</span>
-                                    <p className="r-map-popup-category">{mark.category && mark.category.title}</p>
-                                </Link>
-                            </Popup>
-                        </ Marker>
-                    ))}
+                {filterGeoArray && markers }
             </MapContainer>
         </div>
     );

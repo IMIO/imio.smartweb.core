@@ -382,7 +382,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						<div className="spotlight-group flexbin r-content-gallery">
 							{gallery.map((image, i) => (
 								<a key={i} className="spotlight" href={image.image_extralarge_scale}>
-									<img src={image.image_preview_scale} />
+									<img src={image.image_vignette_scale} />
 								</a>
 							))}
 						</div>

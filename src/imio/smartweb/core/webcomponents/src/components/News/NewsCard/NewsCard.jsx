@@ -26,10 +26,10 @@ const NewsCard = ({ item }) => {
     return (
         <div className="r-list-item">
             <div
-                className={item.image_preview_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
+                className={item.image_vignette_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
-                    backgroundImage: item.image_preview_scale
-                        ? "url(" + item.image_preview_scale + ")"
+                    backgroundImage: item.image_vignette_scale
+                        ? "url(" + item.image_vignette_scale + ")"
                         : "",
                 }}
             />
