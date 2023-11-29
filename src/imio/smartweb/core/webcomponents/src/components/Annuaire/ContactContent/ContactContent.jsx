@@ -312,10 +312,10 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         ) : (
                             ""
                         )}
-                        {contactItem.logo_thumb_scale && 
+                        {item.logo_thumb_scale && 
                                 <img
                                     className="annuaire-logo"
-                                    src={contactItem.logo_thumb_scale}
+                                    src={item.logo_thumb_scale}
                                     alt="Logo"
                                 />
                         }

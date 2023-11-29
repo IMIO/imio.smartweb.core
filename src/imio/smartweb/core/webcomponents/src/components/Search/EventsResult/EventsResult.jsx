@@ -33,14 +33,14 @@ const EventsResult = (props) => {
                 </p>
             </div>
             <ul className="r-search-list">
-                {resultArray.map((contactItem, i) => (
+                {resultArray.map((item, i) => (
                     <li key={i} className="r-search-item">
-                        <a href={contactItem["_url"]}>
+                        <a href={item["_url"]}>
                             <div className="r-search-img">
                             {
-                                contactItem.has_leadimage[0] ? (
+                                item.has_leadimage[0] ? (
                                     <div className="r-search-img" style={{
-                                        backgroundImage:"url(" + contactItem.image_url +")"
+                                        backgroundImage:"url(" + item.image_url +")"
                                     }}></div>
                                 ):(
                                     <div className="r-search-img no-search-item-img"></div>
@@ -50,7 +50,7 @@ const EventsResult = (props) => {
                             <Highlighter
                                 highlightClassName="r-search-highlighter"
                                 searchWords={[props.urlParams.SearchableText]}
-                                textToHighlight={contactItem.title}
+                                textToHighlight={item.title}
                             />
                         </a>
                     </li>
