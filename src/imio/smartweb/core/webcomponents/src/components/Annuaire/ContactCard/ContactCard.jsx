@@ -50,7 +50,7 @@ const ContactCard = ({ item }) => {
             }
         };
 
-        if (item) {
+        if (item.image_affiche_scale || item.logo_thumb_scale) {
             loadImage();
         }
     }, [item]);
