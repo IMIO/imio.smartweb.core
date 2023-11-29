@@ -38,7 +38,7 @@
 // content
 
 .r-content-img {
-  padding-bottom: 56.25%;
+  padding-bottom: 60%;
 }
 .new-content {
   max-width: 700px;
@@ -102,15 +102,13 @@
 }
 .r-actu-wrapper {
   .r-item-img {
-    height: 183px;
-    flex: 0 0 247px;
+    width: 100%;
+    aspect-ratio: 1.674107142857143;
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
     @media screen and (min-width:775px) {
       width: 323px;
-      height: 220px;
-      flex: 0 0 323px;
     }
   }
 }
