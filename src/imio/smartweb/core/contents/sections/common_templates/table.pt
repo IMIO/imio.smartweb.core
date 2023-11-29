@@ -17,7 +17,10 @@
 
   <div class="container section-container"
        id=""
-       tal:attributes="id string:container-section-${context/id}">
+       tal:define="images_orientation context/orientation | nothing;
+                   orientation_class python:images_orientation and f'display-{images_orientation}' or ''"
+       tal:attributes="id string:container-section-${context/id};
+                       class string:container section-container ${orientation_class}">
 
   <tal:if tal:define="show_section python: can_edit_sections or items"
           tal:condition="show_section">

@@ -9,6 +9,7 @@
   <property name="behaviors" purge="false">
     <element value="plone.leadimage"/>
     <element value="eea.faceted.navigable"/>
+    <element value="imio.smartweb.orientation"/>
   </property>
 
   <property name="default_view">view</property>

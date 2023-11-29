@@ -10,4 +10,4 @@ class TextView(SectionView):
     def get_scale_url(self, item):
         request = self.request
         scale = self.context.image_size
-        return get_scale_url(item, request, "image", scale)
+        return get_scale_url(item, request, "image", scale, "paysage")

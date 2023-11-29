@@ -36,6 +36,17 @@ const ContactResult = (props) => {
                 {resultArray.map((contactItem, i) => (
                     <li key={i} className="r-search-item">
                         <a href={contactItem["_url"]}>
+                            <div className="r-search-img">
+                            {
+                                contactItem.has_leadimage[0] ? (
+                                    <div className="r-search-img" style={{
+                                        backgroundImage:"url(" + contactItem.image_url +")"
+                                    }}></div>
+                                ):(
+                                    <div className="r-search-img no-search-item-img"></div>
+                                )
+                            }
+                            </div>
                             <Highlighter
                                 highlightClassName="r-search-highlighter"
                                 searchWords={[props.urlParams.SearchableText]}

@@ -179,6 +179,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1047_to_1048"
+      title="Upgrade core from 1047 to 1048"
+      directory="profiles/1047_to_1048"
+      description="Handle orientations for images scales"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -668,4 +676,39 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1046_to_1047"
         />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1047"
+      destination="1048"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Handle orientations for images scales"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1047_to_1048"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Migrate is_in_portrait_mode field to orientation for Section Contact"
+      source="1048"
+      destination="1049"
+      handler=".upgrades.migrate_is_in_portrait_mode"
+      profile="imio.smartweb.core:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="Migrate deprecated image scales from Section Contact / Gallery"
+      source="1049"
+      destination="1050"
+      handler=".upgrades.migrate_old_scales_from_vocabulary"
+      profile="imio.smartweb.core:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="Migrate deprecated image sizes from Section Text"
+      source="1050"
+      destination="1051"
+      handler=".upgrades.migrate_old_sizes_from_section_text"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

@@ -2,7 +2,158 @@ Changelog
 =========
 
 
-1.1.30 (unreleased)
+1.2.12 (unreleased)
+-------------------
+
+- Handle `PATCH` & `DELETE` in request forwarders
+  [laulaz]
+
+- Fix smartweb url and fix metadatas if missing fullobject
+  [boulch]
+
+
+1.2.11 (2023-11-29)
+-------------------
+
+- Add Smartweb related URLs in forwarded json responses
+  [laulaz]
+
+- Transform requests forwarders into REST API Services
+  [laulaz]
+
+
+1.2.10 (2023-11-28)
+-------------------
+
+- Add RequestForwarder views
+  [laulaz, boulch]
+
+
+1.2.9 (2023-11-24)
+------------------
+
+- WEB-4021 : Fix lead image displaying with files section
+  [boulch]
+
+
+1.2.8 (2023-11-23)
+------------------
+
+- Fix (lead) image sizes URLs for text section & migrate old values
+  [boulch, laulaz]
+
+
+1.2.7 (2023-11-22)
+------------------
+
+- Fix image scales URLs for gallery view thumbnails
+  [laulaz]
+
+- WEB-3992 : Uncheck icon when clincking on checked icon (in edit form of imio.smartweb.BlockLink)
+  [boulch]
+
+
+1.2.6 (2023-11-21)
+------------------
+
+- Fix tests after scales dimensions change
+  [laulaz]
+
+
+1.2.5 (2023-11-20)
+------------------
+
+- Rebuild React to fix js errors
+  [thomlamb]
+
+- WEB-4017 : Add Number 2 for items per batch
+  [thomlamb]
+
+- Fix last upgrade steps: when run from command line, we need to adopt admin
+  user to find private objects
+  [laulaz]
+
+- Fix wrong type name in `imio.smartweb.CirkwiView` type profile
+  [laulaz]
+
+- WEB-4014 : Display "websites" urls instead of labels (facebook, website, instagram, ...)
+  [boulch]
+
+- WEB-4012 : Restored filter on related contacts field
+  [boulch]
+
+
+1.2.4 (2023-10-30)
+------------------
+
+- Handle image orientation on faceted map layout
+  [laulaz]
+
+- Remove unused Photo Gallery from collections layouts
+  [laulaz]
+
+
+1.2.3 (2023-10-29)
+------------------
+
+- Migrate deprecated image scales from Section Contact / Gallery
+  [laulaz]
+
+- Migrate "Is in portrait mode" option to orientation behavior for Section Contact
+  [laulaz]
+
+- Handle image orientation on Collection & Foler types
+  [laulaz]
+
+- Remove unused `gallery_view.pt` template
+  [laulaz]
+
+- Change order of orientation options (default first)
+  [laulaz]
+
+- Handle orientation in REST views images & fix galleries
+  [laulaz]
+
+- Change default orientation to landscape
+  [laulaz]
+
+
+1.2.2 (2023-10-26)
+------------------
+
+- WEB-3985 : Fix condition to load image or logo in contact view
+  [thomlamb]
+
+- WEB-3985 : Fix logo scale URL (no orientation there) for Directory view
+  [laulaz]
+
+- WEB-3985 : Fix React build
+  [thomlamb]
+
+
+1.2.1 (2023-10-25)
+------------------
+
+- WEB-3985 : Fix traceback when cropping scale information is not present on image change
+  [laulaz]
+
+
+1.2 (2023-10-25)
+----------------
+
+- WEB-3985 : New portrait / paysage scales & logic.
+  We have re-defined the scales & sizes used in smartweb.
+  We let the user crop only 2 big portrait / paysage scales and make the calculation behind the scenes for all
+  other smaller scales.
+  We also fixed the cropping information clearing on images changes.
+  A new orientation behavior allow the editor to choose with type of image he wants.
+  [boulch, laulaz]
+
+- Fix css for Event content view
+  [thomlamb]
+
+
+1.1.30 (2023-10-24)
 -------------------
 
 - Adaptation of react to show or hide the map

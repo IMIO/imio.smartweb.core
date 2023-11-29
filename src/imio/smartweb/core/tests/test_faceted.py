@@ -79,7 +79,13 @@ class TestFaceted(ImioSmartwebTestCase):
         brain = api.content.find(UID=uuid)[0]
         popup = popup_view.popup(brain)
         self.assertIn(
-            '<img src="http://nohost/plone/my-collection/@@images/image/mini?cache_key=78fd1bab198354b6877aed44e2ea0b4d',
+            '<img src="http://nohost/plone/my-collection/@@images/image/paysage_liste?cache_key=78fd1bab198354b6877aed44e2ea0b4d',
+            popup,
+        )
+        collection.orientation = "portrait"
+        popup = popup_view.popup(brain)
+        self.assertIn(
+            '<img src="http://nohost/plone/my-collection/@@images/image/portrait_liste?cache_key=78fd1bab198354b6877aed44e2ea0b4d',
             popup,
         )
 
@@ -110,7 +116,14 @@ class TestFaceted(ImioSmartwebTestCase):
         brain = api.content.find(UID=uuid)[0]
         self.assertEqual(
             faceted_view.get_scale_url(brain),
-            "http://nohost/plone/page/@@images/image/vignette?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+            "http://nohost/plone/page/@@images/image/paysage_vignette?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
+
+        # image orientation
+        collection.orientation = "portrait"
+        self.assertEqual(
+            faceted_view.get_scale_url(brain),
+            "http://nohost/plone/page/@@images/image/portrait_vignette?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
 
         # empty gallery
@@ -124,6 +137,7 @@ class TestFaceted(ImioSmartwebTestCase):
         self.assertEqual(faceted_view.get_scale_url(brain), "")
 
         # gallery with image
+        collection.orientation = "paysage"
         image = api.content.create(
             container=gallery,
             type="Image",
@@ -134,8 +148,9 @@ class TestFaceted(ImioSmartwebTestCase):
         faceted_view.get_scale_url(brain)
         scale_url = faceted_view.get_scale_url(brain)
         self.assertNotIn(
-            "http://nohost/plone/page/gallery/image/@@images/image/vignette", scale_url
+            "http://nohost/plone/page/gallery/image/@@images/image/paysage_vignette",
+            scale_url,
         )
         self.assertIn(
-            "http://nohost/plone/page/gallery/image/@@images/image-390-", scale_url
+            "http://nohost/plone/page/gallery/image/@@images/image-430-", scale_url
         )

@@ -11,14 +11,18 @@
 <metal:content-core define-macro="content-core">
 
     <tal:def tal:define="res view/blocks_results;
+                         images_orientation context/orientation | nothing;
+                         orientation_class python:images_orientation and f'display-{images_orientation}' or '';
                          thumb_scale view/get_thumb_scale_summary">
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4" id="block-menu">
+        <div class="" id="block-menu"
+             tal:attributes="class string:row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 ${orientation_class}">
             <div class="block-menu-element col" tal:repeat="item res/results">
                 <metal:macro use-macro="context/@@folder_macros/block" />
             </div>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4" id="block-quickaccess">
+        <div class="" id="block-quickaccess"
+             tal:attributes="class string:row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 ${orientation_class}">
             <div class="block-menu-element col" tal:repeat="item res/quick_access">
                 <metal:macro use-macro="context/@@folder_macros/block" />
             </div>

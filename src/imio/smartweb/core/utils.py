@@ -18,6 +18,7 @@ import hashlib
 import json
 import logging
 import os
+import re
 import requests
 
 logger = logging.getLogger("imio.smartweb.core")
@@ -129,13 +130,23 @@ def get_default_content_id(obj):
         return item and item.getId or ""
 
 
-def get_scale_url(context, request, fieldname, scale):
+def get_scale_url(context, request, fieldname, scale_name, orientation=""):
+    if orientation:
+        m = re.match(r"(portrait|paysage)_(\w+)", scale_name)
+        if m:
+            # remove existing orientation (if any) from scale name
+            scale_name = m.group(2)
+    scale_name = "_".join(filter(None, [orientation, scale_name]))
     if IDexterityContent.providedBy(context):
         # get scale url on an object
+        if not scale_name:
+            # return the full image
+            modified_hash = hash_md5(context.ModificationDate())
+            return f"{context.absolute_url()}/@@images/{fieldname}/?cache_key={modified_hash}"
         images_view = queryMultiAdapter((context, request), name="images")
         if images_view is None:
             return ""
-        scale = images_view.scale(fieldname, scale)
+        scale = images_view.scale(fieldname, scale_name)
         if scale is None:
             return ""
         return scale.url
@@ -152,5 +163,5 @@ def get_scale_url(context, request, fieldname, scale):
             # brain in content listing for example
             modification_date = modification_date()
         modified_hash = hash_md5(modification_date)
-        url = f"{brain.getURL()}/@@images/{fieldname}/{scale}?cache_key={modified_hash}"
+        url = f"{brain.getURL()}/@@images/{fieldname}/{scale_name}?cache_key={modified_hash}"
         return url

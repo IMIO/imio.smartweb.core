@@ -135,6 +135,22 @@ class BootstrapCSSVocabularyFactory:
 BootstrapCSSVocabulary = BootstrapCSSVocabularyFactory()
 
 
+class OrientationVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("paysage", _("Paysage")),
+            ("portrait", _("Portrait")),
+        ]
+        terms = [
+            SimpleVocabulary.createTerm(value[0], value[0], value[1])
+            for value in values
+        ]
+        return SimpleVocabulary(terms)
+
+
+OrientationVocabulary = OrientationVocabularyFactory()
+
+
 class SubsiteDisplayModeVocabularyFactory:
     def __call__(self, context=None):
         display_mode = [
@@ -305,10 +321,11 @@ AlignmentVocabulary = AlignmentVocabularyFactory()
 class ImageSizeVocabularyFactory:
     def __call__(self, context=None):
         image_size = [
-            ("extralarge", _("Full width")),
-            ("large", _("Half page")),
-            ("medium", _("Third page")),
+            ("affiche", _("Full width")),
+            # ("affiche", _("Half page")),  # unique values only (see WEB-3934)
+            ("vignette", _("Third page")),
         ]
+        _("Half page")  # don't throw away term translation
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in image_size]
         return SimpleVocabulary(terms)
 

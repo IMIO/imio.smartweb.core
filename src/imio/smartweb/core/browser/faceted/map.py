@@ -11,7 +11,8 @@ class FacetedMapView(FolderView, MapView):
 
     def get_scale_url(self, item):
         request = self.request
-        return get_scale_url(item, request, "image", "preview")
+        orientation = self.context.orientation
+        return get_scale_url(item, request, "image", "vignette", orientation)
 
 
 class FacetedGeoJSONPopup(BrowserView):
@@ -19,8 +20,9 @@ class FacetedGeoJSONPopup(BrowserView):
         url = brain.getURL()
         title = brain.Title
         description = brain.Description
+        orientation = self.context.orientation
         if brain.has_leadimage:
-            img_url = get_scale_url(brain, self.request, "image", "mini")
+            img_url = get_scale_url(brain, self.request, "image", "liste", orientation)
             return f"""<a href="{url}" title="{title}">
                          <img src="{img_url}" alt="{title}" />
                          <div>

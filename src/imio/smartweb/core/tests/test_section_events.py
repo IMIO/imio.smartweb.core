@@ -106,3 +106,22 @@ class TestSectionEvents(ImioSmartwebTestCase):
         hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertEqual(hash_2, hash_3)
         self.assertEqual(next_modification, last_modification)
+
+    @requests_mock.Mocker()
+    def test_orientation(self, m):
+        today = datetime.now()
+        today_str = today.strftime("%Y-%m-%d")
+        intids = getUtility(IIntIds)
+        self.events.related_events = "e73e6a81afea4a579cd0da2773af8d29"
+        self.events.linking_rest_view = RelationValue(
+            intids.getId(self.rest_events_view)
+        )
+        events_view = queryMultiAdapter(
+            (self.events, self.request), name="carousel_view"
+        )
+        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
+        m.get(url, text=json.dumps(self.json_events))
+
+        self.assertIn("paysage_vignette", events_view.items[0][0]["image"])
+        self.events.orientation = "portrait"
+        self.assertIn("portrait_vignette", events_view.items[0][0]["image"])

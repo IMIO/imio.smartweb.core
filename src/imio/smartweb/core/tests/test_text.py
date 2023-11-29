@@ -82,34 +82,34 @@ class TestText(ImioSmartwebTestCase):
             title="Title of my text",
         )
         section.alignment = "left"
-        section.image_size = "large"
+        section.image_size = "affiche"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<div class="body-section figure-left figure-large  no-image"', view()
+            '<div class="body-section figure-left figure-affiche  no-image"', view()
         )
         self.assertNotIn("<figure", view())
-        self.assertNotIn("@@images/image/large", view())
+        self.assertNotIn("@@images/image/affiche", view())
         self.assertNotIn("figcaption", view())
 
         section.image = NamedBlobImage(**make_named_image())
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-left figure-large "', view())
+        self.assertIn('<div class="body-section figure-left figure-affiche "', view())
         self.assertIn("<figure", view())
-        self.assertIn("@@images/image-768-", view())
+        self.assertIn("@@images/image-750-", view())
         self.assertNotIn("figcaption", view())
 
         section.image_caption = "Kamoulox"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         # Assert section text has lead image
-        self.assertIn('<div class="body-section figure-left figure-large "', view())
+        self.assertIn('<div class="body-section figure-left figure-affiche "', view())
         self.assertIn("<figure", view())
         self.assertIn("figcaption", view())
 
         section.alignment = "right"
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-right figure-large "', view())
+        self.assertIn('<div class="body-section figure-right figure-affiche "', view())
 
-        section.image_size = "mini"
+        section.image_size = "vignette"
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-right figure-mini "', view())
-        self.assertIn("@@images/image-200-", view())
+        self.assertIn('<div class="body-section figure-right figure-vignette "', view())
+        self.assertIn("@@images/image-430-", view())

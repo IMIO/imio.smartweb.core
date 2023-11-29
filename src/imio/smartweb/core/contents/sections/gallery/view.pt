@@ -34,7 +34,7 @@
            class="flexbin flexbin-margin">
         <tal:images tal:repeat="item items">
           <a class="spotlight section_gallery_item"
-             tal:attributes="href python:view.get_scale_url(item, 'extralarge');
+             tal:attributes="href python:view.get_scale_url(item, '', '');
                              title item/title;
                              data-description item/description">
             <img tal:attributes="src python:view.get_scale_url(item, thumb_scale);

@@ -82,20 +82,20 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         endpoint.convert_cached_image_scales(item, modified_hash)
         self.assertNotIn("image", item.keys())
         self.assertEqual(
-            item["image_preview_scale"],
-            "http://host.com/content/@@images/image/preview?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
-        )
-        self.assertEqual(
-            item["image_extralarge_scale"],
-            "http://host.com/content/@@images/image/extralarge?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+            item["image_vignette_scale"],
+            "http://host.com/content/@@images/image/paysage_vignette?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         self.assertEqual(
             item["image_affiche_scale"],
-            "http://host.com/content/@@images/image/affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+            "http://host.com/content/@@images/image/paysage_affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
+        )
+        self.assertEqual(
+            item["image_full_scale"],
+            "http://host.com/content/@@images/image/?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
 
         item = {"@id": "http://host.com/content", "logo": {"scales": {}}}
-        endpoint.convert_cached_image_scales(item, modified_hash, "logo", ["thumb"])
+        endpoint.convert_cached_image_scales(item, modified_hash, "logo", ["thumb"], "")
         self.assertNotIn("logo", item.keys())
         self.assertEqual(
             item["logo_thumb_scale"],
@@ -107,10 +107,10 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "image": {"scales": {}},
             "logo": {"scales": {}},
         }
-        endpoint.convert_cached_image_scales(item, modified_hash, "logo", ["thumb"])
-        self.assertEqual(len(item.keys()), 3)
+        endpoint.convert_cached_image_scales(item, modified_hash, "logo", ["thumb"], "")
+        self.assertEqual(len(item.keys()), 4)
         endpoint.convert_cached_image_scales(item, modified_hash)
-        self.assertEqual(len(item.keys()), 5)
+        self.assertEqual(len(item.keys()), 6)
 
     def test_get_extra_params(self):
         request = TestRequest(
@@ -356,7 +356,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
         self.rest_directory.display_map = True
         view = queryMultiAdapter((self.rest_directory, self.request), name="view")
-        self.assertIn('display_map="True"', view())
+        self.assertIn('display-map="True"', view())
 
         self.rest_events = api.content.create(
             container=self.portal,
@@ -365,4 +365,4 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
         self.rest_events.display_map = True
         view = queryMultiAdapter((self.rest_events, self.request), name="view")
-        self.assertIn('display_map="True"', view())
+        self.assertIn('display-map="True"', view())

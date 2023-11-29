@@ -17,7 +17,9 @@ class FilesView(CarouselOrTableSectionView):
             url = item.absolute_url()
             has_image = True if getattr(item.aq_base, "image", None) else False
             file_view = queryMultiAdapter((item, self.request), name="file_view")
-            scale_url = get_scale_url(item, self.request, "image", image_scale)
+            scale_url = get_scale_url(
+                item, self.request, "image", image_scale, orientation="paysage"
+            )
             results.append(
                 {
                     "title": item.title,

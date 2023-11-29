@@ -1,16 +1,23 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.common.interfaces import ICropping
+from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_sections_types
 from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
+from plone.app.contenttypes.behaviors.leadimage import ILeadImageBehavior
+from plone.app.dexterity.behaviors.metadata import IBasic
+from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.imagecropping.interfaces import IImageCroppingUtils
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobImage
+from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
+from zope.lifecycleevent import Attributes
+from zope.lifecycleevent import modified
 
 
 class TestCropping(ImioSmartwebTestCase):
@@ -49,7 +56,8 @@ class TestCropping(ImioSmartwebTestCase):
         view.enable()
         adapter = ICropping(self.folder, alternate=None)
         self.assertEqual(
-            ["liste", "vignette", "slide"], adapter.get_scales("image", self.request)
+            ["portrait_affiche", "paysage_affiche"],
+            adapter.get_scales("image", self.request),
         )
         self.assertEqual([], adapter.get_scales("banner", self.request))
         self.assertEqual(["preview"], adapter.get_scales("logo", self.request))
@@ -60,7 +68,8 @@ class TestCropping(ImioSmartwebTestCase):
         view.enable()
         adapter = ICropping(self.folder, alternate=None)
         self.assertEqual(
-            ["liste", "vignette", "slide"], adapter.get_scales("image", self.request)
+            ["portrait_affiche", "paysage_affiche"],
+            adapter.get_scales("image", self.request),
         )
         self.assertEqual([], adapter.get_scales("banner", self.request))
         self.assertEqual(["preview"], adapter.get_scales("logo", self.request))
@@ -75,7 +84,8 @@ class TestCropping(ImioSmartwebTestCase):
         # page cropping
         adapter = ICropping(self.page, alternate=None)
         self.assertEqual(
-            ["liste", "vignette", "slide"], adapter.get_scales("image", self.request)
+            ["portrait_affiche", "paysage_affiche"],
+            adapter.get_scales("image", self.request),
         )
 
         # sections cropping
@@ -106,6 +116,35 @@ class TestCropping(ImioSmartwebTestCase):
             (self.folder, self.request), name="croppingeditor"
         )
         self.assertEqual(len(list(cropping_view._scales("banner"))), 0)
-        self.assertEqual(len(list(cropping_view._scales("image"))), 3)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 2)
         self.assertNotIn("Banner", cropping_view())
         self.assertIn("Lead Image", cropping_view())
+
+    def test_removing_old_cropping(self):
+        self.folder.banner = NamedBlobImage(**make_named_image("plone.png"))
+        self.folder.image = NamedBlobImage(**make_named_image("plone.png"))
+
+        modified(self.folder, Attributes(IBasic, "IBasic.title"))
+        annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
+        self.assertEqual(annotation, None)
+
+        modified(
+            self.folder, Attributes(ILeadImageBehavior, "ILeadImageBehavior.image")
+        )
+        annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
+        self.assertEqual(annotation, None)
+
+        view = self.folder.restrictedTraverse("@@crop-image")
+        view._crop(fieldname="image", scale="portrait_affiche", box=(1, 1, 200, 200))
+        annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
+        self.assertEqual(annotation, {"image_portrait_affiche": (1, 1, 200, 200)})
+
+        modified(self.folder, Attributes(IFolder, "banner"))
+        annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
+        self.assertEqual(annotation, {"image_portrait_affiche": (1, 1, 200, 200)})
+
+        modified(
+            self.folder, Attributes(ILeadImageBehavior, "ILeadImageBehavior.image")
+        )
+        annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
+        self.assertEqual(annotation, {})

@@ -80,7 +80,9 @@ class PagesView(FolderView):
     def background_style(self, obj):
         if not obj.background_image:
             return ""
-        scale_url = get_scale_url(obj, self.request, "background_image", "large")
+        scale_url = get_scale_url(
+            obj, self.request, "background_image", "affiche", "paysage"
+        )
         css_bg_image = f"background-image:url({scale_url});"
         css_bg_size = "background-size:cover;"
         return " ".join([css_bg_image, css_bg_size])

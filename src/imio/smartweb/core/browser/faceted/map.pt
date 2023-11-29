@@ -20,9 +20,12 @@
 
       <div class="eea-preview-items">
 
-        <div id="faceted-results-items" class="no-map" data-geojson=''
-             tal:define="thumb_scale view/get_thumb_scale_list;"
-             tal:attributes="data-geojson python:map_view.data_geo(batch)">
+        <div id="faceted-results-items" class="" data-geojson=""
+             tal:define="thumb_scale view/get_thumb_scale_list;
+                         images_orientation context/orientation | nothing;
+                         orientation_class python:images_orientation and f'display-{images_orientation}' or ''"
+             tal:attributes="data-geojson python:map_view.data_geo(batch);
+                             class string:no-map ${orientation_class}">
         <tal:entries repeat="brain batch">
           <tal:entry tal:define="obj brain/getObject|nothing"
                      tal:condition="python:obj is not None">

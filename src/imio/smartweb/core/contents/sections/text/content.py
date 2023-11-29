@@ -24,7 +24,7 @@ class ISectionText(ISection):
         title=_("Image size"),
         description=_("Select image size"),
         source="imio.smartweb.vocabulary.ImageSize",
-        default="preview",
+        default="affiche",
         required=False,
     )
 

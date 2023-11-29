@@ -28,7 +28,7 @@
 
         <tal:block tal:condition="python:'leadimage' in visible_blocks">
           <tal:def tal:define="leadimage python:contact.leadimage();
-                               portrait_class python:'portrait' if context.is_in_portrait_mode else ''">
+                               portrait_class python:'portrait' if context.orientation == 'portrait' else ''">
             <div tal:condition="leadimage"
                  tal:attributes="style string:background-image:url(${leadimage};
                                  class string:contact_leadimage ${portrait_class}">
@@ -81,8 +81,9 @@
             <li class="urls"
                 tal:repeat="url urls"
                 tal:attributes="class python:url.get('type') or ''">
-              <a tal:attributes="href python:url.get('url')"
-                 tal:content="python:'{}'.format(url.get('type'))"
+              <a tal:attributes="href python:url.get('url');
+                                 title python:contact.get_translated_url_type(url.get('type'))"
+                 tal:content="python:url.get('url')"
                  target="_blank" />
             </li>
           </ul>

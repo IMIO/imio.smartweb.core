@@ -3,7 +3,7 @@
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.app.z3cform.widget import AjaxSelectFieldWidget
+from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
 from z3c.form.browser.checkbox import CheckBoxFieldWidget
@@ -16,8 +16,9 @@ class ISectionContact(ISection):
 
     directives.widget(
         "related_contacts",
-        AjaxSelectFieldWidget,
-        source="imio.smartweb.vocabulary.RemoteContacts",
+        SelectFieldWidget,
+        vocabulary="imio.smartweb.vocabulary.RemoteContacts",
+        pattern_options={"multiple": True},
     )
     related_contacts = schema.List(
         title=_("Related contacts"),
@@ -40,15 +41,10 @@ class ISectionContact(ISection):
     model.fieldset(
         "layout",
         fields=[
-            "is_in_portrait_mode",
             "gallery_mode",
             "nb_results_by_batch",
             "image_scale",
         ],
-    )
-
-    is_in_portrait_mode = schema.Bool(
-        title=_("Switch lead image to portrait mode"), required=False, default=False
     )
 
     gallery_mode = schema.Choice(
@@ -62,7 +58,7 @@ class ISectionContact(ISection):
         title=_("Number of items per batch (only for carousel mode)"),
         required=True,
         default=3,
-        values=[1, 3, 4],
+        values=[1, 2, 3, 4],
     )
 
     nb_contact_by_line = schema.Choice(
@@ -75,8 +71,8 @@ class ISectionContact(ISection):
 
     image_scale = schema.Choice(
         title=_("Image scale for images (only for gallery mode)"),
-        default="preview",
-        vocabulary="plone.app.vocabularies.ImagesScales",
+        default="affiche",
+        vocabulary="imio.smartweb.vocabulary.Scales",
         required=True,
     )
 

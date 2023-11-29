@@ -16,4 +16,9 @@
   <subscriber for="imio.smartweb.core.contents.ISectionHTML
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
               handler=".subscribers.modified_sectionhtml" />
+
+  <subscriber for="plone.dexterity.interfaces.IDexterityContent
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".subscribers.modified_content" />
+
 </configure>

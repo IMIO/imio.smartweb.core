@@ -9,18 +9,17 @@ from zope.component import adapter
 from zope.interface import implementer
 
 
-UNCROPPABLE_FIELDS = ["banner"]
+UNCROPPABLE_FIELDS = ["banner", "background_image"]
 
 
 class SmartwebCroppingProvider(BaseCroppingProvider):
     def get_scales(self, fieldname, request=None):
         """Define default cropping scales for all common fields"""
-        if fieldname in ["banner", "background_image"]:
-            # scale used for banner fields or background_image fields
+        if fieldname in UNCROPPABLE_FIELDS:
             return []
         elif fieldname == "image":
             # scales used for lead_image fields
-            return ["liste", "vignette", "slide"]
+            return ["portrait_affiche", "paysage_affiche"]
         else:
             return super(SmartwebCroppingProvider, self).get_scales(fieldname, request)
 
