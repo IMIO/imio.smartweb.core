@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.11 (unreleased)
+1.2.11 (2023-11-29)
 -------------------
 
 - Add Smartweb related URLs in forwarded json responses
