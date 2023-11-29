@@ -5,7 +5,8 @@ Changelog
 1.2.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Use json for request forwarders body
+  [laulaz, boulch]
 
 
 1.2.12 (2023-11-29)

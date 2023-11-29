@@ -44,7 +44,7 @@ class BaseRequestForwarder(Service):
 
         # Forward the request to the authentic source
         auth_source_response = requests.request(
-            method, url, params=params, headers=headers, data=data
+            method, url, params=params, headers=headers, json=data
         )
 
         response = self.request.response
