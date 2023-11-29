@@ -22,6 +22,24 @@
       name="@directory_request_forwarder"
       />
 
+  <plone:service
+      method="PATCH"
+      accept="application/json"
+      factory=".authentic_sources.DirectoryRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@directory_request_forwarder"
+      />
+
+  <plone:service
+      method="DELETE"
+      accept="application/json"
+      factory=".authentic_sources.DirectoryRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@directory_request_forwarder"
+      />
+
 
   <!-- Events  -->
   <plone:service
@@ -42,6 +60,24 @@
       name="@events_request_forwarder"
       />
 
+  <plone:service
+      method="PATCH"
+      accept="application/json"
+      factory=".authentic_sources.EventsRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@events_request_forwarder"
+      />
+
+  <plone:service
+      method="DELETE"
+      accept="application/json"
+      factory=".authentic_sources.EventsRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@events_request_forwarder"
+      />
+
 
   <!-- News  -->
   <plone:service
@@ -55,6 +91,24 @@
 
   <plone:service
       method="POST"
+      accept="application/json"
+      factory=".authentic_sources.NewsRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@news_request_forwarder"
+      />
+
+  <plone:service
+      method="PATCH"
+      accept="application/json"
+      factory=".authentic_sources.NewsRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@news_request_forwarder"
+      />
+
+  <plone:service
+      method="DELETE"
       accept="application/json"
       factory=".authentic_sources.NewsRequestForwarder"
       for="*"

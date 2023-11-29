@@ -5,6 +5,9 @@ Changelog
 1.2.12 (unreleased)
 -------------------
 
+- Handle `PATCH` & `DELETE` in request forwarders
+  [laulaz]
+
 - Fix smartweb url and fix metadatas if missing fullobject
   [boulch]
 
