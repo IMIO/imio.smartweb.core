@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.13 (unreleased)
+1.2.13 (2023-11-29)
 -------------------
 
 - Use json for request forwarders body
