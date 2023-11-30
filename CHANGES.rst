@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.15 (unreleased)
+1.2.15 (2023-11-30)
 -------------------
 
 - Handle empty responses in request forwarders
