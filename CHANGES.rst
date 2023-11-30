@@ -5,7 +5,8 @@ Changelog
 1.2.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix parameters in `POST` / `PATCH` / `DELETE` requests
+  [laulaz]
 
 
 1.2.13 (2023-11-29)

@@ -39,14 +39,14 @@ class BaseRequestForwarder(Service):
         token = get_wca_token(self.client_id, self.client_secret)
         headers = {"Accept": "application/json", "Authorization": token}
         params = self.request.form
-        params = self.add_missing_metadatas(params)
+        if method == "GET":
+            params = self.add_missing_metadatas(params)
         data = json_body(self.request)
 
         # Forward the request to the authentic source
         auth_source_response = requests.request(
             method, url, params=params, headers=headers, json=data
         )
-
         response = self.request.response
         # Set the status code and headers from the authentic source server response
         response.setStatus(auth_source_response.status_code)
@@ -65,7 +65,7 @@ class BaseRequestForwarder(Service):
                 # search endpoint)
                 default_view_url = get_default_view_url(self.request_type)
                 item_uid = item["UID"]
-                item_id = item["id"]
+                item_id = item.get("id", "content")
                 item["smartweb_url"] = f"{default_view_url}#/{item_id}?u={item_uid}"
         return json_data
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from base64 import b64encode
 from freezegun import freeze_time
 from imio.smartweb.core import config
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
@@ -8,16 +9,20 @@ from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import FakeResponse
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.restapi.testing import RelativeSession
 from unittest.mock import patch
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
 from zope.component import queryMultiAdapter
+from zope.event import notify
 from zope.publisher.browser import TestRequest
+from ZPublisher.pubevents import PubStart
 
 import json
 import requests_mock
@@ -72,6 +77,21 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
     def tearDown(self):
         self.api_session.close()
+
+    def traverse(self, path="/plone", method="GET"):
+        request = self.layer["request"]
+        request.environ["PATH_INFO"] = path
+        request.environ["PATH_TRANSLATED"] = path
+        request.environ["HTTP_ACCEPT"] = "application/json"
+        request.environ["REQUEST_METHOD"] = method
+        request.other["ACTUAL_URL"] = ""
+        request.other["URL"] = ""
+        request.method = method
+        request.form = {}
+        auth = f"{TEST_USER_ID}:{TEST_USER_PASSWORD}"
+        request._auth = "Basic %s" % b64encode(auth.encode("utf8")).decode("utf8")
+        notify(PubStart(request))
+        return request.traverse(path)
 
     @freeze_time("2021-09-14 8:00:00")
     def test_convert_cached_image_scales(self):
@@ -366,3 +386,91 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.rest_events.display_map = True
         view = queryMultiAdapter((self.rest_events, self.request), name="view")
         self.assertIn('display-map="True"', view())
+
+    @patch("imio.smartweb.core.rest.authentic_sources.get_wca_token")
+    @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
+    def test_request_forwarder(self, mock_view_url, mock_request, mock_get_wca_token):
+        def authenthic_source_response(*args, **kwargs):
+            response = FakeResponse()
+            response.status_code = 200
+            response.headers = {"test-header": "True"}
+            return response
+
+        mock_view_url.return_value = "http://view-url"
+        mock_get_wca_token.return_value = "kamoulox"
+        mock_request.side_effect = authenthic_source_response
+
+        # traversal stack
+        service = self.traverse("/plone/@news_request_forwarder/belleville/@search")
+        self.assertListEqual(service.traversal_stack, ["belleville", "@search"])
+
+        # add_smartweb_urls
+        json_data = {}
+        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
+        json_data = {"foo": "bar"}
+        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
+        json_data = {"items": []}
+        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
+        json_data = {"items": [{"@id": "http://news/my-news"}]}
+        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
+        json_data = {"items": [{"@id": "http://news/my-news", "UID": "12345678"}]}
+        json_result = service.add_smartweb_urls(json_data)
+        self.assertIn("smartweb_url", json_result["items"][0])
+        self.assertEqual(
+            json_data["items"][0]["smartweb_url"], "http://view-url#/content?u=12345678"
+        )
+
+        # add_missing_metadatas
+        params = {}
+        self.assertEqual(
+            service.add_missing_metadatas(params), {"metadata_fields": ["id", "UID"]}
+        )
+        params = {"fullobjects": 1}
+        self.assertEqual(service.add_missing_metadatas(params), params)
+        params = {"metadata_fields": ["other", "UID"]}
+        self.assertEqual(
+            service.add_missing_metadatas(params),
+            {"metadata_fields": ["other", "UID", "id"]},
+        )
+        params = {"metadata_fields": ["other", "id"]}
+        self.assertEqual(
+            service.add_missing_metadatas(params),
+            {"metadata_fields": ["other", "id", "UID"]},
+        )
+
+        # reply
+        response = service.reply()
+        mock_request.assert_called_with(
+            "GET",
+            "http://localhost:8080/Plone/belleville/@search",
+            params={"metadata_fields": ["id", "UID"]},
+            headers={"Accept": "application/json", "Authorization": "kamoulox"},
+            json={},
+        )
+        self.assertEqual(response, {})
+        self.assertEqual(self.request.response.status, 200)
+        self.assertEqual(self.request.response.headers, {"test-header": "True"})
+
+        service = self.traverse(
+            "/plone/@events_request_forwarder/belleville/", method="POST"
+        )
+
+        service.reply()
+        mock_request.assert_called_with(
+            "POST",
+            "http://localhost:8080/Plone/belleville",
+            params={},
+            headers={"Accept": "application/json", "Authorization": "kamoulox"},
+            json={},
+        )
+
+        self.assertEqual(
+            self.api_session.get("/@directory_request_forwarder/foo/bar").json(), {}
+        )
+        self.assertEqual(
+            self.api_session.get("/@events_request_forwarder/foo/bar").json(), {}
+        )
+        self.assertEqual(
+            self.api_session.get("/@news_request_forwarder/foo/bar").json(), {}
+        )
