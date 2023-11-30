@@ -53,6 +53,10 @@ class BaseRequestForwarder(Service):
         for header, value in auth_source_response.headers.items():
             response.setHeader(header, value)
 
+        if auth_source_response.status_code == 204 or auth_source_response.text == "":
+            # Empty response
+            return ""
+
         return auth_source_response.json()
 
     def add_smartweb_urls(self, json_data):

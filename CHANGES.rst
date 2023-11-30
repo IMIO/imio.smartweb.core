@@ -5,7 +5,8 @@ Changelog
 1.2.15 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Handle empty responses in request forwarders
+  [laulaz]
 
 
 1.2.14 (2023-11-30)

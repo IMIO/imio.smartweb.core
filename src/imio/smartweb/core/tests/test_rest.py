@@ -391,15 +391,12 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
     @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
     @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
     def test_request_forwarder(self, mock_view_url, mock_request, mock_get_wca_token):
-        def authenthic_source_response(*args, **kwargs):
-            response = FakeResponse()
-            response.status_code = 200
-            response.headers = {"test-header": "True"}
-            return response
-
         mock_view_url.return_value = "http://view-url"
         mock_get_wca_token.return_value = "kamoulox"
-        mock_request.side_effect = authenthic_source_response
+        mock_request.return_value = FakeResponse(
+            status_code=200,
+            headers={"test-header": "True"},
+        )
 
         # traversal stack
         service = self.traverse("/plone/@news_request_forwarder/belleville/@search")
@@ -455,7 +452,6 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         service = self.traverse(
             "/plone/@events_request_forwarder/belleville/", method="POST"
         )
-
         service.reply()
         mock_request.assert_called_with(
             "POST",
@@ -465,12 +461,21 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             json={},
         )
 
+        mock_request.side_effect = None
+        mock_request.return_value = FakeResponse(status_code=204)
+        service = self.traverse(
+            "/plone/@events_request_forwarder/belleville/", method="PATCH"
+        )
+        response = service.reply()
+        self.assertEqual(response, "")
+        self.assertEqual(self.request.response.status, 204)
+
         self.assertEqual(
-            self.api_session.get("/@directory_request_forwarder/foo/bar").json(), {}
+            self.api_session.get("/@directory_request_forwarder/foo/bar").text, ""
         )
         self.assertEqual(
-            self.api_session.get("/@events_request_forwarder/foo/bar").json(), {}
+            self.api_session.get("/@events_request_forwarder/foo/bar").text, ""
         )
         self.assertEqual(
-            self.api_session.get("/@news_request_forwarder/foo/bar").json(), {}
+            self.api_session.get("/@news_request_forwarder/foo/bar").text, ""
         )

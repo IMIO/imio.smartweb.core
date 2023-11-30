@@ -96,10 +96,16 @@ def make_named_image(filename="plone.png"):
     return {"filename": filename, "data": image_data}
 
 
-class FakeResponse(dict):
+class FakeResponse:
     status_code = 404
     headers = {}
     text = "{}"
+
+    def __init__(self, status_code=None, headers=None):
+        if status_code:
+            self.status_code = status_code
+        if headers:
+            self.headers = headers
 
     def json(self):
         return json.loads(self.text)
