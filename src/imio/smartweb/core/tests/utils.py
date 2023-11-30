@@ -94,3 +94,12 @@ def make_named_image(filename="plone.png"):
     with open(path, "rb") as f:
         image_data = f.read()
     return {"filename": filename, "data": image_data}
+
+
+class FakeResponse(dict):
+    status_code = 404
+    headers = {}
+    text = "{}"
+
+    def json(self):
+        return json.loads(self.text)

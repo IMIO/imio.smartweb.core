@@ -2,8 +2,31 @@ Changelog
 =========
 
 
-1.2.12 (unreleased)
+1.2.15 (unreleased)
 -------------------
+
+- Nothing changed yet.
+
+
+1.2.14 (2023-11-30)
+-------------------
+
+- Fix parameters in `POST` / `PATCH` / `DELETE` requests
+  [laulaz]
+
+
+1.2.13 (2023-11-29)
+-------------------
+
+- Use json for request forwarders body
+  [laulaz, boulch]
+
+
+1.2.12 (2023-11-29)
+-------------------
+
+- Deactivate Plone protect / Add token for queries
+  [laulaz, boulch]
 
 - Handle `PATCH` & `DELETE` in request forwarders
   [laulaz]
