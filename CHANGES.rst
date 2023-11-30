@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.14 (unreleased)
+1.2.14 (2023-11-30)
 -------------------
 
 - Fix parameters in `POST` / `PATCH` / `DELETE` requests
