@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import EventContent from "./EventContent/EventContent";
 import EventList from "./EventList/EventList";
-import EventMap from "./EventMap/EventMap";
+import Map from "../../utils/Map";
 import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
@@ -119,7 +119,7 @@ function EventsView(props) {
             <EventList onChange={clickID} itemsArray={itemsArray} onHover={hoverID} />
         );
         MapRender = (
-            <EventMap
+            <Map
                 headerHeight={style.height + portalHeaderHeight}
                 clickId={clickId}
                 hoverId={hoverId}

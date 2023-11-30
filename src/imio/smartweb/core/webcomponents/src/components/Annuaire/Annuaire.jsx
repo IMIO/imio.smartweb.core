@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
-import ContactMap from "./ContactMap/ContactMap";
+import Map from "../../utils/Map";
 import useAxios from "../../hooks/useAxios";
 import "./Annuaire.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
@@ -119,11 +119,12 @@ function AnnuaireView(props) {
             <ContactList onChange={clickID} contactArray={contactArray} onHover={hoverID} />
         );
         MapRender = (
-            <ContactMap
+            <Map
                 headerHeight={style.height + portalHeaderHeight}
                 clickId={clickId}
                 hoverId={hoverId}
                 items={contactArray}
+                queryUrl={props.queryUrl}
             />
         );
     } else if (!isLoading) {

@@ -28,19 +28,13 @@ const ContactCard = ({ item }) => {
             />
 
             <div className="r-item-text">
-                {item.category ? (
-                    <span className="r-item-categorie">{item.category.title}</span>
-                ) : (
-                    ""
-                )}
-                <span className="r-item-title">{title}</span>
-                {start ? (
+                {start &&
                     <span className="r-item-date">
                         <Moment format="DD-MM-YYYY">{start}</Moment>
                     </span>
-                ) : (
-                    ""
-                )}
+                }
+                <span className="r-item-title">{title}</span>
+                {item.category && <span className="r-item-categorie">{item.category.title}</span>}
             </div>
         </div>
     );
