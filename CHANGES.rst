@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.17 (unreleased)
+1.2.17 (2023-12-01)
 -------------------
 
 - Refactor / optimize React code and upgrade packages
