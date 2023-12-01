@@ -1,0 +1,10 @@
+  <meta property="og:title" content="...">
+  <meta property="og:description" content="...">
+  <meta property="og:url" content="...">
+  <meta property="og:site_name" content="...">
+  <meta property="og:image" content="https://example.com/path/to/image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="...">
+  <meta property="og:image:width" content="...">
+  <meta property="og:image:height" content="...">
+  <meta property="og:type" content="website"> <!-- "og:type" can be omitted for 'website' (is default), required for other types: http://ogp.me/#types -->

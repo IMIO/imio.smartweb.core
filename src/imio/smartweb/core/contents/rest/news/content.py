@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents import RestView
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.dexterity.content import Container
 from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
@@ -23,5 +23,5 @@ class INewsView(model.Schema):
 
 
 @implementer(INewsView)
-class NewsView(Container):
+class NewsView(RestView):
     """NewsView class"""

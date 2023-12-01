@@ -2,7 +2,10 @@
 
 from imio.smartweb.core.utils import get_json
 from plone import api
+from plone.dexterity.content import Container
 from plone.rest import Service
+from zope.interface import implementer
+from zope.interface import Interface
 
 import json
 
@@ -71,3 +74,12 @@ class BaseService(Service):
             indent=2,
             separators=(", ", ": "),
         )
+
+
+class IRestView(Interface):
+    """"""
+
+
+@implementer(IRestView)
+class RestView(Container):
+    """Shared base class for REST views contents"""

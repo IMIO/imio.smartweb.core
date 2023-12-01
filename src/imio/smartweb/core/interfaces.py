@@ -31,3 +31,7 @@ class IArcgisViewUtils(Interface):
 
     def get_portal_item_id():
         """Return id of a map"""
+
+
+class IOgpViewUtils(Interface):
+    """ """
