@@ -5,6 +5,9 @@ Changelog
 1.2.18 (unreleased)
 -------------------
 
+- Change HashRouter to BrowserRouter in React
+  [thomlamb]
+
 - WEB-3783 : Add new header viewlet to manage og:tags in REACT views
   [boulch]
 

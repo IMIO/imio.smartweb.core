@@ -3,6 +3,7 @@
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from plone import api
 from Products.Five import BrowserView
+from urllib.parse import urlsplit
 from zope.interface import implementer
 
 
@@ -29,3 +30,9 @@ class BaseRestView(BrowserView):
     @property
     def current_language(self):
         return api.portal.get_current_language()[:2]
+    
+    @property
+    def view_path(self):
+        url = self.context.absolute_url()
+        parsed = urlsplit(url)
+        return url.replace(f"{parsed.scheme}://{parsed.netloc}","")

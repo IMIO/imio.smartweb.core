@@ -10,7 +10,8 @@
                                        propose-url view/propose_url;
                                        orientation view/orientation;
                                        current-language view/current_language;
-                                       display-map view/display_map;"></smartweb-annuaire>
+                                       display-map view/display_map;
+                                       view-path view/view_path;"></smartweb-annuaire>
   </div>
 </metal:main>
 </body>
