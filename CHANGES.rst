@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.16 (unreleased)
+1.2.16 (2023-12-01)
 -------------------
 
 - Handle single item json responses in request forwarders
