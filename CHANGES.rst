@@ -5,7 +5,8 @@ Changelog
 1.2.17 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Refactor / optimize React code and upgrade packages
+  [thomlamb]
 
 
 1.2.16 (2023-12-01)
