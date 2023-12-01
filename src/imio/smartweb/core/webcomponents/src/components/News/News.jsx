@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import NewsContent from "./NewsContent/NewsContent";
 import NewsList from "./NewsList/NewsList";
@@ -11,7 +11,7 @@ import translation from '../../utils/translation';
 
 export default function News(props) {
     return (
-        <Router>
+        <Router basename={props.viewPath}>
             <Provider language={props.currentLanguage} translation={translation}>
                 <NewsView
                     queryFilterUrl={props.queryFilterUrl}
@@ -99,18 +99,10 @@ const NewsView = (props) => {
 
     return (
         <div>
-            <Router>
                 <div className="r-wrapper r-actu-wrapper">
                     <div className="r-result r-annuaire-result">
                         <Switch>
-                            <Route path={"/:name"}>
-                                <NewsContent
-                                    onChange={clickID}
-                                    onReturn={filtersChange}
-                                    queryUrl={props.queryUrl}
-                                />
-                            </Route>
-                            <Route exact path="*">
+                            <Route exact path="/">
                                 <div className="r-result-filter actu-result-filter">
                                     <Filters
                                         url={props.queryFilterUrl}
@@ -153,10 +145,16 @@ const NewsView = (props) => {
                                     )}
                                 </div>
                             </Route>
+                            <Route path={"/:name"}>
+                                <NewsContent
+                                    onChange={clickID}
+                                    onReturn={filtersChange}
+                                    queryUrl={props.queryUrl}
+                                />
+                            </Route>
                         </Switch>
                     </div>
                 </div>
-            </Router>
         </div>
     );
 };

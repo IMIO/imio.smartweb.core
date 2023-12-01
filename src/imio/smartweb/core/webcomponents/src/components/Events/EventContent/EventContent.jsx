@@ -50,10 +50,10 @@ const ContactContent = ({ queryUrl, onChange }) => {
 		}
 	}, [item]);
 
-	function handleClick() {
-		history.push("./");
-		onChange(null);
-	}
+    function handleClick() {
+        history.push("./");
+        onChange(null);
+    }
 	moment.locale('be');
 	const start = moment.utc(item.start).format('DD-MM-YYYY');
 	const end = moment.utc(item.end).format('DD-MM-YYYY');

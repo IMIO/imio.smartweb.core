@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import moment from "moment";
 import Moment from "react-moment";
-import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import ReactMarkdown from 'react-markdown';
 
@@ -40,19 +39,7 @@ const NewsCard = ({ item }) => {
                     <ReactMarkdown className="r-item-description">{limitDescription}</ReactMarkdown> 
                     : ""
                 }
-                <Link
-                    className="r-item-read-more"
-                    style={{ textDecoration: "none" }}
-                    to={{
-                        pathname: removeAccents(
-                            item.title.replace(/\s/g, "-").toLowerCase()
-                        ),
-                        search: `?u=${item.UID}`,
-                        state: {
-                            idItem: item.UID,
-                        },
-                    }}
-                >
+                <div className="r-item-read-more" style={{ textDecoration: "none" }}>
                     {
                         created === lastModified ?
                         (
@@ -68,7 +55,7 @@ const NewsCard = ({ item }) => {
                         </div>
                         )
                     }
-                </Link>
+                </div>
             </div>
             <div className="r-item-arrow-more"></div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { HashRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
@@ -12,7 +12,7 @@ import translation from '../../utils/translation';
 
 export default function Annuaire(props) {
     return (
-        <Router>
+        <Router basename={props.viewPath}>
             <Provider language={props.currentLanguage} translation={translation}>
                 <AnnuaireView
                     queryFilterUrl={props.queryFilterUrl}
@@ -38,7 +38,7 @@ function AnnuaireView(props) {
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
     const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
-    const displayMap =  props.displayMap === "True" ? true : false;
+    const displayMap = props.displayMap === "True" ? true : false;
     const { response, error, isLoading, isMore } = useAxios(
         {
             method: "get",
@@ -104,7 +104,7 @@ function AnnuaireView(props) {
     let portalHeaderHeight = portalHeader.offsetHeight;
 
     const filterRef = useRef();
-    const [style, setStyle] = React.useState({ height:0 });
+    const [style, setStyle] = React.useState({ height: 0 });
     useEffect(() => {
         setStyle({
             height: filterRef.current.clientHeight,
@@ -133,92 +133,92 @@ function AnnuaireView(props) {
 
     const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
     return (
-        <Router>
-            <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
+        <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
+            <div
+                className="r-result-filter-container"
+                ref={filterRef}
+                style={{ top: portalHeaderHeight }}
+            >
                 <div
-                    className="r-result-filter-container"
-                    ref={filterRef}
-                    style={{ top: portalHeaderHeight }}
+                    id="r-result-filter"
+                    className="r-result-filter container annuaire-result-filter"
                 >
-                    <div
-                        id="r-result-filter"
-                        className="r-result-filter container annuaire-result-filter"
-                    >
-                        <Filters
-                            url={props.queryFilterUrl}
-                            activeFilter={filters}
-                            onChange={filtersChange}
-                        />
-                        {props.proposeUrl &&
-                            (
-                                <div className="r-add-contact">
-                                    <a target="_blank" rel="noreferrer" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
-                                </div>
-                            )
-                        }
-                        {contactNumber > 0 ? (
-                            <p className="r-results-numbers">
-                                <span>{contactNumber}</span>
-                                {contactNumber > 1 
+                    <Filters
+                        url={props.queryFilterUrl}
+                        activeFilter={filters}
+                        onChange={filtersChange}
+                    />
+                    {props.proposeUrl &&
+                        (
+                            <div className="r-add-contact">
+                                <a target="_blank" rel="noreferrer" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
+                            </div>
+                        )
+                    }
+                    {contactNumber > 0 ? (
+                        <p className="r-results-numbers">
+                            <span>{contactNumber}</span>
+                            {contactNumber > 1
                                 ? <Translate text='contacts trouvés' />
                                 : <Translate text='contact trouvé' />}
-                            </p>
-                        ) : (
-                            <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
-                        )}
-                    </div>
+                        </p>
+                    ) : (
+                        <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
+                    )}
                 </div>
-                <Switch>
-                    <Route path={"/:name"}>
-                        <div className="r-wrapper container r-annuaire-wrapper">
-                            <div className="r-result r-annuaire-result">
-                                <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
-                            </div>
-                            {displayMap && <div
-                                className="r-map annuaire-map"
-                                style={{
-                                    top: style.height + portalHeaderHeight,
-                                    height: "calc(100vh-" + style.height + portalHeaderHeight,
-                                }}
-                            >
-                                {MapRender}
-                            </div>}
-                        </div>
-                    </Route>
-                    <Route exact path="*">
-                        <div className="r-wrapper container r-annuaire-wrapper">
-                            <div className="r-result r-annuaire-result">
-                                <div>{listRender}</div>
-                                <div className="r-load-more">
-                                    {contactNumber - props.batchSize > batchStart ? (
-                                        <div>
-                                            <span className="no-more-result">
-                                                {isLoading ? divLoader : ""}
-                                            </span>
-                                        <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
-                                        </button>
-                                        </div>
-                                    ) : (
+            </div>
+            <Switch>
+                <Route exact path="/">
+                    <div className="r-wrapper container r-annuaire-wrapper">
+                        <div className="r-result r-annuaire-result">
+                            <div>{listRender}</div>
+                            <div className="r-load-more">
+                                {contactNumber - props.batchSize > batchStart ? (
+                                    <div>
                                         <span className="no-more-result">
                                             {isLoading ? divLoader : ""}
                                         </span>
-                                    )}
-                                </div>
+                                        <button onClick={loadMore} className="btn-grad">
+                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <span className="no-more-result">
+                                        {isLoading ? divLoader : ""}
+                                    </span>
+                                )}
                             </div>
-                            {displayMap && <div
-                                className="r-map annuaire-map"
-                                style={{
-                                    top: style.height + portalHeaderHeight,
-                                    height: "calc(100vh-" + style.height + portalHeaderHeight,
-                                }}
-                            >
-                                {MapRender}
-                            </div>}
                         </div>
-                    </Route>
-                </Switch>
-            </div>
-        </Router>
+                        {displayMap && <div
+                            className="r-map annuaire-map"
+                            style={{
+                                top: style.height + portalHeaderHeight,
+                                height: "calc(100vh-" + style.height + portalHeaderHeight,
+                            }}
+                        >
+                            {MapRender}
+                        </div>
+                        }
+                    </div>
+                </Route>
+                <Route path={"/:name"}>
+                    <div className="r-wrapper container r-annuaire-wrapper">
+                        <div className="r-result r-annuaire-result">
+                            <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
+                        </div>
+                        {displayMap && <div
+                            className="r-map annuaire-map"
+                            style={{
+                                top: style.height + portalHeaderHeight,
+                                height: "calc(100vh-" + style.height + portalHeaderHeight,
+                            }}
+                        >
+                            {MapRender}
+                        </div>
+                        }
+                    </div>
+                </Route>
+            </Switch>
+        </div>
     );
 }
