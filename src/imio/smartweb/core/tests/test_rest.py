@@ -407,6 +407,13 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(service.add_smartweb_urls(json_data), json_data)
         json_data = {"foo": "bar"}
         self.assertEqual(service.add_smartweb_urls(json_data), json_data)
+        json_data = {"@id": "http://news/my-news"}
+        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
+        json_data = {"@id": "http://news/my-news", "UID": "12345678"}
+        json_result = service.add_smartweb_urls(json_data)
+        self.assertEqual(
+            json_result["smartweb_url"], "http://view-url#/content?u=12345678"
+        )
         json_data = {"items": []}
         self.assertEqual(service.add_smartweb_urls(json_data), json_data)
         json_data = {"items": [{"@id": "http://news/my-news"}]}

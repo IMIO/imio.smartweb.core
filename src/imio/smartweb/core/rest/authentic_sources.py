@@ -59,18 +59,24 @@ class BaseRequestForwarder(Service):
 
         return auth_source_response.json()
 
+    def construct_url(self, view_url, item):
+        # we can construct a Smartweb-related URL for item
+        # TODO: handle other views & translations (use/refactor code in
+        # search endpoint)
+        item_uid = item["UID"]
+        item_id = item.get("id", "content")
+        item["smartweb_url"] = f"{view_url}#/{item_id}?u={item_uid}"
+
     def add_smartweb_urls(self, json_data):
-        if "items" not in json_data:
+        if "items" not in json_data and "@id" not in json_data:
+            return json_data
+        default_view_url = get_default_view_url(self.request_type)
+        if "@id" in json_data and "UID" in json_data:
+            self.construct_url(default_view_url, json_data)
             return json_data
         for item in json_data.get("items", []):
             if "@id" in item and "UID" in item:
-                # we can construct a Smartweb-related URL for item
-                # TODO: handle other views & translations (use/refactor code in
-                # search endpoint)
-                default_view_url = get_default_view_url(self.request_type)
-                item_uid = item["UID"]
-                item_id = item.get("id", "content")
-                item["smartweb_url"] = f"{default_view_url}#/{item_id}?u={item_uid}"
+                self.construct_url(default_view_url, item)
         return json_data
 
     def add_missing_metadatas(self, params):

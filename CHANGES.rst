@@ -5,7 +5,8 @@ Changelog
 1.2.16 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Handle single item json responses in request forwarders
+  [laulaz]
 
 
 1.2.15 (2023-11-30)
