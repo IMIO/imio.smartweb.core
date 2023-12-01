@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import ReactMarkdown from 'react-markdown';
 
-const ContactCard = ({ contactItem }) => {
+const NewsCard = ({ item }) => {
     const [limitDescription, setLimitDescription] = useState();
     const numberLimit = 150;
-    const title = contactItem.title && contactItem.title;
-    const description = contactItem.description && contactItem.description;
-    const category = contactItem.taxonomy_contact_category
-        ? contactItem.taxonomy_contact_category[0].title
+    const title = item.title && item.title;
+    const description = item.description && item.description;
+    const category = item.taxonomy_contact_category
+        ? item.taxonomy_contact_category[0].title
         : "";
     useEffect(() => {
         if (description.length >= numberLimit) {
@@ -19,17 +19,17 @@ const ContactCard = ({ contactItem }) => {
         } else {
             setLimitDescription(description);
         }
-    }, [contactItem]);
+    }, [item]);
     moment.locale('fr')
-    const created = moment(contactItem.created).startOf('minute').fromNow();
-    const lastModified = moment(contactItem.modified).startOf('minute').fromNow();
+    const created = moment(item.created).startOf('minute').fromNow();
+    const lastModified = moment(item.modified).startOf('minute').fromNow();
     return (
         <div className="r-list-item">
             <div
-                className={contactItem.image_vignette_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
+                className={item.image_vignette_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
                 style={{
-                    backgroundImage: contactItem.image_vignette_scale
-                        ? "url(" + contactItem.image_vignette_scale + ")"
+                    backgroundImage: item.image_vignette_scale
+                        ? "url(" + item.image_vignette_scale + ")"
                         : "",
                 }}
             />
@@ -45,11 +45,11 @@ const ContactCard = ({ contactItem }) => {
                     style={{ textDecoration: "none" }}
                     to={{
                         pathname: removeAccents(
-                            contactItem.title.replace(/\s/g, "-").toLowerCase()
+                            item.title.replace(/\s/g, "-").toLowerCase()
                         ),
-                        search: `?u=${contactItem.UID}`,
+                        search: `?u=${item.UID}`,
                         state: {
-                            idItem: contactItem.UID,
+                            idItem: item.UID,
                         },
                     }}
                 >
@@ -75,4 +75,4 @@ const ContactCard = ({ contactItem }) => {
     );
 };
 
-export default ContactCard;
+export default NewsCard;

@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
-import ContactContent from "./ContactContent/ContactContent";
-import ContactList from "./ContactList/ContactList";
-import ContactMap from "./ContactMap/ContactMap";
+import EventContent from "./EventContent/EventContent";
+import EventList from "./EventList/EventList";
+import Map from "../../utils/Map";
 import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
@@ -31,8 +31,8 @@ function EventsView(props) {
         { b_start: 0, fullobjects: 1 },
         queryString.parse(useFilterQuery().toString())
     );
-    const [contactArray, setcontactArray] = useState([]);
-    const [contactNumber, setcontactNumber] = useState([]);
+    const [itemsArray, setItemsArray] = useState([]);
+    const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
     const [filters, setFilters] = useState(parsed);
@@ -57,11 +57,11 @@ function EventsView(props) {
     useEffect(() => {
         if (response !== null) {
             if (isMore) {
-                setcontactArray((contactArray) => [...contactArray, ...response.items]);
+                setItemsArray((itemsArray) => [...itemsArray, ...response.items]);
             } else {
-                setcontactArray(response.items);
+                setItemsArray(response.items);
             }
-            setcontactNumber(response.items_total);
+            setItemsNumber(response.items_total);
         }
     }, [response]);
 
@@ -114,16 +114,17 @@ function EventsView(props) {
     // coditional list render
     let listRender;
     let MapRender;
-    if (contactArray && contactArray.length > 0) {
+    if (itemsArray && itemsArray.length > 0) {
         listRender = (
-            <ContactList onChange={clickID} contactArray={contactArray} onHover={hoverID} />
+            <EventList onChange={clickID} itemsArray={itemsArray} onHover={hoverID} />
         );
         MapRender = (
-            <ContactMap
+            <Map
                 headerHeight={style.height + portalHeaderHeight}
                 clickId={clickId}
                 hoverId={hoverId}
-                items={contactArray}
+                items={itemsArray}
+                queryUrl={props.queryUrl}
             />
         );
     } else if (!isLoading) {
@@ -131,6 +132,7 @@ function EventsView(props) {
     }
 
     const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
+
     return (
         <Router>
             <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
@@ -155,10 +157,10 @@ function EventsView(props) {
                                 </div>
                             )
                         }
-                        {contactNumber > 0 ? (
+                        {itemsNumber > 0 ? (
                             <p className="r-results-numbers">
-                                <span>{contactNumber}</span>
-                                {contactNumber > 1
+                                <span>{itemsNumber}</span>
+                                {itemsNumber > 1
                                     ? <Translate text='événements trouvés' />
                                     : <Translate text='événement trouvé' />}
                             </p>
@@ -171,7 +173,7 @@ function EventsView(props) {
                     <Route path={"/:name"}>
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
-                                <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
+                                <EventContent queryUrl={props.queryUrl} onChange={clickID} />
                             </div>
                          {displayMap && <div
                                 className="r-map annuaire-map"
@@ -190,7 +192,7 @@ function EventsView(props) {
                             <div className="r-result r-annuaire-result">
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
-                                    {contactNumber - props.batchSize > batchStart ? (
+                                    {itemsNumber - props.batchSize > batchStart ? (
                                         <div>
                                             <span className="no-more-result">
                                                 {isLoading ? divLoader : ""}

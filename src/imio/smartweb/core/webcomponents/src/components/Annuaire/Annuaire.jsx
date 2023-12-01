@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
-import ContactMap from "./ContactMap/ContactMap";
+import Map from "../../utils/Map";
 import useAxios from "../../hooks/useAxios";
 import "./Annuaire.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
@@ -78,7 +78,7 @@ function AnnuaireView(props) {
     // set state filters when active filter selection
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
-        setBatchStart((batchStart) => 0);
+        setBatchStart(() => 0);
         setFilters(value);
         window.scrollTo(0, 0);
     };
@@ -119,11 +119,12 @@ function AnnuaireView(props) {
             <ContactList onChange={clickID} contactArray={contactArray} onHover={hoverID} />
         );
         MapRender = (
-            <ContactMap
+            <Map
                 headerHeight={style.height + portalHeaderHeight}
                 clickId={clickId}
                 hoverId={hoverId}
                 items={contactArray}
+                queryUrl={props.queryUrl}
             />
         );
     } else if (!isLoading) {
@@ -151,7 +152,7 @@ function AnnuaireView(props) {
                         {props.proposeUrl &&
                             (
                                 <div className="r-add-contact">
-                                    <a target="_blank" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
+                                    <a target="_blank" rel="noreferrer" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
                                 </div>
                             )
                         }

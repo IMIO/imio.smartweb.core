@@ -33,13 +33,13 @@ const WebResult = (props) => {
                 </p>
             </div>
             <ul className="r-search-list">
-                {resultArray.map((contactItem, i) => (
+                {resultArray.map((item, i) => (
                     <li key={i} className="r-search-item">
-                        <a href={contactItem["@id"]}>
+                        <a href={item["@id"]}>
                             <Highlighter
                                 highlightClassName="r-search-highlighter"
                                 searchWords={[props.urlParams.SearchableText]}
-                                textToHighlight={contactItem.title}
+                                textToHighlight={item.title}
                             />
                         </a>
                     </li>
