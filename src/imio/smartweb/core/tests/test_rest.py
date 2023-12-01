@@ -412,7 +412,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         json_data = {"@id": "http://news/my-news", "UID": "12345678"}
         json_result = service.add_smartweb_urls(json_data)
         self.assertEqual(
-            json_result["smartweb_url"], "http://view-url#/content?u=12345678"
+            json_result["smartweb_url"], "http://view-url/content?u=12345678"
         )
         json_data = {"items": []}
         self.assertEqual(service.add_smartweb_urls(json_data), json_data)
@@ -422,7 +422,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         json_result = service.add_smartweb_urls(json_data)
         self.assertIn("smartweb_url", json_result["items"][0])
         self.assertEqual(
-            json_data["items"][0]["smartweb_url"], "http://view-url#/content?u=12345678"
+            json_data["items"][0]["smartweb_url"], "http://view-url/content?u=12345678"
         )
 
         # add_missing_metadatas

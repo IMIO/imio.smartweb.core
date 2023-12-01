@@ -61,7 +61,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "description": item["description"],
                 "category": item["category_title"],
                 "effective": item["effective"],
-                "url": f"{linking_view_url}#/{item_id}?u={item_uid}",
+                "url": f"{linking_view_url}/{item_id}?u={item_uid}",
                 "has_image": item["has_leadimage"],
                 "image": f"{item_url}/@@images/image/{orientation}_{image_scale}?cache_key={modified_hash}",
             }

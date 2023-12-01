@@ -153,7 +153,7 @@ class ExtendedSearchHandler(SearchHandler):
                     del item[fname]
         type_mapping = mapping[item["@type"]]
         base_url = type_mapping.get(item["container_uid"], type_mapping["default"])
-        item["_url"] = "{base}#/content?u={item_uid}".format(
+        item["_url"] = "{base}/content?u={item_uid}".format(
             base=base_url,
             item_uid=item["UID"],
         )

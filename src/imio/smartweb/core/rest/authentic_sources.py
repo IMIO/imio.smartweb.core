@@ -65,7 +65,7 @@ class BaseRequestForwarder(Service):
         # search endpoint)
         item_uid = item["UID"]
         item_id = item.get("id", "content")
-        item["smartweb_url"] = f"{view_url}#/{item_id}?u={item_uid}"
+        item["smartweb_url"] = f"{view_url}/{item_id}?u={item_uid}"
 
     def add_smartweb_urls(self, json_data):
         if "items" not in json_data and "@id" not in json_data:
