@@ -5,9 +5,7 @@
   <include package="plone.app.contentmenu" />
   <browser:page
       name="stats"
-      title="Plausible dashboard"
       template="plausible.pt"
-      menu="plone_displayviews"
       for="plone.base.interfaces.siteroot.IPloneSiteRoot"
       class=".plausible.PlausibleView"
       permission="cmf.ModifyPortalContent"
