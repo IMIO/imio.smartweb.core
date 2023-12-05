@@ -32,6 +32,11 @@ jQuery(document).ready(function ($) {
       })
     }
   });
+
+  // Move statistics action menu entry as the first element in personaltools menu
+  var $stat_link = $("li:has(a[href*='@@stats'])");
+  $("#collapse-personaltools li:eq(0)").after($stat_link);
+
 });
 
 jQuery(window).on("load", function(e) {
