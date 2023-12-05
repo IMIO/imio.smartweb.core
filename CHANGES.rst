@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.18 (unreleased)
+1.2.18 (2023-12-05)
 -------------------
 
 - WEB-4022 : Create a new action menu with an utils view that redirect to stats (browser)view
