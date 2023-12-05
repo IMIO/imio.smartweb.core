@@ -5,9 +5,12 @@ Changelog
 1.2.18 (unreleased)
 -------------------
 
+- WEB-4022 : Create a new action menu with an utils view that redirect to stats (browser)view
+  [boulch]
+
 - Change HashRouter to BrowserRouter in React & fix related URLs
   [thomlamb, laulaz]
-  
+
 - WEB-3783 : Add new header viewlet to manage og:tags in REACT views
   [boulch]
 

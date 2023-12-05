@@ -187,6 +187,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1051_to_1052"
+      title="Upgrade common from 1051 to 1052"
+      directory="profiles/1051_to_1052"
+      description="Add new action to navigate to stats (plausible) view"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -710,5 +718,15 @@
       handler=".upgrades.migrate_old_sizes_from_section_text"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1051"
+      destination="1052"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new action to navigate to stats (plausible) view"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1051_to_1052"
+    />
+  </genericsetup:upgradeSteps>
 
 </configure>

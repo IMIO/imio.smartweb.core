@@ -2,6 +2,7 @@
 from Products.Five.browser import BrowserView
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
+from imio.smartweb.core.utils import get_plausible_vars
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.api.portal import get_registry_record
@@ -75,33 +76,6 @@ class UtilsView(BrowserView):
             }
         )
 
-
-def get_plausible_vars(self):
-    env_plausible_url = os.getenv("SMARTWEB_PLAUSIBLE_URL", "")
-    env_plausible_site = os.getenv("SMARTWEB_PLAUSIBLE_SITE", "")
-    env_plausible_token = os.getenv("SMARTWEB_PLAUSIBLE_TOKEN", "")
-
-    plausible_url = (
-        env_plausible_url
-        if (env_plausible_url and env_plausible_url != "")
-        else api.portal.get_registry_record("smartweb.plausible_url")
-    )
-    plausible_site = (
-        env_plausible_site
-        if (env_plausible_site and env_plausible_site != "")
-        else api.portal.get_registry_record("smartweb.plausible_site")
-    )
-    plausible_token = (
-        env_plausible_token
-        if (env_plausible_token and env_plausible_token != "")
-        else api.portal.get_registry_record("smartweb.plausible_token")
-    )
-    if all([plausible_site, plausible_url, plausible_token]):
-        plausible_vars = {
-            "plausible_url": plausible_url,
-            "plausible_site": plausible_site,
-            "plausible_token": plausible_token,
-        }
-        return plausible_vars
-    else:
-        return None
+    def is_plausible_set(self):
+        """ """
+        return True if get_plausible_vars() else False
