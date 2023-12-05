@@ -165,3 +165,34 @@ def get_scale_url(context, request, fieldname, scale_name, orientation=""):
         modified_hash = hash_md5(modification_date)
         url = f"{brain.getURL()}/@@images/{fieldname}/{scale_name}?cache_key={modified_hash}"
         return url
+
+
+def get_plausible_vars():
+    env_plausible_url = os.getenv("SMARTWEB_PLAUSIBLE_URL", "")
+    env_plausible_site = os.getenv("SMARTWEB_PLAUSIBLE_SITE", "")
+    env_plausible_token = os.getenv("SMARTWEB_PLAUSIBLE_TOKEN", "")
+
+    plausible_url = (
+        env_plausible_url
+        if (env_plausible_url and env_plausible_url != "")
+        else api.portal.get_registry_record("smartweb.plausible_url")
+    )
+    plausible_site = (
+        env_plausible_site
+        if (env_plausible_site and env_plausible_site != "")
+        else api.portal.get_registry_record("smartweb.plausible_site")
+    )
+    plausible_token = (
+        env_plausible_token
+        if (env_plausible_token and env_plausible_token != "")
+        else api.portal.get_registry_record("smartweb.plausible_token")
+    )
+    if all([plausible_site, plausible_url, plausible_token]):
+        plausible_vars = {
+            "plausible_url": plausible_url,
+            "plausible_site": plausible_site,
+            "plausible_token": plausible_token,
+        }
+        return plausible_vars
+    else:
+        return None
