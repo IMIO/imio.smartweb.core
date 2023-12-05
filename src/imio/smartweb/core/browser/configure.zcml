@@ -57,7 +57,7 @@
       for="*"
       class=".utils.UtilsView"
       permission="zope2.View"
-      allowed_attributes="is_previewable_content map_configuration"
+      allowed_attributes="is_previewable_content map_configuration is_plausible_set"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
