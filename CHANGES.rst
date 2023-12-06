@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.19 (unreleased)
+1.2.19 (2023-12-06)
 -------------------
 
 - WEB-4022 : Fix : Compiled edit.js
