@@ -65,10 +65,10 @@ class ExternalContentView(SectionView):
 
 class EaglebePlugin(Plugin):
     def __call__(self, parts, config={}):
+        if "app.eaglebe.com" in parts.netloc:
+            return f'<iframe class="eaglebe" src="{parts.geturl()}" scrolling="no" width="{config["width"]}">'
+        #
         return None
-
-        # if "app.eaglebe.com" in parts.netloc:
-        #    return f'<iframe class="eaglebe" src="{parts.geturl()}" scrolling="no" width="{config["width"]}">'
 
 
 class EllohaPlugin(Plugin):

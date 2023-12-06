@@ -5,7 +5,8 @@ Changelog
 1.2.20 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- (Re)Activate external section
+  [boulch]
 
 
 1.2.19 (2023-12-06)
