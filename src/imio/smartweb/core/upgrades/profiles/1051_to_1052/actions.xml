@@ -7,7 +7,7 @@
     <object meta_type="CMF Action" name="statistics" i18n:domain="imio.smartweb">
       <property name="title" i18n:translate="">Statistics</property>
       <property name="description" i18n:translate=""/>
-      <property name="url_expr">string:$portal_url/@@stats"</property>
+      <property name="url_expr">string:$portal_url/@@stats</property>
       <property name="icon_expr">string:activity</property>
       <property name="available_expr">portal/@@utils/is_plausible_set</property>
       <property name="permissions">

@@ -5,7 +5,11 @@ Changelog
 1.2.19 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4022 : Fix : Compiled edit.js
+  [boulch]
+
+- WEB-4022 : Fix : bad char in actions.xml (setup/upgrade step)
+  [boulch]
 
 
 1.2.18 (2023-12-05)
