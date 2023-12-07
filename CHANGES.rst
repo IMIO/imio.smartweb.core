@@ -5,6 +5,9 @@ Changelog
 1.2.20 (unreleased)
 -------------------
 
+- WEB-3783 : Update viewlet to set og:tags in rest views
+  [boulch]
+
 - (Re)Activate external section
   [boulch]
 

@@ -37,17 +37,6 @@
     />
 
   <browser:viewlet
-    name="imio.smartweb.ogp_header"
-    for="*"
-    view="imio.smartweb.core.interfaces.IOgpViewUtils"
-    manager="plone.app.layout.viewlets.interfaces.IHTTPHeaders"
-    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-    template="ogp_tag_header.pt"
-    class=".ogptags.OgpTagsViewlet"
-    permission="zope.Public"
-    />
-
-  <browser:viewlet
       name="imio.smartweb.header_actions"
       for="*"
       manager=".actions.IHeaderActionsViewletsManager"
@@ -305,6 +294,17 @@
         permission="zope2.View"
         />
   </configure>
+
+  <browser:viewlet
+    name="plone.htmlhead.socialtags"
+    for="imio.smartweb.core.contents.IRestView"
+    view="imio.smartweb.core.interfaces.IOgpViewUtils"
+    manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    template="ogp_tag_header.pt"
+    class=".ogptags.OgpTagsViewlet"
+    permission="zope2.View"
+    />
 
   <configure package="collective.messagesviewlet.browser">
     <browser:viewlet
