@@ -11,10 +11,12 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import FakeResponse
 from imio.smartweb.core.tests.utils import get_json
+from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.namedfile.file import NamedBlobImage
 from plone.restapi.testing import RelativeSession
 from unittest.mock import patch
 from urllib.parse import urlparse
@@ -235,9 +237,109 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "translated_in_en=1",
             )
 
-    def test_render_rest_directory(self):
-        view = queryMultiAdapter((self.rest_directory, self.request), name="view")
-        self.assertIn("<smartweb-annuaire", view())
+    def test_render_rest_auth_sources(self):
+        """og:tags on rest view"""
+
+        auth_sources = [
+            {"name": "annuaire", "content": self.rest_directory},
+            {"name": "actualites", "content": self.rest_news},
+            {"name": "agenda", "content": self.rest_events},
+        ]
+        for auth_source in auth_sources:
+            view = queryMultiAdapter(
+                (auth_source["content"], self.request), name="view"
+            )
+            self.assertEqual(view().count('<meta property="og:title"'), 1)
+            self.assertIn(
+                f'<meta property="og:title" content="{auth_source["content"].title}">',
+                view(),
+            )
+            self.assertIn('<meta property="og:description" content="">', view())
+            self.assertIn('<meta property="og:site_name" content="Plone site">', view())
+            self.assertNotIn('<meta property="og:image" content="">', view())
+            self.assertNotIn('<meta property="og:image:type" content="">', view())
+            self.assertIn('<meta property="og:image:alt" content="">', view())
+            self.assertNotIn('<meta property="og:image:width" content="">', view())
+            self.assertNotIn('<meta property="og:image:height">', view())
+            self.assertIn('<meta property="og:type" content="website">', view())
+
+            auth_source["content"].description = "Kamoulox"
+            auth_source["content"].image = NamedBlobImage(**make_named_image())
+            view = queryMultiAdapter(
+                (auth_source["content"], self.request), name="view"
+            )
+            self.assertIn('<meta property="og:description" content="Kamoulox">', view())
+            pattern = r'<meta property="og:image" content="http://localhost:\d+/plone/{}/@@images/image/paysage_vignette\?cache_key=[a-zA-Z0-9]+">'.format(
+                auth_source["content"].id
+            )
+            self.assertRegex(view(), pattern)
+            self.assertIn('<meta property="og:image:type" content="image/png">', view())
+            self.assertIn('<meta property="og:image:alt" content="">', view())
+            self.assertIn('<meta property="og:image:width" content="400">', view())
+            self.assertIn('<meta property="og:image:height" content="400">', view())
+
+    @patch("imio.smartweb.core.viewlets.ogptags.get_wca_token")
+    @patch("imio.smartweb.core.viewlets.ogptags.get_json")
+    def test_render_rest_auth_sources_item(self, mock_get_json, mock_get_wca_token):
+        """og:tags on an item in a rest view"""
+
+        auth_sources = [
+            {"name": "annuaire", "content": self.rest_directory},
+            {"name": "actualites", "content": self.rest_news},
+            {"name": "agenda", "content": self.rest_events},
+        ]
+        for auth_source in auth_sources:
+            mock_get_wca_token.return_value = "kamoulox"
+            mock_get_json.return_value = {
+                "items": [
+                    {
+                        "title": "kamoulox",
+                        "description": "kamoulox description",
+                        "url": f'https://{auth_source["name"]}.preprod.imio.be/braine-l-alleud/d63d28c478bb4269b77e1ceae8410cc5',
+                    }
+                ]
+            }
+            UID = "3c436a800154449f84797fdb30561297"
+            self.request.form["u"] = UID
+            view = queryMultiAdapter(
+                (auth_source["content"], self.request), name="view"
+            )
+            self.assertEqual(view().count('<meta property="og:title"'), 1)
+            self.assertIn('<meta property="og:title" content="kamoulox">', view())
+            self.assertIn(
+                '<meta property="og:description" content="kamoulox description">',
+                view(),
+            )
+            self.assertNotIn('<meta property="og:image"', view())
+            self.assertNotIn('<meta property="og:image:type"', view())
+            self.assertIn('<meta property="og:image:alt" content="">', view())
+            self.assertNotIn('<meta property="og:image:width"', view())
+            self.assertNotIn('<meta property="og:image:height"', view())
+            default_scale = "paysage_vignette"
+            mock_get_json.return_value["items"][0]["image"] = {
+                "download": f'https://{auth_source["name"]}.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-400-b963678cd2367410ceec02428ebe093e.jpg',
+                "filename": "kamoulox.jpg",
+                "content-type": "image/jpeg",
+                "scales": {
+                    default_scale: {
+                        "width": "400",
+                        "height": "400",
+                    }
+                },
+            }
+            view = queryMultiAdapter(
+                (auth_source["content"], self.request), name="view"
+            )
+            self.assertIn(
+                f'<meta property="og:image" content="https://{auth_source["name"]}.preprod.imio.be/braine-lalleud/citoyens/d448b0c80f0e4c57819bf23e6281aa98/@@images/image-400-b963678cd2367410ceec02428ebe093e.jpg">',
+                view(),
+            )
+            self.assertIn(
+                '<meta property="og:image:type" content="image/jpeg">', view()
+            )
+            self.assertIn('<meta property="og:image:alt" content="">', view())
+            self.assertIn('<meta property="og:image:width" content="400">', view())
+            self.assertIn('<meta property="og:image:height" content="400">', view())
 
     def test_rest_directory_results(self):
         params = {}

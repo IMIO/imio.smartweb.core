@@ -1,10 +1,19 @@
-  <meta property="og:title" content="...">
-  <meta property="og:description" content="...">
-  <meta property="og:url" content="...">
-  <meta property="og:site_name" content="...">
-  <meta property="og:image" content="https://example.com/path/to/image.png">
-  <meta property="og:image:type" content="image/png">
-  <meta property="og:image:alt" content="...">
-  <meta property="og:image:width" content="...">
-  <meta property="og:image:height" content="...">
+  <meta property="og:title" tal:attributes="content view/title">
+  <meta property="og:description" tal:attributes="content view/description">
+  <meta property="og:url" tal:attributes="content view/url">
+  <meta property="og:site_name" tal:attributes="content view/site_name">
+  <meta property="og:image"
+        tal:condition="view/image_url"
+        tal:attributes="content view/image_url">
+  <meta property="og:image:type"
+        tal:condition="view/image_type"
+        tal:attributes="content view/image_type">
+  <meta property="og:image:alt"
+        tal:attributes="content view/image_alt">
+  <meta property="og:image:width"
+        tal:condition="view/image_height"
+        tal:attributes="content view/image_width">
+  <meta property="og:image:height"
+        tal:condition="view/image_height"
+        tal:attributes="content view/image_height">
   <meta property="og:type" content="website"> <!-- "og:type" can be omitted for 'website' (is default), required for other types: http://ogp.me/#types -->
