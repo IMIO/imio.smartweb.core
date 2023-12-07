@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.20 (unreleased)
+1.2.20 (2023-12-07)
 -------------------
 
 - WEB-3783 : Update viewlet to set og:tags in rest views
