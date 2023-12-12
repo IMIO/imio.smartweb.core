@@ -31,7 +31,9 @@ class SmartwebIconsView(IconsView):
 
     def tag(self, name, tag_class="", tag_alt=""):
         try:
-            return super(SmartwebIconsView, self).tag(name, tag_class, tag_alt)
+            svg_bstr = super(SmartwebIconsView, self).tag(name, tag_class, tag_alt)
+            svg_bstr = self.ensure_fill_in_svg_tags(svg_bstr)
+            return svg_bstr
         except NotImplementedError:
             # Resolving icon stored in database, let's do it below
             # See https://github.com/plone/Products.CMFPlone/pull/3359
@@ -56,4 +58,11 @@ class SmartwebIconsView(IconsView):
         for name, modifier in SVG_MODIFER.items():
             __traceback_info__ = name
             modifier(svgtree, modifier_cfg)
-        return etree.tostring(svgtree)
+        return self.ensure_fill_in_svg_tags(etree.tostring(svgtree))
+
+    def ensure_fill_in_svg_tags(self, svg_bstr):
+        original_string = svg_bstr.decode("utf-8")
+        if "fill=" not in original_string or 'fill="none"' in original_string:
+            modified_string = original_string.replace("<svg", '<svg fill="#000000"')
+            svg_bstr = modified_string.encode("utf-8")
+        return svg_bstr

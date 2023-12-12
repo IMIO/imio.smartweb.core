@@ -5,7 +5,8 @@ Changelog
 1.2.21 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3992 : Fix invisible icons (no fill attributes or fill="none")
+  [boulch]
 
 
 1.2.20 (2023-12-07)
