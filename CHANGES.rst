@@ -5,6 +5,9 @@ Changelog
 1.2.21 (unreleased)
 -------------------
 
+- WEB-3992 : Fix svg to have base color. Add class for icon in table template
+  [thomlamb]
+
 - SUP-34061 : Fix React Gallery img scales
   [thomlamb]
 

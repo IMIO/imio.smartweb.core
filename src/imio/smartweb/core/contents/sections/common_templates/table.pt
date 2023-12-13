@@ -61,7 +61,7 @@
                                          href item/url;
                                          target python:'_blank' if (open_in_new_tab and not can_edit_sections) else '';">
                         <tal:if tal:condition="show_lead_image">
-                            <div class="image d-block w-100"
+                            <div class="image d-block is-icon w-100"
                                  tal:condition="item_has_icon">
                               <tal:icon tal:replace="structure python:smartweb_icons.tag(item['icon'])" />
                             </div>
