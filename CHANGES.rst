@@ -5,7 +5,8 @@ Changelog
 1.2.21 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-34061 : Fix React Gallery img scales
+  [thomlamb]
 
 
 1.2.20 (2023-12-07)

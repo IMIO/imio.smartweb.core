@@ -51,7 +51,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
 	moment.locale('fr')
     const created = moment(item.created).startOf('minute').fromNow();
     const lastModified = moment(item.modified).startOf('minute').fromNow();
-
     return (
         <div className="new-content r-content">
             <button type="button" onClick={handleClick}>
@@ -244,8 +243,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 					<div className="r-content-gallery">
 						<div class="spotlight-group flexbin r-content-gallery">
 							{gallery.map((image,i) => (
-								<a key={i} class="spotlight" href={image.image_extralarge_scale} >
-									<img src={image.image_vignette_scale} />
+								<a key={i} class="spotlight" href={image.image_full_scale} >
+									<img src={image.image_preview_scale} />
 								</a>
 							))}
 						</div>
