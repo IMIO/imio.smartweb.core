@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.21 (unreleased)
+1.2.21 (2023-12-14)
 -------------------
 
 - WEB-3992 : Fix svg to have base color. Add class for icon in table template
