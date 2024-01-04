@@ -5,7 +5,8 @@ Changelog
 1.2.22 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Refactor : Move ContactProperties (to build readable schedule) to imio.smartweb.common
+  [boulch]
 
 
 1.2.21 (2023-12-14)

@@ -4,9 +4,9 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 from datetime import timedelta
 from freezegun import freeze_time
+from imio.smartweb.common.contact_utils import formatted_schedule
+from imio.smartweb.common.contact_utils import get_schedule_for_today
 from imio.smartweb.core.contents.sections.contact.utils import ContactProperties
-from imio.smartweb.core.contents.sections.contact.utils import formatted_schedule
-from imio.smartweb.core.contents.sections.contact.utils import get_schedule_for_today
 from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
