@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.22 (unreleased)
+1.2.22 (2024-01-05)
 -------------------
 
 - Refactor : Move ContactProperties (to build readable schedule) to imio.smartweb.common
