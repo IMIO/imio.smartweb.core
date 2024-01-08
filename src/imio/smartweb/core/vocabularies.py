@@ -140,6 +140,7 @@ class OrientationVocabularyFactory:
         values = [
             ("paysage", _("Paysage")),
             ("portrait", _("Portrait")),
+            ("carre", _("Carre")),
         ]
         terms = [
             SimpleVocabulary.createTerm(value[0], value[0], value[1])

@@ -5,7 +5,8 @@ Changelog
 1.2.23 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4041 : Handle new "carre" scale
+  [boulch]
 
 
 1.2.22 (2024-01-05)

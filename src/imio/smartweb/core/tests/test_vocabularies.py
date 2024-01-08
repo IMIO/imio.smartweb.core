@@ -85,7 +85,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 6)
 
     def test_orientation(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.Orientation", 2)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Orientation", 3)
 
     def test_subsite_display_mode(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SubsiteDisplayMode", 3)

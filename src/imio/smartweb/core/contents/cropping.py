@@ -19,7 +19,7 @@ class SmartwebCroppingProvider(BaseCroppingProvider):
             return []
         elif fieldname == "image":
             # scales used for lead_image fields
-            return ["portrait_affiche", "paysage_affiche"]
+            return ["portrait_affiche", "paysage_affiche", "carre_affiche"]
         else:
             return super(SmartwebCroppingProvider, self).get_scales(fieldname, request)
 

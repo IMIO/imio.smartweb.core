@@ -132,7 +132,7 @@ def get_default_content_id(obj):
 
 def get_scale_url(context, request, fieldname, scale_name, orientation=""):
     if orientation:
-        m = re.match(r"(portrait|paysage)_(\w+)", scale_name)
+        m = re.match(r"(portrait|paysage|carre)_(\w+)", scale_name)
         if m:
             # remove existing orientation (if any) from scale name
             scale_name = m.group(2)

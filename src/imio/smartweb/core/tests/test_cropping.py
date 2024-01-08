@@ -56,7 +56,7 @@ class TestCropping(ImioSmartwebTestCase):
         view.enable()
         adapter = ICropping(self.folder, alternate=None)
         self.assertEqual(
-            ["portrait_affiche", "paysage_affiche"],
+            ["portrait_affiche", "paysage_affiche", "carre_affiche"],
             adapter.get_scales("image", self.request),
         )
         self.assertEqual([], adapter.get_scales("banner", self.request))
@@ -68,7 +68,7 @@ class TestCropping(ImioSmartwebTestCase):
         view.enable()
         adapter = ICropping(self.folder, alternate=None)
         self.assertEqual(
-            ["portrait_affiche", "paysage_affiche"],
+            ["portrait_affiche", "paysage_affiche", "carre_affiche"],
             adapter.get_scales("image", self.request),
         )
         self.assertEqual([], adapter.get_scales("banner", self.request))
@@ -84,7 +84,7 @@ class TestCropping(ImioSmartwebTestCase):
         # page cropping
         adapter = ICropping(self.page, alternate=None)
         self.assertEqual(
-            ["portrait_affiche", "paysage_affiche"],
+            ["portrait_affiche", "paysage_affiche", "carre_affiche"],
             adapter.get_scales("image", self.request),
         )
 
@@ -116,7 +116,7 @@ class TestCropping(ImioSmartwebTestCase):
             (self.folder, self.request), name="croppingeditor"
         )
         self.assertEqual(len(list(cropping_view._scales("banner"))), 0)
-        self.assertEqual(len(list(cropping_view._scales("image"))), 2)
+        self.assertEqual(len(list(cropping_view._scales("image"))), 3)
         self.assertNotIn("Banner", cropping_view())
         self.assertIn("Lead Image", cropping_view())
 
