@@ -35,3 +35,7 @@ class IArcgisViewUtils(Interface):
 
 class IOgpViewUtils(Interface):
     """ """
+
+
+class IHtmxViewUtils(Interface):
+    """ """

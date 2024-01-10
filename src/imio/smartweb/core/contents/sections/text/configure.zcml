@@ -11,6 +11,24 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="*"
+      name="gettext"
+      attribute="get_text"
+      class="imio.smartweb.core.contents.sections.text.views.InlineEditView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="savetext"
+      attribute="save_text"
+      class="imio.smartweb.core.contents.sections.text.views.InlineEditView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <!-- Custom add view and form - invoked from ++add++ traverser -->
   <adapter
       for="Products.CMFCore.interfaces.IFolderish
@@ -34,4 +52,5 @@
       permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
 </configure>

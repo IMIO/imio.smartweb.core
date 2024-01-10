@@ -306,6 +306,17 @@
     permission="zope2.View"
     />
 
+  <browser:viewlet
+    name="smartweb.htmx.js"
+    for="imio.smartweb.core.contents.IPage"
+    view="imio.smartweb.core.interfaces.IHtmxViewUtils"
+    manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    template="htmx_js_header.pt"
+    class=".htmx.HtmxViewlet"
+    permission="zope2.View"
+    />
+
   <configure package="collective.messagesviewlet.browser">
     <browser:viewlet
         name="message-viewlet"

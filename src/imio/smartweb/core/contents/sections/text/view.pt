@@ -9,7 +9,15 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
-  <metal:macro use-macro="context/@@sections_macros/section_edition" />
+<script>
+    function handleDoubleClick(event, uid) {
+      var editForm = document.getElementById("editForm_" + uid);
+      var clickedElement = event.target;
+      editForm.style.display = "block";
+      clickedElement.style.display = "none";
+    }
+</script>
+    <metal:macro use-macro="context/@@sections_macros/section_edition" />
   <div tal:define="image context/image | nothing;"
        class="container section-container section-text"
        id=""
@@ -25,8 +33,30 @@
           <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
         </figure>
       </tal:cond>
+      <!--hx-trigger="click[ctrlKey]"-->
       <div class="text"
-           tal:content="structure context/text/output | nothing" />
+           hx-swap="innerHTML"
+           tal:attributes="hx-get string:${context/absolute_url}/@@gettext;
+                           id string:editableText_${context/UID}aaa;
+                           hx-target string:#editableText_${context/UID};
+                           ondblclick string:handleDoubleClick(event, '${context/UID}')"
+           tal:content="structure context/text/output | nothing"
+           />
+      <div class="text"
+           tal:attributes="id string:editForm_${context/UID}"
+           style="display:none;">
+          <form hx-swap="innerHTML"
+                tal:attributes="hx-post string:${context/absolute_url}/@@savetext;
+                                hx-target string:#editForm_${context/UID}">
+              <textarea name="newText"
+                        tal:attributes="id string:editableText_${context/UID};
+                                        hx-val string:editableText_${context/UID}">
+              </textarea>
+              <button type="submit">Save</button>
+              <input name="_authenticator" type="hidden"
+                     tal:attributes="value context/@@authenticator/token">
+          </form>
+      </div>
     </div>
 </div>
 </metal:content-core>
