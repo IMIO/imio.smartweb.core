@@ -64,7 +64,7 @@ const ContactCard = ({ item }) => {
                             style={{ backgroundImage: "url(" + image.src + ")" }}
                         />
                         <img className={"r-content-figure-img" + " " + imageClassName}
-                            src={image.src} />
+                            src={image.src} alt="" />
                     </div>
                 </>
                 : <>

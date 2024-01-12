@@ -19,6 +19,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
     const [gallery, setGallery] = useState();
     const [social, setSocial] = useState([]);
     const [image, setImage] = useState();
+    const [isSchedulVisible, setSchedulVisibility] = useState(true);
 
     const { response } = useAxios(
         {
@@ -89,6 +90,10 @@ const ContactContent = ({ queryUrl, onChange }) => {
         countryTitle
 
     itineraryLink = itineraryLink.replaceAll('+null', '')
+
+    const toggleSchedul = () => {
+        setSchedulVisibility(!isSchedulVisible);
+    };
     return (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
@@ -110,7 +115,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
                             style={{ backgroundImage: "url(" + item.image_affiche_scale + ")" }} />
                         <img className="r-content-figure-img"
                             src={item.image_affiche_scale}
-                            style={{ objectFit: image && image.width >= image.height ? "cover" : "contain" }} />
+                            style={{ objectFit: image && image.width >= image.height ? "cover" : "contain" }}
+                            alt="" />
                     </figure>
                 )}
 
@@ -149,6 +155,63 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         ) : (
                             ""
                         )}
+                        {/* schedule */}
+                        {
+                            item.schedule &&
+                            <div onClick={toggleSchedul} className="annuaire-schedul" role="button" aria-expanded="false" >
+                                <div className="annuaire-schedul-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                    </svg>
+                                </div>
+                                <div className="annuaire-schedul-content">
+                                    {isSchedulVisible ? (
+                                        <>
+                                            <span className={item.schedule_for_today === "Fermé" ? "annuaire-day-close" : "annuaire-day-open"}>
+                                                {item.schedule_for_today}
+                                            </span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                            </svg>
+                                        </>
+                                    ) : (
+                                        <div>
+                                            <ul>
+                                                {item.table_date.map((day, index) => {
+                                                    const dayOfWeek = Object.keys(day)[0];
+                                                    const status = day[dayOfWeek];
+
+                                                    return (
+                                                        <li key={index}>
+                                                            <strong>{dayOfWeek}:</strong> {status}
+                                                        </li>
+                                                    );
+                                                })}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                                {/* <div className="annuaire-schedul-content">
+                                    <span className={item.schedule_for_today === "Fermé" ? "annuaire-day-close" : "annuaire-day-open"}>
+                                        {item.schedule_for_today}
+                                    </span>
+                                    <div class="">
+                                        <ul>
+                                            {item.table_date.map((day, index) => {
+                                                const dayOfWeek = Object.keys(day)[0];
+                                                const status = day[dayOfWeek];
+
+                                                return (
+                                                    <li key={index}>
+                                                        <strong>{dayOfWeek}:</strong> {status}
+                                                    </li>
+                                                );
+                                            })}
+                                        </ul>
+                                    </div>
+                                </div> */}
+                            </div>
+                        }
 
                         {item.phones && item.phones.length > 0
                             ? (<div className="annuaire-phone">
@@ -294,15 +357,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
                             </div>
                         }
 
-                        {/* add topics */}
-                        <div className="topics">
-                            {item.topics
-                                ? item.topics.map((mail, i) => {
-                                    return <span key={i}>{mail.title}</span>;
-                                })
-                                : ""}
-                        </div>
-
                         {item.logo_thumb_scale ? (
                             <img
                                 className="annuaire-logo"
@@ -312,12 +366,12 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         ) : (
                             ""
                         )}
-                        {item.logo_thumb_scale && 
-                                <img
-                                    className="annuaire-logo"
-                                    src={item.logo_thumb_scale}
-                                    alt="Logo"
-                                />
+                        {item.logo_thumb_scale &&
+                            <img
+                                className="annuaire-logo"
+                                src={item.logo_thumb_scale}
+                                alt="Logo"
+                            />
                         }
                     </div>
                 </div>
@@ -331,7 +385,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                     <span className="r-content-file-title">{file.title}</span>
                                     <span className="r-content-file-icon">
                                         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg>
-                                        </span>
+                                    </span>
                                 </a>
                             </div>
                         ))}
@@ -344,7 +398,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         <div className="spotlight-group flexbin r-content-gallery">
                             {gallery.map((image, i) => (
                                 <a key={i} className="spotlight" href={image.image_full_scale} >
-                                    <img src={image.image_preview_scale} />
+                                    <img src={image.image_preview_scale} alt="" />
                                 </a>
                             ))}
                         </div>

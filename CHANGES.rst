@@ -5,7 +5,8 @@ Changelog
 1.2.24 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4007 : Add Schedul in contact React view
+  [thomlamb]
 
 
 1.2.23 (2024-01-09)

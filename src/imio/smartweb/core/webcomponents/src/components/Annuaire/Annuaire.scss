@@ -193,11 +193,14 @@ article > header {
 .annuaire-info-title {
   font-weight: bold;
 }
-.annuaire-website-link,.annaire-adresse,.annuaire-phone,.annuaire-website-mails,.annuaire-social-link {
+.annuaire-website-link,.annaire-adresse,.annuaire-phone,.annuaire-website-mails,.annuaire-social-link,.annuaire-schedul {
   display: flex;
   gap: 10px;
   align-items: first baseline;
   margin-bottom: .5rem;
+  a {
+    text-decoration: none;
+  }
 }
 .annuaire-phone,.annuaire-website-mails {
   span {
@@ -252,6 +255,18 @@ article > header {
       // line-height: 0.8;
       // margin: .3rem 0;
     }
+  }
+}
+
+.annuaire-day-close {
+  color: #e61d1d;
+}
+.annuaire-day-open {
+  color:rgba(129,201,149,1.0);
+}
+.annuaire-schedul {
+  li {
+    list-style: none;
   }
 }
 // FOR BLA
