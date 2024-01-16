@@ -5,6 +5,9 @@ Changelog
 1.2.24 (unreleased)
 -------------------
 
+- WEB-4050 : Fix : Loosing related_contacts ordering when changing any attributes in section
+  [boulch]
+
 - WEB-4007 : Add Schedul in contact React view
   [thomlamb]
 
