@@ -157,7 +157,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         )}
                         {/* schedule */}
                         {
-                            item.schedule &&
+                            item.table_date &&
                             <div onClick={toggleSchedul} className="annuaire-schedul" role="button" aria-expanded="false" >
                                 <div className="annuaire-schedul-icon">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
