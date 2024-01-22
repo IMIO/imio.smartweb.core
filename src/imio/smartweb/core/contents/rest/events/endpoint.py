@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
@@ -33,7 +32,6 @@ class BaseEventsEndpoint(BaseEndpoint):
 
     @property
     def query_url(self):
-        today = date.today().isoformat()
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
             "metadata_fields=category",
@@ -42,8 +40,6 @@ class BaseEventsEndpoint(BaseEndpoint):
             "metadata_fields=end",
             "metadata_fields=has_leadimage",
             "metadata_fields=UID",
-            "event_dates.query={}".format(today),
-            "event_dates.range=min",
             "sort_on=event_dates",
             "fullobjects=1",
             "b_size={}".format(self.context.nb_results),

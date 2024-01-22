@@ -374,8 +374,6 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=end&"
             "metadata_fields=has_leadimage&"
             "metadata_fields=UID&"
-            "event_dates.query=2021-11-15&"
-            "event_dates.range=min&"
             "sort_on=event_dates&"
             "fullobjects=1&"
             "b_size=20&"

@@ -5,6 +5,9 @@ Changelog
 1.2.24 (unreleased)
 -------------------
 
+- WEB-3802 : Get dates range for events in REST views. Coming from React.
+  [boulch]
+
 - WEB-4050 : Fix : Loosing related_contacts ordering when changing any attributes in section
   [boulch]
 
