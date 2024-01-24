@@ -48,6 +48,7 @@ function EventsView(props) {
                 Accept: "application/json",
             },
             params: filters,
+            paramsSerializer: { indexes: null },
             load: loadMoreLaunch,
         },
         []
@@ -132,7 +133,6 @@ function EventsView(props) {
     }
 
     const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
-
     return (
         <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
             <div

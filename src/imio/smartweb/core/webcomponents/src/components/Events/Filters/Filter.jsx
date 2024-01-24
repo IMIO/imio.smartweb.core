@@ -25,6 +25,7 @@ function Filters(props) {
             Accept: "application/json",
         },
         params: inputValues,
+        paramsSerializer: { indexes: null }
     });
 
     useEffect(() => {
