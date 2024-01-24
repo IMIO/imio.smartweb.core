@@ -116,8 +116,6 @@ function Filters(props) {
             };
         },
     };
-    // console.log(moment(dates.endDate).format("Y-MM-DD"))
-    console.log(inputValues)
     useEffect(() => {
         setInputValues(prevState => {
             if (dates["event_dates.query"].length > 1) {
