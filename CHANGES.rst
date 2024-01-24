@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.26 (unreleased)
+1.2.26 (2024-01-24)
 -------------------
 
 - WEB-3802 : Fix Axios Serializer to fix key in object request.
