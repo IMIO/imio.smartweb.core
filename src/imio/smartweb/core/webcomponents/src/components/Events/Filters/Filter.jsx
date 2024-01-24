@@ -3,6 +3,8 @@ import Select from "react-select";
 import { useHistory } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 import { Translator } from "react-translated";
+import DateFilter from "../../Filters/DateFilter";
+import moment from "moment";
 
 function Filters(props) {
     let history = useHistory();
@@ -10,6 +12,11 @@ function Filters(props) {
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [categoryFilter, setCategoryFilter] = useState(null);
+
+    // const [dates, setDates] = useState({ start: moment().format('YYYY-MM-DD'), end: null});
+    const [dates, setDates] = useState({"event_dates.query": [moment().format('YYYY-MM-DD')],"event_dates.range":"min"});
+
+    // Get data
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
@@ -109,7 +116,19 @@ function Filters(props) {
             };
         },
     };
-    
+    // console.log(moment(dates.endDate).format("Y-MM-DD"))
+    console.log(inputValues)
+    useEffect(() => {
+        setInputValues(prevState => {
+            if (dates["event_dates.query"].length > 1) {
+                const { "event_dates.range": _, ...rest } = dates;
+                const newValue = "min:max";
+                return { ...prevState, ...rest, "event_dates.range": newValue };
+            } else {
+                return { ...prevState, ...dates };
+            }
+        });
+    }, [dates]);
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
@@ -117,17 +136,17 @@ function Filters(props) {
                 <div className="r-filter-search">
                     <Translator>
                         {({ translate }) => (
-                        <input
-                            className="input-custom-class"
-                            name="SearchableText"
-                            type="text"
-                            value={inputValues.SearchableText}
-                            onChange={onChangeHandler}
-                            placeholder={translate({
-                                text: 'Recherche'
-                              })}
-                        />
-                    )}
+                            <input
+                                className="input-custom-class"
+                                name="SearchableText"
+                                type="text"
+                                value={inputValues.SearchableText}
+                                onChange={onChangeHandler}
+                                placeholder={translate({
+                                    text: 'Recherche'
+                                })}
+                            />
+                        )}
                     </Translator>
                     <button type="submit"></button>
                 </div>
@@ -165,11 +184,15 @@ function Filters(props) {
                             options={categoryFilter && categoryFilter}
                             placeholder={translate({
                                 text: 'Catégories'
-                              })}
+                            })}
                             value={actCategory && actCategory[0]}
                         />
                     )}
                 </Translator>
+            </div>
+
+            <div className="r-filter  schedul-Filter">
+                <DateFilter setDates={setDates} />
             </div>
         </React.Fragment>
     );
