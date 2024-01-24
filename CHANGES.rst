@@ -5,7 +5,8 @@ Changelog
 1.2.25 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3802 : Adding perido filter in event React view
+  [thomlamb]
 
 
 1.2.24 (2024-01-22)
