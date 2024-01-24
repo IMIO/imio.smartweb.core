@@ -5,7 +5,8 @@ Changelog
 1.2.26 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3802 : Fix Axios Serializer to fix key in object request.
+  [thomlamb]
 
 
 1.2.25 (2024-01-24)
