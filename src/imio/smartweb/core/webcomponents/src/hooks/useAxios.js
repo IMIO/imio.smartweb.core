@@ -30,9 +30,6 @@ const useAxios = (params) => {
             }
         }
     };
-    // console.log(isLoading);
-    // console.log(response);
-
     useEffect(() => {
         fetchData({...params,signal: controller.signal});
         return() => controller.abort()
