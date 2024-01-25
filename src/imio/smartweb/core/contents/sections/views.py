@@ -12,6 +12,7 @@ from zope.interface import Interface
 from zope.lifecycleevent import modified
 
 import json
+import pytz
 
 
 SECTION_ITEMS_HASH_KEY = "sections-items-hash-key"
@@ -69,6 +70,23 @@ class CarouselOrTableSectionView(SectionView):
             return self.context.nb_results_by_batch == 1 and "liste" or "vignette"
         else:
             return getattr(self.context, "image_scale", "")
+
+    def datetime_format(self, item):
+        """
+        item.get("effective", None)
+        => DateTime('YYYY/MM/DD HH:mm:ss.000000 GMT+1')
+        convert to more conventional datetime format
+        and return its string representation
+        """
+        effective = item.get("effective", None)
+        if effective is None:
+            return ""
+        target_timezone = pytz.timezone("Europe/Paris")
+        dt = effective.asdatetime()
+        target_datetime = dt.astimezone(target_timezone)
+        output_format = "%Y-%m-%dT%H:%M:%S%z"
+        formatted_datetime_str = target_datetime.strftime(output_format)
+        return formatted_datetime_str
 
 
 class HashableJsonSectionView(SectionView):

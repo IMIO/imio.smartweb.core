@@ -5,7 +5,8 @@ Changelog
 1.2.27 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4029 : Fix issue "invalid date" with pat-display-time and DateTime Zope/Plone format (with Firefox!)
+  [boulch]
 
 
 1.2.26 (2024-01-24)
