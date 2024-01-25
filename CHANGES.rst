@@ -5,6 +5,12 @@ Changelog
 1.2.27 (unreleased)
 -------------------
 
+- WEB-3802 : Adding scss styles for new period filter
+  [thomlamb]
+
+- WEB-3802 : Adding missing traduction for React view.
+  [thomlamb]
+
 - WEB-4029 : Fix issue "invalid date" with pat-display-time and DateTime Zope/Plone format (with Firefox!)
   [boulch]
 
