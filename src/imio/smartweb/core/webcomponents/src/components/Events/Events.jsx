@@ -20,6 +20,7 @@ export default function Events(props) {
                     proposeUrl={props.proposeUrl}
                     batchSize={props.batchSize}
                     displayMap={props.displayMap}
+                    language={props.currentLanguage}
                 />
             </Provider>
         </Router>
@@ -148,6 +149,7 @@ function EventsView(props) {
                         url={props.queryFilterUrl}
                         activeFilter={filters}
                         onChange={filtersChange}
+                        language={props.language}
                     />
                     {props.proposeUrl &&
                         (

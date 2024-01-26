@@ -131,7 +131,6 @@ function Filters(props) {
             }
         });
     }, [dates]);
-
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
@@ -195,7 +194,7 @@ function Filters(props) {
             </div>
 
             <div className="r-filter  schedul-Filter">
-                <DateFilter setDates={setDates} />
+                <DateFilter language={props.language} setDates={setDates} />
             </div>
         </React.Fragment>
     );

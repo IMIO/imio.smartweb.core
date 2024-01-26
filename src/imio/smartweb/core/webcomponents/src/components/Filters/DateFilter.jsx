@@ -1,17 +1,26 @@
-import React, { useEffect, useRef, useCallback, useState } from "react";
+
+
+import React, { useState,useContext } from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from "moment";
 import { Dropdown, DropdownButton } from 'react-bootstrap';
-import { Translate } from "react-translated";
+import { Translate, Translator } from "react-translated";
+import { nl,fr,enGB,de } from 'date-fns/locale';
 import './DateFilter.scss';
 
-function DateFilter({ setDates }) {
-
+const languageList = {
+    fr: fr,
+    nl: nl,
+    de: de,
+    en: enGB,
+};
+function DateFilter({ language, setDates }) {
+    // const currentLanguage = useContext(LanguageContext);
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
     const [filter, setFilter] = useState('Période');
-
+    const [languageToLocale, setLanguageToLocale] = useState();
 
     const handleApply = (e) => {
         setDateRange(e);
@@ -22,7 +31,7 @@ function DateFilter({ setDates }) {
         if(e.every(item => item === null)){
             setFilter(periodTitle.all);
         }else {
-            setFilter("custom");
+            setFilter(periodTitle.custom);
         }
     };
     const today = moment().format('YYYY-MM-DD');
@@ -36,7 +45,6 @@ function DateFilter({ setDates }) {
         thisMonth: <Translate text='Ce mois-ci' />,
         custom: <Translate text='Personnalisé (Du ... au ...)'/>
     }
-
 
     const handleSelect = (eventKey) => {
         switch (eventKey) {
@@ -73,6 +81,11 @@ function DateFilter({ setDates }) {
                 break;
         }
     };
+
+    useState(() => {
+        setLanguageToLocale(languageList[language])
+    }, []);
+
     return (
         <>
             <div className="period-filter">
@@ -84,17 +97,27 @@ function DateFilter({ setDates }) {
                     <Dropdown.Item eventKey="thisWeek">{periodTitle.thisWeek}</Dropdown.Item>
                     <Dropdown.Item eventKey="thisMonth">{periodTitle.thisMonth}</Dropdown.Item>
                     <div className="perdiod-filter-range">
-                        <DatePicker
-                            placeholderText={periodTitle.custom.props.text}
-                            selectsRange={true}
-                            startDate={startDate}
-                            endDate={endDate}
-                            minDate={new Date().setDate(new Date().getDate() + 1)}
-                            onChange={(update) => {
-                                handleApply(update)
-                            }}
-                            isClearable={true}
-                        />
+                       {languageToLocale && <Translator>
+                        {({ translate,language }) => (
+                            <DatePicker
+                                placeholderText={translate({
+                                    text: 'Personnalisé (Du ... au ...)'
+                                })}
+                                selectsRange={true}
+                                startDate={startDate}
+                                endDate={endDate}
+                                minDate={new Date().setDate(new Date().getDate() + 1)}
+                                onChange={(update) => {
+                                    setDateRange(update);
+                                    if (update[0] !== null && update[1] !== null || update[0] == null && update[1] == null) {
+                                        handleApply(update)
+                                    }
+                                }}
+                                isClearable={true}
+                                locale={languageToLocale}
+                            />
+                        )}
+                        </Translator>}
                     </div>
                 </DropdownButton>
             </div>
