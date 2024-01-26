@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.28 (unreleased)
+1.2.28 (2024-01-26)
 -------------------
 
 - WEB-3802 : translate datepicker
