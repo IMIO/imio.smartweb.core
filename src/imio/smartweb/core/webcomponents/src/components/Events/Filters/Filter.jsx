@@ -123,12 +123,15 @@ function Filters(props) {
                 const { "event_dates.range": _, ...rest } = dates;
                 const newValue = "min:max";
                 return { ...prevState, ...rest, "event_dates.range": newValue };
-            } else {
+            }else if(dates["event_dates.query"].every(item => item === null)){
+                return { ...prevState,"event_dates.query": [moment().format('YYYY-MM-DD')],"event_dates.range":"min"}
+            }   
+            else {
                 return { ...prevState, ...dates, "event_dates.range": "min" };
             }
         });
     }, [dates]);
-    console.log(inputValues)
+
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>

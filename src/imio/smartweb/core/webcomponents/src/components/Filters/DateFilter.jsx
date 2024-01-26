@@ -19,7 +19,11 @@ function DateFilter({ setDates }) {
         const filteredDates = dates.filter(date => date !== null);
         const formattedDates = filteredDates.map(date => moment(date).format('YYYY-MM-DD'));
         setDates({ "event_dates.query": formattedDates });
-        setFilter(`Custom`);
+        if(e.every(item => item === null)){
+            setFilter(periodTitle.all);
+        }else {
+            setFilter("custom");
+        }
     };
     const today = moment().format('YYYY-MM-DD');
 
