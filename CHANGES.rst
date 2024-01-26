@@ -5,7 +5,14 @@ Changelog
 1.2.28 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3802 : translate datepicker
+  [thomlamb]
+
+- WEB-3802 : add nl traduction for React view.
+  [thomlamb]
+
+- WEB-3802 : Fix datePicker filtre to no load on first date change
+  [thomlamb]
 
 
 1.2.27 (2024-01-26)
