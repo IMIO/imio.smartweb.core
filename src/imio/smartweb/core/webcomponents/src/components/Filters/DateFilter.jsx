@@ -16,7 +16,8 @@ function DateFilter({ setDates }) {
     const handleApply = (e) => {
         setDateRange(e);
         const dates = e; // Remplacez ceci par votre tableau de dates
-        const formattedDates = dates.map(date => moment(date).format('YYYY-MM-DD'));
+        const filteredDates = dates.filter(date => date !== null);
+        const formattedDates = filteredDates.map(date => moment(date).format('YYYY-MM-DD'));
         setDates({ "event_dates.query": formattedDates });
         setFilter(`Custom`);
     };
