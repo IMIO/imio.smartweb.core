@@ -124,11 +124,11 @@ function Filters(props) {
                 const newValue = "min:max";
                 return { ...prevState, ...rest, "event_dates.range": newValue };
             } else {
-                return { ...prevState, ...dates };
+                return { ...prevState, ...dates, "event_dates.range": "min" };
             }
         });
     }, [dates]);
-
+    console.log(inputValues)
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
