@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.27 (unreleased)
+1.2.27 (2024-01-26)
 -------------------
 
 - WEB-3802 : Adding scss styles for new period filter
