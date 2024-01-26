@@ -85,6 +85,7 @@ function DateFilter({ setDates }) {
                             selectsRange={true}
                             startDate={startDate}
                             endDate={endDate}
+                            minDate={new Date().setDate(new Date().getDate() + 1)}
                             onChange={(update) => {
                                 handleApply(update)
                             }}
