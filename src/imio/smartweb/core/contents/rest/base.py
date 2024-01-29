@@ -42,9 +42,9 @@ class BaseEndpoint(object):
                 f"{item['@id']}/@@images/{field}/{scale_name}?cache_key={modified_hash}"
             )
             item[f"{field}_{scale}_scale"] = cached_scale_url
-        item[
-            f"{field}_full_scale"
-        ] = f"{item['@id']}/@@images/{field}/?cache_key={modified_hash}"
+        item[f"{field}_full_scale"] = (
+            f"{item['@id']}/@@images/{field}/?cache_key={modified_hash}"
+        )
         del item[field]
 
     def get_extra_params(self, params):

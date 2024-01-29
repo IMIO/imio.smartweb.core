@@ -159,9 +159,9 @@ class ExtendedSearchHandler(SearchHandler):
         )
         item["_source_url"] = self._get_source_url(item["path_string"], core)
         modified_hash = hash_md5(item["modified"])
-        item[
-            "image_url"
-        ] = f'{item["_source_url"]}/@@images/image/paysage_vignette?cache_key={modified_hash}'
+        item["image_url"] = (
+            f'{item["_source_url"]}/@@images/image/paysage_vignette?cache_key={modified_hash}'
+        )
         return item
 
     @property
