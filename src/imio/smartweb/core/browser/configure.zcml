@@ -88,6 +88,14 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="sitemap.xml.gz"
+      for="plone.base.interfaces.INavigationRoot"
+      class=".sitemap.CustomSiteMapView"
+      permission="zope2.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <z3c:widgetTemplate
       mode="input"
       widget="plone.app.z3cform.interfaces.ILinkWidget"
