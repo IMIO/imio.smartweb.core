@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="smartweb.secret_key_api"
+            interface="imio.smartweb.core.browser.controlpanel.ISmartwebControlPanel"
+            remove="true" />
+
+</registry>

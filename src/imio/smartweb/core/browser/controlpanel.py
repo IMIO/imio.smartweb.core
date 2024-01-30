@@ -29,12 +29,6 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
-    secret_key_api = schema.Password(
-        title=_("Secret key"),
-        description=_("Secret key to use API"),
-        required=False,
-    )
-
     propose_directory_url = schema.URI(
         title=_("Url to propose a new citizen contact"),
         required=False,

@@ -5,8 +5,8 @@ from datetime import date
 from imio.smartweb.common.indexers import breadcrumb
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core.config import DIRECTORY_URL, EVENTS_URL, NEWS_URL
+from imio.smartweb.core.config import TS_BASIC_AUTH_USER, TS_BASIC_AUTH_PASSWORD
 from imio.smartweb.core.contents import IPages
-from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.interfaces import ISmartwebIcon
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
@@ -19,6 +19,7 @@ from plone.app.contenttypes.interfaces import ICollection
 from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
+from requests.auth import HTTPBasicAuth
 from time import time
 from zExceptions import NotFound
 from zope.component import getUtility
@@ -72,14 +73,12 @@ class RemoteProceduresVocabularyFactory:
     def __call__(self, context=None):
         # sample : "https://olln-formulaires.guichet-citoyen.be/api/formdefs/"
         url = api.portal.get_registry_record("smartweb.url_formdefs_api")
-        # sample : "568DGess2x8j8twv7x2Y2MApjn789xfG7jM27r399q4xSD27Jz"
-        key = api.portal.get_registry_record("smartweb.secret_key_api")
-        orig = "ia.smartweb"
         if not url:
             return SimpleVocabulary([])
-        query_full = sign_url(url, key, orig)
         try:
-            response = requests.get(query_full)
+            response = requests.get(
+                url, auth=HTTPBasicAuth(TS_BASIC_AUTH_USER, TS_BASIC_AUTH_PASSWORD)
+            )
         except Exception:
             return SimpleVocabulary([])
 

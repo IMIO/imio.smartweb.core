@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 from Products.Five.browser import BrowserView
+from imio.smartweb.core.config import TS_BASIC_AUTH_USER, TS_BASIC_AUTH_PASSWORD
 from imio.smartweb.core.contents import IPages
-from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.utils import get_plausible_vars
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.api.portal import get_registry_record
 from plone.formwidget.geolocation.vocabularies import _ as _geo
+from requests.auth import HTTPBasicAuth
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 
@@ -56,25 +57,31 @@ class UtilsView(BrowserView):
     def is_eguichet_aware(self):
         self.request.response.setHeader("Content-Type", "application/json")
         url = api.portal.get_registry_record("smartweb.url_formdefs_api")
-        key = api.portal.get_registry_record("smartweb.secret_key_api")
-        orig = "ia.smartweb"
         if not url:
             return json.dumps(
                 {"value": False, "text": _("smartweb.settings : No url define")}
             )
-        if not key:
-            return json.dumps(
-                {"value": False, "text": _("smartweb.settings : No secret key define")}
+        try:
+            response = requests.get(
+                url,
+                auth=HTTPBasicAuth(TS_BASIC_AUTH_USER, TS_BASIC_AUTH_PASSWORD),
+                timeout=10,
             )
-        query_full = sign_url(url, key, orig)
-        response = requests.get(query_full, timeout=10)
-        return json.dumps(
-            {
-                "status_code": response.status_code,
-                "value": True,
-                "text": _(response.reason),
-            }
-        )
+        except Exception:
+            return json.dumps(
+                {
+                    "value": False,
+                    "text": _("smartweb.settings : Please, verify credentials"),
+                }
+            )
+        else:
+            return json.dumps(
+                {
+                    "status_code": response.status_code,
+                    "value": True,
+                    "text": response.reason,
+                }
+            )
 
     def is_plausible_set(self):
         """ """
