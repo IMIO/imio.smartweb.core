@@ -5,7 +5,8 @@ Changelog
 1.2.30 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Quick fix : move date queries in inital component to avoid bad url
+  [thomlamb]
 
 
 1.2.29 (2024-01-30)

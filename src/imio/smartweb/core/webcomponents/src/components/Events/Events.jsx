@@ -9,6 +9,7 @@ import "./Events.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider, Translate } from "react-translated";
 import translation from '../../utils/translation';
+import moment from "moment";
 
 export default function Events(props) {
     return (
@@ -29,7 +30,7 @@ export default function Events(props) {
 function EventsView(props) {
     const queryString = require("query-string");
     const { u, ...parsed } = Object.assign(
-        { b_start: 0, fullobjects: 1 },
+        { b_start: 0, fullobjects: 1, "event_dates.query":[moment().format('YYYY-MM-DD')],"event_dates.range":"min"},
         queryString.parse(useFilterQuery().toString())
     );
     const [itemsArray, setItemsArray] = useState([]);
