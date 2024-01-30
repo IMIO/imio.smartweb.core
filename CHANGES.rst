@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.30 (unreleased)
+1.2.30 (2024-01-30)
 -------------------
 
 - Quick fix : move date queries in inital component to avoid bad url
