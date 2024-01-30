@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.29 (unreleased)
+1.2.29 (2024-01-30)
 -------------------
 
 - Quick fix : effective date can be a str type. So the news sections were broken
