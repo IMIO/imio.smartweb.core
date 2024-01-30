@@ -5,7 +5,8 @@ Changelog
 1.2.29 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Quick fix : effective date can be a str type. So the news sections were broken
+  [boulch]
 
 
 1.2.28 (2024-01-26)
