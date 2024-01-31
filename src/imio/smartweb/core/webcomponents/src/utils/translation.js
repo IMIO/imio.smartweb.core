@@ -1,5 +1,29 @@
 export default {
     // common
+    'Événements' : {
+        en: 'Events',
+        fr: 'Événements',
+        de: 'Veranstaltungen',
+        nl: 'Evenementen',
+    },
+    'Actualités' : {
+        en: 'News',
+        fr: 'Actualités',
+        de: 'Nachrichten',
+        nl: 'Nieuws',
+    },
+    'Contacts': {
+        en: 'Contacts',
+        fr: 'Contacts',
+        de: 'Kontakte',
+        nl: 'Contacten',
+    },
+    'Infos pratiques': {
+        en: 'Practical information',
+        fr: 'Infos pratiques',
+        de: 'Praktische Informationen',
+        nl: 'Praktische informatie',
+    },
     'Chargement...': {
         en: 'Loading',
         fr: 'Chargement...',
@@ -17,6 +41,12 @@ export default {
         fr: "Thématiques",
         de: "Themen",
         nl: "Thema's",
+    },
+    'Je suis': {
+        en: 'I am',
+        fr: 'Je suis',
+        de: 'Ich bin',
+        nl: 'Ik ben',
     },
     "Catégories": {
         en: 'Categories',
@@ -41,6 +71,12 @@ export default {
         fr: 'Aucun résultat',
         de: 'Kein Ergebnis',
         nl: 'Geen resultaat',
+    },
+    'Résultats': {
+        en: 'Results',
+        fr: 'Résultats',
+        de: 'Ergebnisse',
+        nl: 'Resultaten',
     },
     'Retour': {
         en: 'Return',
