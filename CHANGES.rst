@@ -5,6 +5,9 @@ Changelog
 1.2.31 (unreleased)
 -------------------
 
+- WEB-4063 : Create some views that redirect to main rest (directory, agenda, news) views (thank to registered uid) for e-guichet
+  [boulch]
+
 - SUP-34498 : Fix url construction to fix 404 on external tab click on React items
   [thomlamb]
 
