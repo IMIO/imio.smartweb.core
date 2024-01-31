@@ -5,7 +5,8 @@ Changelog
 1.2.31 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-34498 : Fix url construction to fix 404 on external tab click on React items
+  [thomlamb]
 
 
 1.2.30 (2024-01-30)
