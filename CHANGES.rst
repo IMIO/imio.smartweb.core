@@ -5,6 +5,9 @@ Changelog
 1.2.31 (unreleased)
 -------------------
 
+- Add React Context to manage global language
+  [thomlamb]
+
 - WEB-4063 : Create some views that redirect to main rest (directory, agenda, news) views (thank to registered uid) for e-guichet
   [boulch]
 

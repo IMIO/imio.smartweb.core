@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import ContactResult from "./ContactResult/ContactResult";
 import NewsResult from "./NewsResult/NewsResult";
 import EventsResult from "./EventsResult/EventsResult";
 import WebResult from "./WebResult/WebResult";
 import useFilterQuery from "../../hooks/useFilterQuery";
-import { Provider, Translate } from "react-translated";
+import { Provider } from "react-translated";
 import translation from '../../utils/translation';
 import "./Search.scss";
 
 export default function Search(props) {
-    console.log(props.currentLanguage)
-
     return (
         <Router>
             <Provider language={props.currentLanguage} translation={translation}>

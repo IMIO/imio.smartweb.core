@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import moment from "moment";
-import Moment from "react-moment";
-import removeAccents from "remove-accents";
 import ReactMarkdown from 'react-markdown';
-
+import { Translate } from "react-translated";
+import { LanguageContext } from '../News.jsx';
 const NewsCard = ({ item }) => {
     const [limitDescription, setLimitDescription] = useState();
     const numberLimit = 150;
@@ -19,13 +18,13 @@ const NewsCard = ({ item }) => {
             setLimitDescription(description);
         }
     }, [item]);
-    moment.locale('fr')
+    moment.locale(useContext(LanguageContext))
     const created = moment(item.created).startOf('minute').fromNow();
     const lastModified = moment(item.modified).startOf('minute').fromNow();
     return (
         <div className="r-list-item">
             <div
-                className={item.image_vignette_scale?"r-item-img":"r-item-img r-item-img-placeholder"}
+                className={item.image_vignette_scale ? "r-item-img" : "r-item-img r-item-img-placeholder"}
                 style={{
                     backgroundImage: item.image_vignette_scale
                         ? "url(" + item.image_vignette_scale + ")"
@@ -35,25 +34,25 @@ const NewsCard = ({ item }) => {
             <div className="r-item-text">
                 {category ? <span className="r-item-categorie">{category}</span> : ""}
                 <span className="r-item-title">{title}</span>
-                {description ? 
-                    <ReactMarkdown className="r-item-description">{limitDescription}</ReactMarkdown> 
+                {description ?
+                    <ReactMarkdown className="r-item-description">{limitDescription}</ReactMarkdown>
                     : ""
                 }
                 <div className="r-item-read-more" style={{ textDecoration: "none" }}>
                     {
                         created === lastModified ?
-                        (
-                        <div className="r-card-date-last">
-                            <span>Publié </span>
-                            <span>{created}</span>
-                        </div>
-                        ):
-                        (
-                        <div className="r-card-date-last">
-                            <span>Actualisé </span>
-                            <span>{lastModified}</span>
-                        </div>
-                        )
+                            (
+                                <div className="r-card-date-last">
+                                    <span><Translate text="Publié" /> </span>
+                                    <span>{created}</span>
+                                </div>
+                            ) :
+                            (
+                                <div className="r-card-date-last">
+                                    <span><Translate text="Actualisé" /> </span>
+                                    <span>{lastModified}</span>
+                                </div>
+                            )
                     }
                 </div>
             </div>

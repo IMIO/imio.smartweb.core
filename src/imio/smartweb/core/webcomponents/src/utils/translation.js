@@ -1,5 +1,17 @@
 export default {
     // common
+    'Publié' : {
+        en: 'Published',
+        fr: 'Publié',
+        de: 'Veröffentlicht',
+        nl: 'Gepubliceerd',
+    },
+    'Actualisé' : {
+        en: 'Updated',
+        fr: 'Actualisé',
+        de: 'Aktualisiert',
+        nl: 'Bijgewerkt',
+    },
     'Événements' : {
         en: 'Events',
         fr: 'Événements',
