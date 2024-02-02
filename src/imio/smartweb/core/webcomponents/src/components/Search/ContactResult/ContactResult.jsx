@@ -32,7 +32,7 @@ const ContactResult = (props) => {
                     <Translate text="Contacts" />
                 </h2>
                 <p className="r-search-header-count">
-                    {resultArray > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />} 
+                    {resultArray.length > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />} 
                 </p>
             </div>
             <ul className="r-search-list">

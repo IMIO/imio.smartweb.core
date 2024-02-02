@@ -5,7 +5,8 @@ Changelog
 1.2.32 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix: bad condition to display search items number of results
+  [thomlamb]
 
 
 1.2.31 (2024-02-02)
