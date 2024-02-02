@@ -6,6 +6,8 @@ from Products.Five.browser import BrowserView
 
 
 def get_translation(obj, lang):
+    if not api_lng.is_translatable(obj):
+        return None
     translation_manager = api_lng.get_translation_manager(obj)
     translated_obj = translation_manager.get_translation(lang)
     return translated_obj

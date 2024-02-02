@@ -5,6 +5,9 @@ Changelog
 1.2.32 (unreleased)
 -------------------
 
+- Fix : Could not adapt (..interfaces.ITranslationManager) in single-language website when we set language param in url view
+  [boulch]
+
 - Fix : rest_view_obj can be None if react view was removed
   [boulch]
 
