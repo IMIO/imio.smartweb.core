@@ -5,6 +5,9 @@ Changelog
 1.2.32 (unreleased)
 -------------------
 
+- Fix : rest_view_obj can be None if react view was removed
+  [boulch]
+
 - Fix: bad condition to display search items number of results
   [thomlamb]
 

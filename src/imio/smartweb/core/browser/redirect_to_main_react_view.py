@@ -26,6 +26,9 @@ class RestViewBaseView(BrowserView):
         language = self.request.form.get("language", "fr")
         default_language = api.portal.get_default_language()
         rest_view_obj = self.get_rest_view_object()
+        if rest_view_obj is None:
+            self.request.response.redirect(api.portal.get().absolute_url())
+            return ""
         if default_language != language:
             translated_obj = get_translation(rest_view_obj, language)
             if translated_obj is not None:

@@ -72,3 +72,8 @@ class TestRedirectToMainReactView(ImioSmartwebTestCase):
             transaction.commit()
             browser.open(f"{self.portal_url}/@@{k}_view?language=de")
             self.assertEquals(browser.url, obj.absolute_url())
+
+            api.content.delete(v)
+            transaction.commit()
+            browser.open(f"{self.portal_url}/@@{k}_view")
+            self.assertEquals(browser.url, self.portal_url)
