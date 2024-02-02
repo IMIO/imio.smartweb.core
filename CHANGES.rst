@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.32 (unreleased)
+1.2.32 (2024-02-02)
 -------------------
 
 - Fix : Could not adapt (..interfaces.ITranslationManager) in single-language website when we set language param in url view
