@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.31 (unreleased)
+1.2.31 (2024-02-02)
 -------------------
 
 - Add React Context to manage global language
