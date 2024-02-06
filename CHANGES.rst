@@ -5,7 +5,11 @@ Changelog
 1.2.33 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4056 : Refactoring: Removed sha256 encoding (no longer needed)
+  [boulch]
+
+- WEB-3966: Add close navigation menu on focusout to make it more accessible
+  [thomlamb]
 
 
 1.2.32 (2024-02-02)
