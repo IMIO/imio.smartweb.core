@@ -5,6 +5,9 @@ Changelog
 1.2.33 (unreleased)
 -------------------
 
+- Add class on section text if there is collapsable
+  [thomlamb]
+
 - WEB-4056 : Refactoring: Removed sha256 encoding (no longer needed)
   [boulch]
 
