@@ -100,6 +100,7 @@ function DateFilter({ language, setDates }) {
                        {languageToLocale && <Translator>
                         {({ translate,language }) => (
                             <DatePicker
+                                dateFormat="dd/MM/yyyy"
                                 placeholderText={translate({
                                     text: 'Personnalisé (Du ... au ...)'
                                 })}

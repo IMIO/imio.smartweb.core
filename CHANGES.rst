@@ -5,6 +5,9 @@ Changelog
 1.2.33 (unreleased)
 -------------------
 
+- Change datePicker date format.
+  [thomlamb]
+
 - Add class on section text if there is collapsable
   [thomlamb]
 
