@@ -83,6 +83,17 @@ $(document).ready(function () {
     $(this).closest(".show-nav").toggleClass("show-nav")
   });
 
+
+  // ici on ferme le menu au focusout
+  menu.on('focusout', function(e) {
+    // Utilisez setTimeout pour s'assurer que document.activeElement est mis à jour
+    setTimeout(function() {
+      if (!menu.has(document.activeElement).length) {
+        closeNav();
+      }
+    }, 0);
+  });
+
   // close nav fonction
   function closeNav() {
     menu.removeClass('activated');

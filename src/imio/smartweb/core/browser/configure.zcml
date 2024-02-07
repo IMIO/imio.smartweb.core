@@ -93,6 +93,29 @@
       for="plone.base.interfaces.INavigationRoot"
       class=".sitemap.CustomSiteMapView"
       permission="zope2.Public"
+      />
+
+  <browser:page
+      name="events_view"
+      for="*"
+      class=".redirect_to_main_react_view.EventsView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="directory_view"
+      for="*"
+      class=".redirect_to_main_react_view.DirectoryView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="news_view"
+      for="*"
+      class=".redirect_to_main_react_view.NewsView"
+      permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 

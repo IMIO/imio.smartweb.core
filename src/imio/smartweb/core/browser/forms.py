@@ -18,9 +18,9 @@ class SmartwebCustomEditForm(CustomEditForm):
             # and for minisites to exclude them as well.
             for group in self.groups:
                 if "IExcludeFromNavigation.exclude_from_nav" in group.fields:
-                    group.fields[
-                        "IExcludeFromNavigation.exclude_from_nav"
-                    ].mode = DISPLAY_MODE
+                    group.fields["IExcludeFromNavigation.exclude_from_nav"].mode = (
+                        DISPLAY_MODE
+                    )
 
 
 SmartwebCustomEditView = layout.wrap_form(SmartwebCustomEditForm)

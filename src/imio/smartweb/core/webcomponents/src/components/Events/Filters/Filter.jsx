@@ -14,7 +14,7 @@ function Filters(props) {
     const [categoryFilter, setCategoryFilter] = useState(null);
 
     // const [dates, setDates] = useState({ start: moment().format('YYYY-MM-DD'), end: null});
-    const [dates, setDates] = useState({"event_dates.query": [moment().format('YYYY-MM-DD')],"event_dates.range":"min"});
+    const [dates, setDates] = useState(null);
 
     // Get data
     const { response, error, isLoading } = useAxios({
@@ -118,20 +118,21 @@ function Filters(props) {
         },
     };
     useEffect(() => {
-        setInputValues(prevState => {
-            if (dates["event_dates.query"].length > 1) {
-                const { "event_dates.range": _, ...rest } = dates;
-                const newValue = "min:max";
-                return { ...prevState, ...rest, "event_dates.range": newValue };
-            }else if(dates["event_dates.query"].every(item => item === null)){
-                return { ...prevState,"event_dates.query": [moment().format('YYYY-MM-DD')],"event_dates.range":"min"}
-            }   
-            else {
-                return { ...prevState, ...dates, "event_dates.range": "min" };
-            }
-        });
+        if (dates) {
+            setInputValues(prevState => {
+                if (dates["event_dates.query"].length > 1) {
+                    const { "event_dates.range": _, ...rest } = dates;
+                    const newValue = "min:max";
+                    return { ...prevState, ...rest, "event_dates.range": newValue };
+                } else if (dates["event_dates.query"].every(item => item === null)) {
+                    return { ...prevState, "event_dates.query": [moment().format('YYYY-MM-DD')], "event_dates.range": "min" }
+                }
+                else {
+                    return { ...prevState, ...dates, "event_dates.range": "min" };
+                }
+            });
+        }
     }, [dates]);
-
     return (
         <React.Fragment>
             <form className="r-filter" onSubmit={handleSubmit}>
@@ -195,7 +196,7 @@ function Filters(props) {
             </div>
 
             <div className="r-filter  schedul-Filter">
-                <DateFilter setDates={setDates} />
+                <DateFilter language={props.language} setDates={setDates} />
             </div>
         </React.Fragment>
     );

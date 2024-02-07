@@ -54,6 +54,7 @@
     "@loadable/component": "^5.15.0",
     "axios": "^1.5.1",
     "babel-polyfill": "^6.26.0",
+    "date-fns": "^3.3.1",
     "flexbin": "^0.2.0",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useAxios from "../../../hooks/useAxios";
 import Highlighter from "react-highlight-words";
+import { Translate } from "react-translated";
 
 const WebResult = (props) => {
     const [resultArray, setresultArray] = useState([]);
@@ -27,9 +28,12 @@ const WebResult = (props) => {
     return (
         <div className="search-web">
             <div className="r-search-header">
-                <h2 className="r-search-header-title">Infos pratiques</h2>
+                <h2 className="r-search-header-title">
+                    <Translate text="Infos pratiques" />
+
+                </h2>
                 <p className="r-search-header-count">
-                    {resultArray ? resultArray.length : "0"} résultats
+                    {resultArray.length > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />} 
                 </p>
             </div>
             <ul className="r-search-list">

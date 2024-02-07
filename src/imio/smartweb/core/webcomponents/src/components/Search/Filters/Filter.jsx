@@ -2,6 +2,8 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import Select from "react-select";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { Translate, Translator } from "react-translated";
+
 function Filters(props) {
     let history = useHistory();
     const queryString = require("query-string");
@@ -144,40 +146,58 @@ function Filters(props) {
             <div className="col-md-6 py-1 r-search search-bar-filter">
                 <form onSubmit={handleSubmit}>
                     <label>
-                        <input
-                            name="SearchableText"
-                            type="text"
-                            onChange={HandlerText}
-                            value={searchValues.SearchableText}
-                            placeholder={"Recherche"}
-                        />
+                        <Translator>
+                            {({ translate }) => (
+                                <input
+                                    name="SearchableText"
+                                    type="text"
+                                    onChange={HandlerText}
+                                    value={searchValues.SearchableText}
+                                    placeholder={translate({
+                                        text: 'Recherche'
+                                    })}
+                                />
+                            )}
+                        </Translator>
                     </label>
                     <button type="submit"></button>
                 </form>
             </div>
             <div className="col-md-3 col-lg-2 py-1 r-search search-select-filter">
-                <Select
-                    styles={customStyles}
-                    name={"iam"}
-                    className="r-search-select"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={iamFilter && iamFilter}
-                    placeholder={"Je suis"}
-                    value={actIam && actIam[0]}
-                />
+                <Translator>
+                    {({ translate }) => (
+                        <Select
+                            styles={customStyles}
+                            name={"iam"}
+                            className="r-search-select"
+                            isClearable
+                            onChange={onChangeHandlerSelect}
+                            options={iamFilter && iamFilter}
+                            placeholder={translate({
+                                text: 'Je suis'
+                            })}
+                            value={actIam && actIam[0]}
+                        />
+                    )}
+                </Translator>
             </div>
             <div className="col-md-3 col-lg-2 py-1 r-search search-select-filter">
-                <Select
-                    styles={customStyles}
-                    name={"topics"}
-                    className="r-search-select"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={topicsFilter && topicsFilter}
-                    placeholder={"Thématiques"}
-                    value={actTopi && actTopi[0]}
-                />
+                <Translator>
+                    {({ translate }) => (
+                        <Select
+                            styles={customStyles}
+                            name={"topics"}
+                            className="r-search-select"
+                            isClearable
+                            onChange={onChangeHandlerSelect}
+                            options={topicsFilter && topicsFilter}
+                            placeholder={translate({
+                                text: 'Thématiques'
+                            })}
+                            value={actTopi && actTopi[0]}
+                        />
+                    )}
+                </Translator>
             </div>
         </React.Fragment>
     );

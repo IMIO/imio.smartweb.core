@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from "moment";
-import Moment from "react-moment";
 import ReactMarkdown from 'react-markdown'
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css"

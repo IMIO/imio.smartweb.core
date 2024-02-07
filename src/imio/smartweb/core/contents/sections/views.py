@@ -82,6 +82,8 @@ class CarouselOrTableSectionView(SectionView):
         if effective is None:
             return ""
         target_timezone = pytz.timezone("Europe/Paris")
+        if isinstance(effective, str):
+            return effective
         dt = effective.asdatetime()
         target_datetime = dt.astimezone(target_timezone)
         output_format = "%Y-%m-%dT%H:%M:%S%z"

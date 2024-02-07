@@ -2,7 +2,76 @@ Changelog
 =========
 
 
-1.2.27 (unreleased)
+1.2.33 (unreleased)
+-------------------
+
+- Change datePicker date format.
+  [thomlamb]
+
+- Add class on section text if there is collapsable
+  [thomlamb]
+
+- WEB-4056 : Refactoring: Removed sha256 encoding (no longer needed)
+  [boulch]
+
+- WEB-3966: Add close navigation menu on focusout to make it more accessible
+  [thomlamb]
+
+
+1.2.32 (2024-02-02)
+-------------------
+
+- Fix : Could not adapt (..interfaces.ITranslationManager) in single-language website when we set language param in url view
+  [boulch]
+
+- Fix : rest_view_obj can be None if react view was removed
+  [boulch]
+
+- Fix: bad condition to display search items number of results
+  [thomlamb]
+
+
+1.2.31 (2024-02-02)
+-------------------
+
+- Add React Context to manage global language
+  [thomlamb]
+
+- WEB-4063 : Create some views that redirect to main rest (directory, agenda, news) views (thank to registered uid) for e-guichet
+  [boulch]
+
+- SUP-34498 : Fix url construction to fix 404 on external tab click on React items
+  [thomlamb]
+
+
+1.2.30 (2024-01-30)
+-------------------
+
+- Quick fix : move date queries in inital component to avoid bad url
+  [thomlamb]
+
+
+1.2.29 (2024-01-30)
+-------------------
+
+- Quick fix : effective date can be a str type. So the news sections were broken
+  [boulch]
+
+
+1.2.28 (2024-01-26)
+-------------------
+
+- WEB-3802 : translate datepicker
+  [thomlamb]
+
+- WEB-3802 : add nl traduction for React view.
+  [thomlamb]
+
+- WEB-3802 : Fix datePicker filtre to no load on first date change
+  [thomlamb]
+
+
+1.2.27 (2024-01-26)
 -------------------
 
 - WEB-3802 : Adding scss styles for new period filter

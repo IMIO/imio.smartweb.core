@@ -67,3 +67,7 @@ class Search(Search):
         }
 
         return json.dumps(response)
+
+    @property
+    def current_language(self):
+        return api.portal.get_current_language()[:2]
