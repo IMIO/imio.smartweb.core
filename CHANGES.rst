@@ -5,6 +5,9 @@ Changelog
 1.2.33 (unreleased)
 -------------------
 
+- WEB-4001 : Override sitemap.xml.gz to improve SEO with react views
+  [boulch]
+
 - Change datePicker date format.
   [thomlamb]
 

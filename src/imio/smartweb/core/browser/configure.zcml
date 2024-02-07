@@ -89,6 +89,13 @@
       />
 
   <browser:page
+      name="sitemap.xml.gz"
+      for="plone.base.interfaces.INavigationRoot"
+      class=".sitemap.CustomSiteMapView"
+      permission="zope2.Public"
+      />
+
+  <browser:page
       name="events_view"
       for="*"
       class=".redirect_to_main_react_view.EventsView"
