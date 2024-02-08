@@ -191,6 +191,8 @@ ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
 
 
 class RemoteContactsVocabularyFactory:
+
+    @ram.cache(lambda *args: time() // (60))
     def __call__(self, context=None):
         entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
         params = [
