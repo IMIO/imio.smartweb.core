@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.33 (unreleased)
+1.2.33 (2024-02-09)
 -------------------
 
 - WEB-4067 : Override plone.app.content.browser.vocabulary.VocabularyView to provide filtering items to AjaxSelectFieldWidget
