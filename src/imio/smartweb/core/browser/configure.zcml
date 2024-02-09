@@ -93,6 +93,7 @@
       for="plone.base.interfaces.INavigationRoot"
       class=".sitemap.CustomSiteMapView"
       permission="zope2.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
   <browser:page
