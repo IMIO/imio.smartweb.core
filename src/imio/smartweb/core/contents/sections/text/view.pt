@@ -11,9 +11,9 @@
 <metal:content-core define-macro="content-core">
   <metal:macro use-macro="context/@@sections_macros/section_edition" />
   <div tal:define="image context/image | nothing;
-                  collapse_klass python: 'section-text-collapsed' if context.collapsible_section else '';"
+                  collapse_klass_container python: 'section-text-collapsed' if context.collapsible_section else '';"
        id=""
-       tal:attributes="class string:container section-container section-text ${collapse_klass};
+       tal:attributes="class string:container section-container section-text ${collapse_klass_container};
                        id string:container-section-${context/id};">
     <metal:macro use-macro="context/@@sections_macros/section_title" />
     <div tal:define="collapse_klass python: 'collapse' if context.collapsible_section else '';
