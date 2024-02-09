@@ -120,6 +120,14 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="getVocabulary"
+      for="*"
+      class=".vocabulary.SmartwebVocabularyView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <z3c:widgetTemplate
       mode="input"
       widget="plone.app.z3cform.interfaces.ILinkWidget"

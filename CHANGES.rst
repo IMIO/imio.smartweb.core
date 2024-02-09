@@ -5,6 +5,9 @@ Changelog
 1.2.33 (unreleased)
 -------------------
 
+- WEB-4067 : Override plone.app.content.browser.vocabulary.VocabularyView to provide filtering items to AjaxSelectFieldWidget
+  [boulch]
+
 - WEB-4001 : Override sitemap.xml.gz to improve SEO with react views
   [boulch]
 
