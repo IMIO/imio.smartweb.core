@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.34 (unreleased)
+1.2.34 (2024-02-19)
 -------------------
 
 - MWEBRCHA-13 : Add content rules to notify reviewers (Install via `validation` profile)
