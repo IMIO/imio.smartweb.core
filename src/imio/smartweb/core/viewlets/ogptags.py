@@ -7,7 +7,6 @@ from imio.smartweb.core.contents import IDirectoryView
 from imio.smartweb.core.contents import IEventsView
 from imio.smartweb.core.contents import INewsView
 from imio.smartweb.core.utils import get_json
-from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.core.utils import hash_md5
 from plone import api
@@ -117,7 +116,7 @@ class OgpTagsViewlet(HeaderViewlet):
             return ""
         try:
             url = f'{self.request.ACTUAL_URL}?u={self.request.form["u"]}'
-        except:
+        except Exception:
             url = self.request.URL
         return url
 

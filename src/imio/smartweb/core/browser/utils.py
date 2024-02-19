@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from Products.Five.browser import BrowserView
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.utils import get_plausible_vars
@@ -7,12 +6,12 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.api.portal import get_registry_record
 from plone.formwidget.geolocation.vocabularies import _ as _geo
+from Products.Five.browser import BrowserView
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 
 import json
 import requests
-import os
 
 
 class UtilsView(BrowserView):

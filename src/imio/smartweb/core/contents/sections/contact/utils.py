@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from datetime import date, datetime
-from datetime import timedelta
-from decimal import Decimal
 from imio.smartweb.common.contact_utils import ContactProperties as ContactSchedule
 from imio.smartweb.common.utils import rich_description
 from imio.smartweb.core.utils import batch_results
@@ -11,7 +8,6 @@ from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.i18n import translate
-from zope.i18nmessageid import MessageFactory
 
 import json
 

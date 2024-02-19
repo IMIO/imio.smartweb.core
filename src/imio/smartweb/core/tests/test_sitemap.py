@@ -131,7 +131,7 @@ class TestPage(ImioSmartwebTestCase):
         self.json_news = get_json("resources/json_rest_news.json")
         self.json_events = get_json("resources/json_rest_events.json")
 
-        contact_search_url = f"http://localhost:8080/Plone/@search?selected_entities=396907b3b1b04a97896b12cc792c77f8&portal_type=imio.directory.Contact&fullobjects=0&sort_on=sortable_title"
+        contact_search_url = "http://localhost:8080/Plone/@search?selected_entities=396907b3b1b04a97896b12cc792c77f8&portal_type=imio.directory.Contact&fullobjects=0&sort_on=sortable_title"
         news_search_url = f"http://localhost:8080/Plone/@search?selected_news_folders={self.rest_news.selected_news_folder}&portal_type=imio.news.NewsItem&fullobjects=0&sort_on=sortable_title"
         events_search_url = f"http://localhost:8080/Plone/@events?selected_agendas={self.rest_agenda.selected_agenda}&portal_type=imio.events.Event&fullobjects=0&sort_on=sortable_title"
 

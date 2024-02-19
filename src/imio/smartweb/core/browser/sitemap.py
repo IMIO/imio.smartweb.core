@@ -11,8 +11,6 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import normalizeString
 from zope.component import getUtility
 
-import re
-
 
 class CustomSiteMapView(SiteMapView):
 
