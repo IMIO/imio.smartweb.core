@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<contentrules>
+ <rule name="rule-1" title="Notification de contenu à valider"
+    cascading="False" description="" enabled="True"
+    event="Products.CMFCore.interfaces.IActionSucceededEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>imio.smartweb.Page</element>
+     <element>imio.smartweb.PortalPage</element>
+     <element>imio.smartweb.Procedure</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.WorkflowState">
+    <property name="wf_states">
+     <element>pending</element>
+    </property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Mail">
+    <property name="subject">Nouveau contenu sur le site</property>
+    <property name="source"/>
+    <property name="recipients">${reviewer_emails}</property>
+    <property name="exclude_actor">False</property>
+    <property name="message">Un nouveau contenu a été soumis à validation. Cliquez sur le lien pour aller le valider ou le refuser : ${absolute_url}</property>
+   </action>
+   <action type="plone.actions.Logger">
+    <property name="targetLogger">imio.smartweb.core</property>
+    <property name="loggingLevel">20</property>
+    <property
+       name="message">Content to review notification sent for &amp;c.</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="rule-2" title="Notification de modification de section de contenu publié"
+    cascading="False" description="" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>imio.smartweb.SectionText</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.TalesExpression">
+    <property
+       name="tales_expression">python: hasattr(here, &quot;aq_parent&quot;) and portal.portal_workflow.getInfoFor(here.aq_parent, &quot;review_state&quot;, &quot;&quot;) == &quot;published&quot;</property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Mail">
+    <property name="subject">Contenu publié modifié sur le site</property>
+    <property name="source"/>
+    <property name="recipients">${reviewer_emails}</property>
+    <property name="exclude_actor">False</property>
+    <property name="message">Une section texte d&#x27;un contenu déjà publié a été modifiée. Cliquez sur le lien pour consulter la modification effectuée : ${absolute_url}/@@historyview</property>
+   </action>
+   <action type="plone.actions.Logger">
+    <property name="targetLogger">imio.smartweb.core</property>
+    <property name="loggingLevel">20</property>
+    <property
+       name="message">Published content change notification sent for &amp;c (user: &amp;u).</property>
+   </action>
+  </actions>
+ </rule>
+ <rule name="rule-3" title="Notification d'ajout de section à un contenu publié"
+    cascading="False" description="" enabled="True"
+    event="zope.lifecycleevent.interfaces.IObjectAddedEvent"
+    stop-after="False">
+  <conditions>
+   <condition type="plone.conditions.PortalType">
+    <property name="check_types">
+     <element>imio.smartweb.SectionText</element>
+    </property>
+   </condition>
+   <condition type="plone.conditions.TalesExpression">
+    <property
+       name="tales_expression">python: hasattr(here, &quot;aq_parent&quot;) and portal.portal_workflow.getInfoFor(here.aq_parent, &quot;review_state&quot;, &quot;&quot;) == &quot;published&quot;</property>
+   </condition>
+  </conditions>
+  <actions>
+   <action type="plone.actions.Mail">
+    <property name="subject">Contenu publié modifié sur le site</property>
+    <property name="source"/>
+    <property name="recipients">${reviewer_emails}</property>
+    <property name="exclude_actor">False</property>
+    <property name="message">Une section texte a été ajoutée à un contenu déjà publié. Cliquez sur le lien pour consulter la section texte ajoutée : ${absolute_url}</property>
+   </action>
+   <action type="plone.actions.Logger">
+    <property name="targetLogger">imio.smartweb.core</property>
+    <property name="loggingLevel">20</property>
+    <property
+       name="message">Published content add notification sent for &amp;c (user: &amp;u).</property>
+   </action>
+  </actions>
+ </rule>
+ <assignment name="rule-1" bubbles="True" enabled="True" location=""/>
+ <assignment name="rule-2" bubbles="True" enabled="True" location=""/>
+ <assignment name="rule-3" bubbles="True" enabled="True" location=""/>
+</contentrules>

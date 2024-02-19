@@ -46,6 +46,14 @@
       />
 
   <genericsetup:registerProfile
+      name="validation"
+      title="imio.smartweb.core validation"
+      directory="profiles/validation"
+      description="Installs smartweb validation content rules"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
       name="last-compilation"
       title="imio.smartweb.core last compilation dates"
       directory="profiles/last_compilation"

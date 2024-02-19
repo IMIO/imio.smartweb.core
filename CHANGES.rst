@@ -5,6 +5,9 @@ Changelog
 1.2.34 (unreleased)
 -------------------
 
+- MWEBRCHA-13 : Add content rules to notify reviewers (Install via `validation` profile)
+  [laulaz]
+
 - MWEBRCHA-13 : Fix plone versioning (Work on SectionText / Remove from SectionHTML)
   [boulch]
 
