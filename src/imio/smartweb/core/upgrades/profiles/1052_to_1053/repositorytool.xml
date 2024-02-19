@@ -1,9 +1,9 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8"?>
 <repositorytool>
-  <policymap>
+  <policymap purge="false">
     <type name="imio.smartweb.SectionText">
       <policy name="at_edit_autoversion" />
-      <policy name="version_on_revert"/>
+      <policy name="version_on_revert" />
     </type>
   </policymap>
 </repositorytool>

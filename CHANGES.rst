@@ -5,7 +5,8 @@ Changelog
 1.2.34 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- MWEBRCHA-13 : Fix plone versioning (Work on SectionText / Remove from SectionHTML)
+  [boulch]
 
 
 1.2.33 (2024-02-09)

@@ -588,3 +588,21 @@ class TestSections(ImioSmartwebTestCase):
         self.assertEqual(
             view.get_class(section), "sectiontext my-css col-sm-3 with-background"
         )
+
+    def test_sections_history(self):
+        api.content.transition(self.page, "publish")
+        section_types = get_sections_types()
+        page_view = queryMultiAdapter((self.page, self.request), name="full_view")()
+        count_historyview_link = page_view.count("@@historyview")
+        self.assertEqual(count_historyview_link, 1)
+        for section_type in section_types:
+            api.content.create(
+                container=self.page,
+                type=section_type,
+                title="Title of my {}".format(section_type),
+            )
+        page_view = queryMultiAdapter((self.page, self.request), name="full_view")()
+        section_text = api.content.find(portal_type="imio.smartweb.SectionText")[0]
+        self.assertIn(f"{section_text.getURL()}/@@historyview", page_view)
+        # One more history view link on SectionText
+        self.assertEqual(page_view.count("@@historyview"), count_historyview_link + 1)

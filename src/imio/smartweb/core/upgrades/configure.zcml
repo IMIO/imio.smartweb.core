@@ -195,6 +195,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1052_to_1053"
+      title="Upgrade core from 1052 to 1053"
+      directory="profiles/1052_to_1053"
+      description="Fix versioning on imio.smartweb.SectionText"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -727,6 +735,16 @@
         title="Add new action to navigate to stats (plausible) view"
         import_profile="imio.smartweb.core.upgrades:upgrade_1051_to_1052"
     />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1052"
+      destination="1053"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Fix versioning on imio.smartweb.SectionText"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1052_to_1053"
+        />
   </genericsetup:upgradeSteps>
 
 </configure>

@@ -56,15 +56,19 @@
         <tal:dates define="modified context/ModificationDate">
           <span class="documentModified"
                 tal:condition="modified">
-            <span i18n:translate="">
-              Modified
-            </span>
-            <span class="pat-display-time"
-                  data-pat-display-time="from-now: true"
-                  tal:attributes="datetime modified"
-                  tal:content="modified">
-              Modified
-            </span>
+            <a class="documentModified"
+               tal:attributes="href string:${context/absolute_url}/@@historyview"
+               tal:omit-tag="python:context.portal_type != 'imio.smartweb.SectionText'">
+              <span i18n:translate="">
+                Modified
+              </span>
+              <span class="pat-display-time"
+                    data-pat-display-time="from-now: true"
+                    tal:attributes="datetime modified"
+                    tal:content="modified">
+                Modified
+              </span>
+            </a>
           </span>
         </tal:dates>
 

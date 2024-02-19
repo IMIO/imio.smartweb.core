@@ -32,7 +32,6 @@
     <element value="plone.namefromtitle"/>
     <element value="plone.locking"/>
     <element value="plone.shortname"/>
-    <element value="plone.versioning" />
   </property>
 
 </object>
