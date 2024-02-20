@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.indexers import containing_context
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_sections_types
@@ -9,6 +10,7 @@ from plone.app.testing import setRoles
 from plone.app.textfield.value import RichTextValue
 from plone.uuid.interfaces import IUUID
 from z3c.relationfield import RelationValue
+from zope.component import getMultiAdapter
 from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
 
@@ -281,3 +283,81 @@ class TestIndexes(ImioSmartwebTestCase):
 
         brains1 = api.content.find(category_and_topics="emploi", context=self.portal)
         self.assertEqual(brains1[0].Title, "vocabulary test page")
+
+    def test_containing_context(self):
+        with self.assertRaises(AttributeError):
+            containing_context(self.portal)
+        folder = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            title="My Folder",
+        )
+        catalog = api.portal.get_tool("portal_catalog")
+        uuid = IUUID(folder)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "root")
+        self.assertEqual(indexes.get("containing_context_title"), "")
+
+        page = api.content.create(
+            container=folder,
+            type="imio.smartweb.Page",
+            title="My Page",
+        )
+        uuid = IUUID(page)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "folder")
+        self.assertEqual(indexes.get("containing_context_title"), "My Folder")
+
+        view = getMultiAdapter((folder, self.request), name="subsite_settings")
+        view.enable()
+
+        uuid = IUUID(folder)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "root")
+        self.assertEqual(indexes.get("containing_context_title"), "")
+
+        uuid = IUUID(page)
+        page.reindexObject()
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "subsite")
+        self.assertEqual(indexes.get("containing_context_title"), "My Folder")
+
+        view = getMultiAdapter((folder, self.request), name="subsite_settings")
+        view.disable()
+
+        uuid = IUUID(page)
+        page.reindexObject()
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "folder")
+        self.assertEqual(indexes.get("containing_context_title"), "My Folder")
+
+        view = getMultiAdapter((folder, self.request), name="minisite_settings")
+        view.enable()
+
+        uuid = IUUID(folder)
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "root")
+        self.assertEqual(indexes.get("containing_context_title"), "")
+
+        uuid = IUUID(page)
+        page.reindexObject()
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "minisite")
+        self.assertEqual(indexes.get("containing_context_title"), "My Folder")
+
+        view = getMultiAdapter((folder, self.request), name="minisite_settings")
+        view.disable()
+
+        uuid = IUUID(page)
+        page.reindexObject()
+        brain = api.content.find(UID=uuid)[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("containing_context_type"), "folder")
+        self.assertEqual(indexes.get("containing_context_title"), "My Folder")

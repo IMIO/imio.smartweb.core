@@ -95,9 +95,15 @@ class SearchGet(Service):
 
 class ExtendedSearchHandler(SearchHandler):
     def search(self, query):
-        if "_core" not in query and "use_site_search_settings" not in query:
-            # Use site search settings by default only for current site search
-            query["use_site_search_settings"] = True
+        if "_core" not in query:
+            query["metadata_fields"] = self._update_metadata_fields(
+                query.get("metadata_fields", []),
+                ["containing_context_title", "containing_context_type"],
+            )
+            self.request.form["metadata_fields"] = query["metadata_fields"]
+            if "use_site_search_settings" not in query:
+                # Use site search settings by default only for current site search
+                query["use_site_search_settings"] = True
         if "use_solr" not in query:
             query["use_solr"] = True  # enforce use of SolR by default
         if "_core" in query:

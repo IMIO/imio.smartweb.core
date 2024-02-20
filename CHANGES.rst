@@ -5,7 +5,8 @@ Changelog
 1.2.35 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3792 : Add containing context indexes to display it in search results
+  [remdub, laulaz]
 
 
 1.2.34 (2024-02-19)

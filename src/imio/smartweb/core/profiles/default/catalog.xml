@@ -13,10 +13,18 @@
   <index name="category_and_topics" meta_type="KeywordIndex">
     <indexed_attr value="category_and_topics"/>
   </index>
+  <index name="containing_context_type" meta_type="FieldIndex">
+    <indexed_attr value="containing_context_type"/>
+  </index>
+  <index name="containing_context_title" meta_type="FieldIndex">
+    <indexed_attr value="containing_context_title"/>
+  </index>
   <column value="category_and_topics"/>
   <column value="category"/>
   <column value="exclude_from_parent_listing"/>
   <column value="related_quickaccess"/>
+  <column value="containing_context_type"/>
+  <column value="containing_context_title"/>
 
   <!-- Remove imio.smartweb.common breadcrumb index, which is not needed -->
   <index name="breadcrumb" remove="True"/>

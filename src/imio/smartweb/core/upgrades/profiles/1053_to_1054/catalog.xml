@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<object name="portal_catalog">
+
+  <index name="containing_context_type" meta_type="FieldIndex">
+    <indexed_attr value="containing_context_type"/>
+  </index>
+  <column value="containing_context_type"/>
+
+  <index name="containing_context_title" meta_type="FieldIndex">
+    <indexed_attr value="containing_context_title"/>
+  </index>
+  <column value="containing_context_title"/>
+
+</object>

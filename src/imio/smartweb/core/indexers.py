@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
+from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.contents import IFolder
 from imio.smartweb.core.contents import IPage
 from imio.smartweb.core.contents import IPages
@@ -11,9 +13,12 @@ from plone import api
 from plone.app.contenttypes.behaviors.richtext import IRichText
 from plone.app.contenttypes.indexers import SearchableText
 from plone.app.contenttypes.indexers import _unicode_save_string_concat
+from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.dexterity.interfaces import IDexterityContent
 from plone.indexer.decorator import indexer
+from Products.CMFPlone.interfaces import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
+from Products.CMFPlone.utils import parent
 
 
 @indexer(IDexterityContent)
@@ -122,3 +127,35 @@ def concat_category_topics_indexer(obj):
     else:
         index = category
     return index
+
+
+def containing_context(obj):
+    if INavigationRoot.providedBy(obj) and not IImioSmartwebMinisite.providedBy(obj):
+        raise AttributeError
+    obj = parent(obj)
+    if INavigationRoot.providedBy(obj) and not IImioSmartwebMinisite.providedBy(obj):
+        return {"type": "root", "title": ""}
+    obj_type = "folder"
+    obj_title = obj.title
+    while not IPloneSiteRoot.providedBy(obj):
+        if IImioSmartwebSubsite.providedBy(obj):
+            obj_type = "subsite"
+            obj_title = obj.title
+        elif IImioSmartwebMinisite.providedBy(obj):
+            obj_type = "minisite"
+            obj_title = obj.title
+        obj = parent(obj)
+
+    return {"type": obj_type, "title": obj_title}
+
+
+@indexer(IDexterityContent)
+def containing_context_type(obj):
+    info = containing_context(obj)
+    return info["type"]
+
+
+@indexer(IDexterityContent)
+def containing_context_title(obj):
+    info = containing_context(obj)
+    return info["title"]

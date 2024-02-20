@@ -46,5 +46,14 @@
       factory=".indexers.concat_category_topics_indexer"
       />
 
+  <adapter
+      name="containing_context_type"
+      factory=".indexers.containing_context_type"
+      />
+
+  <adapter
+      name="containing_context_title"
+      factory=".indexers.containing_context_title"
+      />
 
 </configure>
