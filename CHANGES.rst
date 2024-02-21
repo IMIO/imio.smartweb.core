@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.35 (unreleased)
+1.2.35 (2024-02-21)
 -------------------
 
 - WEB-4006 : Exclude some content types from search results
