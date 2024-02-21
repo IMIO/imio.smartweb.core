@@ -5,7 +5,8 @@ Changelog
 1.2.35 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4006 : Exclude some content types from search results
+  [remdub]
 
 
 1.2.34 (2024-02-19)
