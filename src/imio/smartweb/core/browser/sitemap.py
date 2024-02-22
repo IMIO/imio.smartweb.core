@@ -2,6 +2,8 @@ from BTrees.OOBTree import OOBTree
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
+from imio.smartweb.core.contents.rest.utils import get_auth_sources_response
+from imio.smartweb.core.contents.rest.utils import get_entity_id
 from imio.smartweb.core.utils import get_json
 from plone import api
 from plone.base.interfaces import IPloneSiteRoot
@@ -86,50 +88,54 @@ class CustomSiteMapView(SiteMapView):
                 "lastmod": lastmod,
             }
 
-        auth_sources = [
-            {"directory": {"path": DIRECTORY_URL, "type": "imio.directory.Contact"}},
-            {"news": {"path": NEWS_URL, "type": "imio.news.NewsItem"}},
-            {"events": {"path": EVENTS_URL, "type": "imio.events.Event"}},
-        ]
-        for auth_source in auth_sources:
-            for auth_source_key, auth_source_value in auth_source.items():
-                entity_uid = api.portal.get_registry_record(
-                    f"smartweb.{auth_source_key}_entity_uid", default=None
+        auth_sources = {
+            "directory": {
+                "entity_reg_var": "smartweb.directory_entity_uid",
+                "main_rest_view": "smartweb.default_directory_view",
+                "vocabulary": "imio.smartweb.vocabulary.RemoteDirectoryEntities",
+                "url": DIRECTORY_URL,
+            },
+            "events": {
+                "entity_reg_var": "smartweb.events_entity_uid",
+                "main_rest_view": "smartweb.default_events_view",
+                "vocabulary": "imio.smartweb.vocabulary.RemoteEventsEntities",
+                "url": EVENTS_URL,
+            },
+            "news": {
+                "entity_reg_var": "smartweb.news_entity_uid",
+                "main_rest_view": "smartweb.default_news_view",
+                "vocabulary": "imio.smartweb.vocabulary.RemoteNewsEntities",
+                "url": NEWS_URL,
+            },
+        }
+        for auth_source_key, auth_source_value in auth_sources.items():
+            entity_uid = api.portal.get_registry_record(
+                auth_source_value.get("entity_reg_var")
+            )
+            if entity_uid is None:
+                return self.request.response.setStatus(404, "No entity found")
+            entity_id = get_entity_id(auth_source_value.get("vocabulary"), entity_uid)
+            auth_source_uid = api.portal.get_registry_record(
+                f"smartweb.default_{auth_source_key}_view", default=None
+            )
+            if auth_source_uid is None:
+                return self.request.response.setStatus(
+                    404, "No default authentic source found"
                 )
-                auth_source_uid = api.portal.get_registry_record(
-                    f"smartweb.default_{auth_source_key}_view", default=None
-                )
-                if entity_uid is None or auth_source_uid is None:
-                    continue
-                brains = api.content.find(UID=auth_source_uid)
-                obj = brains[0].getObject()
-                auth_source_view_url = obj.absolute_url()
-                endpoint = "@search"
-                if auth_source_key == "directory":
-                    selected_container = f"selected_entities={entity_uid}"
-                if auth_source_key == "news":
-                    selected_container = (
-                        f"selected_news_folders={obj.selected_news_folder}"
-                    )
-                if auth_source_key == "events":
-                    selected_container = f"selected_agendas={obj.selected_agenda}"
-                    endpoint = "@events"
-                params = [
-                    selected_container,
-                    f"portal_type={auth_source_value.get('type')}",
-                    "fullobjects=0",
-                    "sort_on=sortable_title",
-                ]
-                url = f"{auth_source_value.get('path')}/{endpoint}?{'&'.join(params)}"
-                results = get_json(url)
-                if results is None:
-                    continue
-                for item in results.get("items"):
-                    item_id = normalizeString(item.get("title"))
-                    item_uid = item.get("id")
-                    loc = f"{auth_source_view_url}/{item_id}?u={item_uid}"
-                    lastmod = item.get("modified")
-                    yield {
-                        "loc": loc,
-                        "lastmod": lastmod,
-                    }
+            brains = api.content.find(UID=auth_source_uid)
+            obj = brains[0].getObject()
+            auth_source_view_url = obj.absolute_url()
+            results = get_auth_sources_response(
+                auth_source_key, normalizeString(entity_id), (60 * 60 * 24)
+            ).json()
+            if results is None or results.get("type") == "ValueError":
+                continue
+            for item in results.get("items"):
+                item_id = normalizeString(item.get("title"))
+                item_uid = item.get("id")
+                loc = f"{auth_source_view_url}/{item_id}?u={item_uid}"
+                lastmod = item.get("modified")
+                yield {
+                    "loc": loc,
+                    "lastmod": lastmod,
+                }

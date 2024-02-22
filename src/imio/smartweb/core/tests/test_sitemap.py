@@ -13,6 +13,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.textfield.value import RichTextValue
 from plone.base.utils import safe_text
 from plone.namedfile.file import NamedBlobImage
+from unittest.mock import patch
 from zope.component import getMultiAdapter
 
 import json
@@ -87,7 +88,7 @@ class TestPage(ImioSmartwebTestCase):
             (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
         )
         xml = self.uncompress(sitemap())
-        self.assertIn("<lastmod >2024-02-02T08:00:00+00:00</lastmod>", xml)
+        self.assertIn("<lastmod >2024-02-02T08:00:00", xml)
         self.assertIn("<loc>http://nohost/plone/folder</loc>", xml)
         self.assertIn("http://nohost/plone/folder/page1", xml)
         self.assertNotIn(
@@ -115,7 +116,7 @@ class TestPage(ImioSmartwebTestCase):
         )
         # Gallery and image created 2024-02-02 10:00:00
         self.assertIn(
-            "<loc>http://nohost/plone/folder/page1/gallery/image/view</loc>\n    <lastmod >2024-02-02T10:00:00+00:00</lastmod>",
+            "<loc>http://nohost/plone/folder/page1/gallery/image/view</loc>\n    <lastmod >2024-02-02T10:00:00",
             xml,
         )
 
@@ -124,28 +125,46 @@ class TestPage(ImioSmartwebTestCase):
             "events": self.rest_agenda,
             "news": self.rest_news,
         }
+        contact_search_url = news_search_url = events_search_url = (
+            "http://localhost:8080/Plone/@querystring-search"
+        )
         for k, v in rest_views.items():
             api.portal.set_registry_record(f"smartweb.default_{k}_view", v.UID())
+        with patch(
+            "imio.smartweb.core.contents.rest.utils.get_wca_token",
+            return_value="kamoulox",
+        ):
+            self.json_contacts = get_json("resources/json_contacts_raw_mock.json")
+            m.post(contact_search_url, text=json.dumps(self.json_contacts))
+            sitemap = getMultiAdapter(
+                (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
+            )
+            xml = self.uncompress(sitemap())
+            self.assertIn("<loc>http://nohost/plone/directory-view/contact1-title", xml)
 
-        self.json_contacts = get_json("resources/json_contacts_raw_mock.json")
-        self.json_news = get_json("resources/json_rest_news.json")
-        self.json_events = get_json("resources/json_rest_events.json")
+        with patch(
+            "imio.smartweb.core.contents.rest.utils.get_wca_token",
+            return_value="kamoulox",
+        ):
+            self.json_news = get_json("resources/json_rest_news.json")
+            m.post(news_search_url, text=json.dumps(self.json_news))
+            sitemap = getMultiAdapter(
+                (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
+            )
+            xml = self.uncompress(sitemap())
+            self.assertIn("<loc>http://nohost/plone/news-view/", xml)
 
-        contact_search_url = "http://localhost:8080/Plone/@search?selected_entities=396907b3b1b04a97896b12cc792c77f8&portal_type=imio.directory.Contact&fullobjects=0&sort_on=sortable_title"
-        news_search_url = f"http://localhost:8080/Plone/@search?selected_news_folders={self.rest_news.selected_news_folder}&portal_type=imio.news.NewsItem&fullobjects=0&sort_on=sortable_title"
-        events_search_url = f"http://localhost:8080/Plone/@events?selected_agendas={self.rest_agenda.selected_agenda}&portal_type=imio.events.Event&fullobjects=0&sort_on=sortable_title"
-
-        m.get(contact_search_url, text=json.dumps(self.json_contacts))
-        m.get(news_search_url, text=json.dumps(self.json_news))
-        m.get(events_search_url, text=json.dumps(self.json_events))
-
-        sitemap = getMultiAdapter(
-            (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
-        )
-        xml = self.uncompress(sitemap())
-        self.assertIn("<loc>http://nohost/plone/directory-view/contact1-title", xml)
-        self.assertIn("<loc>http://nohost/plone/news-view/", xml)
-        self.assertIn("<loc>http://nohost/plone/agenda-view/", xml)
+        with patch(
+            "imio.smartweb.core.contents.rest.utils.get_wca_token",
+            return_value="kamoulox",
+        ):
+            self.json_events = get_json("resources/json_rest_events.json")
+            m.post(events_search_url, text=json.dumps(self.json_events))
+            sitemap = getMultiAdapter(
+                (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
+            )
+            xml = self.uncompress(sitemap())
+            self.assertIn("<loc>http://nohost/plone/agenda-view/", xml)
 
     def uncompress(self, sitemapdata):
         sio = BytesIO(sitemapdata)

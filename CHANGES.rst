@@ -5,7 +5,8 @@ Changelog
 1.2.36 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4001 : Refactoring the generation of sitemap.xml.gz
+  [boulch]
 
 
 1.2.35 (2024-02-21)
