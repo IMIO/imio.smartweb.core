@@ -54,6 +54,7 @@
     <element value="imio.smartweb.iam"/>
     <element value="plone.categorization"/>
     <element value="collective.autopublishing.behavior.IAutoPublishing"/>
+    <element value="solr.fields" />
   </property>
 
   <!-- View information -->

@@ -51,6 +51,7 @@
     <element value="imio.smartweb.listing"/>
     <element value="imio.smartweb.quickaccessselection"/>
     <element value="collective.autopublishing.behavior.IAutoPublishing"/>
+    <element value="solr.fields" />
   </property>
 
   <!-- View information -->

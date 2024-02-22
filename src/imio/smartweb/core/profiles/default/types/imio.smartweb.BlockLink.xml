@@ -38,4 +38,9 @@
   <property name="view_methods">
     <element value="link_redirect_view"/>
   </property>
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="solr.fields" />
+  </property>
 </object>
