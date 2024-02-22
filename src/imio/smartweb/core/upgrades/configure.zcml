@@ -211,6 +211,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+    <genericsetup:registerProfile
+      name="upgrade_1054_to_1055"
+      title="Upgrade core from 1054 to 1055"
+      directory="profiles/1054_to_1055"
+      description="Add solr.fields behavior to some content types"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -762,6 +770,16 @@
     <genericsetup:upgradeDepends
         title="Exclude some content_types from search results"
         import_profile="imio.smartweb.core.upgrades:upgrade_1053_to_1054"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1054"
+      destination="1055"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add solr.fields behavior to some content types"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1054_to_1055"
         />
   </genericsetup:upgradeSteps>
 

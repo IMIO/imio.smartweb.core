@@ -5,6 +5,9 @@ Changelog
 1.2.36 (unreleased)
 -------------------
 
+- WEB-4072, WEB-4073 : Enable solr.fields behavior on some content types
+  [remdub]
+
 - WEB-4001 : Refactoring the generation of sitemap.xml.gz
   [boulch]
 

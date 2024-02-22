@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.BlockLink"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="solr.fields" />
+  </property>
+
+</object>
