@@ -128,7 +128,7 @@ export default {
     },
     'Actualité trouvée': {
         en: ' News found',
-        fr: ' Atualité trouvée',
+        fr: ' Actualité trouvée',
         de: ' Nachricht gefunden',
         nl: ' Nieuws gevonden',
     },
