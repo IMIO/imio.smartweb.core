@@ -5,7 +5,8 @@ Changelog
 1.2.38 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix spelling mistake and react compilation
+  [boulch]
 
 
 1.2.37 (2024-03-18)
