@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.37 (unreleased)
+1.2.37 (2024-03-18)
 -------------------
 
 - Add new plugin in external content section / refactor some code in external content section
