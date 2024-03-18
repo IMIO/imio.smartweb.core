@@ -37,6 +37,16 @@
     />
 
   <browser:viewlet
+    name="imio.smartweb.odwb_widget_header"
+    for="*"
+    manager="plone.app.layout.viewlets.interfaces.IHTTPHeaders"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    template="odwb_widget_header.pt"
+    class=".external_content.OdwbWidgetHeaderViewlet"
+    permission="zope.Public"
+    />
+
+  <browser:viewlet
       name="imio.smartweb.header_actions"
       for="*"
       manager=".actions.IHeaderActionsViewletsManager"

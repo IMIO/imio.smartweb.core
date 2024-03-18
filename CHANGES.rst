@@ -5,6 +5,9 @@ Changelog
 1.2.37 (unreleased)
 -------------------
 
+- Add new plugin in external content section / refactor some code in external content section
+  [boulch]
+
 - Add figcaption content in alt attribute for images in section text
   [thomlamb]
 

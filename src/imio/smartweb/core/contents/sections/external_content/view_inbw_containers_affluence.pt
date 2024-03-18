@@ -1,0 +1,91 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="imio.smartweb">
+
+  <metal:macro define-macro="embeded_datas">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+$(document).ready(function () {
+    var today = new Date().getDay();
+    var hours = new Date().getHours(); // Get current hour
+    var daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
+    var currentDay = daysOfWeek[today];
+    var jsonDataString = $('#json-data').attr("data");
+
+    var jsonData = JSON.parse(jsonDataString);
+    var todayData = JSON.parse(jsonData.results[0][currentDay]);
+    var current_affluence = jsonData.results[0].current_affluence;
+
+    var keys = [];
+    var dataset1 = [];
+    var dataset2 = [];
+
+    Object.entries(todayData).forEach(function([key, value]) {
+        keys.push(key + "h00");
+        console.log('key' + key + 'hours' + hours);
+        if (key == hours) {
+            dataset2.push(current_affluence);
+        }
+        else {dataset2.push(0);}
+        dataset1.push(value);
+    });
+
+
+    // Define the Chart.js data and options
+    var chartData = {
+        labels: keys,  // Hours
+        datasets: [{
+            label: currentDay + ' average affluence',
+            data: dataset1,
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        },
+        {
+            label: 'Current affluence',
+            data: dataset2,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)', // Specify the desired color
+            borderColor: 'rgba(255, 99, 132, 1)', // Specify the desired color
+            borderWidth: 1
+        }]
+    };
+
+    var chartOptions = {
+        scales: {
+            x: {
+                title: {
+                    display: true,
+                    text: 'Hours'
+                }
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: 'Values'
+                },
+                ticks: {
+                    stepSize: 1
+                }
+            }
+        }
+    };
+
+    // Get the canvas element
+    var ctx = document.getElementById('myChart').getContext('2d');
+    // Create the Chart.js chart
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: chartOptions
+    });
+});
+
+    </script>
+    <div id="json-data" tal:attributes="data datas"></div>
+    <canvas id="myChart" width="60%" height="" ></canvas>
+
+  </metal:macro>
+</html>

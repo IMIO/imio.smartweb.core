@@ -19,4 +19,33 @@
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
+  <browser:page
+      name="view_idelux_waste"
+      for="*"
+      class="imio.smartweb.core.contents.sections.external_content.views.IdeluxWasteView"
+      template="view_idelux_waste.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="view_inbw_container_affluence"
+      for="*"
+      class="imio.smartweb.core.contents.sections.external_content.views.InbwContainersAffluenceView"
+      template="view_inbw_containers_affluence.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+
+  <browser:page
+      name="view_odwb_widget"
+      for="*"
+      class="imio.smartweb.core.contents.sections.external_content.views.OdwbWidgetView"
+      template="view_odwb_widget.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>

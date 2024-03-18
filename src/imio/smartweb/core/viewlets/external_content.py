@@ -7,8 +7,16 @@ class ArcgisHeaderViewlet(HeaderViewlet):
     def update(self):
         super(ArcgisHeaderViewlet, self).update()
 
-    # def getHeaders(self):
-    #     import pdb;pdb.set_trace()
-    #     result = super(ArcgisHeaderViewlet, self).getHeaders()
-    #     result.append(("prefix", "og: http://ogp.me/ns#"))
-    #     return result
+
+class OdwbWidgetHeaderViewlet(HeaderViewlet):
+
+    def should_render(self):
+        view = self.view
+        if hasattr(view, "should_display_odwb_widget_viewlet"):
+            return view.should_display_odwb_widget_viewlet
+        return False
+
+    def render(self):
+        # if self.should_render():
+        return self.index()
+        # return ""

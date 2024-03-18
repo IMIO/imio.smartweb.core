@@ -1,0 +1,50 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      i18n:domain="imio.smartweb">
+
+  <metal:macro define-macro="embeded_datas">
+    <script>
+          $(document).ready(function() {
+        $('#searchInput').on('input', function() {
+            var searchTerm = $(this).val().toLowerCase();
+
+            // Loop through each item in the results
+            $('.result-item').each(function() {
+                var searchable = $(this).data('searchable').toLowerCase();
+
+                // If the keyword is found in the consignes_de_tri, show the item, otherwise hide it
+                if (searchable.includes(searchTerm)) {
+                    $(this).show(); // Show the matching item
+                } else {
+                    $(this).hide(); // Hide the non-matching item
+                }
+            });
+        });
+    });
+    </script>
+    <input type="text" id="searchInput" class="form-control" placeholder="Search Consignes de Tri">
+    <div id="results">
+        <!-- Results will be populated here -->
+    </div>
+
+    <div tal:define="results datas/results">
+      <ul tal:repeat="res results">
+        <tal:def define="filiere res/filiere;
+                            dechet res/dechet;
+                            infoparc res/infoparc;
+                            consignes_de_tri res/consignes_de_tri;
+                            searchable string:${filiere} ${dechet} ${infoparc} ${consignes_de_tri}">
+          <li class="result-item" data-searchable="${searchable}" >
+            <h3 tal:content="string:${filiere} - ${dechet}" />
+            <p tal:content="infoparc"></p>
+            <p tal:content="consignes_de_tri"></p>
+          </li>
+
+        </tal:def>
+      </ul>
+    </div>
+  </metal:macro>
+</html>
