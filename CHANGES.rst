@@ -5,7 +5,8 @@ Changelog
 1.2.37 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add figcaption content in alt attribute for images in section text
+  [thomlamb]
 
 
 1.2.36 (2024-02-22)
