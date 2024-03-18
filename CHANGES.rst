@@ -5,6 +5,9 @@ Changelog
 1.2.38 (unreleased)
 -------------------
 
+- Fix React build
+  [thomlamb]
+
 - Fix spelling mistake and react compilation
   [boulch]
 
