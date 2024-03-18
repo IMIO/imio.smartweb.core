@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.38 (unreleased)
+1.2.38 (2024-03-18)
 -------------------
 
 - Fix React build
