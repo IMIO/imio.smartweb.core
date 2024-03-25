@@ -1,24 +1,24 @@
 export default {
     // common
-    'Publié' : {
+    'Publié': {
         en: 'Published',
         fr: 'Publié',
         de: 'Veröffentlicht',
         nl: 'Gepubliceerd',
     },
-    'Actualisé' : {
+    'Actualisé': {
         en: 'Updated',
         fr: 'Actualisé',
         de: 'Aktualisiert',
         nl: 'Bijgewerkt',
     },
-    'Événements' : {
+    'Événements': {
         en: 'Events',
         fr: 'Événements',
         de: 'Veranstaltungen',
         nl: 'Evenementen',
     },
-    'Actualités' : {
+    'Actualités': {
         en: 'News',
         fr: 'Actualités',
         de: 'Nachrichten',
@@ -227,13 +227,13 @@ export default {
         fr: "Demain",
         de: "Morgen",
         nl: "Morgen",
-    }, 
+    },
     "Ce week-end": {
         en: "This weekend",
         fr: "Ce week-end",
         de: "Dieses Wochenende",
         nl: "Dit weekend",
-    }, 
+    },
     "Cette semaine": {
         en: "This week",
         fr: "Cette semaine",
@@ -245,7 +245,7 @@ export default {
         fr: "Ce mois-ci",
         de: "Diesen Monat",
         nl: "Deze maand",
-    },  
+    },
     "Personnalisé (Du ... au ...)": {
         en: "Custom (From ... to ...)",
         fr: "Personnalisé (Du ... au ...)",

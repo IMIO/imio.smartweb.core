@@ -19,14 +19,14 @@ const NewsList = ({ itemsArray, onChange, parentCallback }) => {
                             className="r-news-list-item-link"
                             style={{ textDecoration: "none" }}
                             to={{
-                                pathname: "/"+removeAccents(item.title).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase(),
+                                pathname: "/" + removeAccents(item.title).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase(),
                                 search: `?u=${item.UID}`,
                                 state: {
                                     idItem: item.UID,
                                 },
                             }}
                         >
-                        <NewsCard item={item} key={item.created} />
+                            <NewsCard item={item} key={item.created} />
                         </Link>
                     </li>
                 ))}

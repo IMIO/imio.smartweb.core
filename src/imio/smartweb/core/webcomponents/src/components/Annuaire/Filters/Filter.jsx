@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
 import Select from "react-select";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 import { Translator } from "react-translated";
+import queryString from 'query-string';
 
 function Filters(props) {
-    let history = useHistory();
-    const queryString = require("query-string");
+    let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
@@ -78,7 +78,7 @@ function Filters(props) {
             firstUpdate.current = false;
             return;
         }
-        history.push({
+        navigate({
             pathname: "./",
             search: queryString.stringify(inputValues),
         });
@@ -188,19 +188,19 @@ function Filters(props) {
                 {/* <label>Facilité</label> */}
                 <Translator>
                     {({ translate }) => (
-                <Select
-                    styles={customStyles}
-                    name={"facilities"}
-                    className="select-custom-class library-facilities"
-                    isClearable
-                    onChange={onChangeHandlerSelect}
-                    options={facilitiesFilter && facilitiesFilter}
-                    placeholder={translate({
-                        text: 'Facilités'
-                      })}
-                    value={actFaci && actFaci[0]}
-                />
-                )}
+                        <Select
+                            styles={customStyles}
+                            name={"facilities"}
+                            className="select-custom-class library-facilities"
+                            isClearable
+                            onChange={onChangeHandlerSelect}
+                            options={facilitiesFilter && facilitiesFilter}
+                            placeholder={translate({
+                                text: 'Facilités'
+                            })}
+                            value={actFaci && actFaci[0]}
+                        />
+                    )}
                 </Translator>
             </div>
         </React.Fragment>

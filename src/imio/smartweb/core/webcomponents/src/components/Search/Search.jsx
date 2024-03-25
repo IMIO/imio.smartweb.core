@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import ContactResult from "./ContactResult/ContactResult";
 import NewsResult from "./NewsResult/NewsResult";
@@ -8,11 +8,13 @@ import WebResult from "./WebResult/WebResult";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider } from "react-translated";
 import translation from '../../utils/translation';
+import queryString from 'query-string';
+
 import "./Search.scss";
 
 export default function Search(props) {
     return (
-        <Router>
+        <BrowserRouter>
             <Provider language={props.currentLanguage} translation={translation}>
                 <SearchView
                     queryFilterUrl={props.queryFilterUrl}
@@ -20,11 +22,10 @@ export default function Search(props) {
                     resultOption={JSON.parse(props.resultOption)}
                 />
             </Provider>
-        </Router >
+        </BrowserRouter >
     );
 }
 const SearchView = (props) => {
-    const queryString = require("query-string");
     const parsed = queryString.parse(useFilterQuery().toString());
     const { SearchableText, iam, topics } = parsed;
     const parsed2 = { 'SearchableText': SearchableText, 'iam': iam, 'topics': topics };

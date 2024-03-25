@@ -31,8 +31,8 @@ const useAxios = (params) => {
         }
     };
     useEffect(() => {
-        fetchData({...params,signal: controller.signal});
-        return() => controller.abort()
+        fetchData({ ...params, signal: controller.signal });
+        return () => controller.abort()
     }, [params.params]);
     return { response, error, isLoading, isMore };
 };

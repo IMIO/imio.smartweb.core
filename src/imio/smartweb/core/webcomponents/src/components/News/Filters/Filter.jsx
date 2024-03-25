@@ -1,13 +1,12 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import Select from "react-select";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 import { Translator } from "react-translated";
+import queryString from 'query-string';
 
 function Filters(props) {
-    let history = useHistory();
-    const queryString = require("query-string");
-
+    let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
@@ -29,9 +28,9 @@ function Filters(props) {
             }));
             const optionsTaxonomy = response.category
                 ? response.category.map((d) => ({
-                      value: d.token,
-                      label: d.title,
-                  }))
+                    value: d.token,
+                    label: d.title,
+                }))
                 : "";
             setTopicsFilter(optionsTopics);
             setTaxonomyFilter(optionsTaxonomy);
@@ -69,7 +68,7 @@ function Filters(props) {
             firstUpdate.current = false;
             return;
         }
-        history.push({
+        navigate({
             pathname: "./",
             search: queryString.stringify(inputValues),
         });
@@ -124,7 +123,7 @@ function Filters(props) {
                                 onChange={onChangeHandler}
                                 placeholder={translate({
                                     text: 'Recherche'
-                                  })}
+                                })}
                             />
                         )}
                     </Translator>
@@ -144,7 +143,7 @@ function Filters(props) {
                             options={topicsFilter && topicsFilter}
                             placeholder={translate({
                                 text: 'Thématiques'
-                              })}
+                            })}
                             value={actTopi && actTopi[0]}
                         />
                     )}
@@ -163,7 +162,7 @@ function Filters(props) {
                             options={taxonomyFilter && taxonomyFilter}
                             placeholder={translate({
                                 text: 'Catégories'
-                              })}
+                            })}
                             value={actTaxo && actTaxo[0]}
                         />
                     )}

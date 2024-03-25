@@ -1,13 +1,12 @@
 import React, { useEffect, useCallback, useRef, useState } from "react";
 import Select from "react-select";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Translate, Translator } from "react-translated";
+import queryString from 'query-string';
 
 function Filters(props) {
-    let history = useHistory();
-    const queryString = require("query-string");
-
+    let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [searchValues, setSearchValues] = useState({});
     const [topicsFilter, setTopicsFilter] = useState(null);
@@ -109,7 +108,7 @@ function Filters(props) {
             firstUpdate.current = false;
             return;
         }
-        history.push({
+        navigate({
             pathname: "./",
             search: queryString.stringify(inputValues),
         });

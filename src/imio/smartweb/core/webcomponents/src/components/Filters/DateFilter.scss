@@ -1,6 +1,6 @@
 .period-filter {
     .period-filter-toggler {
-        & > button {
+        &>button {
             background: transparent;
             color: hsl(0, 0%, 20%);
             box-sizing: border-box;
@@ -8,7 +8,7 @@
             font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 1.2px;
-    
+
             -webkit-box-pack: justify;
             -webkit-justify-content: space-between;
             justify-content: space-between;
@@ -24,17 +24,19 @@
             border-width: 1px;
             box-sizing: border-box;
             height: 50px;
+
             &:hover {
                 background-color: transparent;
                 border-color: hsl(0, 0%, 70%);
                 color: hsl(0, 0%, 20%);
             }
+
             &:focus,
             &:active {
-                border-color: #2684FF!important;
-                background: transparent!important;
-                color: hsl(0, 0%, 20%)!important;
-                box-shadow: 0 0 0 1px #2684FF!important;
+                border-color: #2684FF !important;
+                background: transparent !important;
+                color: hsl(0, 0%, 20%) !important;
+                box-shadow: 0 0 0 1px #2684FF !important;
             }
         }
     }
@@ -43,11 +45,12 @@
 
 .perdiod-filter-range {
     padding: 5px 16px;
+
     input {
         border: solid 1px hsl(0, 0%, 42%) !important;
         border-radius: 5px;
         padding: 5px 9px;
         color: hsl(0, 0%, 20%);
-        border: solid 1px hsl(0, 0%, 70%)!important;
+        border: solid 1px hsl(0, 0%, 70%) !important;
     }
 }

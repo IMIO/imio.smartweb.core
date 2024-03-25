@@ -32,7 +32,7 @@ const EventsResult = (props) => {
                     <Translate text="Événements" />
                 </h2>
                 <p className="r-search-header-count">
-                    {resultArray.length > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />} 
+                    {resultArray.length > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />}
                 </p>
             </div>
             <ul className="r-search-list">
@@ -40,15 +40,15 @@ const EventsResult = (props) => {
                     <li key={i} className="r-search-item">
                         <a href={item["_url"]}>
                             <div className="r-search-img">
-                            {
-                                item.has_leadimage[0] ? (
-                                    <div className="r-search-img" style={{
-                                        backgroundImage:"url(" + item.image_url +")"
-                                    }}></div>
-                                ):(
-                                    <div className="r-search-img no-search-item-img"></div>
-                                )
-                            }
+                                {
+                                    item.has_leadimage[0] ? (
+                                        <div className="r-search-img" style={{
+                                            backgroundImage: "url(" + item.image_url + ")"
+                                        }}></div>
+                                    ) : (
+                                        <div className="r-search-img no-search-item-img"></div>
+                                    )
+                                }
                             </div>
                             <Highlighter
                                 highlightClassName="r-search-highlighter"

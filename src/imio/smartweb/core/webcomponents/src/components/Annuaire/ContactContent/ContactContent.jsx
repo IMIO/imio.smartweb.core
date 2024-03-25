@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
@@ -6,10 +6,11 @@ import ReactMarkdown from 'react-markdown';
 import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css"
 import { Translate } from "react-translated";
+import queryString from 'query-string';
+
 
 const ContactContent = ({ queryUrl, onChange }) => {
-    let history = useHistory();
-    const queryString = require("query-string");
+    const navigate = useNavigate();
     const { u, ...parsed } = Object.assign(
         { UID: queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
     );
@@ -71,7 +72,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
     }, [item]);
 
     function handleClick() {
-        history.push("./");
+        navigate("..");
         onChange(null);
     }
     let countryTitle = item.country && item.country.title
@@ -171,7 +172,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                                 {item.schedule_for_today}
                                             </span>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
                                             </svg>
                                         </>
                                     ) : (

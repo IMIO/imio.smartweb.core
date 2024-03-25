@@ -29,10 +29,10 @@ const NewsResult = (props) => {
         <div className="search-news">
             <div className="r-search-header">
                 <h2 className="r-search-header-title">
-                    <Translate text="Actualités"/>
+                    <Translate text="Actualités" />
                 </h2>
                 <p className="r-search-header-count">
-                    {resultArray.length > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />} 
+                    {resultArray.length > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />}
                 </p>
             </div>
             <ul className="r-search-list">
@@ -43,9 +43,9 @@ const NewsResult = (props) => {
                                 {
                                     item.has_leadimage[0] ? (
                                         <div className="r-search-img" style={{
-                                            backgroundImage:"url(" + item.image_url +")"
+                                            backgroundImage: "url(" + item.image_url + ")"
                                         }}></div>
-                                    ):(
+                                    ) : (
                                         <div className="r-search-img no-search-item-img"></div>
                                     )
                                 }

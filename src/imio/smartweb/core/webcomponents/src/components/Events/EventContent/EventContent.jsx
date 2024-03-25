@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
@@ -7,10 +7,10 @@ import ReactMarkdown from 'react-markdown'
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css"
 import { Translate } from "react-translated";
+import queryString from 'query-string';
 
 const ContactContent = ({ queryUrl, onChange }) => {
-	let history = useHistory();
-	const queryString = require("query-string");
+	let navigate = useNavigate();
 	const { u, ...parsed } = Object.assign(
 		{ UID: queryString.parse(useFilterQuery().toString())['u'], fullobjects: 1 },
 	);
@@ -49,10 +49,10 @@ const ContactContent = ({ queryUrl, onChange }) => {
 		}
 	}, [item]);
 
-    function handleClick() {
-        history.push("./");
-        onChange(null);
-    }
+	function handleClick() {
+		navigate("..");
+		onChange(null);
+	}
 	moment.locale('be');
 	const start = moment.utc(item.start).format('DD-MM-YYYY');
 	const end = moment.utc(item.end).format('DD-MM-YYYY');

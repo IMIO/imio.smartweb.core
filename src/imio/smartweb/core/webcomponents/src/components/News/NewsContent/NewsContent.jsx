@@ -1,4 +1,4 @@
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
@@ -8,72 +8,73 @@ import ReactMarkdown from 'react-markdown'
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
+import queryString from 'query-string';
+
 const ContactContent = ({ queryUrl, onChange }) => {
-    let history = useHistory();
-    const queryString = require("query-string");
-    const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
-    const [params, setParams] = useState(parsed2);
-    const [item, setitem] = useState({});
-    const [files, setFiles] = useState();
-    const [gallery, setGallery] = useState();
-    const { response, error, isLoading } = useAxios(
-        {
-            method: "get",
-            url: "",
-            baseURL: queryUrl,
-            headers: {
-                Accept: "application/json",
-            },
-            params: params,
-        },
-        []
-    );
-    useEffect(() => {
-        if (response !== null) {
-            setitem(response.items[0]);
-        }
-        window.scrollTo(0, 0);
-    }, [response]);
+	let navigate = useNavigate();
+	const parsed = queryString.parse(useFilterQuery().toString());
+	const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
+	const [params, setParams] = useState(parsed2);
+	const [item, setitem] = useState({});
+	const [files, setFiles] = useState();
+	const [gallery, setGallery] = useState();
+	const { response, error, isLoading } = useAxios(
+		{
+			method: "get",
+			url: "",
+			baseURL: queryUrl,
+			headers: {
+				Accept: "application/json",
+			},
+			params: params,
+		},
+		[]
+	);
+	useEffect(() => {
+		if (response !== null) {
+			setitem(response.items[0]);
+		}
+		window.scrollTo(0, 0);
+	}, [response]);
 
 	/// use to set file and gallery items
 	useEffect(() => {
-        if (item.items && item.items.length > 0) {
-            setFiles(item.items.filter(files => files['@type'] === 'File'));
-            setGallery(item.items.filter(files => files['@type'] === 'Image'));
-        }
-    }, [item]);
+		if (item.items && item.items.length > 0) {
+			setFiles(item.items.filter(files => files['@type'] === 'File'));
+			setGallery(item.items.filter(files => files['@type'] === 'Image'));
+		}
+	}, [item]);
 
-    function handleClick() {
-        history.push("./");
-        onChange(null);
-    }
+	function handleClick() {
+		navigate("..");
+		onChange(null);
+	}
 	moment.locale('fr')
-    const created = moment(item.created).startOf('minute').fromNow();
-    const lastModified = moment(item.modified).startOf('minute').fromNow();
-    return (
-        <div className="new-content r-content">
-            <button type="button" onClick={handleClick}>
+	const created = moment(item.created).startOf('minute').fromNow();
+	const lastModified = moment(item.modified).startOf('minute').fromNow();
+	return (
+		<div className="new-content r-content">
+			<button type="button" onClick={handleClick}>
 				<Translate text="Retour" />
-            </button>
-            <article>
-                <header>
-                    <h2 className="r-content-title">{item.title}</h2>
-                    <div className="r-content-description">
-					    <ReactMarkdown>{item.description}</ReactMarkdown>
-				    </div>
-                </header>
-                <figure>
-                    <div
-                        className="r-content-img"
-                        style={{
-                            backgroundImage: item.image_affiche_scale
-                                ? "url(" + item.image_affiche_scale + ")"
-                                : "",
-                        }}
-                    />
-                </figure>
-                <div className="r-content-news-info">
+			</button>
+			<article>
+				<header>
+					<h2 className="r-content-title">{item.title}</h2>
+					<div className="r-content-description">
+						<ReactMarkdown>{item.description}</ReactMarkdown>
+					</div>
+				</header>
+				<figure>
+					<div
+						className="r-content-img"
+						style={{
+							backgroundImage: item.image_affiche_scale
+								? "url(" + item.image_affiche_scale + ")"
+								: "",
+						}}
+					/>
+				</figure>
+				<div className="r-content-news-info">
 					<div className="r-content-news-info-container">
 						{/* date */}
 						<div className="r-content-news-info-schedul">
@@ -88,26 +89,26 @@ const ContactContent = ({ queryUrl, onChange }) => {
 							</div>
 							<div className="dpinlb">
 								<div className="r-content-news-info--date">
-                                <div className="r-content-date">
-								{
-									created === lastModified ?
-									(
-									<div className="r-content-date-publish">
-										<span>Publié {created}</span>
+									<div className="r-content-date">
+										{
+											created === lastModified ?
+												(
+													<div className="r-content-date-publish">
+														<span>Publié {created}</span>
+													</div>
+												) :
+												(
+													<div>
+														<div className="r-content-date-publish">
+															<span>Publié {created}</span>
+														</div>
+														<div className="r-card-date-last">
+															<span>Actualisé {lastModified} </span>
+														</div>
+													</div>
+												)
+										}
 									</div>
-									):
-									(
-									<div>
-										<div className="r-content-date-publish">
-											<span>Publié {created}</span>
-										</div>
-										<div className="r-card-date-last">
-											<span>Actualisé {lastModified} </span>
-										</div>
-									</div>
-									)
-								}
-                            </div>
 								</div>
 							</div>
 						</div>
@@ -217,32 +218,32 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						)}
 					</div>
 				</div>
-                <div
-                    className="r-content-text"
-                    dangerouslySetInnerHTML={{
-                        __html: item.text && item.text.data,
-                    }}
-                ></div>
+				<div
+					className="r-content-text"
+					dangerouslySetInnerHTML={{
+						__html: item.text && item.text.data,
+					}}
+				></div>
 				{/* add files to download */}
 				{
 					files &&
-						<div className="r-content-files">
-							{files.map((file, i) => (
-								<div className="r-content-file">
-									<a key={i} href={file.targetUrl} className="r-content-file-link" rel="nofollow">
-										<span className="r-content-file-title">{file.title}</span>
-										<span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
-									</a>
-								</div>
-							))}
-						</div>
+					<div className="r-content-files">
+						{files.map((file, i) => (
+							<div className="r-content-file">
+								<a key={i} href={file.targetUrl} className="r-content-file-link" rel="nofollow">
+									<span className="r-content-file-title">{file.title}</span>
+									<span className="r-content-file-icon"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8899a4" stroke-width="2" stroke-linecap="square" stroke-linejoin="arcs"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path></svg> </span>
+								</a>
+							</div>
+						))}
+					</div>
 				}
 				{/* add gallery */}
 				{
 					gallery &&
 					<div className="r-content-gallery">
 						<div class="spotlight-group flexbin r-content-gallery">
-							{gallery.map((image,i) => (
+							{gallery.map((image, i) => (
 								<a key={i} class="spotlight" href={image.image_full_scale} >
 									<img src={image.image_preview_scale} alt="" />
 								</a>
@@ -250,8 +251,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
 						</div>
 					</div>
 				}
-            </article>
-        </div>
-    );
+			</article>
+		</div>
+	);
 };
 export default ContactContent;

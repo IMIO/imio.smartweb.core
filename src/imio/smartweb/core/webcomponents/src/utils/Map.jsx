@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import "./Map.scss";
 import "leaflet/dist/leaflet.css";
 import removeAccents from "remove-accents";
+import queryString from 'query-string';
 
 function ChangeMapView({ activeItem, arrayOfLatLngs }) {
     const map = useMap();
@@ -27,9 +28,8 @@ function Map(props) {
     const [activeItem, setActiveItem] = useState(null);
     const [filterGeoArray, setFilterGeoArray] = useState([]);
     const [allPosition, setAllPosition] = useState(null);
-    const queryString = require("query-string");
     const { u, ...parsed } = Object.assign(
-        { UID: queryString.parse(useFilterQuery().toString())['u']},
+        { UID: queryString.parse(useFilterQuery().toString())['u'] },
     );
     // Delete Imio positions
     useEffect(() => {
@@ -66,12 +66,12 @@ function Map(props) {
 
     useEffect(() => {
         var result =
-        filterGeoArray &&
-        filterGeoArray.filter((obj) => {
-            return obj.UID === parsed.UID;
-        });
-    setActiveItem(result[0]);
-}, [filterGeoArray]);
+            filterGeoArray &&
+            filterGeoArray.filter((obj) => {
+                return obj.UID === parsed.UID;
+            });
+        setActiveItem(result[0]);
+    }, [filterGeoArray]);
 
 
     useEffect(() => {
@@ -143,7 +143,7 @@ function Map(props) {
                 ) : (
                     ""
                 )}
-                {filterGeoArray && markers }
+                {filterGeoArray && markers}
             </MapContainer>
         </div>
     );
