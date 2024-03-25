@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+} from "react-router-dom";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
@@ -9,10 +13,11 @@ import "./Annuaire.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider, Translate } from "react-translated";
 import translation from '../../utils/translation';
+import queryString from 'query-string';
 
 export default function Annuaire(props) {
     return (
-        <Router basename={props.viewPath}>
+        <BrowserRouter basename={props.viewPath}>
             <Provider language={props.currentLanguage} translation={translation}>
                 <AnnuaireView
                     queryFilterUrl={props.queryFilterUrl}
@@ -22,11 +27,10 @@ export default function Annuaire(props) {
                     displayMap={props.displayMap}
                 />
             </Provider>
-        </Router>
+        </BrowserRouter>
     );
 }
 function AnnuaireView(props) {
-    const queryString = require("query-string");
     const { u, ...parsed } = Object.assign(
         { b_start: 0, fullobjects: 1 },
         queryString.parse(useFilterQuery().toString())
@@ -167,8 +171,8 @@ function AnnuaireView(props) {
                     )}
                 </div>
             </div>
-            <Switch>
-                <Route exact path="/">
+            <Routes>
+                <Route exact path="/" element={
                     <div className="r-wrapper container r-annuaire-wrapper">
                         <div className="r-result r-annuaire-result">
                             <div>{listRender}</div>
@@ -200,8 +204,10 @@ function AnnuaireView(props) {
                         </div>
                         }
                     </div>
+                }>
+
                 </Route>
-                <Route path={"/:name"}>
+                <Route path={"/:name"} element={
                     <div className="r-wrapper container r-annuaire-wrapper">
                         <div className="r-result r-annuaire-result">
                             <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
@@ -217,8 +223,10 @@ function AnnuaireView(props) {
                         </div>
                         }
                     </div>
+                }>
+
                 </Route>
-            </Switch>
+            </Routes>
         </div>
     );
 }

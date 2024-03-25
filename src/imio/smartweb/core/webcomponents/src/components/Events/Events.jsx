@@ -1,5 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+    BrowserRouter,
+    Routes,
+    Route,
+} from "react-router-dom";
 import Filters from "./Filters/Filter";
 import EventContent from "./EventContent/EventContent";
 import EventList from "./EventList/EventList";
@@ -10,10 +14,12 @@ import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider, Translate } from "react-translated";
 import translation from '../../utils/translation';
 import moment from "moment";
+import queryString from 'query-string';
+
 
 export default function Events(props) {
     return (
-        <Router basename={props.viewPath}>
+        <BrowserRouter basename={props.viewPath}>
             <Provider language={props.currentLanguage} translation={translation}>
                 <EventsView
                     queryFilterUrl={props.queryFilterUrl}
@@ -24,13 +30,12 @@ export default function Events(props) {
                     language={props.currentLanguage}
                 />
             </Provider>
-        </Router>
+        </BrowserRouter>
     );
 }
 function EventsView(props) {
-    const queryString = require("query-string");
     const { u, ...parsed } = Object.assign(
-        { b_start: 0, fullobjects: 1, "event_dates.query":[moment().format('YYYY-MM-DD')],"event_dates.range":"min"},
+        { b_start: 0, fullobjects: 1, "event_dates.query": [moment().format('YYYY-MM-DD')], "event_dates.range": "min" },
         queryString.parse(useFilterQuery().toString())
     );
     const [itemsArray, setItemsArray] = useState([]);
@@ -171,9 +176,8 @@ function EventsView(props) {
                     )}
                 </div>
             </div>
-            <Switch>
-
-                <Route exact path="/">
+            <Routes>
+                <Route exact path="/" element={
                     <div className="r-wrapper container r-annuaire-wrapper">
                         <div className="r-result r-annuaire-result">
                             <div>{listRender}</div>
@@ -205,8 +209,10 @@ function EventsView(props) {
                         </div>
                         }
                     </div>
+                }>
+
                 </Route>
-                <Route path={"/:name"}>
+                <Route path={"/:name"} element={
                     <div className="r-wrapper container r-annuaire-wrapper">
                         <div className="r-result r-annuaire-result">
                             <EventContent queryUrl={props.queryUrl} onChange={clickID} />
@@ -222,8 +228,9 @@ function EventsView(props) {
                         </div>
                         }
                     </div>
+                }>
                 </Route>
-            </Switch>
+            </Routes>
         </div>
     );
 }
