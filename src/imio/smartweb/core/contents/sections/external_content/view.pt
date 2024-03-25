@@ -32,15 +32,15 @@
          tal:content="structure view/contents" />
 
     <div tal:condition="python:which_plugin == 'ideluxwasteplugin'">
-        <metal:block use-macro="context/@@view_idelux_waste/embeded_datas" tal:define="datas view/contents">
+        <metal:block use-macro="context/@@view_idelux_waste/embeded_datas" tal:define="datas view/contents"></metal:block>
     </div>
 
     <div tal:condition="python:which_plugin == 'inbwcontainersaffluenceplugin'">
-        <metal:block use-macro="context/@@view_inbw_container_affluence/embeded_datas" tal:define="datas view/contents">
+        <metal:block use-macro="context/@@view_inbw_container_affluence/embeded_datas" tal:define="datas view/contents"></metal:block>
     </div>
 
     <div tal:condition="python:which_plugin == 'odwbwidgetplugin'">
-        <metal:block use-macro="context/@@view_odwb_widget/embeded_datas" tal:define="datas view/contents">
+        <metal:block use-macro="context/@@view_odwb_widget/embeded_datas" tal:define="datas view/contents"></metal:block>
     </div>
 
   </div>
