@@ -12,6 +12,7 @@
                                        orientation view/orientation;
                                        current-language view/current_language;
                                        display-map view/display_map;
+                                       only-past-events view/only_past_events;
                                        view-path view/view_path;"></smartweb-events>
     </div>
     </metal:main>

@@ -37,6 +37,13 @@ class IEventsView(model.Schema):
         default=True,
     )
 
+    only_past_events = schema.Bool(
+        title=_("Display only past events"),
+        description=_("If selected, only past events will be displayed"),
+        required=False,
+        default=False,
+    )
+
 
 @implementer(IEventsView)
 class EventsView(RestView):

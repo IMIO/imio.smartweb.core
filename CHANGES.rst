@@ -5,8 +5,8 @@ Changelog
 1.2.39 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- MWEBPM-8 : Add field to manage "only past events" rest view
+  [boulch]
 
 1.2.38 (2024-03-18)
 -------------------

@@ -17,3 +17,7 @@ class EventsViewView(BaseRestView):
     @property
     def display_map(self):
         return self.context.display_map
+
+    @property
+    def only_past_events(self):
+        return self.context.only_past_events
