@@ -27,6 +27,7 @@ export default function Events(props) {
                     proposeUrl={props.proposeUrl}
                     batchSize={props.batchSize}
                     displayMap={props.displayMap}
+                    onlyPastEvents={props.onlyPastEvents}
                     language={props.currentLanguage}
                 />
             </Provider>
@@ -35,7 +36,7 @@ export default function Events(props) {
 }
 function EventsView(props) {
     const { u, ...parsed } = Object.assign(
-        { b_start: 0, fullobjects: 1, "event_dates.query": [moment().format('YYYY-MM-DD')], "event_dates.range": "min" },
+        { b_start: 0, fullobjects: 1, "event_dates.query": [moment().format('YYYY-MM-DD')], "event_dates.range": props.onlyPastEvents === "True" ? "max" : "min"},
         queryString.parse(useFilterQuery().toString())
     );
     const [itemsArray, setItemsArray] = useState([]);

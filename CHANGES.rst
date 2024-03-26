@@ -5,6 +5,9 @@ Changelog
 1.2.39 (unreleased)
 -------------------
 
+- MWEBPM-8 : Add "min" or "max" to queries depending to "only past events"
+  [thomlamb]
+
 - MWEBPM-8 : Add field to manage "only past events" rest view
   [boulch]
 
