@@ -194,10 +194,11 @@ function Filters(props) {
                     )}
                 </Translator>
             </div>
-
-            <div className="r-filter  schedul-Filter">
-                <DateFilter language={props.language} setDates={setDates} />
-            </div>
+            {props.onlyPastEvents === "False" &&
+                <div className="r-filter  schedul-Filter">
+                    <DateFilter language={props.language} setDates={setDates} />
+                </div>
+            }
         </React.Fragment>
     );
 }

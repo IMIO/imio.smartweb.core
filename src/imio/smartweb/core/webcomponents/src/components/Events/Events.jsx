@@ -157,6 +157,7 @@ function EventsView(props) {
                         activeFilter={filters}
                         onChange={filtersChange}
                         language={props.language}
+                        onlyPastEvents={props.onlyPastEvents}
                     />
                     {props.proposeUrl &&
                         (
