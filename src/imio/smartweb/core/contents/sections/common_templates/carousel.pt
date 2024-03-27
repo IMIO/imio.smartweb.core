@@ -48,7 +48,8 @@
                                open_in_new_tab item/open_in_new_tab | nothing;">
                   <a  tal:omit-tag="not: item/url"
                       tal:attributes="href item/url;
-                                     target python:'_blank' if (open_in_new_tab and not can_edit_sections) else ''">
+                                      class item/container_id | nothing;
+                                      target python:'_blank' if (open_in_new_tab and not can_edit_sections) else ''">
                     <div class="swiper-image"
                          tal:condition="python: item_has_image and show_lead_image"
                          tal:attributes="style string:background-image:url(${item/image});
@@ -64,6 +65,9 @@
                          tal:condition="item/category | nothing">
                       <span tal:content="item/category" />
                     </div>
+                    <div tal:condition="view/display_container_title"
+                         class="auth_source_container_title"
+                         tal:content="item/container_title | nothing"></div>
                     <div class="swiper_date"
                          tal:condition="context/show_items_date | nothing">
                       <tal:if tal:condition="item/effective | nothing">

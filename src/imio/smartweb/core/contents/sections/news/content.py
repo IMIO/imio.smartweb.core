@@ -85,6 +85,13 @@ class ISectionNews(ISection):
         title=_("Show items description"), required=False
     )
 
+    model.fieldset("layout", fields=["display_newsfolders_titles"])
+    display_newsfolders_titles = schema.Bool(
+        title=_("Display news folders titles"),
+        description=_("If checked, display news folders titles in the carousel view."),
+        required=False,
+    )
+
 
 @implementer(ISectionNews)
 class SectionNews(Section):

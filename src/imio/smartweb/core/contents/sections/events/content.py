@@ -85,6 +85,13 @@ class ISectionEvents(ISection):
         title=_("Show items description"), required=False
     )
 
+    model.fieldset("layout", fields=["display_agendas_titles"])
+    display_agendas_titles = schema.Bool(
+        title=_("Display agendas titles"),
+        description=_("If checked, display agendas titles in the carousel view."),
+        required=False,
+    )
+
 
 @implementer(ISectionEvents)
 class SectionEvents(Section):

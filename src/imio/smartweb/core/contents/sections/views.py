@@ -53,6 +53,10 @@ class SectionView(BrowserView):
         self.redirect_to_section(self.context.id)
 
     @property
+    def display_container_title(self):
+        return False
+
+    @property
     def is_anonymous(self):
         return api.user.is_anonymous()
 
