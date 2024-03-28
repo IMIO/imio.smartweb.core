@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.39 (unreleased)
+1.2.39 (2024-03-28)
 -------------------
 
 - MWEBPM-9 : Retrieve agenda id/title  or news folder id/title and display it in "common templates" carousel
