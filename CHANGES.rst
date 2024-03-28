@@ -5,6 +5,9 @@ Changelog
 1.2.39 (unreleased)
 -------------------
 
+- MWEBPM-9 : Retrieve agenda id/title  or news folder id/title and display it in "common templates" carousel
+  [boulch]
+
 - MWEBPM-8 : Add "min" or "max" to queries depending to "only past events"
   [thomlamb]
 

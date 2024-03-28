@@ -25,6 +25,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
         params = [
             selected_item,
             "portal_type=imio.news.NewsItem",
+            "metadata_fields=container_uid",
             "metadata_fields=category_title",
             "metadata_fields=has_leadimage",
             "metadata_fields=modified",
@@ -62,6 +63,8 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "category": item["category_title"],
                 "effective": item["effective"],
                 "url": f"{linking_view_url}/{item_id}?u={item_uid}",
+                "container_id": item.get("usefull_container_id", None),
+                "container_title": item.get("usefull_container_title", None),
                 "has_image": item["has_leadimage"],
                 "image": f"{item_url}/@@images/image/{orientation}_{image_scale}?cache_key={modified_hash}",
             }
@@ -75,3 +78,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
     @property
     def see_all_url(self):
         return self.context.linking_rest_view.to_object.absolute_url()
+
+    @property
+    def display_container_title(self):
+        return self.context.display_newsfolders_titles

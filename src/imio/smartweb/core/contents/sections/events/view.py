@@ -27,6 +27,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             )
         params = [
             selected_item,
+            "metadata_fields=container_uid",
             "metadata_fields=category_title",
             "metadata_fields=start",
             "metadata_fields=end",
@@ -69,6 +70,8 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "category": item["category_title"],
                 "event_date": date_dict,
                 "url": f"{linking_view_url}/{item_id}?u={item_uid}",
+                "container_id": item.get("usefull_container_id", None),
+                "container_title": item.get("usefull_container_title", None),
                 "has_image": item["has_leadimage"],
                 "image": f"{item_url}/@@images/image/{orientation}_{image_scale}?cache_key={modified_hash}",
             }
@@ -85,3 +88,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
 
     def is_multi_dates(self, start, end):
         return start and end and start.date() != end.date()
+
+    @property
+    def display_container_title(self):
+        return self.context.display_agendas_titles
