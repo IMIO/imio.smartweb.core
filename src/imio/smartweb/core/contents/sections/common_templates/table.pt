@@ -56,7 +56,8 @@
                                    show_lead_image python:getattr(context, 'show_items_lead_image', True);
                                    portal context/@@plone_portal_state/portal;
                                    open_in_new_tab item/open_in_new_tab | nothing;"
-                       class="table_display">
+                        tal:attributes="class string:table_display ${item/container_id | nothing};"
+                      >
                       <a tal:attributes="class python:'table_image no-image' if no_icon_no_image else 'table_image';
                                          href item/url;
                                          target python:'_blank' if (open_in_new_tab and not can_edit_sections) else '';">
@@ -97,7 +98,10 @@
                             </tal:def>
                           </tal:if>
                         </div>
-
+                        <div tal:condition="view/display_container_title"
+                             class="auth_source_container_title"
+                             tal:content="item/container_title | nothing">
+                        </div>
                         <div class="table_title">
                           <span tal:content="item/title" />
                         </div>

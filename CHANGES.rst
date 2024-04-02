@@ -5,7 +5,8 @@ Changelog
 1.2.40 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- MWEBPM-9 : Retrieve agenda id/title  or news folder id/title and display it in "common templates" table
+  [boulch]
 
 
 1.2.39 (2024-03-28)
