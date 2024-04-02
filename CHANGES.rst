@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.40 (unreleased)
+1.2.40 (2024-04-02)
 -------------------
 
 - MWEBPM-9 : Add container_uid in rest views to retrieve agenda id/title or news folder id/title
