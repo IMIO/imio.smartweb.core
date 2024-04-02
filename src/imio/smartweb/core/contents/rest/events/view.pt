@@ -13,7 +13,8 @@
                                        current-language view/current_language;
                                        display-map view/display_map;
                                        only-past-events view/only_past_events;
-                                       view-path view/view_path;"></smartweb-events>
+                                       view-path view/view_path;
+                                       display_agendas_titles view/display_agendas_titles;"></smartweb-events>
     </div>
     </metal:main>
   </body>

@@ -39,6 +39,7 @@ class BaseNewsEndpoint(BaseEndpoint):
             "selected_news_folders={}".format(self.context.selected_news_folder),
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
+            "metadata_fields=container_uid",
             "metadata_fields=topics",
             "metadata_fields=has_leadimage",
             "metadata_fields=UID",

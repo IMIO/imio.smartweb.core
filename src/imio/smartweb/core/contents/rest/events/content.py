@@ -37,6 +37,12 @@ class IEventsView(model.Schema):
         default=True,
     )
 
+    display_agendas_titles = schema.Bool(
+        title=_("Display agendas titles"),
+        description=_("If checked, display agendas titles"),
+        required=False,
+    )
+
     only_past_events = schema.Bool(
         title=_("Display only past events"),
         description=_("If selected, only past events will be displayed"),

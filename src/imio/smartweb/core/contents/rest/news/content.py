@@ -21,6 +21,12 @@ class INewsView(model.Schema):
         title=_("Number of items to display"), default=20, required=True
     )
 
+    display_newsfolders_titles = schema.Bool(
+        title=_("Display news folders titles"),
+        description=_("If checked, display news folders titles"),
+        required=False,
+    )
+
 
 @implementer(INewsView)
 class NewsView(RestView):

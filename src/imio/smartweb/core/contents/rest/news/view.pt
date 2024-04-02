@@ -11,7 +11,8 @@
                                          propose-url view/propose_url;
                                          orientation view/orientation;
                                          current-language view/current_language;
-                                         view-path view/view_path;"></smartweb-news>
+                                         view-path view/view_path;
+                                         display_newsfolders_titles view/display_newsfolders_titles;"></smartweb-news>
       </div>
     </metal:main>
   </body>

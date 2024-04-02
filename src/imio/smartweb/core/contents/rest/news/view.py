@@ -13,3 +13,7 @@ class NewsViewView(BaseRestView):
     @property
     def propose_url(self):
         return api.portal.get_registry_record("smartweb.propose_news_url")
+
+    @property
+    def display_newsfolders_titles(self):
+        return self.context.display_newsfolders_titles

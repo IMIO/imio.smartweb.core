@@ -5,6 +5,9 @@ Changelog
 1.2.40 (unreleased)
 -------------------
 
+- MWEBPM-9 : Add container_uid in rest views to retrieve agenda id/title or news folder id/title
+  [boulch]
+
 - MWEBPM-9 : Retrieve agenda id/title  or news folder id/title and display it in "common templates" table
   [boulch]
 

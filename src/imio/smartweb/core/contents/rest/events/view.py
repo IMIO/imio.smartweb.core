@@ -21,3 +21,7 @@ class EventsViewView(BaseRestView):
     @property
     def only_past_events(self):
         return self.context.only_past_events
+
+    @property
+    def display_agendas_titles(self):
+        return self.context.display_agendas_titles
