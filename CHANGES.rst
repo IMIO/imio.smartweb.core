@@ -5,7 +5,8 @@ Changelog
 1.2.41 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Set higher timeout because retrieving some datas can take some time
+  [boulch]
 
 
 1.2.40 (2024-04-02)

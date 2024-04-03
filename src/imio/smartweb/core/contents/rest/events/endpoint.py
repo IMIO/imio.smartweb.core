@@ -13,7 +13,7 @@ from zope.interface import Interface
 class BaseEventsEndpoint(BaseEndpoint):
     def __call__(self):
         results = super(BaseEventsEndpoint, self).__call__()
-        if not results.get("items"):
+        if not results or not results.get("items"):
             return results
         orientation = self.context.orientation
         for result in results["items"]:

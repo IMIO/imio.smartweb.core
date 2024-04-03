@@ -19,7 +19,7 @@ class BaseEndpoint(object):
         self.request = request
 
     def __call__(self):
-        results = get_json(self.query_url)
+        results = get_json(self.query_url, timeout=20)
         return results
 
     @property
