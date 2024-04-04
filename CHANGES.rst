@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.41 (unreleased)
+1.2.41 (2024-04-04)
 -------------------
 
 - Set higher timeout because retrieving some datas can take some time
