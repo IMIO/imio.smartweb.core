@@ -5,7 +5,8 @@ Changelog
 1.2.43 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-35100 : Fix sitemap.xml.gz generation. When a "main" rest view was removed, continue to build sitemap for others rest views
+  [boulch]
 
 
 1.2.42 (2024-04-12)
