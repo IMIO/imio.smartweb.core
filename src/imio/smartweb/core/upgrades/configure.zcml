@@ -219,6 +219,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+    <genericsetup:registerProfile
+      name="upgrade_1055_to_1056"
+      title="Upgrade core from 1055 to 1056"
+      directory="profiles/1055_to_1056"
+      description="Add imio.smartweb.orientation to section files"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -780,6 +788,16 @@
     <genericsetup:upgradeDepends
         title="Add solr.fields behavior to some content types"
         import_profile="imio.smartweb.core.upgrades:upgrade_1054_to_1055"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1055"
+      destination="1056"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add imio.smartweb.orientation to section files"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1055_to_1056"
         />
   </genericsetup:upgradeSteps>
 
