@@ -5,7 +5,6 @@ from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.utils import get_wca_token
 from plone.memoize import ram
-from plone.memoize.view import memoize
 from time import time
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory

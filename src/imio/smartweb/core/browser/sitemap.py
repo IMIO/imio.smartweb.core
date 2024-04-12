@@ -4,7 +4,6 @@ from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.rest.utils import get_auth_sources_response
 from imio.smartweb.core.contents.rest.utils import get_entity_id
-from imio.smartweb.core.utils import get_json
 from plone import api
 from plone.base.interfaces import IPloneSiteRoot
 from plone.app.layout.sitemap.sitemap import SiteMapView
