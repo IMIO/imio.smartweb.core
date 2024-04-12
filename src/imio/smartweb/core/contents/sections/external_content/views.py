@@ -230,6 +230,7 @@ class ArcgisPlugin(BasePlugin):
         if "arcgis" in parts.netloc:
             self.parts = parts
             self.config = config
+            return self
         return None
 
     @property

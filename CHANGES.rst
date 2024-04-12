@@ -5,7 +5,8 @@ Changelog
 1.2.42 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-36564 : Fix arcgis external content plugin
+  [boulch]
 
 
 1.2.41 (2024-04-04)
