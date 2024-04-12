@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.42 (unreleased)
+1.2.42 (2024-04-12)
 -------------------
 
 - SUP-36564 : Fix arcgis external content plugin
