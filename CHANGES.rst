@@ -5,7 +5,11 @@ Changelog
 1.2.42 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4098 : Add affiche scale for section on table view display and one element by lot 
+  [thomlamb]
+
+- WEB-4098 : Add new profile for imio.smartweb.orientation to section files
+  [thomlamb]
 
 
 1.2.41 (2024-04-04)

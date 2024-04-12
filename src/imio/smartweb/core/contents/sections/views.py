@@ -71,7 +71,7 @@ class CarouselOrTableSectionView(SectionView):
         if layout == "carousel_view":
             return self.context.nb_results_by_batch == 1 and "affiche" or "vignette"
         elif layout == "table_view":
-            return self.context.nb_results_by_batch == 1 and "liste" or "vignette"
+            return self.context.nb_results_by_batch == 1 and "affiche" or "vignette"
         else:
             return getattr(self.context, "image_scale", "")
 
