@@ -10,6 +10,7 @@ class FilesView(CarouselOrTableSectionView):
     """Files Section view"""
 
     def items(self):
+        orientation = self.context.orientation
         image_scale = self.image_scale
         items = self.context.listFolderContents()
         results = []
@@ -18,7 +19,7 @@ class FilesView(CarouselOrTableSectionView):
             has_image = True if getattr(item.aq_base, "image", None) else False
             file_view = queryMultiAdapter((item, self.request), name="file_view")
             scale_url = get_scale_url(
-                item, self.request, "image", image_scale, orientation="paysage"
+                item, self.request, "image", image_scale, orientation
             )
             results.append(
                 {
