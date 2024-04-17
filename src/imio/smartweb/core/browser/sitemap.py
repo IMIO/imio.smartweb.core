@@ -12,6 +12,10 @@ from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import normalizeString
 from zope.component import getUtility
 
+import logging
+
+logger = logging.getLogger("imio.smartweb.core")
+
 
 class CustomSiteMapView(SiteMapView):
 
@@ -121,8 +125,12 @@ class CustomSiteMapView(SiteMapView):
                 return self.request.response.setStatus(
                     404, "No default authentic source found"
                 )
-            brains = api.content.find(UID=auth_source_uid)
-            obj = brains[0].getObject()
+            obj = api.content.get(UID=auth_source_uid)
+            if obj is None:
+                logger.warning(
+                    f"Seems that a main authentic view (for {auth_source_key}) is not found"
+                )
+                continue
             auth_source_view_url = obj.absolute_url()
             results = get_auth_sources_response(
                 auth_source_key, normalizeString(entity_id), (60 * 60 * 24)
