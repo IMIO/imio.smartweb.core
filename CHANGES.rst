@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.43 (unreleased)
+1.2.43 (2024-04-18)
 -------------------
 
 - WEB-4099 : Resize sections in front-end thanks to htmx / jquery
