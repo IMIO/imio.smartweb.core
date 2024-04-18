@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.44 (unreleased)
+1.2.44 (2024-04-18)
 -------------------
 
 - WEB-4099 : Fix select name
