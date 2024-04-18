@@ -5,7 +5,8 @@ Changelog
 1.2.44 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4099 : Fix select name
+  [boulch]
 
 
 1.2.43 (2024-04-18)

@@ -105,8 +105,8 @@ class TestSections(ImioSmartwebTestCase):
             (self.section_text, self.request), name="view"
         )
         self.assertEqual(section_text_view.save_size, json.dumps({}))
-
-        self.request.form["sectionSize"] = select.value[0]
+        select_name = f"select_{self.section_text.UID()}"
+        self.request.form[select_name] = select.value[0]
         self.request.form["_authenticator"] = createToken()
         section_text_view = getMultiAdapter(
             (self.section_text, self.request), name="view"

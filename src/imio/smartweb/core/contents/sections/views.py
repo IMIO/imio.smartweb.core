@@ -82,16 +82,17 @@ class SectionView(BrowserView):
 
     @property
     def save_size(self):
-        if not self.request.form.get("sectionSize"):
+        select_name = f"select_{self.context.UID()}"
+        if not self.request.form.get(select_name):
             return json.dumps({})
-        section_size = self.request.form.get("sectionSize")
+        section_size = self.request.form.get(select_name)
         context = aq_inner(self.context)
         context.bootstrap_css_class = section_size
         context.reindexObject()
         current_lang = get_current_language(self.context)[:2]
         size_txt = translate_vocabulary_term(
             "imio.smartweb.vocabulary.BootstrapCSS",
-            self.request.form.get("sectionSize"),
+            section_size,
             current_lang,
         )
         return json.dumps({"id": section_size, "title": size_txt})
