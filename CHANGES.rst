@@ -5,7 +5,10 @@ Changelog
 1.2.43 (unreleased)
 -------------------
 
-- WEB-4098 : Add affiche scale for section on table view display and one element by lot 
+- WEB-4099 : Resize sections in front-end thanks to htmx / jquery
+  [boulch]
+
+- WEB-4098 : Add affiche scale for section on table view display and one element by lot
   [thomlamb]
 
 - WEB-4098 : Add new profile for imio.smartweb.orientation to section files

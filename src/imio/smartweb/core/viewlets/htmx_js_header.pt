@@ -1,0 +1,59 @@
+<tal:cond condition="python:not view.is_anonymous">
+  <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        /**
+          Manage section size
+          When clicking on link (<a>) with class "section_size", display the form to select the section size
+        */
+        $(".manage-section > a.section_size").on("click", function(event) {
+          event.preventDefault();
+          var clickedElement = event.target;
+          var uid = clickedElement.getAttribute("uid");
+          var sizesForm = $("#sizesForm_" + uid);
+          // Get <select>
+          var selectElement = document.querySelector("#sizesForm_" + uid + " > select");
+          sizesForm.css({ "display": "inline-block", "position": "absolute", "zIndex": "2" });
+          selectElement.selectedIndex = -1;
+          selectElement.size = selectElement.options.length;
+          selectElement.focus();
+          selectElement.addEventListener('focusout', function(event) {
+            sizesForm.css("display", "none");
+          });
+        });
+
+        /**
+          Manage section size
+          When submitting the form, update the section size and the class of the parent element
+          (to directly resize the section)
+        */
+        $(".manage-section > form").on("htmx:afterRequest", function(event) {
+          event.preventDefault();
+          var response = JSON.parse(event.detail.xhr.response);
+          var currentForm = event.target;
+          var uid = currentForm.getAttribute("hx-boost");
+          var link = document.getElementById("selected_size_" + uid);
+          var parent = currentForm.closest('.sortable-section');
+          var lst_parent_classes = $(parent).attr("class").split(" ");
+          var new_parent_classes = ""
+          var find = false;
+          for (var i = 0; i < lst_parent_classes.length; i++) {
+            if (lst_parent_classes[i].startsWith("col-")) {
+              find = true;
+              lst_parent_classes[i] = response.id;
+            }
+            new_parent_classes += new_parent_classes + " " + lst_parent_classes[i];
+          }
+          // "col-" can not be found if there is no section size defined
+          if (find == false) {
+            new_parent_classes += " " + response.id;
+          }
+          $(parent).removeClass().addClass(new_parent_classes);
+          currentForm.style.display = "none";
+          link.innerText = response.title;
+          link.style.display = "inline-block";
+        });
+    });
+  </script>
+</tal:cond>

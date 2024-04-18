@@ -42,3 +42,7 @@ class IOdwbViewUtils(Interface):
 
     def is_odwb_widget_plugins():
         """Return True if we are in the generic odwb widget plugins"""
+
+
+class IHtmxViewUtils(Interface):
+    """ """

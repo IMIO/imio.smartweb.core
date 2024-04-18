@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_inner
+from imio.smartweb.common.utils import get_vocabulary
+from imio.smartweb.common.utils import translate_vocabulary_term
+from imio.smartweb.core.utils import get_current_language
 from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -59,6 +63,38 @@ class SectionView(BrowserView):
     @property
     def is_anonymous(self):
         return api.user.is_anonymous()
+
+    def get_section_size(self):
+        if not self.context.bootstrap_css_class:
+            return _("Define section size")
+        current_lang = api.portal.get_current_language()[:2]
+        return translate_vocabulary_term(
+            "imio.smartweb.vocabulary.BootstrapCSS",
+            self.context.bootstrap_css_class,
+            current_lang,
+        )
+
+    @property
+    def get_sizes(self):
+        voc = get_vocabulary("imio.smartweb.vocabulary.BootstrapCSS")
+        sizes = [{"key": t.token, "value": _(t.title)} for t in voc]
+        return sizes
+
+    @property
+    def save_size(self):
+        if not self.request.form.get("sectionSize"):
+            return json.dumps({})
+        section_size = self.request.form.get("sectionSize")
+        context = aq_inner(self.context)
+        context.bootstrap_css_class = section_size
+        context.reindexObject()
+        current_lang = get_current_language(self.context)[:2]
+        size_txt = translate_vocabulary_term(
+            "imio.smartweb.vocabulary.BootstrapCSS",
+            self.request.form.get("sectionSize"),
+            current_lang,
+        )
+        return json.dumps({"id": section_size, "title": size_txt})
 
 
 class CarouselOrTableSectionView(SectionView):

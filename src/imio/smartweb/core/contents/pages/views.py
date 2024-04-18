@@ -2,6 +2,7 @@
 
 from Acquisition import aq_inner
 from imio.smartweb.core.utils import get_scale_url
+from imio.smartweb.core.interfaces import IHtmxViewUtils
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from Products.CMFPlone.resources import add_bundle_on_request
@@ -17,6 +18,7 @@ from zope.interface import implementer
 
 
 @implementer(IViewWithoutLeadImage)
+@implementer(IHtmxViewUtils)
 class PagesView(FolderView):
     """Pages view"""
 

@@ -54,6 +54,24 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="*"
+      name="getsizes"
+      attribute="get_sizes"
+      class="imio.smartweb.core.contents.sections.views.SectionView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="savesize"
+      attribute="save_size"
+      class="imio.smartweb.core.contents.sections.views.SectionView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectAddedEvent"

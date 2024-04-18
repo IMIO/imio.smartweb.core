@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from Acquisition import aq_inner
 from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
 from imio.smartweb.core.config import WCA_URL
@@ -13,6 +14,7 @@ from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
 from zope.component import queryMultiAdapter
+from zope.globalrequest import getRequest
 
 import hashlib
 import json
@@ -196,3 +198,24 @@ def get_plausible_vars():
         return plausible_vars
     else:
         return None
+
+
+def get_current_language(context=None):
+    """Return the current negotiated language.
+
+    :param context: context object
+    :type context: object
+    :returns: language identifier
+    :rtype: string
+    :Example: :ref:`portal-get-current-language-example`
+    """
+    request = getRequest()
+    if request is None:
+        return (
+            context and aq_inner(context).Language()
+        ) or api.portal.get_default_language()
+    return (
+        request.get("LANGUAGE", None)
+        or (context and aq_inner(context).Language())
+        or api.portal.get_default_language()
+    )
