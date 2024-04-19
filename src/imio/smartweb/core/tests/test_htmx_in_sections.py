@@ -75,9 +75,13 @@ class TestSections(ImioSmartwebTestCase):
         self.assertEqual(len(available_sizes), nb_occurrences)
         for size in available_sizes:
             self.assertIn(
-                f'<option value="{size["key"]}">{size["value"]}</option>',
+                f'<option title="{size["value"]}" value="{size["key"]}" class="icon_{size["key"]}" >',
                 form_to_choose_size,
             )
+            # self.assertIn(
+            #     f'<option value="{size["key"]}">{size["value"]}</option>',
+            #     form_to_choose_size,
+            # )
 
     def test_change_section_size(self):
         transaction.commit()

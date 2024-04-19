@@ -68,8 +68,9 @@
                   tal:attributes="name string:select_${context/UID};
                                   id string:select_${context/UID}">
             <option tal:repeat="size view/get_sizes"
-                    tal:attributes="value size/key"
-                    tal:content="size/value"></option>
+                    tal:attributes="title size/value; value size/key; class string:icon_${size/key}"
+                    >
+            </option>
           </select>
         </form>
         <a class="section_size"
