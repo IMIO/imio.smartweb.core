@@ -18,6 +18,11 @@ class ICirkwiView(IPages):
         required=True,
     )
 
+    cirkwi_widget_mb_key = schema.TextLine(
+        title=_("Cirkwi widget mb_key"),
+        required=True,
+    )
+
 
 @implementer(ICirkwiView)
 class CirkwiView(Pages):
