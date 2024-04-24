@@ -3,7 +3,6 @@
 from Acquisition import aq_inner
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.common.utils import translate_vocabulary_term
-from imio.smartweb.core.utils import get_current_language
 from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -89,7 +88,7 @@ class SectionView(BrowserView):
         context = aq_inner(self.context)
         context.bootstrap_css_class = section_size
         context.reindexObject()
-        current_lang = get_current_language(self.context)[:2]
+        current_lang = api.portal.get_current_language()[:2]
         size_txt = translate_vocabulary_term(
             "imio.smartweb.vocabulary.BootstrapCSS",
             section_size,

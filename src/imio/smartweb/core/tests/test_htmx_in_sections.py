@@ -4,6 +4,7 @@ from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
+from plone.api import portal as portal_api
 from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -17,6 +18,7 @@ from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 
 import json
+import mock
 import re
 import transaction
 
@@ -84,6 +86,7 @@ class TestSections(ImioSmartwebTestCase):
             # )
 
     def test_change_section_size(self):
+        portal_api.get_current_language = mock.Mock(return_value="en")
         transaction.commit()
         section_text_uid = self.section_text.UID()
         browser = Browser(self.layer["app"])
