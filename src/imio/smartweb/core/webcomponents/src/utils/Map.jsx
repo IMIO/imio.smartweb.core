@@ -107,9 +107,7 @@ function Map(props) {
                     className="r-map-popup"
                     style={{ textDecoration: "none" }}
                     to={{
-                        pathname: removeAccents(
-                            mark.title.replace(/\s/g, "-").toLowerCase()
-                        ),
+                        pathname: "/" + removeAccents(mark.title).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase(),
                         search: `?u=${mark.UID}`,
                         state: {
                             idItem: mark.UID,
