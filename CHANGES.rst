@@ -5,7 +5,8 @@ Changelog
 1.2.45 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-36869 : Fix root ulr on Leaflet Marker.
+  [thomlamb]
 
 
 1.2.44 (2024-04-18)
