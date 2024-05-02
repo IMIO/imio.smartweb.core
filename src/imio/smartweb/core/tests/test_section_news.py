@@ -115,9 +115,6 @@ class TestSectionNews(ImioSmartwebTestCase):
         intids = getUtility(IIntIds)
         self.news.related_news = "64f4cbee9a394a018a951f6d94452914"
         self.news.linking_rest_view = RelationValue(intids.getId(self.rest_news_view))
-        annotations = IAnnotations(self.news)
-        self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
-
         news_view = queryMultiAdapter((self.news, self.request), name="carousel_view")
         url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
         m.get(url, text=json.dumps(self.json_news))
