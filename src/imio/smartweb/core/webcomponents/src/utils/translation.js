@@ -252,10 +252,58 @@ export default {
         de: "Benutzerdefiniert (Von ... bis ...)",
         nl: "Aangepast (Van ... tot ...)",
     },
+    "au": {
+        en: "to",
+        fr: "au",
+        de: "bis",
+        nl: "tot",
+    },
     "Personnalisé": {
         en: "Custom",
         fr: "Personnalisé",
         de: "Benutzerdefiniert",
         nl: "Aangepast",
-    }
+    },
+    "Monday": {
+        en: "Monday",
+        fr: "Lundi",
+        de: "Montag",
+        nl: "Maandag",
+    },
+    "Tuesday": {
+        en: "Tuesday",
+        fr: "Mardi",
+        de: "Dienstag",
+        nl: "Dinsdag",
+    },
+    "Wednesday": {
+        en: "Wednesday",
+        fr: "Mercredi",
+        de: "Mittwoch",
+        nl: "Woensdag",
+    },
+    "Thursday": {
+        en: "Thursday",
+        fr: "Jeudi",
+        de: "Donnerstag",
+        nl: "Donderdag",
+    },
+    "Friday": {
+        en: "Friday",
+        fr: "Vendredi",
+        de: "Freitag",
+        nl: "Vrijdag",
+    },
+    "Saturday": {
+        en: "Saturday",
+        fr: "Samedi",
+        de: "Samstag",
+        nl: "Zaterdag",
+    },
+    "Sunday": {
+        en: "Sunday",
+        fr: "Dimanche",
+        de: "Sonntag",
+        nl: "Zondag",
+    },
 }

@@ -5,6 +5,12 @@ Changelog
 1.2.45 (unreleased)
 -------------------
 
+- Add end date on event cards
+  [thomlamb]
+
+- Add tradcution for directory timetable
+  [thomlamb]
+
 - SUP-36869 : Fix root ulr on Leaflet Marker.
   [thomlamb]
 

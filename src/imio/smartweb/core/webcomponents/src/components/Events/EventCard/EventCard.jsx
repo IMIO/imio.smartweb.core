@@ -1,21 +1,15 @@
 import React from "react";
 import moment from "moment";
-import Moment from "react-moment";
-const ContactCard = ({ item }) => {
-    const title = item.title && item.title;
-    const category =
-        item.taxonomy_contact_category && item.taxonomy_contact_category[0];
-    const start = moment(item.start && item.start);
+import { Translate } from "react-translated";
 
-    const number = item.number ? item.number : "";
-    const street = item.street ? item.street : "";
-    const complement = item.complement ? item.complement : "";
-    const zipcode = item.zipcode ? item.zipcode : "";
-    const city = item.city ? item.city : "";
-    const country = item.country ? item.country : "";
-    const phones = item.phones ? item.phones : "";
-    const mails = item.mails ? item.mails : "";
-    const topics = item.topics ? item.topics : "";
+const ContactCard = ({ item }) => {
+	moment.locale('be');
+
+    const title = item.title && item.title;
+	const start = moment.utc(item.start).format('DD-MM-YYYY');
+    const end = moment.utc(item.end).format('DD-MM-YYYY');
+    
+
     return (
         <div className="r-list-item">
             <div
@@ -30,7 +24,11 @@ const ContactCard = ({ item }) => {
             <div className="r-item-text">
                 {start &&
                     <span className="r-item-date">
-                        <Moment format="DD-MM-YYYY">{start}</Moment>
+                    {
+                        start === end
+                            ? start
+                            : <>{start} <Translate text="au" /> {end}</>
+                    }
                     </span>
                 }
                 <span className="r-item-title">{title}</span>
