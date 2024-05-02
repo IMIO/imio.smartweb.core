@@ -12,7 +12,7 @@
             "@type": "imio.events.Event",
             "UID": "97902f2e26774a369035117d56381a2a",
             "breadcrumb": "Belleville » Accueil temps libre » Journée de l'ATL",
-            "category_title": null,
+            "category_title": "Presse",
             "description": "Description de mon événement",
             "end": "2023-10-31T10:00:00+00:00",
             "first_end": "2023-10-31T10:00:00+00:00",
@@ -652,6 +652,7 @@
             "review_state": "published",
             "start": "2023-01-31T09:00:00+00:00",
             "title": "Journée de l'ATL",
+            "topics": ["education"],
             "whole_day": true
         },
         {

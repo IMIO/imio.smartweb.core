@@ -227,6 +227,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1056_to_1057"
+      title="Upgrade core from 1056 to 1057"
+      directory="profiles/1056_to_1057"
+      description="Add imio.smartweb.category_display behavior on content types"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -798,6 +806,16 @@
     <genericsetup:upgradeDepends
         title="Add imio.smartweb.orientation to section files"
         import_profile="imio.smartweb.core.upgrades:upgrade_1055_to_1056"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1056"
+      destination="1057"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add imio.smartweb.category_display behavior on content types"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1056_to_1057"
         />
   </genericsetup:upgradeSteps>
 

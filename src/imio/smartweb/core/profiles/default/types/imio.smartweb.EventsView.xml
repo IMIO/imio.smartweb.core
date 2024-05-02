@@ -32,6 +32,7 @@
     <element value="plone.locking"/>
     <element value="plone.leadimage"/>
     <element value="plone.imagecropping"/>
+    <element value="imio.smartweb.category_display"/>
     <element value="imio.smartweb.orientation"/>
     <element value="imio.smartweb.listing"/>
     <element value="imio.smartweb.topics"/>

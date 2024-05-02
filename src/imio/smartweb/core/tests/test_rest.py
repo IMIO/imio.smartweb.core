@@ -369,6 +369,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "http://localhost:8080/Plone/@events?"
             "selected_agendas={}&"
             "metadata_fields=category&"
+            "metadata_fields=local_category&"
             "metadata_fields=container_uid&"
             "metadata_fields=topics&"
             "metadata_fields=start&"
@@ -426,6 +427,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "selected_news_folders={}&"
             "portal_type=imio.news.NewsItem&"
             "metadata_fields=category&"
+            "metadata_fields=local_category&"
             "metadata_fields=container_uid&"
             "metadata_fields=topics&"
             "metadata_fields=has_leadimage&"
@@ -488,6 +490,34 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.rest_events.display_map = True
         view = queryMultiAdapter((self.rest_events, self.request), name="view")
         self.assertIn('display-map="True"', view())
+
+    def test_show_categories_or_topics(self):
+        rest_events = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            title="events view",
+        )
+        view = queryMultiAdapter((rest_events, self.request), name="view")
+        self.assertIn('show-categories-or-topics=""', view())
+        rest_events.show_categories_or_topics = "category"
+        view = queryMultiAdapter((rest_events, self.request), name="view")
+        self.assertIn('show-categories-or-topics="category"', view())
+        rest_events.show_categories_or_topics = "topic"
+        view = queryMultiAdapter((rest_events, self.request), name="view")
+        self.assertIn('show-categories-or-topics="topic"', view())
+        rest_news = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.NewsView",
+            title="news view",
+        )
+        view = queryMultiAdapter((rest_news, self.request), name="view")
+        self.assertIn('show-categories-or-topics=""', view())
+        rest_news.show_categories_or_topics = "category"
+        view = queryMultiAdapter((rest_news, self.request), name="view")
+        self.assertIn('show-categories-or-topics="category"', view())
+        rest_news.show_categories_or_topics = "topic"
+        view = queryMultiAdapter((rest_news, self.request), name="view")
+        self.assertIn('show-categories-or-topics="topic"', view())
 
     @patch("imio.smartweb.core.rest.authentic_sources.get_wca_token")
     @patch("imio.smartweb.core.rest.authentic_sources.requests.request")

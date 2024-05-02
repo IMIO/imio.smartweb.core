@@ -2,6 +2,7 @@
 
 from datetime import date
 from dateutil.parser import parse
+from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
@@ -29,6 +30,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             selected_item,
             "metadata_fields=container_uid",
             "metadata_fields=category_title",
+            "metadata_fields=topics",
             "metadata_fields=start",
             "metadata_fields=end",
             "metadata_fields=has_leadimage",
@@ -63,11 +65,19 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             end = item["end"] and parse(item["end"]) or None
             date_dict = {"start": start, "end": end}
             modified_hash = hash_md5(item["modified"])
+            category = ""
+            if self.context.show_categories_or_topics == "category":
+                category = item.get("category_title", "")
+            elif self.context.show_categories_or_topics == "topic":
+                topic = item.get("topics") and item["topics"][0] or None
+                category = translate_vocabulary_term(
+                    "imio.smartweb.vocabulary.Topics", topic
+                )
             dict_item = {
                 "uid": item_uid,
                 "title": item["title"],
                 "description": item["description"],
-                "category": item["category_title"],
+                "category": category,
                 "event_date": date_dict,
                 "url": f"{linking_view_url}/{item_id}?u={item_uid}",
                 "container_id": item.get("usefull_container_id", None),

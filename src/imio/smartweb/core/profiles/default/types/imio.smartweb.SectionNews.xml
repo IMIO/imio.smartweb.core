@@ -28,6 +28,7 @@
     <element value="plone.namefromtitle"/>
     <element value="plone.locking"/>
     <element value="plone.shortname"/>
+    <element value="imio.smartweb.category_display"/>
     <element value="imio.smartweb.orientation"/>
   </property>
 

@@ -118,6 +118,23 @@ class CurrentFolderPagesVocabularyFactory:
 CurrentFolderPagesVocabulary = CurrentFolderPagesVocabularyFactory()
 
 
+class CategoriesDisplayVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("category", _("Category")),
+            ("topic", _("Topic")),
+            ("", _("None")),
+        ]
+        terms = [
+            SimpleVocabulary.createTerm(value[0], value[0], value[1])
+            for value in values
+        ]
+        return SimpleVocabulary(terms)
+
+
+CategoriesDisplayVocabulary = CategoriesDisplayVocabularyFactory()
+
+
 class BootstrapCSSVocabularyFactory:
     def __call__(self, context=None):
         bootstrap_css = [

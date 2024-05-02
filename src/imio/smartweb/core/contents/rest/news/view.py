@@ -17,3 +17,7 @@ class NewsViewView(BaseRestView):
     @property
     def display_newsfolders_titles(self):
         return self.context.display_newsfolders_titles
+
+    @property
+    def show_categories_or_topics(self):
+        return self.context.show_categories_or_topics

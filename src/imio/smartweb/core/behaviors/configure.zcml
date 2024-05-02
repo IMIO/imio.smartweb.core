@@ -6,6 +6,13 @@
   <include package="plone.behavior" file="meta.zcml"/>
 
   <plone:behavior
+      name="imio.smartweb.category_display"
+      title="Categories / Topics display"
+      description="Allow to choose to display categories or topics"
+      provides=".categorization.ICategoryDisplay"
+      />
+
+  <plone:behavior
       name="imio.smartweb.orientation"
       title="Image orientation"
       description="Allow to choose images orientation for current context."
