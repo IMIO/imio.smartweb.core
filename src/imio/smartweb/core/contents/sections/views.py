@@ -10,6 +10,7 @@ from plone.locking.browser.info import LockInfoViewlet
 from plone.protect.interfaces import IDisableCSRFProtection
 from Products.Five.browser import BrowserView
 from zope.annotation.interfaces import IAnnotations
+from zope.i18n import translate
 from zope.interface import alsoProvides
 from zope.interface import Interface
 from zope.lifecycleevent import modified
@@ -64,9 +65,9 @@ class SectionView(BrowserView):
         return api.user.is_anonymous()
 
     def get_section_size(self):
-        if not self.context.bootstrap_css_class:
-            return _("Define section size")
         current_lang = api.portal.get_current_language()[:2]
+        if not self.context.bootstrap_css_class:
+            return translate(_("Define section size"), target_language=current_lang)
         return translate_vocabulary_term(
             "imio.smartweb.vocabulary.BootstrapCSS",
             self.context.bootstrap_css_class,

@@ -68,7 +68,7 @@
       name="savesize"
       attribute="save_size"
       class="imio.smartweb.core.contents.sections.views.SectionView"
-      permission="zope2.View"
+      permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
