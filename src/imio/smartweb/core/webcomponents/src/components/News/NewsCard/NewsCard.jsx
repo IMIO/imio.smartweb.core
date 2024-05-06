@@ -26,7 +26,6 @@ const NewsCard = ({ item,showCategoriesOrTopics }) => {
     moment.locale(useContext(LanguageContext))
     const created = moment(item.created).startOf('minute').fromNow();
     const lastModified = moment(item.modified).startOf('minute').fromNow();
-    console.log(itemTopic)
     return (
         <div className="r-list-item">
             <div
