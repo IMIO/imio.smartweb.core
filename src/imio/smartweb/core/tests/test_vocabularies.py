@@ -81,6 +81,9 @@ class TestVocabularies(ImioSmartwebTestCase):
         m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
+    def test_categories_display(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.CategoriesDisplay", 3)
+
     def test_bootstrap_css(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 6)
 

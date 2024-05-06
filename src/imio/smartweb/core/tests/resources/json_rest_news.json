@@ -7,7 +7,7 @@
             "UID": "aff08290e3f64cfa830417bc36d5614f",
             "breadcrumb": "belleville >> commune >> Première actualité",
             "category": null,
-            "category_title": null,
+            "category_title": "Presse",
             "description": "Description",
             "effective": "2021-05-11T13:31:00",
             "has_leadimage": false,
@@ -641,7 +641,7 @@
             "modified": "2021-05-11T13:31:00",
             "review_state": "published",
             "title": "Première actualité",
-            "topics": null
+            "topics": ["education"]
         },
         {
             "@id": "https://actualites.enwallonie.be/belleville/commune/a02e0afe2cbe4209970992d5d7323373",

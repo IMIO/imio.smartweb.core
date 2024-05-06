@@ -20,6 +20,12 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.CategoriesDisplay"
+      component=".vocabularies.CategoriesDisplayVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.BootstrapCSS"
       component=".vocabularies.BootstrapCSSVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

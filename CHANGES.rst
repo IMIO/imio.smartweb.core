@@ -5,6 +5,12 @@ Changelog
 1.2.45 (unreleased)
 -------------------
 
+- WEB-4101 : Allow to choose to display topic or category on event & news.
+  This affects all related content types: SectionNews, SectionEvents, NewsView, EventsView.
+  Local category is alway taken before category (1 value).
+  Topic is always the first in list (1 value).
+  [laulaz, thomlamb]
+
 - Add end date on event cards
   [thomlamb]
 

@@ -35,6 +35,7 @@ class BaseEventsEndpoint(BaseEndpoint):
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
             "metadata_fields=category",
+            "metadata_fields=local_category",
             "metadata_fields=container_uid",
             "metadata_fields=topics",
             "metadata_fields=start",

@@ -2,7 +2,7 @@ import EventCard from "../EventCard/EventCard";
 import { Link } from "react-router-dom";
 import React from "react";
 import removeAccents from "remove-accents";
-const ContactList = ({ itemsArray, onChange, onHover, parentCallback }) => {
+const ContactList = ({ itemsArray, onChange, onHover,showCategoriesOrTopics }) => {
     function handleClick(event) {
         onChange(event);
     }
@@ -32,7 +32,7 @@ const ContactList = ({ itemsArray, onChange, onHover, parentCallback }) => {
                                 },
                             }}
                         ></Link>
-                        <EventCard item={item} key={item.created} />
+                        <EventCard item={item} showCategoriesOrTopics={showCategoriesOrTopics} key={item.created} />
                     </li>
                 ))}
             </ul>

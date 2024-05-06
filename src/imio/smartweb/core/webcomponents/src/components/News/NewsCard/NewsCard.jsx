@@ -3,19 +3,24 @@ import moment from "moment";
 import ReactMarkdown from 'react-markdown';
 import { Translate } from "react-translated";
 import { LanguageContext } from '../News.jsx';
-const NewsCard = ({ item }) => {
+const NewsCard = ({ item,showCategoriesOrTopics }) => {
     const [limitDescription, setLimitDescription] = useState();
+    const [itemTopic, setItemTopic] = useState(null);
+
     const numberLimit = 150;
     const title = item.title && item.title;
     const description = item.description && item.description;
-    const category = item.taxonomy_contact_category
-        ? item.taxonomy_contact_category[0].title
-        : "";
+
     useEffect(() => {
         if (description.length >= numberLimit) {
             setLimitDescription(description.substring(0, numberLimit) + "...");
         } else {
             setLimitDescription(description);
+        }
+        if (item.topics && item.topics.length > 1) {
+            setItemTopic(item.topics[0].title);
+        } else {
+            setItemTopic(null)
         }
     }, [item]);
     moment.locale(useContext(LanguageContext))
@@ -32,8 +37,20 @@ const NewsCard = ({ item }) => {
                 }}
             />
             <div className="r-item-text">
-                {category ? <span className="r-item-categorie">{category}</span> : ""}
                 <span className="r-item-title">{title}</span>
+                {showCategoriesOrTopics === "topic" ? (
+                    itemTopic && (
+                        <span className="r-item-categorie">{item.topics[0].title}</span>
+                    )
+                ) : showCategoriesOrTopics === "category" ? (
+                    item.local_category ? (
+                        <span className="r-item-categorie">{item.local_category.title}</span>
+                    ) : (
+                        item.category && (
+                            <span className="r-item-categorie">{item.category.title}</span>
+                        )
+                    )
+                ) : ""}
                 {description ?
                     <ReactMarkdown className="r-item-description">{limitDescription}</ReactMarkdown>
                     : ""

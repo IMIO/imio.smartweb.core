@@ -12,7 +12,8 @@
                                          orientation view/orientation;
                                          current-language view/current_language;
                                          view-path view/view_path;
-                                         display_newsfolders_titles view/display_newsfolders_titles;"></smartweb-news>
+                                         display_newsfolders_titles view/display_newsfolders_titles;
+                                         show-categories-or-topics view/show_categories_or_topics;"></smartweb-news>
       </div>
     </metal:main>
   </body>

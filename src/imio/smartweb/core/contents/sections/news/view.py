@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
@@ -27,6 +28,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "portal_type=imio.news.NewsItem",
             "metadata_fields=container_uid",
             "metadata_fields=category_title",
+            "metadata_fields=topics",
             "metadata_fields=has_leadimage",
             "metadata_fields=modified",
             "metadata_fields=effective",
@@ -56,11 +58,19 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             item_url = item["@id"]
             item_uid = item["UID"]
             modified_hash = hash_md5(item["modified"])
+            category = ""
+            if self.context.show_categories_or_topics == "category":
+                category = item.get("category_title", "")
+            elif self.context.show_categories_or_topics == "topic":
+                topic = item.get("topics") and item["topics"][0] or None
+                category = translate_vocabulary_term(
+                    "imio.smartweb.vocabulary.Topics", topic
+                )
             dict_item = {
                 "uid": item_uid,
                 "title": item["title"],
                 "description": item["description"],
-                "category": item["category_title"],
+                "category": category,
                 "effective": item["effective"],
                 "url": f"{linking_view_url}/{item_id}?u={item_uid}",
                 "container_id": item.get("usefull_container_id", None),
