@@ -29,6 +29,7 @@ export default function Events(props) {
                     displayMap={props.displayMap}
                     onlyPastEvents={props.onlyPastEvents}
                     language={props.currentLanguage}
+                    showCategoriesOrTopics={props.showCategoriesOrTopics}
                 />
             </Provider>
         </BrowserRouter>
@@ -125,7 +126,7 @@ function EventsView(props) {
     let MapRender;
     if (itemsArray && itemsArray.length > 0) {
         listRender = (
-            <EventList onChange={clickID} itemsArray={itemsArray} onHover={hoverID} />
+            <EventList onChange={clickID} itemsArray={itemsArray} onHover={hoverID} showCategoriesOrTopics={props.showCategoriesOrTopics} />
         );
         MapRender = (
             <Map

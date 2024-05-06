@@ -5,6 +5,9 @@ Changelog
 1.2.45 (unreleased)
 -------------------
 
+- Add topic or category on React list
+  [thomlamb]
+
 - Add end date on event cards
   [thomlamb]
 
