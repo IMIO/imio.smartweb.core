@@ -25,6 +25,7 @@ export default function News(props) {
                         queryUrl={props.queryUrl}
                         proposeUrl={props.proposeUrl}
                         batchSize={props.batchSize}
+                        showCategoriesOrTopics={props.showCategoriesOrTopics}
                     />
                 </Provider>
             </BrowserRouter>
@@ -97,7 +98,7 @@ const NewsView = (props) => {
     // coditional list render
     let listRender;
     if (itemsArray && itemsArray.length > 0) {
-        listRender = <NewsList onChange={clickID} itemsArray={itemsArray} />;
+        listRender = <NewsList onChange={clickID} itemsArray={itemsArray} showCategoriesOrTopics={props.showCategoriesOrTopics} />;
     } else if (!isLoading) {
         listRender = <p><Translate text="Aucune actualité n'a été trouvée" /></p>;
     }

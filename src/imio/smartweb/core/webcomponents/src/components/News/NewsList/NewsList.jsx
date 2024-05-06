@@ -2,7 +2,7 @@ import NewsCard from "../NewsCard/NewsCard";
 import { Link } from "react-router-dom";
 import React from "react";
 import removeAccents from "remove-accents";
-const NewsList = ({ itemsArray, onChange, parentCallback }) => {
+const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics }) => {
     function handleClick(event) {
         onChange(event);
     }
@@ -26,7 +26,7 @@ const NewsList = ({ itemsArray, onChange, parentCallback }) => {
                                 },
                             }}
                         >
-                            <NewsCard item={item} key={item.created} />
+                            <NewsCard item={item} showCategoriesOrTopics={showCategoriesOrTopics} key={item.created} />
                         </Link>
                     </li>
                 ))}
