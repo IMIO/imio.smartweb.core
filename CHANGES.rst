@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.45 (unreleased)
+1.2.45 (2024-05-06)
 -------------------
 
 - WEB-4101 : Allow to choose to display topic or category on event & news.
