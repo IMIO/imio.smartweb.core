@@ -20,5 +20,5 @@ class ICategoryDisplay(model.Schema):
         ),
         source="imio.smartweb.vocabulary.CategoriesDisplay",
         required=True,
-        default="",
+        default="category",
     )
