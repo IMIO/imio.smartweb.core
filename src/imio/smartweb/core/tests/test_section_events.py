@@ -140,8 +140,10 @@ class TestSectionEvents(ImioSmartwebTestCase):
         )
         url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
         m.get(url, text=json.dumps(self.json_events))
-        self.assertEqual(events_view.items[0][0]["category"], "")
+        self.assertEqual(events_view.items[0][0]["category"], "Presse")
         self.events.show_categories_or_topics = "category"
         self.assertEqual(events_view.items[0][0]["category"], "Presse")
         self.events.show_categories_or_topics = "topic"
         self.assertEqual(events_view.items[0][0]["category"], "Education")
+        self.events.show_categories_or_topics = ""
+        self.assertEqual(events_view.items[0][0]["category"], "")

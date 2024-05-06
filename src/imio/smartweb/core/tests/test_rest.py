@@ -498,26 +498,32 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             title="events view",
         )
         view = queryMultiAdapter((rest_events, self.request), name="view")
-        self.assertIn('show-categories-or-topics=""', view())
+        self.assertIn('show-categories-or-topics="category"', view())
         rest_events.show_categories_or_topics = "category"
         view = queryMultiAdapter((rest_events, self.request), name="view")
         self.assertIn('show-categories-or-topics="category"', view())
         rest_events.show_categories_or_topics = "topic"
         view = queryMultiAdapter((rest_events, self.request), name="view")
         self.assertIn('show-categories-or-topics="topic"', view())
+        rest_events.show_categories_or_topics = ""
+        view = queryMultiAdapter((rest_events, self.request), name="view")
+        self.assertIn('show-categories-or-topics=""', view())
         rest_news = api.content.create(
             container=self.portal,
             type="imio.smartweb.NewsView",
             title="news view",
         )
         view = queryMultiAdapter((rest_news, self.request), name="view")
-        self.assertIn('show-categories-or-topics=""', view())
+        self.assertIn('show-categories-or-topics="category"', view())
         rest_news.show_categories_or_topics = "category"
         view = queryMultiAdapter((rest_news, self.request), name="view")
         self.assertIn('show-categories-or-topics="category"', view())
         rest_news.show_categories_or_topics = "topic"
         view = queryMultiAdapter((rest_news, self.request), name="view")
         self.assertIn('show-categories-or-topics="topic"', view())
+        rest_news.show_categories_or_topics = ""
+        view = queryMultiAdapter((rest_news, self.request), name="view")
+        self.assertIn('show-categories-or-topics=""', view())
 
     @patch("imio.smartweb.core.rest.authentic_sources.get_wca_token")
     @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
