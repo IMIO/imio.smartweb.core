@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.46 (unreleased)
+1.2.46 (2024-05-07)
 -------------------
 
 - WEB-4101 : fix React topic display
