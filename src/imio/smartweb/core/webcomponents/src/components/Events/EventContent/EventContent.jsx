@@ -110,16 +110,16 @@ const ContactContent = ({ queryUrl, onChange }) => {
 										? (<div>
 											{item.whole_day
 												? <div className="r-content-date-start">
-													<span>Le&nbsp;</span>
+													<span><Translate text="Le" />&nbsp;</span>
 													<div className="r-time">{start}</div>
 												</div>
 												: item.open_end ?
 													<>
 														<div className="r-content-date-one-day">
 															<div className="r-content-date-start">
-																<span>Le&nbsp;</span>
+																<span><Translate text="Le" />&nbsp;</span>
 																<div className="r-time">{start}</div>
-																<span>&nbsp;à&nbsp;</span>
+																<span>&nbsp;<Translate text="à" />&nbsp;</span>
 																<div className="r-time-hours">{startHours}</div>
 															</div>
 
@@ -129,13 +129,13 @@ const ContactContent = ({ queryUrl, onChange }) => {
 													<>
 														<div className="r-content-date-one-day">
 															<div className="r-content-date-start">
-																<span>Le&nbsp;</span>
+																<span><Translate text="Le" />&nbsp;</span>
 																<div className="r-time">{start}</div>
 															</div>
 															<div className="r-content-date-start-hours">
-																<span>de&nbsp;</span>
+																<span><Translate text="de" />&nbsp;</span>
 																<div className="r-time-hours">{startHours}</div>
-																<span>&nbsp;à&nbsp;</span>
+																<span>&nbsp;<Translate text="à" />&nbsp;</span>
 																<div className="r-time-hours">{endHours}</div>
 															</div>
 														</div>
@@ -144,11 +144,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
 										</div>)
 										: (<div className="r-content-date-du-au">
 											<div className="r-content-date-start">
-												<span>Du&nbsp;</span>
+												<span><Translate text="Du" />&nbsp;</span>
 												<div className="r-time">{start}</div>
 											</div>
 											<div className="r-content-date-end">
-												<span>&nbsp;au&nbsp;</span>
+												<span>&nbsp;<Translate text="au" />&nbsp;</span>
 												<div className="r-time">{end}</div>
 											</div>
 										</div>)
@@ -175,7 +175,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 								<div className="r-content-news-info--itinirary">
 									{item.street ? (
 										<a href={itineraryLink} target="_blank">
-											<span>Itinéraire</span>
+											<span><Translate text="Itinéraire" /></span>
 										</a>
 									) : (
 										""

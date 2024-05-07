@@ -5,8 +5,11 @@ Changelog
 1.2.47 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- fix React svg import and delete unused svg
+  [thomlamb]
 
+- add missing React translations
+  [thomlamb]
 
 1.2.46 (2024-05-07)
 -------------------

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Translate } from "react-translated";
 
 const ContactCard = ({ item }) => {
     const [image, setImage] = useState(new Image());
@@ -85,7 +86,7 @@ const ContactCard = ({ item }) => {
                             {city ? <span>{city}</span> : ""}
                             <div className="itineraty">
                                 <a href={itineraryLink} target="_blank" rel="noreferrer">
-                                    Itinéraire
+                                    <Translate text="Itinéraire" />
                                 </a>
                             </div>
                         </div>

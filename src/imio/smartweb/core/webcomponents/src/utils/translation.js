@@ -252,6 +252,30 @@ export default {
         de: "Benutzerdefiniert (Von ... bis ...)",
         nl: "Aangepast (Van ... tot ...)",
     },
+    "Le": {
+        en: "On",
+        fr: "Le",
+        de: "Am",
+        nl: "Op",
+    },
+    "de": {
+        en: "of",
+        fr: "de",
+        de: "von",
+        nl: "van",
+    },
+    "à": {
+        en: "at",
+        fr: "à",
+        de: "um",
+        nl: "om",
+    },
+    "Du": {
+        en: "From",
+        fr: "Du",
+        de: "Von",
+        nl: "Van",
+    },
     "au": {
         en: "to",
         fr: "au",
@@ -305,5 +329,23 @@ export default {
         fr: "Dimanche",
         de: "Sonntag",
         nl: "Zondag",
+    },
+    "Fermé": {
+        en: "Closed",
+        fr: "Fermé",
+        de: "Geschlossen",
+        nl: "Gesloten",
+    },
+    "Ouvert": {
+        en: "Open",
+        fr: "Ouvert",
+        de: "Geöffnet",
+        nl: "Open",
+    },
+    "Itinéraire": {
+        en: "Itinerary",
+        fr: "Itinéraire",
+        de: "Route",
+        nl: "Route",
     },
 }

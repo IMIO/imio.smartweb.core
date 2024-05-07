@@ -94,16 +94,16 @@ const ContactContent = ({ queryUrl, onChange }) => {
 											created === lastModified ?
 												(
 													<div className="r-content-date-publish">
-														<span>Publié {created}</span>
+														<span><Translate text="Publié" /> {created}</span>
 													</div>
 												) :
 												(
 													<div>
 														<div className="r-content-date-publish">
-															<span>Publié {created}</span>
+															<span><Translate text="Publié" /> {created}</span>
 														</div>
 														<div className="r-card-date-last">
-															<span>Actualisé {lastModified} </span>
+															<span><Translate text="Actualisé" /> {lastModified} </span>
 														</div>
 													</div>
 												)
@@ -138,7 +138,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
 										""
 									) : (
 										<div className="r-content-news-info--video">
-											<a href={item.video_url}>Lien vers la vidéo</a>
+											<a href={item.video_url}><Translate text="Lien vers la vidéo" /></a>
 										</div>
 									)}
 								</div>
