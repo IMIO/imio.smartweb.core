@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.47 (unreleased)
+1.2.47 (2024-05-07)
 -------------------
 
 - fix React svg import and delete unused svg
