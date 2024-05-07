@@ -17,7 +17,7 @@ const NewsCard = ({ item,showCategoriesOrTopics }) => {
         } else {
             setLimitDescription(description);
         }
-        if (item.topics && item.topics.length > 1) {
+        if (item.topics && item.topics.length > 0) {
             setItemTopic(item.topics[0].title);
         } else {
             setItemTopic(null)

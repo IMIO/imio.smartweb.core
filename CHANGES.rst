@@ -5,7 +5,8 @@ Changelog
 1.2.46 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4101 : fix React topic display
+  [thomlamb]
 
 
 1.2.45 (2024-05-06)
