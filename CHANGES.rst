@@ -5,7 +5,8 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4105 : Make text section smarter about its lead image format (portrait / landscape)
+  [boulch]
 
 
 1.2.47 (2024-05-07)
