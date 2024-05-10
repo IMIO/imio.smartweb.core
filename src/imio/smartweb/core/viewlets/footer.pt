@@ -6,6 +6,11 @@
          tal:attributes="id view/css_id;
                          style view/background_style;
                          class string:smartweb-footer ${footer/css_class}">
+    <a class="show-on-focus skip-before-footer"
+      tal:define="url view/current_page_url"
+      tal:attributes="href string:${url}#content-header"
+      i18n:domain="imio.smartweb"
+      i18n:translate="">Skip to navigation</a>
       <div class="container">
         <div class="row">
           <tal:bcl tal:repeat="section view/sections">

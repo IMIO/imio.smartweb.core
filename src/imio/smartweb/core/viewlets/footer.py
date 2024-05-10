@@ -8,6 +8,7 @@ from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import parent
+from zope.component import getMultiAdapter
 
 
 class BaseFooterViewlet(common.ViewletBase):
@@ -28,9 +29,13 @@ class BaseFooterViewlet(common.ViewletBase):
         return " ".join([css_bg_image, css_bg_size])
 
     def update(self):
+        context_state = getMultiAdapter(
+            (self.context, self.request), name="plone_context_state"
+        )
         if not self.available():
             return
         self.sections = self.footer.listFolderContents()
+        self.current_page_url = context_state.current_page_url
 
 
 class FooterViewlet(BaseFooterViewlet):
