@@ -4,6 +4,7 @@ from Acquisition import aq_inner
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.utils import hash_md5
+from imio.smartweb.core.utils import reindexParent
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.locking.browser.info import LockInfoViewlet
@@ -89,6 +90,7 @@ class SectionView(BrowserView):
         context = aq_inner(self.context)
         context.bootstrap_css_class = section_size
         context.reindexObject()
+        reindexParent(context)
         current_lang = api.portal.get_current_language()[:2]
         size_txt = translate_vocabulary_term(
             "imio.smartweb.vocabulary.BootstrapCSS",

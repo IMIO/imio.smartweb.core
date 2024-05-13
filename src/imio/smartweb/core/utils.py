@@ -111,7 +111,7 @@ def batch_results(iterable, batch_size):
     return list(chunked(iterable, batch_size, strict=False))
 
 
-def reindexParent(obj, event):
+def reindexParent(obj, event=None):
     parent = aq_parent(obj)
     if parent is not None:
         # in some cases (ex: relation breaking), we do not get the object in

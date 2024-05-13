@@ -5,6 +5,9 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
+- WEB-4104 : When change section size (front-office method), reindexParent to refresh cache
+  [boulch]
+
 - WEB-4105 : Make text section smarter about its lead image format (portrait / landscape)
   [boulch]
 
