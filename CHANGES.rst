@@ -5,6 +5,9 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
+- SUP-36937: Add Recurrence dates in React event content view
+  [thomlamb]
+
 - WEB-4104 : When change section size (front-office method), reindexParent to refresh cache
   [boulch]
 
