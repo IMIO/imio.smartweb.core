@@ -9,7 +9,7 @@ const NewsCard = ({ item,showCategoriesOrTopics }) => {
 
     const numberLimit = 150;
     const title = item.title && item.title;
-    const description = item.description && item.description;
+    const description = item.description || '';
 
     useEffect(() => {
         if (description.length >= numberLimit) {
