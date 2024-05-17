@@ -4,13 +4,326 @@ import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 import { Translator } from "react-translated";
 import queryString from 'query-string';
+import TaxonomyFilter from "../../Filters/TaxonomyFilter";
+
+
+
+
+function formatData(data) {
+    let result = [];
+
+    data.forEach(item => {
+        let titles = item.title.split(' » ');
+        let token = item.token;
+
+        let level = result;
+        titles.forEach(title => {
+            let existingItem = level.find(x => x.title === title);
+            if (existingItem) {
+                if (!existingItem.sub) {
+                    existingItem.sub = [];
+                }
+                level = existingItem.sub;
+            } else {
+                let newItem = { title: title, token: token, sub: [] };
+                level.push(newItem);
+                level = newItem.sub;
+            }
+        });
+    });
+
+    // Remove empty 'sub' arrays
+    const cleanResult = JSON.parse(JSON.stringify(result).replace(/,"sub":\[\]/g, ''));
+
+    return cleanResult;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const donneesLiens = [
+    {
+        token: "cho96vl9ox", title: 'Commerces et entreprises',
+        sub: [
+            {
+                title: "Bien-être",
+                token: "wwwwwwww",
+                sub: [
+                    {
+                        title: "Coiffeur et barbier",
+                        token: "fdfdfdfdf",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "sssssss"
+                    },
+                ]
+            },
+            {
+                title: "Coucou",
+                token: "aaaaaaa",
+                sub: [
+                    {
+                        title: "sport & cool",
+                        token: "zzzzzzzz",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "eeeeee"
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        token: "ttttt", title: 'Un autre titre',
+        sub: [
+            {
+                title: "Bien-être",
+                token: "yyyyyy",
+                sub: [
+                    {
+                        title: "Coiffeur et barbier",
+                        token: "bbbbbbb",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "nnnnnnn"
+                    },
+                ]
+            },
+            {
+                title: "Coucou",
+                token: "wwwwwww",
+                sub: [
+                    {
+                        title: "sport & cool",
+                        token: "qqqqqqqq",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "llllllll"
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        token: "cho96vl9ox", title: 'Commerces et entreprises',
+        sub: [
+            {
+                title: "Bien-être",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "Coiffeur et barbier",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            },
+            {
+                title: "Coucou",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "sport & cool",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        token: "cho96vl9ox", title: 'Commerces et entreprises',
+        sub: [
+            {
+                title: "Bien-être",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "Coiffeur et barbier",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            },
+            {
+                title: "Coucou",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "sport & cool",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        token: "cho96vl9ox", title: 'Commerces et entreprises',
+        sub: [
+            {
+                title: "Bien-être",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "Coiffeur et barbier",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            },
+            {
+                title: "Coucou",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "sport & cool",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            }
+        ]
+    },
+    {
+        token: "cho96vl9ox", title: 'Commerces et entreprises',
+        sub: [
+            {
+                title: "Bien-être",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "Coiffeur et barbier",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            },
+            {
+                title: "Coucou",
+                token: "cho96vl9ox",
+                sub: [
+                    {
+                        title: "sport & cool",
+                        token: "cho96vl9ox",
+                    },
+                    {
+                        title: "Esthétique",
+                        token: "f7p3vyage5"
+                    },
+                ]
+            }
+        ]
+    }
+];
 
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
-    const [taxonomyFilter, setTaxonomyFilter] = useState(null);
+    const [taxonomyData, setTaxonomyData] = useState(null);
     const [facilitiesFilter, setFacilitiesFilter] = useState(null);
+    const [cat, setCat] = useState(false);
+    const [activeComponent, setActiveComponent] = useState(null);
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
@@ -29,12 +342,9 @@ function Filters(props) {
                     value: d.token,
                     label: d.title,
                 }));
-            const optionsTaxonomy =
-                response.taxonomy_contact_category &&
-                response.taxonomy_contact_category.map((d) => ({
-                    value: d.token,
-                    label: d.title,
-                }));
+
+            const taxodonnee = formatData(response.taxonomy_contact_category);
+
             const optionsFacilities =
                 response.facilities &&
                 response.facilities.map((d) => ({
@@ -42,11 +352,12 @@ function Filters(props) {
                     label: d.title,
                 }));
             setTopicsFilter(optionsTopics);
-            setTaxonomyFilter(optionsTaxonomy);
+            setTaxonomyData(taxodonnee);
             setFacilitiesFilter(optionsFacilities);
         }
     }, [response]);
 
+    // set values from search input
     const onChangeHandler = useCallback(({ target: { name, value } }) => {
         if (value.length > 2) {
             setInputValues((state) => ({ ...state, [name]: value }), []);
@@ -58,6 +369,8 @@ function Filters(props) {
             });
         }
     });
+
+    // set values from select
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
         if (value) {
@@ -93,14 +406,16 @@ function Filters(props) {
     let actTopi =
         topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
 
-    let actTaxo =
-        taxonomyFilter &&
-        taxonomyFilter.filter(
-            (option) => option.value === props.activeFilter.taxonomy_contact_category
-        );
+    // let actTaxo =
+    //     taxonomyFilter &&
+    //     taxonomyFilter.filter(
+    //         (option) => option.value === props.activeFilter.taxonomy_contact_category
+    //     );
+
     let actFaci =
         facilitiesFilter &&
         facilitiesFilter.filter((option) => option.value === props.activeFilter.facilities);
+
     const customStyles = {
         control: (styles) => ({
             ...styles,
@@ -122,6 +437,10 @@ function Filters(props) {
             };
         },
     };
+
+    const handleClick = (index) => {
+        setActiveComponent(index);
+    }
 
     return (
         <React.Fragment>
@@ -167,22 +486,7 @@ function Filters(props) {
             </div>
             <div className="r-filter  facilities-Filter">
                 {/* <label>Catégories</label> */}
-                <Translator>
-                    {({ translate }) => (
-                        <Select
-                            styles={customStyles}
-                            name={"taxonomy_contact_category_for_filtering"}
-                            className="select-custom-class library-facilities"
-                            isClearable
-                            onChange={onChangeHandlerSelect}
-                            options={taxonomyFilter && taxonomyFilter}
-                            placeholder={translate({
-                                text: 'Catégories'
-                            })}
-                            value={actTaxo && actTaxo[0]}
-                        />
-                    )}
-                </Translator>
+
             </div>
             <div className="r-filter  facilities-Filter">
                 {/* <label>Facilité</label> */}
@@ -202,6 +506,20 @@ function Filters(props) {
                         />
                     )}
                 </Translator>
+            </div>
+            {/* Affichage dynamique des liens avec divs associées */}
+            <div className="taxonomy-Filter">
+                {taxonomyData && taxonomyData.map((donnees, i) => (
+                    <TaxonomyFilter
+                        key={i}
+                        {...donnees}
+                        setCat={setCat}
+                        isActive={i === activeComponent}
+                        onClick={() => handleClick(i)}
+                        onChange={onChangeHandlerSelect}
+                        test={i}
+                    />
+                ))}
             </div>
         </React.Fragment>
     );

@@ -1,0 +1,64 @@
+
+.taxonomy-Filter {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    transition: all .3s ease-in-out;
+}
+
+
+.dropDownFilter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0 5px;
+    transition: max-width .3s ease-in-out;
+    transition: opacity 3s ease-in-out;
+
+    border: solid 1px #CFCFCF;
+    border-radius: 20px;
+    outline: 1px solid transparent;
+
+    &-active{
+        border-color: #2684FF;
+        outline: 1px solid #2684FF;
+        // border-width: 2px;
+        .sub0 {
+        }
+    }
+    .sub0 {
+        text-decoration: none;
+        padding: 10px 10px;
+    }
+    .sub1{
+        // transition: max-width .3s ease-in-out;
+        padding-right: 5px;
+        transition: all .4s cubic-bezier(0,.74,.58,1.04);
+        div[class*="control"] {
+            flex-wrap: nowrap;
+            border-radius: 15px;
+        }
+    }
+    .sub2{
+        // transition: max-width .3s ease-in-out;
+        padding-right: 5px;
+        transition: all .4s cubic-bezier(0,.74,.58,1.04);
+        div[class*="control"] {
+            flex-wrap: nowrap;
+            border-radius: 15px;
+        }
+    }
+    .dropDownFilter-invisble {
+        opacity: 0;
+        max-width: 0px;
+        height: 0px;
+        overflow: hidden;
+        padding: 0;
+    }
+    .dropDownFilter-visible {
+        max-width: 150px;
+        height: auto;
+        opacity: 1;
+    }
+}

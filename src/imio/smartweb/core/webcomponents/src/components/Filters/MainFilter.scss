@@ -1,0 +1,197 @@
+.r-result-filter-container {
+  @media screen and (min-width:1200px) {
+    position: sticky;
+  }
+
+  z-index: 1;
+  background: #fff;
+  .r-result-filter {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: solid 1px #cccc;
+  }
+}
+
+.r-results-numbers {
+  width: 100%;
+  margin-bottom: 0rem;
+  padding-top: 1rem;
+
+  span {
+    font-weight: bold;
+  }
+}
+
+
+
+//  react filter menu 
+
+.react-filters-menu {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1rem;
+
+  .react-filters-container {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    flex-direction: column;
+    width: auto;
+    border-radius: 30px;
+    gap: 10px;
+    background: #fff;
+    width: 100%;
+    @media screen and (min-width:630px) {
+      align-items: center;
+      flex-direction: row;
+      width: auto;
+      padding: 4px 15px;
+      border: solid 1px #CFCFCF;  
+      box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, .05);
+
+    }
+  }
+
+  .react-sep-menu {
+    display: none;
+    background: #CFCFCF;
+    width: 1px;
+    height: 20px;
+    @media screen and (min-width:630px) {
+      display: block;
+    }
+  }
+
+  span[class$="-indicatorSeparator"] {
+    display: none;
+  }
+
+  div[class$="-indicatorContainer"] {
+    padding: 0;
+  }
+
+  .accordion-collapse {
+    padding-top: 1rem;
+  }
+
+  .facilities-Filter {
+    width: 100%;
+    @media screen and (min-width:630px) {
+        width: auto;
+    }
+    .library-facilities {
+      width: 100%;
+      @media screen and (min-width:630px) {
+          width: auto;
+      }
+      div[class$="-control"] {
+        width: 100%;
+        @media screen and (max-width:629px) {
+          border-color: hsl(0, 0%, 70%);
+          color: hsl(0, 0%, 20%);
+          border: solid 1px #CFCFCF;
+      }
+        @media screen and (min-width:630px) {
+            width: auto;
+        }
+      }
+    }
+  }
+}
+
+// react search bar
+
+.r-filter-search {
+  position: relative;
+  padding: 12px 6px;
+  border-radius: 50px;
+  display: block;
+  width: 100%;
+  @media screen and (max-width:629px) {
+    width: calc(100% - 40px);
+    border: solid 1px #CFCFCF;  
+    box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, .05);
+  }
+  @media screen and (min-width:630px) {
+    width: 175px;
+  }
+  input {
+    border: none;
+    width: 100%;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  svg {
+    position: absolute;
+    transform: translateX(-100%);
+    right: 0;
+  }
+
+  .relative {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+
+//   // More filters
+
+.more-filter-btn {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 0;
+  top: 18px;
+  @media screen and (min-width:630px) {
+    width: auto;
+    translate: 40px;
+    top: inherit;
+  }
+  &.collapsed {
+    transform: rotate(180deg);
+
+    svg {
+      stroke: #9f9f9f;
+    }
+  }
+}
+
+.more-filter-container {
+  &.collapse:not(.show) {
+    display: none;
+  }
+  .accordion-body {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    padding: 1rem;
+    background-color: #f8F8F8;
+    justify-content: center;
+    border: solid 1px #e4e4e4;
+    border-left: none;
+    border-right: none;
+  }
+
+  .free-Filter {
+    label {
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: 1.4px;
+    }
+
+    .form-check {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 0;
+
+      input {
+        margin: 0;
+      }
+    }
+  }
+}

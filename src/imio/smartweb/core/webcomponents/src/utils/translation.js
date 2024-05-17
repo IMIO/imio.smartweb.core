@@ -66,6 +66,12 @@ export default {
         de: "Kategorien",
         nl: "Categorieën",
     },
+    "Quoi": {
+        en: 'What',
+        fr: "Quoi",
+        de: "Was",
+        nl: "Wat",
+    },
     "Facilités": {
         en: 'Facilities',
         fr: "Facilités",
@@ -209,6 +215,12 @@ export default {
         fr: "Proposer un contact",
         de: 'Kontakt vorschlagen',
         nl: 'Contact voorstellen',
+    },
+    "Quand": {
+        en: 'When',
+        fr: "Quand",
+        de: 'Wann',
+        nl: 'Wanneer',
     },
     "Toutes les dates": {
         en: 'All dates',

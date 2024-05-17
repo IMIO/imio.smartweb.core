@@ -10,6 +10,8 @@ import EventList from "./EventList/EventList";
 import Map from "../../utils/Map";
 import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
+import "../Filters/MainFilter.scss";
+
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider, Translate } from "react-translated";
 import translation from '../../utils/translation';
@@ -121,6 +123,12 @@ function EventsView(props) {
         });
     }, [filterRef.current]);
 
+    useEffect(() => {
+        if (filterRef) {
+            console.log('Distance from top: ', filterRef.current.offsetTop);
+        }
+    }, [filterRef.current]);
+
     // coditional list render
     let listRender;
     let MapRender;
@@ -140,7 +148,6 @@ function EventsView(props) {
     } else if (!isLoading) {
         listRender = <p><Translate text="Aucun événement n'a été trouvé" /></p>;
     }
-
     const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
     return (
         <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
@@ -167,7 +174,13 @@ function EventsView(props) {
                             </div>
                         )
                     }
-                    {itemsNumber > 0 ? (
+                </div>
+            </div>
+            <Routes>
+                <Route exact path="/" element={
+                    <div className="r-wrapper container r-annuaire-wrapper">
+                        <div className="r-result r-annuaire-result">
+                        {itemsNumber > 0 ? (
                         <p className="r-results-numbers">
                             <span>{itemsNumber}</span>
                             {itemsNumber > 1
@@ -177,12 +190,6 @@ function EventsView(props) {
                     ) : (
                         <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
                     )}
-                </div>
-            </div>
-            <Routes>
-                <Route exact path="/" element={
-                    <div className="r-wrapper container r-annuaire-wrapper">
-                        <div className="r-result r-annuaire-result">
                             <div>{listRender}</div>
                             <div className="r-load-more">
                                 {itemsNumber - props.batchSize > batchStart ? (

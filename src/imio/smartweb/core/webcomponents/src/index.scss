@@ -12,7 +12,6 @@
   }
 }
 
-/* Filters */
 .r-wrapper {
   position: relative;
 
@@ -21,67 +20,12 @@
   }
 }
 
-.r-result-filter-container,
 .r-actu-wrapper {
   padding-top: 1rem;
 }
 
 .r-result {
   position: relative;
-
-  &-filter {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding-bottom: 20px;
-    border-bottom: solid 1px #cccc;
-    align-items: center;
-
-    .r-filter {
-      width: 100%;
-      max-width: 200px;
-
-      label {
-        display: block;
-      }
-
-      .r-filter-search {
-        position: relative;
-
-        .input-custom-class {
-          line-height: 50px;
-          border: 1px solid #CCCCCC;
-          height: 50px;
-          padding: 0 10px;
-          font-weight: bold;
-          color: #000;
-          width: 100%;
-          letter-spacing: 1.2px;
-
-          &::placeholder {
-            color: #000;
-            font-size: 12px;
-            opacity: 1;
-            text-transform: uppercase;
-            letter-spacing: '1.2px';
-          }
-        }
-
-        button {
-          background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cg id='Calque_2' data-name='Calque 2'%3E%3Cg id='Calque_1-2' data-name='Calque 1'%3E%3Cg id='search'%3E%3Cpath id='Shape' d='M11.08,6.77a4.31,4.31,0,1,0-4.31,4.31h0A4.32,4.32,0,0,0,11.08,6.77Zm4.92,8A1.24,1.24,0,0,1,14.77,16a1.17,1.17,0,0,1-.86-.37l-3.3-3.28a6.77,6.77,0,1,1,1.74-1.74l3.3,3.3A1.25,1.25,0,0,1,16,14.77Z' style='fill:%23141414;fill-rule:evenodd'/%3E%3C/g%3E%3C/g%3E%3C/g%3E%3C/svg%3E") no-repeat;
-          background-position: center;
-          background-size: 80%;
-          border: none;
-          width: 20px;
-          position: absolute;
-          right: 10px;
-          top: 0;
-          bottom: 0;
-        }
-      }
-
-    }
-  }
 }
 
 .r-add-event,
@@ -121,15 +65,7 @@
 }
 
 //// for bla ////
-/* filters */
-.r-filter {
-  label {
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 13px;
-    margin-bottom: 10px;
-  }
-}
+
 
 // content
 .r-content-description {

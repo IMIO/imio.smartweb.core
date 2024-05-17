@@ -36,18 +36,6 @@ body .outer-wrapper {
   padding: 0 !important;
 }
 
-.r-result-filter-container {
-  @media screen and (min-width:1200px) {
-    position: sticky;
-  }
-
-  background: #fff;
-  z-index: 1;
-}
-
-.annuaire-result-filter {
-  padding: 0 .75rem;
-}
 
 #portal-column-content {
   h1 {
@@ -83,14 +71,7 @@ article>header {
 
 
 /////////
-.r-results-numbers {
-  width: 100%;
-  margin-bottom: 0.5rem;
 
-  span {
-    font-weight: bold;
-  }
-}
 
 .r-wrapper {
   display: block;
@@ -111,16 +92,6 @@ article>header {
   .r-result {
     margin-top: 2rem;
     padding-bottom: 2rem;
-
-    &-filter {
-      display: flex;
-      gap: 20px;
-
-      .r-filter {
-        width: 100%;
-      }
-    }
-
     &-list {
       padding: 0;
 
