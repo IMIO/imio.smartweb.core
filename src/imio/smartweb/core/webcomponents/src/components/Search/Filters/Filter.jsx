@@ -3,7 +3,7 @@ import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Translate, Translator } from "react-translated";
-import queryString from 'query-string';
+import queryString from "query-string";
 
 function Filters(props) {
     let navigate = useNavigate();
@@ -153,7 +153,7 @@ function Filters(props) {
                                     onChange={HandlerText}
                                     value={searchValues.SearchableText}
                                     placeholder={translate({
-                                        text: 'Recherche'
+                                        text: "Recherche",
                                     })}
                                 />
                             )}
@@ -173,7 +173,7 @@ function Filters(props) {
                             onChange={onChangeHandlerSelect}
                             options={iamFilter && iamFilter}
                             placeholder={translate({
-                                text: 'Je suis'
+                                text: "Je suis",
                             })}
                             value={actIam && actIam[0]}
                         />
@@ -191,7 +191,7 @@ function Filters(props) {
                             onChange={onChangeHandlerSelect}
                             options={topicsFilter && topicsFilter}
                             placeholder={translate({
-                                text: 'Thématiques'
+                                text: "Thématiques",
                             })}
                             value={actTopi && actTopi[0]}
                         />

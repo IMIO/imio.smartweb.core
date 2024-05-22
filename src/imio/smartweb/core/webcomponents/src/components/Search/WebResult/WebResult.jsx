@@ -13,7 +13,10 @@ const WebResult = (props) => {
             headers: {
                 Accept: "application/json",
             },
-            params: (props.urlParams.SearchableText || props.urlParams.iam || props.urlParams.topics) ? props.urlParams : {},
+            params:
+                props.urlParams.SearchableText || props.urlParams.iam || props.urlParams.topics
+                    ? props.urlParams
+                    : {},
         },
         [props]
     );
@@ -30,10 +33,16 @@ const WebResult = (props) => {
             <div className="r-search-header">
                 <h2 className="r-search-header-title">
                     <Translate text="Infos pratiques" />
-
                 </h2>
                 <p className="r-search-header-count">
-                    {resultArray.length > 0 ? <> {resultArray.length} {" "} <Translate text='Résultats' /> </> : <Translate text='Aucun résultat' />}
+                    {resultArray.length > 0 ? (
+                        <>
+                            {" "}
+                            {resultArray.length} <Translate text="Résultats" />{" "}
+                        </>
+                    ) : (
+                        <Translate text="Aucun résultat" />
+                    )}
                 </p>
             </div>
             <ul className="r-search-list">

@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
@@ -13,8 +9,8 @@ import "./Annuaire.scss";
 import "../Filters/MainFilter.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider, Translate } from "react-translated";
-import translation from '../../utils/translation';
-import queryString from 'query-string';
+import translation from "../../utils/translation";
+import queryString from "query-string";
 
 export default function Annuaire(props) {
     return (
@@ -133,10 +129,27 @@ function AnnuaireView(props) {
             />
         );
     } else if (!isLoading) {
-        listRender = <p><Translate text="Aucun contact n'a été trouvé" /></p>;
+        listRender = (
+            <p>
+                <Translate text="Aucun contact n'a été trouvé" />
+            </p>
+        );
     }
 
-    const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
+    const divLoader = (
+        <div className="lds-roller-container">
+            <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    );
     return (
         <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
             <div
@@ -153,80 +166,93 @@ function AnnuaireView(props) {
                         activeFilter={filters}
                         onChange={filtersChange}
                     />
-                    {props.proposeUrl &&
-                        (
-                            <div className="r-add-contact">
-                                <a target="_blank" rel="noreferrer" href={props.proposeUrl}><Translate text='Proposer un contact' /></a>
-                            </div>
-                        )
-                    }
+                    {props.proposeUrl && (
+                        <div className="r-add-contact">
+                            <a target="_blank" rel="noreferrer" href={props.proposeUrl}>
+                                <Translate text="Proposer un contact" />
+                            </a>
+                        </div>
+                    )}
                     {contactNumber > 0 ? (
                         <p className="r-results-numbers">
                             <span>{contactNumber}</span>
-                            {contactNumber > 1
-                                ? <Translate text='contacts trouvés' />
-                                : <Translate text='contact trouvé' />}
+                            {contactNumber > 1 ? (
+                                <Translate text="contacts trouvés" />
+                            ) : (
+                                <Translate text="contact trouvé" />
+                            )}
                         </p>
                     ) : (
-                        <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
+                        <p className="r-results-numbers">
+                            <Translate text="Aucun résultat" />
+                        </p>
                     )}
                 </div>
             </div>
             <Routes>
-                <Route exact path="/" element={
-                    <div className="r-wrapper container r-annuaire-wrapper">
-                        <div className="r-result r-annuaire-result">
-                            <div>{listRender}</div>
-                            <div className="r-load-more">
-                                {contactNumber - props.batchSize > batchStart ? (
-                                    <div>
+                <Route
+                    exact
+                    path="/"
+                    element={
+                        <div className="r-wrapper container r-annuaire-wrapper">
+                            <div className="r-result r-annuaire-result">
+                                <div>{listRender}</div>
+                                <div className="r-load-more">
+                                    {contactNumber - props.batchSize > batchStart ? (
+                                        <div>
+                                            <span className="no-more-result">
+                                                {isLoading ? divLoader : ""}
+                                            </span>
+                                            <button onClick={loadMore} className="btn-grad">
+                                                {isLoading ? (
+                                                    <Translate text="Chargement..." />
+                                                ) : (
+                                                    <Translate text="Plus de résultats" />
+                                                )}
+                                            </button>
+                                        </div>
+                                    ) : (
                                         <span className="no-more-result">
                                             {isLoading ? divLoader : ""}
                                         </span>
-                                        <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <span className="no-more-result">
-                                        {isLoading ? divLoader : ""}
-                                    </span>
-                                )}
+                                    )}
+                                </div>
                             </div>
+                            {displayMap && (
+                                <div
+                                    className="r-map annuaire-map"
+                                    style={{
+                                        top: style.height + headerHeight,
+                                        height: "calc(100vh-" + style.height + headerHeight,
+                                    }}
+                                >
+                                    {MapRender}
+                                </div>
+                            )}
                         </div>
-                        {displayMap && <div
-                            className="r-map annuaire-map"
-                            style={{
-                                top: style.height + headerHeight,
-                                height: "calc(100vh-" + style.height + headerHeight,
-                            }}
-                        >
-                            {MapRender}
+                    }
+                ></Route>
+                <Route
+                    path={"/:name"}
+                    element={
+                        <div className="r-wrapper container r-annuaire-wrapper">
+                            <div className="r-result r-annuaire-result">
+                                <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
+                            </div>
+                            {displayMap && (
+                                <div
+                                    className="r-map annuaire-map"
+                                    style={{
+                                        top: style.height + headerHeight,
+                                        height: "calc(100vh-" + style.height + headerHeight,
+                                    }}
+                                >
+                                    {MapRender}
+                                </div>
+                            )}
                         </div>
-                        }
-                    </div>
-                }>
-
-                </Route>
-                <Route path={"/:name"} element={
-                    <div className="r-wrapper container r-annuaire-wrapper">
-                        <div className="r-result r-annuaire-result">
-                            <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
-                        </div>
-                        {displayMap && <div
-                            className="r-map annuaire-map"
-                            style={{
-                                top: style.height + headerHeight,
-                                height: "calc(100vh-" + style.height + headerHeight,
-                            }}
-                        >
-                            {MapRender}
-                        </div>
-                        }
-                    </div>
-                }>
-
-                </Route>
+                    }
+                ></Route>
             </Routes>
         </div>
     );

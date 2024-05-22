@@ -128,7 +128,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         <ReactMarkdown>{item.description}</ReactMarkdown>
                     </div>
                     <div className="contactTextAll">
-                        <p className="annuaire-info-title"><Translate text="Infos pratiques" /></p>
+                        <p className="annuaire-info-title">
+                            <Translate text="Infos pratiques" />
+                        </p>
                         {item.category ? <span>{item.category}</span> : ""}
                         {item.street ? (
                             <div className="annaire-adresse">
@@ -190,7 +192,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                                         : "annuaire-day-open"
                                                 }
                                             >
-                                               <Translate text={item.schedule_for_today} />
+                                                <Translate text={item.schedule_for_today} />
                                             </span>
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"

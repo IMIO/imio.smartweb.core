@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import "./Map.scss";
 import "leaflet/dist/leaflet.css";
 import removeAccents from "remove-accents";
-import queryString from 'query-string';
+import queryString from "query-string";
 
 function ChangeMapView({ activeItem, arrayOfLatLngs }) {
     const map = useMap();
@@ -28,12 +28,17 @@ function Map(props) {
     const [activeItem, setActiveItem] = useState(null);
     const [filterGeoArray, setFilterGeoArray] = useState([]);
     const [allPosition, setAllPosition] = useState(null);
-    const { u, ...parsed } = Object.assign(
-        { UID: queryString.parse(useFilterQuery().toString())['u'] },
-    );
+    const { u, ...parsed } = Object.assign({
+        UID: queryString.parse(useFilterQuery().toString())["u"],
+    });
     // Delete Imio positions
     useEffect(() => {
-        const filterArray = props.items.filter((isgeo) => isgeo.geolocation.latitude && isgeo.geolocation.latitude !== 50.4989185 && isgeo.geolocation.longitude !== 4.7184485);
+        const filterArray = props.items.filter(
+            (isgeo) =>
+                isgeo.geolocation.latitude &&
+                isgeo.geolocation.latitude !== 50.4989185 &&
+                isgeo.geolocation.longitude !== 4.7184485
+        );
         setFilterGeoArray(filterArray);
     }, [props]);
 
@@ -43,7 +48,7 @@ function Map(props) {
             iconUrl: url,
             iconSize: [29, 37],
         });
-    }
+    };
     // Get Marker Icon and Z-index
     const getMarkerIcon = (index) => {
         if (index === parsed.UID) {
@@ -72,7 +77,6 @@ function Map(props) {
             });
         setActiveItem(result[0]);
     }, [filterGeoArray]);
-
 
     useEffect(() => {
         if (filterGeoArray.length > 0) {
@@ -107,7 +111,12 @@ function Map(props) {
                     className="r-map-popup"
                     style={{ textDecoration: "none" }}
                     to={{
-                        pathname: "/" + removeAccents(mark.title).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase(),
+                        pathname:
+                            "/" +
+                            removeAccents(mark.title)
+                                .replace(/[^a-zA-Z ]/g, "")
+                                .replace(/\s/g, "-")
+                                .toLowerCase(),
                         search: `?u=${mark.UID}`,
                         state: {
                             idItem: mark.UID,

@@ -10,23 +10,28 @@ const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics }) => {
         <React.Fragment>
             <ul className="r-result-list actu-result-list">
                 {itemsArray.map((item, i) => (
-                    <li
-                        key={i}
-                        className="r-list-item-group"
-                        onClick={() => handleClick(item.UID)}
-                    >
+                    <li key={i} className="r-list-item-group" onClick={() => handleClick(item.UID)}>
                         <Link
                             className="r-news-list-item-link"
                             style={{ textDecoration: "none" }}
                             to={{
-                                pathname: "/" + removeAccents(item.title).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase(),
+                                pathname:
+                                    "/" +
+                                    removeAccents(item.title)
+                                        .replace(/[^a-zA-Z ]/g, "")
+                                        .replace(/\s/g, "-")
+                                        .toLowerCase(),
                                 search: `?u=${item.UID}`,
                                 state: {
                                     idItem: item.UID,
                                 },
                             }}
                         >
-                            <NewsCard item={item} showCategoriesOrTopics={showCategoriesOrTopics} key={item.created} />
+                            <NewsCard
+                                item={item}
+                                showCategoriesOrTopics={showCategoriesOrTopics}
+                                key={item.created}
+                            />
                         </Link>
                     </li>
                 ))}

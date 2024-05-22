@@ -7,8 +7,8 @@ import EventsResult from "./EventsResult/EventsResult";
 import WebResult from "./WebResult/WebResult";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider } from "react-translated";
-import translation from '../../utils/translation';
-import queryString from 'query-string';
+import translation from "../../utils/translation";
+import queryString from "query-string";
 
 import "./Search.scss";
 
@@ -22,13 +22,13 @@ export default function Search(props) {
                     resultOption={JSON.parse(props.resultOption)}
                 />
             </Provider>
-        </BrowserRouter >
+        </BrowserRouter>
     );
 }
 const SearchView = (props) => {
     const parsed = queryString.parse(useFilterQuery().toString());
     const { SearchableText, iam, topics } = parsed;
-    const parsed2 = { 'SearchableText': SearchableText, 'iam': iam, 'topics': topics };
+    const parsed2 = { SearchableText: SearchableText, iam: iam, topics: topics };
     // const parsed2 = { ...parsed };
     const [filters, setFilters] = useState(parsed2);
     const [batchSize, setBatchSize] = useState(6);

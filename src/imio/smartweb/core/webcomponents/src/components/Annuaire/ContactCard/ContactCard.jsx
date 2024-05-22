@@ -5,8 +5,7 @@ const ContactCard = ({ item }) => {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
     const title = item.title && item.title;
-    const category =
-        item.taxonomy_contact_category && item.taxonomy_contact_category[0];
+    const category = item.taxonomy_contact_category && item.taxonomy_contact_category[0];
     const number = item.number ? item.number : "";
     const street = item.street ? item.street : "";
     const complement = item.complement ? item.complement : "";
@@ -15,7 +14,7 @@ const ContactCard = ({ item }) => {
     const phones = item.phones ? item.phones : "";
     const mails = item.mails ? item.mails : "";
     const topics = item.topics ? item.topics : "";
-    let countryTitle = item.country && item.country.title
+    let countryTitle = item.country && item.country.title;
     let itineraryLink =
         "https://www.google.com/maps/dir/?api=1&destination=" +
         item.street +
@@ -28,9 +27,9 @@ const ContactCard = ({ item }) => {
         "+" +
         item.city +
         "+" +
-        countryTitle
+        countryTitle;
 
-    itineraryLink = itineraryLink.replaceAll('+null', '')
+    itineraryLink = itineraryLink.replaceAll("+null", "");
 
     // Set image and image className
     useEffect(() => {
@@ -58,20 +57,25 @@ const ContactCard = ({ item }) => {
 
     return (
         <div className="r-list-item">
-            {image && image.src
-                ? <>
+            {image && image.src ? (
+                <>
                     <div className="r-item-img">
-                        <div className="r-content-figure-blur"
+                        <div
+                            className="r-content-figure-blur"
                             style={{ backgroundImage: "url(" + image.src + ")" }}
                         />
-                        <img className={"r-content-figure-img" + " " + imageClassName}
-                            src={image.src} alt="" />
+                        <img
+                            className={"r-content-figure-img" + " " + imageClassName}
+                            src={image.src}
+                            alt=""
+                        />
                     </div>
                 </>
-                : <>
+            ) : (
+                <>
                     <div className="r-item-img r-item-img-placeholder"></div>
                 </>
-            }
+            )}
             <div className="r-item-text">
                 <span className="r-item-title">{title}</span>
                 {category ? <span className="r-item-categorie">{category.title}</span> : ""}
@@ -97,22 +101,22 @@ const ContactCard = ({ item }) => {
                         <div className="phones">
                             {phones
                                 ? phones.map((phone, i) => {
-                                    return <span key={i}>{phone.number}</span>;
-                                })
+                                      return <span key={i}>{phone.number}</span>;
+                                  })
                                 : ""}
                         </div>
                         <div className="mails">
                             {mails
                                 ? mails.map((mail, i) => {
-                                    return <span key={i}>{mail.mail_address}</span>;
-                                })
+                                      return <span key={i}>{mail.mail_address}</span>;
+                                  })
                                 : ""}
                         </div>
                         <div className="topics">
                             {topics
                                 ? topics.map((mail, i) => {
-                                    return <span key={i}>{mail.title}</span>;
-                                })
+                                      return <span key={i}>{mail.title}</span>;
+                                  })
                                 : ""}
                         </div>
                     </div>

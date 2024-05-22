@@ -32,7 +32,7 @@ function Filters(props) {
         {
             value: "fdfdfddfdfd",
             label: "Une catégorie spécifique",
-            queryString:"local_category"
+            queryString: "local_category",
         },
     ];
 
@@ -60,7 +60,7 @@ function Filters(props) {
                 response.category.map((d) => ({
                     value: d.token,
                     label: d.title,
-                    queryString: "category"
+                    queryString: "category",
                 }));
             setTopicsFilter(optionsTopics);
             setCategoryFilter(optionsCategory);

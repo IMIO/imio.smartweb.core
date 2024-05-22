@@ -2,7 +2,7 @@ import EventCard from "../EventCard/EventCard";
 import { Link } from "react-router-dom";
 import React from "react";
 import removeAccents from "remove-accents";
-const ContactList = ({ itemsArray, onChange, onHover,showCategoriesOrTopics }) => {
+const ContactList = ({ itemsArray, onChange, onHover, showCategoriesOrTopics }) => {
     function handleClick(event) {
         onChange(event);
     }
@@ -25,14 +25,23 @@ const ContactList = ({ itemsArray, onChange, onHover,showCategoriesOrTopics }) =
                             className="r-list-item-link"
                             style={{ textDecoration: "none" }}
                             to={{
-                                pathname: "/" + removeAccents(item.title).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase(),
+                                pathname:
+                                    "/" +
+                                    removeAccents(item.title)
+                                        .replace(/[^a-zA-Z ]/g, "")
+                                        .replace(/\s/g, "-")
+                                        .toLowerCase(),
                                 search: `?u=${item.UID}`,
                                 state: {
                                     idItem: item.UID,
                                 },
                             }}
                         ></Link>
-                        <EventCard item={item} showCategoriesOrTopics={showCategoriesOrTopics} key={item.created} />
+                        <EventCard
+                            item={item}
+                            showCategoriesOrTopics={showCategoriesOrTopics}
+                            key={item.created}
+                        />
                     </li>
                 ))}
             </ul>

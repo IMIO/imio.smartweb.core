@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from "moment";
@@ -47,8 +47,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
                     setRecurence((prevRecurrence) => [...prevRecurrence, item.start]);
                 });
             } else {
-				setRecurence(null);
-			}
+                setRecurence(null);
+            }
         }
         window.scrollTo(0, 0);
     }, [response]);
@@ -65,7 +65,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
         onChange(null);
     }
 
-
     // ref to toggle
 
     useEffect(() => {
@@ -75,23 +74,23 @@ const ContactContent = ({ queryUrl, onChange }) => {
             }
         };
 
-        document.addEventListener('mousedown', handleClickOutside);
+        document.addEventListener("mousedown", handleClickOutside);
 
         return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
 
-	//  moment
+    //  moment
     moment.locale("be");
     const start = moment.utc(item.start).format("DD-MM-YYYY");
     const end = moment.utc(item.end).format("DD-MM-YYYY");
     const startHours = moment.utc(item.start).format("LT");
     const endHours = moment.utc(item.end).format("LT");
 
-	// Trouver la date la plus proche dans le futur
+    // Trouver la date la plus proche dans le futur
     const now = moment();
-    const futureDates = recurence && recurence.filter(date => moment(date).isAfter(now));
+    const futureDates = recurence && recurence.filter((date) => moment(date).isAfter(now));
 
     let itineraryLink =
         "https://www.google.com/maps/dir/?api=1&destination=" +
@@ -112,7 +111,6 @@ const ContactContent = ({ queryUrl, onChange }) => {
     const closeSchedul = () => {
         setSchedulVisibility(false);
     };
-    console.log(isSchedulVisible)
     return (
         <div className="envent-content r-content">
             <button type="button" onClick={handleClick}>
@@ -155,18 +153,28 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                             <div>
                                                 {item.whole_day ? (
                                                     <div className="r-content-date-start">
-                                                        <span><Translate text="Le" />&nbsp;</span>
+                                                        <span>
+                                                            <Translate text="Le" />
+                                                            &nbsp;
+                                                        </span>
                                                         <div className="r-time">{start}</div>
                                                     </div>
                                                 ) : item.open_end ? (
                                                     <>
                                                         <div className="r-content-date-one-day">
                                                             <div className="r-content-date-start">
-                                                                <span><Translate text="Le" />&nbsp;</span>
+                                                                <span>
+                                                                    <Translate text="Le" />
+                                                                    &nbsp;
+                                                                </span>
                                                                 <div className="r-time">
                                                                     {start}
                                                                 </div>
-                                                                <span>&nbsp;<Translate text="à" />&nbsp;</span>
+                                                                <span>
+                                                                    &nbsp;
+                                                                    <Translate text="à" />
+                                                                    &nbsp;
+                                                                </span>
                                                                 <div className="r-time-hours">
                                                                     {startHours}
                                                                 </div>
@@ -177,17 +185,27 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                                     <>
                                                         <div className="r-content-date-one-day">
                                                             <div className="r-content-date-start">
-                                                                <span><Translate text="Le" />&nbsp;</span>
+                                                                <span>
+                                                                    <Translate text="Le" />
+                                                                    &nbsp;
+                                                                </span>
                                                                 <div className="r-time">
                                                                     {start}
                                                                 </div>
                                                             </div>
                                                             <div className="r-content-date-start-hours">
-                                                                <span><Translate text="de" />&nbsp;</span>
+                                                                <span>
+                                                                    <Translate text="de" />
+                                                                    &nbsp;
+                                                                </span>
                                                                 <div className="r-time-hours">
                                                                     {startHours}
                                                                 </div>
-                                                                <span>&nbsp;<Translate text="à" />&nbsp;</span>
+                                                                <span>
+                                                                    &nbsp;
+                                                                    <Translate text="à" />
+                                                                    &nbsp;
+                                                                </span>
                                                                 <div className="r-time-hours">
                                                                     {endHours}
                                                                 </div>
@@ -210,30 +228,37 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                         )}
                                     </div>
                                 )}
-								{recurence &&
+                                {recurence && (
                                     <a
                                         onClick={openSchedul}
                                         className="recurence-schedul"
                                         role="button"
                                         aria-expanded="false"
                                     >
-
-                                        <p>{moment(futureDates[0]).format("DD-MM-YYYY")}
-                                        <span className="recurence-schedul-more">Prochaines dates (+)</span></p>
-                                        <div className={isSchedulVisible ? "recurence-modal-display": "recurence-modal-hide"}> 
+                                        <p>
+                                            {moment(futureDates[0]).format("DD-MM-YYYY")}
+                                            <span className="recurence-schedul-more">
+                                                Prochaines dates (+)
+                                            </span>
+                                        </p>
+                                        <div
+                                            className={
+                                                isSchedulVisible
+                                                    ? "recurence-modal-display"
+                                                    : "recurence-modal-hide"
+                                            }
+                                        >
                                             <span>Prochaines dates</span>
                                             <ul>
                                                 {futureDates.map((date, i) => {
                                                     return (
-                                                        <li>
-                                                            {moment(date).format("DD-MM-YYYY")}
-                                                        </li>
+                                                        <li>{moment(date).format("DD-MM-YYYY")}</li>
                                                     );
                                                 })}
                                             </ul>
                                         </div>
                                     </a>
-								}
+                                )}
                             </div>
                         </div>
                         {/* adress */}
