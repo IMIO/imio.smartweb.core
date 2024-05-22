@@ -3,7 +3,9 @@ import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 import { Translator } from "react-translated";
-import queryString from 'query-string';
+import queryString from "query-string";
+import { iam } from "./../../Filters/IamData";
+import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
 
 function Filters(props) {
     let navigate = useNavigate();
@@ -28,9 +30,9 @@ function Filters(props) {
             }));
             const optionsTaxonomy = response.category
                 ? response.category.map((d) => ({
-                    value: d.token,
-                    label: d.title,
-                }))
+                      value: d.token,
+                      label: d.title,
+                  }))
                 : "";
             setTopicsFilter(optionsTopics);
             setTaxonomyFilter(optionsTaxonomy);
@@ -110,63 +112,102 @@ function Filters(props) {
     };
     return (
         <React.Fragment>
-            <form className="r-filter" onSubmit={handleSubmit}>
-                {/* <label>Recherche</label> */}
-                <div className="r-filter-search">
-                    <Translator>
-                        {({ translate }) => (
-                            <input
-                                className="input-custom-class"
-                                name="SearchableText"
-                                type="text"
-                                value={inputValues.SearchableText}
-                                onChange={onChangeHandler}
-                                placeholder={translate({
-                                    text: 'Recherche'
-                                })}
-                            />
-                        )}
-                    </Translator>
-                    <button type="submit"></button>
+            <div className="react-filters-menu">
+                <div className="react-filters-container">
+                    <form className="r-filter r-filter-search" onSubmit={handleSubmit}>
+                        {/* <label>Recherche</label> */}
+                        <div className="relative">
+                            <Translator>
+                                {({ translate }) => (
+                                    <input
+                                        className="input-custom-class"
+                                        name="SearchableText"
+                                        type="text"
+                                        value={inputValues.SearchableText}
+                                        onChange={onChangeHandler}
+                                        placeholder={translate({
+                                            text: "Recherche",
+                                        })}
+                                    />
+                                )}
+                            </Translator>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="#9f9f9f"
+                                strokeWidth="4"
+                                aria-hidden="true"
+                                display="block"
+                                overflow="visible"
+                                style={{ height: 16, width: 16 }}
+                                viewBox="0 0 32 32"
+                            >
+                                <path d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9" />
+                            </svg>
+                        </div>
+                    </form>
+                    <div className="react-sep-menu"></div>
+                    <div className="r-filter top-filter topics-Filter">
+                        {/* <label>Thématiques</label> */}
+                        <Translator>
+                            {({ translate }) => (
+                                <Select
+                                    styles={menuStyles}
+                                    name={"topics"}
+                                    className="select-custom-no-border library-topics"
+                                    isClearable
+                                    onChange={onChangeHandlerSelect}
+                                    options={topicsFilter && topicsFilter}
+                                    placeholder={translate({
+                                        text: "Thématiques",
+                                    })}
+                                    value={actTopi && actTopi[0]}
+                                />
+                            )}
+                        </Translator>
+                    </div>
+                    <div className="react-sep-menu"></div>
+                    <div className="r-filter top-filter facilities-Filter">
+                        {/* <label>Catégories</label> */}
+                        <Translator>
+                            {({ translate }) => (
+                                <Select
+                                    styles={menuStyles}
+                                    name={"category"}
+                                    className="select-custom-no-border library-facilities"
+                                    isClearable
+                                    onChange={onChangeHandlerSelect}
+                                    options={taxonomyFilter && taxonomyFilter}
+                                    placeholder={translate({
+                                        text: "Catégories",
+                                    })}
+                                    value={actTaxo && actTaxo[0]}
+                                />
+                            )}
+                        </Translator>
+                    </div>
+                    <div className="react-sep-menu"></div>
+                    {/* Filtre iam */}
+                    <div className="r-filter top-filter iam-Filter">
+                        {/* <label>Thématiques</label> */}
+                        <Translator>
+                            {({ translate }) => (
+                                <Select
+                                    styles={menuStyles}
+                                    name={"iam"}
+                                    className="select-custom-no-border library-topics"
+                                    isClearable
+                                    onChange={onChangeHandlerSelect}
+                                    options={iam && iam}
+                                    placeholder={translate({
+                                        text: "Profil",
+                                    })}
+                                    value={actTaxo && actTaxo[0]}
+                                />
+                            )}
+                        </Translator>
+                    </div>
                 </div>
-            </form>
-            <div className="r-filter topics-Filter">
-                {/* <label>Thématiques</label> */}
-                <Translator>
-                    {({ translate }) => (
-                        <Select
-                            styles={customStyles}
-                            name={"topics"}
-                            className="select-custom-class library-topics"
-                            isClearable
-                            onChange={onChangeHandlerSelect}
-                            options={topicsFilter && topicsFilter}
-                            placeholder={translate({
-                                text: 'Thématiques'
-                            })}
-                            value={actTopi && actTopi[0]}
-                        />
-                    )}
-                </Translator>
-            </div>
-            <div className="r-filter  facilities-Filter">
-                {/* <label>Catégories</label> */}
-                <Translator>
-                    {({ translate }) => (
-                        <Select
-                            styles={customStyles}
-                            name={"category"}
-                            className="select-custom-class library-facilities"
-                            isClearable
-                            onChange={onChangeHandlerSelect}
-                            options={taxonomyFilter && taxonomyFilter}
-                            placeholder={translate({
-                                text: 'Catégories'
-                            })}
-                            value={actTaxo && actTaxo[0]}
-                        />
-                    )}
-                </Translator>
             </div>
         </React.Fragment>
     );

@@ -310,8 +310,12 @@
   background-color: #c9c9c9 !important;
 }
 
-.portaltype-imio-smartweb-eventsview,.portaltype-imio-smartweb-directoryview,.portaltype-imio-smartweb-newsview {
-  #portal-breadcrumbs, #portal-header {
-    margin-bottom: 0!important;
+.portaltype-imio-smartweb-eventsview,
+.portaltype-imio-smartweb-directoryview,
+.portaltype-imio-smartweb-newsview {
+
+  #portal-breadcrumbs,
+  #portal-header {
+    margin-bottom: 0 !important;
   }
 }

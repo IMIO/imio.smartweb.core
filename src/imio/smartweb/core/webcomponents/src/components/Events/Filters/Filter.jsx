@@ -28,6 +28,25 @@ function Filters(props) {
         paramsSerializer: { indexes: null },
     });
 
+    const categoryFilterSpe = [
+        {
+            value: "fdfdfddfdfd",
+            label: "Une catégorie spécifique",
+            queryString:"local_category"
+        },
+    ];
+
+    const groupedOptions = [
+        {
+            label: "local_category",
+            options: categoryFilterSpe,
+        },
+        {
+            label: "category",
+            options: categoryFilter,
+        },
+    ];
+
     useEffect(() => {
         if (response !== null) {
             const optionsTopics =
@@ -41,6 +60,7 @@ function Filters(props) {
                 response.category.map((d) => ({
                     value: d.token,
                     label: d.title,
+                    queryString: "category"
                 }));
             setTopicsFilter(optionsTopics);
             setCategoryFilter(optionsCategory);
@@ -72,7 +92,6 @@ function Filters(props) {
     });
 
     const onChangeCheckbox = useCallback((value, action) => {
-        console.log(value.target.checked);
         if (value.target.checked) {
             setInputValues((state) => ({ ...state, free_entry: true }), []);
         } else {
@@ -81,6 +100,18 @@ function Filters(props) {
                 delete newState["free_entry"];
                 return newState;
             }, []);
+        }
+    });
+
+    const onChangeGroupSelect = useCallback((value, action) => {
+        if (value) {
+            setInputValues((state) => ({ ...state, [value.queryString]: value.value }), []);
+        } else {
+            setInputValues((prevState) => {
+                const state = { ...prevState };
+                const { [action.removedValues[0].queryString]: remove, ...rest } = state;
+                return rest;
+            });
         }
     });
 
@@ -113,6 +144,8 @@ function Filters(props) {
     let actTarget =
         taxonomy_event_public &&
         taxonomy_event_public.filter((option) => option.value === props.activeFilter.topics);
+
+    let actIam = iam && iam.filter((option) => option.value === props.activeFilter.topics);
 
     useEffect(() => {
         if (dates) {
@@ -201,7 +234,7 @@ function Filters(props) {
                     )}
                     <div className="react-sep-menu"></div>
 
-                    <div className="r-filter  facilities-Filter">
+                    <div className="r-filter top-filter facilities-Filter">
                         {/* <label>Catégories</label> */}
                         <Translator>
                             {({ translate }) => (
@@ -220,10 +253,31 @@ function Filters(props) {
                             )}
                         </Translator>
                     </div>
+
+                    {/* test */}
+                    <Translator>
+                        {({ translate }) => (
+                            <div className="r-filter  top-filter facilities-Filter">
+                                {/* <label>Catégories</label> */}
+                                <Select
+                                    styles={menuStyles}
+                                    name={"category"}
+                                    className="select-custom-no-border library-facilities"
+                                    isClearable
+                                    onChange={onChangeGroupSelect}
+                                    options={groupedOptions}
+                                    placeholder={translate({
+                                        text: "Quoi",
+                                    })}
+                                    value={actCategory && actCategory[0]}
+                                />
+                            </div>
+                        )}
+                    </Translator>
                 </div>
             </div>
 
-            {/* More filter */}
+            {/* -------------- More filter --------------  */}
 
             <div
                 id="collapseOne"
@@ -233,7 +287,7 @@ function Filters(props) {
             >
                 <div className="accordion-body">
                     {/* Filtre thématique */}
-                    <div className="r-filter topics-Filter">
+                    <div className="r-filter collapse-filter topics-Filter">
                         {/* <label>Thématiques</label> */}
                         <Translator>
                             {({ translate }) => (
@@ -253,7 +307,7 @@ function Filters(props) {
                         </Translator>
                     </div>
                     {/* Filtre Public cible */}
-                    <div className="r-filter public-target-Filter">
+                    <div className="r-filter collapse-filter public-target-Filter">
                         {/* <label>Thématiques</label> */}
                         <Translator>
                             {({ translate }) => (
@@ -274,7 +328,7 @@ function Filters(props) {
                     </div>
 
                     {/* Filtre iam */}
-                    <div className="r-filter iam-Filter">
+                    <div className="r-filter collapse-filter iam-Filter">
                         {/* <label>Thématiques</label> */}
                         <Translator>
                             {({ translate }) => (
@@ -288,15 +342,14 @@ function Filters(props) {
                                     placeholder={translate({
                                         text: "Profil",
                                     })}
-                                    value={actTarget && actTarget[0]}
+                                    value={actIam && actIam[0]}
                                 />
                             )}
                         </Translator>
                     </div>
 
                     {/* Filtre Gratuit */}
-                    <div className="r-filter free-Filter">
-                        {/* <label>Thématiques</label> */}
+                    {/* <div className="r-filter collapse-filter free-Filter">
                         <div className="form-check form-switch">
                             <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
                                 Gratuit
@@ -308,7 +361,7 @@ function Filters(props) {
                                 id="flexSwitchCheckDefault"
                             />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </React.Fragment>

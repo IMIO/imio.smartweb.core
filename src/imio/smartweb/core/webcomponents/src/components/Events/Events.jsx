@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-    BrowserRouter,
-    Routes,
-    Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Filters from "./Filters/Filter";
 import EventContent from "./EventContent/EventContent";
 import EventList from "./EventList/EventList";
@@ -11,13 +7,11 @@ import Map from "../../utils/Map";
 import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
 import "../Filters/MainFilter.scss";
-
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider, Translate } from "react-translated";
-import translation from '../../utils/translation';
+import translation from "../../utils/translation";
 import moment from "moment";
-import queryString from 'query-string';
-
+import queryString from "query-string";
 
 export default function Events(props) {
     return (
@@ -39,7 +33,12 @@ export default function Events(props) {
 }
 function EventsView(props) {
     const { u, ...parsed } = Object.assign(
-        { b_start: 0, fullobjects: 1, "event_dates.query": [moment().format('YYYY-MM-DD')], "event_dates.range": props.onlyPastEvents === "True" ? "max" : "min"},
+        {
+            b_start: 0,
+            fullobjects: 1,
+            "event_dates.query": [moment().format("YYYY-MM-DD")],
+            "event_dates.range": props.onlyPastEvents === "True" ? "max" : "min",
+        },
         queryString.parse(useFilterQuery().toString())
     );
     const [itemsArray, setItemsArray] = useState([]);
@@ -112,21 +111,14 @@ function EventsView(props) {
     }, [batchStart]);
 
     // filter top style
-    let portalHeader = document.getElementById("portal-header");
-    let portalHeaderHeight = portalHeader.offsetHeight;
-
     const filterRef = useRef();
     const [style, setStyle] = React.useState({ height: 0 });
+    const [headerHeight, setHeaderHeight] = useState(0);
     useEffect(() => {
         setStyle({
             height: filterRef.current.clientHeight,
         });
-    }, [filterRef.current]);
-
-    useEffect(() => {
-        if (filterRef) {
-            console.log('Distance from top: ', filterRef.current.offsetTop);
-        }
+        setHeaderHeight(filterRef.current.offsetTop);
     }, [filterRef.current]);
 
     // coditional list render
@@ -134,11 +126,16 @@ function EventsView(props) {
     let MapRender;
     if (itemsArray && itemsArray.length > 0) {
         listRender = (
-            <EventList onChange={clickID} itemsArray={itemsArray} onHover={hoverID} showCategoriesOrTopics={props.showCategoriesOrTopics} />
+            <EventList
+                onChange={clickID}
+                itemsArray={itemsArray}
+                onHover={hoverID}
+                showCategoriesOrTopics={props.showCategoriesOrTopics}
+            />
         );
         MapRender = (
             <Map
-                headerHeight={style.height + portalHeaderHeight}
+                headerHeight={style.height + headerHeight}
                 clickId={clickId}
                 hoverId={hoverId}
                 items={itemsArray}
@@ -146,15 +143,32 @@ function EventsView(props) {
             />
         );
     } else if (!isLoading) {
-        listRender = <p><Translate text="Aucun événement n'a été trouvé" /></p>;
+        listRender = (
+            <p>
+                <Translate text="Aucun événement n'a été trouvé" />
+            </p>
+        );
     }
-    const divLoader = <div className="lds-roller-container"><div className="lds-roller"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div></div>;
+    const divLoader = (
+        <div className="lds-roller-container">
+            <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    );
     return (
         <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
             <div
                 className="r-result-filter-container"
                 ref={filterRef}
-                style={{ top: portalHeaderHeight }}
+                style={{ top: headerHeight }}
             >
                 <div
                     id="r-result-filter"
@@ -167,79 +181,93 @@ function EventsView(props) {
                         language={props.language}
                         onlyPastEvents={props.onlyPastEvents}
                     />
-                    {props.proposeUrl &&
-                        (
-                            <div className="r-add-event">
-                                <a target="_blank" href={props.proposeUrl}><Translate text='Proposer un événement' /></a>
-                            </div>
-                        )
-                    }
+                    {props.proposeUrl && (
+                        <div className="r-add-event">
+                            <a target="_blank" href={props.proposeUrl}>
+                                <Translate text="Proposer un événement" />
+                            </a>
+                        </div>
+                    )}
                 </div>
             </div>
             <Routes>
-                <Route exact path="/" element={
-                    <div className="r-wrapper container r-annuaire-wrapper">
-                        <div className="r-result r-annuaire-result">
-                        {itemsNumber > 0 ? (
-                        <p className="r-results-numbers">
-                            <span>{itemsNumber}</span>
-                            {itemsNumber > 1
-                                ? <Translate text='événements trouvés' />
-                                : <Translate text='événement trouvé' />}
-                        </p>
-                    ) : (
-                        <p className="r-results-numbers"><Translate text='Aucun résultat' /></p>
-                    )}
-                            <div>{listRender}</div>
-                            <div className="r-load-more">
-                                {itemsNumber - props.batchSize > batchStart ? (
-                                    <div>
+                <Route
+                    exact
+                    path="/"
+                    element={
+                        <div className="r-wrapper container r-annuaire-wrapper">
+                            <div className="r-result r-annuaire-result">
+                                {itemsNumber > 0 ? (
+                                    <p className="r-results-numbers">
+                                        <span>{itemsNumber}</span>
+                                        {itemsNumber > 1 ? (
+                                            <Translate text="événements trouvés" />
+                                        ) : (
+                                            <Translate text="événement trouvé" />
+                                        )}
+                                    </p>
+                                ) : (
+                                    <p className="r-results-numbers">
+                                        <Translate text="Aucun résultat" />
+                                    </p>
+                                )}
+                                <div>{listRender}</div>
+                                <div className="r-load-more">
+                                    {itemsNumber - props.batchSize > batchStart ? (
+                                        <div>
+                                            <span className="no-more-result">
+                                                {isLoading ? divLoader : ""}
+                                            </span>
+                                            <button onClick={loadMore} className="btn-grad">
+                                                {isLoading ? (
+                                                    <Translate text="Chargement..." />
+                                                ) : (
+                                                    <Translate text="Plus de résultats" />
+                                                )}
+                                            </button>
+                                        </div>
+                                    ) : (
                                         <span className="no-more-result">
                                             {isLoading ? divLoader : ""}
                                         </span>
-                                        <button onClick={loadMore} className="btn-grad">
-                                            {isLoading ? <Translate text='Chargement...' /> : <Translate text='Plus de résultats' />}
-                                        </button>
-                                    </div>
-                                ) : (
-                                    <span className="no-more-result">
-                                        {isLoading ? divLoader : ""}
-                                    </span>
-                                )}
+                                    )}
+                                </div>
                             </div>
+                            {displayMap && (
+                                <div
+                                    className="r-map annuaire-map"
+                                    style={{
+                                        top: style.height + headerHeight,
+                                        height: "calc(100vh-" + style.height + headerHeight,
+                                    }}
+                                >
+                                    {MapRender}
+                                </div>
+                            )}
                         </div>
-                        {displayMap && <div
-                            className="r-map annuaire-map"
-                            style={{
-                                top: style.height + portalHeaderHeight,
-                                height: "calc(100vh-" + style.height + portalHeaderHeight,
-                            }}
-                        >
-                            {MapRender}
+                    }
+                ></Route>
+                <Route
+                    path={"/:name"}
+                    element={
+                        <div className="r-wrapper container r-annuaire-wrapper">
+                            <div className="r-result r-annuaire-result">
+                                <EventContent queryUrl={props.queryUrl} onChange={clickID} />
+                            </div>
+                            {displayMap && (
+                                <div
+                                    className="r-map annuaire-map"
+                                    style={{
+                                        top: style.height + headerHeight,
+                                        height: "calc(100vh-" + style.height + headerHeight,
+                                    }}
+                                >
+                                    {MapRender}
+                                </div>
+                            )}
                         </div>
-                        }
-                    </div>
-                }>
-
-                </Route>
-                <Route path={"/:name"} element={
-                    <div className="r-wrapper container r-annuaire-wrapper">
-                        <div className="r-result r-annuaire-result">
-                            <EventContent queryUrl={props.queryUrl} onChange={clickID} />
-                        </div>
-                        {displayMap && <div
-                            className="r-map annuaire-map"
-                            style={{
-                                top: style.height + portalHeaderHeight,
-                                height: "calc(100vh-" + style.height + portalHeaderHeight,
-                            }}
-                        >
-                            {MapRender}
-                        </div>
-                        }
-                    </div>
-                }>
-                </Route>
+                    }
+                ></Route>
             </Routes>
         </div>
     );

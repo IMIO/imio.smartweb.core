@@ -10,6 +10,7 @@ import ContactList from "./ContactList/ContactList";
 import Map from "../../utils/Map";
 import useAxios from "../../hooks/useAxios";
 import "./Annuaire.scss";
+import "../Filters/MainFilter.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
 import { Provider, Translate } from "react-translated";
 import translation from '../../utils/translation';
@@ -104,15 +105,15 @@ function AnnuaireView(props) {
     }, [batchStart]);
 
     // filter top style
-    let portalHeader = document.getElementById("portal-header");
-    let portalHeaderHeight = portalHeader.offsetHeight;
-
     const filterRef = useRef();
     const [style, setStyle] = React.useState({ height: 0 });
+    const [headerHeight, setHeaderHeight] = useState(0);
+
     useEffect(() => {
         setStyle({
             height: filterRef.current.clientHeight,
         });
+        setHeaderHeight(filterRef.current.offsetTop);
     }, [filterRef.current]);
 
     // coditional list render
@@ -124,7 +125,7 @@ function AnnuaireView(props) {
         );
         MapRender = (
             <Map
-                headerHeight={style.height + portalHeaderHeight}
+                headerHeight={style.height + headerHeight}
                 clickId={clickId}
                 hoverId={hoverId}
                 items={contactArray}
@@ -141,7 +142,7 @@ function AnnuaireView(props) {
             <div
                 className="r-result-filter-container"
                 ref={filterRef}
-                style={{ top: portalHeaderHeight }}
+                style={{ top: headerHeight }}
             >
                 <div
                     id="r-result-filter"
@@ -196,8 +197,8 @@ function AnnuaireView(props) {
                         {displayMap && <div
                             className="r-map annuaire-map"
                             style={{
-                                top: style.height + portalHeaderHeight,
-                                height: "calc(100vh-" + style.height + portalHeaderHeight,
+                                top: style.height + headerHeight,
+                                height: "calc(100vh-" + style.height + headerHeight,
                             }}
                         >
                             {MapRender}
@@ -215,8 +216,8 @@ function AnnuaireView(props) {
                         {displayMap && <div
                             className="r-map annuaire-map"
                             style={{
-                                top: style.height + portalHeaderHeight,
-                                height: "calc(100vh-" + style.height + portalHeaderHeight,
+                                top: style.height + headerHeight,
+                                height: "calc(100vh-" + style.height + headerHeight,
                             }}
                         >
                             {MapRender}

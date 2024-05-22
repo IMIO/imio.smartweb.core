@@ -1,21 +1,25 @@
 .breadcrumb {
   padding: 0;
 }
+
 .r-result-list {
   margin-top: 50px;
   padding-left: 0;
   list-style: none;
 }
+
 #portal-column-content {
   h1 {
     font-size: 0px;
     position: absolute;
   }
 }
+
 #viewlet-below-content-title,
 #viewlet-below-content-description {
   display: none;
 }
+
 /* image */
 /* text */
 .r-item-text {
@@ -24,6 +28,7 @@
   display: flex;
   flex-direction: column;
 }
+
 .r-item-title {
   display: block;
 }
@@ -34,15 +39,18 @@
 .r-content-img {
   padding-bottom: 60%;
 }
+
 .new-content {
   max-width: 700px;
   margin: 0 auto;
 }
+
 //// for bla ////
 /* list item */
 .r-load-more {
   text-align: center;
   margin-bottom: 2rem;
+
   button {
     background: #000;
     border: solid 1px transparent;
@@ -55,13 +63,16 @@
     font-size: 14px;
     margin: 0 auto;
     display: block;
+
     &:hover {
       background: rgba(0, 0, 0, 0.871);
     }
   }
 }
+
 .r-actu-wrapper {
   position: relative;
+
   &:after {
     width: 495px;
     display: block;
@@ -72,6 +83,7 @@
     right: 0;
     transform: translateY(-20%);
   }
+
   .r-list-item-group {
     max-width: 900px;
     margin: 30px auto;
@@ -80,20 +92,24 @@
     border: 1px solid #D1D1D1;
   }
 }
+
 /* text */
 .r-item-title {
   font-size: 18px;
   font-weight: bold;
 }
+
 .r-item-description {
   font-size: 16px;
   color: #444444;
   margin-top: 10px;
 }
+
 /* image */
 .r-item-img {
   border-radius: 15px 15px 15px 0px;
 }
+
 .r-actu-wrapper {
   .r-item-img {
     width: 100%;
@@ -101,15 +117,18 @@
     background-position: top;
     background-size: cover;
     background-repeat: no-repeat;
+
     @media screen and (min-width:775px) {
       width: 323px;
     }
   }
 }
+
 /* arrow more */
 .r-item-read-more {
   margin-top: auto;
 }
+
 .r-item-arrow-more {
   width: 50px;
   height: 50px;
@@ -124,6 +143,7 @@
   background-size: 20px;
   background-position: center;
 }
+
 .r-list-item-group {
   &:hover {
     .r-item-arrow-more {
@@ -140,6 +160,7 @@
     flex-direction: column;
   }
 }
+
 .r-item-read-more {
   @media screen and (max-width:600px) {
     position: relative;
@@ -150,6 +171,7 @@
   display: inline-flex;
   align-self: center;
   margin-right: 0.4rem;
+
   svg {
     top: .125em;
     position: relative;
@@ -157,6 +179,7 @@
     width: 1em;
   }
 }
+
 .dpinlb {
   display: inline-block;
   vertical-align: top;
@@ -167,12 +190,15 @@
     width: 30px;
     height: 30px;
   }
+
   ul {
     display: flex;
     align-items: center;
     margin: 0;
+
     li {
       list-style: none;
+
       a {
         &:hover {
           opacity: .7;
@@ -188,4 +214,4 @@
   color: #747474;
   font-weight: 400;
   font-size: 13px;
-} 
+}

@@ -92,6 +92,7 @@ article>header {
   .r-result {
     margin-top: 2rem;
     padding-bottom: 2rem;
+
     &-list {
       padding: 0;
 
@@ -117,9 +118,11 @@ article>header {
           .r-item-img {
             width: 100%;
             padding-bottom: 56%;
+
             &.r-item-img-placeholder {
               background: #f2f2f2;
             }
+
             @media screen and (min-width:600px) {
               width: 246px;
               height: 149px;
@@ -303,13 +306,16 @@ article>header {
 .r-recurence-past {
   opacity: 0.5;
 }
+
 .recurence-schedul {
   position: relative;
 }
+
 .recurence-schedul-more {
   display: block;
 }
-.recurence-modal-display{
+
+.recurence-modal-display {
   background-color: #fff;
   position: absolute;
   top: 0;
@@ -320,27 +326,31 @@ article>header {
   box-shadow:
     0.7px 0px 5.3px rgba(0, 0, 0, 0.024),
     2.5px 0px 17.9px rgba(0, 0, 0, 0.036),
-    11px 0px 80px rgba(0, 0, 0, 0.06)
-  ;
+    11px 0px 80px rgba(0, 0, 0, 0.06);
   border-radius: 10px;
   border: solid 1px #dadada;
+
   span {
     font-size: 14px;
-  color: #000;
-  border-bottom: solid 1px #969696;
-  margin-bottom: 0.4rem;
-  display: block;
+    color: #000;
+    border-bottom: solid 1px #969696;
+    margin-bottom: 0.4rem;
+    display: block;
   }
+
   ul {
     margin: 0;
   }
-  li { 
+
+  li {
     list-style: none;
   }
 }
+
 .recurence-modal-hide {
   display: none;
 }
+
 //// for bla ////
 // content
 
