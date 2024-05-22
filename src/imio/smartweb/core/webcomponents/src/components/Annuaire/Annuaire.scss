@@ -119,7 +119,9 @@ article>header {
             position: relative;
             z-index: -1;
             background-color: #000;
-
+            &.r-item-img-placeholder {
+              background: #f2f2f2;
+            }
             @media screen and (min-width:600px) {
               width: 246px;
               height: 149px;
