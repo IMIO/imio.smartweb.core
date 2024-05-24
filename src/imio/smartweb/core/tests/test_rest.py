@@ -150,7 +150,10 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
 
         request = TestRequest(
-            form={"topics": "education", "metadata_fields": ["topics", "category"]}
+            form={
+                "topics": "education",
+                "metadata_fields": ["topics", "category"],
+            }
         )
         endpoint = DirectoryEndpoint(self.portal, request)
         params = endpoint.get_extra_params([])

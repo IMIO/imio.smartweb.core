@@ -5,6 +5,9 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
+- WEB-4101 : Handle (local) categories translations correctly
+  [laulaz]
+
 - SUP-36937: Add Recurrence dates in React event content view
   [thomlamb]
 

@@ -59,12 +59,12 @@ class TestSectionEvents(ImioSmartwebTestCase):
             (self.events, self.request), name="carousel_view"
         )
         self.assertEqual(events_view.items, [])
-        url = "http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
+        url = "http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
         m.get(url, text=json.dumps(self.json_events))
         self.assertEqual(events_view.items[0][0].get("title"), "Journée de l'ATL")
         self.assertEqual(len(events_view.items[0]), 2)
         self.events.specific_related_events = ["1178188bddde4ced95a6cf8bf04c443c"]
-        url = "http://localhost:8080/Plone/@events?UID=1178188bddde4ced95a6cf8bf04c443c&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&b_size=6&translated_in_en=1"
+        url = "http://localhost:8080/Plone/@events?UID=1178188bddde4ced95a6cf8bf04c443c&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&b_size=6&translated_in_en=1"
         m.get(url, text=json.dumps(self.json_specific_event))
         self.assertEqual(len(events_view.items[0]), 1)
         self.assertEqual(events_view.items[0][0].get("title"), "Bonne cheville")
@@ -84,7 +84,7 @@ class TestSectionEvents(ImioSmartwebTestCase):
         events_view = queryMultiAdapter(
             (self.events, self.request), name="carousel_view"
         )
-        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
+        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
         m.get(url, text=json.dumps(self.json_events))
         self.assertEqual(len(events_view.items[0]), 2)
         hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
@@ -92,7 +92,7 @@ class TestSectionEvents(ImioSmartwebTestCase):
         first_modification = self.portalpage.ModificationDate()
 
         sleep(1)
-        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
+        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
         m.get(url, text="{}")
         self.assertEqual(len(events_view.items), 0)
         next_modification = self.portalpage.ModificationDate()
@@ -119,7 +119,7 @@ class TestSectionEvents(ImioSmartwebTestCase):
         events_view = queryMultiAdapter(
             (self.events, self.request), name="carousel_view"
         )
-        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
+        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
         m.get(url, text=json.dumps(self.json_events))
 
         self.assertIn("paysage_vignette", events_view.items[0][0]["image"])
@@ -138,11 +138,12 @@ class TestSectionEvents(ImioSmartwebTestCase):
         events_view = queryMultiAdapter(
             (self.events, self.request), name="carousel_view"
         )
-        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
+        url = f"http://localhost:8080/Plone/@events?selected_agendas=e73e6a81afea4a579cd0da2773af8d29&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=UID&event_dates.query={today_str}&event_dates.range=min&b_size=6&translated_in_en=1&sort_on=event_dates"
         m.get(url, text=json.dumps(self.json_events))
-        self.assertEqual(events_view.items[0][0]["category"], "Presse")
+        self.assertEqual(events_view.items[0][0]["category"], "Local Category title")
+        self.assertEqual(events_view.items[0][1]["category"], "Presse")
         self.events.show_categories_or_topics = "category"
-        self.assertEqual(events_view.items[0][0]["category"], "Presse")
+        self.assertEqual(events_view.items[0][0]["category"], "Local Category title")
         self.events.show_categories_or_topics = "topic"
         self.assertEqual(events_view.items[0][0]["category"], "Education")
         self.events.show_categories_or_topics = ""

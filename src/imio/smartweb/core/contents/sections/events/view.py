@@ -30,6 +30,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             selected_item,
             "metadata_fields=container_uid",
             "metadata_fields=category_title",
+            "metadata_fields=local_category",
             "metadata_fields=topics",
             "metadata_fields=start",
             "metadata_fields=end",
@@ -67,7 +68,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             modified_hash = hash_md5(item["modified"])
             category = ""
             if self.context.show_categories_or_topics == "category":
-                category = item.get("category_title", "")
+                category = item.get("local_category") or item.get("category_title", "")
             elif self.context.show_categories_or_topics == "topic":
                 topic = item.get("topics") and item["topics"][0] or None
                 category = translate_vocabulary_term(
