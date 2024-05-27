@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.48 (unreleased)
+1.2.48 (2024-05-27)
 -------------------
 
 - WEB-3802: Add grouped filter for category and local category in React filters
