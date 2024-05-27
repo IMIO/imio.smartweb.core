@@ -2,14 +2,23 @@
   @media screen and (min-width:1200px) {
     position: sticky;
   }
-
   z-index: 1;
   background: #fff;
-
+  &:after {
+    content: "";
+    background: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 312px;
+    top: 0;
+    transform: translateY(-100%);
+  }
   .r-result-filter {
     padding-top: 1rem;
     padding-bottom: 1rem;
     border-bottom: solid 1px #cccc;
+    position: relative;
   }
 }
 
@@ -23,8 +32,9 @@
   }
 }
 
-
-
+.r-result-filter {
+  position: relative;
+}
 //  react filter menu 
 
 .react-filters-menu {

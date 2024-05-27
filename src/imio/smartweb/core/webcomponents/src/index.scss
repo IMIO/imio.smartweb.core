@@ -31,11 +31,22 @@
 .r-add-event,
 .r-add-news,
 .r-add-contact {
+  @media screen and (min-width: 992px) {
+    position: absolute;
+    right: 0;
+    bottom: 0px;
+    padding-bottom: 1rem;
+  }
   a {
-    background: #000;
-    color: #fff;
+    color: #2d2d2d;
     text-decoration: none;
-    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 7px;
+    &:hover,&:focus {
+      text-decoration: underline;
+    }
   }
 }
 
