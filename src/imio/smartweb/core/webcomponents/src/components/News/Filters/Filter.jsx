@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
-import { Translator } from "react-translated";
+import { Translator, Translate} from "react-translated";
 import queryString from "query-string";
 import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
@@ -12,6 +12,7 @@ function Filters(props) {
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
+    const [localsCategoryFilter, setLocalsCategoryFilter] = useState([]);
     const { response, error, isLoading } = useAxios({
         method: "get",
         url: "",
@@ -32,12 +33,33 @@ function Filters(props) {
                 ? response.category.map((d) => ({
                       value: d.token,
                       label: d.title,
+                      queryString: "category",
                   }))
                 : "";
+            const optionsLocalsCategory =
+                response.local_category &&
+                response.local_category.map((d) => ({
+                    value: d.token,
+                    label: d.title,
+                    queryString: "local_category",
+                }));
             setTopicsFilter(optionsTopics);
             setTaxonomyFilter(optionsTaxonomy);
+            setLocalsCategoryFilter(optionsLocalsCategory)
         }
     }, [response]);
+
+    // const to group category and local category
+    const groupedOptions = [
+        {
+            label: <Translate text="Catégories locale" />,
+            options: localsCategoryFilter,
+        },
+        {
+            label: <Translate text="Catégories" />,
+            options: taxonomyFilter,
+        },
+    ];
 
     const onChangeHandler = useCallback(({ target: { name, value } }) => {
         if (value.length > 2) {
@@ -89,27 +111,9 @@ function Filters(props) {
     let actTaxo =
         taxonomyFilter &&
         taxonomyFilter.filter((option) => option.value === props.activeFilter.category);
-    const customStyles = {
-        control: (styles) => ({
-            ...styles,
-            backgroundColor: "white",
-            borderRadius: "0",
-            height: "50px",
-        }),
-        placeholder: (styles) => ({
-            ...styles,
-            color: "000",
-            fontWeight: "bold",
-            fontSize: "12px",
-            textTransform: "uppercase",
-            letterSpacing: "1.2px",
-        }),
-        option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-            return {
-                ...styles,
-            };
-        },
-    };
+    
+    let actIam = iam && iam.filter((option) => option.value === props.activeFilter.topics);
+
     return (
         <React.Fragment>
             <div className="react-filters-menu">
@@ -177,7 +181,7 @@ function Filters(props) {
                                     className="select-custom-no-border library-facilities"
                                     isClearable
                                     onChange={onChangeHandlerSelect}
-                                    options={taxonomyFilter && taxonomyFilter}
+                                    options={localsCategoryFilter.length === 0 ? taxonomyFilter &&  taxonomyFilter : groupedOptions}
                                     placeholder={translate({
                                         text: "Catégories",
                                     })}
@@ -202,7 +206,7 @@ function Filters(props) {
                                     placeholder={translate({
                                         text: "Profil",
                                     })}
-                                    value={actTaxo && actTaxo[0]}
+                                    value={actIam && actIam[0]}
                                 />
                             )}
                         </Translator>

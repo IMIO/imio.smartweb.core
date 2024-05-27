@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
-import { Translator } from "react-translated";
+import { Translator, Translate } from "react-translated";
 import DateFilter from "../../Filters/DateFilter";
 import moment from "moment";
 import queryString from "query-string";
@@ -15,6 +15,7 @@ function Filters(props) {
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [categoryFilter, setCategoryFilter] = useState(null);
+    const [localsCategoryFilter, setLocalsCategoryFilter] = useState([]);
     const [dates, setDates] = useState(null);
     // Get data
     const { response, error, isLoading } = useAxios({
@@ -28,25 +29,8 @@ function Filters(props) {
         paramsSerializer: { indexes: null },
     });
 
-    const categoryFilterSpe = [
-        {
-            value: "fdfdfddfdfd",
-            label: "Une catégorie spécifique",
-            queryString: "local_category",
-        },
-    ];
 
-    const groupedOptions = [
-        {
-            label: "local_category",
-            options: categoryFilterSpe,
-        },
-        {
-            label: "category",
-            options: categoryFilter,
-        },
-    ];
-
+    // set fitlers data to state
     useEffect(() => {
         if (response !== null) {
             const optionsTopics =
@@ -62,10 +46,30 @@ function Filters(props) {
                     label: d.title,
                     queryString: "category",
                 }));
+            const optionsLocalsCategory =
+                response.local_category &&
+                response.local_category.map((d) => ({
+                    value: d.token,
+                    label: d.title,
+                    queryString: "local_category",
+                }));
             setTopicsFilter(optionsTopics);
             setCategoryFilter(optionsCategory);
+            setLocalsCategoryFilter(optionsLocalsCategory)
         }
     }, [response]);
+
+    // const to group category and local category
+    const groupedOptions = [
+        {
+            label: <Translate text="Catégories locale" />,
+            options: localsCategoryFilter,
+        },
+        {
+            label: <Translate text="Catégories" />,
+            options: categoryFilter,
+        },
+    ];
 
     const onChangeHandler = useCallback(({ target: { name, value } }) => {
         if (value.length > 2) {
@@ -90,18 +94,17 @@ function Filters(props) {
             });
         }
     });
-
-    const onChangeCheckbox = useCallback((value, action) => {
-        if (value.target.checked) {
-            setInputValues((state) => ({ ...state, free_entry: true }), []);
-        } else {
-            setInputValues((state) => {
-                const newState = { ...state };
-                delete newState["free_entry"];
-                return newState;
-            }, []);
-        }
-    });
+    // const onChangeCheckbox = useCallback((value, action) => {
+    //     if (value.target.checked) {
+    //         setInputValues((state) => ({ ...state, free_entry: true }), []);
+    //     } else {
+    //         setInputValues((state) => {
+    //             const newState = { ...state };
+    //             delete newState["free_entry"];
+    //             return newState;
+    //         }, []);
+    //     }
+    // });
 
     const onChangeGroupSelect = useCallback((value, action) => {
         if (value) {
@@ -234,8 +237,7 @@ function Filters(props) {
                     )}
                     <div className="react-sep-menu"></div>
 
-                    <div className="r-filter top-filter facilities-Filter">
-                        {/* <label>Catégories</label> */}
+                    {/* <div className="r-filter top-filter facilities-Filter">
                         <Translator>
                             {({ translate }) => (
                                 <Select
@@ -252,7 +254,7 @@ function Filters(props) {
                                 />
                             )}
                         </Translator>
-                    </div>
+                    </div> */}
 
                     {/* test */}
                     <Translator>
@@ -265,7 +267,7 @@ function Filters(props) {
                                     className="select-custom-no-border library-facilities"
                                     isClearable
                                     onChange={onChangeGroupSelect}
-                                    options={groupedOptions}
+                                    options={localsCategoryFilter.length === 0 ?  categoryFilter && categoryFilter :groupedOptions}
                                     placeholder={translate({
                                         text: "Quoi",
                                     })}
