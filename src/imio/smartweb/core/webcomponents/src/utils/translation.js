@@ -72,6 +72,12 @@ export default {
         de: "Lokale Kategorien",
         nl: "Lokale categorieën",
     },
+    "Catégories spécifiques": {
+        en: 'Specific categories',
+        fr: "Catégories spécifiques",
+        de: "Spezifische Kategorien",
+        nl: "Specifieke categorieën",
+    },
     "Quoi": {
         en: 'What',
         fr: "Quoi",

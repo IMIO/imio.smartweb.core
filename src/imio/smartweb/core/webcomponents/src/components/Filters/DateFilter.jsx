@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
@@ -15,7 +15,6 @@ const languageList = {
     en: enGB,
 };
 function DateFilter({ language, setDates }) {
-    // const currentLanguage = useContext(LanguageContext);
     const [dateRange, setDateRange] = useState([null, null]);
     const [startDate, endDate] = dateRange;
     const [filter, setFilter] = useState(<Translate text="Quand" />);

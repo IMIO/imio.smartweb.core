@@ -62,7 +62,7 @@ function Filters(props) {
     // const to group category and local category
     const groupedOptions = [
         {
-            label: <Translate text="Catégories locale" />,
+            label: <Translate text="Catégories spécifiques" />,
             options: localsCategoryFilter,
         },
         {

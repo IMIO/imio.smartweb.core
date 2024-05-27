@@ -252,7 +252,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                             <ul>
                                                 {futureDates.map((date, i) => {
                                                     return (
-                                                        <li>{moment(date).format("DD-MM-YYYY")}</li>
+                                                        <li key={i}>{moment(date).format("DD-MM-YYYY")}</li>
                                                     );
                                                 })}
                                             </ul>

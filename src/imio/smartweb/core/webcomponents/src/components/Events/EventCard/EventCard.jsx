@@ -34,7 +34,7 @@ const ContactCard = ({ item, showCategoriesOrTopics }) => {
                 )}
                 <span className="r-item-title">{title}</span>
                 {showCategoriesOrTopics === "topic" ? (
-                    item.topics[0] && (
+                    item.topics && item.topics[0] && (
                         <span className="r-item-categorie">{item.topics[0].title}</span>
                     )
                 ) : showCategoriesOrTopics === "category" ? (

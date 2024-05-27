@@ -91,9 +91,9 @@ function Map(props) {
     }, [filterGeoArray]);
     const position = [50.85034, 4.35171];
 
-    const markers = filterGeoArray.map((mark) => (
+    const markers = filterGeoArray.map((mark,i) => (
         <Marker
-            key={mark.UID}
+            key={i}
             icon={getMarkerIcon(mark.UID)}
             zIndexOffset={getMarkerZindex(mark.UID)}
             position={[
