@@ -5,6 +5,9 @@ Changelog
 1.2.48 (unreleased)
 -------------------
 
+- WEB-3802: Add grouped filter for category and local category in React filters
+  [thomlamb]
+
 - WEB-4101 : Handle (local) categories translations correctly
   [laulaz]
 

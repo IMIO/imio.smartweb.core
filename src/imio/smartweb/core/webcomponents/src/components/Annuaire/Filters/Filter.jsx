@@ -40,7 +40,7 @@ function formatData(data) {
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
-    const [topicsFilter, setTopicsFilter] = useState(null);
+    const [topicsFilter, setTopicsFilter] = useState([]);
     // const [taxonomyData, setTaxonomyData] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
     const [facilitiesFilter, setFacilitiesFilter] = useState(null);

@@ -7,6 +7,11 @@ export const menuStyles = {
         minWidth:"150px",
         height: "40px",
     }),
+    menu: (styles) => ({
+        ...styles,
+        width: "max-content",
+        maxWidth: "250px",
+    }),
     placeholder: (styles) => ({
         ...styles,
         color: "000",
@@ -39,6 +44,11 @@ export const moreFilterStyles = {
         fontWeight: "bold",
         fontSize: "12px",
         letterSpacing: "1.4px",
+    }),
+    menu: (styles) => ({
+        ...styles,
+        width: "max-content",
+        maxWidth: "250px",
     }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
         return {
