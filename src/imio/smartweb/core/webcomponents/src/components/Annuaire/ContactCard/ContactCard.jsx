@@ -113,11 +113,11 @@ const ContactCard = ({ item }) => {
                                 : ""}
                         </div>
                         <div className="topics">
-                            {topics
-                                ? topics.map((mail, i) => {
-                                      return <span key={i}>{mail.title}</span>;
-                                  })
-                                : ""}
+                        {topics
+                            ? topics.slice(0, 3).map((mail, i) => {
+                                return <span key={i}>{mail.title}</span>;
+                                })
+                            : ""}
                         </div>
                     </div>
                 </div>

@@ -365,6 +365,16 @@ article>header {
 
               .r-item-contact {
                 width: 100%;
+                .topics {
+                  margin-top: 10px;
+                  span {
+                    padding: 5px;
+                    background: #f1f1f1;
+                    border-radius: 5px;
+                    margin-right: 5px;
+                    
+                  }
+                }
               }
             }
           }
