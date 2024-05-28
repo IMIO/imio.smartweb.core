@@ -5,7 +5,8 @@ Changelog
 1.2.49 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3802: Fix after testing, complited traduction, optimize code
+  [thomlamb]
 
 
 1.2.48 (2024-05-27)
