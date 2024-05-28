@@ -5,7 +5,7 @@ import useAxios from "../../../hooks/useAxios";
 import { Translator, Translate} from "react-translated";
 import queryString from "query-string";
 import { iam } from "./../../Filters/IamData";
-import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
+import { menuStyles } from "./../../Filters/SelectStyles";
 
 function Filters(props) {
     let navigate = useNavigate();
@@ -80,6 +80,18 @@ function Filters(props) {
             setInputValues((prevState) => {
                 const state = { ...prevState };
                 const { [inputName]: remove, ...rest } = state;
+                return rest;
+            });
+        }
+    });
+
+    const onChangeGroupSelect = useCallback((value, action) => {
+        if (value) {
+            setInputValues((state) => ({ ...state, [value.queryString]: value.value }), []);
+        } else {
+            setInputValues((prevState) => {
+                const state = { ...prevState };
+                const { [action.removedValues[0].queryString]: remove, ...rest } = state;
                 return rest;
             });
         }
@@ -180,7 +192,7 @@ function Filters(props) {
                                     name={"category"}
                                     className="select-custom-no-border library-facilities"
                                     isClearable
-                                    onChange={onChangeHandlerSelect}
+                                    onChange={onChangeGroupSelect}
                                     options={localsCategoryFilter.length === 0 ? taxonomyFilter &&  taxonomyFilter : groupedOptions}
                                     placeholder={translate({
                                         text: "Catégories",
