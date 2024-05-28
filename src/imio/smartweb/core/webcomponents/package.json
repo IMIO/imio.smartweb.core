@@ -55,6 +55,7 @@
     "@loadable/component": "^5.16.3",
     "axios": "^1.6.8",
     "babel-polyfill": "^6.26.0",
+    "bootstrap-icons": "^1.11.3",
     "date-fns": "^3.6.0",
     "flexbin": "^0.2.0",
     "leaflet": "^1.9.4",
