@@ -263,7 +263,7 @@ function EventsView(props) {
                     element={
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
-                                <EventContent queryUrl={props.queryUrl} onChange={clickID} />
+                                <EventContent queryUrl={props.queryUrl} onChange={clickID} onlyPastEvents={props.onlyPastEvents} />
                             </div>
                             {displayMap && (
                                 <div

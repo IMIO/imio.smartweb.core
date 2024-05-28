@@ -9,11 +9,14 @@ import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
-const ContactContent = ({ queryUrl, onChange }) => {
+const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
     let navigate = useNavigate();
-    const { u, ...parsed } = Object.assign({
+    const { u, ...parsed } = Object.assign(
+    {
         UID: queryString.parse(useFilterQuery().toString())["u"],
         fullobjects: 1,
+        "event_dates.query": moment().format("YYYY-MM-DD"),
+        "event_dates.range": onlyPastEvents === "True" ? "max" : "min",
     });
     const [params, setParams] = useState(parsed);
     const [item, setitem] = useState({});
@@ -44,7 +47,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
             // set recurrence
             if (response.items.length > 1) {
                 response.items.map((item, i) => {
-                    setRecurence((prevRecurrence) => [...prevRecurrence, item.start]);
+                    const currentDate = new Date();
+                    const itemDate = new Date(item.start);
+                    if (itemDate >= currentDate) {
+                        setRecurence((prevRecurrence) => [...prevRecurrence, item.start]);
+                      }
                 });
             } else {
                 setRecurence(null);
