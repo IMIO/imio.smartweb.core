@@ -134,37 +134,37 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         endpoint.convert_cached_image_scales(item, modified_hash)
         self.assertEqual(len(item.keys()), 6)
 
-    def test_get_extra_params(self):
+    def test_construct_query_string(self):
+        request = TestRequest()
+        endpoint = DirectoryEndpoint(self.portal, request)
+        query = endpoint.construct_query_string([])
+        self.assertEqual(query, "translated_in_en=1")
+
+        query = endpoint.construct_query_string(["param=1", "param2=2"])
+        self.assertEqual(query, "param=1&param2=2&translated_in_en=1")
+
         request = TestRequest(
             form={"taxonomy_contact_category": '("token")', "topics": "education"}
         )
         endpoint = DirectoryEndpoint(self.portal, request)
-        params = endpoint.get_extra_params([])
+        query = endpoint.construct_query_string([])
         self.assertEqual(
-            params,
-            [
-                'taxonomy_contact_category=("token")',
-                "topics=education",
-                "translated_in_en=1",
-            ],
+            query,
+            "taxonomy_contact_category=%28%22token%22%29&topics=education&translated_in_en=1",
         )
 
         request = TestRequest(
             form={
                 "topics": "education",
                 "metadata_fields": ["topics", "category"],
+                "local_category": "Local & category",
             }
         )
         endpoint = DirectoryEndpoint(self.portal, request)
-        params = endpoint.get_extra_params([])
+        query = endpoint.construct_query_string([])
         self.assertEqual(
-            params,
-            [
-                "topics=education",
-                "metadata_fields=topics",
-                "metadata_fields=category",
-                "translated_in_en=1",
-            ],
+            query,
+            "topics=education&metadata_fields=topics&metadata_fields=category&local_category=Local+%26+category&translated_in_en=1",
         )
 
     @requests_mock.Mocker()

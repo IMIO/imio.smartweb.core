@@ -49,8 +49,8 @@ class BaseNewsEndpoint(BaseEndpoint):
             "b_size={}".format(self.context.nb_results),
             "fullobjects=1",
         ]
-        params = self.get_extra_params(params)
-        url = f"{NEWS_URL}/{self.remote_endpoint}?{'&'.join(params)}"
+        params = self.construct_query_string(params)
+        url = f"{NEWS_URL}/{self.remote_endpoint}?{params}"
         return url
 
 

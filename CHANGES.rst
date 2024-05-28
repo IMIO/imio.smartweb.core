@@ -5,6 +5,9 @@ Changelog
 1.2.49 (unreleased)
 -------------------
 
+- WEB-4101 : Encode URLs parameters for `search-filters`. This fixes issues with special chars.
+  [laulaz]
+
 - WEB-3802: Fix after testing, complited traduction, optimize code
   [thomlamb]
 

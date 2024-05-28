@@ -53,8 +53,8 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             for category in self.context.selected_categories:
                 params.append(f"taxonomy_contact_category.query={category}")
             params.append("taxonomy_contact_category.operator=or")
-        params = self.get_extra_params(params)
-        url = f"{DIRECTORY_URL}/{self.remote_endpoint}?{'&'.join(params)}"
+        params = self.construct_query_string(params)
+        url = f"{DIRECTORY_URL}/{self.remote_endpoint}?{params}"
         return url
 
 
