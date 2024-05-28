@@ -9,10 +9,9 @@ import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
-const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
+const ContactContent = ({ queryUrl, onChange, onlyPastEvents }) => {
     let navigate = useNavigate();
-    const { u, ...parsed } = Object.assign(
-    {
+    const { u, ...parsed } = Object.assign({
         UID: queryString.parse(useFilterQuery().toString())["u"],
         fullobjects: 1,
         "event_dates.query": moment().format("YYYY-MM-DD"),
@@ -51,7 +50,7 @@ const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
                     const itemDate = new Date(item.start);
                     if (itemDate >= currentDate) {
                         setRecurence((prevRecurrence) => [...prevRecurrence, item.start]);
-                      }
+                    }
                 });
             } else {
                 setRecurence(null);
@@ -124,8 +123,19 @@ const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
                 <Translate text="Retour" />
             </button>
             <article>
-                <header>
+                <header className="r-content-header">
                     <h2 className="r-content-title">{item.title}</h2>
+                    {item.local_category ? (
+                        <span className="r-content-title-cat">{item.local_category.title}</span>
+                    ) : (
+                        ""
+                    )}
+                    {item.category ? (
+                        <span className="r-content-title-cat">{item.category.title}</span>
+                    ) : (
+                        ""
+                    )}
+                    <span></span>
                 </header>
                 <figure>
                     <div
@@ -243,9 +253,33 @@ const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
                                         aria-expanded="false"
                                     >
                                         <p>
-                                            {moment(futureDates[0]).format("DD-MM-YYYY")}
+                                            {item.whole_day ? (
+                                                moment(futureDates[0]).format("DD-MM-YYYY")
+                                            ) : (
+                                                <>
+                                                    {moment(futureDates[0]).format("DD-MM-YYYY")}
+                                                    <div className="r-content-recur-start-hours">
+                                                        <span>
+                                                            <Translate text="de" />
+                                                            &nbsp;
+                                                        </span>
+                                                        <div className="r-time-hours">
+                                                            {startHours}
+                                                        </div>
+                                                        <span>
+                                                            &nbsp;
+                                                            <Translate text="à" />
+                                                            &nbsp;
+                                                        </span>
+                                                        <div className="r-time-hours">
+                                                            {endHours}
+                                                        </div>
+                                                    </div>
+                                                </>
+                                            )}
                                             <span className="recurence-schedul-more">
-                                                Prochaines dates (+)
+                                                Prochaines dates
+                                                <i class="bi bi-arrow-down-short"></i>
                                             </span>
                                         </p>
                                         <div
@@ -255,11 +289,12 @@ const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
                                                     : "recurence-modal-hide"
                                             }
                                         >
-                                            <span>Prochaines dates</span>
                                             <ul>
                                                 {futureDates.map((date, i) => {
                                                     return (
-                                                        <li key={i}>{moment(date).format("DD-MM-YYYY")}</li>
+                                                        <li key={i}>
+                                                            {moment(date).format("DD-MM-YYYY")}
+                                                        </li>
                                                     );
                                                 })}
                                             </ul>
@@ -302,28 +337,39 @@ const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
                                 ) : (
                                     ""
                                 )}
+                                {item.free_entry === true ? (
+                                    <div className="r-content-news-info--entry">
+                                        <span>
+                                            <Translate text="Gratuit" />
+                                        </span>
+                                    </div>
+                                ) : (
+                                    ""
+                                )}
                             </div>
                         </div>
                         {/* contact */}
-                        <div className="r-content-news-info-contact">
-                            <div className="dpinlb">
-                                <div className="r-content-news-info--name">
-                                    <span>{item.contact_name}</span>
-                                </div>
-                                <div className="r-content-news-info--phone">
-                                    <span>
-                                        <a href={`tel:${item.contact_phone}`}>
-                                            {item.contact_phone}
+                        {(item.contact_name || item.contact_phone || item.contact_email) && (
+                            <div className="r-content-news-info-contact">
+                                <div className="dpinlb">
+                                    <div className="r-content-news-info--name">
+                                        <span>{item.contact_name}</span>
+                                    </div>
+                                    <div className="r-content-news-info--phone">
+                                        <span>
+                                            <a href={`tel:${item.contact_phone}`}>
+                                                {item.contact_phone}
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div className="r-content-news-info--email">
+                                        <a href={`mailto:${item.contact_email}`}>
+                                            {item.contact_email}
                                         </a>
-                                    </span>
-                                </div>
-                                <div className="r-content-news-info--email">
-                                    <a href={`mailto:${item.contact_email}`}>
-                                        {item.contact_email}
-                                    </a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        )}
                         {/* link  */}
                         {item.event_url === null &&
                         item.online_participation === null &&
@@ -519,6 +565,16 @@ const ContactContent = ({ queryUrl, onChange,onlyPastEvents }) => {
                                 </a>
                             ))}
                         </div>
+                    </div>
+                )}
+                {/* add category & Topics */}
+                {item.topics && item.topics.length > 0 && (
+                    <div className="r-content-topics">
+                        {item.topics.map((topic, i) => (
+                            <a key={i}>
+                                <span>{topic.title}</span>
+                            </a>
+                        ))}
                     </div>
                 )}
             </article>

@@ -174,6 +174,12 @@ export default {
         de: ' Veranstaltung gefunden',
         nl: ' Evenement gevonden',
     },
+    'Gratuit': {
+        en: 'Free',
+        fr: 'Gratuit',
+        de: 'Kostenlos',
+        nl: 'Gratis',
+    },
     "Aucun événement n'a été trouvé": {
         en: 'No event was found',
         fr: "Aucun événement n'a été trouvé",

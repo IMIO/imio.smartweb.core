@@ -358,8 +358,16 @@ article>header {
   padding-bottom: 60%;
 }
 
+.r-content-header {
+  margin-bottom: 1rem;
+}
+
 .r-content-title {
-  margin: 1rem 0;
+  margin: 0;
+}
+
+.r-content-recur-start-hours {
+  display: flex;
 }
 
 .news-info-title {
@@ -469,6 +477,24 @@ article>header {
       }
     }
   }
+}
+
+.r-content-topics {
+  display: flex;
+  gap: 15px;
+
+  span {
+    padding: 5px;
+    background: #f1f1f1;
+    border-radius: 5px;
+    margin-right: 5px;
+  }
+}
+
+.r-content-title-cat {
+  color: #8e8e8e;
+  margin-right: 5px;
+  font-size: 14px;
 }
 
 // //  No Map
