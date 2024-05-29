@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.49 (unreleased)
+1.2.49 (2024-05-29)
 -------------------
 
 - WEB-4101 : Encode URLs parameters for `search-filters`. This fixes issues with special chars.
