@@ -110,7 +110,7 @@ function AnnuaireView(props) {
             height: filterRef.current.clientHeight,
         });
         setHeaderHeight(filterRef.current.offsetTop);
-    }, [filterRef.current]);
+    }, [response]);
 
     // coditional list render
     let listRender;
