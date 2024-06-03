@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.51 (unreleased)
+1.2.51 (2024-06-03)
 -------------------
 
 - Fix loaded sticky filter menu in React view
