@@ -119,7 +119,7 @@ function EventsView(props) {
             height: filterRef.current.clientHeight,
         });
         setHeaderHeight(filterRef.current.offsetTop);
-    }, [response]);
+    }, [filterRef]);
 
     // coditional list render
     let listRender;
