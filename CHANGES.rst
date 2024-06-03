@@ -5,7 +5,8 @@ Changelog
 1.2.51 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix loaded sticky filter menu in React view
+  [thomlamb]
 
 
 1.2.50 (2024-05-30)
