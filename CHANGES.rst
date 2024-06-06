@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.53 (unreleased)
+1.2.53 (2024-06-06)
 -------------------
 
 - WEB-4113 : Use `TranslatedAjaxSelectWidget` to fix select2 values translation
