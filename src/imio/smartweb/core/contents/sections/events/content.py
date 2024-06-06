@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.widgets.select import TranslatedAjaxSelectWidget
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.z3cform.widget import RelatedItemsFieldWidget
-from plone.app.z3cform.widget import AjaxSelectFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
@@ -13,8 +13,8 @@ from zope import schema
 from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import implementer
-from zope.schema.interfaces import IContextAwareDefaultFactory
 from zope.interface import provider
+from zope.schema.interfaces import IContextAwareDefaultFactory
 
 
 @provider(IContextAwareDefaultFactory)
@@ -40,7 +40,7 @@ class ISectionEvents(ISection):
     )
     directives.widget(
         "specific_related_events",
-        AjaxSelectFieldWidget,
+        TranslatedAjaxSelectWidget,
         source="imio.smartweb.vocabulary.EventsFromEntity",
     )
 
