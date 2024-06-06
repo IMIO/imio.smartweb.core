@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from plone.app.content.browser.vocabulary import VocabularyView
+
+from imio.smartweb.common.browser.vocabulary import TranslatedVocabularyView
 from plone.app.content.browser.vocabulary import VocabLookupException
 from plone.app.content.utils import json_dumps
 
 
-class SmartwebVocabularyView(VocabularyView):
+class SmartwebVocabularyView(TranslatedVocabularyView):
 
     def __call__(self):
         form = self.request.form
