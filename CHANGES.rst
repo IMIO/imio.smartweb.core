@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.55 (unreleased)
+1.2.55 (2024-06-07)
 -------------------
 
 - Fix React placeholder color
