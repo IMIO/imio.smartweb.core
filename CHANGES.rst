@@ -5,7 +5,8 @@ Changelog
 1.2.55 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix React placeholder color
+  [thomlamb]
 
 
 1.2.54 (2024-06-07)
