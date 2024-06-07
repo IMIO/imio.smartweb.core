@@ -5,7 +5,8 @@ Changelog
 1.2.54 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4113 : Add DE and NL translations in page/procedure categories taxonomies
+  [laulaz]
 
 
 1.2.53 (2024-06-06)
