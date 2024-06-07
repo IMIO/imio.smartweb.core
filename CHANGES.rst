@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.54 (unreleased)
+1.2.54 (2024-06-07)
 -------------------
 
 - WEB-4113 : Add DE and NL translations in page/procedure categories taxonomies
