@@ -3,11 +3,11 @@ Using the development buildout
 
 Create a virtualenv in the package::
 
-    $ python3.8 -m venv .
+    $ python3.10 -m venv .
 
 Install requirements with pip::
 
-    $ ./bin/pip3.8 install -r requirements.txt
+    $ ./bin/pip3.10 install -r requirements.txt
 
 Run buildout::
 

@@ -5,7 +5,8 @@ Changelog
 1.2.56 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- GHA tests on Python 3.8 3.9 and 3.10
+  [remdub]
 
 
 1.2.55 (2024-06-07)
