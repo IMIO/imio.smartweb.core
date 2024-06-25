@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.56 (unreleased)
+1.2.56 (2024-06-25)
 -------------------
 
 - WEB-4121 : Fix ERROR : imio.events.core.contents.event.serializer, line 28, in get_container_uid
