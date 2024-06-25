@@ -59,23 +59,32 @@ class OgpTagsViewlet(HeaderViewlet):
         auth_source_url = ""
         endpoint = "@search"
         if IDirectoryView.providedBy(self.context):
+            params = "fullobjects=1"
             auth_source_url = DIRECTORY_URL
             client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
             client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
         elif IEventsView.providedBy(self.context):
+            params = """metadata_fields=category&
+            metadata_fields=local_category&
+            metadata_fields=container_uid&
+            metadata_fields=topics&
+            metadata_fields=start&
+            metadata_fields=end&
+            metadata_fields=has_leadimage&
+            metadata_fields=UID&
+            fullobjects=1"""
             auth_source_url = EVENTS_URL
             endpoint = "@events"
             client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
             client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
         elif INewsView.providedBy(self.context):
+            params = "fullobjects=1"
             auth_source_url = NEWS_URL
             client_id = os.environ.get("RESTAPI_NEWS_CLIENT_ID")
             client_secret = os.environ.get("RESTAPI_NEWS_CLIENT_SECRET")
         auth = get_wca_token(client_id, client_secret)
-        auth_source_url = (
-            f"{auth_source_url}/{endpoint}?UID={uid}&fullobjects=1&include_items=true"
-        )
-        result_json = get_json(auth_source_url, auth=auth)
+        auth_source_url = f"{auth_source_url}/{endpoint}?UID={uid}&{params}"
+        result_json = get_json(auth_source_url, auth=None)
         if result_json:
             self._item = result_json["items"][0]
             self._set_image()
