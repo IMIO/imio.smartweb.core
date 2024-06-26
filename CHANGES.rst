@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.57 (unreleased)
+1.2.57 (2024-06-26)
 -------------------
 
 - WEB-4121 : Correct bad format
