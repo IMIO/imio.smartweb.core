@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.58 (unreleased)
+1.2.58 (2024-06-26)
 -------------------
 
 - WEB-4116 : Fix error 500 when forward request from e-guichet (got an unexpected keyword argument 'include_items')
