@@ -5,7 +5,8 @@ Changelog
 1.2.58 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4116 : Fix error 500 when forward request from e-guichet (got an unexpected keyword argument 'include_items')
+  [boulch]
 
 
 1.2.57 (2024-06-26)

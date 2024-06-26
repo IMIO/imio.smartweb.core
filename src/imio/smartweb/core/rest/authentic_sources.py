@@ -25,6 +25,8 @@ class BaseRequestForwarder(Service):
     def reply(self):
         alsoProvides(self.request, IDisableCSRFProtection)
         url = "/".join(self.traversal_stack)
+        if self.request_type == "events":
+            url = url.replace("@search", "@events")
         auth_source_url = f"{self.base_url}/{url}"
         response = self.forward_request(auth_source_url)
         response = self.add_smartweb_urls(response)
