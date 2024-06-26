@@ -64,15 +64,7 @@ class OgpTagsViewlet(HeaderViewlet):
             client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
             client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
         elif IEventsView.providedBy(self.context):
-            params = """metadata_fields=category&
-            metadata_fields=local_category&
-            metadata_fields=container_uid&
-            metadata_fields=topics&
-            metadata_fields=start&
-            metadata_fields=end&
-            metadata_fields=has_leadimage&
-            metadata_fields=UID&
-            fullobjects=1"""
+            params = "metadata_fields=category&metadata_fields=local_category&metadata_fields=container_uid&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=UID&fullobjects=1"
             auth_source_url = EVENTS_URL
             endpoint = "@events"
             client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")

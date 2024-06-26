@@ -5,7 +5,8 @@ Changelog
 1.2.57 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4121 : Correct bad format
+  [boulch]
 
 
 1.2.56 (2024-06-25)
