@@ -10,7 +10,11 @@ class SmartwebVocabularyView(TranslatedVocabularyView):
     def __call__(self):
         form = self.request.form
         name = form.get("name")
-        if name != "imio.smartweb.vocabulary.RemoteContacts":
+        if name not in [
+            "imio.smartweb.vocabulary.RemoteContacts",
+            "imio.smartweb.vocabulary.NewsItemsFromEntity",
+            "imio.smartweb.vocabulary.EventsFromEntity",
+        ]:
             return super(SmartwebVocabularyView, self).__call__()
 
         self.request.response.setHeader(

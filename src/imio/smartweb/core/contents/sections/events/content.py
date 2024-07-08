@@ -41,7 +41,8 @@ class ISectionEvents(ISection):
     directives.widget(
         "specific_related_events",
         TranslatedAjaxSelectWidget,
-        source="imio.smartweb.vocabulary.EventsFromEntity",
+        vocabulary="imio.smartweb.vocabulary.EventsFromEntity",
+        pattern_options={"multiple": True},
     )
 
     directives.widget(

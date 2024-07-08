@@ -5,7 +5,8 @@ Changelog
 1.2.59 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-36854 : Fix ajax select2 widget when apply a word filtering and populating specific news and specific events
+  [boulch]
 
 
 1.2.58 (2024-06-26)

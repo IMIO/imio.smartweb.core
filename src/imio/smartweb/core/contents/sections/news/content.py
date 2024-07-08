@@ -41,7 +41,8 @@ class ISectionNews(ISection):
     directives.widget(
         "specific_related_newsitems",
         TranslatedAjaxSelectWidget,
-        source="imio.smartweb.vocabulary.NewsItemsFromEntity",
+        vocabulary="imio.smartweb.vocabulary.NewsItemsFromEntity",
+        pattern_options={"multiple": True},
     )
 
     directives.widget(
