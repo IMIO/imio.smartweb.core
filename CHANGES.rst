@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.59 (unreleased)
+1.2.59 (2024-07-10)
 -------------------
 
 - SUP-36854 : Fix ajax select2 widget when apply a word filtering and populating specific news and specific events
