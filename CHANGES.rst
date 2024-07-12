@@ -5,7 +5,8 @@ Changelog
 1.2.60 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4125 : Take scale on context leadimage to populate og:image:* tags
+  [boulch]
 
 
 1.2.59 (2024-07-10)
