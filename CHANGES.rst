@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.60 (unreleased)
+1.2.60 (2024-07-12)
 -------------------
 
 - WEB-4125 : Take scale on context leadimage to populate og:image:* tags
