@@ -43,7 +43,11 @@ const ContactContent = ({ queryUrl, onChange }) => {
         if (response !== null) {
             setitem(response.items[0]);
         }
-        window.scrollTo(0, 0);
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'instant'
+          });
     }, [response]);
 
     // set image

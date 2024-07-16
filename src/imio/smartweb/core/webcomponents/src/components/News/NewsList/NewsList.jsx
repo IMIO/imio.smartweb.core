@@ -1,11 +1,24 @@
+import React, { useEffect, useContext } from "react";
 import NewsCard from "../NewsCard/NewsCard";
 import { Link } from "react-router-dom";
-import React from "react";
 import removeAccents from "remove-accents";
+import { ScrollContext } from "../../../hooks/ScrollContext";
 const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics }) => {
+
+    const { scrollPos, updateScrollPos } = useContext(ScrollContext);
+
+
     function handleClick(event) {
         onChange(event);
+        updateScrollPos(window.scrollY);
     }
+
+    useEffect(() => {
+        window.scrollTo(
+           { top: scrollPos,
+            left: 0,
+            behavior: 'instant'});
+    }, [itemsArray]);
     return (
         <React.Fragment>
             <ul className="r-result-list actu-result-list">

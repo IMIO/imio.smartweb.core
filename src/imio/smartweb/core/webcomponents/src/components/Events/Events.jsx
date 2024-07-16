@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ScrollContext } from "../../hooks/ScrollContext";
 import Filters from "./Filters/Filter";
 import EventContent from "./EventContent/EventContent";
 import EventList from "./EventList/EventList";
@@ -14,19 +15,28 @@ import moment from "moment";
 import queryString from "query-string";
 
 export default function Events(props) {
+    // Utilisation de useState pour gérer la valeur du contexte
+    const [scrollPos, setScrollPos] = useState(0);
+    // Fonction pour mettre à jour la position du scroll
+    const updateScrollPos = (newScrollPos) => {
+        setScrollPos(newScrollPos);
+    };
     return (
         <BrowserRouter basename={props.viewPath}>
             <Provider language={props.currentLanguage} translation={translation}>
-                <EventsView
-                    queryFilterUrl={props.queryFilterUrl}
-                    queryUrl={props.queryUrl}
-                    proposeUrl={props.proposeUrl}
-                    batchSize={props.batchSize}
-                    displayMap={props.displayMap}
-                    onlyPastEvents={props.onlyPastEvents}
-                    language={props.currentLanguage}
-                    showCategoriesOrTopics={props.showCategoriesOrTopics}
-                />
+                <ScrollContext.Provider value={{ scrollPos, updateScrollPos }}>
+                    <EventsView
+                        queryFilterUrl={props.queryFilterUrl}
+                        queryUrl={props.queryUrl}
+                        proposeUrl={props.proposeUrl}
+                        batchSize={props.batchSize}
+                        displayMap={props.displayMap}
+                        onlyPastEvents={props.onlyPastEvents}
+                        language={props.currentLanguage}
+                        showCa
+                        tegoriesOrTopics={props.showCategoriesOrTopics}
+                    />
+                </ScrollContext.Provider>
             </Provider>
         </BrowserRouter>
     );
@@ -263,7 +273,11 @@ function EventsView(props) {
                     element={
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
-                                <EventContent queryUrl={props.queryUrl} onChange={clickID} onlyPastEvents={props.onlyPastEvents} />
+                                <EventContent
+                                    queryUrl={props.queryUrl}
+                                    onChange={clickID}
+                                    onlyPastEvents={props.onlyPastEvents}
+                                />
                             </div>
                             {displayMap && (
                                 <div

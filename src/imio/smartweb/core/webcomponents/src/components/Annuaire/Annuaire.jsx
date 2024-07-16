@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ScrollContext } from "../../hooks/ScrollContext";
 import Filters from "./Filters/Filter";
 import ContactContent from "./ContactContent/ContactContent";
 import ContactList from "./ContactList/ContactList";
@@ -13,16 +14,24 @@ import translation from "../../utils/translation";
 import queryString from "query-string";
 
 export default function Annuaire(props) {
+    // Utilisation de useState pour gérer la valeur du contexte
+    const [scrollPos, setScrollPos] = useState(0);
+    // Fonction pour mettre à jour la position du scroll
+    const updateScrollPos = (newScrollPos) => {
+        setScrollPos(newScrollPos);
+    };
     return (
         <BrowserRouter basename={props.viewPath}>
             <Provider language={props.currentLanguage} translation={translation}>
-                <AnnuaireView
-                    queryFilterUrl={props.queryFilterUrl}
-                    queryUrl={props.queryUrl}
-                    proposeUrl={props.proposeUrl}
-                    batchSize={props.batchSize}
-                    displayMap={props.displayMap}
-                />
+                <ScrollContext.Provider value={{ scrollPos, updateScrollPos }}>
+                    <AnnuaireView
+                        queryFilterUrl={props.queryFilterUrl}
+                        queryUrl={props.queryUrl}
+                        proposeUrl={props.proposeUrl}
+                        batchSize={props.batchSize}
+                        displayMap={props.displayMap}
+                    />
+                </ScrollContext.Provider>
             </Provider>
         </BrowserRouter>
     );

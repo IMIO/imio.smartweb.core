@@ -1,5 +1,6 @@
 import React, { useEffect, useState, createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ScrollContext } from "../../hooks/ScrollContext";
 import Filters from "./Filters/Filter";
 import NewsContent from "./NewsContent/NewsContent";
 import NewsList from "./NewsList/NewsList";
@@ -13,17 +14,25 @@ import queryString from "query-string";
 
 export const LanguageContext = createContext("fr");
 export default function News(props) {
+    // Utilisation de useState pour gérer la valeur du contexte
+    const [scrollPos, setScrollPos] = useState(0);
+    // Fonction pour mettre à jour la position du scroll
+    const updateScrollPos = (newScrollPos) => {
+        setScrollPos(newScrollPos);
+    };
     return (
         <LanguageContext.Provider value={props.currentLanguage}>
             <BrowserRouter basename={props.viewPath}>
                 <Provider language={props.currentLanguage} translation={translation}>
-                    <NewsView
-                        queryFilterUrl={props.queryFilterUrl}
-                        queryUrl={props.queryUrl}
-                        proposeUrl={props.proposeUrl}
-                        batchSize={props.batchSize}
-                        showCategoriesOrTopics={props.showCategoriesOrTopics}
-                    />
+                    <ScrollContext.Provider value={{ scrollPos, updateScrollPos }}>
+                        <NewsView
+                            queryFilterUrl={props.queryFilterUrl}
+                            queryUrl={props.queryUrl}
+                            proposeUrl={props.proposeUrl}
+                            batchSize={props.batchSize}
+                            showCategoriesOrTopics={props.showCategoriesOrTopics}
+                        />
+                    </ScrollContext.Provider>
                 </Provider>
             </BrowserRouter>
         </LanguageContext.Provider>
