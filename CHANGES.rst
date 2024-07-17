@@ -5,7 +5,8 @@ Changelog
 1.2.61 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-36628 : Add scroll context to keep the scroll position when we change the page
+  [thomlamb]
 
 
 1.2.60 (2024-07-12)
