@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb">
+
+    <record name="smartweb.icon.action.delete"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Action - Delete</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/action-delete.svg</value>
+    </record>
+
+    <record name="smartweb.icon.action.engagement-2"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Action - Engagement 2</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/action-engagement-2.svg</value>
+    </record>
+
+    <record name="smartweb.icon.action.panneaux"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Action - Panneaux</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/action-panneaux.svg</value>
+    </record>
+
+    <record name="smartweb.icon.action.vote"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Action - Voter</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/action-vote.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.attention"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Attention</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-attention.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.works-2"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Works-2</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-infos-travaux-2.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.nature"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Nature</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-nature.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.containerpark"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Containerpark</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-parcs-a-conteneurs.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.more"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - More</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-plus.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.bonuses-2"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Bonuses 2</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-primes-2.svg</value>
+    </record>
+
+    <record name="smartweb.icon.category.sport.swim"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Category - Sport - Swim</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/categorie-sport-natation.svg</value>
+    </record>
+
+    <record name="smartweb.icon.organization.school-2"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Organization - School - 2</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/organisation-ecole-sac.svg</value>
+    </record> 
+
+    <record name="smartweb.icon.organization.scout"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Organization - Scout</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/organisation-scout.svg</value>
+    </record>                            
+
+    <record name="smartweb.icon.socialnetwork.behance"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Social network - Behance</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/reseausocial-behance.svg</value>
+    </record>
+
+    <record name="smartweb.icon.socialnetwork.linkedin"
+            interface="imio.smartweb.core.interfaces.ISmartwebIcon">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">Social network - Linkedin</title>
+      </field>
+      <value key="resource">++plone++imio.smartweb.core/icons/reseausocial-linkedin.svg</value>
+    </record>
+
+</registry>

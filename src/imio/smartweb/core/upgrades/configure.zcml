@@ -243,6 +243,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1058_to_1059"
+      title="Upgrade core from 1058 to 1059"
+      directory="profiles/1058_to_1059"
+      description="Add new linkedin icon to registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -834,6 +842,16 @@
     <genericsetup:upgradeDepends
         title="Update page/procedure categories taxonomies to add DE and NL translations"
         import_profile="imio.smartweb.core.upgrades:upgrade_1057_to_1058"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1058"
+      destination="1059"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new smartweb icon"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1058_to_1059"
         />
   </genericsetup:upgradeSteps>
 

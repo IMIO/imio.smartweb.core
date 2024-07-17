@@ -8,6 +8,8 @@ Changelog
 - SUP-36628 : Add scroll context to keep the scroll position when we change the page
   [thomlamb]
 
+- SUP-37746 : Add new svg icon
+  [thomlamb]
 
 1.2.60 (2024-07-12)
 -------------------
