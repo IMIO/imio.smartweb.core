@@ -54,7 +54,7 @@ class TestIcons(ImioSmartwebTestCase):
         self.assertIn('<path d="M18 0H2V2H18V0ZM2 24H18V22H2V24ZM18', view)
 
     def test_icons_override(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 49)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 64)
         portal_resources = getUtility(IResourceDirectory, name="persistent")
         portal_resources.makeDirectory("plone")
         portal_resources["plone"].makeDirectory("imio.smartweb.core")

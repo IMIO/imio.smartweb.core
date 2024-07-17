@@ -31,7 +31,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&selected_entities=396907b3b1b04a97896b12cc792c77f8&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb"
 
     def test_icons(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 49)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 64)
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.Icons")
         term = vocabulary.getTerm("action.email")
         self.assertEqual(term.title, "Action - Email")
