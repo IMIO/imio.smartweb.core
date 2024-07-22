@@ -5,7 +5,8 @@ Changelog
 1.2.62 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-36628 : Fix new svg icon name for tradcution
+  [thomlamb]
 
 
 1.2.61 (2024-07-22)

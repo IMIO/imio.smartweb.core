@@ -11,18 +11,18 @@
       <value key="resource">++plone++imio.smartweb.core/icons/action-delete.svg</value>
     </record>
 
-    <record name="smartweb.icon.action.engagement-2"
+    <record name="smartweb.icon.action.hiring-2"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Action - Engagement</title>
+        <title i18n:translate="">Action - Hiring-2</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/action-engagement-2.svg</value>
     </record>
 
-    <record name="smartweb.icon.action.panneaux"
+    <record name="smartweb.icon.action.signs"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Action - Panneaux</title>
+        <title i18n:translate="">Action - Signs</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/action-panneaux.svg</value>
     </record>
@@ -30,7 +30,7 @@
     <record name="smartweb.icon.action.vote"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Action - Voter</title>
+        <title i18n:translate="">Action - Vote</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/action-vote.svg</value>
     </record>
@@ -158,7 +158,7 @@
     <record name="smartweb.icon.category.bonuses-2"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Category - Bonuses 2</title>
+        <title i18n:translate="">Category - Bonuses - 2</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/categorie-primes-2.svg</value>
     </record>
@@ -254,7 +254,7 @@
     <record name="smartweb.icon.category.works-2"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Category - Works-2</title>
+        <title i18n:translate="">Category - Works - 2</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/categorie-infos-travaux-2.svg</value>
     </record>
@@ -355,10 +355,10 @@
       <value key="resource">++plone++imio.smartweb.core/icons/organisation-ecole-sac.svg</value>
     </record> 
 
-    <record name="smartweb.icon.organization.scout"
+    <record name="smartweb.icon.organization.boyscout"
             interface="imio.smartweb.core.interfaces.ISmartwebIcon">
       <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">Organization - Scout</title>
+        <title i18n:translate="">Organization - Boyscout</title>
       </field>
       <value key="resource">++plone++imio.smartweb.core/icons/organisation-scout.svg</value>
     </record>
