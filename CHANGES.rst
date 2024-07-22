@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.62 (unreleased)
+1.2.62 (2024-07-22)
 -------------------
 
 - SUP-36628 : Fix new svg icon name for tradcution
