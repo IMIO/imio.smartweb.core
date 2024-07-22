@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.61 (unreleased)
+1.2.61 (2024-07-22)
 -------------------
 
 - SUP-36628 : Add scroll context to keep the scroll position when we change the page
