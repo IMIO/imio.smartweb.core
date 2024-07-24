@@ -11,4 +11,9 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: plone/code-analysis-action@v2.1
+      uses: plone/code-analysis-action@v2
+      with:
+        base_dir: 'src'
+        check: 'black'
+        path: |
+          imio/smartweb/core

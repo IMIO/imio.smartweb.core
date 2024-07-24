@@ -1,3 +1,0 @@
-[tool.plone-code-analysis]
-checkers = ["black"]
-paths = "src"
