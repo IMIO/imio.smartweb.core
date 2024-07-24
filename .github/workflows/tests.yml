@@ -1,0 +1,16 @@
+name: Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on:
+      group: 'self-hosted'
+    steps:
+    - name: Checkout codebase
+      uses: actions/checkout@v4
+    - name: Run check
+      uses: IMIO/gha/plone-package-test-notify@main
+      with:
+        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
