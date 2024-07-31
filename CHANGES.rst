@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.63 (unreleased)
+1.2.63 (2024-07-31)
 -------------------
 
 - SUP-38386 : Update "elloha" plugin in external content section. Agent can set url field to visitwallonia.elloha.com
