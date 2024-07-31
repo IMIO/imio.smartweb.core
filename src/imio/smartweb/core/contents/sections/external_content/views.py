@@ -139,7 +139,7 @@ class EaglebePlugin(BasePlugin):
 
 class EllohaPlugin(BasePlugin):
     def __call__(self, parts, config={}):
-        if "reservation.elloha.com" in parts.netloc:
+        if "elloha.com" in parts.netloc:
             self.parts = parts
             self.config = config
             return self
@@ -173,14 +173,15 @@ class EllohaPlugin(BasePlugin):
         cw1 = res.get("constellationwidgetcontainer")
         cw2 = cw1.replace("-", "")
         idoi = res.get("idoi")
+        internal_url = "https://reservation.elloha.com"
         return (
             f'<div class="elloha">'
             f'<div id="ConstellationWidgetContainer{cw1}" '
             f'style="width:100%" data-id-projet="{cw2}">...</div></div>'
-            f'<script type="text/javascript" src="{self.parts.geturl()}/Scripts/widget-loader.min.js?v=42"></script>'
+            f'<script type="text/javascript" src="{internal_url}/Scripts/widget-loader.min.js?v=42"></script>'
             f'<script type="text/javascript">var constellationWidgetUrl{cw2}, '
             f"constellationTypeModule{cw2};"
-            f'constellationWidgetUrl{cw2} = "https://reservation.elloha.com/Widget/BookingEngine/{cw1}?idoi={idoi}&culture=fr-FR";'
+            f'constellationWidgetUrl{cw2} = "{internal_url}/Widget/BookingEngine/{cw1}?idoi={idoi}&culture=fr-FR";'
             f'constellationTypeModule{cw2}=1; constellationWidgetLoad("ConstellationWidgetContainer{cw1}");'
             f'constellationWidgetAddEvent(window, "resize", function () {{constellationWidgetSetAppearance("ConstellationWidgetContainer{cw1}");}});</script>'
         )

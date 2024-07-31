@@ -5,7 +5,8 @@ Changelog
 1.2.63 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-38386 : Update "elloha" plugin in external content section. Agent can set url field to visitwallonia.elloha.com
+  [boulch]
 
 
 1.2.62 (2024-07-22)
