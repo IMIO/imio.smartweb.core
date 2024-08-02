@@ -175,7 +175,7 @@ class EllohaPlugin(BasePlugin):
         idoi = res.get("idoi")
         internal_url = "https://reservation.elloha.com"
         return (
-            f'<div class="elloha">'
+            f'<div class="elloha" style="position:relative;">'
             f'<div id="ConstellationWidgetContainer{cw1}" '
             f'style="width:100%" data-id-projet="{cw2}">...</div></div>'
             f'<script type="text/javascript" src="{internal_url}/Scripts/widget-loader.min.js?v=42"></script>'

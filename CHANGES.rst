@@ -5,7 +5,8 @@ Changelog
 1.2.64 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-38386 : Fix style for elloha to avoid absolute position
+  [boulch]
 
 
 1.2.63 (2024-07-31)
