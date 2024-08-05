@@ -3,6 +3,7 @@
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_scale_url
+from plone import api
 
 
 class LinksView(CarouselOrTableSectionView):
@@ -15,6 +16,10 @@ class LinksView(CarouselOrTableSectionView):
         results = []
         for item in items:
             url = item.absolute_url()
+            is_anon = api.user.is_anonymous()
+            if hasattr(item, "remoteUrl") and item.remoteUrl is not None and is_anon:
+                portal_url = api.portal.get().absolute_url()
+                url = item.remoteUrl.replace("${portal_url}", portal_url)
             has_icon = has_image = False
             if getattr(item.aq_base, "svg_icon", None):
                 has_icon = True

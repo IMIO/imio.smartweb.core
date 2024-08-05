@@ -5,7 +5,8 @@ Changelog
 1.2.65 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4132 : In anonymous mode, use remoteUrl instead of internal link url in links sections
+  [boulch]
 
 
 1.2.64 (2024-08-05)

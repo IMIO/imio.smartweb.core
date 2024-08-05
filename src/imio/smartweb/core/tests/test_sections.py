@@ -32,6 +32,12 @@ from zope.lifecycleevent import modified
 class TestSections(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 
+    def _changeUser(self, loginName):
+        logout()
+        login(self.portal, loginName)
+        self.member = api.user.get_current()
+        self.request["AUTHENTICATED_USER"] = self.member
+
     def setUp(self):
         # Number of sections where there is a title if section is empty.
         # sectionHTML,...
@@ -545,6 +551,17 @@ class TestSections(ImioSmartwebTestCase):
             '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
             view(),
         )
+        link.remoteUrl = "http://www.perdu.com"
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("www.perdu.com", view())
+        self.assertNotIn(
+            'href="http://nohost/plone/page/section-links/my-link"', view()
+        )
+        clear_cache(self.request)
+        self._changeUser("test")
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertNotIn("www.perdu.com", view())
+        self.assertIn('href="http://nohost/plone/page/section-links/my-link"', view())
 
     def test_background_style(self):
         section = api.content.create(
