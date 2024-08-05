@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.64 (unreleased)
+1.2.64 (2024-08-05)
 -------------------
 
 - SUP-38386 : Fix style for elloha to avoid absolute position
