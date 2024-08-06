@@ -378,4 +378,10 @@ export default {
         de: "Route",
         nl: "Route",
     },
+    "Afficher l'Horaires complet": {
+        en: "Show full schedule",
+        fr: "Afficher l'Horaires complet",
+        de: "Vollständigen Zeitplan anzeigen",
+        nl: "Volledige planning weergeven",
+    },
 }

@@ -46,8 +46,8 @@ const ContactContent = ({ queryUrl, onChange }) => {
         window.scrollTo({
             top: 0,
             left: 0,
-            behavior: 'instant'
-          });
+            behavior: "instant",
+        });
     }, [response]);
 
     // set image
@@ -168,11 +168,13 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         )}
                         {/* schedule */}
                         {item.table_date && (
-                            <div
+                            <a
+                                href="javascript:void(0)"
                                 onClick={toggleSchedul}
                                 className="annuaire-schedul"
                                 role="button"
                                 aria-expanded="false"
+                                aria-label="Afficher l'Horaires complet"
                             >
                                 <div className="annuaire-schedul-icon">
                                     <svg
@@ -229,7 +231,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                         </div>
                                     )}
                                 </div>
-                            </div>
+                            </a>
                         )}
 
                         {item.phones && item.phones.length > 0 ? (
@@ -464,12 +466,9 @@ const ContactContent = ({ queryUrl, onChange }) => {
                         )}
 
                         {item.logo_thumb_scale ? (
-                            <img className="annuaire-logo" src={item.logo_thumb_scale} alt="Logo" />
+                            <img className="annuaire-logo" src={item.logo_thumb_scale} alt="" />
                         ) : (
                             ""
-                        )}
-                        {item.logo_thumb_scale && (
-                            <img className="annuaire-logo" src={item.logo_thumb_scale} alt="Logo" />
                         )}
                     </div>
                 </div>
