@@ -174,7 +174,7 @@ const ContactContent = ({ queryUrl, onChange }) => {
                                 className="annuaire-schedul"
                                 role="button"
                                 aria-expanded="false"
-                                aria-label="Afficher l'Horaires complet"
+                                aria-label="Afficher l'horaire complet"
                             >
                                 <div className="annuaire-schedul-icon">
                                     <svg
