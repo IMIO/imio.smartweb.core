@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
 const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
-
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
 
     function handleClick(event) {
@@ -17,11 +16,8 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
     }
 
     useEffect(() => {
-    window.scrollTo(
-        { top: scrollPos,
-        left: 0,
-        behavior: 'instant'});
-}, [contactArray]);
+        window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
+    }, [contactArray]);
     return (
         <React.Fragment>
             <ul className="r-result-list annuaire-result-list">

@@ -5,6 +5,9 @@ Changelog
 1.2.65 (unreleased)
 -------------------
 
+- Fix: keep scroll on load more in React view
+  [thomlamb]
+
 - WEB-4132 : In anonymous mode, use remoteUrl instead of internal link url in links sections
   [boulch]
 

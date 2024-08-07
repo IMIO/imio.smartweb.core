@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext } from "react";
+import React, { useEffect, useState, useContext, createContext } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollContext } from "../../hooks/ScrollContext";
 import Filters from "./Filters/Filter";
@@ -43,6 +43,7 @@ const NewsView = (props) => {
         { b_start: 0, fullobjects: 1 },
         queryString.parse(useFilterQuery().toString())
     );
+    const { scrollPos, updateScrollPos } = useContext(ScrollContext);
     const [itemsArray, setItemsArray] = useState([]);
     const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
@@ -89,6 +90,7 @@ const NewsView = (props) => {
 
     // set batch
     const loadMore = () => {
+        updateScrollPos(window.scrollY);
         setBatchStart((batchStart) => batchStart + parseInt(props.batchSize));
         setLoadMoreLaunch(true);
     };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollContext } from "../../hooks/ScrollContext";
 import Filters from "./Filters/Filter";
@@ -51,6 +51,7 @@ function EventsView(props) {
         },
         queryString.parse(useFilterQuery().toString())
     );
+    const { scrollPos, updateScrollPos } = useContext(ScrollContext);
     const [itemsArray, setItemsArray] = useState([]);
     const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
@@ -106,6 +107,7 @@ function EventsView(props) {
 
     // set batch
     const loadMore = () => {
+        updateScrollPos(window.scrollY);
         setBatchStart((batchStart) => batchStart + parseInt(props.batchSize));
         setLoadMoreLaunch(true);
     };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ScrollContext } from "../../hooks/ScrollContext";
 import Filters from "./Filters/Filter";
@@ -41,6 +41,7 @@ function AnnuaireView(props) {
         { b_start: 0, fullobjects: 1 },
         queryString.parse(useFilterQuery().toString())
     );
+    const { scrollPos, updateScrollPos } = useContext(ScrollContext);
     const [contactArray, setcontactArray] = useState([]);
     const [contactNumber, setcontactNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
@@ -95,6 +96,7 @@ function AnnuaireView(props) {
 
     // set batch
     const loadMore = () => {
+        updateScrollPos(window.scrollY);
         setBatchStart((batchStart) => batchStart + parseInt(props.batchSize));
         setLoadMoreLaunch(true);
     };
