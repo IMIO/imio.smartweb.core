@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.65 (unreleased)
+1.2.65 (2024-08-13)
 -------------------
 
 - WEB-4136 : Authorize 70 sections/page instead of 40
