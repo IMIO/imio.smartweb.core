@@ -5,6 +5,9 @@ Changelog
 1.2.65 (unreleased)
 -------------------
 
+- WEB-4136 : Authorize 70 sections/page instead of 40
+  [boulch]
+
 - Fix: keep scroll on load more in React view
   [thomlamb]
 

@@ -22,7 +22,7 @@ from zope.interface import implementer
 class PagesView(FolderView):
     """Pages view"""
 
-    b_size = 40
+    b_size = 70
 
     def __call__(self):
         # get gallery sections and sections with gallery
