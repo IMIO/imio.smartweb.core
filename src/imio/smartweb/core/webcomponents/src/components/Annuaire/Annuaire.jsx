@@ -30,6 +30,7 @@ export default function Annuaire(props) {
                         proposeUrl={props.proposeUrl}
                         batchSize={props.batchSize}
                         displayMap={props.displayMap}
+                        contextAuthenticatedUser={props.contextAuthenticatedUser}
                     />
                 </ScrollContext.Provider>
             </Provider>
@@ -128,7 +129,12 @@ function AnnuaireView(props) {
     let MapRender;
     if (contactArray && contactArray.length > 0) {
         listRender = (
-            <ContactList onChange={clickID} contactArray={contactArray} onHover={hoverID} />
+            <ContactList
+                onChange={clickID}
+                contactArray={contactArray}
+                onHover={hoverID}
+                contextAuthenticatedUser={props.contextAuthenticatedUser}
+            />
         );
         MapRender = (
             <Map
@@ -259,7 +265,11 @@ function AnnuaireView(props) {
                     element={
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
-                                <ContactContent queryUrl={props.queryUrl} onChange={clickID} />
+                                <ContactContent
+                                    queryUrl={props.queryUrl}
+                                    onChange={clickID}
+                                    contextAuthenticatedUser={props.contextAuthenticatedUser}
+                                />
                             </div>
                             {displayMap && (
                                 <div

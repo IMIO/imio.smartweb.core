@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Translate } from "react-translated";
 
-const ContactCard = ({ item }) => {
+const ContactCard = ({ item, contextAuthenticatedUser }) => {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
     const title = item.title && item.title;
@@ -56,73 +56,88 @@ const ContactCard = ({ item }) => {
     }, [item]);
 
     return (
-        <div className="r-list-item">
-            {image && image.src ? (
-                <>
-                    <div className="r-item-img">
-                        <div
-                            className="r-content-figure-blur"
-                            style={{ backgroundImage: "url(" + image.src + ")" }}
-                        />
-                        <img
-                            className={"r-content-figure-img" + " " + imageClassName}
-                            src={image.src}
-                            alt=""
-                        />
-                    </div>
-                </>
+        <>
+            {contextAuthenticatedUser === "False" ? (
+                <a
+                    href={item["@id"]}
+                    target="_blank"
+                    title="Editer la fiche"
+                    className="edit-rest-elements"
+                >
+                    <i class="bi bi-pencil-square"></i>
+                </a>
             ) : (
-                <>
-                    <div className="r-item-img r-item-img-placeholder"></div>
-                </>
+                ""
             )}
-            <div className="r-item-text">
-                <span className="r-item-title">{title}</span>
-                {category ? <span className="r-item-categorie">{category.title}</span> : ""}
-                <div className="r-item-all">
-                    {street ? (
-                        <div className="r-item-adresse">
-                            {number ? <span>{number + " "}</span> : ""}
-                            {street ? <span>{street + ", "}</span> : ""}
-                            {complement ? <span>{complement + ", "}</span> : ""}
-                            <br />
-                            {zipcode ? <span>{zipcode + " "}</span> : ""}
-                            {city ? <span>{city}</span> : ""}
-                            <div className="itineraty">
-                                <a href={itineraryLink} target="_blank" rel="noreferrer">
-                                    <Translate text="Itinéraire" />
-                                </a>
+
+            <div className="r-list-item">
+                {image && image.src ? (
+                    <>
+                        <div className="r-item-img">
+                            <div
+                                className="r-content-figure-blur"
+                                style={{ backgroundImage: "url(" + image.src + ")" }}
+                            />
+                            <img
+                                className={"r-content-figure-img" + " " + imageClassName}
+                                src={image.src}
+                                alt=""
+                            />
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <div className="r-item-img r-item-img-placeholder"></div>
+                    </>
+                )}
+                <div className="r-item-text">
+                    <span className="r-item-title">{title}</span>
+                    {category ? <span className="r-item-categorie">{category.title}</span> : ""}
+                    <div className="r-item-all">
+                        {street ? (
+                            <div className="r-item-adresse">
+                                {number ? <span>{number + " "}</span> : ""}
+                                {street ? <span>{street + ", "}</span> : ""}
+                                {complement ? <span>{complement + ", "}</span> : ""}
+                                <br />
+                                {zipcode ? <span>{zipcode + " "}</span> : ""}
+                                {city ? <span>{city}</span> : ""}
+                                <div className="itineraty">
+                                    <a href={itineraryLink} target="_blank" rel="noreferrer">
+                                        <Translate text="Itinéraire" />
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    ) : (
-                        ""
-                    )}
-                    <div className="r-item-contact">
-                        <div className="phones">
-                            {phones
-                                ? phones.map((phone, i) => {
-                                      return <span key={i}>{phone.number}</span>;
-                                  })
-                                : ""}
-                        </div>
-                        <div className="mails">
-                            {mails
-                                ? mails.map((mail, i) => {
-                                      return <span key={i}>{mail.mail_address}</span>;
-                                  })
-                                : ""}
-                        </div>
-                        <div className="topics">
-                        {topics
-                            ? topics.slice(0, 3).map((mail, i) => {
-                                return <span key={i}>{mail.title}</span>;
-                                })
-                            : ""}
+                        ) : (
+                            ""
+                        )}
+                        <div className="r-item-contact">
+                            <div className="phones">
+                                {phones
+                                    ? phones.map((phone, i) => {
+                                          return <span key={i}>{phone.number}</span>;
+                                      })
+                                    : ""}
+                            </div>
+                            <div className="mails">
+                                {mails
+                                    ? mails.map((mail, i) => {
+                                          return <span key={i}>{mail.mail_address}</span>;
+                                      })
+                                    : ""}
+                            </div>
+                            <div className="topics">
+                                {topics
+                                    ? topics.slice(0, 3).map((mail, i) => {
+                                          return <span key={i}>{mail.title}</span>;
+                                      })
+                                    : ""}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 

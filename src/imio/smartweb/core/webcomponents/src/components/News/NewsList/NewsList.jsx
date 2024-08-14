@@ -3,10 +3,8 @@ import NewsCard from "../NewsCard/NewsCard";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
-const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics }) => {
-
+const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics, contextAuthenticatedUser }) => {
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
-
 
     function handleClick(event) {
         onChange(event);
@@ -14,16 +12,25 @@ const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics }) => {
     }
 
     useEffect(() => {
-        window.scrollTo(
-           { top: scrollPos,
-            left: 0,
-            behavior: 'instant'});
+        window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
     }, [itemsArray]);
     return (
         <React.Fragment>
             <ul className="r-result-list actu-result-list">
                 {itemsArray.map((item, i) => (
                     <li key={i} className="r-list-item-group" onClick={() => handleClick(item.UID)}>
+                        {contextAuthenticatedUser === "False" ? (
+                            <a
+                                href={item["@id"]}
+                                target="_blank"
+                                title="Editer la fiche"
+                                className="edit-rest-elements edit-rest-elements-news"
+                            >
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                        ) : (
+                            ""
+                        )}
                         <Link
                             className="r-news-list-item-link"
                             style={{ textDecoration: "none" }}
@@ -44,6 +51,7 @@ const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics }) => {
                                 item={item}
                                 showCategoriesOrTopics={showCategoriesOrTopics}
                                 key={item.created}
+                                contextAuthenticatedUser={contextAuthenticatedUser}
                             />
                         </Link>
                     </li>

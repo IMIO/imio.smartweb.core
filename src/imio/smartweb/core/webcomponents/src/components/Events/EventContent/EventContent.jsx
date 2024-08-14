@@ -9,7 +9,7 @@ import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
-const ContactContent = ({ queryUrl, onChange, onlyPastEvents }) => {
+const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticatedUser }) => {
     let navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
         UID: queryString.parse(useFilterQuery().toString())["u"],
@@ -59,8 +59,8 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents }) => {
         window.scrollTo({
             top: 0,
             left: 0,
-            behavior: 'instant'
-          });
+            behavior: "instant",
+        });
     }, [response]);
     /// use to set file and gallery items
     useEffect(() => {
@@ -126,6 +126,20 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents }) => {
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />
             </button>
+
+            {contextAuthenticatedUser === "False" ? (
+                <a
+                    href={item["@id"]}
+                    target="_blank"
+                    title="Editer la fiche"
+                    className="edit-rest-elements edit-rest-elements-content"
+                >
+                    <i class="bi bi-pencil-square"></i>
+                </a>
+            ) : (
+                ""
+            )}
+
             <article>
                 <header className="r-content-header">
                     <h2 className="r-content-title">{item.title}</h2>

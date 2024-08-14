@@ -31,6 +31,7 @@ export default function News(props) {
                             proposeUrl={props.proposeUrl}
                             batchSize={props.batchSize}
                             showCategoriesOrTopics={props.showCategoriesOrTopics}
+                            contextAuthenticatedUser={props.contextAuthenticatedUser}
                         />
                     </ScrollContext.Provider>
                 </Provider>
@@ -111,6 +112,7 @@ const NewsView = (props) => {
                 onChange={clickID}
                 itemsArray={itemsArray}
                 showCategoriesOrTopics={props.showCategoriesOrTopics}
+                contextAuthenticatedUser={props.contextAuthenticatedUser}
             />
         );
     } else if (!isLoading) {
@@ -215,6 +217,7 @@ const NewsView = (props) => {
                                     onChange={clickID}
                                     onReturn={filtersChange}
                                     queryUrl={props.queryUrl}
+                                    contextAuthenticatedUser={props.contextAuthenticatedUser}
                                 />
                             }
                         ></Route>

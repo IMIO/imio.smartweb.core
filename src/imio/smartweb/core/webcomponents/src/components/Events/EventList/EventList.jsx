@@ -3,10 +3,15 @@ import EventCard from "../EventCard/EventCard";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
-const ContactList = ({ itemsArray, onChange, onHover, showCategoriesOrTopics }) => {
-    
+const ContactList = ({
+    itemsArray,
+    onChange,
+    onHover,
+    showCategoriesOrTopics,
+    contextAuthenticatedUser,
+}) => {
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
-    
+
     function handleClick(event) {
         onChange(event);
         updateScrollPos(window.scrollY);
@@ -17,10 +22,7 @@ const ContactList = ({ itemsArray, onChange, onHover, showCategoriesOrTopics }) 
     }
 
     useEffect(() => {
-        window.scrollTo(
-           { top: scrollPos,
-            left: 0,
-            behavior: 'instant'});
+        window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
     }, [itemsArray]);
 
     return (
@@ -54,6 +56,7 @@ const ContactList = ({ itemsArray, onChange, onHover, showCategoriesOrTopics }) 
                             item={item}
                             showCategoriesOrTopics={showCategoriesOrTopics}
                             key={item.created}
+                            contextAuthenticatedUser={contextAuthenticatedUser}
                         />
                     </li>
                 ))}

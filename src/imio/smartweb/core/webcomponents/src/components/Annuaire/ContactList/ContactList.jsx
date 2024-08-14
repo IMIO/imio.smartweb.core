@@ -3,7 +3,7 @@ import ContactCard from "../ContactCard/ContactCard";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
-const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
+const ContactList = ({ contactArray, onChange, onHover, contextAuthenticatedUser }) => {
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
 
     function handleClick(event) {
@@ -45,7 +45,11 @@ const ContactList = ({ contactArray, onChange, onHover, parentCallback }) => {
                                 },
                             }}
                         ></Link>
-                        <ContactCard item={item} key={item.created} />
+                        <ContactCard
+                            item={item}
+                            contextAuthenticatedUser={contextAuthenticatedUser}
+                            key={item.created}
+                        />
                     </li>
                 ))}
             </ul>

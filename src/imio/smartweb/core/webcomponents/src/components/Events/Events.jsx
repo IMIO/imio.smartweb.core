@@ -33,8 +33,8 @@ export default function Events(props) {
                         displayMap={props.displayMap}
                         onlyPastEvents={props.onlyPastEvents}
                         language={props.currentLanguage}
-                        showCa
-                        tegoriesOrTopics={props.showCategoriesOrTopics}
+                        showCategoriesOrTopics={props.showCategoriesOrTopics}
+                        contextAuthenticatedUser={props.contextAuthenticatedUser}
                     />
                 </ScrollContext.Provider>
             </Provider>
@@ -143,6 +143,7 @@ function EventsView(props) {
                 itemsArray={itemsArray}
                 onHover={hoverID}
                 showCategoriesOrTopics={props.showCategoriesOrTopics}
+                contextAuthenticatedUser={props.contextAuthenticatedUser}
             />
         );
         MapRender = (
@@ -279,6 +280,7 @@ function EventsView(props) {
                                     queryUrl={props.queryUrl}
                                     onChange={clickID}
                                     onlyPastEvents={props.onlyPastEvents}
+                                    contextAuthenticatedUser={props.contextAuthenticatedUser}
                                 />
                             </div>
                             {displayMap && (
