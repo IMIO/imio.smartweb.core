@@ -6,7 +6,7 @@ Changelog
 -------------------
 
 - WEB-4138 :  Adding link on React elements to edit them
-
+  [thomlamb]
 
 1.2.65 (2024-08-13)
 -------------------
