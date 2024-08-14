@@ -5,7 +5,7 @@ Changelog
 1.2.66 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4138 :  Adding link on React elements to edit them
 
 
 1.2.65 (2024-08-13)
