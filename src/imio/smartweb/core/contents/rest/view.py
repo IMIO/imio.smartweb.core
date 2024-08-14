@@ -32,6 +32,10 @@ class BaseRestView(BrowserView):
         return api.portal.get_current_language()[:2]
 
     @property
+    def context_authenticated_user(self):
+        return api.user.is_anonymous()
+    
+    @property
     def view_path(self):
         url = self.context.absolute_url()
         parsed = urlsplit(url)

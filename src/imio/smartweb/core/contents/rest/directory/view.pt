@@ -11,7 +11,8 @@
                                        orientation view/orientation;
                                        current-language view/current_language;
                                        display-map view/display_map;
-                                       view-path view/view_path;"></smartweb-annuaire>
+                                       view-path view/view_path;
+                                       context-authenticated-user view/context_authenticated_user;"></smartweb-annuaire>
   </div>
 </metal:main>
 </body>

@@ -15,7 +15,8 @@
                                        only-past-events view/only_past_events;
                                        view-path view/view_path;
                                        display_agendas_titles view/display_agendas_titles;
-                                       show-categories-or-topics view/show_categories_or_topics;"></smartweb-events>
+                                       show-categories-or-topics view/show_categories_or_topics;
+                                       context-authenticated-user view/context_authenticated_user;"></smartweb-events>
     </div>
     </metal:main>
   </body>
