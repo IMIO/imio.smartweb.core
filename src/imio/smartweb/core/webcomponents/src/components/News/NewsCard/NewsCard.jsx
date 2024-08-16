@@ -13,7 +13,11 @@ const NewsCard = ({ item, showCategoriesOrTopics, contextAuthenticatedUser }) =>
 
     useEffect(() => {
         if (description.length >= numberLimit) {
-            setLimitDescription(description.substring(0, numberLimit) + "...");
+            let truncatedDescription = description.substring(0, numberLimit);
+            if (description.endsWith("**")) {
+                truncatedDescription += "**";
+            }
+            setLimitDescription(truncatedDescription + "...");
         } else {
             setLimitDescription(description);
         }
