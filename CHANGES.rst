@@ -5,6 +5,12 @@ Changelog
 1.2.66 (unreleased)
 -------------------
 
+- Fix: Transform all folder view template to list elements
+  [thomlamb]
+
+- Fix: delete ratio class to external content section
+  [thomlamb]
+
 - WEB-4138 :  Adding link on React elements to edit them
   [thomlamb]
 

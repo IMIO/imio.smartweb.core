@@ -22,12 +22,12 @@
                              orientation_class python:images_orientation and f'display-{images_orientation}' or '';
                              thumb_scale faceted_view/get_thumb_scale_list">
 
-            <div class="" id="block-menu"
+            <ul class="" id="block-menu"
                  tal:attributes="class string:row ${orientation_class}">
-              <div class="list-menu-element col-12" tal:repeat="item batch">
+              <li class="list-menu-element col-12" tal:repeat="item batch">
                 <metal:macro use-macro="context/@@faceted-macros/summary" />
-              </div>
-            </div>
+              </li>
+            </ul>
 
         </tal:def>
 
