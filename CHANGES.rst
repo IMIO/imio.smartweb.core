@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.66 (unreleased)
+1.2.66 (2024-08-27)
 -------------------
 
 - Fix: Transform all folder view template to list elements
