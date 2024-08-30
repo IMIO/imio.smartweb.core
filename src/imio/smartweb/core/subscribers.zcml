@@ -21,4 +21,8 @@
                    zope.lifecycleevent.interfaces.IObjectModifiedEvent"
               handler=".subscribers.modified_content" />
 
+  <subscriber for="imio.smartweb.core.contents.IPublication
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".subscribers.added_publication" />
+
 </configure>

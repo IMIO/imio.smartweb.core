@@ -11,6 +11,8 @@ from imio.smartweb.core.interfaces import ISmartwebIcon
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
 from imio.smartweb.core.utils import get_categories
+from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
+from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -628,3 +630,48 @@ class SendInBlueButtonPosVocabularyFactory:
 
 
 SendInBlueButtonPosVocabulary = SendInBlueButtonPosVocabularyFactory()
+
+
+class RemoteIADeliberationsInstitutionsVocabularyFactory:
+    def __call__(self, context=None):
+        url = "https://www.deliberations.be/@search?portal_type=Institution&metadata_fields=UID"
+        try:
+            json_institutions = get_iadeliberation_json(url)
+            return SimpleVocabulary(
+                [
+                    SimpleTerm(
+                        value=elem["@id"], token=elem["@id"], title=elem["title"]
+                    )
+                    for elem in json_institutions.get("items")
+                ]
+            )
+        except Exception:
+            return SimpleVocabulary([])
+
+
+RemoteIADeliberationsInstitutionsVocabulary = (
+    RemoteIADeliberationsInstitutionsVocabularyFactory()
+)
+
+
+class RemoteIADeliberationsPublicationsVocabularyFactory:
+    def __call__(self, context=None):
+        iadeliberation_institution = get_iadeliberation_institution_from_registry()
+        url = f"{iadeliberation_institution}/@search?portal_type=Publication&metadata_fields=UID&review_state=published"
+        try:
+            json_publications = get_iadeliberation_json(url)
+            return SimpleVocabulary(
+                [
+                    SimpleTerm(
+                        value=elem["UID"], token=elem["UID"], title=elem["title"]
+                    )
+                    for elem in json_publications.get("items")
+                ]
+            )
+        except Exception:
+            return SimpleVocabulary([])
+
+
+RemoteIADeliberationsPublicationsVocabulary = (
+    RemoteIADeliberationsPublicationsVocabularyFactory()
+)

@@ -251,6 +251,22 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1059_to_1060"
+      title="Upgrade core from 1059 to 1060"
+      directory="profiles/1059_to_1060"
+      description="Add ia.deliberations registry key"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1060_to_1061"
+      title="Upgrade core from 1060 to 1061"
+      directory="profiles/1060_to_1061"
+      description="Add new content type : imio.smartweb.Publication and authorize it in SectionFiles"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -852,6 +868,26 @@
     <genericsetup:upgradeDepends
         title="Add new smartweb icon"
         import_profile="imio.smartweb.core.upgrades:upgrade_1058_to_1059"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1059"
+      destination="1060"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add ia.deliberations registry key"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1059_to_1060"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1060"
+      destination="1061"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new content type : imio.smartweb.Publication and authorize it in SectionFiles"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1060_to_1061"
         />
   </genericsetup:upgradeSteps>
 

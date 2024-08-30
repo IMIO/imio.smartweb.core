@@ -103,6 +103,16 @@ class SectionView(BrowserView):
 class CarouselOrTableSectionView(SectionView):
     """Section view that can display a carousel"""
 
+    def items(self):
+        items = self.context.listFolderContents()
+        for item in items:
+            item.smartweb_type = "Item"
+            item.container_id = ""
+            portal_type = getattr(item, "portal_type", None)
+            if portal_type:
+                item.smartweb_type = portal_type.split(".")[-1]
+        return items
+
     @property
     def image_scale(self):
         layout = self.context.getLayout()
@@ -114,24 +124,27 @@ class CarouselOrTableSectionView(SectionView):
         else:
             return getattr(self.context, "image_scale", "")
 
-    def datetime_format(self, item):
+    def datetime_format(self, item, datetime_field="effective"):
         """
         item.get("effective", None)
         => DateTime('YYYY/MM/DD HH:mm:ss.000000 GMT+1')
         convert to more conventional datetime format
         and return its string representation
         """
-        effective = item.get("effective", None)
-        if effective is None:
+        datetime_field = item.get(datetime_field, None)
+        if datetime_field is None:
             return ""
         target_timezone = pytz.timezone("Europe/Paris")
-        if isinstance(effective, str):
-            return effective
-        dt = effective.asdatetime()
+        if isinstance(datetime_field, str):
+            return datetime_field
+        dt = datetime_field.asdatetime()
         target_datetime = dt.astimezone(target_timezone)
         output_format = "%Y-%m-%dT%H:%M:%S%z"
         formatted_datetime_str = target_datetime.strftime(output_format)
         return formatted_datetime_str
+
+    def retrieve_item_url(self, item):
+        return item.get("url")
 
 
 class HashableJsonSectionView(SectionView):

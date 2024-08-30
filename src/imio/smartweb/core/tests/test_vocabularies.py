@@ -295,3 +295,49 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     def test_sendinblue_button_position(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SendInBlueButtonPosition", 2)
+
+    @requests_mock.Mocker()
+    def test_remote_iadeliberations_institutions(self, m):
+        json_institutions_raw_mock = get_json(
+            "resources/json_iadeliberations_institutions.json"
+        )
+        url = "https://www.deliberations.be/@search?portal_type=Institution&metadata_fields=UID"
+        m.get(url, text=json.dumps(json_institutions_raw_mock))
+        self.assertVocabularyLen(
+            "imio.smartweb.vocabulary.IADeliberationsInstitutions", 6
+        )
+        vocabulary = get_vocabulary(
+            "imio.smartweb.vocabulary.IADeliberationsInstitutions"
+        )
+        self.assertEqual(
+            vocabulary.getTerm("https://www.deliberations.be/waremme").title,
+            "Waremme",
+        )
+
+    @requests_mock.Mocker()
+    def test_remote_iadeliberations_publications(self, m):
+        json_institutions_raw_mock = get_json(
+            "resources/json_iadeliberations_institutions.json"
+        )
+        url_institutions = "https://www.deliberations.be/@search?portal_type=Institution&metadata_fields=UID"
+        m.get(url_institutions, text=json.dumps(json_institutions_raw_mock))
+        with patch(
+            "imio.smartweb.core.vocabularies.get_iadeliberation_institution_from_registry",
+            return_value="https://www.deliberations.be/liege",
+        ) as m_get_institution:
+            json_publications_raw_mock = get_json(
+                "resources/json_iadeliberations_publications.json"
+            )
+            url_institution = m_get_institution.return_value
+            url_publications = f"{url_institution}/@search?portal_type=Publication&metadata_fields=UID&review_state=published"
+            m.get(url_publications, text=json.dumps(json_publications_raw_mock))
+            self.assertVocabularyLen(
+                "imio.smartweb.vocabulary.IADeliberationsPublications", 9
+            )
+            vocabulary = get_vocabulary(
+                "imio.smartweb.vocabulary.IADeliberationsPublications"
+            )
+            self.assertEqual(
+                vocabulary.getTerm("1eb1d97e162a4fe4be802ccd812fa180").title,
+                "Autorisation de déroger temporairement aux normes de bruit - Fête de la Musique 2023",
+            )

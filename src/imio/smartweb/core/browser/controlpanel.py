@@ -3,6 +3,7 @@
 from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
 from collective.z3cform.datagridfield.registry import DictRow
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone import api
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.autoform import directives
@@ -165,11 +166,43 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    iadeliberations_api_username = schema.TextLine(
+        title=_("Username to consume I.A. Deliberations API"),
+        required=False,
+    )
+
+    iadeliberation_api_password = schema.Password(
+        title=_("Password to consume I.A. Deliberations API"),
+        required=False,
+    )
+
+    iadeliberations_institution = schema.Choice(
+        title=_("I.A. Deliberations : Institutions"),
+        source="imio.smartweb.vocabulary.IADeliberationsInstitutions",
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
     schema_prefix = "smartweb"
     label = _("Smartweb Settings")
+
+    def applyChanges(self, data):
+        # Get current registry value for (controlpanel) passwords
+        iadeliberation_pwd = api.portal.get_registry_record(
+            "smartweb.iadeliberation_api_password"
+        )
+        secret_key_api = api.portal.get_registry_record("smartweb.secret_key_api")
+
+        # if data is None when we apply changes for password fields we keep password from registry
+        if not data.get("iadeliberation_api_password"):
+            data["iadeliberation_api_password"] = iadeliberation_pwd
+
+        if not data.get("secret_key_api"):
+            data["secret_key_api"] = secret_key_api
+
+        return super().applyChanges(data)
 
 
 SmartwebControlPanelView = layout.wrap_form(

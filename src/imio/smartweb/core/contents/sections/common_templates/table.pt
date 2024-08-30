@@ -56,10 +56,10 @@
                                    show_lead_image python:getattr(context, 'show_items_lead_image', True);
                                    portal context/@@plone_portal_state/portal;
                                    open_in_new_tab item/open_in_new_tab | nothing;"
-                        tal:attributes="class string:table_display ${item/container_id | nothing};"
+                        tal:attributes="class string:table_display ${item/container_id | nothing} ${item/smartweb_type | nothing};"
                       >
                       <a tal:attributes="class python:'table_image no-image' if no_icon_no_image else 'table_image';
-                                         href item/url;
+                                         href python:view.retrieve_item_url(item);
                                          target python:'_blank' if (open_in_new_tab and not can_edit_sections) else '';">
                         <tal:if tal:condition="show_lead_image">
                             <div class="image d-block is-icon w-100"
@@ -85,7 +85,7 @@
                         </div>
 
                         <div class="table_date"
-                             tal:condition="context/show_items_date | nothing">
+                             tal:condition="context/show_items_date | context/has_publications | nothing">
                           <tal:if tal:condition="item/effective | nothing">
                             <span i18n:translate="">Published</span>
                             <span class="pat-display-time"
@@ -96,6 +96,9 @@
                             <tal:def tal:define="event_date item/event_date">
                               <metal:macro use-macro="context/@@macros/event_date" />
                             </tal:def>
+                          </tal:if>
+                          <tal:if tal:condition="item/publication_datetime | nothing">
+                            <span class="publication_datetime" tal:content="python:view.datetime_format(item,'publication_datetime')"/>
                           </tal:if>
                         </div>
                         <div tal:condition="view/display_container_title"
@@ -115,6 +118,13 @@
                              tal:condition="item/item_infos | nothing"
                              tal:content="item/item_infos"/>
                       </a>
+                  <!-- publication : attached file-->
+                    <a
+                    tal:condition="item/publication_attached_file | nothing"
+                    tal:attributes="href item/publication_attached_file/download"
+                        tal:content="item/publication_attached_file/filename"
+                        target="_blank" ></a>
+
                   </div>
               </li>
 

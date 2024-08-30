@@ -4,6 +4,7 @@ from imio.smartweb.common.faceted.utils import configure_faceted
 from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.common.utils import remove_cropping
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
+from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import safe_html
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -17,6 +18,7 @@ from zope.lifecycleevent.interfaces import IAttributes
 from zope.globalrequest import getRequest
 from zope.schema import getFields
 
+import base64
 import logging
 import os
 
@@ -106,3 +108,33 @@ def modified_content(obj, event):
         class_name = d.interface.__identifier__.split(".")[-1]
         for field_name in d.attributes:
             check_image_field(obj, d.interface, class_name, field_name)
+
+
+def added_publication(obj, event):
+    """save json attributes on object attributes"""
+    # query the deliberation API with the
+    # selected publication UID to retrieve all informations
+    url = obj.linked_publication
+    try:
+        iadeliberation_user = api.portal.get_registry_record(
+            "smartweb.iadeliberations_api_username"
+        )
+        iadeliberation_pwd = api.portal.get_registry_record(
+            "smartweb.iadeliberation_api_password"
+        )
+        usrPass = f"{iadeliberation_user}:{iadeliberation_pwd}".encode("utf-8")
+        b64Val = base64.b64encode(usrPass)
+        json_publication = get_json(
+            url, auth=f"Basic {b64Val.decode('utf-8')}", timeout=20
+        )
+        obj.title = json_publication.get("title")
+        obj.description = json_publication.get("description")
+        obj.publication_url = json_publication.get("@id")
+        obj.publication_datetime = json_publication.get("effective")
+        obj.publication_document_type = json_publication.get("document_type").get(
+            "title"
+        )
+        obj.publication_category = json_publication.get("category").get("title")
+        obj.publication_attached_file = json_publication.get("file")
+    except Exception:
+        logger.error(f"Error while trying to get publication data from {url}")

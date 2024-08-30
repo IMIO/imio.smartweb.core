@@ -169,4 +169,16 @@
     provides="zope.schema.interfaces.IVocabularyFactory"
     />
 
+  <utility
+      name="imio.smartweb.vocabulary.IADeliberationsInstitutions"
+      component=".vocabularies.RemoteIADeliberationsInstitutionsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.IADeliberationsPublications"
+      component=".vocabularies.RemoteIADeliberationsPublicationsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
 </configure>

@@ -1,0 +1,105 @@
+{
+    "@components": {
+        "actions": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@actions"
+        },
+        "aliases": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@aliases"
+        },
+        "breadcrumbs": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@breadcrumbs"
+        },
+        "contextnavigation": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@contextnavigation"
+        },
+        "navigation": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@navigation"
+        },
+        "navroot": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@navroot"
+        },
+        "types": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@types"
+        },
+        "workflow": {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@workflow"
+        }
+    },
+    "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid",
+    "@type": "Publication",
+    "UID": "33befb1ecea143e4a4e8b2dd548e294f",
+    "allow_discussion": false,
+    "authority_date": null,
+    "category": {
+        "title": "Sécurité & Prévention",
+        "token": "securit\\xe9"
+    },
+    "consultation_text": {
+        "content-type": "text/html",
+        "data": "<p>Hôtel de Ville - Secrétariat du Collège et du Conseil</p>\n<p>place du Marché, 2</p>\n<p>4000 Liège</p>\n<p>du lundi au vendredi  (sauf jours fériés)</p>\n<p>de 9 à 12 heure et de 13.30 à 16.30 heures</p>",
+        "encoding": "utf-8"
+    },
+    "created": "2024-08-14T07:13:42+00:00",
+    "decision_date": "2022-12-12",
+    "description": "Adopté par M. le Bourgmestre en date 12 décembre 2022",
+    "document_type": {
+        "title": "Ordonnance de police administrative",
+        "token": "ordonnance-police-administrative"
+    },
+    "effective": "2024-08-14T09:14:31",
+    "entry_date": "2022-12-12",
+    "expires": null,
+    "file": {
+        "content-type": "application/pdf",
+        "download": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid/@@download/file",
+        "filename": "013400000123949.PDF",
+        "size": 120014
+    },
+    "id": "ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid",
+    "is_folderish": true,
+    "items": [],
+    "items_total": 0,
+    "layout": "view",
+    "legislative_authority": {
+        "title": "Bourgmestre",
+        "token": "bourgmestre"
+    },
+    "lock": {
+        "locked": false,
+        "stealable": true
+    },
+    "modified": "2024-08-14T07:14:31+00:00",
+    "next_item": {
+        "@id": "https://conseil.staging.imio.be/liege/publications/reglement-relatif-a-la-redevance-sur-le-stationnement",
+        "@type": "Publication",
+        "description": "Adopté par le Conseil communal en date du 19 décembre 2023",
+        "title": "Règlement relatif à la redevance sur le stationnement.",
+        "type_title": "Publication"
+    },
+    "parent": {
+        "@id": "https://conseil.staging.imio.be/liege/publications",
+        "@type": "Folder",
+        "description": "",
+        "image_field": null,
+        "image_scales": {},
+        "review_state": "published",
+        "title": "Publications",
+        "type_title": "Dossier"
+    },
+    "previous_item": {
+        "@id": "https://conseil.staging.imio.be/liege/publications/reglement-relatif-a-loctroi-dune-intervention-financiere-subvention-directe-operateur-pour-lannee-2024-en-faveur-des-commerces-de-detail-et-des-etablissements-horeca-situes-sur-le-territoire-de-la-ville-de-liege-dont-lactivite-economique-est-affectee-par",
+        "@type": "Publication",
+        "description": "Adopté par le Conseil communal en date du 24 juin 2024",
+        "title": "Règlement relatif à l'octroi d’une intervention financière (subvention directe opérateur), pour l'année 2024, en faveur des commerces de détail et des établissements HORECA, situés sur le territoire de la Ville de Liège, dont l’activité économique est affectée par les retards d’exécution du chantier du Tramway de Liège.",
+        "type_title": "Publication"
+    },
+    "relatedItems": [],
+    "review_state": "published",
+    "table_of_contents": false,
+    "text": null,
+    "title": "Ordonnance concernant des mesures spécifiques en cas de grand froid.",
+    "type_title": "Publication",
+    "version": "current",
+    "working_copy": null,
+    "working_copy_of": null
+}

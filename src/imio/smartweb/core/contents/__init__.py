@@ -17,6 +17,8 @@ from .pages.portal_page.content import IPortalPage  # NOQA
 from .pages.portal_page.content import PortalPage  # NOQA
 from .pages.procedure.content import IProcedure  # NOQA
 from .pages.procedure.content import Procedure  # NOQA
+from .publication.content import Publication  # NOQA
+from .publication.content import IPublication  # NOQA
 from .rest.base import RestView  # NOQA
 from .rest.base import IRestView  # NOQA
 from .rest.directory.content import DirectoryView  # NOQA

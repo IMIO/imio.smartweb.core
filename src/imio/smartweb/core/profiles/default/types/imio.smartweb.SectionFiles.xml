@@ -19,6 +19,7 @@
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
     <element value="File" />
+    <element value="imio.smartweb.Publication" />
   </property>
   <!-- Schema, class and security -->
   <!-- if we can add a page, we can add a page section -->

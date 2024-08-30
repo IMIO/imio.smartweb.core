@@ -4,6 +4,7 @@
   <include package=".blocks" />
   <include package=".folder" />
   <include package=".pages" />
+  <include package=".publication" />
   <include package=".rest" />
   <include package=".sections" />
 

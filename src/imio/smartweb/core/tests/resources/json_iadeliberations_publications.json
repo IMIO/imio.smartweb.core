@@ -1,0 +1,105 @@
+{
+    "@id": "https://conseil.staging.imio.be/@search?portal_type=Publication&review_state=published&metadata_fields=UID",
+    "items": [
+        {
+            "@id": "https://conseil.staging.imio.be/belle-ville/publications/exemple-publication",
+            "@type": "Publication",
+            "UID": "5c642de5dddb4bcbae56163d4cc89079",
+            "description": "Ma publication, texte affiché dans le tableau de bord",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Exemple publication",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/reglement-relatif-a-la-gestion-du-parc-sauvage-des-chats",
+            "@type": "Publication",
+            "UID": "8ea91c2b830b486fb4f78b6a91cee882",
+            "description": "Adopté par le Conseil communal en date du X",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Règlement relatif à la gestion du parc sauvage des chats",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/autorisation-de-deroger-temporairement-aux-normes-de-bruit-foire-du-midi-2023",
+            "@type": "Publication",
+            "UID": "a3a8c7922b834e54a166761aeb2cbc33",
+            "description": "Le Bourgmestre de Bruxelles a accordé une dérogation temporaire aux normes de bruit pour la Foire du Midi 2023, qui se tiendra en plein air sur le Boulevard du Midi du 15 juillet au 20 août 2023.",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Autorisation de déroger temporairement aux normes de bruit - Foire du Midi 2023",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/reglement-relatif-a-loctroi-dune-intervention-financiere-specifique-subvention-directe-operateur-pour-lannee-2024-en-faveur-des-commerces-de-detail-et-des-etablissements-horeca-situes-dans-le-pole-de-sclessin-et-alentours",
+            "@type": "Publication",
+            "UID": "518a437453ce4c2d8d0f8d2d4a545a58",
+            "description": "",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Règlement relatif à l'octroi d’une intervention financière spécifique (subvention directe opérateur), pour l'année 2024, en faveur des commerces de détail et des établissements HORECA, situés dans le pôle de Sclessin et alentours",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/reglement-complementaire-de-la-police-de-la-circulation-de-la-rue-des-grands-champs-a-4000-liege",
+            "@type": "Publication",
+            "UID": "966bc618828d45d3ac72da2b58de6a3c",
+            "description": "Adopté par le Conseil communal en date du 24/06/2024",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Règlement complémentaire de la police de la circulation de la rue des Grands Champs à 4000 Liège",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid",
+            "@type": "Publication",
+            "UID": "33befb1ecea143e4a4e8b2dd548e294f",
+            "description": "Adopté par M. le Bourgmestre en date 12 décembre 2022",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Ordonnance concernant des mesures spécifiques en cas de grand froid.",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/autorisation-de-deroger-temporairement-aux-normes-de-bruit-fete-de-la-musique-2023",
+            "@type": "Publication",
+            "UID": "1eb1d97e162a4fe4be802ccd812fa180",
+            "description": "Le Bourgmestre de Bruxelles accorde une autorisation temporaire pour déroger aux normes de bruit établies par l'arrêté du Gouvernement de la Région de Bruxelles-Capitale du 21 novembre 2002, pour la Fête de la Musique 2023 qui se tiendra au Parc du Cinquantenaire les 23 et 24 juin 2023.",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Autorisation de déroger temporairement aux normes de bruit - Fête de la Musique 2023",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/reglement-relatif-a-loctroi-dune-intervention-financiere-subvention-directe-operateur-pour-lannee-2024-en-faveur-des-commerces-de-detail-et-des-etablissements-horeca-situes-sur-le-territoire-de-la-ville-de-liege-dont-lactivite-economique-est-affectee-par",
+            "@type": "Publication",
+            "UID": "e07b7cf8dfe148969c4a291c4972750d",
+            "description": "Adopté par le Conseil communal en date du 24 juin 2024",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Règlement relatif à l'octroi d’une intervention financière (subvention directe opérateur), pour l'année 2024, en faveur des commerces de détail et des établissements HORECA, situés sur le territoire de la Ville de Liège, dont l’activité économique est affectée par les retards d’exécution du chantier du Tramway de Liège.",
+            "type_title": "Publication"
+        },
+        {
+            "@id": "https://conseil.staging.imio.be/liege/publications/reglement-relatif-a-la-redevance-sur-le-stationnement",
+            "@type": "Publication",
+            "UID": "0744d361b4b54a71853cd265da739f96",
+            "description": "Adopté par le Conseil communal en date du 19 décembre 2023",
+            "image_field": null,
+            "image_scales": null,
+            "review_state": "published",
+            "title": "Règlement relatif à la redevance sur le stationnement.",
+            "type_title": "Publication"
+        }
+    ],
+    "items_total": 9
+}

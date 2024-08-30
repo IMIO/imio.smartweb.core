@@ -5,7 +5,8 @@ Changelog
 1.2.67 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4134 : Manage timestamping in coordination with ia.deliberations' rest api
+  [boulch]
 
 
 1.2.66 (2024-08-27)

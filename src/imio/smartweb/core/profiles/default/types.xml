@@ -11,6 +11,7 @@
   <object meta_type="Dexterity FTI" name="imio.smartweb.Page"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.PortalPage"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.Procedure"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.Publication"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionCollection"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionContact"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionEvents"/>

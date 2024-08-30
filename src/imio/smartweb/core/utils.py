@@ -14,6 +14,7 @@ from Products.CMFPlone.utils import base_hasattr
 from zope.component import getSiteManager
 from zope.component import queryMultiAdapter
 
+import base64
 import hashlib
 import json
 import logging
@@ -196,3 +197,24 @@ def get_plausible_vars():
         return plausible_vars
     else:
         return None
+
+
+def get_iadeliberation_institution_from_registry():
+    iadeliberation_institution = api.portal.get_registry_record(
+        "smartweb.iadeliberations_institution"
+    )
+    return iadeliberation_institution
+
+
+def get_iadeliberation_json(url):
+    iadeliberation_user = api.portal.get_registry_record(
+        "smartweb.iadeliberations_api_username"
+    )
+    iadeliberation_pwd = api.portal.get_registry_record(
+        "smartweb.iadeliberation_api_password"
+    )
+    usrPass = f"{iadeliberation_user}:{iadeliberation_pwd}".encode("utf-8")
+    b64Val = base64.b64encode(usrPass)
+    json = get_json(url, auth=f"Basic {b64Val.decode('utf-8')}", timeout=20)
+
+    return json
