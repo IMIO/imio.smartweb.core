@@ -5,6 +5,9 @@ Changelog
 1.2.67 (unreleased)
 -------------------
 
+- Fix: Replace i tag with svg icon in React view
+  [thomlamb]
+
 - WEB-4134 : Manage timestamping in coordination with ia.deliberations' rest api
   [boulch]
 
@@ -20,6 +23,7 @@ Changelog
 
 - WEB-4138 :  Adding link on React elements to edit them
   [thomlamb]
+
 
 1.2.65 (2024-08-13)
 -------------------
