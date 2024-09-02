@@ -10,10 +10,6 @@ from zope.interface import Interface
 class IPublication(Interface):
     """ """
 
-    # title = schema.TextLine(title=_("Title"), required=True)
-
-    # description = schema.Text(title=_("Description"), required=False)
-
     linked_publication = schema.Choice(
         vocabulary="imio.smartweb.vocabulary.IADeliberationsPublications",
         title=_("I.A. Deliberation publication"),

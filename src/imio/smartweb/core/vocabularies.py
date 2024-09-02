@@ -11,6 +11,7 @@ from imio.smartweb.core.interfaces import ISmartwebIcon
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
 from imio.smartweb.core.utils import get_categories
+from imio.smartweb.core.utils import get_iadeliberation_url_from_registry
 from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
 from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import get_json
@@ -634,7 +635,8 @@ SendInBlueButtonPosVocabulary = SendInBlueButtonPosVocabularyFactory()
 
 class RemoteIADeliberationsInstitutionsVocabularyFactory:
     def __call__(self, context=None):
-        url = "https://www.deliberations.be/@search?portal_type=Institution&metadata_fields=UID"
+        iadeliberation_url = get_iadeliberation_url_from_registry()
+        url = f"{iadeliberation_url}/@search?portal_type=Institution&metadata_fields=UID&sort_on=sortable_title"
         try:
             json_institutions = get_iadeliberation_json(url)
             return SimpleVocabulary(
@@ -657,19 +659,14 @@ RemoteIADeliberationsInstitutionsVocabulary = (
 class RemoteIADeliberationsPublicationsVocabularyFactory:
     def __call__(self, context=None):
         iadeliberation_institution = get_iadeliberation_institution_from_registry()
-        url = f"{iadeliberation_institution}/@search?portal_type=Publication&metadata_fields=UID&review_state=published"
-        try:
-            json_publications = get_iadeliberation_json(url)
-            return SimpleVocabulary(
-                [
-                    SimpleTerm(
-                        value=elem["UID"], token=elem["UID"], title=elem["title"]
-                    )
-                    for elem in json_publications.get("items")
-                ]
-            )
-        except Exception:
-            return SimpleVocabulary([])
+        url = f"{iadeliberation_institution}/@search?portal_type=Publication&metadata_fields=UID&metadata_fields=id&review_state=published&sort_on=sortable_title"
+        json_publications = get_iadeliberation_json(url)
+        return SimpleVocabulary(
+            [
+                SimpleTerm(value=elem["id"], token=elem["id"], title=elem["title"])
+                for elem in json_publications.get("items")
+            ]
+        )
 
 
 RemoteIADeliberationsPublicationsVocabulary = (

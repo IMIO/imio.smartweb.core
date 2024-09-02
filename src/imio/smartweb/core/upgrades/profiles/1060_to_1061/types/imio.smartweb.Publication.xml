@@ -25,19 +25,14 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
-    <!--element value="plone.namefromtitle"/>
-    <element value="plone.shortname"/> -->
-    <element value="plone.imagecropping"/>
-    <element value="plone.locking"/>
+    <element value="plone.shortname"/>
+    <element value="plone.leadimage"/>
     <element value="solr.fields" />
   </property>
 
   <!-- View information -->
-  <property name="default_view">link_redirect_view</property>
+  <property name="default_view">view</property>
   <property name="default_view_fallback">False</property>
   <property name="immediate_view">view</property>
-  <property name="view_methods">
-    <element value="link_redirect_view"/>
-  </property>
 
 </object>

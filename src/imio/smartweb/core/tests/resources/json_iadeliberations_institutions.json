@@ -1,14 +1,14 @@
 {
-    "@id": "https://www.deliberations.be/@search?portal_type=Institution&metadata_fields=UID",
+    "@id": "https://conseil.staging.imio.be/@search?portal_type=Institution&metadata_fields=UID",
     "batching": {
-        "@id": "https://www.deliberations.be/@search?portal_type=Institution&metadata_fields=UID",
-        "first": "https://www.deliberations.be/@search?b_start=0&portal_type=Institution&metadata_fields=UID",
-        "last": "https://www.deliberations.be/@search?b_start=150&portal_type=Institution&metadata_fields=UID",
-        "next": "https://www.deliberations.be/@search?b_start=25&portal_type=Institution&metadata_fields=UID"
+        "@id": "https://conseil.staging.imio.be/@search?portal_type=Institution&metadata_fields=UID",
+        "first": "https://conseil.staging.imio.be/@search?b_start=0&portal_type=Institution&metadata_fields=UID",
+        "last": "https://conseil.staging.imio.be/@search?b_start=150&portal_type=Institution&metadata_fields=UID",
+        "next": "https://conseil.staging.imio.be/@search?b_start=25&portal_type=Institution&metadata_fields=UID"
     },
     "items": [
         {
-            "@id": "https://www.deliberations.be/quaregnon",
+            "@id": "https://conseil.staging.imio.be/quaregnon",
             "@type": "Institution",
             "UID": "8b7ee28aee6a4d17a796c198139bb477",
             "description": "",
@@ -16,7 +16,7 @@
             "title": "Quaregnon"
         },
         {
-            "@id": "https://www.deliberations.be/waremme",
+            "@id": "https://conseil.staging.imio.be/waremme",
             "@type": "Institution",
             "UID": "7a125baa06d844b4aaea97c73b9efddd",
             "description": "",
@@ -24,7 +24,7 @@
             "title": "Waremme"
         },
         {
-            "@id": "https://www.deliberations.be/jalhay",
+            "@id": "https://conseil.staging.imio.be/jalhay",
             "@type": "Institution",
             "UID": "d04e1e724694450da535f57f0c0b0450",
             "description": "",
@@ -32,7 +32,7 @@
             "title": "Jalhay"
         },
         {
-            "@id": "https://www.deliberations.be/la-hulpe",
+            "@id": "https://conseil.staging.imio.be/la-hulpe",
             "@type": "Institution",
             "UID": "970bb179557940d28a3751aa76e123c2",
             "description": "",
@@ -40,7 +40,7 @@
             "title": "La Hulpe"
         },
         {
-            "@id": "https://www.deliberations.be/ramillies",
+            "@id": "https://conseil.staging.imio.be/ramillies",
             "@type": "Institution",
             "UID": "c85014aaec2d4b2a861911b8b6085b15",
             "description": "",
@@ -48,7 +48,7 @@
             "title": "Ramillies"
         },
         {
-            "@id": "https://www.deliberations.be/liege",
+            "@id": "https://conseil.staging.imio.be/liege",
             "@type": "Institution",
             "UID": "970bb179557940d28a3751aa76edddd",
             "description": "",

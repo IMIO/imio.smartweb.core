@@ -199,6 +199,11 @@ def get_plausible_vars():
         return None
 
 
+def get_iadeliberation_url_from_registry():
+    iadeliberation_url = api.portal.get_registry_record("smartweb.iadeliberations_url")
+    return iadeliberation_url
+
+
 def get_iadeliberation_institution_from_registry():
     iadeliberation_institution = api.portal.get_registry_record(
         "smartweb.iadeliberations_institution"

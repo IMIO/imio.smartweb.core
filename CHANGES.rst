@@ -5,6 +5,9 @@ Changelog
 1.2.67 (unreleased)
 -------------------
 
+- WEB-4134 : Timestamping : code refactoring, fix view , improve some tests
+  [boulch]
+
 - Fix: Replace i tag with svg icon in React view
   [thomlamb]
 

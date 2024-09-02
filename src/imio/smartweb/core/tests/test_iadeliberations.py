@@ -55,13 +55,18 @@ class TestIADeliberations(ImioSmartwebTestCase):
             ),
         )
 
-    @patch("imio.smartweb.core.subscribers.get_json")
-    def test_ct_publication_adding(self, mock_get_json):
-        mock_get_json.return_value = self.json_publication_raw_mock
+    @patch("imio.smartweb.core.subscribers.get_iadeliberation_json")
+    @patch(
+        "imio.smartweb.core.subscribers.get_iadeliberation_institution_from_registry"
+    )
+    def test_ct_publication_adding(self, m_get_institution, m_get_publication):
+        m_get_institution.return_value = "https://conseil.staging.imio.be/liege"
+        m_get_publication.return_value = self.json_publication_raw_mock
         obj = api.content.create(
             container=self.files_section,
             type="imio.smartweb.Publication",
-            id="18820593",
+            linked_publication="ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid",
+            id="ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid",
         )
         self.assertTrue(
             IPublication.providedBy(obj),
@@ -70,8 +75,10 @@ class TestIADeliberations(ImioSmartwebTestCase):
             ),
         )
         parent = obj.__parent__
-        self.assertIn("18820593", parent.objectIds())
-
+        self.assertIn(
+            "ordonnance-concernant-des-mesures-specifiques-en-cas-de-grand-froid",
+            parent.objectIds(),
+        )
         title_resp = (
             "Ordonnance concernant des mesures spécifiques en cas de grand froid."
         )
@@ -89,9 +96,13 @@ class TestIADeliberations(ImioSmartwebTestCase):
         api.content.delete(obj=obj)
         self.assertNotIn("publication", parent.objectIds())
 
-    @patch("imio.smartweb.core.subscribers.get_json")
-    def test_publication_view(self, mock_get_json):
-        mock_get_json.return_value = self.json_publication_raw_mock
+    @patch("imio.smartweb.core.subscribers.get_iadeliberation_json")
+    @patch(
+        "imio.smartweb.core.subscribers.get_iadeliberation_institution_from_registry"
+    )
+    def test_publication_view(self, m_get_institution, m_get_publication):
+        m_get_institution.return_value = "https://conseil.staging.imio.be/liege"
+        m_get_publication.return_value = self.json_publication_raw_mock
         obj = api.content.create(
             container=self.files_section,
             type="imio.smartweb.Publication",
