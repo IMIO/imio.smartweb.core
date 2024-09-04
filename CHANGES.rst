@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.67 (unreleased)
+1.2.67 (2024-09-04)
 -------------------
 
 - WEB-4134 : Timestamping : code refactoring, fix view , improve some tests
