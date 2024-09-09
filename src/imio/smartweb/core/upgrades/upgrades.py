@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
 from plone import api
@@ -227,3 +228,20 @@ def migrate_old_sizes_from_section_text(context):
             logger.info(
                 f"Migrated deprecated scale from {old_scale} to {new_scale} for {obj.absolute_url()}"
             )
+
+
+def list_sections_without_hash(context):
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(
+            portal_type=[
+                "imio.smartweb.SectionContact",
+                "imio.smartweb.SectionEvents",
+                "imio.smartweb.SectionNews",
+            ]
+        )
+        for brain in brains:
+            obj = brain.getObject()
+            annotations = IAnnotations(obj)
+            stored_hash = annotations.get(SECTION_ITEMS_HASH_KEY)
+            if not stored_hash:
+                print(f"No Hash found for {obj.absolute_url()}")

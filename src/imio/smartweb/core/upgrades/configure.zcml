@@ -891,4 +891,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="List sections without hash"
+      description=""
+      source="1061"
+      destination="1062"
+      handler=".upgrades.list_sections_without_hash"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
