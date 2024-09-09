@@ -5,6 +5,10 @@ Changelog
 1.2.68 (unreleased)
 -------------------
 
+- WEB-3995 : Don't reindex section when we receive no JSON (ex: timeout)
+  This will reduce ZODB transactions numbers.
+  [bsuttor, laulaz, remdub]
+
 - CITI-4 : Add conditional log to debug WCA token errors
   [laulaz]
 

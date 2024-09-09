@@ -151,9 +151,10 @@ class HashableJsonSectionView(SectionView):
     json_data = None
 
     def refresh_modification_date(self):
-        new_hash = None
-        if self.json_data is not None:
-            new_hash = hash_md5(json.dumps(self.json_data))
+        if self.json_data is None:
+            # Don't reindex section when we receive no JSON (ex: timeout)
+            return
+        new_hash = hash_md5(json.dumps(self.json_data))
         annotations = IAnnotations(self.context)
         stored_hash = annotations.get(SECTION_ITEMS_HASH_KEY)
         if stored_hash != new_hash:

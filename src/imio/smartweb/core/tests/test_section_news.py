@@ -110,6 +110,15 @@ class TestSectionNews(ImioSmartwebTestCase):
         self.assertEqual(hash_2, hash_3)
         self.assertEqual(next_modification, last_modification)
 
+        sleep(1)
+        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
+        m.get(url, text=None)
+        self.assertEqual(len(news_view.items), 0)
+        no_modification = self.portalpage.ModificationDate()
+        hash_4 = annotations.get(SECTION_ITEMS_HASH_KEY)
+        self.assertEqual(hash_3, hash_4)
+        self.assertEqual(last_modification, no_modification)
+
     @requests_mock.Mocker()
     def test_orientation(self, m):
         intids = getUtility(IIntIds)

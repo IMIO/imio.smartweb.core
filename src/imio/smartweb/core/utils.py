@@ -71,7 +71,8 @@ def get_json(url, auth=None, timeout=5):
         return None
     if response.status_code != 200:
         return None
-    return json.loads(response.text)
+    if response.text:
+        return json.loads(response.text)
 
 
 def get_wca_token(client_id, client_secret):
