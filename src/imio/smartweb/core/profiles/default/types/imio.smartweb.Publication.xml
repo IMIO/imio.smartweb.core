@@ -19,7 +19,7 @@
 
   <!-- Schema, class and security -->
   <!-- if we can add a page, we can add a page section -->
-  <property name="add_permission">imio.smartweb.core.AddPage</property>
+  <property name="add_permission">cmf.ManagePortal</property>
   <property name="klass">imio.smartweb.core.contents.Publication</property>
   <property name="schema">imio.smartweb.core.contents.IPublication</property>
 

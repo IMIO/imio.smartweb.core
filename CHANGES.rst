@@ -5,7 +5,9 @@ Changelog
 1.2.68 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4134 : Restrict Publication content type to Manager for now.
+  This is to avoid putting the content type to production sites without notice.
+  [laulaz, remdub]
 
 
 1.2.67 (2024-09-04)
