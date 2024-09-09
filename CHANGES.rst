@@ -5,6 +5,9 @@ Changelog
 1.2.68 (unreleased)
 -------------------
 
+- CITI-4 : Add conditional log to debug WCA token errors
+  [laulaz]
+
 - WEB-4134 : Restrict Publication content type to Manager for now.
   This is to avoid putting the content type to production sites without notice.
   [laulaz, remdub]

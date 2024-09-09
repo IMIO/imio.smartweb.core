@@ -2,6 +2,7 @@
 
 from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
+from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import WCA_URL
 from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
@@ -92,6 +93,8 @@ def get_wca_token(client_id, client_secret):
     }
     response = requests.post(WCA_URL, headers=headers, data=payload)
     id_token = response.json().get("id_token")
+    if is_log_active():
+        logger.info(f"WCA token retrieved : {id_token}")
     return "Bearer {0}".format(id_token)
 
 
