@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.68 (unreleased)
+1.2.68 (2024-09-09)
 -------------------
 
 - WEB-3995 : Don't reindex section when we receive no JSON (ex: timeout)
