@@ -2,6 +2,7 @@
 
 from Acquisition import aq_inner
 from imio.smartweb.common.utils import get_vocabulary
+from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.core.utils import reindexParent
@@ -161,3 +162,8 @@ class HashableJsonSectionView(SectionView):
             alsoProvides(self.request, IDisableCSRFProtection)
             modified(self.context)
             annotations[SECTION_ITEMS_HASH_KEY] = new_hash
+            if is_log_active():
+                if "JSONS" in annotations:
+                    annotations["JSONS"].append(self.json_data)
+                else:
+                    annotations["JSONS"] = [self.json_data]

@@ -5,7 +5,8 @@ Changelog
 1.2.69 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-3995 : Add temporary debug annotation to verify section hash updates
+  [laulaz, remdub]
 
 
 1.2.68 (2024-09-09)
