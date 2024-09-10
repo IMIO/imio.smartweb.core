@@ -76,7 +76,7 @@ class OgpTagsViewlet(HeaderViewlet):
             client_secret = os.environ.get("RESTAPI_NEWS_CLIENT_SECRET")
         auth = get_wca_token(client_id, client_secret)
         auth_source_url = f"{auth_source_url}/{endpoint}?UID={uid}&{params}"
-        result_json = get_json(auth_source_url, auth=None)
+        result_json = get_json(auth_source_url, auth=auth)
         if result_json:
             self._item = result_json["items"][0]
             self._set_image()

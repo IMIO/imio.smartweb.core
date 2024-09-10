@@ -5,6 +5,10 @@ Changelog
 1.2.69 (unreleased)
 -------------------
 
+- WEB-4121 : Fix missing auth for OGP tags
+  See commit 381a5e422d8705f86c434d2f0d4bd099938b9cc3
+  [laulaz]
+
 - WEB-3995 : Add temporary debug annotation to verify section hash updates
   [laulaz, remdub]
 
