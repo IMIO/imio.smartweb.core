@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.69 (unreleased)
+1.2.69 (2024-09-10)
 -------------------
 
 - WEB-4121 : Fix missing auth for OGP tags
