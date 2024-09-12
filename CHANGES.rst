@@ -5,7 +5,8 @@ Changelog
 1.2.70 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4144 : Set requests timeout to 12 when we populate RemoteContacts vocabulary
+  [remdub]
 
 
 1.2.69 (2024-09-10)
