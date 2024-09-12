@@ -5,7 +5,8 @@ Changelog
 1.2.70 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4143 : Fix a CSRF bug in section files
+  [boulch]
 
 
 1.2.69 (2024-09-10)

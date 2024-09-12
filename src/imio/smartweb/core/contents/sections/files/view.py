@@ -4,13 +4,16 @@ from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionVie
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_scale_url
 from plone import api
+from plone.protect.interfaces import IDisableCSRFProtection
 from zope.component import queryMultiAdapter
+from zope.interface import alsoProvides
 
 
 class FilesView(CarouselOrTableSectionView):
     """Files Section view"""
 
     def items(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
         orientation = self.context.orientation
         image_scale = self.image_scale
         items = super(FilesView, self).items()
