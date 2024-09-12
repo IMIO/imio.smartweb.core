@@ -224,7 +224,7 @@ class RemoteContactsVocabularyFactory:
             "metadata_fields=breadcrumb",
         ]
         url = "{}/@search?{}".format(DIRECTORY_URL, "&".join(params))
-        json_contacts = get_json(url, None, 8)
+        json_contacts = get_json(url, None, 12)
         if json_contacts is None or len(json_contacts.get("items", [])) == 0:
             return SimpleVocabulary([])
         return SimpleVocabulary(
