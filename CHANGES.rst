@@ -8,6 +8,9 @@ Changelog
 - WEB-4143 : Fix a CSRF bug in section files
   [boulch]
 
+- WEB-4144 : Set requests timeout to 12 when we populate RemoteContacts vocabulary
+  [remdub]
+
 
 1.2.69 (2024-09-10)
 -------------------
