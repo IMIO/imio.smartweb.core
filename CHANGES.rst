@@ -5,6 +5,9 @@ Changelog
 1.2.70 (unreleased)
 -------------------
 
+- WEB-4143 : Fix a CSRF bug in section files
+  [boulch]
+
 - WEB-4144 : Set requests timeout to 12 when we populate RemoteContacts vocabulary
   [remdub]
 
