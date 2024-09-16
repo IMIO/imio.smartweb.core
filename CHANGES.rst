@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.70 (unreleased)
+1.2.70 (2024-09-16)
 -------------------
 
 - WEB-4143 : Fix a CSRF bug in section files
