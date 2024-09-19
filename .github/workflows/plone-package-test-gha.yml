@@ -1,0 +1,50 @@
+name: Tests
+
+on:
+  workflow_dispatch:
+
+jobs:
+  black:
+    runs-on: gha-runners-smartweb
+    steps:
+    - name: Checkout codebase
+      uses: actions/checkout@v4
+    - name: Run check
+      uses: IMIO/gha/code-analysis-notify@main
+      with:
+        BASE_DIR: 'src'
+        CHECK: 'black'
+        PATH: |
+          imio/smartweb/core
+        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
+
+  test:
+    runs-on: gha-runners-smartweb
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, '3.10']
+    steps:
+    - name: Checkout codebase
+      uses: actions/checkout@v4
+    - name: Run check
+      uses: IMIO/gha/plone-package-test-notify@main
+      with:
+        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
+        PYTHON_VERSION: ${{ matrix.python-version }}
+
+  coverage:
+    runs-on: gha-runners-smartweb
+    steps:
+    - name: Checkout codebase
+      uses: actions/checkout@v4
+    - name: Run check
+      uses: IMIO/gha/plone-package-test-notify@main
+      with:
+        TEST_COMMAND: TZ=UTC coverage run bin/test
+        REQUIREMENTS_FILE: 'requirements-coverage.txt'
+        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
+    - name: Submit to Coveralls
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: echo coveralls --service=github
+
