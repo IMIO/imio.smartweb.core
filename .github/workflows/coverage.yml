@@ -13,7 +13,7 @@ jobs:
     - name: Run check
       uses: IMIO/gha/plone-package-test-notify@main
       with:
-        TEST_COMMAND: coverage run bin/test
+        TEST_COMMAND: TZ=UTC coverage run bin/test
         REQUIREMENTS_FILE: 'requirements-coverage.txt'
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
     - name: Submit to Coveralls
