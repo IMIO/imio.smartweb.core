@@ -29,6 +29,8 @@ jobs:
     - name: Run check
       uses: IMIO/gha/plone-package-test-notify@main
       with:
+        CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-${{ matrix.python-version }}
+        TEST_COMMAND: TZ=UTC bin/test
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
         PYTHON_VERSION: ${{ matrix.python-version }}
 
@@ -40,6 +42,7 @@ jobs:
     - name: Run check
       uses: IMIO/gha/plone-package-test-notify@main
       with:
+        CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-3.10
         TEST_COMMAND: TZ=UTC coverage run bin/test
         REQUIREMENTS_FILE: 'requirements-coverage.txt'
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
