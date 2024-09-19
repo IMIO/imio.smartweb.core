@@ -10,9 +10,10 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: plone/code-analysis-action@v2
+      uses: IMIO/gha/code-analysis-notify@main
       with:
-        base_dir: 'src'
-        check: 'black'
-        path: |
+        BASE_DIR: 'src'
+        CHECK: 'black'
+        PATH: |
           imio/smartweb/core
+        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
