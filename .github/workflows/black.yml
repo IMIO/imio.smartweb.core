@@ -5,8 +5,7 @@ on:
 
 jobs:
   test:
-    runs-on:
-      group: 'self-hosted'
+    runs-on: gha-runners-smartweb
     steps:
     - name: Checkout codebase
       uses: actions/checkout@v4
