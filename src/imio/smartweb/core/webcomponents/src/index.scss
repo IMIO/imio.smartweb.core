@@ -121,6 +121,15 @@
                 border: solid 1px #868686;
             }
         }
+        &-title {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            &-size {
+                font-size: 14px;
+                opacity: 0.5;
+            }
+        }
     }
 
     span {

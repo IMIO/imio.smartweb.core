@@ -5,6 +5,9 @@ Changelog
 1.2.71 (unreleased)
 -------------------
 
+- WEB-4024 : Add React event files size
+  [thomlamb]
+  
 - WEB-4027 : Add linkedin icon and change Twitter icon to X icon 
   [thomlamb]
 

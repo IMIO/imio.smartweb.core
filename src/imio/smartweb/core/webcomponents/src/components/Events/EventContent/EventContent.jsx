@@ -566,7 +566,12 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                     className="r-content-file-link"
                                     rel="nofollow"
                                 >
-                                    <span className="r-content-file-title">{file.title}</span>
+                                    <div className="r-content-file-title">
+                                        {file.title}
+                                        <span className="r-content-file-title-size">
+                                            {Number(file.file.size / 1000).toFixed(2)} KB
+                                        </span>
+                                    </div>
                                     <span className="r-content-file-icon">
                                         <svg
                                             width="21"
