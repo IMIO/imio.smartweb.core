@@ -3,7 +3,7 @@ import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import { Translate } from "react-translated";
 import { LanguageContext } from "../News.jsx";
-const NewsCard = ({ item, showCategoriesOrTopics, contextAuthenticatedUser }) => {
+const NewsCard = ({ item, showCategoriesOrTopics }) => {
     const [limitDescription, setLimitDescription] = useState();
     const [itemTopic, setItemTopic] = useState(null);
 
@@ -28,7 +28,7 @@ const NewsCard = ({ item, showCategoriesOrTopics, contextAuthenticatedUser }) =>
         }
     }, [item]);
     moment.locale(useContext(LanguageContext));
-    const created = moment(item.created).startOf("minute").fromNow();
+    const created = moment(item.effective).startOf("minute").fromNow();
     const lastModified = moment(item.modified).startOf("minute").fromNow();
     return (
         <>
