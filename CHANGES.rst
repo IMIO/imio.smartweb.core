@@ -5,7 +5,8 @@ Changelog
 1.2.71 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4146 : Replace created by effective date in news cards 
+  [thomlamb]
 
 
 1.2.70 (2024-09-16)
