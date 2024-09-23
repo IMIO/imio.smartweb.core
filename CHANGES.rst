@@ -5,6 +5,9 @@ Changelog
 1.2.71 (unreleased)
 -------------------
 
+- WEB-4027 : Add linkedin icon and change Twitter icon to X icon 
+  [thomlamb]
+
 - WEB-4146 : Replace created by effective date in news cards 
   [thomlamb]
 
