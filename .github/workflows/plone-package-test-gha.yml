@@ -52,5 +52,5 @@ jobs:
     - name: Submit to Coveralls
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: echo coveralls --service=github
+      run: coveralls --service=github
 
