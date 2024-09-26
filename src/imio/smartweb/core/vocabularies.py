@@ -636,7 +636,8 @@ SendInBlueButtonPosVocabulary = SendInBlueButtonPosVocabularyFactory()
 class RemoteIADeliberationsInstitutionsVocabularyFactory:
     def __call__(self, context=None):
         iadeliberation_url = get_iadeliberation_url_from_registry()
-        url = f"{iadeliberation_url}/@search?portal_type=Institution&metadata_fields=UID&sort_on=sortable_title"
+        # What a devilish request... Get institutions from deliberations. Come on !
+        url = f"{iadeliberation_url}/@search?portal_type=Institution&metadata_fields=UID&sort_on=sortable_title&b_size=666"
         try:
             json_institutions = get_iadeliberation_json(url)
             return SimpleVocabulary(

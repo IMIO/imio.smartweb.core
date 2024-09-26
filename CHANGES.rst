@@ -5,6 +5,9 @@ Changelog
 1.2.71 (unreleased)
 -------------------
 
+- Fix : Increase b_size value to get all institutions from ia.deliberations
+  [boulch]
+
 - WEB-4024 : Add React event files size
   [thomlamb]
   
