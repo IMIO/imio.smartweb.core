@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.71 (unreleased)
+1.2.71 (2024-09-30)
 -------------------
 
 - Fix : Increase b_size value to get all institutions from ia.deliberations
