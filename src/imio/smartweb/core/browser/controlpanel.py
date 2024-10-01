@@ -171,11 +171,13 @@ class ISmartwebControlPanel(Interface):
         description=_(
             "For staging : https://conseil.staging.imio.be | for production : https://www.deliberations.be"
         ),
+        default="https://www.deliberations.be",
         required=False,
     )
 
     iadeliberations_api_username = schema.TextLine(
         title=_("Username to consume I.A. Deliberations API"),
+        default="wsviewersmartweb",
         required=False,
     )
 

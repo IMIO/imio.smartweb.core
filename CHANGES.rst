@@ -5,7 +5,8 @@ Changelog
 1.2.72 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4134 : Add default values to some smartweb settings fields
+  [boulch]
 
 
 1.2.71 (2024-09-30)
