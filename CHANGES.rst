@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.72 (unreleased)
+1.2.72 (2024-10-02)
 -------------------
 
 - WEB-4152 : Add some logs to debug forwarding requests
