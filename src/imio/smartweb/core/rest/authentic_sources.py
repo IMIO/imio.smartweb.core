@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
@@ -12,8 +13,11 @@ from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
+import logging
 import os
 import requests
+
+logger = logging.getLogger("imio.smartweb.core")
 
 
 @implementer(IPublishTraverse)
@@ -40,6 +44,11 @@ class BaseRequestForwarder(Service):
         method = self.request.method
         token = get_wca_token(self.client_id, self.client_secret)
         headers = {"Accept": "application/json", "Authorization": token}
+        if is_log_active():
+            logger.info("======== Forwarding request to AUTHENTIC SOURCE =========")
+            logger.info(f"url to forward : {url} ({method})")
+            logger.info(f"token : {token}")
+            logger.info(f"headers : {headers}")
         params = self.request.form
         if method == "GET":
             params = self.add_missing_metadatas(params)

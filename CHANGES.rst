@@ -5,6 +5,9 @@ Changelog
 1.2.72 (unreleased)
 -------------------
 
+- WEB-4152 : Add some logs to debug forwarding requests
+  [boulch]
+
 - WEB-4134 : Add default values to some smartweb settings fields
   [boulch]
 
