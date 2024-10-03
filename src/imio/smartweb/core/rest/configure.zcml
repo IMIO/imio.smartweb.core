@@ -1,7 +1,9 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone">
+    xmlns:cache="http://namespaces.zope.org/cache"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
 
   <!-- Directory  -->
   <plone:service
@@ -38,6 +40,12 @@
       for="*"
       permission="zope2.View"
       name="@directory_request_forwarder"
+      />
+
+  <cache:ruleset
+      for=".authentic_sources.DirectoryRequestForwarder"
+      ruleset="plone.content.dynamic"
+      zcml:condition="have plone-app-caching-3"
       />
 
 
@@ -78,6 +86,12 @@
       name="@events_request_forwarder"
       />
 
+  <cache:ruleset
+      for=".authentic_sources.EventsRequestForwarder"
+      ruleset="plone.content.dynamic"
+      zcml:condition="have plone-app-caching-3"
+      />
+
 
   <!-- News  -->
   <plone:service
@@ -114,6 +128,12 @@
       for="*"
       permission="zope2.View"
       name="@news_request_forwarder"
+      />
+
+  <cache:ruleset
+      for=".authentic_sources.NewsRequestForwarder"
+      ruleset="plone.content.dynamic"
+      zcml:condition="have plone-app-caching-3"
       />
 
 </configure>
