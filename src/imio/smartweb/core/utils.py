@@ -208,11 +208,9 @@ def get_iadeliberation_url_from_registry():
     return iadeliberation_url
 
 
-def get_iadeliberation_institution_from_registry():
-    iadeliberation_institution = api.portal.get_registry_record(
-        "smartweb.iadeliberations_institution"
-    )
-    return iadeliberation_institution
+def get_value_from_registry(key):
+    val = api.portal.get_registry_record(key)
+    return val
 
 
 def get_iadeliberation_json(url):
@@ -226,4 +224,20 @@ def get_iadeliberation_json(url):
     b64Val = base64.b64encode(usrPass)
     json = get_json(url, auth=f"Basic {b64Val.decode('utf-8')}", timeout=20)
 
+    return json
+
+
+def get_iaideabox_json(url):
+    user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+    pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+    usrPass = f"{user}:{pwd}".encode("utf-8")
+    b64Val = base64.b64encode(usrPass)
+    json = get_json(url, auth=f"Basic {b64Val.decode('utf-8')}", timeout=20)
+    return json
+
+
+def get_basic_auth_json(url, user, pwd):
+    usrPass = f"{user}:{pwd}".encode("utf-8")
+    b64Val = base64.b64encode(usrPass)
+    json = get_json(url, auth=f"Basic {b64Val.decode('utf-8')}", timeout=20)
     return json

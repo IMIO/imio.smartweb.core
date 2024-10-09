@@ -60,7 +60,7 @@ class TestVocabularies(ImioSmartwebTestCase):
             "Acte de mariage",
         )
         api.portal.set_registry_record(
-            "smartweb.url_formdefs_api",
+            "smartweb.url_combo_api",
             "https://demo.guichet-citoyen.be/api/formdefs/?query=kamoulox",
         )
         m.get(
@@ -77,7 +77,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         m.get(GUICHET_URL, status_code=404)
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
-        api.portal.set_registry_record("smartweb.url_formdefs_api", "")
+        api.portal.set_registry_record("smartweb.url_combo_api", "")
         m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
@@ -316,9 +316,7 @@ class TestVocabularies(ImioSmartwebTestCase):
             "Waremme",
         )
 
-    @patch(
-        "imio.smartweb.core.vocabularies.get_iadeliberation_institution_from_registry"
-    )
+    @patch("imio.smartweb.core.vocabularies.get_value_from_registry")
     @patch("imio.smartweb.core.vocabularies.get_iadeliberation_url_from_registry")
     @requests_mock.Mocker()
     def test_remote_iadeliberations_publications(self, m_url, m_institution, m):

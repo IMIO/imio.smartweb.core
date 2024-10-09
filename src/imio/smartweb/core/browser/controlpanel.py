@@ -22,11 +22,9 @@ class ISendinblueTextRowSchema(Interface):
 
 
 class ISmartwebControlPanel(Interface):
-    url_formdefs_api = schema.TextLine(
-        title=_("Url to get forms from your e-guichet"),
-        description=_(
-            "Example : https://COMMUNE-formulaires.guichet-citoyen.be/api/formdefs/"
-        ),
+    url_combo_api = schema.TextLine(
+        title=_("Url to e-guichet combo API"),
+        description=_("Example : https://COMMUNE-formulaires.guichet-citoyen.be/api"),
         required=False,
     )
 
@@ -192,6 +190,21 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    iaideabox_api_username = schema.TextLine(
+        title=_(
+            "Username to consume e-guichet ideabox API (get Campaign, projects,...)"
+        ),
+        default="ideabox",
+        required=False,
+    )
+
+    iaideabox_api_password = schema.Password(
+        title=_(
+            "Password to consume e-guichet ideabox API (get Campaign, projects,...)"
+        ),
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
@@ -203,16 +216,39 @@ class SmartwebControlPanelForm(RegistryEditForm):
         iadeliberation_pwd = api.portal.get_registry_record(
             "smartweb.iadeliberation_api_password"
         )
+
+        iaideabox_pwd = api.portal.get_registry_record(
+            "smartweb.iaideabox_api_password"
+        )
+
         secret_key_api = api.portal.get_registry_record("smartweb.secret_key_api")
 
         # if data is None when we apply changes for password fields we keep password from registry
         if not data.get("iadeliberation_api_password"):
             data["iadeliberation_api_password"] = iadeliberation_pwd
 
+        if not data.get("iaideabox_api_password"):
+            data["iaideabox_api_password"] = iaideabox_pwd
+
         if not data.get("secret_key_api"):
             data["secret_key_api"] = secret_key_api
 
         return super().applyChanges(data)
+
+    def updateFields(self):
+        """Override updateFields to hide fields based on ideabox profile installation."""
+        super(SmartwebControlPanelForm, self).updateFields()
+
+        # Check if the 'ideabox' profile is installed
+        portal_setup = api.portal.get_tool(name="portal_setup")
+        profile_version = portal_setup.getLastVersionForProfile(
+            "imio.smartweb.core:ideabox"
+        )
+
+        if profile_version == "unknown":
+            # Hide the field related to Idea Box if the profile is not installed
+            self.fields = self.fields.omit("iaideabox_api_username")
+            self.fields = self.fields.omit("iaideabox_api_password")
 
 
 SmartwebControlPanelView = layout.wrap_form(

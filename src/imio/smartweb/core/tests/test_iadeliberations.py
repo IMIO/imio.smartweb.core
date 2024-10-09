@@ -56,9 +56,7 @@ class TestIADeliberations(ImioSmartwebTestCase):
         )
 
     @patch("imio.smartweb.core.subscribers.get_iadeliberation_json")
-    @patch(
-        "imio.smartweb.core.subscribers.get_iadeliberation_institution_from_registry"
-    )
+    @patch("imio.smartweb.core.subscribers.get_value_from_registry")
     def test_ct_publication_adding(self, m_get_institution, m_get_publication):
         m_get_institution.return_value = "https://conseil.staging.imio.be/liege"
         m_get_publication.return_value = self.json_publication_raw_mock
@@ -97,9 +95,7 @@ class TestIADeliberations(ImioSmartwebTestCase):
         self.assertNotIn("publication", parent.objectIds())
 
     @patch("imio.smartweb.core.subscribers.get_iadeliberation_json")
-    @patch(
-        "imio.smartweb.core.subscribers.get_iadeliberation_institution_from_registry"
-    )
+    @patch("imio.smartweb.core.subscribers.get_value_from_registry")
     def test_publication_view(self, m_get_institution, m_get_publication):
         m_get_institution.return_value = "https://conseil.staging.imio.be/liege"
         m_get_publication.return_value = self.json_publication_raw_mock

@@ -267,6 +267,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1062_to_1063"
+      title="Upgrade core from 1062 to 1063"
+      directory="profiles/1062_to_1063"
+      description="Add new content type : imio.smartweb.CampaignView"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -890,5 +898,21 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1060_to_1061"
         />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Update control panel combo api url"
+      source="1061"
+      destination="1062"
+      handler=".upgrades.update_control_panel_combo_api_url"
+      profile="imio.smartweb.core:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="Update control panel combo api fieldname"
+      source="1062"
+      destination="1063"
+      handler=".upgrades.update_control_panel_combo_api_fieldname"
+      profile="imio.smartweb.core:default"
+      />
 
 </configure>

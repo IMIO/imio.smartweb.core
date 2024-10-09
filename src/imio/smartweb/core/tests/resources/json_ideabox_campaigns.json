@@ -1,0 +1,425 @@
+{
+    "data": [
+        {
+            "uuid": "5adbe1ab-66cb-4fb3-b9d6-4dd32aac7dcb",
+            "id": "3",
+            "internal_id": "3",
+            "display_id": "21-3",
+            "display_name": "iMio - IDEABOX - Campagne - n°21-3",
+            "text": "Texte de la nouvelle campagne",
+            "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-campagne/3/",
+            "receipt_time": "2024-10-08T11:31:45",
+            "last_update_time": "2024-10-09T11:26:35",
+            "criticality_level": 0,
+            "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-campagne/3/",
+            "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-campagne/3/",
+            "fields": {
+                "titre": "Une nouvelle campagne",
+                "description": "<h3>Ma campagne</h3><h4>Kamoulox</h4><p>Ceci est une campagne.</p>",
+                "debut": "1988-06-18",
+                "fin": null,
+                "themes_raw": null,
+                "themes": null,
+                "zones_raw": null,
+                "zones": null
+            },
+            "workflow": {
+                "status": {
+                    "id": "0",
+                    "name": "Active",
+                    "endpoint": false,
+                    "first_arrival_datetime": "2024-10-09T09:26:35.562791+00:00",
+                    "latest_arrival_datetime": "2024-10-09T09:26:35.562791+00:00"
+                },
+                "real_status": {
+                    "id": "0",
+                    "name": "Active",
+                    "endpoint": false,
+                    "first_arrival_datetime": "2024-10-09T09:26:35.562791+00:00",
+                    "latest_arrival_datetime": "2024-10-09T09:26:35.562791+00:00"
+                }
+            },
+            "actions": {},
+            "roles": {
+                "_editor": [
+                    {
+                        "name": "Debug",
+                        "text": "Debug",
+                        "allows_backoffice_access": true,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "debug",
+                        "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                    }
+                ],
+                "_api": [
+                    {
+                        "name": "API IDEABox",
+                        "text": "API IDEABox",
+                        "allows_backoffice_access": false,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "api-ideabox",
+                        "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                    }
+                ],
+                "concerned": [
+                    {
+                        "name": "Debug",
+                        "text": "Debug",
+                        "allows_backoffice_access": true,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "debug",
+                        "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                    },
+                    {
+                        "name": "API IDEABox",
+                        "text": "API IDEABox",
+                        "allows_backoffice_access": false,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "api-ideabox",
+                        "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                    }
+                ],
+                "actions": []
+            },
+            "submission": {
+                "backoffice": false,
+                "channel": "web",
+                "parent": {
+                    "url": "https://staging3-formulaires.guichet-citoyen.be/creer-une-campagne/1/",
+                    "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/creer-une-campagne/1/",
+                    "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/creer-une-campagne/1/"
+                }
+            },
+            "evolution": [
+                {
+                    "time": "2024-10-08T09:31:45.897632+00:00",
+                    "last_jump_datetime": null,
+                    "who_id": "_submitter",
+                    "status": "recorded"
+                },
+                {
+                    "time": "2024-10-09T09:26:35.562791+00:00",
+                    "last_jump_datetime": null,
+                    "who_id": "1",
+                    "status": "0",
+                    "who": {
+                        "id": 1,
+                        "name": "Admin oob",
+                        "email": "admints@imio.be",
+                        "NameID": [
+                            "e59ba0ecbab04791959cb9bda8d9ac31"
+                        ]
+                    }
+                }
+            ],
+            "digest": "Campagne de la mort qui tue"
+        },
+        {
+            "uuid": "fbbd1edb-ab7f-4089-b281-1ee96235b6df",
+            "id": "2",
+            "internal_id": "2",
+            "display_id": "21-2",
+            "display_name": "iMio - IDEABOX - Campagne - n°21-2",
+            "text": "Sprint iMio Fall 2024",
+            "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-campagne/2/",
+            "receipt_time": "2024-10-08T11:02:14",
+            "last_update_time": "2024-10-09T11:26:41",
+            "criticality_level": 0,
+            "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-campagne/2/",
+            "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-campagne/2/",
+            "fields": {
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Nouveau test.</p>",
+                "debut": "2025-01-01",
+                "fin": "2025-01-02",
+                "themes_raw": [
+                    "1",
+                    "4",
+                    "2"
+                ],
+                "themes": "Domaine Expension, Grotte de Han, Ma femme, mon fils et",
+                "themes_structured": [
+                    {
+                        "id": 1,
+                        "text": "Domaine Expension",
+                        "nom": "Domaine Expension"
+                    },
+                    {
+                        "id": 4,
+                        "text": "Grotte de Han",
+                        "nom": "Grotte de Han"
+                    },
+                    {
+                        "id": 2,
+                        "text": "Ma femme, mon fils et",
+                        "nom": "Ma femme, mon fils et"
+                    }
+                ],
+                "zones_raw": [
+                    "1",
+                    "2"
+                ],
+                "zones": "A, Rouge",
+                "zones_structured": [
+                    {
+                        "id": 1,
+                        "text": "A",
+                        "nom": "A"
+                    },
+                    {
+                        "id": 2,
+                        "text": "Rouge",
+                        "nom": "Rouge"
+                    }
+                ]
+            },
+            "workflow": {
+                "status": {
+                    "id": "0",
+                    "name": "Active",
+                    "endpoint": false,
+                    "first_arrival_datetime": "2024-10-09T09:26:41.469588+00:00",
+                    "latest_arrival_datetime": "2024-10-09T09:26:41.469588+00:00"
+                },
+                "real_status": {
+                    "id": "0",
+                    "name": "Active",
+                    "endpoint": false,
+                    "first_arrival_datetime": "2024-10-09T09:26:41.469588+00:00",
+                    "latest_arrival_datetime": "2024-10-09T09:26:41.469588+00:00"
+                }
+            },
+            "actions": {},
+            "roles": {
+                "_editor": [
+                    {
+                        "name": "Debug",
+                        "text": "Debug",
+                        "allows_backoffice_access": true,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "debug",
+                        "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                    }
+                ],
+                "_api": [
+                    {
+                        "name": "API IDEABox",
+                        "text": "API IDEABox",
+                        "allows_backoffice_access": false,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "api-ideabox",
+                        "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                    }
+                ],
+                "concerned": [
+                    {
+                        "name": "Debug",
+                        "text": "Debug",
+                        "allows_backoffice_access": true,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "debug",
+                        "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                    },
+                    {
+                        "name": "API IDEABox",
+                        "text": "API IDEABox",
+                        "allows_backoffice_access": false,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "api-ideabox",
+                        "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                    }
+                ],
+                "actions": []
+            },
+            "submission": {
+                "backoffice": true,
+                "channel": "web",
+                "agent": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            "evolution": [
+                {
+                    "time": "2024-10-08T09:02:14.186791+00:00",
+                    "last_jump_datetime": "2024-10-09T09:24:24.188920+00:00",
+                    "who_id": "1",
+                    "status": "recorded",
+                    "who": {
+                        "id": 1,
+                        "name": "Admin oob",
+                        "email": "admints@imio.be",
+                        "NameID": [
+                            "e59ba0ecbab04791959cb9bda8d9ac31"
+                        ]
+                    }
+                },
+                {
+                    "time": "2024-10-09T09:26:41.469588+00:00",
+                    "last_jump_datetime": null,
+                    "who_id": "1",
+                    "status": "0",
+                    "who": {
+                        "id": 1,
+                        "name": "Admin oob",
+                        "email": "admints@imio.be",
+                        "NameID": [
+                            "e59ba0ecbab04791959cb9bda8d9ac31"
+                        ]
+                    }
+                }
+            ],
+            "digest": "Sprint iMio Fall 2024"
+        },
+        {
+            "uuid": "1be25c35-f9db-4d5f-a056-d0fbcd407601",
+            "id": "1",
+            "internal_id": "1",
+            "display_id": "21-1",
+            "display_name": "iMio - IDEABOX - Campagne - n°21-1",
+            "text": "Plone 2022",
+            "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-campagne/1/",
+            "receipt_time": "2024-10-08T10:55:52",
+            "last_update_time": "2024-10-08T10:55:52",
+            "criticality_level": 0,
+            "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-campagne/1/",
+            "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-campagne/1/",
+            "fields": {
+                "titre": "Plone 2022",
+                "description": "<h3>Super convention</h3><h4>Plone</h4><p>Pour plone 6</p><ul><li><p>A Namur</p></li><li><p>iMio</p></li><li><p>Belgique</p></li></ul><p><em>Viendez</em></p><p>C'est <strong>Super</strong></p><p><a href=\"https://plone.fr/\" rel=\"nofollow\">https://plone.fr/</a></p>",
+                "debut": "2022-06-12",
+                "fin": "2022-12-14",
+                "themes_raw": null,
+                "themes": null,
+                "zones_raw": null,
+                "zones": null
+            },
+            "workflow": {
+                "status": {
+                    "id": "recorded",
+                    "name": "Enregistrée",
+                    "endpoint": false,
+                    "first_arrival_datetime": "2024-10-08T08:55:52.570774+00:00",
+                    "latest_arrival_datetime": "2024-10-08T08:55:52.570774+00:00"
+                },
+                "real_status": {
+                    "id": "recorded",
+                    "name": "Enregistrée",
+                    "endpoint": false,
+                    "first_arrival_datetime": "2024-10-08T08:55:52.570774+00:00",
+                    "latest_arrival_datetime": "2024-10-08T08:55:52.570774+00:00"
+                }
+            },
+            "actions": {},
+            "roles": {
+                "_editor": [
+                    {
+                        "name": "Debug",
+                        "text": "Debug",
+                        "allows_backoffice_access": true,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "debug",
+                        "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                    }
+                ],
+                "_api": [
+                    {
+                        "name": "API IDEABox",
+                        "text": "API IDEABox",
+                        "allows_backoffice_access": false,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "api-ideabox",
+                        "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                    }
+                ],
+                "concerned": [
+                    {
+                        "name": "Debug",
+                        "text": "Debug",
+                        "allows_backoffice_access": true,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "debug",
+                        "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                    },
+                    {
+                        "name": "API IDEABox",
+                        "text": "API IDEABox",
+                        "allows_backoffice_access": false,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "api-ideabox",
+                        "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                    }
+                ],
+                "actions": [
+                    {
+                        "name": "Debug",
+                        "text": "Debug",
+                        "allows_backoffice_access": true,
+                        "emails": [],
+                        "details": "",
+                        "emails_to_members": true,
+                        "slug": "debug",
+                        "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                    }
+                ]
+            },
+            "submission": {
+                "backoffice": true,
+                "channel": "web",
+                "agent": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            "evolution": [
+                {
+                    "time": "2024-10-08T08:55:52.570774+00:00",
+                    "last_jump_datetime": null,
+                    "who_id": "1",
+                    "status": "recorded",
+                    "who": {
+                        "id": 1,
+                        "name": "Admin oob",
+                        "email": "admints@imio.be",
+                        "NameID": [
+                            "e59ba0ecbab04791959cb9bda8d9ac31"
+                        ]
+                    }
+                }
+            ],
+            "digest": "Plone 2022"
+        }
+    ]
+}

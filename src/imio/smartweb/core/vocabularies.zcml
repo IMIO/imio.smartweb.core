@@ -8,6 +8,12 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.PublikCampaigns"
+      component=".vocabularies.RemoteCampaignsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.PublikProcedures"
       component=".vocabularies.RemoteProceduresVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
