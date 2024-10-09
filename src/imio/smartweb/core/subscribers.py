@@ -4,7 +4,8 @@ from imio.smartweb.common.faceted.utils import configure_faceted
 from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.common.utils import remove_cropping
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
-from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
+from imio.smartweb.core.utils import get_value_from_registry
+from imio.smartweb.core.utils import get_basic_auth_json
 from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import safe_html
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -114,7 +115,9 @@ def added_publication(obj, event):
     """save json attributes on object attributes"""
     # query the deliberation API with the
     # selected publication UID to retrieve all informations
-    iadeliberation_institution = get_iadeliberation_institution_from_registry()
+    iadeliberation_institution = get_value_from_registry(
+        "smartweb.iadeliberations_institution"
+    )
     url = f"{iadeliberation_institution}/publications/{obj.linked_publication}?fullobjects=y"
     try:
         json_publication = get_iadeliberation_json(url)
@@ -130,3 +133,24 @@ def added_publication(obj, event):
         obj.publication_attached_file = json_publication.get("file")
     except Exception:
         logger.error(f"Error while trying to get publication data from {url}")
+
+
+def added_campaignview(obj, event):
+    """save json attributes on object attributes"""
+    # query the deliberation API with the
+    # selected publication UID to retrieve all informations
+    combo_api = get_value_from_registry("smartweb.url_combo_api")
+    url = f"{combo_api}/cards/imio-ideabox-campagne/{obj.linked_campaign}"
+    try:
+        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+        pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+        json_campaign = get_basic_auth_json(url, user, pwd)
+        obj.title = json_campaign.get("fields").get("titre")
+        obj.description = json_campaign.get("fields").get("description")
+        obj.campaign_backoffice_url = json_campaign.get("@id")
+    except Exception:
+        logger.error(f"Error while trying to get publication data from {url}")
+
+
+def modified_campaignview(obj, event):
+    added_campaignview(obj, event)

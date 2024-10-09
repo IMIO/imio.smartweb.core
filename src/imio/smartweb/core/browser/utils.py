@@ -54,7 +54,8 @@ class UtilsView(BrowserView):
 
     def is_eguichet_aware(self):
         self.request.response.setHeader("Content-Type", "application/json")
-        url = api.portal.get_registry_record("smartweb.url_formdefs_api")
+        combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
+        url = f"{combo_api}/formdefs/"
         key = api.portal.get_registry_record("smartweb.secret_key_api")
         orig = "ia.smartweb"
         if not url:

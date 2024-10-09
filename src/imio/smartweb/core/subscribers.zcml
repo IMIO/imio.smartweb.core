@@ -25,4 +25,12 @@
                    zope.lifecycleevent.interfaces.IObjectAddedEvent"
               handler=".subscribers.added_publication" />
 
+  <subscriber for="imio.smartweb.core.contents.ICampaignView
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".subscribers.added_campaignview" />              
+
+  <subscriber for="imio.smartweb.core.contents.ICampaignView
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".subscribers.modified_campaignview" />
+
 </configure>
