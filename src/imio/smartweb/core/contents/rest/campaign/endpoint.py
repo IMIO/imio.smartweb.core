@@ -20,13 +20,22 @@ class CampaignEndpoint(BaseEndpoint):
         results = get_basic_auth_json(self.query_url, user, pwd)
         if not results:
             return {}
-        return results.get("data")
+        elif "data" in results:
+            return results.get("data")
+        else:
+            return results
 
     @property
     def query_url(self):
         combo_api_url = api.portal.get_registry_record("smartweb.url_combo_api")
-        campaign_id = self.context.linked_campaign
-        url = f"{combo_api_url}/cards/imio-ideabox-projet/list?campagne={campaign_id}&full=on"
+        if "id" in self.request.form:
+            # we want a specific project
+            project_id = self.request.form.get("id")
+            url = f"{combo_api_url}/cards/imio-ideabox-projet/{project_id}?full=on"
+        else:
+            # we want list of projects for a specific campaign
+            campaign_id = self.context.linked_campaign
+            url = f"{combo_api_url}/cards/imio-ideabox-projet/list?campagne={campaign_id}&full=on"
         return url
 
 
