@@ -19,9 +19,9 @@ const NewsList = (props) => {
                                         .replace(/[^a-zA-Z ]/g, "")
                                         .replace(/\s/g, "-")
                                         .toLowerCase(),
-                                search: `?u=${item.uuid}`,
+                                search: `?u=${item.id}`,
                                 state: {
-                                    idItem: item.uuid,
+                                    idItem: item.id,
                                 },
                             }}
                         ></Link>
