@@ -1,0 +1,17 @@
+.compaign-li {
+    position: relative;
+    list-style: none;
+    margin-bottom: 1.5rem;
+}
+
+.campaign-card-container {
+    box-shadow: 0 2px 11px rgba(0, 0, 0, 0.08);
+    height: 100%;
+    .campaign-img {
+        padding-bottom: 56%;
+        background: #c9c9c9;
+    }
+    .campaign-text {
+        padding: 20px;
+    }
+}
