@@ -14,7 +14,7 @@ from imio.smartweb.core.utils import get_categories
 from imio.smartweb.core.utils import get_iadeliberation_url_from_registry
 from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.core.utils import get_iadeliberation_json
-from imio.smartweb.core.utils import get_iaideabox_json
+from imio.smartweb.core.utils import get_basic_auth_json
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -75,9 +75,11 @@ IconsVocabulary = IconsVocabularyFactory()
 class RemoteCampaignsVocabularyFactory:
     def __call__(self, context=None):
         combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
+        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+        pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
         url = f"{combo_api}/cards/imio-ideabox-campagne/list?full=on"
         try:
-            json_campaigns = get_iaideabox_json(url)
+            json_campaigns = get_basic_auth_json(url, user, pwd)
             return SimpleVocabulary(
                 [
                     SimpleTerm(

@@ -18,9 +18,9 @@ class CampaignEndpoint(BaseEndpoint):
         user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
         pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
         results = get_basic_auth_json(self.query_url, user, pwd)
-        if not results.get("data"):
-            return results
-        return results["data"]
+        if not results:
+            return {}
+        return results.get("data")
 
     @property
     def query_url(self):

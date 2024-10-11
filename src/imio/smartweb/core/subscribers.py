@@ -14,9 +14,11 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.layout.navigation.interfaces import INavigationRoot
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.namedfile.field import NamedBlobImage
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
+from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
 from zope.lifecycleevent import ObjectRemovedEvent
@@ -124,7 +126,9 @@ def added_publication(obj, event):
     )
     url = f"{iadeliberation_institution}/publications/{obj.linked_publication}?fullobjects=y"
     try:
-        json_publication = get_iadeliberation_json(url)
+        user = api.portal.get_registry_record("smartweb.iadeliberations_api_username")
+        pwd = api.portal.get_registry_record("smartweb.iadeliberation_api_password")
+        json_publication = get_basic_auth_json(url, user, pwd)
         obj.title = json_publication.get("title")
         obj.description = json_publication.get("description")
         obj.publication_uid = json_publication.get("UID")
@@ -162,19 +166,14 @@ def removed_external_content(obj, event):
 
 def added_campaignview(obj, event):
     """save json attributes on object attributes"""
-    # query the deliberation API with the
-    # selected publication UID to retrieve all informations
     combo_api = get_value_from_registry("smartweb.url_combo_api")
-    url = f"{combo_api}/cards/imio-ideabox-campagne/{obj.linked_campaign}"
-    try:
-        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
-        pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
-        json_campaign = get_basic_auth_json(url, user, pwd)
-        obj.title = json_campaign.get("fields").get("titre")
-        obj.description = json_campaign.get("fields").get("description")
-        obj.campaign_backoffice_url = json_campaign.get("@id")
-    except Exception:
-        logger.error(f"Error while trying to get publication data from {url}")
+    ts_campaign_endpoint = "imio-ideabox-campagne"
+    url = f"{combo_api}/cards/{ts_campaign_endpoint}/{obj.linked_campaign}"
+    user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+    pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+    json_campaign = get_basic_auth_json(url, user, pwd)
+    obj.title = json_campaign.get("fields").get("titre")
+    obj.description = json_campaign.get("fields").get("description")
 
 
 def modified_campaignview(obj, event):
