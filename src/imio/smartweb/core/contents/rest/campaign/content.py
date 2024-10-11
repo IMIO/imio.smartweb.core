@@ -2,10 +2,21 @@
 
 from collective.instancebehavior.interfaces import IInstanceBehaviorAssignableContent
 from imio.smartweb.core.contents import RestView
+from imio.smartweb.core.utils import get_basic_auth_json
+from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone import api
+from plone.app.content.namechooser import NormalizingNameChooser
+from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.supermodel import model
 from zope import schema
+from zope.component import getUtility
+from zope.container.interfaces import INameChooser
 from zope.interface import implementer
+
+import logging
+
+logger = logging.getLogger("imio.smartweb.core")
 
 
 class ICampaignView(model.Schema):
@@ -33,3 +44,22 @@ class ICampaignView(model.Schema):
 @implementer(ICampaignView, IInstanceBehaviorAssignableContent)
 class CampaignView(RestView):
     """Campaign class"""
+
+
+@implementer(INameChooser)
+class CampaignNameChooser(NormalizingNameChooser):
+    def chooseName(self, name, obj):
+        if ICampaignView.providedBy(obj):
+            # Order in test : added subscriber > chooseName !!
+            # order in instance : chooseName > added subscriber ??
+            if not obj.title:
+                combo_api = get_value_from_registry("smartweb.url_combo_api")
+                ts_campaign_endpoint = "imio-ideabox-campagne"
+                url = f"{combo_api}/cards/{ts_campaign_endpoint}/{obj.linked_campaign}"
+                user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+                pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+                json_campaign = get_basic_auth_json(url, user, pwd)
+                obj.title = json_campaign.get("fields").get("titre")
+            normalized_id = super(CampaignNameChooser, self).chooseName(obj.title, obj)
+            return normalized_id
+        return super(CampaignNameChooser, self).chooseName(name, obj)

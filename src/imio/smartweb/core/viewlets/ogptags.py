@@ -58,6 +58,8 @@ class OgpTagsViewlet(HeaderViewlet):
         uid = self.request.form["u"]
         auth_source_url = ""
         endpoint = "@search"
+        result_json = None
+        client_id = None
         if IDirectoryView.providedBy(self.context):
             params = "fullobjects=1"
             auth_source_url = DIRECTORY_URL
@@ -74,9 +76,10 @@ class OgpTagsViewlet(HeaderViewlet):
             auth_source_url = NEWS_URL
             client_id = os.environ.get("RESTAPI_NEWS_CLIENT_ID")
             client_secret = os.environ.get("RESTAPI_NEWS_CLIENT_SECRET")
-        auth = get_wca_token(client_id, client_secret)
-        auth_source_url = f"{auth_source_url}/{endpoint}?UID={uid}&{params}"
-        result_json = get_json(auth_source_url, auth=auth)
+        if client_id:
+            auth = get_wca_token(client_id, client_secret)
+            auth_source_url = f"{auth_source_url}/{endpoint}?UID={uid}&{params}"
+            result_json = get_json(auth_source_url, auth=auth)
         if result_json:
             self._item = result_json["items"][0]
             self._set_image()

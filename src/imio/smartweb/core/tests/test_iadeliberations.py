@@ -55,7 +55,7 @@ class TestIADeliberations(ImioSmartwebTestCase):
             ),
         )
 
-    @patch("imio.smartweb.core.subscribers.get_iadeliberation_json")
+    @patch("imio.smartweb.core.subscribers.get_basic_auth_json")
     @patch("imio.smartweb.core.subscribers.get_value_from_registry")
     def test_ct_publication_adding(self, m_get_institution, m_get_publication):
         m_get_institution.return_value = "https://conseil.staging.imio.be/liege"
