@@ -5,7 +5,8 @@ Changelog
 1.2.73 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4156 : Allow to specifiy if a wca token is needed when forwarding requests
+  [remdub]
 
 
 1.2.72 (2024-10-02)
