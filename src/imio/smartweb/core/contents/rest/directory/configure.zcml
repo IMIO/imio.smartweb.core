@@ -1,7 +1,9 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:cache="http://namespaces.zope.org/cache"
     xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
     i18n_domain="imio.smartweb">
 
   <browser:page
@@ -22,6 +24,11 @@
     permission="zope2.View"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />
+  <cache:ruleset
+    for=".endpoint.DirectoryEndpointGet"
+    ruleset="imio.smartweb.core.rest"
+    zcml:condition="have plone-app-caching-3"
+    />
 
   <plone:service
     name="@results-filters"
@@ -31,6 +38,12 @@
     factory=".endpoint.DirectoryFiltersEndpointGet"
     permission="zope2.View"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <cache:ruleset
+    for=".endpoint.DirectoryFiltersEndpointGet"
+    ruleset="imio.smartweb.core.rest"
+    zcml:condition="have plone-app-caching-3"
     />
 
 </configure>

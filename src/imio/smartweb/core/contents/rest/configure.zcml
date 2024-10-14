@@ -1,5 +1,7 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:cache="http://namespaces.zope.org/cache"
+    i18n_domain="imio.smartweb">
 
   <include package=".directory" />
   <include package=".events" />
@@ -12,5 +14,11 @@
       provides="zope.publisher.interfaces.IPublishTraverse"
       factory=".traversal.RestViewTraversable"
       />
+
+  <cache:rulesetType
+    name="imio.smartweb.core.rest"
+    title="imio.smartweb.core rest endpoints"
+    description="rest endpoints overriden by imio.smartweb.core"
+    />
 
 </configure>
