@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.73 (unreleased)
+1.2.73 (2024-10-14)
 -------------------
 
 - WEB-4156 : Allow to specifiy if a wca token is needed when forwarding requests
