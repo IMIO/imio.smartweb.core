@@ -8,6 +8,7 @@ from imio.smartweb.common.contact_utils import formatted_schedule
 from imio.smartweb.common.contact_utils import get_schedule_for_today
 from imio.smartweb.core.contents.sections.contact.utils import ContactProperties
 from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
+from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -18,6 +19,7 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.testing.zope import Browser
 from time import sleep
+from unittest.mock import patch
 from zope.annotation.interfaces import IAnnotations
 from zope.component import queryMultiAdapter
 
@@ -58,6 +60,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         self.assertIn("My contact", view())
         contact_view = queryMultiAdapter((contact, self.request), name="view")
         self.assertIsNone(contact_view.contacts())
+
         authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
         contact.related_contacts = [authentic_contact_uid]
         contact_search_url = (
@@ -75,6 +78,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
         self.assertIsNone(contact_view.contacts())
         m.get(contact_search_url, text=json.dumps(self.json_contact))
+        clear_cache(self.request)
         self.assertIsNotNone(contact_view.contacts())
         json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
         self.assertEqual(json_contact.contact_type_class, "contact-type-organization")
@@ -130,6 +134,17 @@ class TestSectionContact(ImioSmartwebTestCase):
         images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
         self.assertIsNone(images)
 
+    # Separate test test_sorted_contacts_is_none / test_sorted_contacts 'cause of Memoize ??!!
+    @requests_mock.Mocker()
+    def test_sorted_contacts_is_none(self, m):
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertIsNone(contact_view.contacts())
+
     @requests_mock.Mocker()
     def test_sorted_contacts(self, m):
         contact = api.content.create(
@@ -138,7 +153,6 @@ class TestSectionContact(ImioSmartwebTestCase):
             title="My contact",
         )
         contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.contacts())
         authentic_contact_uid = [
             "2dc381f0fb584381b8e4a19c84f53b35",
             "af7bd1f547034b24a2e0da16c0ba0358",
@@ -549,14 +563,22 @@ class TestSectionContact(ImioSmartwebTestCase):
 
         annotations = IAnnotations(contact)
         self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
+        # Does this still make sense?
+        # Populating contact depend on it's container.
+        import pdb
 
+        pdb.set_trace()
         self.assertIsNotNone(contact_view.contacts())
+        import pdb
+
+        pdb.set_trace()
         hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertIsNotNone(hash_1)
         first_modification = self.page.ModificationDate()
 
         sleep(1)
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
+        clear_cache(self.request)
         self.assertIsNone(contact_view.contacts())
         next_modification = self.page.ModificationDate()
         hash_2 = annotations.get(SECTION_ITEMS_HASH_KEY)

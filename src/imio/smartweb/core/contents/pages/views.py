@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
+from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.interfaces import IHtmxViewUtils
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
+from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from Products.CMFPlone.resources import add_bundle_on_request
 from plone import api
@@ -11,10 +13,13 @@ from plone.app.content.browser.contents.rearrange import OrderContentsBaseAction
 from plone.app.content.utils import json_loads
 from plone.app.contenttypes.browser.folder import FolderView
 from plone.app.contenttypes.browser.full_view import FullViewItem as BaseFullViewItem
+from plone.memoize.view import memoize
 from Products.CMFPlone import utils
 from Products.CMFPlone.browser.navigation import PhysicalNavigationBreadcrumbs
 from zope.component import getMultiAdapter
 from zope.interface import implementer
+
+import itertools
 
 
 @implementer(IViewWithoutLeadImage)
@@ -45,6 +50,43 @@ class PagesView(FolderView):
         if len(galleries_sections) > 0:
             add_bundle_on_request(self.request, "flexbin")
         return self.index()
+
+    @memoize
+    def get_related_contacts(self):
+        print("get_related_contacts")
+        contacts = self.context.listFolderContents(
+            contentFilter={
+                "portal_type": [
+                    "imio.smartweb.SectionContact",
+                ]
+            }
+        )
+        if len(contacts) == 0:
+            return []
+        nested_contact_list = [
+            contact.related_contacts
+            for contact in contacts
+            if contact.related_contacts is not None
+        ]
+        if nested_contact_list == []:
+            return []
+        # Make a "set" to simplifying request in url (avoid duplicate uid)
+        # Sometimes we have duplicate uid because some pages were build with contact attributes
+        # in a section and for layout issues,for the same contact, others attributes are in another section.
+        self.related_contacts = list(
+            set(list(itertools.chain.from_iterable(nested_contact_list)))
+        )
+        uids = "&UID=".join(self.related_contacts)
+        url = "{}/@search?UID={}&fullobjects=1".format(DIRECTORY_URL, uids)
+        print(f"URL = {url}")
+        current_lang = api.portal.get_current_language()[:2]
+        if current_lang != "fr":
+            url = f"{url}&translated_in_{current_lang}=1"
+        self.json_data = get_json(url)
+        if self.json_data is None or len(self.json_data.get("items", [])) == 0:  # NOQA
+            return
+        results = self.json_data.get("items")
+        return results
 
     def results(self, **kwargs):
         """
