@@ -52,41 +52,40 @@ class PagesView(FolderView):
         return self.index()
 
     @memoize
-    def get_related_contacts(self):
-        print("get_related_contacts")
-        contacts = self.context.listFolderContents(
+    def get_page_contacts(self):
+        # TODO We need to check every tests to be sure to avoid caching that
+        # creates false positive assertions
+        sections_contacts = self.context.listFolderContents(
             contentFilter={
                 "portal_type": [
                     "imio.smartweb.SectionContact",
                 ]
             }
         )
-        if len(contacts) == 0:
-            return []
+        if len(sections_contacts) == 0:
+            return None
         nested_contact_list = [
-            contact.related_contacts
-            for contact in contacts
-            if contact.related_contacts is not None
+            section_contacts.related_contacts
+            for section_contacts in sections_contacts
+            if section_contacts.related_contacts is not None
         ]
         if nested_contact_list == []:
-            return []
+            return None
         # Make a "set" to simplifying request in url (avoid duplicate uid)
         # Sometimes we have duplicate uid because some pages were build with contact attributes
         # in a section and for layout issues,for the same contact, others attributes are in another section.
-        self.related_contacts = list(
+        page_contacts = list(
             set(list(itertools.chain.from_iterable(nested_contact_list)))
         )
-        uids = "&UID=".join(self.related_contacts)
+        uids = "&UID=".join(page_contacts)
         url = "{}/@search?UID={}&fullobjects=1".format(DIRECTORY_URL, uids)
-        print(f"URL = {url}")
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
             url = f"{url}&translated_in_{current_lang}=1"
-        self.json_data = get_json(url)
-        if self.json_data is None or len(self.json_data.get("items", [])) == 0:  # NOQA
+        json_data = get_json(url)
+        if json_data is None or len(json_data.get("items", [])) == 0:
             return
-        results = self.json_data.get("items")
-        return results
+        return json_data
 
     def results(self, **kwargs):
         """

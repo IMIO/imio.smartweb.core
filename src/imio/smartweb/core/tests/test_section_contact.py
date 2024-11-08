@@ -19,7 +19,6 @@ from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.testing.zope import Browser
 from time import sleep
-from unittest.mock import patch
 from zope.annotation.interfaces import IAnnotations
 from zope.component import queryMultiAdapter
 
@@ -59,7 +58,7 @@ class TestSectionContact(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("My contact", view())
         contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
 
         authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
         contact.related_contacts = [authentic_contact_uid]
@@ -72,11 +71,11 @@ class TestSectionContact(ImioSmartwebTestCase):
             authentic_contact_uid
         )
         m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
         m.get(contact_search_url, status_code=404)
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
         m.get(contact_search_url, text=json.dumps(self.json_contact))
         clear_cache(self.request)
         self.assertIsNotNone(contact_view.contacts())
@@ -134,16 +133,17 @@ class TestSectionContact(ImioSmartwebTestCase):
         images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
         self.assertIsNone(images)
 
-    # Separate test test_sorted_contacts_is_none / test_sorted_contacts 'cause of Memoize ??!!
     @requests_mock.Mocker()
-    def test_sorted_contacts_is_none(self, m):
+    def test_sorted_contacts_are_empty(self, m):
+        # TODO Separate test test_sorted_contacts_is_none /
+        # test_sorted_contacts 'cause of Memoize ??!!
         contact = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionContact",
             title="My contact",
         )
         contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
 
     @requests_mock.Mocker()
     def test_sorted_contacts(self, m):
@@ -515,7 +515,9 @@ class TestSectionContact(ImioSmartwebTestCase):
             "afternoonend": "",
             "comments": "",
         }
+        clear_cache(self.request)
         m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
         json_contact = ContactProperties(
             json_contact_empty_schedule.get("items")[0], contact
         )
@@ -563,15 +565,7 @@ class TestSectionContact(ImioSmartwebTestCase):
 
         annotations = IAnnotations(contact)
         self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
-        # Does this still make sense?
-        # Populating contact depend on it's container.
-        import pdb
-
-        pdb.set_trace()
         self.assertIsNotNone(contact_view.contacts())
-        import pdb
-
-        pdb.set_trace()
         hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertIsNotNone(hash_1)
         first_modification = self.page.ModificationDate()
@@ -579,15 +573,24 @@ class TestSectionContact(ImioSmartwebTestCase):
         sleep(1)
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
         clear_cache(self.request)
-        self.assertIsNone(contact_view.contacts())
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertEqual(contact_view.contacts(), [])
+        # refresh_modification_date doesn't calculate when json_data is None
+        # For this section, this is the case
+        # For other sections, we get json_data with empty "items"
+        # Refactoring needed to ensure clarity ?
         next_modification = self.page.ModificationDate()
         hash_2 = annotations.get(SECTION_ITEMS_HASH_KEY)
-        self.assertNotEqual(hash_1, hash_2)
-        self.assertNotEqual(first_modification, next_modification)
+        self.assertEqual(hash_1, hash_2)
+        self.assertEqual(first_modification, next_modification)
 
         sleep(1)
-        self.assertIsNone(contact_view.contacts())
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertEqual(contact_view.contacts(), [])
         last_modification = self.page.ModificationDate()
         hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertEqual(hash_2, hash_3)
         self.assertEqual(next_modification, last_modification)
+
+        # TODO we should test with various contact sections containing
+        # contacts

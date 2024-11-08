@@ -15,7 +15,7 @@
       template="view.pt"
       class=".views.PagesView"
       permission="zope2.View"
-      allowed_attributes="get_related_contacts"
+      allowed_attributes="get_page_contacts"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
