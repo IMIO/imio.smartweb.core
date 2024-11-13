@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.74 (unreleased)
+1.2.74 (2024-11-13)
 -------------------
 
 - Avoid request for images when gallery block is not visible in Section Contact
