@@ -113,6 +113,13 @@ class TestSectionContact(ImioSmartwebTestCase):
         m.get(contact_images_url, text=json.dumps(self.json_contact_images))
         self.assertIn("contact_gallery", view())
 
+        contact.visible_blocks = ["titles"]
+        json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
+        images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
+        self.assertNotIn("contact_gallery", view())
+        self.assertIsNone(images)
+
+        contact.visible_blocks = ["titles", "gallery"]
         json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
         images = json_contact.images(contact.image_scale, contact.nb_results_by_batch)
         self.assertEqual(len(images[0]), 2)

@@ -5,7 +5,8 @@ Changelog
 1.2.74 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Avoid request for images when gallery block is not visible in Section Contact
+  [laulaz]
 
 
 1.2.73 (2024-10-14)

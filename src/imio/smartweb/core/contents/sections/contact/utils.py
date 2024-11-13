@@ -69,6 +69,8 @@ class ContactProperties(ContactSchedule):
         return json.dumps(geo_json)
 
     def images(self, image_scale, nb_results_by_batch):
+        if "gallery" not in self.context.visible_blocks:
+            return
         contact_url = self.contact["@id"]
         query = "@search?portal_type=Image&path.depth=1&metadata_fields=modified"
         images_url_request = "{}/{}".format(contact_url, query)
