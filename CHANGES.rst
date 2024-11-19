@@ -5,7 +5,8 @@ Changelog
 1.2.75 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Reduce queries to directory
+  [boulch, laulaz]
 
 
 1.2.74 (2024-11-13)

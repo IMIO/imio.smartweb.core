@@ -47,7 +47,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         self.json_data = get_json(url)
         self.refresh_modification_date()
-        if self.json_data is None or len(self.json_data.get("items", [])) == 0:  # NOQA
+        if self.json_data is None or len(self.json_data.get("items", [])) == 0:
             return []
         linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
         image_scale = self.image_scale

@@ -8,6 +8,7 @@ from imio.smartweb.common.contact_utils import formatted_schedule
 from imio.smartweb.common.contact_utils import get_schedule_for_today
 from imio.smartweb.core.contents.sections.contact.utils import ContactProperties
 from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
+from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -57,7 +58,8 @@ class TestSectionContact(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("My contact", view())
         contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
+
         authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
         contact.related_contacts = [authentic_contact_uid]
         contact_search_url = (
@@ -69,12 +71,13 @@ class TestSectionContact(ImioSmartwebTestCase):
             authentic_contact_uid
         )
         m.get(contact_search_url, exc=requests.exceptions.ConnectTimeout)
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
         m.get(contact_search_url, status_code=404)
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
-        self.assertIsNone(contact_view.contacts())
+        self.assertEqual(contact_view.contacts(), [])
         m.get(contact_search_url, text=json.dumps(self.json_contact))
+        clear_cache(self.request)
         self.assertIsNotNone(contact_view.contacts())
         json_contact = ContactProperties(self.json_contact.get("items")[0], contact)
         self.assertEqual(json_contact.contact_type_class, "contact-type-organization")
@@ -138,6 +141,18 @@ class TestSectionContact(ImioSmartwebTestCase):
         self.assertIsNone(images)
 
     @requests_mock.Mocker()
+    def test_sorted_contacts_are_empty(self, m):
+        # TODO Separate test test_sorted_contacts_is_none /
+        # test_sorted_contacts 'cause of Memoize ??!!
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertEqual(contact_view.contacts(), [])
+
+    @requests_mock.Mocker()
     def test_sorted_contacts(self, m):
         contact = api.content.create(
             container=self.page,
@@ -145,7 +160,6 @@ class TestSectionContact(ImioSmartwebTestCase):
             title="My contact",
         )
         contact_view = queryMultiAdapter((contact, self.request), name="view")
-        self.assertIsNone(contact_view.contacts())
         authentic_contact_uid = [
             "2dc381f0fb584381b8e4a19c84f53b35",
             "af7bd1f547034b24a2e0da16c0ba0358",
@@ -508,7 +522,9 @@ class TestSectionContact(ImioSmartwebTestCase):
             "afternoonend": "",
             "comments": "",
         }
+        clear_cache(self.request)
         m.get(contact_search_url, text=json.dumps(json_contact_empty_schedule))
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
         json_contact = ContactProperties(
             json_contact_empty_schedule.get("items")[0], contact
         )
@@ -556,7 +572,6 @@ class TestSectionContact(ImioSmartwebTestCase):
 
         annotations = IAnnotations(contact)
         self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
-
         self.assertIsNotNone(contact_view.contacts())
         hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertIsNotNone(hash_1)
@@ -564,15 +579,25 @@ class TestSectionContact(ImioSmartwebTestCase):
 
         sleep(1)
         m.get(contact_search_url, text=json.dumps(self.json_no_contact))
-        self.assertIsNone(contact_view.contacts())
+        clear_cache(self.request)
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertEqual(contact_view.contacts(), [])
+        # refresh_modification_date doesn't calculate when json_data is None
+        # For this section, this is the case
+        # For other sections, we get json_data with empty "items"
+        # Refactoring needed to ensure clarity ?
         next_modification = self.page.ModificationDate()
         hash_2 = annotations.get(SECTION_ITEMS_HASH_KEY)
-        self.assertNotEqual(hash_1, hash_2)
-        self.assertNotEqual(first_modification, next_modification)
+        self.assertEqual(hash_1, hash_2)
+        self.assertEqual(first_modification, next_modification)
 
         sleep(1)
-        self.assertIsNone(contact_view.contacts())
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        self.assertEqual(contact_view.contacts(), [])
         last_modification = self.page.ModificationDate()
         hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertEqual(hash_2, hash_3)
         self.assertEqual(next_modification, last_modification)
+
+        # TODO we should test with various contact sections containing
+        # contacts
