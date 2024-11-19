@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.75 (unreleased)
+1.2.75 (2024-11-19)
 -------------------
 
 - Reduce queries to directory
