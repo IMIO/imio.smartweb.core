@@ -57,4 +57,5 @@ jobs:
       test_command: 'TZ=UTC bin/test'
       python_version: ${{ matrix.python_version }}
       plone_version: ${{ matrix.plone_version }}
+      install_dependencies_commands: 'sudo pip install -r requirements.txt'
     secrets: inherit
