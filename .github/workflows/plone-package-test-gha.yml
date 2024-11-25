@@ -48,8 +48,8 @@ jobs:
     uses: IMIO/gha/.github/workflows/package-test.yml@reusable-workflows
     strategy:
       matrix:
-        python_version: [3.8, 3.9]
-        plone_version: [6]
+        python_version: ['3.8', '3.9']
+        plone_version: ['6']
     with:
       branch_name: main
       runner_label: gha-runners-smartweb
