@@ -46,11 +46,15 @@ jobs:
 
 
     uses: IMIO/gha/.github/workflows/package-test.yml@reusable-workflows
+    strategy:
+      matrix:
+        python_version: [3.8, 3.9, '3.10']
+        plone_version: [6]
     with:
       branch_name: main
-      python_version: 3.8
-      plone_version: 6
       runner_label: gha-runners-smartweb
       soffice: false
       test_command: 'TZ=UTC bin/test'
+      python_version: ${{ matrix.python_version }}
+      plone_version: ${{ matrix.plone_version }}
     secrets: inherit
