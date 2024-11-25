@@ -48,7 +48,7 @@ jobs:
     uses: IMIO/gha/.github/workflows/package-test.yml@reusable-workflows
     with:
       branch_name: main
-      python_version: '3.8, 3.9, 3.10'
+      python_version: 3.8
       plone_version: 6
       runner_label: gha-runners-smartweb
       soffice: false
