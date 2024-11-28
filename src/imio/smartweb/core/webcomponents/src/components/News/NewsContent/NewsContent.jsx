@@ -16,7 +16,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
     const [params, setParams] = useState(parsed2);
     const [item, setitem] = useState({});
-    const [files, setFiles] = useState();
+    const [files, setFiles] = useState(null);
     const [gallery, setGallery] = useState();
     const { response, error, isLoading } = useAxios(
         {
@@ -53,6 +53,21 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         navigate("..");
         onChange(null);
     }
+
+    // Function to generate iframe URL
+    const getIframeSrc = (url) => {
+        console.log(item.video_url);
+        if (url.includes("youtube.com") || url.includes("youtu.be")) {
+            const urlParams = new URLSearchParams(new URL(url).search);
+            const videoId = urlParams.get("v") || url.split("/").pop();
+            return `https://www.youtube.com/embed/${videoId}`;
+        } else if (url.includes("vimeo.com")) {
+            const videoId = url.split("/").pop();
+            return `https://player.vimeo.com/video/${videoId}`;
+        }
+        return null;
+    };
+
     moment.locale("fr");
     const created = moment(item.created).startOf("minute").fromNow();
     const lastModified = moment(item.modified).startOf("minute").fromNow();
@@ -147,9 +162,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                             </div>
                         </div>
                         {/* link  */}
-                        {item.site_url === null && item.video_url === null ? (
-                            ""
-                        ) : (
+                        {item.site_url ? (
                             <div className="r-content-news-info-link">
                                 <div className="icon-baseline">
                                     <svg
@@ -167,17 +180,10 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                                             <a href={item.site_url}>{item.site_url}</a>
                                         </div>
                                     )}
-                                    {item.video_url === null ? (
-                                        ""
-                                    ) : (
-                                        <div className="r-content-news-info--video">
-                                            <a href={item.video_url}>
-                                                <Translate text="Lien vers la vidéo" />
-                                            </a>
-                                        </div>
-                                    )}
                                 </div>
                             </div>
+                        ) : (
+                            ""
                         )}
                         {/* Social */}
                         {item.facebook === null &&
@@ -258,7 +264,22 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                     dangerouslySetInnerHTML={{
                         __html: item.text && item.text.data,
                     }}
-                ></div>
+                >
+                    {/* add files to download */}
+                </div>
+                {item.video_url ? (
+                    <div className="r-content-news-info--video">
+                        <iframe
+                            src={getIframeSrc(item.video_url)}
+                            width="100%"
+                            height="100%"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
+                ) : (
+                    ""
+                )}
                 {/* add files to download */}
                 {files && (
                     <div className="r-content-files">
