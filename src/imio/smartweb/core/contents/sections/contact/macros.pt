@@ -61,7 +61,8 @@
               i18n:translate="">Contact</h3>
 
           <span tal:replace="python:contact.vat_number"></span>
-          <ul tal:define="phones python:contact.phones;
+          <ul class="contact_informations_genral"
+              tal:define="phones python:contact.phones;
                           mails python:contact.mails;
                           urls python:contact.urls">
             <li class="phones"
@@ -78,13 +79,37 @@
               <a tal:attributes="href  python:'mailto:{}'.format(mail.get('mail_address'))"
                  tal:content="python:'{}'.format(mail.get('mail_address'))" />
             </li>
+          </ul>
+          <ul class="contact_informations_social"
+              tal:define="urls python:contact.urls">
             <li class="urls"
                 tal:repeat="url urls"
                 tal:attributes="class python:url.get('type') or ''">
               <a tal:attributes="href python:url.get('url');
                                  title python:contact.get_translated_url_type(url.get('type'))"
-                 tal:content="python:url.get('url')"
-                 target="_blank" />
+                target="_blank">
+                  <tal:condition tal:condition="python:url.get('type') == 'facebook'">
+                      <i class="bi bi-facebook"></i>
+                  </tal:condition>
+                  <tal:condition tal:condition="python:url.get('type') == 'twitter'">
+                      <i class="bi bi-twitter"></i>
+                  </tal:condition>
+                  <tal:condition tal:condition="python:url.get('type') == 'instagram'">
+                      <i class="bi bi-instagram"></i>
+                  </tal:condition>
+                  <tal:condition tal:condition="python:url.get('type') == 'youtube'">
+                    <i class="bi bi-youtube"></i>
+                  </tal:condition>
+                  <tal:condition tal:condition="python:url.get('type') == 'pinterest'">
+                      <i class="bi bi-pinterest"></i>
+                  </tal:condition>
+                  <tal:condition tal:condition="python:url.get('type') == 'linkedin'">
+                      <i class="bi bi-linkedin"></i>
+                  </tal:condition>
+
+                  <span tal:attributes="class python:'sr-only' if url.get('type') != 'website' else ''"
+                        tal:content="python:url.get('url')"/>
+              </a>
             </li>
           </ul>
         </div>
