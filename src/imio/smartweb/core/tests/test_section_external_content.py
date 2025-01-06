@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.interfaces import IOdwbViewUtils
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from zope.component import queryMultiAdapter
+from zope.interface import alsoProvides
+from zope.interface import noLongerProvides
 
 
 class TestSectionExternalContent(ImioSmartwebTestCase):
@@ -20,6 +23,28 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
             type="imio.smartweb.Page",
             id="page",
         )
+
+    def test_parent_marker_interface(self):
+        sec1 = api.content.create(
+            container=self.page, type="imio.smartweb.SectionExternalContent", id="sec1"
+        )
+        self.assertTrue(IOdwbViewUtils.providedBy(self.page))
+
+        sec2 = api.content.create(
+            container=self.page, type="imio.smartweb.SectionExternalContent", id="sec2"
+        )
+        api.content.delete(obj=sec1)
+        self.assertTrue(IOdwbViewUtils.providedBy(self.page))
+
+        api.content.delete(obj=sec2)
+        self.assertFalse(IOdwbViewUtils.providedBy(self.page))
+
+        api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            id="not_external_content_section",
+        )
+        self.assertFalse(IOdwbViewUtils.providedBy(self.page))
 
     def test_unknow_service(self):
         sec = api.content.create(

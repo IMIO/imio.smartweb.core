@@ -25,4 +25,12 @@
                    zope.lifecycleevent.interfaces.IObjectAddedEvent"
               handler=".subscribers.added_publication" />
 
+  <subscriber for="imio.smartweb.core.contents.ISectionExternalContent
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".subscribers.added_external_content" />
+
+  <subscriber for="imio.smartweb.core.contents.ISectionExternalContent
+                   zope.lifecycleevent.interfaces.IObjectRemovedEvent"
+              handler=".subscribers.removed_external_content" />
+
 </configure>

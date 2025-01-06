@@ -4,6 +4,7 @@ from imio.smartweb.common.faceted.utils import configure_faceted
 from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.common.utils import remove_cropping
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
+from imio.smartweb.core.interfaces import IOdwbViewUtils
 from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
 from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import safe_html
@@ -14,6 +15,8 @@ from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.namedfile.field import NamedBlobImage
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
+from zope.interface import alsoProvides
+from zope.interface import noLongerProvides
 from zope.lifecycleevent import ObjectRemovedEvent
 from zope.lifecycleevent.interfaces import IAttributes
 from zope.globalrequest import getRequest
@@ -130,3 +133,24 @@ def added_publication(obj, event):
         obj.publication_attached_file = json_publication.get("file")
     except Exception:
         logger.error(f"Error while trying to get publication data from {url}")
+
+
+def added_external_content(obj, event):
+    parent = obj.aq_parent
+    if not IOdwbViewUtils.providedBy(parent):
+        alsoProvides(parent, IOdwbViewUtils)
+        parent.reindexObject()
+
+
+def removed_external_content(obj, event):
+    parent = obj.aq_parent
+    sections_external_content = parent.listFolderContents(
+        contentFilter={
+            "portal_type": [
+                "imio.smartweb.SectionExternalContent",
+            ]
+        }
+    )
+    if IOdwbViewUtils.providedBy(parent) and len(sections_external_content) == 0:
+        noLongerProvides(parent, IOdwbViewUtils)
+        parent.reindexObject()
