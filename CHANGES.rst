@@ -5,6 +5,9 @@ Changelog
 1.2.76 (unreleased)
 -------------------
 
+- WEB-4199 : Fix missing contacts when there are more contacts than default Plone batching
+  [boulch] 
+
 - Replace url by social icon in contact section
   [thomlamb]
 

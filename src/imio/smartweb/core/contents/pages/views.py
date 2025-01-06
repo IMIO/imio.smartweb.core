@@ -78,7 +78,10 @@ class PagesView(FolderView):
             set(list(itertools.chain.from_iterable(nested_contact_list)))
         )
         uids = "&UID=".join(page_contacts)
-        url = "{}/@search?UID={}&fullobjects=1".format(DIRECTORY_URL, uids)
+        bsize = len(page_contacts)
+        url = "{}/@search?UID={}&fullobjects=1&b_size={}".format(
+            DIRECTORY_URL, uids, bsize
+        )
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
             url = f"{url}&translated_in_{current_lang}=1"
