@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.76 (unreleased)
+1.2.76 (2025-01-06)
 -------------------
 
 - WEB-4199 : Fix missing contacts when there are more contacts than default Plone batching
