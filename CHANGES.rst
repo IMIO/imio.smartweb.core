@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.78 (unreleased)
+1.2.78 (2025-01-06)
 -------------------
 
 - WEB-4158 : Missing file in previous release!
