@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.77 (unreleased)
+1.2.77 (2025-01-06)
 -------------------
 
 - WEB-4158 : ods_widget (css and js) are not loaded anymore on all pages
