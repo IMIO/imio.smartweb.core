@@ -5,7 +5,8 @@ Changelog
 1.2.78 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4158 : Missing file in previous release!
+  [boulch]
 
 
 1.2.77 (2025-01-06)

@@ -38,7 +38,7 @@
 
   <browser:viewlet
     name="imio.smartweb.odwb_widget_header"
-    for="*"
+    for="imio.smartweb.core.interfaces.IOdwbViewUtils"
     manager="plone.app.layout.viewlets.interfaces.IHTTPHeaders"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     template="odwb_widget_header.pt"
