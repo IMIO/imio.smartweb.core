@@ -5,8 +5,11 @@ Changelog
 1.2.76 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Replace url by social icon in contact section
+  [thomlamb]
 
+- Add iframe youtube or vimeo in React news view
+  [thomlamb]
 
 1.2.75 (2024-11-19)
 -------------------
