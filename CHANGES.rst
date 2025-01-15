@@ -5,7 +5,8 @@ Changelog
 1.2.80 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix: svg icon refactor
+  [thomlamb]
 
 
 1.2.79 (2025-01-15)
