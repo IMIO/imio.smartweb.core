@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.79 (unreleased)
+1.2.79 (2025-01-15)
 -------------------
 
 - Fix missing jquery for edit section  after ods_widget fix
