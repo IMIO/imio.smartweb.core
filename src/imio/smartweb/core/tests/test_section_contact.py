@@ -601,3 +601,61 @@ class TestSectionContact(ImioSmartwebTestCase):
 
         # TODO we should test with various contact sections containing
         # contacts
+
+    @requests_mock.Mocker()
+    def test_contact_urls(self, m):
+        contact = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact",
+        )
+        contact.visible_blocks = ["contact_informations"]
+        authentic_contact_uid = "2dc381f0fb584381b8e4a19c84f53b35"
+        contact.related_contacts = [authentic_contact_uid]
+        contact_search_url = (
+            "http://localhost:8080/Plone/@search?UID={}&fullobjects=1".format(
+                authentic_contact_uid
+            )
+        )
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertNotIn('Error in section : "My contact"', view())
+        self.assertNotIn("contact_informations_social", view())
+
+        self.json_contact.get("items")[0]["urls"] = None
+        sleep(1)
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        clear_cache(self.request)
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertNotIn('Error in section : "My contact"', view())
+        self.assertNotIn("contact_informations_social", view())
+
+        urls = [
+            {"type": None, "url": None},
+            {"type": None, "url": None},
+            {"type": None, "url": None},
+        ]
+        self.json_contact.get("items")[0]["urls"] = urls
+        sleep(1)
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        clear_cache(self.request)
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertNotIn('Error in section : "My contact"', view())
+        self.assertNotIn("contact_informations_social", view())
+
+        urls = [
+            {"type": None, "url": None},
+            {"type": "facebook", "url": "Yolo"},
+            {"type": None, "url": None},
+        ]
+        self.json_contact.get("items")[0]["urls"] = urls
+        sleep(1)
+        m.get(contact_search_url, text=json.dumps(self.json_contact))
+        clear_cache(self.request)
+        contact_view = queryMultiAdapter((contact, self.request), name="view")
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertNotIn('Error in section : "My contact"', view())
+        self.assertIn("contact_informations_social", view())

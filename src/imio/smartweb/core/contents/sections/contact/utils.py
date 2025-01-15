@@ -133,3 +133,23 @@ class ContactProperties(ContactSchedule):
         if not (street or entity or country):
             return None
         return {"street": street, "entity": entity, "country": country}
+
+    @property
+    def get_urls(self):
+        if isinstance(self.urls, list):
+            result = (
+                None
+                if all(
+                    item["type"] is None and item["url"] is None for item in self.urls
+                )
+                else [
+                    item
+                    for item in self.urls
+                    if not (item["type"] is None and item["url"] is None)
+                ]
+            )
+        elif self.urls is None:
+            result = None
+        else:
+            result = self.urls
+        return result

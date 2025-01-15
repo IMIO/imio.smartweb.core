@@ -5,7 +5,8 @@ Changelog
 1.2.81 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-41924 : Fix a bug when there is some "void" urls getting in section Contact (and display "contact_informations")
+  [boulch]
 
 
 1.2.80 (2025-01-15)
