@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from DateTime import DateTime
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
@@ -23,6 +24,8 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             selected_item = "&".join(
                 [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
             )
+        # __import__("pdb").set_trace()
+        modified_hash = hash_md5(self.context.modified().strftime("%Y-%m-%d %H:%M:%S"))
         params = [
             selected_item,
             "portal_type=imio.news.NewsItem",
@@ -34,6 +37,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "metadata_fields=modified",
             "metadata_fields=effective",
             "metadata_fields=UID",
+            f"cache_key={modified_hash}",
             f"sort_limit={max_items}",
         ]
         current_lang = api.portal.get_current_language()[:2]
