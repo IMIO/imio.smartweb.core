@@ -13,7 +13,7 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: IMIO/gha/code-analysis-notify@v3.9.4
+      uses: IMIO/gha/code-analysis-notify@DEVOPS-192
       with:
         BASE_DIR: 'src'
         CHECK: 'black'
