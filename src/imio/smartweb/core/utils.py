@@ -59,7 +59,8 @@ def concat_voca_title(title1, title2):
 
 
 def get_json(url, auth=None, timeout=5):
-    headers = {"Accept": "application/json"}
+    language = api.portal.get_current_language()
+    headers = {"Accept": "application/json", "Cookie": f"I18N_LANGUAGE={language}"}
     if auth is not None:
         headers["Authorization"] = auth
     try:
