@@ -40,15 +40,12 @@ function CampaignView(props) {
     );
     // coditional list render
     let listRender;
-    if (response && response.length > 0) {
-        listRender = <CampaignList itemsArray={response} />;
+    if (response && response.items.length > 0) {
+        listRender = <CampaignList itemsArray={response.items} />;
     } else if (!isLoading) {
-        listRender = (
-            <p>
-                <Translate text="Aucune actualité n'a été trouvée" />
-            </p>
-        );
+        listRender = <p>Aucune actualité n'a été trouvée"</p>;
     }
+    // console.log(response && response);
     return (
         <div>
             <div>
