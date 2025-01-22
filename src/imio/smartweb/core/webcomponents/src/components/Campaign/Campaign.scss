@@ -15,3 +15,28 @@
         padding: 20px;
     }
 }
+
+.campaign-description {
+    margin-top: 2rem;
+}
+
+.votes {
+    margin-top: 1rem;
+    display: flex;
+    gap: 20px;
+    .vote-pour {
+        background-color: rgba(0, 128, 0, 0.642);
+        padding: 10px;
+        border-radius: 5px;
+    }
+    .vote-contre {
+        background-color: rgba(255, 0, 0, 0.656);
+        padding: 10px;
+        border-radius: 5px;
+    }
+}
+
+.leaflet-container {
+    height: 500px;
+    margin-bottom: 3rem;
+}

@@ -52,7 +52,6 @@ function CampaignView(props) {
     return (
         <div>
             <div>
-                <h1>React campaign</h1>
                 <Routes>
                     <Route
                         exact
