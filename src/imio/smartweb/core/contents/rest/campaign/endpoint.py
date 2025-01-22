@@ -17,13 +17,18 @@ class CampaignEndpoint(BaseEndpoint):
     def __call__(self):
         user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
         pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
-        results = get_basic_auth_json(self.query_url, user, pwd)
-        if not results:
+        datas = get_basic_auth_json(self.query_url, user, pwd)
+        results = {}
+        if not datas:
             return {}
-        elif "data" in results:
-            return results.get("data")
+        elif "data" in datas:
+            # list of projects
+            results["items_total"] = datas.get("count")
+            results["items"] = datas.get("data")
         else:
-            return results
+            # single project
+            results = datas.get("data")
+        return results
 
     @property
     def query_url(self):
@@ -35,7 +40,7 @@ class CampaignEndpoint(BaseEndpoint):
         else:
             # we want list of projects for a specific campaign
             campaign_id = self.context.linked_campaign
-            url = f"{combo_api_url}/cards/imio-ideabox-projet/list?campagne={campaign_id}&full=on"
+            url = f"{combo_api_url}/cards/imio-ideabox-projet/list?campagne={campaign_id}&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in"
         return url
 
 
