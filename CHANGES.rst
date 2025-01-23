@@ -5,7 +5,8 @@ Changelog
 1.2.83 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4206 : Remove wcatoken from query parameters when forwarding requests
+  [remdub]
 
 
 1.2.82 (2025-01-23)
