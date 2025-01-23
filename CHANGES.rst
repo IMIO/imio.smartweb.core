@@ -5,7 +5,8 @@ Changelog
 1.2.82 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4153 : Add language cookie to python requests to avoid cache problems
+  [remdub]
 
 
 1.2.81 (2025-01-15)
