@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.82 (unreleased)
+1.2.82 (2025-01-23)
 -------------------
 
 - WEB-4153 : Add language cookie to python requests to avoid cache problems
