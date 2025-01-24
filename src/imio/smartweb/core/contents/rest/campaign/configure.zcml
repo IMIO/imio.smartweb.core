@@ -23,4 +23,14 @@
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />
 
+  <plone:service
+    name="@auth"
+    method="GET"
+    accept="text/plain"
+    for="imio.smartweb.core.contents.ICampaignView"
+    factory=".endpoint.AuthCampaignEndpointGet"
+    permission="zope.Public"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
 </configure>
