@@ -18,28 +18,46 @@ import requests
 class CampaignEndpoint(BaseEndpoint):
 
     def __call__(self):
+        require_keys = [
+            "uuid",
+            "id",
+            "display_name",
+            "text",
+            "url",
+            "api_url",
+            "fields",
+            "workflow",
+        ]
+
         user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
         pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
-        datas = get_basic_auth_json(self.query_url, user, pwd)
+        json = get_basic_auth_json(self.query_url, user, pwd)
         results = {}
-        if not datas:
+        if not json:
             return {}
-        elif "data" in datas:
+        elif "data" in json:
             # list of projects
-            results["items_total"] = datas.get("count")
-            for data in datas.get("data"):
-                # get image
-                image_url = (
-                    data.get("fields").get("images_raw")[0].get("image").get("url")
-                )
-                content = self.get_image(image_url).content
-                b64_content = base64.b64encode(content).decode("utf-8")
-                data["fields"]["images_raw"][0]["image"]["b64"] = b64_content
-            results["items"] = datas.get("data")
+            json["data"] = self.add_b64_image_to_data(json.get("data"))
+            projet = [
+                {k: v for k, v in d.items() if k in require_keys}
+                for d in json.get("data")
+            ]
+            results["items"] = projet
+            results["items_total"] = json.get("count")
+
         else:
             # single project
-            results = datas.get("data")
+            results = json.get("data")
         return results
+
+    def add_b64_image_to_data(self, data):
+        for d in data:
+            # get image
+            image_url = d.get("fields").get("images_raw")[0].get("image").get("url")
+            content = self.get_image(image_url).content
+            b64_content = base64.b64encode(content).decode("utf-8")
+            d["fields"]["images_raw"][0]["image"]["b64"] = b64_content
+        return data
 
     def get_image(self, image_url):
         if not image_url:
