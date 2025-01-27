@@ -28,27 +28,31 @@ class CampaignEndpoint(BaseEndpoint):
             "fields",
             "workflow",
         ]
-
         user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
         pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
         json = get_basic_auth_json(self.query_url, user, pwd)
-        results = {}
+        json_res = {}
         if not json:
             return {}
         elif "data" in json:
             # list of projects
             json["data"] = self.add_b64_image_to_data(json.get("data"))
-            projet = [
+            projects = [
                 {k: v for k, v in d.items() if k in require_keys}
                 for d in json.get("data")
             ]
-            results["items"] = projet
-            results["items_total"] = json.get("count")
+            json_res["items"] = projects
+            json_res["items_total"] = json.get("count")
 
         else:
             # single project
-            results = json.get("data")
-        return results
+            json.pop("evolution")
+            json.pop("roles")
+            json.pop("submission")
+            json.pop("user")
+            json_res = json
+        # Return a json which represents a project or which contains a list of projects
+        return json_res
 
     def add_b64_image_to_data(self, data):
         for d in data:
