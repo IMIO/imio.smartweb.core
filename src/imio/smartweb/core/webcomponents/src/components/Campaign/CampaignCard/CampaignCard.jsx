@@ -1,21 +1,22 @@
 import React, { useEffect, useState, useContext } from "react";
-const NewsCard = ({ item }) => {
-    // console.log(item);
+const CampaignCard = ({ item }) => {
     return (
         <>
             <div className="campaign-card-container">
-                <div className="campaign-img" />
-                {/* <img src={item.fields.images_raw[0].image.url} alt={item.text} /> */}
+                <div className="campaign-img">
+                    {item.fields.images_raw[0].image.b64 && (
+                        <img
+                            src={`data:image/jpeg;base64,${item.fields.images_raw[0].image.b64}`}
+                            alt={item.text}
+                        />
+                    )}
+                </div>
                 <div className="campaign-text">
                     <span className="r-item-title campaign-title">{item.text}</span>
-                    {/* <div
-                        className="campaign-description"
-                        dangerouslySetInnerHTML={{ __html: item.fields.description }}
-                    /> */}
                 </div>
             </div>
         </>
     );
 };
 
-export default NewsCard;
+export default CampaignCard;

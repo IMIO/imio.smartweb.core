@@ -2,6 +2,10 @@
     position: relative;
     list-style: none;
     margin-bottom: 1.5rem;
+    .r-list-item-link {
+        position: relative;
+        z-index: 1;
+    }
 }
 
 .campaign-card-container {
@@ -10,6 +14,17 @@
     .campaign-img {
         padding-bottom: 56%;
         background: #c9c9c9;
+        position: relative;
+        overflow: hidden;
+        img {
+            position: absolute;
+            top: 0;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
     .campaign-text {
         padding: 20px;

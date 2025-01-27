@@ -12,7 +12,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
-const ContactContent = (props) => {
+const CampaignContent = (props) => {
     let navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
         id: queryString.parse(useFilterQuery().toString())["u"],
@@ -20,7 +20,6 @@ const ContactContent = (props) => {
     });
     const [params, setParams] = useState(parsed);
     const [item, setItem] = useState({});
-    const [base64Image, setBase64Image] = useState("");
     const modalRef = useRef();
     const { response, error, isLoading } = useAxios(
         {
@@ -41,18 +40,25 @@ const ContactContent = (props) => {
     useEffect(() => {
         if (response !== null) {
             setItem(response);
-            if (response.fields.images_raw && response.fields.images_raw.length > 0) {
-                const imageContent = response.fields.images_raw[0].image.content;
-                const contentType = response.fields.images_raw[0].image.content_type;
-                setBase64Image(`data:${contentType};base64,${imageContent}`);
-            }
         }
-    }, [response]);
+    }, [props.item]);
+
     const position = [50.4989185, 4.7184485];
-    return (
+    function handleClick() {
+        navigate("..");
+    }
+    return item.fields ? (
         <div className="campaign-content r-content">
+            <button type="button" onClick={handleClick}>
+                <Translate text="Retour" />
+            </button>
             <h2>{item.text}</h2>
-            {base64Image && <img src={base64Image} alt="Base64 Image" />}
+            {item.fields.images_raw[0].image.b64 && (
+                <img
+                    src={`data:image/jpeg;base64,${item.fields.images_raw[0].image.b64}`}
+                    alt={item.text}
+                />
+            )}
             <div className="votes">
                 <span className="vote-pour">
                     {" "}
@@ -81,6 +87,8 @@ const ContactContent = (props) => {
                 </Marker>
             </MapContainer>
         </div>
+    ) : (
+        <div>Loadings</div>
     );
 };
-export default ContactContent;
+export default CampaignContent;

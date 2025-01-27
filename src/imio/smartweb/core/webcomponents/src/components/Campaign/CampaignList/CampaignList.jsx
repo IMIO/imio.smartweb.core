@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import CampaignCard from "../CampaignCard/CampaignCard";
 
-const NewsList = (props) => {
+const CampaignList = (props) => {
     return (
         <React.Fragment>
             <ul className="r-result-list actu-result-list row">
@@ -32,4 +32,4 @@ const NewsList = (props) => {
         </React.Fragment>
     );
 };
-export default NewsList;
+export default CampaignList;
