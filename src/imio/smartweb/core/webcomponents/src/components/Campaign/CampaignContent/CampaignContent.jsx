@@ -41,54 +41,71 @@ const CampaignContent = (props) => {
         if (response !== null) {
             setItem(response);
         }
-    }, [props.item]);
+    }, [response]);
 
     const position = [50.4989185, 4.7184485];
     function handleClick() {
         navigate("..");
     }
-    return item.fields ? (
-        <div className="campaign-content r-content">
-            <button type="button" onClick={handleClick}>
-                <Translate text="Retour" />
-            </button>
-            <h2>{item.text}</h2>
-            {item.fields.images_raw[0].image.b64 && (
-                <img
-                    src={`data:image/jpeg;base64,${item.fields.images_raw[0].image.b64}`}
-                    alt={item.text}
-                />
+    return (
+        <>
+            {isLoading ? (
+                <div className="lds-roller-container">
+                    <div className="lds-roller">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            ) : item.fields ? (
+                <div className="campaign-content r-content">
+                    <button type="button" onClick={handleClick}>
+                        <Translate text="Retour" />
+                    </button>
+                    <h2>{item.text}</h2>
+                    {item.fields.images_raw[0].image.b64 && (
+                        <img
+                            src={`data:image/jpeg;base64,${item.fields.images_raw[0].image.b64}`}
+                            alt={item.text}
+                        />
+                    )}
+                    <div className="votes">
+                        <span className="vote-pour">
+                            {" "}
+                            Vote pour {item.fields && item.fields.votes_pour}{" "}
+                        </span>
+                        <span className="vote-contre">
+                            {" "}
+                            Vote contre{item.fields && item.fields.votes_contre}{" "}
+                        </span>
+                    </div>
+                    <div
+                        className="campaign-description"
+                        dangerouslySetInnerHTML={{
+                            __html: item.fields && item.fields.description,
+                        }}
+                    />
+                    <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={position}>
+                            <Popup>
+                                A pretty CSS3 popup. <br /> Easily customizable.
+                            </Popup>
+                        </Marker>
+                    </MapContainer>
+                </div>
+            ) : (
+                ""
             )}
-            <div className="votes">
-                <span className="vote-pour">
-                    {" "}
-                    Vote pour {item.fields && item.fields.votes_pour}{" "}
-                </span>
-                <span className="vote-contre">
-                    {" "}
-                    Vote contre{item.fields && item.fields.votes_contre}{" "}
-                </span>
-            </div>
-            <div
-                className="campaign-description"
-                dangerouslySetInnerHTML={{
-                    __html: item.fields && item.fields.description,
-                }}
-            />
-            <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
-                <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-                <Marker position={position}>
-                    <Popup>
-                        A pretty CSS3 popup. <br /> Easily customizable.
-                    </Popup>
-                </Marker>
-            </MapContainer>
-        </div>
-    ) : (
-        <div>Loadings</div>
+        </>
     );
 };
 export default CampaignContent;
