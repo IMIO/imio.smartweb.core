@@ -8,24 +8,27 @@ import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 
-const CampaignContent = (props) => {
+const CampaignContent = ({ queryUrl, onChange, onlyPastCampaign, contextAuthenticatedUser }) => {
     let navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
-        id: queryString.parse(useFilterQuery().toString())["u"],
-        b_start: 0,
+        UID: queryString.parse(useFilterQuery().toString())["u"],
+        fullobjects: 1,
+        "event_dates.query": moment().format("YYYY-MM-DD"),
+        "event_dates.range": onlyPastCampaign === "True" ? "max" : "min",
     });
     const [params, setParams] = useState(parsed);
-    const [item, setItem] = useState({});
+    const [item, setitem] = useState({});
+    const [recurence, setRecurence] = useState([]);
+    const [files, setFiles] = useState();
+    const [gallery, setGallery] = useState();
+    const [isSchedulVisible, setSchedulVisibility] = useState(false);
     const modalRef = useRef();
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
             url: "",
-            baseURL: props.queryUrl,
+            baseURL: queryUrl,
             headers: {
                 Accept: "application/json",
             },
@@ -36,76 +39,120 @@ const CampaignContent = (props) => {
     useEffect(() => {
         setParams(parsed);
     }, [queryString.parse(useFilterQuery().toString())["u"]]);
-
+    // set all campaigns state
     useEffect(() => {
         if (response !== null) {
-            setItem(response);
+            setitem(response.items[0]);
+            // set recurrence
+            if (response.items.length > 1) {
+                response.items.map((item, i) => {
+                    const currentDate = new Date();
+                    const itemDate = new Date(item.start);
+                    if (itemDate >= currentDate) {
+                        setRecurence((prevRecurrence) => [...prevRecurrence, item.start]);
+                    }
+                });
+            } else {
+                setRecurence(null);
+            }
         }
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: "instant",
+        });
     }, [response]);
+    /// use to set file and gallery items
+    useEffect(() => {
+        if (item.items && item.items.length > 0) {
+            setFiles(item.items.filter((files) => files["@type"] === "File"));
+            setGallery(item.items.filter((files) => files["@type"] === "Image"));
+        }
+    }, [item]);
 
-    const position = [50.4989185, 4.7184485];
     function handleClick() {
         navigate("..");
+        onChange(null);
     }
+
+    // ref to toggle
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (modalRef.current && !modalRef.current.contains(event.target)) {
+                closeSchedul();
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    //  moment
+    moment.locale("be");
+    const start = moment.utc(item.start).format("DD-MM-YYYY");
+    const end = moment.utc(item.end).format("DD-MM-YYYY");
+    const startHours = moment.utc(item.start).format("LT");
+    const endHours = moment.utc(item.end).format("LT");
+
+    // Trouver la date la plus proche dans le futur
+    const now = moment();
+    const futureDates = recurence && recurence.filter((date) => moment(date).isAfter(now));
+
+    let itineraryLink =
+        "https://www.google.com/maps/dir/?api=1&destination=" +
+        item.street +
+        "+" +
+        item.number +
+        "+" +
+        item.complement +
+        "+" +
+        item.zipcode +
+        "+" +
+        item.city;
+    itineraryLink = itineraryLink.replaceAll("+null", "");
+
+    const openSchedul = () => {
+        setSchedulVisibility(true);
+    };
+    const closeSchedul = () => {
+        setSchedulVisibility(false);
+    };
     return (
-        <>
-            {isLoading ? (
-                <div className="lds-roller-container">
-                    <div className="lds-roller">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                    </div>
-                </div>
-            ) : item.fields ? (
-                <div className="campaign-content r-content">
-                    <button type="button" onClick={handleClick}>
-                        <Translate text="Retour" />
-                    </button>
-                    <h2>{item.text}</h2>
-                    {item.fields.images_raw[0].image.b64 && (
-                        <img
-                            src={`data:image/jpeg;base64,${item.fields.images_raw[0].image.b64}`}
-                            alt={item.text}
-                        />
-                    )}
-                    <div className="votes">
-                        <span className="vote-pour">
-                            {" "}
-                            Vote pour {item.fields && item.fields.votes_pour}{" "}
-                        </span>
-                        <span className="vote-contre">
-                            {" "}
-                            Vote contre{item.fields && item.fields.votes_contre}{" "}
-                        </span>
-                    </div>
+        <div className="envent-content r-content">
+            <button type="button" onClick={handleClick}>
+                <Translate text="Retour" />
+            </button>
+
+            <article>
+                <header className="r-content-header">
+                    <h2 className="r-content-title">{item.title}</h2>
+                </header>
+                <figure>
                     <div
-                        className="campaign-description"
-                        dangerouslySetInnerHTML={{
-                            __html: item.fields && item.fields.description,
+                        className="r-content-img"
+                        style={{
+                            backgroundImage: item.image_affiche_scale
+                                ? "url(" + item.image_affiche_scale + ")"
+                                : "",
                         }}
                     />
-                    <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
-                        <TileLayer
-                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
-                        <Marker position={position}>
-                            <Popup>
-                                A pretty CSS3 popup. <br /> Easily customizable.
-                            </Popup>
-                        </Marker>
-                    </MapContainer>
+                </figure>
+
+                <div className="r-content-description">
+                    <ReactMarkdown>{item.description}</ReactMarkdown>
                 </div>
-            ) : (
-                ""
-            )}
-        </>
+                <div
+                    className="r-content-text"
+                    dangerouslySetInnerHTML={{
+                        __html: item.text && item.text.data,
+                    }}
+                ></div>
+            </article>
+        </div>
     );
 };
 export default CampaignContent;

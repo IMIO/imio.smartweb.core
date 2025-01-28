@@ -6,19 +6,19 @@ from imio.smartweb.common.utils import remove_cropping
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.interfaces import IOdwbViewUtils
 from imio.smartweb.core.utils import get_basic_auth_json
-from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
-from imio.smartweb.core.utils import get_iadeliberation_json
+# from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
+# from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.core.utils import safe_html
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.layout.navigation.interfaces import INavigationRoot
-from plone.i18n.normalizer.interfaces import IURLNormalizer
+# from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.namedfile.field import NamedBlobImage
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
-from zope.component import getUtility
+# from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
 from zope.lifecycleevent import ObjectRemovedEvent
