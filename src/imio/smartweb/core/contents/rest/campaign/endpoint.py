@@ -60,7 +60,7 @@ class CampaignEndpoint(BaseEndpoint):
             image_url = d.get("fields").get("images_raw")[0].get("image").get("url")
             content = self.get_image(image_url).content
             b64_content = base64.b64encode(content).decode("utf-8")
-            d["fields"]["images_raw"][0]["image"]["b64"] = b64_content
+            d["fields"]["images_raw"][0]["image"]["content"] = b64_content
         return data
 
     def get_image(self, image_url):
