@@ -5,6 +5,9 @@ Changelog
 1.2.83 (unreleased)
 -------------------
 
+- Migrate to Plone 6.0.14
+  [boulch]
+
 - WEB-4206 : Remove wcatoken from query parameters when forwarding requests
   [remdub]
 
