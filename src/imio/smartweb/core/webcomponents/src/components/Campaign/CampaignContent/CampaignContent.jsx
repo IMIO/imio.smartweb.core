@@ -19,7 +19,7 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     const [files, setFiles] = useState();
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
-    const { response } = useAxios(
+    const { response, error, isLoading } = useAxios(
         {
             method: "get",
             url: "",
@@ -51,7 +51,7 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     useEffect(() => {
         const loadImage = async () => {
             const img = new Image();
-            const src = item.images_raw[0].image.b64 || "";
+            const src = item.images_raw[0].image.content || "";
 
             img.src = "data:image/jpeg;base64," + src;
 
@@ -66,7 +66,7 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
             }
         };
 
-        if (item && item.images_raw[0].image.b64) {
+        if (item && item.images_raw[0].image.content) {
             loadImage();
         }
     }, [item]);
@@ -75,55 +75,53 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         navigate("..");
         onChange(null);
     }
-    console.log(item);
 
-    return (
-        item && (
-            <div className="annuaire-content r-content">
-                <button type="button" onClick={handleClick}>
-                    <Translate text="Retour" />
-                </button>
+    return !isLoading ? (
+        <div className="annuaire-content r-content">
+            <button type="button" onClick={handleClick}>
+                <Translate text="Retour" />
+            </button>
 
-                <article>
-                    <header>
-                        <h2 className="r-content-title">{item.nom}</h2>
-                    </header>
-                    {image ? (
-                        <figure>
-                            <div className="r-item-img">
-                                <div
-                                    className="r-content-figure-blur"
-                                    style={{ backgroundImage: "url(" + image.src + ")" }}
-                                />
-                                <img
-                                    className={"r-content-figure-img" + " " + imageClassName}
-                                    src={image.src}
-                                    alt=""
-                                />
-                            </div>
-                        </figure>
-                    ) : (
-                        <>
-                            <div className="r-item-img r-item-img-placeholder"></div>
-                        </>
-                    )}
-                </article>
-                <div className="contactCard">
-                    <div className="contactText">
-                        <div className="r-content-description">
-                            {item.description && (
-                                <div
-                                    className="campaign-description"
-                                    dangerouslySetInnerHTML={{
-                                        __html: item.description,
-                                    }}
-                                />
-                            )}
+            <article>
+                <header>
+                    <h2 className="r-content-title">{item.nom}</h2>
+                </header>
+                {image ? (
+                    <figure>
+                        <div className="r-content-img">
+                            <div
+                                className="r-content-figure-blur"
+                                style={{ backgroundImage: "url(" + image.src + ")" }}
+                            />
+                            <img
+                                className={"r-content-figure-img" + " " + imageClassName}
+                                src={image.src}
+                                alt=""
+                            />
                         </div>
-                        <div className="contactTextAll"></div>
+                    </figure>
+                ) : (
+                    <>
+                        <div className="r-item-img r-item-img-placeholder"></div>
+                    </>
+                )}
+            </article>
+            <div className="contactCard">
+                <div className="contactText">
+                    <div className="r-content-description">
+                        {item.description && (
+                            <div
+                                className="campaign-description"
+                                dangerouslySetInnerHTML={{
+                                    __html: item.description,
+                                }}
+                            />
+                        )}
                     </div>
-                    {/* add files to download */}
-                    {/* {files && (
+                    <div className="contactTextAll"></div>
+                </div>
+                {/* add files to download */}
+                {/* {files && (
                     <div className="r-content-files">
                         {files.map((file, i) => (
                             <div key={i} className="r-content-file">
@@ -152,9 +150,21 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                         ))}
                     </div>
                 )} */}
-                </div>
             </div>
-        )
+        </div>
+    ) : (
+        <div className="lds-roller-container">
+            <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
     );
 };
 export default CampaignContent;

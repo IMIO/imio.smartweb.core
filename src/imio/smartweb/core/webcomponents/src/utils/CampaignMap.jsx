@@ -15,10 +15,11 @@ function ChangeMapView({ activeItem, arrayOfLatLngs }) {
     const map = useMap();
     if (activeItem) {
         const activeCoord = [];
-        activeCoord.push(activeItem.geolocation.latitude);
-        activeCoord.push(activeItem.geolocation.longitude);
+        activeCoord.push(activeItem.fields.geolocalisation.lat);
+        activeCoord.push(activeItem.fields.geolocalisation.lon);
         map.setView(activeCoord, 15);
     } else {
+        console.log("cooucou");
         let bounds = new L.LatLngBounds(arrayOfLatLngs);
         map.fitBounds(bounds);
     }
@@ -30,7 +31,7 @@ function Map(props) {
     const [filterGeoArray, setFilterGeoArray] = useState([]);
     const [allPosition, setAllPosition] = useState(null);
     const { u, ...parsed } = Object.assign({
-        UID: queryString.parse(useFilterQuery().toString())["u"],
+        id: queryString.parse(useFilterQuery().toString())["u"],
     });
     // Delete Imio positions
     useEffect(() => {
@@ -64,7 +65,7 @@ function Map(props) {
     };
     // Get Marker Icon and Z-index
     const getMarkerIcon = (index) => {
-        if (index === parsed.UID) {
+        if (index === parsed.id) {
             return mapIcon(iconSvgActivated);
         }
         if (index === props.hoverId) {
@@ -108,11 +109,11 @@ function Map(props) {
     const markers = filterGeoArray.map((mark, i) => (
         <Marker
             key={i}
-            icon={getMarkerIcon(mark.UID)}
-            zIndexOffset={getMarkerZindex(mark.UID)}
+            icon={getMarkerIcon(mark.id)}
+            zIndexOffset={getMarkerZindex(mark.id)}
             position={[
-                mark.geolocation ? mark.geolocation.latitude : "",
-                mark.geolocation ? mark.geolocation.longitude : "",
+                mark.fields.geolocalisation ? mark.fields.geolocalisation.lat : "",
+                mark.fields.geolocalisation ? mark.fields.geolocalisation.lon : "",
             ]}
             eventHandlers={{
                 mouseover: (e) => {
@@ -144,12 +145,14 @@ function Map(props) {
         </Marker>
     ));
 
+    console.log(parsed);
+
     return (
         <div>
             <MapContainer
                 style={{ height: `calc(100vh - ${props.headerHeight}px)`, minHeight: "600px" }}
                 center={position}
-                zoom={15}
+                zoom={35}
             >
                 <TileLayer
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -158,7 +161,7 @@ function Map(props) {
                 {allPosition != null ? (
                     <ChangeMapView
                         activeItem={activeItem}
-                        activeItemUID={parsed.UID}
+                        activeItemUID={parsed.id}
                         arrayOfLatLngs={allPosition && allPosition}
                     />
                 ) : (

@@ -9,7 +9,7 @@ const CampaignCard = (props) => {
     useEffect(() => {
         const loadImage = async () => {
             const img = new Image();
-            const src = props.item.images_raw[0].image.b64 || "";
+            const src = props.item.images_raw[0].image.content || "";
 
             img.src = "data:image/jpeg;base64," + src;
 
@@ -24,7 +24,7 @@ const CampaignCard = (props) => {
             }
         };
 
-        if (props.item.images_raw[0].image.b64) {
+        if (props.item.images_raw[0].image.content) {
             loadImage();
         }
     }, [props.item]);
@@ -52,8 +52,20 @@ const CampaignCard = (props) => {
                     </>
                 )}
                 <div className="r-item-text">
-                    <span className="r-item-title campaign-title">{props.item.text}</span>
                     <span className="r-item-title">{props.item.nom}</span>
+                    <div className="campaign-vote">
+                        <div className="campaign-vote-pour">
+                            <i className="bi bi-hand-thumbs-up-fill"></i>
+                            <span className="campaign-vote-pour-count">10</span>
+                        </div>
+                        <div className="campaign-vote-contre">
+                            <i className="bi bi-hand-thumbs-down-fill"></i>
+                            <span className="campaign-vote-contre-count">10</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="r-item-arrow">
+                    <i class="bi bi-chevron-right"></i>
                 </div>
             </div>
         </>

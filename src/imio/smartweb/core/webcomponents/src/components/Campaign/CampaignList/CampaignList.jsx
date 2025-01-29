@@ -32,9 +32,9 @@ const CampaignList = ({
                     <li
                         key={i}
                         className="r-list-item-group"
-                        onMouseEnter={() => handleHover(item.UID)}
+                        onMouseEnter={() => handleHover(item.id)}
                         onMouseLeave={() => handleHover(null)}
-                        onClick={() => handleClick(item.UID)}
+                        onClick={() => handleClick(item.id)}
                     >
                         <Link
                             className="r-list-item-link"
