@@ -120,15 +120,15 @@ function CampaignView(props) {
     // }, [batchStart]);
 
     // filter top style
-    // const filterRef = useRef();
+    const filterRef = useRef();
     const [style, setStyle] = React.useState({ height: 0 });
     const [headerHeight, setHeaderHeight] = useState(0);
-    // useEffect(() => {
-    //     setStyle({
-    //         height: filterRef.current.clientHeight,
-    //     });
-    //     setHeaderHeight(filterRef.current.offsetTop);
-    // }, [filterRef]);
+    useEffect(() => {
+        setStyle({
+            height: filterRef.current.clientHeight,
+        });
+        setHeaderHeight(filterRef.current.offsetTop);
+    }, [filterRef]);
 
     // coditional list render
     let listRender;
@@ -167,13 +167,18 @@ function CampaignView(props) {
     );
     return (
         <div className={`ref ${displayMap ? "view-map" : "no-map"}`}>
+            <div
+                className="r-result-filter-container"
+                ref={filterRef}
+                style={{ top: headerHeight }}
+            ></div>
             <Routes>
                 <Route
                     exact
                     path="/"
                     element={
-                        <div className="r-wrapper container r-annuaire-wrapper">
-                            <div className="r-result r-annuaire-result">
+                        <div className="r-wrapper container r-campaign-wrapper">
+                            <div className="r-result r-campaign-result">
                                 {itemsNumber > 0 ? (
                                     <p className="r-results-numbers">
                                         <span>{itemsNumber}</span>
@@ -212,7 +217,7 @@ function CampaignView(props) {
                             </div>
                             {displayMap && (
                                 <div
-                                    className="r-map annuaire-map"
+                                    className="r-map campaign-map"
                                     style={{
                                         top: style.height + headerHeight,
                                         height: "calc(100vh-" + style.height + headerHeight,
@@ -227,8 +232,8 @@ function CampaignView(props) {
                 <Route
                     path={"/:name"}
                     element={
-                        <div className="r-wrapper container r-annuaire-wrapper">
-                            <div className="r-result r-annuaire-result">
+                        <div className="r-wrapper container r-campaign-wrapper">
+                            <div className="r-result r-campaign-result">
                                 <CampaignContent
                                     queryUrl={props.queryUrl}
                                     onChange={clickID}
@@ -238,7 +243,7 @@ function CampaignView(props) {
                             </div>
                             {displayMap && (
                                 <div
-                                    className="r-map annuaire-map"
+                                    className="r-map campaign-map"
                                     style={{
                                         top: style.height + headerHeight,
                                         height: "calc(100vh-" + style.height + headerHeight,

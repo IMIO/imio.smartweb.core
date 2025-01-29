@@ -1,30 +1,25 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
-import moment from "moment";
 import ReactMarkdown from "react-markdown";
-import Spotlight from "spotlight.js";
+import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
-const CampaignContent = ({ queryUrl, onChange, onlyPastCampaign, contextAuthenticatedUser }) => {
-    let navigate = useNavigate();
+const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
+    const navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
-        UID: queryString.parse(useFilterQuery().toString())["u"],
-        fullobjects: 1,
-        "event_dates.query": moment().format("YYYY-MM-DD"),
-        "event_dates.range": onlyPastCampaign === "True" ? "max" : "min",
+        id: queryString.parse(useFilterQuery().toString())["u"],
+        b_start: 0,
     });
     const [params, setParams] = useState(parsed);
-    const [item, setitem] = useState({});
-    const [recurence, setRecurence] = useState([]);
+    const [item, setitem] = useState(null);
     const [files, setFiles] = useState();
-    const [gallery, setGallery] = useState();
-    const [isSchedulVisible, setSchedulVisibility] = useState(false);
-    const modalRef = useRef();
-    const { response, error, isLoading } = useAxios(
+    const [image, setImage] = useState(new Image());
+    const [imageClassName, setImageClassName] = useState("");
+    const { response } = useAxios(
         {
             method: "get",
             url: "",
@@ -39,22 +34,11 @@ const CampaignContent = ({ queryUrl, onChange, onlyPastCampaign, contextAuthenti
     useEffect(() => {
         setParams(parsed);
     }, [queryString.parse(useFilterQuery().toString())["u"]]);
-    // set all campaigns state
+
+    // set all contacts state
     useEffect(() => {
         if (response !== null) {
-            setitem(response.items[0]);
-            // set recurrence
-            if (response.items.length > 1) {
-                response.items.map((item, i) => {
-                    const currentDate = new Date();
-                    const itemDate = new Date(item.start);
-                    if (itemDate >= currentDate) {
-                        setRecurence((prevRecurrence) => [...prevRecurrence, item.start]);
-                    }
-                });
-            } else {
-                setRecurence(null);
-            }
+            setitem(response.fields);
         }
         window.scrollTo({
             top: 0,
@@ -62,11 +46,28 @@ const CampaignContent = ({ queryUrl, onChange, onlyPastCampaign, contextAuthenti
             behavior: "instant",
         });
     }, [response]);
-    /// use to set file and gallery items
+
+    // Set image and image className
     useEffect(() => {
-        if (item.items && item.items.length > 0) {
-            setFiles(item.items.filter((files) => files["@type"] === "File"));
-            setGallery(item.items.filter((files) => files["@type"] === "Image"));
+        const loadImage = async () => {
+            const img = new Image();
+            const src = item.images_raw[0].image.b64 || "";
+
+            img.src = "data:image/jpeg;base64," + src;
+
+            try {
+                await img.decode(); // Wait for the image to be decoded
+                setImage(img);
+                const imgClassName = img.width < img.height ? "img-contain" : "img-cover";
+                setImageClassName(imgClassName);
+            } catch (error) {
+                // Handle image loading errors here
+                console.error("Error loading image:", error);
+            }
+        };
+
+        if (item && item.images_raw[0].image.b64) {
+            loadImage();
         }
     }, [item]);
 
@@ -74,85 +75,86 @@ const CampaignContent = ({ queryUrl, onChange, onlyPastCampaign, contextAuthenti
         navigate("..");
         onChange(null);
     }
+    console.log(item);
 
-    // ref to toggle
-
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (modalRef.current && !modalRef.current.contains(event.target)) {
-                closeSchedul();
-            }
-        };
-
-        document.addEventListener("mousedown", handleClickOutside);
-
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
-
-    //  moment
-    moment.locale("be");
-    const start = moment.utc(item.start).format("DD-MM-YYYY");
-    const end = moment.utc(item.end).format("DD-MM-YYYY");
-    const startHours = moment.utc(item.start).format("LT");
-    const endHours = moment.utc(item.end).format("LT");
-
-    // Trouver la date la plus proche dans le futur
-    const now = moment();
-    const futureDates = recurence && recurence.filter((date) => moment(date).isAfter(now));
-
-    let itineraryLink =
-        "https://www.google.com/maps/dir/?api=1&destination=" +
-        item.street +
-        "+" +
-        item.number +
-        "+" +
-        item.complement +
-        "+" +
-        item.zipcode +
-        "+" +
-        item.city;
-    itineraryLink = itineraryLink.replaceAll("+null", "");
-
-    const openSchedul = () => {
-        setSchedulVisibility(true);
-    };
-    const closeSchedul = () => {
-        setSchedulVisibility(false);
-    };
     return (
-        <div className="envent-content r-content">
-            <button type="button" onClick={handleClick}>
-                <Translate text="Retour" />
-            </button>
+        item && (
+            <div className="annuaire-content r-content">
+                <button type="button" onClick={handleClick}>
+                    <Translate text="Retour" />
+                </button>
 
-            <article>
-                <header className="r-content-header">
-                    <h2 className="r-content-title">{item.title}</h2>
-                </header>
-                <figure>
-                    <div
-                        className="r-content-img"
-                        style={{
-                            backgroundImage: item.image_affiche_scale
-                                ? "url(" + item.image_affiche_scale + ")"
-                                : "",
-                        }}
-                    />
-                </figure>
-
-                <div className="r-content-description">
-                    <ReactMarkdown>{item.description}</ReactMarkdown>
+                <article>
+                    <header>
+                        <h2 className="r-content-title">{item.nom}</h2>
+                    </header>
+                    {image ? (
+                        <figure>
+                            <div className="r-item-img">
+                                <div
+                                    className="r-content-figure-blur"
+                                    style={{ backgroundImage: "url(" + image.src + ")" }}
+                                />
+                                <img
+                                    className={"r-content-figure-img" + " " + imageClassName}
+                                    src={image.src}
+                                    alt=""
+                                />
+                            </div>
+                        </figure>
+                    ) : (
+                        <>
+                            <div className="r-item-img r-item-img-placeholder"></div>
+                        </>
+                    )}
+                </article>
+                <div className="contactCard">
+                    <div className="contactText">
+                        <div className="r-content-description">
+                            {item.description && (
+                                <div
+                                    className="campaign-description"
+                                    dangerouslySetInnerHTML={{
+                                        __html: item.description,
+                                    }}
+                                />
+                            )}
+                        </div>
+                        <div className="contactTextAll"></div>
+                    </div>
+                    {/* add files to download */}
+                    {/* {files && (
+                    <div className="r-content-files">
+                        {files.map((file, i) => (
+                            <div key={i} className="r-content-file">
+                                <a
+                                    href={file.targetUrl}
+                                    className="r-content-file-link"
+                                    rel="nofollow"
+                                >
+                                    <span className="r-content-file-title">{file.title}</span>
+                                    <span className="r-content-file-icon">
+                                        <svg
+                                            width="21"
+                                            height="21"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="#8899a4"
+                                            stroke-width="2"
+                                            stroke-linecap="square"
+                                            stroke-linejoin="arcs"
+                                        >
+                                            <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path>
+                                        </svg>
+                                    </span>
+                                </a>
+                            </div>
+                        ))}
+                    </div>
+                )} */}
                 </div>
-                <div
-                    className="r-content-text"
-                    dangerouslySetInnerHTML={{
-                        __html: item.text && item.text.data,
-                    }}
-                ></div>
-            </article>
-        </div>
+            </div>
+        )
     );
 };
 export default CampaignContent;

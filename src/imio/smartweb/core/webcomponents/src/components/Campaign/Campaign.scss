@@ -15,6 +15,12 @@ body {
     padding: 0;
 }
 
+.portaltype-imio-smartweb-campaignview {
+    header#content-header {
+        z-index: 9;
+    }
+}
+
 // FOR SCROLL
 
 body .outer-wrapper {
@@ -24,7 +30,7 @@ body .outer-wrapper {
     }
 }
 
-.r-annuaire-wrapper {
+.r-campaign-wrapper {
     @media screen and (min-width: 1200px) {
         max-width: 100%;
         margin-right: inherit;
@@ -59,11 +65,11 @@ article > header {
     margin-bottom: 0px;
 }
 
-.r-annuaire-result {
+.r-campaign-result {
     grid-area: 1 / 1 / 3 / 2;
 }
 
-.r-map.annuaire-map {
+.r-map.campaign-map {
     position: sticky;
     grid-area: 1 / 2 / 2 / 3;
 }
@@ -508,11 +514,15 @@ article > header {
     font-size: 14px;
 }
 
+smartweb-campaign {
+    min-height: 80vh;
+    display: block;
+}
 // //  No Map
 //   // Main
 .no-map {
     @media screen and (min-width: 600px) {
-        .r-annuaire-wrapper {
+        .r-campaign-wrapper {
             display: block;
         }
 
@@ -579,7 +589,7 @@ article > header {
 // content
 
 .no-map {
-    .r-result.r-annuaire-result {
+    .r-result.r-campaign-result {
         max-width: 1296px;
     }
 

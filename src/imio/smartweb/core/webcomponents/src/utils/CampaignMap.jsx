@@ -93,7 +93,7 @@ function Map(props) {
 
     useEffect(() => {
         if (filterGeoArray.length > 0) {
-            console.log(filterGeoArray);
+            // console.log(filterGeoArray);
             let posArray = [];
             filterGeoArray.map((pos, i) => {
                 let lat = pos.fields.geolocalisation.lat;
