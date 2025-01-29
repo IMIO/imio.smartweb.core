@@ -5,7 +5,8 @@ Changelog
 1.2.84 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Update Python classifiers to be compatible with Python 3.12
+  [remdub]
 
 
 1.2.83 (2025-01-29)

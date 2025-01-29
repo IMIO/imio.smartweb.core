@@ -11,7 +11,7 @@ bin/instance: bin/buildout
 	bin/buildout
 
 bin/pip:
-	python3 -m venv .
+	python3.12 -m venv .
 
 run: bin/instance
 	bin/instance fg
