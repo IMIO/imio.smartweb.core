@@ -3,6 +3,19 @@ body {
     max-width: 100%;
     overflow-x: initial !important;
 }
+
+.r-content-vote-btn {
+    a {
+        background: #252525;
+        border-radius: 8px;
+        color: #fff;
+        padding: 1rem;
+        text-decoration: none;
+        transition: all 0.5s ease;
+        display: inline-block;
+    }
+}
+
 #content > header {
     display: none;
 }
@@ -416,6 +429,7 @@ article > header {
 
 .r-content-img {
     padding-bottom: 60%;
+    margin-top: 1.5rem;
     position: relative;
 }
 

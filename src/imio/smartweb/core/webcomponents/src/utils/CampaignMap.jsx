@@ -19,7 +19,6 @@ function ChangeMapView({ activeItem, arrayOfLatLngs }) {
         activeCoord.push(activeItem.fields.geolocalisation.lon);
         map.setView(activeCoord, 15);
     } else {
-        console.log("cooucou");
         let bounds = new L.LatLngBounds(arrayOfLatLngs);
         map.fitBounds(bounds);
     }
@@ -94,7 +93,6 @@ function Map(props) {
 
     useEffect(() => {
         if (filterGeoArray.length > 0) {
-            // console.log(filterGeoArray);
             let posArray = [];
             filterGeoArray.map((pos, i) => {
                 let lat = pos.fields.geolocalisation.lat;
@@ -144,8 +142,6 @@ function Map(props) {
             </Popup>
         </Marker>
     ));
-
-    console.log(parsed);
 
     return (
         <div>

@@ -2,13 +2,12 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
-import ReactMarkdown from "react-markdown";
 import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
-const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
+export default function CampaignContent({ queryUrl, onChange, contextAuthenticatedUser }) {
     const navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
         id: queryString.parse(useFilterQuery().toString())["u"],
@@ -17,8 +16,6 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     const [params, setParams] = useState(parsed);
     const [item, setitem] = useState(null);
     const [files, setFiles] = useState();
-    const [image, setImage] = useState(new Image());
-    const [imageClassName, setImageClassName] = useState("");
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
@@ -31,15 +28,13 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         },
         []
     );
-    useEffect(() => {
-        setParams(parsed);
-    }, [queryString.parse(useFilterQuery().toString())["u"]]);
 
     // set all contacts state
     useEffect(() => {
         if (response !== null) {
             setitem(response.fields);
         }
+
         window.scrollTo({
             top: 0,
             left: 0,
@@ -47,41 +42,60 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         });
     }, [response]);
 
-    // Set image and image className
-    useEffect(() => {
-        const loadImage = async () => {
-            const img = new Image();
-            const src = item.images_raw[0].image.content || "";
-
-            img.src = "data:image/jpeg;base64," + src;
-
-            try {
-                await img.decode(); // Wait for the image to be decoded
-                setImage(img);
-                const imgClassName = img.width < img.height ? "img-contain" : "img-cover";
-                setImageClassName(imgClassName);
-            } catch (error) {
-                // Handle image loading errors here
-                console.error("Error loading image:", error);
-            }
-        };
-
-        if (item && item.images_raw[0].image.content) {
-            loadImage();
-        }
-    }, [item]);
-
     function handleClick() {
         navigate("..");
         onChange(null);
     }
-
+    console.log("CampaignContent");
     return !isLoading ? (
-        <div className="annuaire-content r-content">
+        <div className="campaign-content r-content">
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />
             </button>
+            <ContentText item={item} />
+        </div>
+    ) : (
+        <div className="lds-roller-container">
+            <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    );
+}
 
+function ContentText({ item }) {
+    const [image, setImage] = useState(new Image());
+    const [imageClassName, setImageClassName] = useState("");
+    console.log("CampaignText");
+
+    useEffect(() => {
+        if (item) {
+            // Set image and image className
+            const src = item.images_raw[0].image.content || "";
+            const img = new Image();
+            img.src = "data:image/jpeg;base64," + src;
+
+            img.onload = () => {
+                setImage(img);
+                const imgClassName = img.width < img.height ? "img-contain" : "img-cover";
+                setImageClassName(imgClassName);
+            };
+
+            img.onerror = (error) => {
+                // Handle image loading errors here
+                console.error("Error loading image:", error);
+            };
+        }
+    }, [item]);
+    return (
+        <>
             <article>
                 <header>
                     <h2 className="r-content-title">{item.nom}</h2>
@@ -118,6 +132,9 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                             />
                         )}
                     </div>
+                    <div className="r-content-vote-btn">
+                        <a href="">Je vote pour ce projet</a>
+                    </div>
                     <div className="contactTextAll"></div>
                 </div>
                 {/* add files to download */}
@@ -151,20 +168,6 @@ const CampaignContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                     </div>
                 )} */}
             </div>
-        </div>
-    ) : (
-        <div className="lds-roller-container">
-            <div className="lds-roller">
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-        </div>
+        </>
     );
-};
-export default CampaignContent;
+}
