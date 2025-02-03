@@ -12,6 +12,7 @@ from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
 from imio.smartweb.core.utils import get_categories
 from imio.smartweb.core.utils import get_iadeliberation_url_from_registry
+from imio.smartweb.core.utils import get_ts_api_url
 from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import get_basic_auth_json
@@ -74,10 +75,11 @@ IconsVocabulary = IconsVocabularyFactory()
 
 class RemoteCampaignsVocabularyFactory:
     def __call__(self, context=None):
-        combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
+        # combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
+        wcs_api = get_ts_api_url("wcs")
         user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
         pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
-        url = f"{combo_api}/cards/imio-ideabox-campagne/list?full=on"
+        url = f"{wcs_api}/cards/imio-ideabox-campagne/list?full=on"
         try:
             json_campaigns = get_basic_auth_json(url, user, pwd)
             return SimpleVocabulary(
@@ -100,10 +102,10 @@ RemoteCampaignsVocabulary = RemoteCampaignsVocabularyFactory()
 class RemoteProceduresVocabularyFactory:
     def __call__(self, context=None):
         # sample : "https://olln-formulaires.guichet-citoyen.be/api/formdefs/"
-        combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
-        url = f"{combo_api}/formdefs/"
+        wcs_api = get_ts_api_url("wcs")
+        url = f"{wcs_api}/formdefs/"
         # sample : "568DGess2x8j8twv7x2Y2MApjn789xfG7jM27r399q4xSD27Jz"
-        key = api.portal.get_registry_record("smartweb.secret_key_api")
+        key = get_value_from_registry("smartweb.secret_key_api")
         orig = "ia.smartweb"
         if not url:
             return SimpleVocabulary([])

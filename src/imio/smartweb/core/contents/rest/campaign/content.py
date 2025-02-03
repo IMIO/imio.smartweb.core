@@ -3,6 +3,7 @@
 from collective.instancebehavior.interfaces import IInstanceBehaviorAssignableContent
 from imio.smartweb.core.contents import RestView
 from imio.smartweb.core.utils import get_basic_auth_json
+from imio.smartweb.core.utils import get_ts_api_url
 from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
@@ -53,11 +54,11 @@ class CampaignNameChooser(NormalizingNameChooser):
             # Order in test : added subscriber > chooseName !!
             # order in instance : chooseName > added subscriber ??
             if not obj.title:
-                combo_api = get_value_from_registry("smartweb.url_combo_api")
+                wcs_api = get_ts_api_url("wcs")
                 ts_campaign_endpoint = "imio-ideabox-campagne"
-                url = f"{combo_api}/cards/{ts_campaign_endpoint}/{obj.linked_campaign}"
-                user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
-                pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+                url = f"{wcs_api}/cards/{ts_campaign_endpoint}/{obj.linked_campaign}"
+                user = get_value_from_registry("smartweb.iaideabox_api_username")
+                pwd = get_value_from_registry("smartweb.iaideabox_api_password")
                 json_campaign = get_basic_auth_json(url, user, pwd)
                 obj.title = json_campaign.get("fields").get("titre")
             normalized_id = super(CampaignNameChooser, self).chooseName(obj.title, obj)

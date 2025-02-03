@@ -234,31 +234,37 @@ def migrate_old_sizes_from_section_text(context):
 
 
 def update_control_panel_combo_api_url(context):
-    combo_api = api.portal.get_registry_record("smartweb.url_formdefs_api")
-    if combo_api is None:
+    url_ts = ""
+    try:
+        url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
+    except:
+        logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
         return
-    combo_api = combo_api.rpartition("/api")[0] + "/api"
-    api.portal.set_registry_record("smartweb.url_formdefs_api", combo_api)
+    url_ts = url_ts.replace("/api", "")
+    url_ts = url_ts.replace("-formulaires", "")
+    api.portal.set_registry_record("smartweb.url_formdefs_api", url_ts)
 
 
 def update_control_panel_combo_api_fieldname(context):
-    combo_api = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
+    url_ts = ""
+    try:
+        url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
+    except:
+        logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
     registry = getUtility(IRegistry)
     records = registry.records
-    if "smartweb.url_combo_api" in records:
+    if "smartweb.url_ts" in records:
         return
-    logger.info("Adding smartweb.url_combo_api to registry")  # noqa
+    logger.info("Adding smartweb.url_ts to registry")  # noqa
     record = Record(
         field.TextLine(
-            title=_("Url de récupération des démarches de votre e-guichet"),
-            description=_(
-                "Exemple : https://COMMUNE-formulaires.guichet-citoyen.be/api"
-            ),
+            title=_("Url to e-guichet"),
+            description=_("Exemple : https://COMMUNE.guichet-citoyen.be"),
             required=False,
         ),
-        value=combo_api,
+        value=url_ts,
     )
-    records["smartweb.url_combo_api"] = record
+    records["smartweb.url_ts"] = record
 
     record = Record(
         field.TextLine(

@@ -10,6 +10,7 @@ from plone import api
 from unittest.mock import patch
 
 import json
+import re
 import requests
 import requests_mock
 
@@ -38,7 +39,10 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
-        m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
+        GUICHET = re.compile(
+            r"https://demo-formulaires\.guichet-citoyen\.be/api/formdefs/.*"
+        )
+        m.get(GUICHET, text=json.dumps(self.json_procedures_raw_mock))
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 3)
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.PublikProcedures")
         self.assertEqual(
@@ -59,12 +63,8 @@ class TestVocabularies(ImioSmartwebTestCase):
             ).title,
             "Acte de mariage",
         )
-        api.portal.set_registry_record(
-            "smartweb.url_combo_api",
-            "https://demo.guichet-citoyen.be/api/formdefs/?query=kamoulox",
-        )
         m.get(
-            "https://demo.guichet-citoyen.be/api/formdefs/?query=kamoulox",
+            GUICHET,
             text=json.dumps(self.json_procedures_raw_mock),
         )
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 3)
@@ -77,7 +77,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         m.get(GUICHET_URL, status_code=404)
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 
-        api.portal.set_registry_record("smartweb.url_combo_api", "")
+        api.portal.set_registry_record("smartweb.url_ts", "")
         m.get(GUICHET_URL, text=json.dumps(self.json_procedures_raw_mock))
         self.assertVocabularyLen("imio.smartweb.vocabulary.PublikProcedures", 0)
 

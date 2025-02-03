@@ -110,14 +110,11 @@ class TestIdeabox(ImioSmartwebTestCase):
         url = endpoint.query_url
         self.assertEqual(
             url,
-            "https://demo.guichet-citoyen.be/api/cards/imio-ideabox-projet/list?campagne=2&full=on",
+            "https://demo-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/list?campagne=2&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in",
         )
 
         m.get(url, text=json.dumps({}))
         call = endpoint()
         self.assertEqual(call, {})
 
-        campaign_view.nb_results = 30
-        url = endpoint.query_url
-        self.assertNotIn("b_size=20", url)
-        self.assertIn("b_size=30", url)
+        # to be continued

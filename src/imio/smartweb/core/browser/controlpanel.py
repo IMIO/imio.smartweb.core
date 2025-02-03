@@ -22,15 +22,31 @@ class ISendinblueTextRowSchema(Interface):
 
 
 class ISmartwebControlPanel(Interface):
-    url_combo_api = schema.TextLine(
-        title=_("Url to e-guichet combo API"),
-        description=_("Example : https://COMMUNE-formulaires.guichet-citoyen.be/api"),
+    # https://COMMUNE-formulaires.guichet-citoyen.be/api
+    url_ts = schema.TextLine(
+        title=_("Url to e-guichet"),
+        description=_("Example : https://COMMUNE.guichet-citoyen.be"),
         required=False,
     )
 
     secret_key_api = schema.Password(
         title=_("Secret key"),
         description=_("Secret key to use API"),
+        required=False,
+    )
+
+    iaideabox_api_username = schema.TextLine(
+        title=_(
+            "Username to consume e-guichet ideabox API (get Campaign, projects,...)"
+        ),
+        default="ideabox",
+        required=False,
+    )
+
+    iaideabox_api_password = schema.Password(
+        title=_(
+            "Password to consume e-guichet ideabox API (get Campaign, projects,...)"
+        ),
         required=False,
     )
 
@@ -187,21 +203,6 @@ class ISmartwebControlPanel(Interface):
     iadeliberations_institution = schema.Choice(
         title=_("I.A. Deliberations : Institutions"),
         source="imio.smartweb.vocabulary.IADeliberationsInstitutions",
-        required=False,
-    )
-
-    iaideabox_api_username = schema.TextLine(
-        title=_(
-            "Username to consume e-guichet ideabox API (get Campaign, projects,...)"
-        ),
-        default="ideabox",
-        required=False,
-    )
-
-    iaideabox_api_password = schema.Password(
-        title=_(
-            "Password to consume e-guichet ideabox API (get Campaign, projects,...)"
-        ),
         required=False,
     )
 

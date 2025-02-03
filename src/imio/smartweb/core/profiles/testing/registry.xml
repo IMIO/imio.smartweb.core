@@ -3,7 +3,7 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     i18n:domain="imio.smartweb">
 
-    <record name="smartweb.url_combo_api">
+    <record name="smartweb.url_ts">
         <value>https://demo.guichet-citoyen.be/api</value>
     </record>
     <record name="smartweb.secret_key_api">
