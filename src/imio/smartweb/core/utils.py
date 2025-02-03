@@ -208,6 +208,7 @@ def get_value_from_registry(key):
     val = api.portal.get_registry_record(key)
     return val
 
+
 def get_iadeliberation_url_from_registry():
     iadeliberation_url = api.portal.get_registry_record("smartweb.iadeliberations_url")
     return iadeliberation_url
