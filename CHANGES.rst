@@ -5,7 +5,8 @@ Changelog
 1.2.85 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4211 : Accessibility : Improve behavior of the "alt" attribute for images in a gallery section
+  [boulch]
 
 
 1.2.84 (2025-01-29)

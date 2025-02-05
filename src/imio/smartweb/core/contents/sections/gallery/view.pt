@@ -38,7 +38,7 @@
                              title item/title;
                              data-description item/description">
             <img tal:attributes="src python:view.get_scale_url(item, thumb_scale);
-                                 alt item/title;
+                                 alt python:view.alt_label(item);
                                  title item/title" />
           </a>
         </tal:images>
