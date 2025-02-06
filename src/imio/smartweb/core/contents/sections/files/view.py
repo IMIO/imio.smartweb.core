@@ -32,6 +32,7 @@ class FilesView(CarouselOrTableSectionView):
                 "url": url,
                 "image": scale_url,
                 "has_image": has_image,
+                "open_in_new_tab": True,
             }
             dict_item["item_infos"] = (
                 None if file_view is None else file_view.human_readable_size()

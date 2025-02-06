@@ -5,6 +5,9 @@ Changelog
 1.2.85 (unreleased)
 -------------------
 
+- WEB-3872 : Accessibility : Files in "files section" are automaticaly open in a new (target blank) tab
+  [boulch]
+
 - WEB-4211 : Accessibility : Improve behavior of the "alt" attribute for images in a gallery section
   [boulch]
 
