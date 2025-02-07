@@ -5,6 +5,9 @@ Changelog
 1.2.85 (unreleased)
 -------------------
 
+- WEB-4217 : Accessibility : Warn the user that the link will open in a new tab (title attribute)
+  [boulch]
+
 - WEB-3872 : Accessibility : Files in "files section" are automaticaly open in a new (target blank) tab
   [boulch]
 

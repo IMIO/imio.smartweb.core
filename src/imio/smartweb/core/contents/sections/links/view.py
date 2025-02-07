@@ -3,7 +3,9 @@
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_scale_url
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from zope.i18n import translate
 
 
 class LinksView(CarouselOrTableSectionView):
@@ -41,3 +43,11 @@ class LinksView(CarouselOrTableSectionView):
                 }
             )
         return batch_results(results, self.context.nb_results_by_batch)
+
+    def a_tag_item_title(self, item):
+        title = item.get("title") or ""
+        if item.get("open_in_new_tab", False):
+            current_lang = api.portal.get_current_language()[:2]
+            new_tab_txt = translate(_("New tab"), target_language=current_lang)
+            return f"{title} ({new_tab_txt})"
+        return title

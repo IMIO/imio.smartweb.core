@@ -100,6 +100,10 @@ class SectionView(BrowserView):
         )
         return json.dumps({"id": section_size, "title": size_txt})
 
+    def a_tag_item_title(self, item):
+        title = item.get("title") or ""
+        return title
+
 
 class CarouselOrTableSectionView(SectionView):
     """Section view that can display a carousel"""

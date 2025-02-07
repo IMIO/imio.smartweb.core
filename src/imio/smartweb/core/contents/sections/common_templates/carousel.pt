@@ -49,6 +49,7 @@
                   <a  tal:omit-tag="not: item/url"
                       tal:attributes="href item/url;
                                       class item/container_id | nothing;
+                                      title python:view.a_tag_item_title(item);
                                       target python:'_blank' if (open_in_new_tab and not can_edit_sections) else ''">
                     <div class="swiper-image"
                          tal:condition="python: item_has_image and show_lead_image"

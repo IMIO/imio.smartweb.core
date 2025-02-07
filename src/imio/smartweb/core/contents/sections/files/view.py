@@ -3,9 +3,11 @@ from imio.smartweb.core.contents import IPublication
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_scale_url
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.protect.interfaces import IDisableCSRFProtection
 from zope.component import queryMultiAdapter
+from zope.i18n import translate
 from zope.interface import alsoProvides
 
 
@@ -63,3 +65,10 @@ class FilesView(CarouselOrTableSectionView):
         for prop in extra_properties:
             dict_item[prop] = getattr(item, prop, None)
         return dict_item
+
+    def a_tag_item_title(self, item):
+        # Files always open in a new tab
+        title = item.get("title") or ""
+        current_lang = api.portal.get_current_language()[:2]
+        new_tab_txt = translate(_("New tab"), target_language=current_lang)
+        return f"{title} ({new_tab_txt})"

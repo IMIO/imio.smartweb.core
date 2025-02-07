@@ -283,6 +283,7 @@ class TestSections(ImioSmartwebTestCase):
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count('<h2 class="section-title">Title of my '), 5)
+
         login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
@@ -290,6 +291,7 @@ class TestSections(ImioSmartwebTestCase):
             type="Image",
             title="Image",
         )
+
         files_section = getattr(page, "title-of-my-imio-smartweb-sectionfiles")
         file_obj = api.content.create(
             container=files_section,
@@ -297,12 +299,14 @@ class TestSections(ImioSmartwebTestCase):
             title="My file",
         )
         file_obj.file = NamedBlobFile(data="file data", filename="file.txt")
+
         links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
         api.content.create(
             container=links_section,
             type="imio.smartweb.BlockLink",
             title="My link",
         )
+
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
             view.count('<h2 class="section-title">Title of my '), len(section_types)
@@ -531,12 +535,12 @@ class TestSections(ImioSmartwebTestCase):
         )
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<a class="table_image no-image" href="http://nohost/plone/page/section-links/my-link" target="">',
+            '<a class="table_image no-image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
         )
         link.image = NamedBlobImage(**make_named_image())
         self.assertIn(
-            '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="">',
+            '<a class="table_image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
         )
         link.open_in_new_tab = True
@@ -548,7 +552,7 @@ class TestSections(ImioSmartwebTestCase):
         clear_cache(self.request)
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
+            '<a class="table_image" title="My link (New tab)" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
             view(),
         )
         link.remoteUrl = "http://www.perdu.com"
