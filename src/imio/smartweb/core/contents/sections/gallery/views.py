@@ -16,7 +16,7 @@ class GalleryView(SectionView, PhotoGallery):
         title = item.title or ""
         description = item.description or ""
         # Accessibility: if title is the same as the filename, return empty string because, filename is not a good practice in alt tag for an img.
-        if title == item.image.filename and len(description) == 0:
+        if item.image and title == item.image.filename and len(description) == 0:
             title = ""
         # Accessibility : Return description if longer is same or greater than title.
         if len(description) >= len(title):
