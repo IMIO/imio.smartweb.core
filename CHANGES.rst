@@ -5,6 +5,9 @@ Changelog
 1.2.85 (unreleased)
 -------------------
 
+- WEB-4153 : Add a cache key on SectionEvents and SectionNews requests to refresh the cache when the section is modified
+  [remdub]
+
 - WEB-4217 : Accessibility : Warn the user that the link will open in a new tab (title attribute)
   [boulch]
 

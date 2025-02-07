@@ -2,6 +2,7 @@
 
 from datetime import date
 from dateutil.parser import parse
+from DateTime import DateTime
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
@@ -9,6 +10,7 @@ from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
+from imio.smartweb.core.utils import remove_cache_key
 from plone import api
 from Products.CMFPlone.utils import normalizeString
 
@@ -26,6 +28,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             selected_item = "&".join(
                 [f"UID={event_uid}" for event_uid in specific_related_events]
             )
+        modified_hash = hash_md5(str(self.context.modification_date))
         params = [
             selected_item,
             "metadata_fields=container_uid",
@@ -37,6 +40,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "metadata_fields=has_leadimage",
             "metadata_fields=modified",
             "metadata_fields=UID",
+            f"cache_key={modified_hash}",
             f"event_dates.query={today}",
             "event_dates.range=min",
             f"b_size={max_items}",
@@ -50,6 +54,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             ]
         url = "{}/@events?{}".format(EVENTS_URL, "&".join(params))
         self.json_data = get_json(url)
+        self.json_data = remove_cache_key(self.json_data)
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:
             return []
