@@ -116,6 +116,14 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn(
             "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed", embedded_video
         )
+        self.assertIn("(Youtube video)", embedded_video)
+
+        section.video_url = "https://vimeo.com/110990510"
+        view = queryMultiAdapter((section, self.request), name="view")
+        embedded_video = view.get_embed_video()
+        self.assertIn("iframe", embedded_video)
+        self.assertIn("https://player.vimeo.com/video/110990510", embedded_video)
+        self.assertIn("(Vimeo video)", embedded_video)
 
     def test_external_content_section(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])

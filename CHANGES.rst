@@ -5,6 +5,9 @@ Changelog
 1.2.85 (unreleased)
 -------------------
 
+- WEB-3538 : Accessibility : Add video source information in title attribute of the iframe
+  [boulch]
+
 - WEB-4217 : Accessibility : Warn the user that the link will open in a new tab (title attribute)
   [boulch]
 
