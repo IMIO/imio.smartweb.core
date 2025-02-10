@@ -24,6 +24,7 @@ import requests_mock
 
 # formdefs/
 GUICHET_URL = "https://demo.guichet-citoyen.be/api/"
+WCS_URL = "https://demo-formulaires.guichet-citoyen.be/api/"
 
 
 class TestProcedure(ImioSmartwebTestCase):
@@ -103,7 +104,7 @@ class TestProcedure(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_procedure_invariant(self, m):
-        url = f"{GUICHET_URL}formdefs/"
+        url = f"{WCS_URL}formdefs/"
         m.get(url, text=json.dumps(self.json_procedures_raw_mock))
         request = TestRequest(
             form={
@@ -147,7 +148,7 @@ class TestProcedure(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_procedure_viewlet(self, m):
-        url = f"{GUICHET_URL}formdefs/"
+        url = f"{WCS_URL}formdefs/"
         m.get(url, text=json.dumps(self.json_procedures_raw_mock))
         procedure = api.content.create(
             container=self.portal,
