@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.86 (unreleased)
+1.2.86 (2025-02-10)
 -------------------
 
 - WEB-4153 : Add a refresh_modification_date view to refresh the modification date of SectionEvents and SectionNews
