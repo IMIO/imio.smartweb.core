@@ -2,8 +2,17 @@ Changelog
 =========
 
 
-1.2.85 (unreleased)
+1.2.86 (unreleased)
 -------------------
+
+- Nothing changed yet.
+
+
+1.2.85 (2025-02-10)
+-------------------
+
+- WEB-3538 : Accessibility : Add video source information in title attribute of the iframe
+  [boulch]
 
 - WEB-4153 : Add a refresh_modification_date view to refresh the modification date of SectionEvents and SectionNews
   [remdub]
