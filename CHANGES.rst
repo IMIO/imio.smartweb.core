@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.85 (unreleased)
+1.2.85 (2025-02-10)
 -------------------
 
 - WEB-3538 : Accessibility : Add video source information in title attribute of the iframe
