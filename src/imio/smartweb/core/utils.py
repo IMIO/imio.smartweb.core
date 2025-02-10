@@ -228,3 +228,21 @@ def get_iadeliberation_json(url):
     json = get_json(url, auth=f"Basic {b64Val.decode('utf-8')}", timeout=20)
 
     return json
+
+
+def remove_cache_key(json_data: dict) -> dict:
+    pattern = re.compile(r"&cache_key=[a-f0-9]{32}")
+    if json_data is None:
+        return json_data
+    if "@id" in json_data and isinstance(json_data["@id"], str):
+        json_data["@id"] = pattern.sub("", json_data["@id"])
+
+    # Nested keys inside 'batching'
+    if "batching" in json_data and isinstance(json_data["batching"], dict):
+        for key in ["@id", "first", "last", "next"]:
+            if key in json_data["batching"] and isinstance(
+                json_data["batching"][key], str
+            ):
+                json_data["batching"][key] = pattern.sub("", json_data["batching"][key])
+
+    return json_data

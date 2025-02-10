@@ -6,6 +6,8 @@ from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_scale_url
+from imio.smartweb.core.utils import remove_cache_key
+from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -92,3 +94,20 @@ class TestUtils(ImioSmartwebTestCase):
             get_scale_url(brain, self.request, "image", "portrait_affiche", "portrait"),
             "http://nohost/plone/page/@@images/image/portrait_affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
+
+    def test_remove_cache_key(self):
+        self.json_news = get_json("resources/json_news_raw_mock.json")
+        self.assertIn("cache_key", self.json_news["@id"])
+        for key in ["@id", "first", "last", "next"]:
+            if key in self.json_news["batching"] and isinstance(
+                self.json_news["batching"][key], str
+            ):
+                self.assertIn("cache_key", self.json_news["batching"][key])
+        self.json_news = remove_cache_key(self.json_news)
+
+        self.assertNotIn("cache_key", self.json_news["@id"])
+        for key in ["@id", "first", "last", "next"]:
+            if key in self.json_news["batching"] and isinstance(
+                self.json_news["batching"][key], str
+            ):
+                self.assertNotIn("cache_key", self.json_news["batching"][key])

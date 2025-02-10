@@ -5,7 +5,11 @@ Changelog
 1.2.86 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4153 : Add a refresh_modification_date view to refresh the modification date of SectionEvents and SectionNews
+  [remdub]
+
+- WEB-4153 : Add a cache key on SectionEvents and SectionNews requests to refresh the cache when the section is modified
+  [remdub]
 
 
 1.2.85 (2025-02-10)

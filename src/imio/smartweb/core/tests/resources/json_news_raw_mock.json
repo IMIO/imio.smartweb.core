@@ -1,0 +1,361 @@
+{
+  "@id": "http://localhost:8080/Plone/@search?selected_news_folders=3b1a50f17b7047f7bb0fc75cf5ad7329&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID&metadata_fields=container_uid&metadata_fields=local_category&metadata_fields=modified&metadata_fields=effective&cache_key=0158244a017b01923cecc32d0613e46e", 
+  "batching": {
+    "@id": "http://localhost:8080/Plone/@search?selected_news_folders=3b1a50f17b7047f7bb0fc75cf5ad7329&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID&metadata_fields=container_uid&metadata_fields=local_category&metadata_fields=modified&metadata_fields=effective&cache_key=0158244a017b01923cecc32d0613e46e&sort_limit=9&sort_on=effective&sort_order=descending", 
+    "first": "http://localhost:8080/Plone/@search?b_start=0&selected_news_folders=3b1a50f17b7047f7bb0fc75cf5ad7329&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID&metadata_fields=container_uid&metadata_fields=local_category&metadata_fields=modified&metadata_fields=effective&cache_key=0158244a017b01923cecc32d0613e46e&sort_limit=9&sort_on=effective&sort_order=descending", 
+    "last": "http://localhost:8080/Plone/@search?b_start=25&selected_news_folders=3b1a50f17b7047f7bb0fc75cf5ad7329&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID&metadata_fields=container_uid&metadata_fields=local_category&metadata_fields=modified&metadata_fields=effective&cache_key=0158244a017b01923cecc32d0613e46e&sort_limit=9&sort_on=effective&sort_order=descending", 
+    "next": "http://localhost:8080/Plone/@search?b_start=25&selected_news_folders=3b1a50f17b7047f7bb0fc75cf5ad7329&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=UID&metadata_fields=container_uid&metadata_fields=local_category&metadata_fields=modified&metadata_fields=effective&cache_key=0158244a017b01923cecc32d0613e46e&sort_limit=9&sort_on=effective&sort_order=descending"
+  }, 
+  "items": [
+    {
+      "@id": "http://localhost:8080/Plone/belleville/commune/66ae76b8f652426089e237ee603386a2", 
+      "@type": "imio.news.NewsItem", 
+      "UID": "0505534d249c48a2b99713a7ac211ebe", 
+      "category_title": null, 
+      "container_uid": "f110a339e3b84561bc61962a9742b705", 
+      "description": "Cybers\u00e9curit\u00e9 et e-gouvernement seront au coeur de l'iMio Day 2025, journ\u00e9e de conf\u00e9rences et d'ateliers interactifs pour les pouvoirs locaux wallons.", 
+      "effective": "2025-01-30T07:30:00+00:00", 
+      "has_leadimage": true, 
+      "image_field": null, 
+      "image_scales": {
+        "image": [
+          {
+            "content-type": "image/jpeg", 
+            "download": "@@images/image-800-63339b1cf1fa99e483e2d22118838976.jpeg", 
+            "filename": "imio-day-news.jpg", 
+            "height": 567, 
+            "scales": {
+              "carre_affiche": {
+                "download": "@@images/image-750-9b875e4ec5fac53cc1c3819436f9f6de.jpeg", 
+                "height": 531, 
+                "width": 750
+              }, 
+              "carre_liste": {
+                "download": "@@images/image-167-75c17e711259f2bf690953f8da94e166.jpeg", 
+                "height": 118, 
+                "width": 167
+              }, 
+              "carre_vignette": {
+                "download": "@@images/image-430-0fe2e5e1f941ab0a06f168e36f0e2354.jpeg", 
+                "height": 304, 
+                "width": 430
+              }, 
+              "icon": {
+                "download": "@@images/image-32-63570e5e551edbf00756dc83f3c175b8.jpeg", 
+                "height": 22, 
+                "width": 32
+              }, 
+              "large": {
+                "download": "@@images/image-768-6ff498338f7766f67c1706aab38c499a.jpeg", 
+                "height": 544, 
+                "width": 768
+              }, 
+              "listing": {
+                "download": "@@images/image-16-19207497efaeee9c1cbcfacc8b34a0ca.jpeg", 
+                "height": 11, 
+                "width": 16
+              }, 
+              "mini": {
+                "download": "@@images/image-200-e051498e2896e0b0e0e238f390d7e0ad.jpeg", 
+                "height": 141, 
+                "width": 200
+              }, 
+              "paysage_affiche": {
+                "download": "@@images/image-750-1bed9c113c6fb72251eece6b3715ad12.jpeg", 
+                "height": 448, 
+                "width": 632
+              }, 
+              "paysage_liste": {
+                "download": "@@images/image-167-cb1fbeb03984f81f82331d95f7220b62.jpeg", 
+                "height": 100, 
+                "width": 141
+              }, 
+              "paysage_vignette": {
+                "download": "@@images/image-430-eb01854c72f779c0e1af385cbe70de06.jpeg", 
+                "height": 257, 
+                "width": 363
+              }, 
+              "portrait_affiche": {
+                "download": "@@images/image-448-3bdd59fe0bc2c51557a362bcc7d1698e.jpeg", 
+                "height": 317, 
+                "width": 448
+              }, 
+              "portrait_liste": {
+                "download": "@@images/image-222-70fc7ff043421cbe10a50b9149bb40f0.jpeg", 
+                "height": 157, 
+                "width": 222
+              }, 
+              "portrait_vignette": {
+                "download": "@@images/image-448-3bdd59fe0bc2c51557a362bcc7d1698e.jpeg", 
+                "height": 317, 
+                "width": 448
+              }, 
+              "preview": {
+                "download": "@@images/image-400-592dedf61a5e8cd7e32cd309db88ccdc.jpeg", 
+                "height": 283, 
+                "width": 400
+              }, 
+              "thumb": {
+                "download": "@@images/image-128-558227cc08bb21c7d0b1ffa9bf0e27bd.jpeg", 
+                "height": 90, 
+                "width": 128
+              }, 
+              "tile": {
+                "download": "@@images/image-64-30d47052707adb48f3ec0e8b2b31b4a9.jpeg", 
+                "height": 45, 
+                "width": 64
+              }
+            }, 
+            "size": 222334, 
+            "width": 800
+          }
+        ]
+      }, 
+      "local_category": null, 
+      "modified": "2025-01-30T07:47:51+00:00", 
+      "review_state": "published", 
+      "title": "Ne ratez pas l'iMio Day du 13 f\u00e9vrier 2025 !", 
+      "topics": null, 
+      "type_title": "Actualit\u00e9", 
+      "usefull_container_id": "commune", 
+      "usefull_container_title": "Actualit\u00e9s de la commune"
+    }, 
+    {
+      "@id": "http://localhost:8080/Plone/belleville/commune/0767749eaf85441a8179303768f48ef2", 
+      "@type": "imio.news.NewsItem", 
+      "UID": "0767749eaf85441a8179303768f48ef2", 
+      "category_title": null, 
+      "container_uid": "f110a339e3b84561bc61962a9742b705", 
+      "description": "", 
+      "effective": "2025-01-14T14:07:06+00:00", 
+      "has_leadimage": true, 
+      "image_field": null, 
+      "image_scales": {
+        "image": [
+          {
+            "content-type": "image/jpeg", 
+            "download": "@@images/image-1920-0d28d8fef7ef4c6f46a185fd428a8a01.jpeg", 
+            "filename": "motion-blur-g10d7a49bc_1920.jpg", 
+            "height": 1279, 
+            "scales": {
+              "banner": {
+                "download": "@@images/image-1920-1a0c7ac40882f46d5e5bd82542cd2bc3.jpeg", 
+                "height": 1279, 
+                "width": 1920
+              }, 
+              "carre_affiche": {
+                "download": "@@images/image-750-e2037c7eadaf2518e6fabe9c55570a43.jpeg", 
+                "height": 499, 
+                "width": 750
+              }, 
+              "carre_liste": {
+                "download": "@@images/image-167-b28c2562e2a234fb758a272e8cd2cfb8.jpeg", 
+                "height": 111, 
+                "width": 167
+              }, 
+              "carre_vignette": {
+                "download": "@@images/image-430-406b324c9324298c12da47de2e809bd3.jpeg", 
+                "height": 286, 
+                "width": 430
+              }, 
+              "icon": {
+                "download": "@@images/image-32-6fe71d6d2b377d659dbd031d3640eee8.jpeg", 
+                "height": 21, 
+                "width": 32
+              }, 
+              "large": {
+                "download": "@@images/image-768-c533dfefc4dab171ab67f91675346f37.jpeg", 
+                "height": 511, 
+                "width": 768
+              }, 
+              "listing": {
+                "download": "@@images/image-16-203636a735d8132c4e0be847b85343a6.jpeg", 
+                "height": 10, 
+                "width": 16
+              }, 
+              "mini": {
+                "download": "@@images/image-200-73a7abcb2d44f086523030a10902a972.jpeg", 
+                "height": 133, 
+                "width": 200
+              }, 
+              "paysage_affiche": {
+                "download": "@@images/image-750-4d6fa1004b2c148eaa85074c51bd26d8.jpeg", 
+                "height": 448, 
+                "width": 673
+              }, 
+              "paysage_liste": {
+                "download": "@@images/image-167-aa74a3ecc21959d849aa60e795b00cad.jpeg", 
+                "height": 100, 
+                "width": 150
+              }, 
+              "paysage_vignette": {
+                "download": "@@images/image-430-28ef12d29b66bb5c65b6f70b58943fc1.jpeg", 
+                "height": 257, 
+                "width": 386
+              }, 
+              "portrait_affiche": {
+                "download": "@@images/image-448-8613bdd585e702eba2a4a4d5fa66b013.jpeg", 
+                "height": 298, 
+                "width": 448
+              }, 
+              "portrait_liste": {
+                "download": "@@images/image-222-6f24b9a8a93b3d30e2dfb352962e9937.jpeg", 
+                "height": 147, 
+                "width": 222
+              }, 
+              "portrait_vignette": {
+                "download": "@@images/image-448-8613bdd585e702eba2a4a4d5fa66b013.jpeg", 
+                "height": 298, 
+                "width": 448
+              }, 
+              "preview": {
+                "download": "@@images/image-400-86c0a78163a36fb1fccff82b0cd58781.jpeg", 
+                "height": 266, 
+                "width": 400
+              }, 
+              "thumb": {
+                "download": "@@images/image-128-9e55ef22fea075a0211c335f39cdd91a.jpeg", 
+                "height": 85, 
+                "width": 128
+              }, 
+              "tile": {
+                "download": "@@images/image-64-570f49fe16b3a55e953eb555e8002cc5.jpeg", 
+                "height": 42, 
+                "width": 64
+              }
+            }, 
+            "size": 261649, 
+            "width": 1920
+          }
+        ]
+      }, 
+      "local_category": null, 
+      "modified": "2025-01-14T14:07:06+00:00", 
+      "review_state": "published", 
+      "title": "Le Caching Web : Optimisation des Performances", 
+      "topics": null, 
+      "type_title": "Actualit\u00e9", 
+      "usefull_container_id": "commune", 
+      "usefull_container_title": "Actualit\u00e9s de la commune"
+    }, 
+    {
+      "@id": "http://localhost:8080/Plone/belleville/commune/01678b36a5c14de08c0048a4e60960b6", 
+      "@type": "imio.news.NewsItem", 
+      "UID": "01678b36a5c14de08c0048a4e60960b6", 
+      "category_title": null, 
+      "container_uid": "f110a339e3b84561bc61962a9742b705", 
+      "description": "Cette actualit\u00e9 est vraiment urgente", 
+      "effective": "2025-01-14T12:40:00+00:00", 
+      "has_leadimage": true, 
+      "image_field": null, 
+      "image_scales": {
+        "image": [
+          {
+            "content-type": "image/jpeg", 
+            "download": "@@images/image-1920-bdb33a542ba3c3fa6a22a42b852d2ef5.jpeg", 
+            "filename": "meadow-g92ecd61e0_1920.jpg", 
+            "height": 1280, 
+            "scales": {
+              "banner": {
+                "download": "@@images/image-1920-b65b0609f5d6758fbacbde2b23557b06.jpeg", 
+                "height": 1280, 
+                "width": 1920
+              }, 
+              "carre_affiche": {
+                "download": "@@images/image-750-b1582bdedef66b480c23485c7127b6be.jpeg", 
+                "height": 500, 
+                "width": 750
+              }, 
+              "carre_liste": {
+                "download": "@@images/image-167-c8a42e802696e7482095aa488c4394f7.jpeg", 
+                "height": 111, 
+                "width": 167
+              }, 
+              "carre_vignette": {
+                "download": "@@images/image-430-142b5f6c63148c8770b9fea68fe24df3.jpeg", 
+                "height": 286, 
+                "width": 430
+              }, 
+              "icon": {
+                "download": "@@images/image-32-6cc24c2d5ace4616b574db5b932a87ef.jpeg", 
+                "height": 21, 
+                "width": 32
+              }, 
+              "large": {
+                "download": "@@images/image-768-8f92dbb808d056cb5b1d5181b6d8194b.jpeg", 
+                "height": 512, 
+                "width": 768
+              }, 
+              "listing": {
+                "download": "@@images/image-16-b8e4b8a391de69be69ce347ffb23d3c7.jpeg", 
+                "height": 10, 
+                "width": 16
+              }, 
+              "mini": {
+                "download": "@@images/image-200-b8ae70b47662de08ad2ddad51ecf0729.jpeg", 
+                "height": 133, 
+                "width": 200
+              }, 
+              "paysage_affiche": {
+                "download": "@@images/image-750-109a22ed750b2f9cd2d37e8fa5031ed6.jpeg", 
+                "height": 448, 
+                "width": 672
+              }, 
+              "paysage_liste": {
+                "download": "@@images/image-167-d81cf3ac0f9b0d6c6d153e35733a4719.jpeg", 
+                "height": 100, 
+                "width": 150
+              }, 
+              "paysage_vignette": {
+                "download": "@@images/image-430-6c5129a3abcac460e8da4fd71de2f6f4.jpeg", 
+                "height": 257, 
+                "width": 386
+              }, 
+              "portrait_affiche": {
+                "download": "@@images/image-448-6c15b19eb0947c6532e21681494e9ab4.jpeg", 
+                "height": 298, 
+                "width": 448
+              }, 
+              "portrait_liste": {
+                "download": "@@images/image-222-98bce7ad7e0a55b3cd5b199e1e9e7f1f.jpeg", 
+                "height": 148, 
+                "width": 222
+              }, 
+              "portrait_vignette": {
+                "download": "@@images/image-448-6c15b19eb0947c6532e21681494e9ab4.jpeg", 
+                "height": 298, 
+                "width": 448
+              }, 
+              "preview": {
+                "download": "@@images/image-400-d9d488dd1677386f0107d79c1565f5ae.jpeg", 
+                "height": 266, 
+                "width": 400
+              }, 
+              "thumb": {
+                "download": "@@images/image-128-0419c932370ccfdc495871dd991a9b55.jpeg", 
+                "height": 85, 
+                "width": 128
+              }, 
+              "tile": {
+                "download": "@@images/image-64-f5524890af469fd078ca929b5387130b.jpeg", 
+                "height": 42, 
+                "width": 64
+              }
+            }, 
+            "size": 759049, 
+            "width": 1920
+          }
+        ]
+      }, 
+      "local_category": null, 
+      "modified": "2025-02-07T10:09:10+00:00", 
+      "review_state": "published", 
+      "title": "Une actualit\u00e9 tr\u00e8s urgente.", 
+      "topics": null, 
+      "type_title": "Actualit\u00e9", 
+      "usefull_container_id": "commune", 
+      "usefull_container_title": "Actualit\u00e9s de la commune"
+    }
+  ], 
+  "items_total": 51
+}
