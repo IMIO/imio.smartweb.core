@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<object name="portal_types" meta_type="Plone Types Tool">
+  <object meta_type="Dexterity FTI" name="imio.smartweb.CampaignView"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.Folder"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.Footer"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.HeroBanner"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.Page"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.PortalPage"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionCollection"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionFiles"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionGallery"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionHTML"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionLinks"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSelections"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionText"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionVideo"/>
+</object>

@@ -1,0 +1,16 @@
+<html
+         metal:use-macro="context/main_template/macros/master"
+         i18n:domain="imio.smartweb">
+<body>
+<metal:main fill-slot="content-core">
+  <div class="full-width">
+    <smartweb-campaign tal:attributes="query-url view/local_query_url;                                       
+                                       batch-size view/batch_size;
+                                       current-language view/current_language;
+                                       display-map view/display_map;
+                                       view-path view/view_path;
+                                       context-authenticated-user view/context_authenticated_user;"></smartweb-campaign>
+  </div>
+</metal:main>
+</body>
+</html>

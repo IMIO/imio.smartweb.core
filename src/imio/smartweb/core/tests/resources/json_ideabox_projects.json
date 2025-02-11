@@ -1,0 +1,1871 @@
+[
+    {
+        "uuid": "a617ff2e-db96-41d8-b403-766bdaed20cc",
+        "id": "7",
+        "internal_id": "7",
+        "display_id": "16-7",
+        "display_name": "iMio - IDEABOX - Projet - n°16-7",
+        "text": "Exemple",
+        "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/7/",
+        "receipt_time": "2024-10-09T15:26:49",
+        "last_update_time": "2024-10-09T15:30:07",
+        "criticality_level": 0,
+        "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/7/",
+        "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/7/",
+        "user": {
+            "id": 1,
+            "name": "Admin oob",
+            "email": "admints@imio.be",
+            "NameID": [
+                "e59ba0ecbab04791959cb9bda8d9ac31"
+            ],
+            "first_name": "Admin",
+            "last_name": "oob",
+            "street": "Léon Morel",
+            "address_supplement": "",
+            "num_house": "1",
+            "num_box": "",
+            "zipcode": "5132",
+            "city": "Gembloux",
+            "country": "Belgique",
+            "phone": "",
+            "birthdate": "1991-08-06",
+            "niss": ""
+        },
+        "fields": {
+            "nom": "Exemple",
+            "description": "<p>1</p><p>2</p><p>3</p>",
+            "themes_raw": [
+                "1",
+                "4"
+            ],
+            "themes": "Domaine Expension, Grotte de Han",
+            "themes_structured": [
+                {
+                    "id": 1,
+                    "text": "Domaine Expension",
+                    "nom": "Domaine Expension"
+                },
+                {
+                    "id": 4,
+                    "text": "Grotte de Han",
+                    "nom": "Grotte de Han"
+                }
+            ],
+            "campagne_raw": "2",
+            "campagne": "Sprint iMio Fall 2024",
+            "campagne_structured": {
+                "id": 2,
+                "text": "Sprint iMio Fall 2024",
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Venez Admirez les burpees de Christophe fait par Thomas</p><ul><li><p>un spectacle pour petits et grands</p></li><li><p>Avec un accès gratuit de 48h au onlyfans de Manu</p></li></ul><p><a href=\"https://www.hot-manga.fr/hentai/accueil-hot-manga\" rel=\"nofollow\">Réserver votre ticket</a></p>",
+                "nombre_vote_autorise": "2"
+            },
+            "votes_pour": "0",
+            "votes_contre": "0",
+            "porteur": "55",
+            "commentaires": "Publié par Anonyme le 09/10/2024 15:29<br><p>Un commentaire</p><br>===============<br>",
+            "images_raw": [
+                {
+                    "image": {
+                        "filename": "TEST.png",
+                        "content_type": "image/png",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/7/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/7/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                }
+            ],
+            "images": "iMio - Ajouter une image",
+            "annexes_raw": null,
+            "annexes": null,
+            "zones_raw": [
+                "1"
+            ],
+            "zones": "A",
+            "zones_structured": [
+                {
+                    "id": 1,
+                    "text": "A",
+                    "nom": "A"
+                }
+            ],
+            "geolocalisation": {
+                "lat": 50.504389114768344,
+                "lon": 4.716049792303921
+            },
+            "rue": "Rue Camille Hubert",
+            "numero": "15",
+            "code_postal": "5034",
+            "localite": "Gembloux"
+        },
+        "workflow": {
+            "status": {
+                "id": "2",
+                "name": "Publié",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T13:28:41.656100+00:00",
+                "latest_arrival_datetime": "2024-10-09T13:30:07.835563+00:00"
+            },
+            "real_status": {
+                "id": "2",
+                "name": "Publié",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T13:28:41.656100+00:00",
+                "latest_arrival_datetime": "2024-10-09T13:30:07.835563+00:00"
+            }
+        },
+        "actions": {
+            "global-action:vote_pour": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/7/hooks/vote_pour/",
+            "global-action:vote_contre": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/7/hooks/vote_contre/"
+        },
+        "roles": {
+            "_editor": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_api": [
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "_viewer": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_gestion-des-projets": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                }
+            ],
+            "concerned": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                },
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                },
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "actions": []
+        },
+        "submission": {
+            "backoffice": false,
+            "channel": "web",
+            "parent": {
+                "url": "https://staging3-formulaires.guichet-citoyen.be/proposer-un-projet/28/",
+                "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/proposer-un-projet/28/",
+                "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/proposer-un-projet/28/"
+            }
+        },
+        "evolution": [
+            {
+                "time": "2024-10-09T13:26:49.239415+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "recorded",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T13:28:41.656100+00:00",
+                "last_jump_datetime": null,
+                "who_id": "1",
+                "status": "2",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T13:30:07.835563+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "2"
+            }
+        ],
+        "digest": "Exemple"
+    },
+    {
+        "uuid": "2180654a-9f8e-4758-9446-9e69daf76f50",
+        "id": "6",
+        "internal_id": "6",
+        "display_id": "16-6",
+        "display_name": "iMio - IDEABOX - Projet - n°16-6",
+        "text": "Test pour Nombre de vote par campagne",
+        "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/6/",
+        "receipt_time": "2024-10-09T15:01:29",
+        "last_update_time": "2024-10-09T16:04:33",
+        "criticality_level": 0,
+        "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/6/",
+        "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/6/",
+        "user": {
+            "id": 1,
+            "name": "Admin oob",
+            "email": "admints@imio.be",
+            "NameID": [
+                "e59ba0ecbab04791959cb9bda8d9ac31"
+            ],
+            "first_name": "Admin",
+            "last_name": "oob",
+            "street": "Léon Morel",
+            "address_supplement": "",
+            "num_house": "1",
+            "num_box": "",
+            "zipcode": "5132",
+            "city": "Gembloux",
+            "country": "Belgique",
+            "phone": "",
+            "birthdate": "1991-08-06",
+            "niss": ""
+        },
+        "fields": {
+            "nom": "Test pour Nombre de vote par campagne",
+            "description": "<p>Tat</p><p>Tit</p>",
+            "themes_raw": [
+                "4",
+                "2"
+            ],
+            "themes": "Grotte de Han, Ma femme, mon fils et",
+            "themes_structured": [
+                {
+                    "id": 4,
+                    "text": "Grotte de Han",
+                    "nom": "Grotte de Han"
+                },
+                {
+                    "id": 2,
+                    "text": "Ma femme, mon fils et",
+                    "nom": "Ma femme, mon fils et"
+                }
+            ],
+            "campagne_raw": "2",
+            "campagne": "Sprint iMio Fall 2024",
+            "campagne_structured": {
+                "id": 2,
+                "text": "Sprint iMio Fall 2024",
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Venez Admirez les burpees de Christophe fait par Thomas</p><ul><li><p>un spectacle pour petits et grands</p></li><li><p>Avec un accès gratuit de 48h au onlyfans de Manu</p></li></ul><p><a href=\"https://www.hot-manga.fr/hentai/accueil-hot-manga\" rel=\"nofollow\">Réserver votre ticket</a></p>",
+                "nombre_vote_autorise": "2"
+            },
+            "votes_pour": "1",
+            "votes_contre": "0",
+            "porteur": "GG",
+            "commentaires": null,
+            "images_raw": [
+                {
+                    "image": {
+                        "filename": "TEST.png",
+                        "content_type": "image/png",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/6/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/6/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                }
+            ],
+            "images": "iMio - Ajouter une image",
+            "annexes_raw": null,
+            "annexes": null,
+            "zones_raw": [
+                "1",
+                "2"
+            ],
+            "zones": "A, Rouge",
+            "zones_structured": [
+                {
+                    "id": 1,
+                    "text": "A",
+                    "nom": "A"
+                },
+                {
+                    "id": 2,
+                    "text": "Rouge",
+                    "nom": "Rouge"
+                }
+            ],
+            "geolocalisation": {
+                "lat": 50.504403671866115,
+                "lon": 4.714676889400159
+            },
+            "rue": "Rue Jean Sonet",
+            "numero": "4",
+            "code_postal": "5034",
+            "localite": "Gembloux"
+        },
+        "workflow": {
+            "status": {
+                "id": "3",
+                "name": "Vote",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T13:01:51.504889+00:00",
+                "latest_arrival_datetime": "2024-10-09T14:04:33.758968+00:00"
+            },
+            "real_status": {
+                "id": "3",
+                "name": "Vote",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T13:01:51.504889+00:00",
+                "latest_arrival_datetime": "2024-10-09T14:04:33.758968+00:00"
+            }
+        },
+        "actions": {
+            "global-action:vote_pour": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/6/hooks/vote_pour/",
+            "global-action:vote_contre": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/6/hooks/vote_contre/"
+        },
+        "roles": {
+            "_editor": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_api": [
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "_viewer": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_gestion-des-projets": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                }
+            ],
+            "concerned": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                },
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                },
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "actions": []
+        },
+        "submission": {
+            "backoffice": false,
+            "channel": "web",
+            "parent": {
+                "url": "https://staging3-formulaires.guichet-citoyen.be/proposer-un-projet/27/",
+                "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/proposer-un-projet/27/",
+                "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/proposer-un-projet/27/"
+            }
+        },
+        "evolution": [
+            {
+                "time": "2024-10-09T13:01:29.507145+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "recorded",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T13:01:51.504889+00:00",
+                "last_jump_datetime": null,
+                "who_id": "1",
+                "status": "3",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T14:04:33.758968+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "3"
+            }
+        ],
+        "digest": "Test pour Nombre de vote par campagne"
+    },
+    {
+        "uuid": "4f476922-fa67-4675-aac9-ad2e083c874c",
+        "id": "5",
+        "internal_id": "5",
+        "display_id": "16-5",
+        "display_name": "iMio - IDEABOX - Projet - n°16-5",
+        "text": "Test themes dynamique",
+        "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/5/",
+        "receipt_time": "2024-10-09T11:29:54",
+        "last_update_time": "2024-10-09T11:29:54",
+        "criticality_level": 0,
+        "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/5/",
+        "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/5/",
+        "user": {
+            "id": 1,
+            "name": "Admin oob",
+            "email": "admints@imio.be",
+            "NameID": [
+                "e59ba0ecbab04791959cb9bda8d9ac31"
+            ],
+            "first_name": "Admin",
+            "last_name": "oob",
+            "street": "Léon Morel",
+            "address_supplement": "",
+            "num_house": "1",
+            "num_box": "",
+            "zipcode": "5132",
+            "city": "Gembloux",
+            "country": "Belgique",
+            "phone": "",
+            "birthdate": "1991-08-06",
+            "niss": ""
+        },
+        "fields": {
+            "nom": "Test themes dynamique",
+            "description": "<p>sdq</p>",
+            "themes_raw": [
+                "1",
+                "4",
+                "2"
+            ],
+            "themes": "Domaine Expension, Grotte de Han, Ma femme, mon fils et",
+            "themes_structured": [
+                {
+                    "id": 1,
+                    "text": "Domaine Expension",
+                    "nom": "Domaine Expension"
+                },
+                {
+                    "id": 4,
+                    "text": "Grotte de Han",
+                    "nom": "Grotte de Han"
+                },
+                {
+                    "id": 2,
+                    "text": "Ma femme, mon fils et",
+                    "nom": "Ma femme, mon fils et"
+                }
+            ],
+            "campagne_raw": "2",
+            "campagne": "Sprint iMio Fall 2024",
+            "campagne_structured": {
+                "id": 2,
+                "text": "Sprint iMio Fall 2024",
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Venez Admirez les burpees de Christophe fait par Thomas</p><ul><li><p>un spectacle pour petits et grands</p></li><li><p>Avec un accès gratuit de 48h au onlyfans de Manu</p></li></ul><p><a href=\"https://www.hot-manga.fr/hentai/accueil-hot-manga\" rel=\"nofollow\">Réserver votre ticket</a></p>"
+            },
+            "votes_pour": "0",
+            "votes_contre": "0",
+            "porteur": "q",
+            "commentaires": null,
+            "images_raw": [
+                {
+                    "image": {
+                        "filename": "TEST.png",
+                        "content_type": "image/png",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/5/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/5/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                }
+            ],
+            "images": "iMio - Ajouter une image",
+            "annexes_raw": null,
+            "annexes": null,
+            "zones_raw": [
+                "3",
+                "1"
+            ],
+            "zones": "51, A",
+            "zones_structured": [
+                {
+                    "id": 3,
+                    "text": "51",
+                    "nom": "51"
+                },
+                {
+                    "id": 1,
+                    "text": "A",
+                    "nom": "A"
+                }
+            ],
+            "geolocalisation": {
+                "lat": 44.92856382546002,
+                "lon": 7.535759715677931
+            },
+            "rue": "Leon Morel",
+            "numero": "1",
+            "code_postal": "5032",
+            "localite": "Isne"
+        },
+        "workflow": {
+            "status": {
+                "id": "recorded",
+                "name": "Enregistrée",
+                "endpoint": false,
+                "first_arrival_datetime": "2024-10-09T09:29:54.023472+00:00",
+                "latest_arrival_datetime": "2024-10-09T09:29:54.023472+00:00"
+            },
+            "real_status": {
+                "id": "recorded",
+                "name": "Enregistrée",
+                "endpoint": false,
+                "first_arrival_datetime": "2024-10-09T09:29:54.023472+00:00",
+                "latest_arrival_datetime": "2024-10-09T09:29:54.023472+00:00"
+            }
+        },
+        "actions": {
+            "global-action:vote_pour": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/5/hooks/vote_pour/",
+            "global-action:vote_contre": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/5/hooks/vote_contre/"
+        },
+        "roles": {
+            "_editor": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_api": [
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "_viewer": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_gestion-des-projets": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                }
+            ],
+            "concerned": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                },
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                },
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "actions": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ]
+        },
+        "submission": {
+            "backoffice": false,
+            "channel": "web",
+            "parent": {
+                "url": "https://staging3-formulaires.guichet-citoyen.be/proposer-un-projet/18/",
+                "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/proposer-un-projet/18/",
+                "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/proposer-un-projet/18/"
+            }
+        },
+        "evolution": [
+            {
+                "time": "2024-10-09T09:29:54.023472+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "recorded",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            }
+        ],
+        "digest": "Test themes dynamique"
+    },
+    {
+        "uuid": "700efee2-17c2-41ff-8efb-7800e06b54ef",
+        "id": "4",
+        "internal_id": "4",
+        "display_id": "16-4",
+        "display_name": "iMio - IDEABOX - Projet - n°16-4",
+        "text": "Test 0",
+        "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/4/",
+        "receipt_time": "2024-10-08T15:21:22",
+        "last_update_time": "2024-10-09T14:52:11",
+        "criticality_level": 0,
+        "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/4/",
+        "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/4/",
+        "user": {
+            "id": 1,
+            "name": "Admin oob",
+            "email": "admints@imio.be",
+            "NameID": [
+                "e59ba0ecbab04791959cb9bda8d9ac31"
+            ],
+            "first_name": "Admin",
+            "last_name": "oob",
+            "street": "Léon Morel",
+            "address_supplement": "",
+            "num_house": "1",
+            "num_box": "",
+            "zipcode": "5132",
+            "city": "Gembloux",
+            "country": "Belgique",
+            "phone": "",
+            "birthdate": "1991-08-06",
+            "niss": ""
+        },
+        "fields": {
+            "nom": "Test 0",
+            "description": "<p>La prevue par 0</p>",
+            "themes_raw": [
+                "3"
+            ],
+            "themes": "Chevetogne",
+            "themes_structured": [
+                {
+                    "id": 3,
+                    "text": "Chevetogne",
+                    "nom": "Chevetogne"
+                }
+            ],
+            "campagne_raw": "2",
+            "campagne": "Sprint iMio Fall 2024",
+            "campagne_structured": {
+                "id": 2,
+                "text": "Sprint iMio Fall 2024",
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Venez Admirez les burpees de Christophe fait par Thomas</p><ul><li><p>un spectacle pour petits et grands</p></li><li><p>Avec un accès gratuit de 48h au onlyfans de Manu</p></li></ul><p><a href=\"https://www.hot-manga.fr/hentai/accueil-hot-manga\" rel=\"nofollow\">Réserver votre ticket</a></p>"
+            },
+            "votes_pour": "1",
+            "votes_contre": "0",
+            "porteur": "0",
+            "commentaires": "Publié par Admin oob le 09/10/2024 10:31<br /><p>Vive le 0</p><p>Le 0 est notre but et notre <strong>destin</strong></p><h3>Oubliez</h3><ul><li><p>le1</p></li><li><p>le 2</p></li><li><p>et les autres chiffres</p></li></ul><br /><br />Publié par Anonyme le 09/10/2024 10:32<br /><p>Test HR</p><p>Human Ressource</p><br /><br />Publié par Admin oob le 09/10/2024 10:35<br /><p>Vive les 0</p><p>Les 0 sont des <strong>héros</strong></p><br /><br />Publié par Anonyme le 09/10/2024 10:38<br /><p>Test retour à la <strong>ligne</strong></p><p>Bonjour</p><p>123</p><br />===============<br />",
+            "images_raw": [
+                {
+                    "image": {
+                        "filename": "bouffe.gif",
+                        "content_type": "image/gif",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/4/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/4/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                }
+            ],
+            "images": "iMio - Ajouter une image",
+            "annexes_raw": null,
+            "annexes": null,
+            "zones_raw": [
+                "3"
+            ],
+            "zones": "51",
+            "zones_structured": [
+                {
+                    "id": 3,
+                    "text": "51",
+                    "nom": "51"
+                }
+            ],
+            "geolocalisation": {
+                "lat": 44.933143,
+                "lon": 7.540121
+            },
+            "rue": "Leon Morel",
+            "numero": "1",
+            "code_postal": "5032",
+            "localite": "Isne"
+        },
+        "workflow": {
+            "status": {
+                "id": "2",
+                "name": "Publié",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T12:52:11.882321+00:00",
+                "latest_arrival_datetime": "2024-10-09T12:52:11.882321+00:00"
+            },
+            "real_status": {
+                "id": "2",
+                "name": "Publié",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T12:52:11.882321+00:00",
+                "latest_arrival_datetime": "2024-10-09T12:52:11.882321+00:00"
+            }
+        },
+        "actions": {
+            "global-action:vote_pour": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/4/hooks/vote_pour/",
+            "global-action:vote_contre": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/4/hooks/vote_contre/"
+        },
+        "roles": {
+            "_editor": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_api": [
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "_viewer": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_gestion-des-projets": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                }
+            ],
+            "concerned": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                },
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                },
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "actions": []
+        },
+        "submission": {
+            "backoffice": false,
+            "channel": "web",
+            "parent": {
+                "url": "https://staging3-formulaires.guichet-citoyen.be/proposer-un-projet/13/",
+                "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/proposer-un-projet/13/",
+                "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/proposer-un-projet/13/"
+            }
+        },
+        "evolution": [
+            {
+                "time": "2024-10-08T13:21:22.032117+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "recorded",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-08T13:35:48.338605+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T08:31:52.659919+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T08:32:59.715425+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T08:35:46.866272+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T08:38:32.055352+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T12:52:11.882321+00:00",
+                "last_jump_datetime": null,
+                "who_id": "1",
+                "status": "2",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            }
+        ],
+        "digest": "Test 0"
+    },
+    {
+        "uuid": "64194cc1-b1db-424b-aec3-a8f5e0829848",
+        "id": "3",
+        "internal_id": "3",
+        "display_id": "16-3",
+        "display_name": "iMio - IDEABOX - Projet - n°16-3",
+        "text": "Exemple Pour Boulch",
+        "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/3/",
+        "receipt_time": "2024-10-08T15:14:08",
+        "last_update_time": "2024-10-08T15:14:08",
+        "criticality_level": 0,
+        "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/3/",
+        "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/3/",
+        "user": {
+            "id": 1,
+            "name": "Admin oob",
+            "email": "admints@imio.be",
+            "NameID": [
+                "e59ba0ecbab04791959cb9bda8d9ac31"
+            ],
+            "first_name": "Admin",
+            "last_name": "oob",
+            "street": "Léon Morel",
+            "address_supplement": "",
+            "num_house": "1",
+            "num_box": "",
+            "zipcode": "5132",
+            "city": "Gembloux",
+            "country": "Belgique",
+            "phone": "",
+            "birthdate": "1991-08-06",
+            "niss": ""
+        },
+        "fields": {
+            "nom": "Exemple Pour Boulch",
+            "description": "<p>Ceci est un exemple</p>",
+            "themes_raw": [
+                "2"
+            ],
+            "themes": "Ma femme, mon fils et",
+            "themes_structured": [
+                {
+                    "id": 2,
+                    "text": "Ma femme, mon fils et",
+                    "nom": "Ma femme, mon fils et"
+                }
+            ],
+            "campagne_raw": "2",
+            "campagne": "Sprint iMio Fall 2024",
+            "campagne_structured": {
+                "id": 2,
+                "text": "Sprint iMio Fall 2024",
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Venez Admirez les burpees de Christophe fait par Thomas</p><ul><li><p>un spectacle pour petits et grands</p></li><li><p>Avec un accès gratuit de 48h au onlyfans de Manu</p></li></ul><p><a href=\"https://www.hot-manga.fr/hentai/accueil-hot-manga\" rel=\"nofollow\">Réserver votre ticket</a></p>"
+            },
+            "votes_pour": null,
+            "votes_contre": null,
+            "porteur": "Téléservices",
+            "commentaires": null,
+            "images_raw": [
+                {
+                    "image": {
+                        "filename": "TEST.png",
+                        "content_type": "image/png",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/3/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/3/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                }
+            ],
+            "images": "iMio - Ajouter une image",
+            "annexes_raw": null,
+            "annexes": null,
+            "zones_raw": [
+                "3"
+            ],
+            "zones": "51",
+            "zones_structured": [
+                {
+                    "id": 3,
+                    "text": "51",
+                    "nom": "51"
+                }
+            ],
+            "geolocalisation": {
+                "lat": 44.933143,
+                "lon": 7.540121
+            },
+            "rue": "Leon Morel",
+            "numero": "1",
+            "code_postal": "5032",
+            "localite": "Isne"
+        },
+        "workflow": {
+            "status": {
+                "id": "recorded",
+                "name": "Enregistrée",
+                "endpoint": false,
+                "first_arrival_datetime": "2024-10-08T13:14:08.676338+00:00",
+                "latest_arrival_datetime": "2024-10-08T13:14:08.676338+00:00"
+            },
+            "real_status": {
+                "id": "recorded",
+                "name": "Enregistrée",
+                "endpoint": false,
+                "first_arrival_datetime": "2024-10-08T13:14:08.676338+00:00",
+                "latest_arrival_datetime": "2024-10-08T13:14:08.676338+00:00"
+            }
+        },
+        "actions": {
+            "global-action:vote_pour": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/3/hooks/vote_pour/",
+            "global-action:vote_contre": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/3/hooks/vote_contre/"
+        },
+        "roles": {
+            "_editor": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_api": [
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "_viewer": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_gestion-des-projets": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                }
+            ],
+            "concerned": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                },
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                },
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "actions": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ]
+        },
+        "submission": {
+            "backoffice": false,
+            "channel": "web",
+            "parent": {
+                "url": "https://staging3-formulaires.guichet-citoyen.be/proposer-un-projet/12/",
+                "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/proposer-un-projet/12/",
+                "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/proposer-un-projet/12/"
+            }
+        },
+        "evolution": [
+            {
+                "time": "2024-10-08T13:14:08.676338+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "recorded",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            }
+        ],
+        "digest": "Exemple Pour Boulch"
+    },
+    {
+        "uuid": "69b8a0f0-9fb4-42d1-8303-eb3b6e36d70d",
+        "id": "2",
+        "internal_id": "2",
+        "display_id": "16-2",
+        "display_name": "iMio - IDEABOX - Projet - n°16-2",
+        "text": "Onlyfans de Manu",
+        "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/2/",
+        "receipt_time": "2024-10-08T14:26:15",
+        "last_update_time": "2024-10-09T15:31:44",
+        "criticality_level": 0,
+        "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/",
+        "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/2/",
+        "user": {
+            "id": 1,
+            "name": "Admin oob",
+            "email": "admints@imio.be",
+            "NameID": [
+                "e59ba0ecbab04791959cb9bda8d9ac31"
+            ],
+            "first_name": "Admin",
+            "last_name": "oob",
+            "street": "Léon Morel",
+            "address_supplement": "",
+            "num_house": "1",
+            "num_box": "",
+            "zipcode": "5132",
+            "city": "Gembloux",
+            "country": "Belgique",
+            "phone": "",
+            "birthdate": "1991-08-06",
+            "niss": ""
+        },
+        "fields": {
+            "nom": "Onlyfans de Manu",
+            "description": "<p>Distribuer des accès premium 72h au onlyfans de Manu à toutes les agentes référentes SmartWeb qui viennent ne Atelier</p>",
+            "themes_raw": [
+                "3",
+                "1",
+                "4"
+            ],
+            "themes": "Chevetogne, Domaine Expension, Grotte de Han",
+            "themes_structured": [
+                {
+                    "id": 3,
+                    "text": "Chevetogne",
+                    "nom": "Chevetogne"
+                },
+                {
+                    "id": 1,
+                    "text": "Domaine Expension",
+                    "nom": "Domaine Expension"
+                },
+                {
+                    "id": 4,
+                    "text": "Grotte de Han",
+                    "nom": "Grotte de Han"
+                }
+            ],
+            "campagne_raw": "2",
+            "campagne": "Sprint iMio Fall 2024",
+            "campagne_structured": {
+                "id": 2,
+                "text": "Sprint iMio Fall 2024",
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Venez Admirez les burpees de Christophe fait par Thomas</p><ul><li><p>un spectacle pour petits et grands</p></li><li><p>Avec un accès gratuit de 48h au onlyfans de Manu</p></li></ul><p><a href=\"https://www.hot-manga.fr/hentai/accueil-hot-manga\" rel=\"nofollow\">Réserver votre ticket</a></p>"
+            },
+            "votes_pour": "1",
+            "votes_contre": "1",
+            "porteur": "Emmanuel Brotelle",
+            "commentaires": "<p>J'adore ce <strong>projet</strong></p><p>Toutes communes devraient avoir un compte chez Manu</p><h3>Vive le gel hydroalcoolique</h3><ul><li><p>9.99€</p></li><li><p>par mois</p></li></ul><br><p>Franchement où va le <strong>monde</strong></p><p>C'est intolérable</p><h3>J'en réfèrerai à François 1er</h3><br><p>J'adore les petites fesses de <strong>Manu</strong></p><ul><li><p>la droite</p></li><li><p>la gauche</p></li><li><p>le milieu</p></li></ul><br>Publié par Admin oob le 09/10/2024 10:26<br>",
+            "images_raw": [
+                {
+                    "image": {
+                        "filename": "dumbell chauve.jpg",
+                        "content_type": "image/jpeg",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                },
+                {
+                    "image": {
+                        "filename": "dumbell 2.jpg",
+                        "content_type": "image/jpeg",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$1$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$1$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                }
+            ],
+            "images": "iMio - Ajouter une image, iMio - Ajouter une image",
+            "annexes_raw": [
+                {
+                    "fichier": {
+                        "filename": "manque de foi jojo.gif",
+                        "content_type": "image/gif",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/download?f=7e873882-8088-4eb4-9d73-76ed6a9eb269$0$bf229ecbb4-57e1-4f03-bac4-31f10a00acc3",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/download?f=7e873882-8088-4eb4-9d73-76ed6a9eb269$0$bf229ecbb4-57e1-4f03-bac4-31f10a00acc3&thumbnail=1",
+                        "field_id": "bf229ecbb4-57e1-4f03-bac4-31f10a00acc3"
+                    }
+                }
+            ],
+            "annexes": "iMio - Ajouter un fichier",
+            "zones_raw": [
+                "3",
+                "2"
+            ],
+            "zones": "51, Rouge",
+            "zones_structured": [
+                {
+                    "id": 3,
+                    "text": "51",
+                    "nom": "51"
+                },
+                {
+                    "id": 2,
+                    "text": "Rouge",
+                    "nom": "Rouge"
+                }
+            ],
+            "geolocalisation": {
+                "lat": 44.933143,
+                "lon": 7.540121
+            },
+            "rue": "Leon Morel",
+            "numero": "1",
+            "code_postal": "5032",
+            "localite": "Isne"
+        },
+        "workflow": {
+            "status": {
+                "id": "3",
+                "name": "Vote",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T12:51:42.415038+00:00",
+                "latest_arrival_datetime": "2024-10-09T13:31:44.591956+00:00"
+            },
+            "real_status": {
+                "id": "3",
+                "name": "Vote",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T12:51:42.415038+00:00",
+                "latest_arrival_datetime": "2024-10-09T13:31:44.591956+00:00"
+            }
+        },
+        "actions": {
+            "global-action:vote_pour": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/hooks/vote_pour/",
+            "global-action:vote_contre": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/2/hooks/vote_contre/"
+        },
+        "roles": {
+            "_editor": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_api": [
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "_viewer": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_gestion-des-projets": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                }
+            ],
+            "concerned": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                },
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                },
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "actions": []
+        },
+        "submission": {
+            "backoffice": false,
+            "channel": "web",
+            "parent": {
+                "url": "https://staging3-formulaires.guichet-citoyen.be/proposer-un-projet/10/",
+                "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/proposer-un-projet/10/",
+                "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/proposer-un-projet/10/"
+            }
+        },
+        "evolution": [
+            {
+                "time": "2024-10-08T12:26:15.431353+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "recorded",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-08T13:57:38.233016+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T08:05:39.659676+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T08:08:00.861718+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T08:27:04.397123+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "recorded"
+            },
+            {
+                "time": "2024-10-09T11:15:33.861744+00:00",
+                "last_jump_datetime": null,
+                "who_id": "1",
+                "status": "2",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T12:51:42.415038+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "3",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T13:31:44.591956+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "3"
+            }
+        ],
+        "digest": "Onlyfans de Manu"
+    },
+    {
+        "uuid": "9cd32d92-267c-4a8f-8ff1-86f6f22086c0",
+        "id": "1",
+        "internal_id": "1",
+        "display_id": "16-1",
+        "display_name": "iMio - IDEABOX - Projet - n°16-1",
+        "text": "Projet X",
+        "url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/1/",
+        "receipt_time": "2024-10-08T13:26:59",
+        "last_update_time": "2024-10-09T16:04:06",
+        "criticality_level": 0,
+        "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/",
+        "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/data/imio-ideabox-projet/1/",
+        "user": {
+            "id": 1,
+            "name": "Admin oob",
+            "email": "admints@imio.be",
+            "NameID": [
+                "e59ba0ecbab04791959cb9bda8d9ac31"
+            ],
+            "first_name": "Admin",
+            "last_name": "oob",
+            "street": "Léon Morel",
+            "address_supplement": "",
+            "num_house": "1",
+            "num_box": "",
+            "zipcode": "5132",
+            "city": "Gembloux",
+            "country": "Belgique",
+            "phone": "",
+            "birthdate": "1991-08-06",
+            "niss": ""
+        },
+        "fields": {
+            "nom": "Projet X",
+            "description": "<ul><li><p>Pisicne</p></li><li><p><strong>Alcool</strong></p></li><li><p>Bikini</p></li><li><p><em>Alcool</em></p></li><li><p>Cascada</p></li><li><p><a href=\"https://www.pernod-ricard.com/fr\" rel=\"nofollow\">Alcool</a></p></li></ul>",
+            "themes_raw": [
+                "3",
+                "1"
+            ],
+            "themes": "Chevetogne, Domaine Expension",
+            "themes_structured": [
+                {
+                    "id": 3,
+                    "text": "Chevetogne",
+                    "nom": "Chevetogne"
+                },
+                {
+                    "id": 1,
+                    "text": "Domaine Expension",
+                    "nom": "Domaine Expension"
+                }
+            ],
+            "campagne_raw": "2",
+            "campagne": "Sprint iMio Fall 2024",
+            "campagne_structured": {
+                "id": 2,
+                "text": "Sprint iMio Fall 2024",
+                "titre": "Sprint iMio Fall 2024",
+                "description": "<h3>Sprint iMio</h3><h4>Fall 2024</h4><p>Venez Admirez les burpees de Christophe fait par Thomas</p><ul><li><p>un spectacle pour petits et grands</p></li><li><p>Avec un accès gratuit de 48h au onlyfans de Manu</p></li></ul><p><a href=\"https://www.hot-manga.fr/hentai/accueil-hot-manga\" rel=\"nofollow\">Réserver votre ticket</a></p>"
+            },
+            "votes_pour": "1",
+            "votes_contre": null,
+            "porteur": "Téléservices",
+            "commentaires": null,
+            "images_raw": [
+                {
+                    "image": {
+                        "filename": "TEST.png",
+                        "content_type": "image/png",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$0$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                },
+                {
+                    "image": {
+                        "filename": "assert dominance.jpg",
+                        "content_type": "image/jpeg",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$1$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$1$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                },
+                {
+                    "image": {
+                        "filename": "bigger shit.jpg",
+                        "content_type": "image/jpeg",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$2$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$2$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                },
+                {
+                    "image": {
+                        "filename": "poop dominance.jpg",
+                        "content_type": "image/jpeg",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$3$bff1eff2cf-c266-464a-abba-fa649906b9f0",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=c6ab3a44-b215-4eab-8c35-8e1a5aa51fd0$3$bff1eff2cf-c266-464a-abba-fa649906b9f0&thumbnail=1",
+                        "field_id": "bff1eff2cf-c266-464a-abba-fa649906b9f0"
+                    }
+                }
+            ],
+            "images": "iMio - Ajouter une image, iMio - Ajouter une image, iMio - Ajouter une image, iMio - Ajouter une image",
+            "annexes_raw": [
+                {
+                    "fichier": {
+                        "filename": "dumbbellcarousel.jpg",
+                        "content_type": "image/jpeg",
+                        "url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=7e873882-8088-4eb4-9d73-76ed6a9eb269$0$bf229ecbb4-57e1-4f03-bac4-31f10a00acc3",
+                        "thumbnail_url": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/download?f=7e873882-8088-4eb4-9d73-76ed6a9eb269$0$bf229ecbb4-57e1-4f03-bac4-31f10a00acc3&thumbnail=1",
+                        "field_id": "bf229ecbb4-57e1-4f03-bac4-31f10a00acc3"
+                    }
+                }
+            ],
+            "annexes": "iMio - Ajouter un fichier",
+            "zones_raw": [
+                "3",
+                "1"
+            ],
+            "zones": "51, A",
+            "zones_structured": [
+                {
+                    "id": 3,
+                    "text": "51",
+                    "nom": "51"
+                },
+                {
+                    "id": 1,
+                    "text": "A",
+                    "nom": "A"
+                }
+            ],
+            "geolocalisation": {
+                "lat": 50.51823746508222,
+                "lon": 4.782292192139677
+            },
+            "rue": "Leon Morel",
+            "numero": "1",
+            "code_postal": "5032",
+            "localite": "Isne"
+        },
+        "workflow": {
+            "status": {
+                "id": "3",
+                "name": "Vote",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T12:51:57.159786+00:00",
+                "latest_arrival_datetime": "2024-10-09T14:04:06.786762+00:00"
+            },
+            "real_status": {
+                "id": "3",
+                "name": "Vote",
+                "endpoint": true,
+                "first_arrival_datetime": "2024-10-09T12:51:57.159786+00:00",
+                "latest_arrival_datetime": "2024-10-09T14:04:06.786762+00:00"
+            }
+        },
+        "actions": {
+            "global-action:vote_pour": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/hooks/vote_pour/",
+            "global-action:vote_contre": "https://staging3-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/1/hooks/vote_contre/"
+        },
+        "roles": {
+            "_editor": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_api": [
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "_viewer": [
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                }
+            ],
+            "_gestion-des-projets": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                }
+            ],
+            "concerned": [
+                {
+                    "name": "IDEABOX - Gestion de projet",
+                    "text": "IDEABOX - Gestion de projet",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "ideabox-gestion-de-projet",
+                    "id": "e675ef6940ad4cd4b49921b7860c2ee7"
+                },
+                {
+                    "name": "Debug",
+                    "text": "Debug",
+                    "allows_backoffice_access": true,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "debug",
+                    "id": "6d2c55fe2ea44e41b7f8111b93f1930a"
+                },
+                {
+                    "name": "API IDEABox",
+                    "text": "API IDEABox",
+                    "allows_backoffice_access": false,
+                    "emails": [],
+                    "details": "",
+                    "emails_to_members": true,
+                    "slug": "api-ideabox",
+                    "id": "c2ce2ec872814abb99e5e24a02b1e31c"
+                }
+            ],
+            "actions": []
+        },
+        "submission": {
+            "backoffice": false,
+            "channel": "web",
+            "parent": {
+                "url": "https://staging3-formulaires.guichet-citoyen.be/proposer-un-projet/1/",
+                "backoffice_url": "https://staging3-formulaires.guichet-citoyen.be/backoffice/management/proposer-un-projet/1/",
+                "api_url": "https://staging3-formulaires.guichet-citoyen.be/api/forms/proposer-un-projet/1/"
+            }
+        },
+        "evolution": [
+            {
+                "time": "2024-10-08T11:26:59.874004+00:00",
+                "last_jump_datetime": null,
+                "who_id": "_submitter",
+                "status": "recorded",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T12:51:57.159786+00:00",
+                "last_jump_datetime": null,
+                "who_id": "1",
+                "status": "3",
+                "who": {
+                    "id": 1,
+                    "name": "Admin oob",
+                    "email": "admints@imio.be",
+                    "NameID": [
+                        "e59ba0ecbab04791959cb9bda8d9ac31"
+                    ]
+                }
+            },
+            {
+                "time": "2024-10-09T14:04:06.786762+00:00",
+                "last_jump_datetime": null,
+                "who_id": null,
+                "status": "3"
+            }
+        ],
+        "digest": "Projet X"
+    }
+]

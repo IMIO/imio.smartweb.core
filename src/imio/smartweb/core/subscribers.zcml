@@ -32,5 +32,13 @@
   <subscriber for="imio.smartweb.core.contents.ISectionExternalContent
                    zope.lifecycleevent.interfaces.IObjectRemovedEvent"
               handler=".subscribers.removed_external_content" />
+  
+  <subscriber for="imio.smartweb.core.contents.ICampaignView
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".subscribers.added_campaignview" />
+
+  <subscriber for="imio.smartweb.core.contents.ICampaignView
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".subscribers.modified_campaignview" />
 
 </configure>

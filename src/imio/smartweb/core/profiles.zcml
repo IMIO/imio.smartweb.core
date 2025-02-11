@@ -13,6 +13,24 @@
       />
 
   <genericsetup:registerProfile
+      name="ideabox"
+      title="imio.smartweb.core : ideabox install"
+      directory="profiles/ideabox"
+      description="Install ideabox in an existing smartweb site."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
+      name="ideabox_uninstall"
+      title="imio.smartweb.core : ideabox uninstall"
+      directory="profiles/ideabox_uninstall"
+      description="Uninstall ideabox."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      post_handler=".setuphandlers.post_install"
+      />
+
+  <genericsetup:registerProfile
       name="testing"
       title="imio.smartweb.core (testing)"
       directory="profiles/testing"

@@ -5,16 +5,24 @@ from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.common.utils import remove_cropping
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.interfaces import IOdwbViewUtils
+from imio.smartweb.core.utils import get_basic_auth_json
+from imio.smartweb.core.utils import get_ts_api_url
+
 from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
 from imio.smartweb.core.utils import get_iadeliberation_json
+from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.core.utils import safe_html
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.layout.navigation.interfaces import INavigationRoot
+
+# from plone.i18n.normalizer.interfaces import IURLNormalizer
 from plone.namedfile.field import NamedBlobImage
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
+
+# from zope.component import getUtility
 from zope.interface import alsoProvides
 from zope.interface import noLongerProvides
 from zope.lifecycleevent import ObjectRemovedEvent
@@ -120,7 +128,9 @@ def added_publication(obj, event):
     iadeliberation_institution = get_iadeliberation_institution_from_registry()
     url = f"{iadeliberation_institution}/publications/{obj.linked_publication}?fullobjects=y"
     try:
-        json_publication = get_iadeliberation_json(url)
+        user = api.portal.get_registry_record("smartweb.iadeliberations_api_username")
+        pwd = api.portal.get_registry_record("smartweb.iadeliberation_api_password")
+        json_publication = get_basic_auth_json(url, user, pwd)
         obj.title = json_publication.get("title")
         obj.description = json_publication.get("description")
         obj.publication_uid = json_publication.get("UID")
@@ -154,3 +164,19 @@ def removed_external_content(obj, event):
     if IOdwbViewUtils.providedBy(parent) and len(sections_external_content) == 0:
         noLongerProvides(parent, IOdwbViewUtils)
         parent.reindexObject()
+
+
+def added_campaignview(obj, event):
+    """save json attributes on object attributes"""
+    wcs_api = get_ts_api_url("wcs")
+    ts_campaign_endpoint = "imio-ideabox-campagne"
+    url = f"{wcs_api}/cards/{ts_campaign_endpoint}/{obj.linked_campaign}"
+    user = get_value_from_registry("smartweb.iaideabox_api_username")
+    pwd = get_value_from_registry("smartweb.iaideabox_api_password")
+    json_campaign = get_basic_auth_json(url, user, pwd)
+    obj.title = json_campaign.get("fields").get("titre")
+    obj.description = json_campaign.get("fields").get("description")
+
+
+def modified_campaignview(obj, event):
+    added_campaignview(obj, event)

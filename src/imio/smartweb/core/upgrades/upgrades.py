@@ -2,14 +2,18 @@
 
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
 from plone import api
 from plone.app.imagecropping import PAI_STORAGE_KEY
+from plone.registry import field
+from plone.registry import Record
 from plone.registry.interfaces import IRegistry
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.schema import getFieldNames
+from zope.schema import TextLine
 
 import logging
 
@@ -227,3 +231,63 @@ def migrate_old_sizes_from_section_text(context):
             logger.info(
                 f"Migrated deprecated scale from {old_scale} to {new_scale} for {obj.absolute_url()}"
             )
+
+
+def update_control_panel_combo_api_url(context):
+    url_ts = ""
+    try:
+        url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
+    except:
+        logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
+        return
+    url_ts = url_ts.replace("/api", "")
+    url_ts = url_ts.replace("-formulaires", "")
+    api.portal.set_registry_record("smartweb.url_formdefs_api", url_ts)
+
+
+def update_control_panel_combo_api_fieldname(context):
+    url_ts = ""
+    try:
+        url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
+    except:
+        logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
+    registry = getUtility(IRegistry)
+    records = registry.records
+    if "smartweb.url_ts" in records:
+        return
+    logger.info("Adding smartweb.url_ts to registry")  # noqa
+    record = Record(
+        field.TextLine(
+            title=_("Url to e-guichet"),
+            description=_("Exemple : https://COMMUNE.guichet-citoyen.be"),
+            required=False,
+        ),
+        value=url_ts,
+    )
+    records["smartweb.url_ts"] = record
+
+    record = Record(
+        field.TextLine(
+            title=_(
+                "Username to consume e-guichet ideabox API (get Campaign, projects,...)"
+            ),
+            default="ideabox",
+            required=False,
+        )
+    )
+    records["smartweb.iaideabox_api_username"] = record
+
+    record = Record(
+        field.Password(
+            title=_(
+                "Password to consume e-guichet ideabox API (get Campaign, projects,...)"
+            ),
+            required=False,
+        )
+    )
+    records["smartweb.iaideabox_api_password"] = record
+    try:
+        del registry.records["smartweb.url_formdefs_api"]
+        logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
+    except KeyError:
+        logger.info("La clé 'smartweb.url_formdefs_api' n'existe pas dans le registre.")

@@ -91,7 +91,7 @@ function Map(props) {
     }, [filterGeoArray]);
     const position = [50.85034, 4.35171];
 
-    const markers = filterGeoArray.map((mark,i) => (
+    const markers = filterGeoArray.map((mark, i) => (
         <Marker
             key={i}
             icon={getMarkerIcon(mark.UID)}
@@ -129,6 +129,7 @@ function Map(props) {
             </Popup>
         </Marker>
     ));
+    console.log(markers);
 
     return (
         <div>
