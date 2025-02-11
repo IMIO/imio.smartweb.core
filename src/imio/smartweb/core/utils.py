@@ -60,7 +60,8 @@ def concat_voca_title(title1, title2):
 
 
 def get_json(url, auth=None, timeout=5):
-    headers = {"Accept": "application/json"}
+    language = api.portal.get_current_language()
+    headers = {"Accept": "application/json", "Cookie": f"I18N_LANGUAGE={language}"}
     if auth is not None:
         headers["Authorization"] = auth
     try:
@@ -260,3 +261,21 @@ def get_ts_api_url(service="wcs"):
         )
     api_url = urlunparse(parsed_url._replace(netloc=new_netloc, path="/api"))
     return api_url
+
+  
+def remove_cache_key(json_data: dict) -> dict:
+    pattern = re.compile(r"&cache_key=[a-f0-9]{32}")
+    if json_data is None:
+        return json_data
+    if "@id" in json_data and isinstance(json_data["@id"], str):
+        json_data["@id"] = pattern.sub("", json_data["@id"])
+
+    # Nested keys inside 'batching'
+    if "batching" in json_data and isinstance(json_data["batching"], dict):
+        for key in ["@id", "first", "last", "next"]:
+            if key in json_data["batching"] and isinstance(
+                json_data["batching"][key], str
+            ):
+                json_data["batching"][key] = pattern.sub("", json_data["batching"][key])
+
+    return json_data

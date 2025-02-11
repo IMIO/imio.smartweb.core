@@ -2,10 +2,60 @@ Changelog
 =========
 
 
-1.2.82 (unreleased)
+1.2.87 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.86 (2025-02-10)
+-------------------
+
+- WEB-4153 : Add a refresh_modification_date view to refresh the modification date of SectionEvents and SectionNews
+  [remdub]
+
+- WEB-4153 : Add a cache key on SectionEvents and SectionNews requests to refresh the cache when the section is modified
+  [remdub]
+
+
+1.2.85 (2025-02-10)
+-------------------
+
+- WEB-3538 : Accessibility : Add video source information in title attribute of the iframe
+  [boulch]
+
+- WEB-4217 : Accessibility : Warn the user that the link will open in a new tab (title attribute)
+  [boulch]
+
+- WEB-3872 : Accessibility : Files in "files section" are automaticaly open in a new (target blank) tab
+  [boulch]
+
+- WEB-4211 : Accessibility : Improve behavior of the "alt" attribute for images in a gallery section
+  [boulch]
+
+
+1.2.84 (2025-01-29)
+-------------------
+
+- Update Python classifiers to be compatible with Python 3.12
+  [remdub]
+
+
+1.2.83 (2025-01-29)
+-------------------
+
+- Migrate to Plone 6.0.14
+  [boulch]
+
+- WEB-4206 : Remove wcatoken from query parameters when forwarding requests
+  [remdub]
+
+
+1.2.82 (2025-01-23)
+-------------------
+
+- WEB-4153 : Add language cookie to python requests to avoid cache problems
+  [remdub]
 
 
 1.2.81 (2025-01-15)

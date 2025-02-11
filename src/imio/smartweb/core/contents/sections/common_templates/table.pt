@@ -59,6 +59,7 @@
                         tal:attributes="class string:table_display ${item/container_id | nothing} ${item/smartweb_type | nothing};"
                       >
                       <a tal:attributes="class python:'table_image no-image' if no_icon_no_image else 'table_image';
+                                         title python:view.a_tag_item_title(item);
                                          href python:view.retrieve_item_url(item);
                                          target python:'_blank' if (open_in_new_tab and not can_edit_sections) else '';">
                         <tal:if tal:condition="show_lead_image">

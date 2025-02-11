@@ -116,6 +116,14 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn(
             "https://www.youtube.com/embed/_dOAthafoGQ?feature=oembed", embedded_video
         )
+        self.assertIn("(Youtube video)", embedded_video)
+
+        section.video_url = "https://vimeo.com/110990510"
+        view = queryMultiAdapter((section, self.request), name="view")
+        embedded_video = view.get_embed_video()
+        self.assertIn("iframe", embedded_video)
+        self.assertIn("https://player.vimeo.com/video/110990510", embedded_video)
+        self.assertIn("(Vimeo video)", embedded_video)
 
     def test_external_content_section(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
@@ -283,6 +291,7 @@ class TestSections(ImioSmartwebTestCase):
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(view.count('<h2 class="section-title">Title of my '), 5)
+
         login(self.portal, "test")
         gallery_section = getattr(page, "title-of-my-imio-smartweb-sectiongallery")
         api.content.create(
@@ -290,6 +299,7 @@ class TestSections(ImioSmartwebTestCase):
             type="Image",
             title="Image",
         )
+
         files_section = getattr(page, "title-of-my-imio-smartweb-sectionfiles")
         file_obj = api.content.create(
             container=files_section,
@@ -297,12 +307,14 @@ class TestSections(ImioSmartwebTestCase):
             title="My file",
         )
         file_obj.file = NamedBlobFile(data="file data", filename="file.txt")
+
         links_section = getattr(page, "title-of-my-imio-smartweb-sectionlinks")
         api.content.create(
             container=links_section,
             type="imio.smartweb.BlockLink",
             title="My link",
         )
+
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
             view.count('<h2 class="section-title">Title of my '), len(section_types)
@@ -531,12 +543,12 @@ class TestSections(ImioSmartwebTestCase):
         )
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<a class="table_image no-image" href="http://nohost/plone/page/section-links/my-link" target="">',
+            '<a class="table_image no-image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
         )
         link.image = NamedBlobImage(**make_named_image())
         self.assertIn(
-            '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="">',
+            '<a class="table_image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
         )
         link.open_in_new_tab = True
@@ -548,7 +560,7 @@ class TestSections(ImioSmartwebTestCase):
         clear_cache(self.request)
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
+            '<a class="table_image" title="My link (New tab)" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
             view(),
         )
         link.remoteUrl = "http://www.perdu.com"

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from DateTime import DateTime
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
@@ -7,6 +8,7 @@ from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
+from imio.smartweb.core.utils import remove_cache_key
 from plone import api
 from Products.CMFPlone.utils import normalizeString
 
@@ -23,6 +25,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             selected_item = "&".join(
                 [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
             )
+        modified_hash = hash_md5(str(self.context.modification_date))
         params = [
             selected_item,
             "portal_type=imio.news.NewsItem",
@@ -34,6 +37,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "metadata_fields=modified",
             "metadata_fields=effective",
             "metadata_fields=UID",
+            f"cache_key={modified_hash}",
             f"sort_limit={max_items}",
         ]
         current_lang = api.portal.get_current_language()[:2]
@@ -46,6 +50,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             ]
         url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
         self.json_data = get_json(url)
+        self.json_data = remove_cache_key(self.json_data)
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:
             return []

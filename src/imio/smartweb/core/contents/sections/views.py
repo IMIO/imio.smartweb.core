@@ -58,6 +58,14 @@ class SectionView(BrowserView):
         api.portal.show_message(_("Section title has been shown"), self.request)
         self.redirect_to_section(self.context.id)
 
+    def refresh_modification_date(self):
+        alsoProvides(self.request, IDisableCSRFProtection)
+        modified(self.context)
+        api.portal.show_message(
+            _("Section modification date has been refreshed"), self.request
+        )
+        self.redirect_to_section(self.context.id)
+
     @property
     def display_container_title(self):
         return False
@@ -99,6 +107,10 @@ class SectionView(BrowserView):
             current_lang,
         )
         return json.dumps({"id": section_size, "title": size_txt})
+
+    def a_tag_item_title(self, item):
+        title = item.get("title") or ""
+        return title
 
 
 class CarouselOrTableSectionView(SectionView):

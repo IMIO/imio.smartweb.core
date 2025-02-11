@@ -55,6 +55,24 @@
       />
 
   <browser:page
+      name="refresh_modification_date"
+      for="imio.smartweb.core.contents.ISectionNews"
+      class=".views.SectionView"
+      attribute="refresh_modification_date"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="refresh_modification_date"
+      for="imio.smartweb.core.contents.ISectionEvents"
+      class=".views.SectionView"
+      attribute="refresh_modification_date"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
       for="*"
       name="getsizes"
       attribute="get_sizes"
