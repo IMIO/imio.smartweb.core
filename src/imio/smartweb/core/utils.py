@@ -262,7 +262,7 @@ def get_ts_api_url(service="wcs"):
     api_url = urlunparse(parsed_url._replace(netloc=new_netloc, path="/api"))
     return api_url
 
-  
+
 def remove_cache_key(json_data: dict) -> dict:
     pattern = re.compile(r"&cache_key=[a-f0-9]{32}")
     if json_data is None:

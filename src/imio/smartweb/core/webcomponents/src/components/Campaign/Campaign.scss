@@ -48,16 +48,31 @@ body {
     color: #0ca72b;
     padding: 5px 15px;
     border-radius: 5px;
+    text-decoration: none;
+    &:hover,
+    &:focus {
+        background-color: #d9f8de;
+        color: #0ca72b;
+    }
 }
 .campaign-vote-contre {
+    text-decoration: none;
     background-color: #f4e2e4;
     color: #b70a0a;
     padding: 5px 15px;
     border-radius: 5px;
+    &:hover,
+    &:focus {
+        background-color: #f0d0d4;
+        color: #b70a0a;
+    }
 }
 
 .campaign-vote-pour-count,
 .campaign-vote-contre-count {
+    font-size: 15px;
+}
+.campaign-vote-contre-text {
     font-size: 15px;
 }
 

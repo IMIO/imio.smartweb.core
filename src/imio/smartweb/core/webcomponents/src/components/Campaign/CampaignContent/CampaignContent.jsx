@@ -7,7 +7,7 @@ import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
-export default function CampaignContent({ queryUrl, onChange, contextAuthenticatedUser }) {
+export default function CampaignContent({ queryUrl, onChange }) {
     const navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
         id: queryString.parse(useFilterQuery().toString())["u"],
@@ -15,6 +15,9 @@ export default function CampaignContent({ queryUrl, onChange, contextAuthenticat
     });
     const [params, setParams] = useState(parsed);
     const [item, setitem] = useState(null);
+    const [urlVotePour, setUrlVotePour] = useState(null);
+    const [urlVoteContre, setUrlVoteContre] = useState(null);
+
     const [files, setFiles] = useState();
     const { response, error, isLoading } = useAxios(
         {
@@ -33,6 +36,13 @@ export default function CampaignContent({ queryUrl, onChange, contextAuthenticat
     useEffect(() => {
         if (response !== null) {
             setitem(response.fields);
+            const parsedUrl = new URL(response.url);
+            const baseUrl = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
+            const fullUrlPour = `${baseUrl}/ideabox-voter-pour-un-projet/?projet=${response.id}`;
+            const fullUrlContre = `${baseUrl}/ideabox-voter-contre-un-projet/?projet=${response.id}`;
+
+            setUrlVotePour(fullUrlPour);
+            setUrlVoteContre(fullUrlContre);
         }
 
         window.scrollTo({
@@ -46,13 +56,12 @@ export default function CampaignContent({ queryUrl, onChange, contextAuthenticat
         navigate("..");
         onChange(null);
     }
-    console.log("CampaignContent");
     return !isLoading ? (
         <div className="campaign-content r-content">
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />
             </button>
-            <ContentText item={item} />
+            <ContentText item={item} urlVotePour={urlVotePour} urlVoteContre={urlVoteContre} />
         </div>
     ) : (
         <div className="lds-roller-container">
@@ -70,10 +79,9 @@ export default function CampaignContent({ queryUrl, onChange, contextAuthenticat
     );
 }
 
-function ContentText({ item }) {
+function ContentText({ item, urlVotePour, urlVoteContre }) {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
-    console.log("CampaignText");
 
     useEffect(() => {
         if (item) {
@@ -100,8 +108,20 @@ function ContentText({ item }) {
                 <header>
                     <h2 className="r-content-title">{item.nom}</h2>
                 </header>
-                {image ? (
-                    <figure>
+                <figure>
+                    <div className="campaign-vote" style={{ marginTop: "1.5rem" }}>
+                        <a href={urlVotePour} target="_blank" className="campaign-vote-pour">
+                            <i className="bi bi-hand-thumbs-up-fill"></i>
+                            <span className="campaign-vote-pour-count">(10)</span>
+                            <span className="campaign-vote-contre-text"> Je vote pour</span>
+                        </a>
+                        <a href={urlVoteContre} target="_blank" className="campaign-vote-contre">
+                            <i className="bi bi-hand-thumbs-down-fill"></i>
+                            <span className="campaign-vote-contre-count">(10)</span>
+                            <span className="campaign-vote-contre-text"> Je vote contre</span>
+                        </a>
+                    </div>
+                    {image ? (
                         <div className="r-content-img">
                             <div
                                 className="r-content-figure-blur"
@@ -113,12 +133,12 @@ function ContentText({ item }) {
                                 alt=""
                             />
                         </div>
-                    </figure>
-                ) : (
-                    <>
-                        <div className="r-item-img r-item-img-placeholder"></div>
-                    </>
-                )}
+                    ) : (
+                        <>
+                            <div className="r-item-img r-item-img-placeholder"></div>
+                        </>
+                    )}
+                </figure>
             </article>
             <div className="contactCard">
                 <div className="contactText">
@@ -132,9 +152,7 @@ function ContentText({ item }) {
                             />
                         )}
                     </div>
-                    <div className="r-content-vote-btn">
-                        <a href="">Je vote pour ce projet</a>
-                    </div>
+
                     <div className="contactTextAll"></div>
                 </div>
                 {/* add files to download */}
