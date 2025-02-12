@@ -5,7 +5,8 @@ Changelog
 1.2.87 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4153 : Move and rename the refresh_modification_date action
+  [remdub]
 
 
 1.2.86 (2025-02-10)
