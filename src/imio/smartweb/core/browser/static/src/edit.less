@@ -1,8 +1,8 @@
 #contentview-preview .icon-preview:before {
-  content: '\e833';
+  content: "\e833";
 }
 
-.pat-sortable> :hover {
+.pat-sortable > :hover {
   cursor: move;
 }
 
@@ -63,21 +63,30 @@ ul.plonetoolbar-smartweb-help-menu {
 }
 
 a.manage[class*="contenttype-imio-smartweb-"] {
-    &:before {
-        display: none;
-    }
-    svg {
-      margin-right: 5px;
-    }
+  &:before {
+    display: none;
+  }
+  svg {
+    margin-right: 5px;
+  }
 }
 
 // layout select
-
+.manage-section {
+  & > a {
+    padding: 5px;
+    background: #e4e4e4;
+    border-radius: 5px;
+  }
+}
+.manage-section .form_section_size {
+  width: 80px;
+}
 .manage-section .form_section_size option {
-  font-size: 15px;    
+  font-size: 15px;
 }
 .manage-section .form_section_size option:before {
-  content:"";
+  content: "";
   display: block;
   width: 40px;
   aspect-ratio: 16/9;
