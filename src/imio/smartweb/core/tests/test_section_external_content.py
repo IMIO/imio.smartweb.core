@@ -7,8 +7,6 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from zope.component import queryMultiAdapter
-from zope.interface import alsoProvides
-from zope.interface import noLongerProvides
 
 
 class TestSectionExternalContent(ImioSmartwebTestCase):

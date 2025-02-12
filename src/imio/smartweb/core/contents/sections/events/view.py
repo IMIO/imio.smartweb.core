@@ -2,7 +2,6 @@
 
 from datetime import date
 from dateutil.parser import parse
-from DateTime import DateTime
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
