@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.87 (unreleased)
+1.2.87 (2025-02-12)
 -------------------
 
 - WEB-4153 : Move and rename the refresh_modification_date action
