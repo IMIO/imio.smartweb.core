@@ -267,6 +267,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1061_to_1062"
+      title="Upgrade core from 1061 to 1062"
+      directory="profiles/1061_to_1062"
+      description="In the end, it's better for timestamped publications to be handled as a section. (For layout reasons)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -890,5 +898,16 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1060_to_1061"
         />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1061"
+      destination="1062"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="In the end, it's better for timestamped publications to be handled as a section. (For layout reasons)"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1061_to_1062"
+        />
+  </genericsetup:upgradeSteps>
+
 
 </configure>

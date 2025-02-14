@@ -344,8 +344,6 @@ class TestVocabularies(ImioSmartwebTestCase):
             "imio.smartweb.vocabulary.IADeliberationsPublications"
         )
         self.assertEqual(
-            vocabulary.getTerm(
-                "autorisation-de-deroger-temporairement-aux-normes-de-bruit-fete-de-la-musique-2023"
-            ).title,
+            vocabulary.getTerm("1eb1d97e162a4fe4be802ccd812fa180").title,
             "Autorisation de déroger temporairement aux normes de bruit - Fête de la Musique 2023",
         )

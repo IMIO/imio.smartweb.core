@@ -661,13 +661,18 @@ class RemoteIADeliberationsPublicationsVocabularyFactory:
     def __call__(self, context=None):
         iadeliberation_institution = get_iadeliberation_institution_from_registry()
         url = f"{iadeliberation_institution}/@search?portal_type=Publication&metadata_fields=UID&metadata_fields=id&review_state=published&sort_on=sortable_title"
-        json_publications = get_iadeliberation_json(url)
-        return SimpleVocabulary(
-            [
-                SimpleTerm(value=elem["id"], token=elem["id"], title=elem["title"])
-                for elem in json_publications.get("items")
-            ]
-        )
+        try:
+            json_publications = get_iadeliberation_json(url)
+            return SimpleVocabulary(
+                [
+                    SimpleTerm(
+                        value=elem["UID"], token=elem["UID"], title=elem["title"]
+                    )
+                    for elem in json_publications.get("items")
+                ]
+            )
+        except Exception:
+            return SimpleVocabulary([])
 
 
 RemoteIADeliberationsPublicationsVocabulary = (

@@ -5,7 +5,8 @@ Changelog
 1.2.88 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4134 : Refactor : "Timestamped publications" is a section now (not anymore a content type to store in a section)
+  [boulch]
 
 
 1.2.87 (2025-02-12)
