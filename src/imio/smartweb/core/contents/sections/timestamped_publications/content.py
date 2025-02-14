@@ -7,10 +7,7 @@ from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform import directives
 from plone.supermodel import model
 from zope import schema
-from zope.globalrequest import getRequest
-from zope.i18n import translate
 from zope.interface import implementer
-from zope.interface import provider
 
 
 class ISectionTimestampedPublications(ISection):
@@ -55,5 +52,7 @@ class ISectionTimestampedPublications(ISection):
 class SectionTimestampedPublications(Section):
     """SectionTimestampedPublications class"""
 
-    manage_display = True
+    # We don't need to manage display on timestamped publications
+    # only common table view / don't need common carousel view
+    manage_display = False
     show_items_date = True

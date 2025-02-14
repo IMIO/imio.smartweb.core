@@ -36,13 +36,4 @@
     <element value="imio.smartweb.orientation"/>
   </property>
 
-  <!-- View information -->
-  <property name="default_view">carousel_view</property>
-  <property name="default_view_fallback">False</property>
-  <property name="immediate_view">view</property>
-  <property name="view_methods">
-    <element value="carousel_view"/>
-    <element value="table_view"/>
-  </property>
-
 </object>

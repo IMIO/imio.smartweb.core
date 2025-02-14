@@ -5,7 +5,8 @@ Changelog
 1.2.89 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix issue : We don't need carousel view in timestamped publications
+  [boulch]
 
 
 1.2.88 (2025-02-14)
