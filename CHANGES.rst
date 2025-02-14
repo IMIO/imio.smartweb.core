@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.88 (unreleased)
+1.2.88 (2025-02-14)
 -------------------
 
 - WEB-4134 : Refactor : "Timestamped publications" is a section now (not anymore a content type to store in a section)
