@@ -11,12 +11,6 @@ from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import provider
-from zope.schema.interfaces import IContextAwareDefaultFactory
-
-
-@provider(IContextAwareDefaultFactory)
-def see_all_default(context):
-    return translate(_("See all news"), context=getRequest())
 
 
 class ISectionTimestampedPublications(ISection):
