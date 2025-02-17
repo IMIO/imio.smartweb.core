@@ -16,7 +16,6 @@
    number_of_contacts view/get_number_of_contacts"
    tal:attributes="id string:container-section-${context/id}"
    i18n:domain="imio.smartweb">
-   <div class="number_of_contacts"></div>
   <metal:macro use-macro="context/@@sections_macros/section_title" />
     <div tal:attributes="class string:row nb-contact-by-line-${context/nb_contact_by_line} number-of-contacts-${number_of_contacts}"
          tal:repeat="items batch">
