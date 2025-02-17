@@ -15,7 +15,9 @@ class ContactView(HashableJsonSectionView):
         """
         Returns the number of related contacts.
         """
-        related_contacts = self.context.related_contacts  # Assurez-vous que 'related_contacts' est une liste
+        related_contacts = (
+            self.context.related_contacts
+        )  # Assurez-vous que 'related_contacts' est une liste
         if related_contacts:
             return len(related_contacts)
         return 0
