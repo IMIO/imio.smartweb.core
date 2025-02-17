@@ -5,6 +5,9 @@ Changelog
 1.2.89 (unreleased)
 -------------------
 
+- WEB-4225 : Added classes to contact sections to differentiate the type of contact (multiple or single)
+  [thomlamb]
+
 - Fix issue : We don't need carousel view in timestamped publications
   [boulch]
 
