@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.89 (unreleased)
+1.2.89 (2025-02-18)
 -------------------
 
 - WEB-4225 : Added classes to contact sections to differentiate the type of contact (multiple or single)
