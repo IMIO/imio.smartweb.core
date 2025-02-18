@@ -2,7 +2,7 @@
     xmlns="http://namespaces.zope.org/zope">
 
   <adapter
-      for="imio.smartweb.core.contents.IFolder"
+      for="plone.dexterity.interfaces.IDexterityContainer"
       factory="imio.smartweb.core.contents.rest.campaign.content.CampaignNameChooser"
       provides="zope.container.interfaces.INameChooser"
       />
