@@ -12,3 +12,8 @@ class CampaignViewView(BaseRestView):
     @property
     def display_map(self):
         return self.context.display_map
+
+    @property
+    def local_query_zones_url(self):
+        base_url = self.context.absolute_url()
+        return f"{base_url}/@zones"

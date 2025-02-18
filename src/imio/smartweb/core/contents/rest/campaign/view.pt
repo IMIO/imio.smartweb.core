@@ -4,7 +4,8 @@
 <body>
 <metal:main fill-slot="content-core">
   <div class="full-width">
-    <smartweb-campaign tal:attributes="query-url view/local_query_url;                                       
+    <smartweb-campaign tal:attributes="query-url view/local_query_url;
+                                       query-zones-url view/local_query_zones_url; 
                                        batch-size view/batch_size;
                                        current-language view/current_language;
                                        display-map view/display_map;

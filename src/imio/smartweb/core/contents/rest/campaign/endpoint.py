@@ -86,6 +86,27 @@ class CampaignEndpoint(BaseEndpoint):
         return url
 
 
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class ZonesEndpoint(BaseEndpoint):
+
+    def __call__(self):
+        json_res = {}
+        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+        pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+        json = get_basic_auth_json(self.query_url, user, pwd)
+        json_res["items"] = json["data"]
+        json_res["items_total"] = json.get("count")
+        return json_res
+
+    @property
+    def query_url(self):
+        wcs_api = get_ts_api_url("wcs")
+        campaign_id = self.context.linked_campaign
+        url = f"{wcs_api}/cards/imio-ideabox-zone/list?campagne={campaign_id}&full=on"
+        return url
+
+
 class CampaignEndpointGet(BaseService):
     def reply(self):
         return CampaignEndpoint(self.context, self.request)()
@@ -94,6 +115,11 @@ class CampaignEndpointGet(BaseService):
 class AuthCampaignEndpointGet(BaseService):
     def reply(self):
         return get_ideabox_basic_auth_header()
+
+
+class ZonesEndpointGet(BaseService):
+    def reply(self):
+        return ZonesEndpoint(self.context, self.request)()
 
 
 def get_ideabox_basic_auth_header() -> str:
