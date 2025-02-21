@@ -16,24 +16,39 @@ const useAxios = (params) => {
         } else {
             setIsMore(false);
         }
-        if (Object.keys(params.params).length == 0) {
+
+        if (Object.keys(params.params).length === 0) {
             setResponse(null);
             return;
-        } else {
-            try {
+        }
+
+        try {
+            // Handle multiple URLs
+            if (Array.isArray(params.url)) {
+                const requests = params.url.map((url) =>
+                    axios.request({ ...params, url, signal: controller.signal })
+                );
+                const responses = await Promise.all(requests);
+                setResponse(responses.map((res) => res.data));
+            }
+            // Handle single URL
+            else {
                 const res = await axios.request(params);
                 setResponse(res.data);
-                setIsLoading(false);
-                setError(null);
-            } catch (err) {
-                setError(err);
             }
+            setIsLoading(false);
+            setError(null);
+        } catch (err) {
+            setError(err);
+            setIsLoading(false);
         }
     };
+
     useEffect(() => {
         fetchData({ ...params, signal: controller.signal });
         return () => controller.abort();
     }, [params.params]);
+
     return { response, error, isLoading, isMore };
 };
 
