@@ -7,6 +7,7 @@
     <smartweb-campaign tal:attributes="query-url view/local_query_url;
                                        query-zones-url view/local_query_zones_url; 
                                        batch-size view/batch_size;
+                                       propose-url view/propose_url;
                                        current-language view/current_language;
                                        display-map view/display_map;
                                        view-path view/view_path;

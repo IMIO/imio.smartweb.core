@@ -30,6 +30,12 @@ class ICampaignView(model.Schema):
         default=None,
     )
 
+    propose_project_url = schema.TextLine(
+        title=_("Propose project URL"),
+        description=_("URL to propose a project"),
+        required=False,
+    )
+
     nb_results = schema.Int(
         title=_("Number of items to display"), default=20, required=True
     )

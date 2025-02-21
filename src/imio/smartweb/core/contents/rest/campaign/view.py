@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.contents.rest.view import BaseRestView
 from imio.smartweb.core.interfaces import IOgpViewUtils
+from plone import api
 from zope.interface import implementer
 
 
@@ -9,6 +10,10 @@ from zope.interface import implementer
 class CampaignViewView(BaseRestView):
     """CampaignView view"""
 
+    @property
+    def propose_url(self):
+        return self.context.propose_project_url
+    
     @property
     def display_map(self):
         return self.context.display_map
