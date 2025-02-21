@@ -246,6 +246,30 @@ export default {
         de: "Kontakt vorschlagen",
         nl: "Contact voorstellen",
     },
+    "projets trouvés": {
+        en: " Projects found",
+        fr: " Projets trouvés",
+        de: " Projekte gefunden",
+        nl: " Projecten gevonden",
+    },
+    "projet trouvé": {
+        en: " Project found",
+        fr: " Projet trouvé",
+        de: " Projekt gefunden",
+        nl: " Project gevonden",
+    },
+    "Aucun projet n'a été trouvé": {
+        en: "No project was found",
+        fr: "Aucun projet n'a été trouvé",
+        de: "Kein Projekt gefunden",
+        nl: "Geen project gevonden",
+    },
+    "Proposer un projet": {
+        en: "Suggest a project",
+        fr: "Proposer un projet",
+        de: "Projekt vorschlagen",
+        nl: "Project voorstellen",
+    },
     Quand: {
         en: "When",
         fr: "Quand",

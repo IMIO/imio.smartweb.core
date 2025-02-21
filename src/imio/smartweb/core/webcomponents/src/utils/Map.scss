@@ -5,3 +5,17 @@
 .leaflet-popup {
     padding: 0;
 }
+.r-map-popup-title {
+    font-weight: bold;
+    text-decoration: none !important;
+}
+
+.r-map-popup-adress {
+    font-size: 1em;
+    text-decoration: underline;
+    display: block;
+    margin-top: 0.5rem;
+    color: #202228;
+    position: relative;
+    z-index: 1;
+}

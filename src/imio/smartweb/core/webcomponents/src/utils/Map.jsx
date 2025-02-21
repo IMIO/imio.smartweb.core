@@ -129,7 +129,6 @@ function Map(props) {
             </Popup>
         </Marker>
     ));
-    console.log(markers);
 
     return (
         <div>

@@ -136,9 +136,14 @@ function Map(props) {
                         },
                     }}
                 >
-                    <span className="r-map-popup-title">{mark.title}</span>
-                    <p className="r-map-popup-category">{mark.category && mark.category.title}</p>
+                    <span className="r-map-popup-title">{mark.text}</span>
                 </Link>
+                <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${mark.fields.rue ? mark.fields.rue + " " + mark.fields.numero : ""}`}
+                    className="r-map-popup-adress"
+                >
+                    {mark.fields.rue && mark.fields.rue + " " + mark.fields.numero}
+                </a>
             </Popup>
         </Marker>
     ));
