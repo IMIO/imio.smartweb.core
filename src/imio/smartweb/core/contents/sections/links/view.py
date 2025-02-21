@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.behaviors.new_tab import INewTab
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_scale_url
@@ -30,6 +31,7 @@ class LinksView(CarouselOrTableSectionView):
             scale_url = get_scale_url(
                 item, self.request, "image", image_scale, orientation
             )
+
             results.append(
                 {
                     "title": item.title,
@@ -39,7 +41,7 @@ class LinksView(CarouselOrTableSectionView):
                     "has_icon": has_icon,
                     "image": scale_url,
                     "has_image": has_image,
-                    "open_in_new_tab": item.open_in_new_tab,
+                    "open_in_new_tab": INewTab(item).open_in_new_tab,
                 }
             )
         return batch_results(results, self.context.nb_results_by_batch)

@@ -108,8 +108,22 @@ class SectionView(BrowserView):
         )
         return json.dumps({"id": section_size, "title": size_txt})
 
+    def open_in_new_tab(self, item):
+        open_in_new_tab = (
+            item.get("open_in_new_tab")
+            if isinstance(item, dict)
+            else getattr(item, "open_in_new_tab", False)
+        )
+        return open_in_new_tab
+
     def a_tag_item_title(self, item):
-        title = item.get("title") or ""
+        title = (
+            item.get("title") if isinstance(item, dict) else getattr(item, "Title", "")
+        )
+        if self.open_in_new_tab(item):
+            current_lang = api.portal.get_current_language()[:2]
+            new_tab_txt = translate(_("New tab"), target_language=current_lang)
+            return f"{title} ({new_tab_txt})"
         return title
 
 

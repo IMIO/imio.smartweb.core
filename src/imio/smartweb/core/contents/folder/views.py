@@ -20,6 +20,7 @@ from z3c.form.form import EditForm
 from z3c.form.interfaces import IFieldsAndContentProvidersForm
 from zope.component import queryMultiAdapter
 from zope.contentprovider.provider import ContentProviderBase
+from zope.i18n import translate
 from zope.interface import implementer
 
 
@@ -86,6 +87,19 @@ class FolderView(BaseFolderView):
         request = self.request
         orientation = self.context.orientation
         return get_scale_url(item, request, "image", scale, orientation)
+
+    def open_in_new_tab(self, item):
+        if hasattr(item, "open_in_new_tab"):
+            return item.open_in_new_tab
+        return False
+
+    def a_tag_item_title(self, item):
+        title = item.title or ""
+        if self.open_in_new_tab(item):
+            current_lang = api.portal.get_current_language()[:2]
+            new_tab_txt = translate(_("New tab"), target_language=current_lang)
+            return f"{title} ({new_tab_txt})"
+        return title
 
 
 @implementer(IViewWithoutLeadImage)

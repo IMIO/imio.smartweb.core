@@ -5,7 +5,8 @@ Changelog
 1.2.90 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4217 : Refactor /  Improved target blank links (files, links and so on)
+  [boulch]
 
 
 1.2.89 (2025-02-18)

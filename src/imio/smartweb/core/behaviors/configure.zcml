@@ -61,4 +61,11 @@
       factory=".subsite.SubsiteCroppingProvider"
       />
 
+  <plone:behavior
+      name="imio.smartweb.new_tab"
+      title="Open in new tab"
+      description="Add a field that explicitly allows specifying whether this content (often a link) should open in a new window or not."
+      provides=".new_tab.INewTab"
+      />
+
 </configure>
