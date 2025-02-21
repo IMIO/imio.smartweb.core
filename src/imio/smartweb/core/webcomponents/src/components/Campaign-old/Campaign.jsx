@@ -9,7 +9,6 @@ import translation from "../../utils/translation";
 import "./Campaign.scss";
 
 export default function Campaign(props) {
-    console.log("Ici le component Campaign.jsx (index)");
     return (
         <BrowserRouter basename={props.viewPath}>
             <Provider language={props.currentLanguage} translation={translation}>

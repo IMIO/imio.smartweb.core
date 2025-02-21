@@ -56,11 +56,15 @@ const CampaignCard = (props) => {
                     <div className="campaign-vote">
                         <div className="campaign-vote-pour">
                             <i className="bi bi-hand-thumbs-up-fill"></i>
-                            <span className="campaign-vote-pour-count">10</span>
+                            <span className="campaign-vote-pour-count">
+                                {props.item.votes_pour}
+                            </span>
                         </div>
                         <div className="campaign-vote-contre">
                             <i className="bi bi-hand-thumbs-down-fill"></i>
-                            <span className="campaign-vote-contre-count">10</span>
+                            <span className="campaign-vote-contre-count">
+                                {props.item.votes_contre}
+                            </span>
                         </div>
                     </div>
                 </div>

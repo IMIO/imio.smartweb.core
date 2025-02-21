@@ -112,12 +112,14 @@ function ContentText({ item, urlVotePour, urlVoteContre }) {
                     <div className="campaign-vote" style={{ marginTop: "1.5rem" }}>
                         <a href={urlVotePour} target="_blank" className="campaign-vote-pour">
                             <i className="bi bi-hand-thumbs-up-fill"></i>
-                            <span className="campaign-vote-pour-count">(10)</span>
+                            <span className="campaign-vote-pour-count">({item.votes_pour})</span>
                             <span className="campaign-vote-contre-text"> Je vote pour</span>
                         </a>
                         <a href={urlVoteContre} target="_blank" className="campaign-vote-contre">
                             <i className="bi bi-hand-thumbs-down-fill"></i>
-                            <span className="campaign-vote-contre-count">(10)</span>
+                            <span className="campaign-vote-contre-count">
+                                ({item.votes_contre})
+                            </span>
                             <span className="campaign-vote-contre-text"> Je vote contre</span>
                         </a>
                     </div>

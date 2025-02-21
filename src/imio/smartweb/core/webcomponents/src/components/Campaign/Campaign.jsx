@@ -26,7 +26,7 @@ export default function Campaign(props) {
             <Provider language={props.currentLanguage} translation={translation}>
                 <ScrollContext.Provider value={{ scrollPos, updateScrollPos }}>
                     <CampaignView
-                        queryFilterUrl={props.queryFilterUrl}
+                        queryZonesUrl={props.queryZonesUrl}
                         queryUrl={props.queryUrl}
                         proposeUrl={props.proposeUrl}
                         batchSize={props.batchSize}
@@ -95,12 +95,12 @@ function CampaignView(props) {
     };
 
     // set state filters when active filter selection
-    // const filtersChange = (value) => {
-    //     setLoadMoreLaunch(false);
-    //     setBatchStart(() => 0);
-    //     setFilters(value);
-    //     window.scrollTo(0, 0);
-    // };
+    const filtersChange = (value) => {
+        setLoadMoreLaunch(false);
+        setBatchStart(() => 0);
+        setFilters(value);
+        window.scrollTo(0, 0);
+    };
 
     // set batch
     const loadMore = () => {
@@ -171,7 +171,50 @@ function CampaignView(props) {
                 className="r-result-filter-container"
                 ref={filterRef}
                 style={{ top: headerHeight }}
-            ></div>
+            >
+                <div
+                    id="r-result-filter"
+                    className="r-result-filter container annuaire-result-filter"
+                >
+                    <Filters
+                        queryZonesUrl={props.queryZonesUrl}
+                        activeFilter={filters}
+                        onChange={filtersChange}
+                    />
+                    {props.proposeUrl && (
+                        <div className="r-add-contact">
+                            <a target="_blank" rel="noreferrer" href={props.proposeUrl}>
+                                <Translate text="Proposer un projet" />
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="16"
+                                    height="16"
+                                    fill="currentColor"
+                                    className="bi bi-plus-circle"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                                </svg>
+                            </a>
+                        </div>
+                    )}
+                    {itemsNumber > 0 ? (
+                        <p className="r-results-numbers">
+                            <span>{itemsNumber}</span>
+                            {itemsNumber > 1 ? (
+                                <Translate text="projets trouvés" />
+                            ) : (
+                                <Translate text="projet trouvé" />
+                            )}
+                        </p>
+                    ) : (
+                        <p className="r-results-numbers">
+                            <Translate text="Aucun résultat" />
+                        </p>
+                    )}
+                </div>
+            </div>
             <Routes>
                 <Route
                     exact

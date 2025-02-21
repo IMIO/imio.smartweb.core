@@ -3,25 +3,24 @@ import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 import { Translator, Translate } from "react-translated";
-import DateFilter from "../../Filters/DateFilter";
+// import DateFilter from "../../Filters/DateFilter";
 import moment from "moment";
 import queryString from "query-string";
-import { taxonomy_event_public } from "./../../Filters/PublicTargetData";
-import { iam } from "./../../Filters/IamData";
+// import { taxonomy_event_public } from "./../../Filters/PublicTargetData";
+// import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
 
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
     const [topicsFilter, setTopicsFilter] = useState(null);
-    const [categoryFilter, setCategoryFilter] = useState(null);
-    const [localsCategoryFilter, setLocalsCategoryFilter] = useState([]);
+    const [zonesFilter, setZonesFilter] = useState(null);
+    // const [localsCategoryFilter, setLocalsCategoryFilter] = useState([]);
     const [dates, setDates] = useState(null);
     // Get data
     const { response, error, isLoading } = useAxios({
         method: "get",
-        url: "",
-        baseURL: props.url,
+        url: props.queryZonesUrl,
         headers: {
             Accept: "application/json",
         },
@@ -45,30 +44,34 @@ function Filters(props) {
                     label: d.title,
                     queryString: "category",
                 }));
-            const optionsLocalsCategory =
-                response.local_category &&
-                response.local_category.map((d) => ({
-                    value: d.token,
-                    label: d.title,
-                    queryString: "local_category",
+            const optionsZones =
+                response.items &&
+                response.items.map((d) => ({
+                    value: d.id,
+                    label: d.digest,
+                    queryString: "zones",
                 }));
             setTopicsFilter(optionsTopics);
-            setCategoryFilter(optionsCategory);
-            setLocalsCategoryFilter(optionsLocalsCategory);
+            setZonesFilter(optionsZones);
+            console.log(response);
+
+            // setLocalsCategoryFilter(optionsLocalsCategory);
         }
     }, [response]);
 
+    console.log(zonesFilter);
+
     // const to group category and local category
-    const groupedOptions = [
-        {
-            label: <Translate text="Catégories spécifiques" />,
-            options: localsCategoryFilter,
-        },
-        {
-            label: <Translate text="Catégories" />,
-            options: categoryFilter,
-        },
-    ];
+    // const groupedOptions = [
+    //     {
+    //         label: <Translate text="Catégories spécifiques" />,
+    //         options: localsCategoryFilter,
+    //     },
+    //     {
+    //         label: <Translate text="Catégories" />,
+    //         options: categoryFilter,
+    //     },
+    // ];
 
     const onChangeHandler = useCallback(({ target: { name, value } }) => {
         if (value.length > 2) {
@@ -136,18 +139,18 @@ function Filters(props) {
         props.onChange(inputValues);
     }
     // set default input value
-    let actTopi =
-        topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
+    // let actTopi =
+    //     topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
 
-    let actCategory =
-        categoryFilter &&
-        categoryFilter.filter((option) => option.value === props.activeFilter.category);
+    // let actCategory =
+    //     categoryFilter &&
+    //     categoryFilter.filter((option) => option.value === props.activeFilter.category);
 
-    let actTarget =
-        taxonomy_event_public &&
-        taxonomy_event_public.filter((option) => option.value === props.activeFilter.topics);
+    // let actTarget =
+    //     taxonomy_event_public &&
+    //     taxonomy_event_public.filter((option) => option.value === props.activeFilter.topics);
 
-    let actIam = iam && iam.filter((option) => option.value === props.activeFilter.topics);
+    // let actIam = iam && iam.filter((option) => option.value === props.activeFilter.topics);
 
     useEffect(() => {
         if (dates) {
@@ -205,168 +208,26 @@ function Filters(props) {
                             </svg>
                         </div>
                     </form>
-                    {/* More filter*/}
-                    <button
-                        className="more-filter-btn collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="false"
-                        aria-controls="collapseOne"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 32 32"
-                            style={{ height: 16, width: 16 }}
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            aria-hidden="true"
-                            display="block"
-                            overflow="visible"
-                        >
-                            <path d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 108 0 4 4 0 00-8 0zM17 6a4 4 0 108 0 4 4 0 00-8 0zm0 20a4 4 0 108 0 4 4 0 00-8 0zm0 0H3"></path>
-                        </svg>
-                    </button>
                     <div className="react-sep-menu"></div>
-                    {props.onlyPastCampaign === "False" && (
-                        <div className="r-filter  schedul-Filter">
-                            <DateFilter language={props.language} setDates={setDates} />
-                        </div>
-                    )}
-                    <div className="react-sep-menu"></div>
-
-                    {/* <div className="r-filter top-filter facilities-Filter">
+                    {/* Filtre Thématique */}
+                    <div className="r-filter top-filter topics-Filter">
                         <Translator>
                             {({ translate }) => (
                                 <Select
                                     styles={menuStyles}
-                                    name={"category"}
-                                    className="select-custom-no-border library-facilities"
+                                    name={"Zones"}
+                                    className="select-custom-no-border"
                                     isClearable
                                     onChange={onChangeHandlerSelect}
-                                    options={categoryFilter && categoryFilter}
+                                    options={zonesFilter && zonesFilter}
                                     placeholder={translate({
-                                        text: "Quoi",
+                                        text: "Zones",
                                     })}
-                                    value={actCategory && actCategory[0]}
-                                />
-                            )}
-                        </Translator>
-                    </div> */}
-
-                    {/* test */}
-                    <Translator>
-                        {({ translate }) => (
-                            <div className="r-filter  top-filter facilities-Filter">
-                                {/* <label>Catégories</label> */}
-                                <Select
-                                    styles={menuStyles}
-                                    name={"category"}
-                                    className="select-custom-no-border library-facilities"
-                                    isClearable
-                                    onChange={onChangeGroupSelect}
-                                    options={
-                                        localsCategoryFilter.length === 0
-                                            ? categoryFilter && categoryFilter
-                                            : groupedOptions
-                                    }
-                                    placeholder={translate({
-                                        text: "Quoi",
-                                    })}
-                                    value={actCategory && actCategory[0]}
-                                />
-                            </div>
-                        )}
-                    </Translator>
-                </div>
-            </div>
-
-            {/* -------------- More filter --------------  */}
-
-            <div
-                id="collapseOne"
-                className="accordion-collapse collapse more-filter-container "
-                aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample"
-            >
-                <div className="accordion-body">
-                    {/* Filtre thématique */}
-                    <div className="r-filter collapse-filter topics-Filter">
-                        {/* <label>Thématiques</label> */}
-                        <Translator>
-                            {({ translate }) => (
-                                <Select
-                                    styles={moreFilterStyles}
-                                    name={"topics"}
-                                    className="library-topics"
-                                    isClearable
-                                    onChange={onChangeHandlerSelect}
-                                    options={topicsFilter && topicsFilter}
-                                    placeholder={translate({
-                                        text: "Thématiques",
-                                    })}
-                                    value={actTopi && actTopi[0]}
+                                    value="Zones"
                                 />
                             )}
                         </Translator>
                     </div>
-                    {/* Filtre Public cible */}
-                    <div className="r-filter collapse-filter public-target-Filter">
-                        {/* <label>Thématiques</label> */}
-                        <Translator>
-                            {({ translate }) => (
-                                <Select
-                                    styles={moreFilterStyles}
-                                    name={"taxonomy_event_public"}
-                                    className="library-topics"
-                                    isClearable
-                                    onChange={onChangeHandlerSelect}
-                                    options={taxonomy_event_public && taxonomy_event_public}
-                                    placeholder={translate({
-                                        text: "Public cible",
-                                    })}
-                                    value={actTarget && actTarget[0]}
-                                />
-                            )}
-                        </Translator>
-                    </div>
-
-                    {/* Filtre iam */}
-                    <div className="r-filter collapse-filter iam-Filter">
-                        {/* <label>Thématiques</label> */}
-                        <Translator>
-                            {({ translate }) => (
-                                <Select
-                                    styles={moreFilterStyles}
-                                    name={"iam"}
-                                    className="library-topics"
-                                    isClearable
-                                    onChange={onChangeHandlerSelect}
-                                    options={iam && iam}
-                                    placeholder={translate({
-                                        text: "Profil",
-                                    })}
-                                    value={actIam && actIam[0]}
-                                />
-                            )}
-                        </Translator>
-                    </div>
-
-                    {/* Filtre Gratuit */}
-                    {/* <div className="r-filter collapse-filter free-Filter">
-                        <div className="form-check form-switch">
-                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
-                                Gratuit
-                            </label>
-                            <input
-                                className="form-check-input"
-                                onChange={onChangeCheckbox}
-                                type="checkbox"
-                                id="flexSwitchCheckDefault"
-                            />
-                        </div>
-                    </div> */}
                 </div>
             </div>
         </React.Fragment>
