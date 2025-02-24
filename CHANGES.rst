@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.90 (unreleased)
+1.2.90 (2025-02-24)
 -------------------
 
 - WEB-4217 : Refactor /  Improved target blank links (files, links and so on)
