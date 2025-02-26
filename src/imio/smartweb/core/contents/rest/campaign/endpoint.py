@@ -90,9 +90,11 @@ class CampaignEndpoint(BaseEndpoint):
             project_id = self.request.form.get("id")
             url = f"{wcs_api}/cards/imio-ideabox-projet/{project_id}?full=on"
         else:
-            # we want list of projects for a specific campaign
+            # we want list of projects for a specific campaign with eventually extra pamams (zone, topic, ...)
+            extra_params = [f"{k}={v}" for k, v in self.request.form.items()]
+            extra_params = "&".join(extra_params)
             campaign_id = self.context.linked_campaign
-            url = f"{wcs_api}/cards/imio-ideabox-projet/list?campagne={campaign_id}&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in"
+            url = f"{wcs_api}/cards/imio-ideabox-projet/list?campagne={campaign_id}&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in&{extra_params}"
         return url
 
 
