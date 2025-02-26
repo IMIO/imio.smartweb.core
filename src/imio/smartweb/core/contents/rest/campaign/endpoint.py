@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
 from imio.smartweb.core.utils import get_basic_auth_json
@@ -7,11 +8,20 @@ from imio.smartweb.core.utils import get_ts_api_url
 from plone import api
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
+from zope.i18n import translate
 from zope.interface import implementer
 from zope.interface import Interface
 
 import base64
 import requests
+
+
+def get_ideabox_basic_auth_header() -> str:
+    user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+    pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+    usrPass = f"{user}:{pwd}".encode("utf-8")
+    b64Val = base64.b64encode(usrPass)
+    return f"Basic {b64Val.decode('utf-8')}"
 
 
 @implementer(IExpandableElement)
@@ -107,6 +117,26 @@ class ZonesEndpoint(BaseEndpoint):
         return url
 
 
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class TopicsEndpoint(BaseEndpoint):
+
+    def __call__(self):
+        topics_vocabulary = get_vocabulary("imio.smartweb.vocabulary.Topics")
+        current_lang = api.portal.get_current_language()[:2]
+        json_res = {
+            "items": [
+                {
+                    "value": term.value,
+                    "title": translate(term.title, target_language=current_lang),
+                }
+                for term in topics_vocabulary
+            ],
+            "items_total": len(topics_vocabulary),
+        }
+        return json_res
+
+
 class CampaignEndpointGet(BaseService):
     def reply(self):
         return CampaignEndpoint(self.context, self.request)()
@@ -122,9 +152,6 @@ class ZonesEndpointGet(BaseService):
         return ZonesEndpoint(self.context, self.request)()
 
 
-def get_ideabox_basic_auth_header() -> str:
-    user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
-    pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
-    usrPass = f"{user}:{pwd}".encode("utf-8")
-    b64Val = base64.b64encode(usrPass)
-    return f"Basic {b64Val.decode('utf-8')}"
+class TopicsEndpointGet(BaseService):
+    def reply(self):
+        return TopicsEndpoint(self.context, self.request)()

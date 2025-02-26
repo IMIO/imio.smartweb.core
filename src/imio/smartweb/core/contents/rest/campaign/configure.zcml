@@ -43,4 +43,14 @@
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />
 
+  <plone:service
+    name="@topics"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.ICampaignView"
+    factory=".endpoint.TopicsEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
 </configure>

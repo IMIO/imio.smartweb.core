@@ -13,7 +13,7 @@ class CampaignViewView(BaseRestView):
     @property
     def propose_url(self):
         return self.context.propose_project_url
-    
+
     @property
     def display_map(self):
         return self.context.display_map
@@ -22,3 +22,8 @@ class CampaignViewView(BaseRestView):
     def local_query_zones_url(self):
         base_url = self.context.absolute_url()
         return f"{base_url}/@zones"
+
+    @property
+    def local_query_topics_url(self):
+        base_url = self.context.absolute_url()
+        return f"{base_url}/@topics"
