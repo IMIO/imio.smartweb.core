@@ -5,7 +5,8 @@ Changelog
 1.2.91 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Accessibility : Add title / target attributes to "my account" action link
+  [boulch]
 
 
 1.2.90 (2025-02-24)
