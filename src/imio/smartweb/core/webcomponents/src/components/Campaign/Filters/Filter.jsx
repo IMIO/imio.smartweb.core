@@ -20,7 +20,10 @@ function Filters(props) {
     // Get data
     const { response, error, isLoading } = useAxios({
         method: "get",
-        url: props.queryZonesUrl,
+        url: [
+            { url: props.queryZonesUrl, identifier: "zones" },
+            { url: props.queryTopicsUrl, identifier: "topics" },
+        ],
         headers: {
             Accept: "application/json",
         },
@@ -33,8 +36,8 @@ function Filters(props) {
         if (response !== null) {
             const optionsTopics =
                 response.topics &&
-                response.topics.map((d) => ({
-                    value: d.token,
+                response.topics.items.map((d) => ({
+                    value: d.value,
                     label: d.title,
                 }));
             const optionsCategory =
@@ -45,8 +48,8 @@ function Filters(props) {
                     queryString: "category",
                 }));
             const optionsZones =
-                response.items &&
-                response.items.map((d) => ({
+                response.zones &&
+                response.zones.items.map((d) => ({
                     value: d.id,
                     label: d.digest,
                     queryString: "zones",
@@ -59,7 +62,8 @@ function Filters(props) {
         }
     }, [response]);
 
-    console.log(zonesFilter);
+    console.log(response);
+    // console.log(zonesFilter);
 
     // const to group category and local category
     // const groupedOptions = [
@@ -139,9 +143,11 @@ function Filters(props) {
         props.onChange(inputValues);
     }
     // set default input value
-    // let actTopi =
-    //     topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
+    let actTopi =
+        topicsFilter && topicsFilter.filter((option) => option.value === props.activeFilter.topics);
 
+    let actZones =
+        zonesFilter && zonesFilter.filter((option) => option.value === props.activeFilter.zones);
     // let actCategory =
     //     categoryFilter &&
     //     categoryFilter.filter((option) => option.value === props.activeFilter.category);
@@ -210,12 +216,32 @@ function Filters(props) {
                     </form>
                     <div className="react-sep-menu"></div>
                     {/* Filtre Thématique */}
+                    {/* Filtre Thématique */}
                     <div className="r-filter top-filter topics-Filter">
                         <Translator>
                             {({ translate }) => (
                                 <Select
                                     styles={menuStyles}
-                                    name={"Zones"}
+                                    name={"topics"}
+                                    className="select-custom-no-border"
+                                    isClearable
+                                    onChange={onChangeHandlerSelect}
+                                    options={topicsFilter && topicsFilter}
+                                    placeholder={translate({
+                                        text: "Thématiques",
+                                    })}
+                                    value={actTopi && actTopi[0]}
+                                />
+                            )}
+                        </Translator>
+                    </div>
+
+                    <div className="r-filter top-filter topics-Filter">
+                        <Translator>
+                            {({ translate }) => (
+                                <Select
+                                    styles={menuStyles}
+                                    name={"filter-zones"}
                                     className="select-custom-no-border"
                                     isClearable
                                     onChange={onChangeHandlerSelect}
@@ -223,7 +249,7 @@ function Filters(props) {
                                     placeholder={translate({
                                         text: "Zones",
                                     })}
-                                    value="Zones"
+                                    value={actZones && actZones[0]}
                                 />
                             )}
                         </Translator>

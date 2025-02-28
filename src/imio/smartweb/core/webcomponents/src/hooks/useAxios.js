@@ -23,13 +23,34 @@ const useAxios = (params) => {
         }
 
         try {
-            // Handle multiple URLs
+            // Handle multiple URLs with identifiers
             if (Array.isArray(params.url)) {
-                const requests = params.url.map((url) =>
-                    axios.request({ ...params, url, signal: controller.signal })
-                );
+                const requests = params.url.map((urlConfig, index) => {
+                    const { url, identifier } =
+                        typeof urlConfig === "string"
+                            ? { url: urlConfig, identifier: `request_${index}` }
+                            : urlConfig;
+
+                    return axios
+                        .request({
+                            ...params,
+                            url,
+                            signal: controller.signal,
+                        })
+                        .then((res) => ({
+                            identifier,
+                            data: res.data,
+                        }));
+                });
+
                 const responses = await Promise.all(requests);
-                setResponse(responses.map((res) => res.data));
+                // Convert array to object with identifiers as keys
+                const responseObject = responses.reduce((acc, { identifier, data }) => {
+                    acc[identifier] = data;
+                    return acc;
+                }, {});
+
+                setResponse(responseObject);
             }
             // Handle single URL
             else {

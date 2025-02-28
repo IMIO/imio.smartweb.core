@@ -27,6 +27,7 @@ export default function Campaign(props) {
                 <ScrollContext.Provider value={{ scrollPos, updateScrollPos }}>
                     <CampaignView
                         queryZonesUrl={props.queryZonesUrl}
+                        queryTopicsUrl={props.queryTopicsUrl}
                         queryUrl={props.queryUrl}
                         proposeUrl={props.proposeUrl}
                         batchSize={props.batchSize}
@@ -178,6 +179,7 @@ function CampaignView(props) {
                 >
                     <Filters
                         queryZonesUrl={props.queryZonesUrl}
+                        queryTopicsUrl={props.queryTopicsUrl}
                         activeFilter={filters}
                         onChange={filtersChange}
                     />
