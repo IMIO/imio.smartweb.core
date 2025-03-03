@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.2.91 (unreleased)
+1.2.91 (2025-03-03)
 -------------------
 
 - Accessibility : Added aria-label to subsite-logo link
