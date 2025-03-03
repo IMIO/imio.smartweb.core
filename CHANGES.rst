@@ -5,6 +5,9 @@ Changelog
 1.2.91 (unreleased)
 -------------------
 
+- Accessibility : Added aria-label to subsite-logo link
+  [thomlamb]
+
 - Accessibility : Add title / target attributes to "my account" action link
   [boulch]
 
