@@ -56,14 +56,10 @@ function Filters(props) {
                 }));
             setTopicsFilter(optionsTopics);
             setZonesFilter(optionsZones);
-            console.log(response);
 
             // setLocalsCategoryFilter(optionsLocalsCategory);
         }
     }, [response]);
-
-    console.log(response);
-    // console.log(zonesFilter);
 
     // const to group category and local category
     // const groupedOptions = [
