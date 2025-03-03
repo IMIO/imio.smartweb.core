@@ -26,4 +26,4 @@ class CampaignViewView(BaseRestView):
     @property
     def local_query_topics_url(self):
         base_url = self.context.absolute_url()
-        return f"{base_url}/@topics"
+        return f"{base_url}/@all_topics"

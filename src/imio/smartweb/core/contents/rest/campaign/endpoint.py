@@ -6,6 +6,7 @@ from imio.smartweb.core.contents.rest.base import BaseService
 from imio.smartweb.core.utils import get_basic_auth_json
 from imio.smartweb.core.utils import get_ts_api_url
 from plone import api
+from plone.i18n.normalizer import idnormalizer
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.i18n import translate
@@ -24,9 +25,23 @@ def get_ideabox_basic_auth_header() -> str:
     return f"Basic {b64Val.decode('utf-8')}"
 
 
+class BaseTsEndpoint(BaseEndpoint):
+    def __init__(self, *args, **kwargs):
+        super(BaseTsEndpoint, self).__init__(*args, **kwargs)
+        self.user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+        self.pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+
+    def _get_json(self, url):
+        return get_basic_auth_json(url, self.user, self.pwd)
+
+    @property
+    def query_url(self):
+        raise NotImplementedError("query_url must be defined in subclasses")
+
+
 @implementer(IExpandableElement)
 @adapter(Interface, Interface)
-class CampaignEndpoint(BaseEndpoint):
+class CampaignEndpoint(BaseTsEndpoint):
 
     def __call__(self):
         require_keys = [
@@ -39,9 +54,7 @@ class CampaignEndpoint(BaseEndpoint):
             "fields",
             "workflow",
         ]
-        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
-        pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
-        json = get_basic_auth_json(self.query_url, user, pwd)
+        json = self._get_json(self.query_url)
         json_res = {}
         if not json:
             return {}
@@ -90,7 +103,7 @@ class CampaignEndpoint(BaseEndpoint):
             project_id = self.request.form.get("id")
             url = f"{wcs_api}/cards/imio-ideabox-projet/{project_id}?full=on"
         else:
-            # we want list of projects for a specific campaign with eventually extra pamams (zone, topic, ...)
+            # we want (filtered) list of projects for a specific campaign with eventually extra pamams (zone, topic, ...)
             extra_params = [f"{k}={v}" for k, v in self.request.form.items()]
             extra_params = "&".join(extra_params)
             campaign_id = self.context.linked_campaign
@@ -100,23 +113,34 @@ class CampaignEndpoint(BaseEndpoint):
 
 @implementer(IExpandableElement)
 @adapter(Interface, Interface)
-class ZonesEndpoint(BaseEndpoint):
+class ZonesEndpoint(BaseTsEndpoint):
 
     def __call__(self):
-        json_res = {}
-        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
-        pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
-        json = get_basic_auth_json(self.query_url, user, pwd)
-        json_res["items"] = json["data"]
-        json_res["items_total"] = json.get("count")
+        json = self._get_json(self.query_url)
+        json_res = {"items": json["data"], "items_total": json.get("count")}
         return json_res
 
     @property
     def query_url(self):
         wcs_api = get_ts_api_url("wcs")
         campaign_id = self.context.linked_campaign
-        url = f"{wcs_api}/cards/imio-ideabox-zone/list?campagne={campaign_id}&full=on"
-        return url
+        return f"{wcs_api}/cards/imio-ideabox-zone/list?campagne={campaign_id}"
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class TsTopicsEndpoint(BaseTsEndpoint):
+
+    def __call__(self):
+        json = self._get_json(self.query_url)
+        json_res = {"items": json["data"], "items_total": json.get("count")}
+        return json_res
+
+    @property
+    def query_url(self):
+        wcs_api = get_ts_api_url("wcs")
+        campaign_id = self.context.linked_campaign
+        return f"{wcs_api}/cards/imio-ideabox-theme/list?campagne={campaign_id}"
 
 
 @implementer(IExpandableElement)
@@ -124,6 +148,7 @@ class ZonesEndpoint(BaseEndpoint):
 class TopicsEndpoint(BaseEndpoint):
 
     def __call__(self):
+        # get all topics from smartweb vocabulary (populate select in React campaign view)
         topics_vocabulary = get_vocabulary("imio.smartweb.vocabulary.Topics")
         current_lang = api.portal.get_current_language()[:2]
         json_res = {
@@ -137,6 +162,23 @@ class TopicsEndpoint(BaseEndpoint):
             "items_total": len(topics_vocabulary),
         }
         return json_res
+
+
+@implementer(IExpandableElement)
+@adapter(Interface, Interface)
+class AllTopicsEndpoint(TopicsEndpoint):
+
+    def __call__(self):
+        topics = super(AllTopicsEndpoint, self).__call__()
+        ts_endpoint = TsTopicsEndpoint(self.context, self.request)
+        ts_topics = ts_endpoint()
+        ts_topics = [
+            {"title": i.get("text"), "value": i.get("id")} for i in ts_topics["items"]
+        ]
+        topics["items"].extend(ts_topics)
+        topics["items"].sort(key=lambda x: idnormalizer.normalize(x["title"]))
+        topics["items_total"] += len(ts_topics)
+        return topics
 
 
 class CampaignEndpointGet(BaseService):
@@ -154,6 +196,16 @@ class ZonesEndpointGet(BaseService):
         return ZonesEndpoint(self.context, self.request)()
 
 
+class TsTopicsEndpointGet(BaseService):
+    def reply(self):
+        return ZonesEndpoint(self.context, self.request)()
+
+
 class TopicsEndpointGet(BaseService):
     def reply(self):
         return TopicsEndpoint(self.context, self.request)()
+
+
+class AllTopicsEndpointGet(BaseService):
+    def reply(self):
+        return AllTopicsEndpoint(self.context, self.request)()
