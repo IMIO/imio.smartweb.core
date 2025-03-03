@@ -55,11 +55,16 @@ class OgpTagsViewlet(HeaderViewlet):
         self._set_image()
 
     def set_ogp_informations_for_item(self):
+        result_json = None
+        if (
+            not IDirectoryView.providedBy(self.context)
+            and not IEventsView.providedBy(self.context)
+            and not INewsView.providedBy(self.context)
+        ):
+            return result_json
         uid = self.request.form["u"]
         auth_source_url = ""
         endpoint = "@search"
-        result_json = None
-
         if IDirectoryView.providedBy(self.context):
             params = "fullobjects=1"
             auth_source_url = DIRECTORY_URL
