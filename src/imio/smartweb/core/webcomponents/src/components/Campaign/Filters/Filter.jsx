@@ -222,7 +222,7 @@ function Filters(props) {
                             {({ translate }) => (
                                 <Select
                                     styles={menuStyles}
-                                    name={"topics"}
+                                    name={"filter-themes"}
                                     className="select-custom-no-border"
                                     isClearable
                                     onChange={onChangeHandlerSelect}
