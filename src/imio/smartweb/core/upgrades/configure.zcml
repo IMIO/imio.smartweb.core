@@ -901,16 +901,16 @@
 
   <genericsetup:upgradeStep
       title="Update control panel combo api url"
-      source="1061"
-      destination="1062"
+      source="1064"
+      destination="1065"
       handler=".upgrades.update_control_panel_combo_api_url"
       profile="imio.smartweb.core:default"
       />
 
   <genericsetup:upgradeStep
       title="Update control panel combo api fieldname"
-      source="1062"
-      destination="1063"
+      source="1065"
+      destination="1066"
       handler=".upgrades.update_control_panel_combo_api_fieldname"
       profile="imio.smartweb.core:default"
       />
