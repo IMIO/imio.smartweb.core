@@ -18,6 +18,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.namedfile.file import NamedBlobImage
 from plone.restapi.testing import RelativeSession
+from unittest import mock
 from unittest.mock import patch
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
@@ -25,8 +26,10 @@ from zope.component import queryMultiAdapter
 from zope.event import notify
 from zope.publisher.browser import TestRequest
 from ZPublisher.pubevents import PubStart
+from imio.smartweb.core.viewlets.ogptags import OgpTagsViewlet
 
 import json
+import os
 import requests_mock
 import transaction
 
@@ -281,6 +284,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             self.assertIn('<meta property="og:image:width" content="400">', view())
             self.assertIn('<meta property="og:image:height" content="400">', view())
 
+    # @mock.patch.dict(os.environ, {"client_id": "Kamoulox", "client_secret": "Kamoulox"})
     @patch("imio.smartweb.core.viewlets.ogptags.get_wca_token")
     @patch("imio.smartweb.core.viewlets.ogptags.get_json")
     def test_render_rest_auth_sources_item(self, mock_get_json, mock_get_wca_token):
@@ -304,6 +308,9 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             }
             UID = "3c436a800154449f84797fdb30561297"
             self.request.form["u"] = UID
+            # viewlet = OgpTagsViewlet(self.portal, self.request, None, None)
+            # viewlet.update()
+
             view = queryMultiAdapter(
                 (auth_source["content"], self.request), name="view"
             )

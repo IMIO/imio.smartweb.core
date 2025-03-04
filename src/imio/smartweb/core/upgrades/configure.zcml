@@ -944,6 +944,22 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1063_to_1064"
     />
   </genericsetup:upgradeSteps>
+    
+  <genericsetup:upgradeStep
+      title="Update control panel combo api url"
+      source="1064"
+      destination="1065"
+      handler=".upgrades.update_control_panel_combo_api_url"
+      profile="imio.smartweb.core:default"
+      />
+
+  <genericsetup:upgradeStep
+      title="Update control panel combo api fieldname"
+      source="1065"
+      destination="1066"
+      handler=".upgrades.update_control_panel_combo_api_fieldname"
+      profile="imio.smartweb.core:default"
+      />
 
   <!--genericsetup:upgradeStep
       title="Check contact itinerary if address was checked in visible blocks"
@@ -953,5 +969,4 @@
       handler=".upgrades.migrate_external_links"
       profile="imio.smartweb.core:default"
       /-->
-
 </configure>

@@ -56,7 +56,6 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
 
     // Function to generate iframe URL
     const getIframeSrc = (url) => {
-        console.log(item.video_url);
         if (url.includes("youtube.com") || url.includes("youtu.be")) {
             const urlParams = new URLSearchParams(new URL(url).search);
             const videoId = urlParams.get("v") || url.split("/").pop();

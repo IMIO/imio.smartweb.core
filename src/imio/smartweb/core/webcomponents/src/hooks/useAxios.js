@@ -16,24 +16,60 @@ const useAxios = (params) => {
         } else {
             setIsMore(false);
         }
-        if (Object.keys(params.params).length == 0) {
+
+        if (Object.keys(params.params).length === 0) {
             setResponse(null);
             return;
-        } else {
-            try {
+        }
+
+        try {
+            // Handle multiple URLs with identifiers
+            if (Array.isArray(params.url)) {
+                const requests = params.url.map((urlConfig, index) => {
+                    const { url, identifier } =
+                        typeof urlConfig === "string"
+                            ? { url: urlConfig, identifier: `request_${index}` }
+                            : urlConfig;
+
+                    return axios
+                        .request({
+                            ...params,
+                            url,
+                            signal: controller.signal,
+                        })
+                        .then((res) => ({
+                            identifier,
+                            data: res.data,
+                        }));
+                });
+
+                const responses = await Promise.all(requests);
+                // Convert array to object with identifiers as keys
+                const responseObject = responses.reduce((acc, { identifier, data }) => {
+                    acc[identifier] = data;
+                    return acc;
+                }, {});
+
+                setResponse(responseObject);
+            }
+            // Handle single URL
+            else {
                 const res = await axios.request(params);
                 setResponse(res.data);
-                setIsLoading(false);
-                setError(null);
-            } catch (err) {
-                setError(err);
             }
+            setIsLoading(false);
+            setError(null);
+        } catch (err) {
+            setError(err);
+            setIsLoading(false);
         }
     };
+
     useEffect(() => {
         fetchData({ ...params, signal: controller.signal });
-        return () => controller.abort()
+        return () => controller.abort();
     }, [params.params]);
+
     return { response, error, isLoading, isMore };
 };
 

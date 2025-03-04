@@ -14,7 +14,10 @@
   <include package="collective.solr" />
   <include package="collective.taxonomy" />
   <include package="collective.z3cform.datagridfield" />
-
+  
+  <!-- Call this one before overrides adapter zope.container.interfaces.INameChooser-->
+  <include package="plone.app.content" />
+  
   <!-- Temporary fix for plone.gallery 1.0.1 -->
   <include package="plone.app.contentmenu" />
   <include package="plone.gallery" />
@@ -24,6 +27,7 @@
   <include package="imio.smartweb.locales" />
 
   <include file="indexers.zcml" />
+  <include file="overrides.zcml" />
   <include file="permissions.zcml" />
   <include file="profiles.zcml" />
   <include file="subscribers.zcml" />

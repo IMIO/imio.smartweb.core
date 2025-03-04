@@ -12,8 +12,10 @@ from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
 from imio.smartweb.core.utils import get_categories
 from imio.smartweb.core.utils import get_iadeliberation_url_from_registry
-from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
+from imio.smartweb.core.utils import get_ts_api_url
+from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.core.utils import get_iadeliberation_json
+from imio.smartweb.core.utils import get_basic_auth_json
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -71,12 +73,39 @@ class IconsVocabularyFactory:
 IconsVocabulary = IconsVocabularyFactory()
 
 
+class RemoteCampaignsVocabularyFactory:
+    def __call__(self, context=None):
+        # combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
+        wcs_api = get_ts_api_url("wcs")
+        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+        pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
+        url = f"{wcs_api}/cards/imio-ideabox-campagne/list?full=on"
+        try:
+            json_campaigns = get_basic_auth_json(url, user, pwd)
+            return SimpleVocabulary(
+                [
+                    SimpleTerm(
+                        value=elem["id"],
+                        token=elem["id"],
+                        title=elem["fields"]["titre"],
+                    )
+                    for elem in json_campaigns.get("data")
+                ]
+            )
+        except Exception:
+            return SimpleVocabulary([])
+
+
+RemoteCampaignsVocabulary = RemoteCampaignsVocabularyFactory()
+
+
 class RemoteProceduresVocabularyFactory:
     def __call__(self, context=None):
         # sample : "https://olln-formulaires.guichet-citoyen.be/api/formdefs/"
-        url = api.portal.get_registry_record("smartweb.url_formdefs_api")
+        wcs_api = get_ts_api_url("wcs")
+        url = f"{wcs_api}/formdefs/"
         # sample : "568DGess2x8j8twv7x2Y2MApjn789xfG7jM27r399q4xSD27Jz"
-        key = api.portal.get_registry_record("smartweb.secret_key_api")
+        key = get_value_from_registry("smartweb.secret_key_api")
         orig = "ia.smartweb"
         if not url:
             return SimpleVocabulary([])
@@ -659,7 +688,9 @@ RemoteIADeliberationsInstitutionsVocabulary = (
 
 class RemoteIADeliberationsPublicationsVocabularyFactory:
     def __call__(self, context=None):
-        iadeliberation_institution = get_iadeliberation_institution_from_registry()
+        iadeliberation_institution = get_value_from_registry(
+            "smartweb.iadeliberations_institution"
+        )
         url = f"{iadeliberation_institution}/@search?portal_type=Publication&metadata_fields=UID&metadata_fields=id&review_state=published&sort_on=sortable_title"
         try:
             json_publications = get_iadeliberation_json(url)

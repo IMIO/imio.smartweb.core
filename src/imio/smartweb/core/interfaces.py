@@ -26,6 +26,10 @@ class IImioSmartwebCoreLayer(
     """Marker interface that defines a browser layer."""
 
 
+class IImioIdeaboxLayer(Interface):
+    """Marker interface that defines a browser layer."""
+
+
 class IArcgisViewUtils(Interface):
     """ """
 

@@ -2,6 +2,8 @@
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.utils import get_plausible_vars
+from imio.smartweb.core.utils import get_ts_api_url
+from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.api.portal import get_registry_record
@@ -54,7 +56,8 @@ class UtilsView(BrowserView):
 
     def is_eguichet_aware(self):
         self.request.response.setHeader("Content-Type", "application/json")
-        url = api.portal.get_registry_record("smartweb.url_formdefs_api")
+        wcs_api = get_ts_api_url("wcs")
+        url = f"{wcs_api}/formdefs/"
         key = api.portal.get_registry_record("smartweb.secret_key_api")
         orig = "ia.smartweb"
         if not url:

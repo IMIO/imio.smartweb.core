@@ -1,0 +1,80 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="imio.smartweb">
+
+  <browser:page
+      name="view"
+      for="imio.smartweb.core.contents.ICampaignView"
+      class=".view.CampaignViewView"
+      template="view.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <plone:service
+    name="@results"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.ICampaignView"
+    factory=".endpoint.CampaignEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <plone:service
+    name="@auth"
+    method="GET"
+    accept="text/plain"
+    for="imio.smartweb.core.contents.ICampaignView"
+    factory=".endpoint.AuthCampaignEndpointGet"
+    permission="zope.Public"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <plone:service
+    name="@zones"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.ICampaignView"
+    factory=".endpoint.ZonesEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+
+  <!-- endpoint to get topics from TS -->
+  <plone:service
+    name="@ts_topics"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.ICampaignView"
+    factory=".endpoint.TsTopicsEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <!-- endpoint to expose smartweb topics to TS -->
+  <plone:service
+    name="@topics"
+    method="GET"
+    accept="application/json"
+    for="plone.dexterity.interfaces.IDexterityContent"
+    factory=".endpoint.TopicsEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+  <!-- endpoint to expose smartweb AND TS topics to campaign view -->
+  <plone:service
+    name="@all_topics"
+    method="GET"
+    accept="application/json"
+    for="imio.smartweb.core.contents.ICampaignView"
+    factory=".endpoint.AllTopicsEndpointGet"
+    permission="zope2.View"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
+</configure>

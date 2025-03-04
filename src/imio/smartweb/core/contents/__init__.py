@@ -21,6 +21,8 @@ from .publication.content import Publication  # NOQA
 from .publication.content import IPublication  # NOQA
 from .rest.base import RestView  # NOQA
 from .rest.base import IRestView  # NOQA
+from .rest.campaign.content import CampaignView  # NOQA
+from .rest.campaign.content import ICampaignView  # NOQA
 from .rest.directory.content import DirectoryView  # NOQA
 from .rest.directory.content import IDirectoryView  # NOQA
 from .rest.events.content import EventsView  # NOQA
