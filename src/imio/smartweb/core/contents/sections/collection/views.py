@@ -17,6 +17,9 @@ class CollectionView(CarouselOrTableSectionView):
         )
         results = []
         for item in items:
+            open_in_new_tab = False
+            if item.portal_type == "File":
+                open_in_new_tab = True
             url = item.getURL()
             scale_url = get_scale_url(
                 item, self.request, "image", image_scale, orientation
@@ -27,6 +30,7 @@ class CollectionView(CarouselOrTableSectionView):
                 "effective": item.effective,
                 "url": url,
                 "has_image": item.has_leadimage,
+                "open_in_new_tab": open_in_new_tab,
             }
             if scale_url == "":
                 dict_item["bad_scale"] = image_scale

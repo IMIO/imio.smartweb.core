@@ -11,6 +11,17 @@ from zope.component import queryMultiAdapter
 class ContactView(HashableJsonSectionView):
     """Contact Section view"""
 
+    def get_number_of_contacts(self):
+        """
+        Returns the number of related contacts.
+        """
+        related_contacts = (
+            self.context.related_contacts
+        )  # Assurez-vous que 'related_contacts' est une liste
+        if related_contacts:
+            return len(related_contacts)
+        return 0
+
     def contacts(self):
         # Firstly, try to get contact from the container view
         container_view = queryMultiAdapter(

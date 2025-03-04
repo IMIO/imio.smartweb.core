@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+      name="table_view"
+      for="imio.smartweb.core.contents.ISectionTimestampedPublications"
+      class="imio.smartweb.core.contents.sections.timestamped_publications.view.TimestampedPublicationsView"
+      template="../common_templates/table.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+</configure>

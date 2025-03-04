@@ -2,10 +2,51 @@ Changelog
 =========
 
 
-1.2.87 (unreleased)
+1.2.92 (unreleased)
 -------------------
 
 - Nothing changed yet.
+
+
+1.2.91 (2025-03-03)
+-------------------
+
+- Accessibility : Added aria-label to subsite-logo link
+  [thomlamb]
+
+- Accessibility : Add title / target attributes to "my account" action link
+  [boulch]
+
+
+1.2.90 (2025-02-24)
+-------------------
+
+- WEB-4217 : Refactor /  Improved target blank links (files, links and so on)
+  [boulch]
+
+
+1.2.89 (2025-02-18)
+-------------------
+
+- WEB-4225 : Added classes to contact sections to differentiate the type of contact (multiple or single)
+  [thomlamb]
+
+- Fix issue : We don't need carousel view in timestamped publications
+  [boulch]
+
+
+1.2.88 (2025-02-14)
+-------------------
+
+- WEB-4134 : Refactor : "Timestamped publications" is a section now (not anymore a content type to store in a section)
+  [boulch]
+
+
+1.2.87 (2025-02-12)
+-------------------
+
+- WEB-4153 : Move and rename the refresh_modification_date action
+  [remdub]
 
 
 1.2.86 (2025-02-10)

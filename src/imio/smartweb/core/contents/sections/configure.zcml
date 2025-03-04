@@ -17,6 +17,7 @@
   <include package=".sendinblue" />
   <include package=".slide" />
   <include package=".text" />
+  <include package=".timestamped_publications" />
   <include package=".video" />
 
   <browser:page

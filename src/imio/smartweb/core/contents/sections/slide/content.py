@@ -62,10 +62,6 @@ class ISectionSlide(ISection):
 
     remoteUrl = LinkField(title=_("Link URL"), required=False)
 
-    open_in_new_tab = schema.Bool(
-        title=_("Open in a new tab"), required=False, default=False
-    )
-
 
 @implementer(ISectionSlide)
 class SectionSlide(Section):

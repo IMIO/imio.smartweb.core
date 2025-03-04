@@ -19,10 +19,6 @@ class IBlockLink(ILink):
 
     description = schema.Text(title=_("Description"), required=False)
 
-    open_in_new_tab = schema.Bool(
-        title=_("Open in a new tab"), required=False, default=False
-    )
-
     remoteUrl = LinkField(title=_("URL"), required=True)
 
     image = NamedBlobImage(title=_("Image"), required=False)

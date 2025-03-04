@@ -45,7 +45,7 @@
               <tal:def define="item_has_image item/has_image;
                                show_lead_image python: getattr(context, 'show_items_lead_image', True);
                                portal context/@@plone_portal_state/portal;
-                               open_in_new_tab item/open_in_new_tab | nothing;">
+                               open_in_new_tab python:view.open_in_new_tab(item);">
                   <a  tal:omit-tag="not: item/url"
                       tal:attributes="href item/url;
                                       class item/container_id | nothing;

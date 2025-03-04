@@ -55,7 +55,7 @@
                                    smartweb_icons python:context.restrictedTraverse('@@smartwebiconresolver');
                                    show_lead_image python:getattr(context, 'show_items_lead_image', True);
                                    portal context/@@plone_portal_state/portal;
-                                   open_in_new_tab item/open_in_new_tab | nothing;"
+                                   open_in_new_tab python:view.open_in_new_tab(item);"
                         tal:attributes="class string:table_display ${item/container_id | nothing} ${item/smartweb_type | nothing};"
                       >
                       <a tal:attributes="class python:'table_image no-image' if no_icon_no_image else 'table_image';

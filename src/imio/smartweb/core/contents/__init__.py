@@ -61,5 +61,11 @@ from .sections.slide.content import ISectionSlide  # NOQA
 from .sections.slide.content import SectionSlide  # NOQA
 from .sections.text.content import ISectionText  # NOQA
 from .sections.text.content import SectionText  # NOQA
+from .sections.timestamped_publications.content import (
+    ISectionTimestampedPublications,
+)  # NOQA
+from .sections.timestamped_publications.content import (
+    SectionTimestampedPublications,
+)  # NOQA
 from .sections.video.content import ISectionVideo  # NOQA
 from .sections.video.content import SectionVideo  # NOQA

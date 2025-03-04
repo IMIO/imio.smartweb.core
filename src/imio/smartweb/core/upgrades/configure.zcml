@@ -268,10 +268,26 @@
       />
 
   <genericsetup:registerProfile
+      name="upgrade_1061_to_1062"
+      title="Upgrade core from 1061 to 1062"
+      directory="profiles/1061_to_1062"
+      description="In the end, it's better for timestamped publications to be handled as a section. (For layout reasons)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
       name="upgrade_1062_to_1063"
       title="Upgrade core from 1062 to 1063"
       directory="profiles/1062_to_1063"
-      description="Add new content type : imio.smartweb.CampaignView"
+      description="Rollback from upgrade step 1027 to 1028. The agent must always be explicit for its content to open in a new window"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1063_to_1064"
+      title="Upgrade core from 1063 to 1064"
+      directory="profiles/1063_to_1064"
+      description="Add new behavior (open in new tab) to content type Link and content type imio.smartweb.BlockLink"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
@@ -899,6 +915,36 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1061"
+      destination="1062"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="In the end, it's better for timestamped publications to be handled as a section. (For layout reasons)"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1061_to_1062"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1062"
+      destination="1063"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Rollback from upgrade step 1027 to 1028. The agent must always be explicit for its content to open in a new window"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1062_to_1063"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1063"
+      destination="1064"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new behavior (open in new tab) to content type Link and content type imio.smartweb.BlockLink"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1063_to_1064"
+    />
+  </genericsetup:upgradeSteps>
+    
   <genericsetup:upgradeStep
       title="Update control panel combo api url"
       source="1064"
@@ -915,4 +961,12 @@
       profile="imio.smartweb.core:default"
       />
 
+  <!--genericsetup:upgradeStep
+      title="Check contact itinerary if address was checked in visible blocks"
+      description=""
+      source="1064"
+      destination="1065"
+      handler=".upgrades.migrate_external_links"
+      profile="imio.smartweb.core:default"
+      /-->
 </configure>

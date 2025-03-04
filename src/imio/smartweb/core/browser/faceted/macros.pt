@@ -20,7 +20,9 @@
   </tal:if>
 
   <tal:if tal:condition="python: not faceted_view.is_video(item)">
-    <a tal:attributes="href item/getURL">
+    <a tal:attributes="href item/getURL;
+                       target python:faceted_view.target(item);
+                      title python:faceted_view.a_tag_item_title(item)">
         <tal:if tal:condition="show_images">
           <tal:def tal:define="scale_url python: faceted_view.get_scale_url(item, thumb_scale)">
             <div class="newsImage card-img-top no-image"

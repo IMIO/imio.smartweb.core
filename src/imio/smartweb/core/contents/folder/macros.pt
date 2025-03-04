@@ -7,7 +7,9 @@
 
 <metal:macro define-macro="block">
 
-  <a tal:attributes="href item/getURL">
+  <a tal:attributes="href item/getURL;
+                     title python:view.a_tag_item_title(item);
+                     target python:'_blank' if view.open_in_new_tab(item) else '';">
       <tal:if tal:condition="view/show_images">
         <div tal:condition="python: not item.has_leadimage or not thumb_scale"
              class="newsImage card-img-top no-image" />
@@ -28,7 +30,9 @@
 
 <metal:macro define-macro="summary">
 
-  <a class="row" tal:attributes="href item/getURL">
+  <a class="row" tal:attributes="href item/getURL;
+                                 title python:view.a_tag_item_title(item);
+                                 target python:'_blank' if view.open_in_new_tab(item) else '';">
       <tal:if tal:condition="view/show_images">
         <tal:img tal:condition="python: item.has_leadimage and thumb_scale">
           <div class="newsImage card-img-left col-md-2"

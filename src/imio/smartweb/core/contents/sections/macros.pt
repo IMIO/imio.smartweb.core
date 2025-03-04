@@ -79,6 +79,12 @@
                            uid string:${context/UID}"
            tal:content="string:${view/get_section_size}"></a>
 
+        <tal:if tal:condition="python:context.portal_type in ['imio.smartweb.SectionNews', 'imio.smartweb.SectionEvents']">
+          <span class="glyphicon-repeat glyphicon"></span>
+          <a tal:attributes="href string:${context/absolute_url}/refresh_modification_date"
+            i18n:translate="">Hard refresh</a>
+        </tal:if>
+
         <tal:dates define="modified context/ModificationDate">
           <span class="documentModified"
                 tal:condition="modified">
@@ -97,12 +103,6 @@
             </a>
           </span>
         </tal:dates>
-
-        <tal:if tal:condition="python:context.portal_type in ['imio.smartweb.SectionNews', 'imio.smartweb.SectionEvents']">
-          <span class="glyphicon-repeat glyphicon"></span>
-          <a tal:attributes="href string:${context/absolute_url}/refresh_modification_date"
-            i18n:translate="">Refresh section</a>
-        </tal:if>
 
       </div>
     </div>

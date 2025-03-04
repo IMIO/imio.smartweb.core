@@ -4,6 +4,7 @@ from AccessControl.unauthorized import Unauthorized
 from bs4 import BeautifulSoup
 from collective.geolocationbehavior.geolocation import IGeolocatable
 from functools import reduce
+from imio.smartweb.core.behaviors.new_tab import INewTab
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -551,7 +552,7 @@ class TestSections(ImioSmartwebTestCase):
             '<a class="table_image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="">',
             view(),
         )
-        link.open_in_new_tab = True
+        INewTab(link).open_in_new_tab = True
         self.assertNotIn(
             '<a class="table_image" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
             view(),
