@@ -5,7 +5,8 @@ Changelog
 1.2.92 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- TELE-1975 : IDEABOX. Add specific profile, add campaign view content type
+  [boulch, thomlamb]
 
 
 1.2.91 (2025-03-03)
