@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
 from plone import api
 from Products.CMFPlone.browser.search import Search
 from Products.CMFPlone.utils import normalizeString
@@ -67,6 +68,20 @@ class Search(Search):
         }
 
         return json.dumps(response)
+
+    @property
+    def are_views_available(self):
+        news = False if get_default_view_url("news") == "" else True
+        events = False if get_default_view_url("events") == "" else True
+        directory = False if get_default_view_url("directory") == "" else True
+        return json.dumps({"news": news, "events": events, "directory": directory})
+
+    @property
+    def context_user_has_roles(self):
+        # is current user has more role(s) than just authenticated
+        if len(api.user.get_roles()) > 1:
+            return True
+        return False
 
     @property
     def current_language(self):

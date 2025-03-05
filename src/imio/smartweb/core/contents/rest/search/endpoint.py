@@ -57,7 +57,10 @@ def get_default_view_url(view_type):
     if not record:
         return ""
     with api.env.adopt_user(username="admin"):
-        return api.content.get(UID=record).absolute_url()
+        obj = api.content.get(UID=record)
+        if not obj:
+            return ""
+        return obj.absolute_url()
 
 
 def get_views_mapping(navigation_root):

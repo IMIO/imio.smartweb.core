@@ -5,7 +5,8 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4231 : Prevent issues in research when default (agenda, news, directory) views objects were removed
+  [boulch] 
 
 
 1.3 (2025-03-04)

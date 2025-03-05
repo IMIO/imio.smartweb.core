@@ -7,6 +7,8 @@
       <template id="search-template">
         <smartweb-search tal:attributes="current-language view/current_language;
                                        query-url view/navroot_url;
+                                       context-user-has-roles view/context_user_has_roles;
+                                       are-views-available view/are_views_available;
                                        result-option view/get_search_result_option">
         </smartweb-search>
       </template>
