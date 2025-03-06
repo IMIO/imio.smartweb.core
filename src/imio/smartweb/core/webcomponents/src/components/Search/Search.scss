@@ -144,3 +144,12 @@
 .r-search-result mark {
     display: initial;
 }
+
+.search-disabled-message {
+    padding: 1rem;
+    margin: 1rem 0;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+    color: #6c757d;
+}
