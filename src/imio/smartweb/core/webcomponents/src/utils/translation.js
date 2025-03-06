@@ -414,4 +414,16 @@ export default {
         de: "Route",
         nl: "Route",
     },
+    "Filtrer par profil": {
+        en: "Filter by profile",
+        fr: "Filtrer par profil",
+        de: "Nach Profile filtern",
+        nl: "Filteren op profiel",
+    },
+    "Filtrer par thématique": {
+        en: "Filter by theme",
+        fr: "Filtrer par thématique",
+        de: "Nach Thema filtern",
+        nl: "Filteren op thema",
+    },
 };
