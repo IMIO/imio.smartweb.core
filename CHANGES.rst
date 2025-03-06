@@ -5,6 +5,9 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
+- Display error message in Search results if the default view has been deleted
+  [thomlamb]
+
 - WEB-4231 : Prevent issues in research when default (agenda, news, directory) views objects were removed
   [boulch] 
 
