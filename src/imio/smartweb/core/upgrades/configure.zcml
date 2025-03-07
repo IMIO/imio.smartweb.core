@@ -291,6 +291,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1066_to_1067"
+      title="Upgrade core from 1066 to 1067"
+      directory="profiles/1066_to_1067"
+      description="Add collective.preventactions.prevent_actions behavior to some content types"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -944,7 +952,7 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1063_to_1064"
     />
   </genericsetup:upgradeSteps>
-    
+
   <genericsetup:upgradeStep
       title="Update control panel combo api url"
       source="1064"
@@ -958,6 +966,24 @@
       source="1065"
       destination="1066"
       handler=".upgrades.update_control_panel_combo_api_fieldname"
+      profile="imio.smartweb.core:default"
+      />
+
+  <genericsetup:upgradeSteps
+      source="1066"
+      destination="1067"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add collective.preventactions.prevent_actions behavior to some content types"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1066_to_1067"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Prevent actions on default authentic sources views"
+      source="1067"
+      destination="1068"
+      handler=".upgrades.prevent_actions_on_default_views"
       profile="imio.smartweb.core:default"
       />
 

@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from collective.preventactions.interfaces import IPreventDelete
+from collective.preventactions.interfaces import IPreventMoveOrRename
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -12,10 +14,11 @@ from plone.registry import Record
 from plone.registry.interfaces import IRegistry
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
+from zope.interface import alsoProvides
 from zope.schema import getFieldNames
-from zope.schema import TextLine
 
 import logging
+import transaction
 
 logger = logging.getLogger("imio.smartweb.core")
 PROFILEID = "profile-imio.smartweb.core:default"
@@ -237,7 +240,7 @@ def update_control_panel_combo_api_url(context):
     url_ts = ""
     try:
         url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
-    except:
+    except:  # NOQA
         logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
         return
     url_ts = url_ts.replace("/api", "")
@@ -249,7 +252,7 @@ def update_control_panel_combo_api_fieldname(context):
     url_ts = ""
     try:
         url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
-    except:
+    except:  # NOQA
         logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
     registry = getUtility(IRegistry)
     records = registry.records
@@ -291,3 +294,26 @@ def update_control_panel_combo_api_fieldname(context):
         logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
     except KeyError:
         logger.info("La clé 'smartweb.url_formdefs_api' n'existe pas dans le registre.")
+
+
+def prevent_actions_on_default_views(context):
+    authentic_sources = ["directory", "events", "news"]
+    for auth_source_key in authentic_sources:
+        auth_source_uid = api.portal.get_registry_record(
+            f"smartweb.default_{auth_source_key}_view", default=None
+        )
+        if auth_source_uid is None:
+            logger.warning(
+                f"No default view is set for authentic source {auth_source_key}"
+            )
+            continue
+        obj = api.content.get(UID=auth_source_uid)
+        if obj is None:
+            logger.error(
+                f"Default view set for authentic source {auth_source_key}) is invalid"
+            )
+            continue
+        alsoProvides(obj, IPreventDelete)
+        alsoProvides(obj, IPreventMoveOrRename)
+        transaction.commit()
+        logger.info(f"Prevent delete and move or rename on {obj.absolute_url()}")

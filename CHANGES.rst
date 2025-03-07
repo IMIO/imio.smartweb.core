@@ -5,11 +5,14 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
+- WEB-4230 : Prevent deleting, renaming or moving default (agenda, news, directory) views using collective.preventactions
+  [remdub]
+
 - Display error message in Search results if the default view has been deleted
   [thomlamb]
 
 - WEB-4231 : Prevent issues in research when default (agenda, news, directory) views objects were removed
-  [boulch] 
+  [boulch]
 
 
 1.3 (2025-03-04)
