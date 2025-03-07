@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.campaign.endpoint import CampaignEndpoint
 from imio.smartweb.core.contents import ICampaignView
 from imio.smartweb.core.tests.utils import get_json
@@ -12,7 +11,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
 from unittest.mock import patch
 from zope.component import createObject
-from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.publisher.browser import TestRequest
 

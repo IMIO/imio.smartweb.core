@@ -18,7 +18,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.namedfile.file import NamedBlobImage
 from plone.restapi.testing import RelativeSession
-from unittest import mock
 from unittest.mock import patch
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
@@ -26,10 +25,8 @@ from zope.component import queryMultiAdapter
 from zope.event import notify
 from zope.publisher.browser import TestRequest
 from ZPublisher.pubevents import PubStart
-from imio.smartweb.core.viewlets.ogptags import OgpTagsViewlet
 
 import json
-import os
 import requests_mock
 import transaction
 

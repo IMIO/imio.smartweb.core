@@ -9,7 +9,6 @@ from imio.smartweb.core.utils import get_basic_auth_json
 from imio.smartweb.core.utils import get_ts_api_url
 
 from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
-from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.core.utils import safe_html
 from imio.smartweb.locales import SmartwebMessageFactory as _

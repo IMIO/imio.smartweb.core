@@ -3,7 +3,6 @@ from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
 from imio.smartweb.core.utils import get_plausible_vars
 from imio.smartweb.core.utils import get_ts_api_url
-from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.api.portal import get_registry_record
