@@ -69,10 +69,10 @@ def get_auth_sources_response(
                 "v": wf_status,
             },
         ],
-        "metadata_fields": ["title", "modified"],
+        "metadata_fields": ["title", "modified", "id"],
         "sort_on": "effective",
         "sort_order": "descending",
-        "fullobjects": True,
+        "fullobjects": False,
         "b_start": 0,
         "b_size": 4000,
     }
@@ -81,7 +81,7 @@ def get_auth_sources_response(
     auth = get_wca_token(client_id, client_secret)
     headers = {
         "Accept": "application/json",
-        "Content-Type": "text/plain",
+        "Content-Type": "application/json",
         "Authorization": auth,
     }
     url = f"{url}/@querystring-search"

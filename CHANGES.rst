@@ -5,6 +5,9 @@ Changelog
 1.3.1 (unreleased)
 ------------------
 
+- WEB-4165 : Fixed sitemap.xml.gz generation with auth sources entries
+  [boulch]
+
 - Display error message in Search results if the default view has been deleted
   [thomlamb]
 

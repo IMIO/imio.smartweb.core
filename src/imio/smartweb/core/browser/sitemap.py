@@ -115,16 +115,18 @@ class CustomSiteMapView(SiteMapView):
             entity_uid = api.portal.get_registry_record(
                 auth_source_value.get("entity_reg_var")
             )
+
             if entity_uid is None:
-                return self.request.response.setStatus(404, "No entity found")
+                logger.warning(f"No entity found for {auth_source_key}")
+                continue
             entity_id = get_entity_id(auth_source_value.get("vocabulary"), entity_uid)
             auth_source_uid = api.portal.get_registry_record(
                 f"smartweb.default_{auth_source_key}_view", default=None
             )
             if auth_source_uid is None:
-                return self.request.response.setStatus(
-                    404, "No default authentic source found"
-                )
+                logger.warning(f"No authentic sources found for {auth_source_key}")
+                continue
+
             obj = api.content.get(UID=auth_source_uid)
             if obj is None:
                 logger.warning(
@@ -133,15 +135,19 @@ class CustomSiteMapView(SiteMapView):
                 continue
             auth_source_view_url = obj.absolute_url()
             results = get_auth_sources_response(
-                auth_source_key, normalizeString(entity_id), (60 * 60 * 24)
+                auth_source_key,
+                normalizeString(entity_id),
+                ["published"],
+                (60 * 60 * 24),
             ).json()
             if results is None or results.get("type") == "ValueError":
                 continue
-            for item in results.get("items"):
+            items = results.get("items") or []
+            for item in items:
                 item_id = normalizeString(item.get("title"))
                 item_uid = item.get("id")
                 loc = f"{auth_source_view_url}/{item_id}?u={item_uid}"
-                lastmod = item.get("modified")
+                lastmod = item.get("modified") or "1970-01-01T00:00:00Z"
                 yield {
                     "loc": loc,
                     "lastmod": lastmod,
