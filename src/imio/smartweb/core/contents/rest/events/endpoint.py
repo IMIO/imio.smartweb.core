@@ -12,7 +12,7 @@ from zope.interface import Interface
 
 class BaseEventsEndpoint(BaseEndpoint):
     def __call__(self):
-        results = super(BaseEventsEndpoint, self).__call__()
+        results = super(BaseEventsEndpoint, self).__call__() or {}
         if not results or not results.get("items"):
             return results
         orientation = self.context.orientation
@@ -43,9 +43,12 @@ class BaseEventsEndpoint(BaseEndpoint):
             "metadata_fields=has_leadimage",
             "metadata_fields=UID",
             "sort_on=event_dates",
-            "fullobjects=1",
-            "b_size={}".format(self.context.nb_results),
+            "fullobjects={}".format(self.fullobjects),
         ]
+        if self.batch_size == 0:
+            params.append("b_size={}".format(self.context.nb_results))
+        else:
+            params.append("b_size={}".format(self.batch_size))
         if self.context.selected_event_types is not None:
             for event_type in self.context.selected_event_types:
                 params.append(f"event_type={event_type}")
@@ -69,6 +72,11 @@ class EventsFiltersEndpoint(BaseEventsEndpoint):
 class EventsEndpointGet(BaseService):
     def reply(self):
         return EventsEndpoint(self.context, self.request)()
+
+    def reply_for_given_object(self, obj, request, fullobjects=1, batch_size=0):
+        return EventsEndpoint(
+            obj, request, fullobjects=fullobjects, batch_size=batch_size
+        )()
 
 
 class EventsFiltersEndpointGet(BaseService):

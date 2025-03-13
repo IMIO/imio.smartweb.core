@@ -12,7 +12,7 @@ from zope.interface import Interface
 
 class BaseNewsEndpoint(BaseEndpoint):
     def __call__(self):
-        results = super(BaseNewsEndpoint, self).__call__()
+        results = super(BaseNewsEndpoint, self).__call__() or {}
         if not results.get("items"):
             return results
         orientation = self.context.orientation
@@ -46,9 +46,12 @@ class BaseNewsEndpoint(BaseEndpoint):
             "metadata_fields=UID",
             "sort_on=effective",
             "sort_order=descending",
-            "b_size={}".format(self.context.nb_results),
-            "fullobjects=1",
+            "fullobjects={}".format(self.fullobjects),
         ]
+        if self.batch_size == 0:
+            params.append("b_size={}".format(self.context.nb_results))
+        else:
+            params.append("b_size={}".format(self.batch_size))
         params = self.construct_query_string(params)
         url = f"{NEWS_URL}/{self.remote_endpoint}?{params}"
         return url
@@ -69,6 +72,11 @@ class NewsFiltersEndpoint(BaseNewsEndpoint):
 class NewsEndpointGet(BaseService):
     def reply(self):
         return NewsEndpoint(self.context, self.request)()
+
+    def reply_for_given_object(self, obj, request, fullobjects=1, batch_size=0):
+        return NewsEndpoint(
+            obj, request, fullobjects=fullobjects, batch_size=batch_size
+        )()
 
 
 class NewsFiltersEndpointGet(BaseService):

@@ -96,6 +96,22 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <adapter
+      factory="imio.smartweb.core.browser.sitemap.SitemapNavtreeStrategy"
+      provides="imio.smartweb.core.browser.sitemap.ISmartwebNavtreeStrategy"
+      for="*
+           imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="sitemap_builder_view"
+      for="*"
+      class=".sitemap.CatalogSiteMap"
+      allowed_attributes="siteMap"
+      permission="zope.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <browser:page
       name="events_view"
       for="*"

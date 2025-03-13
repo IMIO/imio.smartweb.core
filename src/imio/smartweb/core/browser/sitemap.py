@@ -1,49 +1,108 @@
+from Acquisition import aq_inner
 from BTrees.OOBTree import OOBTree
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
-from imio.smartweb.core.contents.rest.utils import get_auth_sources_response
-from imio.smartweb.core.contents.rest.utils import get_entity_id
-from plone import api
-from plone.base.interfaces import IPloneSiteRoot
+from imio.smartweb.core.contents.rest.directory.endpoint import DirectoryEndpointGet
+from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpointGet
+from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpointGet
+from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
+from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.sitemap.sitemap import SiteMapView
-from plone.registry.interfaces import IRegistry
+from plone.base.interfaces import IPloneSiteRoot
+from Products.CMFPlone.browser.navigation import CatalogSiteMap as BaseCatalogSiteMap
+from Products.CMFPlone.browser.navtree import (
+    SitemapNavtreeStrategy as BaseSitemapNavtreeStrategy,
+)
+from Products.CMFPlone.browser.navtree import (
+    SitemapQueryBuilder as BaseSitemapQueryBuilder,
+)
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.utils import normalizeString
-from zope.component import getUtility
+from zope.component import getMultiAdapter
+from zope.interface import implementer
+from zope.interface import Interface
 
 import logging
+import Missing
 
 logger = logging.getLogger("imio.smartweb.core")
 
 
+FRIENDLY_TYPES = [
+    "Collection",
+    "Image",
+    "Link",
+    "imio.smartweb.Folder",
+    "imio.smartweb.Page",
+    "imio.smartweb.PortalPage",
+    "imio.smartweb.Procedure",
+    "imio.smartweb.CirkwiView",
+    "imio.smartweb.DirectoryView",
+    "imio.smartweb.EventsView",
+    "imio.smartweb.NewsView",
+]
+
+
+def get_endpoint_data(obj, request):
+    """Retourne les données issues du bon endpoint pour un objet donné"""
+    endpoint_mapping = {
+        "imio.smartweb.DirectoryView": DirectoryEndpointGet,
+        "imio.smartweb.EventsView": EventsEndpointGet,
+        "imio.smartweb.NewsView": NewsEndpointGet,
+    }
+
+    endpoint_class = endpoint_mapping.get(obj.portal_type)
+    if not endpoint_class:
+        return {}
+
+    endpoint = endpoint_class()
+    batch_size = 1000 if obj.portal_type == "imio.smartweb.DirectoryView" else 365
+    return (
+        endpoint.reply_for_given_object(
+            obj, request, fullobjects=0, batch_size=batch_size
+        )
+        or {}
+    )
+
+
+def format_sitemap_items(items, base_url):
+    """Formatte les items pour le sitemap"""
+    formatted_items = []
+    for item in items:
+        item_id = normalizeString(item.get("title"))
+        item_uid = item.get("id")
+        lastmod = item.get("modified") or "1970-01-01T00:00:00Z"
+        formatted_items.append(
+            {
+                "loc": f"{base_url}/{item_id}?u={item_uid}",
+                "lastmod": lastmod,
+                "Title": item_id,
+                "Description": item.get("description", ""),
+                "getURL": f"{base_url}/{item_id}?u={item_uid}",
+                "getRemoteUrl": Missing.Value,
+                "currentItem": False,
+                "currentParent": False,
+                "normalized_review_state": "published",
+                "normalized_portal_type": "imio-smartweb-directory-item",
+            }
+        )
+    return formatted_items
+
+
 class CustomSiteMapView(SiteMapView):
+    """Custom sitemap view. (get items for sitemap.xml.gz)"""
 
     def objects(self):
         """Returns the data to create the sitemap."""
-
-        friendlytypes = [
-            "Link",
-            "imio.smartweb.Folder",
-            "LIF",
-            "LRF",
-            "imio.smartweb.Page",
-            "imio.smartweb.Procedure",
-            "File",
-            "Collection",
-            "imio.smartweb.PortalPage",
-            "Image",
-            "imio.smartweb.CirkwiView",
-        ]
+        friendlytypes = FRIENDLY_TYPES
 
         catalog = getToolByName(self.context, "portal_catalog")
-        query = {}
-        utils = getToolByName(self.context, "plone_utils")
-        query["portal_type"] = utils.getUserFriendlyTypes(friendlytypes)
-        registry = getUtility(IRegistry)
-        typesUseViewActionInListings = frozenset(
-            registry.get("plone.types_use_view_action_in_listings", [])
-        )
+        query = {
+            "portal_type": getToolByName(
+                self.context, "plone_utils"
+            ).getUserFriendlyTypes(friendlytypes)
+        }
 
         is_plone_site_root = IPloneSiteRoot.providedBy(self.context)
         if not is_plone_site_root:
@@ -56,99 +115,82 @@ class CustomSiteMapView(SiteMapView):
             value = (item.modified.micros(), item.modified.ISO8601())
             default_page_modified[key] = value
 
-        # The plone site root is not catalogued.
         if is_plone_site_root:
             loc = self.context.absolute_url()
             date = self.context.modified()
-            # Comparison must be on GMT value
-            modified = (date.micros(), date.ISO8601())
-            default_modified = default_page_modified.get(loc, None)
-            if default_modified is not None:
-                modified = max(modified, default_modified)
-            lastmod = modified[1]
-            yield {
-                "loc": loc,
-                "lastmod": lastmod,
-                # 'changefreq': 'always',
-                #  hourly/daily/weekly/monthly/yearly/never
-                # 'prioriy': 0.5, # 0.0 to 1.0
-            }
+            modified = max(
+                (date.micros(), date.ISO8601()), default_page_modified.get(loc, (0, ""))
+            )
+            yield {"loc": loc, "lastmod": modified[1]}
 
         query["is_default_page"] = False
         for item in catalog.searchResults(query):
             loc = item.getURL()
             date = item.modified
-            # Comparison must be on GMT value
-            modified = (date.micros(), date.ISO8601())
-            default_modified = default_page_modified.get(loc, None)
-            if default_modified is not None:
-                modified = max(modified, default_modified)
-            lastmod = modified[1]
-            if item.portal_type in typesUseViewActionInListings:
-                loc += "/view"
-            yield {
-                "loc": loc,
-                "lastmod": lastmod,
-            }
+            modified = max(
+                (date.micros(), date.ISO8601()), default_page_modified.get(loc, (0, ""))
+            )
+            yield {"loc": loc, "lastmod": modified[1]}
 
-        auth_sources = {
-            "directory": {
-                "entity_reg_var": "smartweb.directory_entity_uid",
-                "main_rest_view": "smartweb.default_directory_view",
-                "vocabulary": "imio.smartweb.vocabulary.RemoteDirectoryEntities",
-                "url": DIRECTORY_URL,
-            },
-            "events": {
-                "entity_reg_var": "smartweb.events_entity_uid",
-                "main_rest_view": "smartweb.default_events_view",
-                "vocabulary": "imio.smartweb.vocabulary.RemoteEventsEntities",
-                "url": EVENTS_URL,
-            },
-            "news": {
-                "entity_reg_var": "smartweb.news_entity_uid",
-                "main_rest_view": "smartweb.default_news_view",
-                "vocabulary": "imio.smartweb.vocabulary.RemoteNewsEntities",
-                "url": NEWS_URL,
-            },
-        }
-        for auth_source_key, auth_source_value in auth_sources.items():
-            entity_uid = api.portal.get_registry_record(
-                auth_source_value.get("entity_reg_var")
+        for brain in catalog(
+            portal_type=[
+                "imio.smartweb.EventsView",
+                "imio.smartweb.NewsView",
+                "imio.smartweb.DirectoryView",
+            ]
+        ):
+            obj = brain.getObject()
+            data = get_endpoint_data(obj, obj.REQUEST)
+            yield from format_sitemap_items(data.get("items", {}), obj.absolute_url())
+
+
+@implementer(IImioSmartwebCoreLayer)
+class CatalogSiteMap(BaseCatalogSiteMap):
+    def siteMap(self):
+        context = aq_inner(self.context)
+
+        queryBuilder = SitemapQueryBuilder(context)
+        query = queryBuilder()
+        strategy = getMultiAdapter((context, self), ISmartwebNavtreeStrategy)
+        base_folder_tree = buildFolderTree(
+            context, obj=context, query=query, strategy=strategy
+        )
+
+        for child in base_folder_tree.get("children"):
+            obj = child.get("item").getObject()
+            data = get_endpoint_data(obj, obj.REQUEST)
+            if not data:
+                continue
+            child["children"] = format_sitemap_items(
+                data.get("items", []), obj.absolute_url()
             )
 
-            if entity_uid is None:
-                logger.warning(f"No entity found for {auth_source_key}")
-                continue
-            entity_id = get_entity_id(auth_source_value.get("vocabulary"), entity_uid)
-            auth_source_uid = api.portal.get_registry_record(
-                f"smartweb.default_{auth_source_key}_view", default=None
-            )
-            if auth_source_uid is None:
-                logger.warning(f"No authentic sources found for {auth_source_key}")
-                continue
+        return base_folder_tree
 
-            obj = api.content.get(UID=auth_source_uid)
-            if obj is None:
-                logger.warning(
-                    f"Seems that a main authentic view (for {auth_source_key}) is not found"
-                )
-                continue
-            auth_source_view_url = obj.absolute_url()
-            results = get_auth_sources_response(
-                auth_source_key,
-                normalizeString(entity_id),
-                ["published"],
-                (60 * 60 * 24),
-            ).json()
-            if results is None or results.get("type") == "ValueError":
-                continue
-            items = results.get("items") or []
-            for item in items:
-                item_id = normalizeString(item.get("title"))
-                item_uid = item.get("id")
-                loc = f"{auth_source_view_url}/{item_id}?u={item_uid}"
-                lastmod = item.get("modified") or "1970-01-01T00:00:00Z"
-                yield {
-                    "loc": loc,
-                    "lastmod": lastmod,
-                }
+
+class SitemapQueryBuilder(BaseSitemapQueryBuilder):
+    """Construit la requête pour le sitemap avec des types de contenu personnalisés."""
+
+    def __init__(self, context):
+        self.context = context
+
+    def __call__(self):
+        query = {}
+        custom_query = getattr(self.context, "getCustomNavQuery", None)
+        if custom_query and callable(custom_query):
+            query = custom_query()
+        query["portal_type"] = FRIENDLY_TYPES
+        query["review_state"] = "published"
+        return query
+
+
+class ISmartwebNavtreeStrategy(Interface):
+    """Marker interface for the smartweb navtree strategy."""
+
+
+@implementer(ISmartwebNavtreeStrategy)
+class SitemapNavtreeStrategy(BaseSitemapNavtreeStrategy):
+
+    def nodeFilter(self, node):
+        # Return all nodes in sitemap even if they are exclude from nav
+        return True

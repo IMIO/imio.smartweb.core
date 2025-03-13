@@ -13,7 +13,7 @@ from zope.interface import Interface
 
 class BaseDirectoryEndpoint(BaseEndpoint):
     def __call__(self):
-        results = super(BaseDirectoryEndpoint, self).__call__()
+        results = super(BaseDirectoryEndpoint, self).__call__() or {}
         if not results.get("items"):
             return results
         orientation = self.context.orientation
@@ -45,10 +45,13 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             "metadata_fields=taxonomy_contact_category",
             "metadata_fields=topics",
             "metadata_fields=has_leadimage",
-            "fullobjects=1",
+            "fullobjects={}".format(self.fullobjects),
             "sort_on=sortable_title",
-            "b_size={}".format(self.context.nb_results),
         ]
+        if self.batch_size == 0:
+            params.append("b_size={}".format(self.context.nb_results))
+        else:
+            params.append("b_size={}".format(self.batch_size))
         if self.context.selected_categories is not None:
             for category in self.context.selected_categories:
                 params.append(f"taxonomy_contact_category.query={category}")
@@ -73,6 +76,11 @@ class DirectoryFiltersEndpoint(BaseDirectoryEndpoint):
 class DirectoryEndpointGet(BaseService):
     def reply(self):
         return DirectoryEndpoint(self.context, self.request)()
+
+    def reply_for_given_object(self, obj, request, fullobjects=1, batch_size=0):
+        return DirectoryEndpoint(
+            obj, request, fullobjects=fullobjects, batch_size=batch_size
+        )()
 
 
 class DirectoryFiltersEndpointGet(BaseService):

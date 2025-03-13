@@ -5,6 +5,7 @@ from collective.messagesviewlet.interfaces import ICollectiveMessagesviewletLaye
 from collective.solr.browser.interfaces import IThemeSpecific
 from imio.smartweb.common.interfaces import IImioSmartwebCommonLayer
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
+from Products.CMFPlone.browser.interfaces import ISiteMap
 from zope.interface import Interface
 
 
@@ -22,6 +23,7 @@ class IImioSmartwebCoreLayer(
     ILayerSpecific,
     IThemeSpecific,
     ICollectiveMessagesviewletLayer,
+    ISiteMap,
 ):
     """Marker interface that defines a browser layer."""
 

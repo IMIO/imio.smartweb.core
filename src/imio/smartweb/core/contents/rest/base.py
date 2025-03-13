@@ -15,9 +15,12 @@ class BaseEndpoint(object):
     language = "fr"
     remote_endpoint = ""
 
-    def __init__(self, context, request):
+    def __init__(self, context, request, fullobjects=1, batch_size=0):
+
         self.context = context
         self.request = request
+        self.fullobjects = fullobjects
+        self.batch_size = batch_size
 
     def __call__(self):
         results = get_json(self.query_url, timeout=20)
@@ -46,7 +49,7 @@ class BaseEndpoint(object):
         item[f"{field}_full_scale"] = (
             f"{item['@id']}/@@images/{field}/?cache_key={modified_hash}"
         )
-        del item[field]
+        item.pop(field, None)
 
     def construct_query_string(self, params):
         params = "&".join(params)

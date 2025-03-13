@@ -3,6 +3,8 @@
 from freezegun import freeze_time
 from gzip import GzipFile
 from io import BytesIO
+from imio.smartweb.core.browser.sitemap import CatalogSiteMap
+from imio.smartweb.core.browser.sitemap import get_endpoint_data
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -14,9 +16,9 @@ from plone.app.textfield.value import RichTextValue
 from plone.base.utils import safe_text
 from plone.namedfile.file import NamedBlobImage
 from unittest.mock import patch
+from unittest.mock import Mock
 from zope.component import getMultiAdapter
 
-import json
 import requests_mock
 
 
@@ -76,6 +78,10 @@ class TestPage(ImioSmartwebTestCase):
             title="news view",
         )
         self.rest_news.selected_news_folder = "64f4cbee9a394a018a951f6d94452914"
+        self.json_rest_directory = get_json("resources/json_rest_directory.json")
+        self.json_rest_events = get_json("resources/json_rest_events.json")
+        self.json_rest_news = get_json("resources/json_rest_news.json")
+
         api.content.transition(self.rest_directory, "publish")
         api.content.transition(self.rest_agenda, "publish")
         api.content.transition(self.rest_news, "publish")
@@ -111,60 +117,93 @@ class TestPage(ImioSmartwebTestCase):
             (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
         )
         xml = self.uncompress(sitemap())
-        self.assertIn(
-            "<loc>http://nohost/plone/folder/page1/gallery/image/view</loc>", xml
-        )
+        self.assertIn("<loc>http://nohost/plone/folder/page1/gallery/image</loc>", xml)
         # Gallery and image created 2024-02-02 10:00:00
         self.assertIn(
-            "<loc>http://nohost/plone/folder/page1/gallery/image/view</loc>\n    <lastmod >2024-02-02T10:00:00",
+            "<loc>http://nohost/plone/folder/page1/gallery/image</loc>\n    <lastmod >2024-02-02T10:00:00",
             xml,
         )
+        with patch(
+            "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint.__call__",
+            return_value=self.json_rest_news,
+        ) as mypatch:
+            xml = self.uncompress(sitemap())
+            self.assertIn(
+                "<loc>http://nohost/plone/news-view/ceci-est-une-deuxieme-actualite",
+                xml,
+            )
+        with patch(
+            "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+            return_value=self.json_rest_directory,
+        ) as mypatch:
+            xml = self.uncompress(sitemap())
+            self.assertIn(
+                "<loc>http://nohost/plone/directory-view/service-communication-de-ladministration-communale",
+                xml,
+            )
+        with patch(
+            "imio.smartweb.core.contents.rest.events.endpoint.BaseEventsEndpoint.__call__",
+            return_value=self.json_rest_events,
+        ):
+            xml = self.uncompress(sitemap())
+            self.assertIn(
+                "<loc>http://nohost/plone/agenda-view/evenement-recurrent-tous-les-samedi",
+                xml,
+            )
 
-        rest_views = {
-            "directory": self.rest_directory,
-            "events": self.rest_agenda,
-            "news": self.rest_news,
-        }
-        contact_search_url = news_search_url = events_search_url = (
-            "http://localhost:8080/Plone/@querystring-search"
+    def test_site_map_for_user_display(self):
+        sitemap = CatalogSiteMap(self.portal, self.request)
+        # 3 authentic sources
+        self.assertEqual(len(sitemap.siteMap().get("children")), 3)
+        self.assertNotIn(
+            "Folder",
+            [child.get("Title") for child in sitemap.siteMap().get("children")],
         )
-        for k, v in rest_views.items():
-            api.portal.set_registry_record(f"smartweb.default_{k}_view", v.UID())
-        with patch(
-            "imio.smartweb.core.contents.rest.utils.get_wca_token",
-            return_value="kamoulox",
-        ):
-            self.json_contacts = get_json("resources/json_contacts_raw_mock.json")
-            m.post(contact_search_url, text=json.dumps(self.json_contacts))
-            sitemap = getMultiAdapter(
-                (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
-            )
-            xml = self.uncompress(sitemap())
-            self.assertIn("<loc>http://nohost/plone/directory-view/contact1-title", xml)
 
-        with patch(
-            "imio.smartweb.core.contents.rest.utils.get_wca_token",
-            return_value="kamoulox",
-        ):
-            self.json_news = get_json("resources/json_rest_news.json")
-            m.post(news_search_url, text=json.dumps(self.json_news))
-            sitemap = getMultiAdapter(
-                (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
-            )
-            xml = self.uncompress(sitemap())
-            self.assertIn("<loc>http://nohost/plone/news-view/", xml)
+        # Publish folder and page (private content don't appear in sitemap)
+        api.content.transition(self.folder, "publish")
+        api.content.transition(self.page, "publish")
+        sitemap = CatalogSiteMap(self.portal, self.request)
+        self.assertEqual(len(sitemap.siteMap().get("children")), 4)
+        self.assertIn(
+            "Folder",
+            [child.get("Title") for child in sitemap.siteMap().get("children")],
+        )
+        folder_entry = [
+            child
+            for child in sitemap.siteMap().get("children")
+            if child.get("Title") == "Folder"
+        ][0]
+        self.assertIn(
+            "Page 1", [child.get("Title") for child in folder_entry.get("children")]
+        )
 
+        directory_entry = [
+            child
+            for child in sitemap.siteMap().get("children")
+            if child.get("Title") == "directory view"
+        ][0]
+        self.assertEqual(len(directory_entry.get("children")), 0)
+
+        # Populate directory view with 6 contacts
         with patch(
-            "imio.smartweb.core.contents.rest.utils.get_wca_token",
-            return_value="kamoulox",
+            "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+            return_value=self.json_rest_directory,
         ):
-            self.json_events = get_json("resources/json_rest_events.json")
-            m.post(events_search_url, text=json.dumps(self.json_events))
-            sitemap = getMultiAdapter(
-                (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
-            )
-            xml = self.uncompress(sitemap())
-            self.assertIn("<loc>http://nohost/plone/agenda-view/", xml)
+            sitemap = CatalogSiteMap(self.portal, self.request)
+            directory_entry = [
+                child
+                for child in sitemap.siteMap().get("children")
+                if child.get("Title") == "directory view"
+            ][0]
+            self.assertEqual(len(directory_entry.get("children")), 6)
+
+    def test_bad_portal_type(self):
+        obj = Mock()
+        obj.portal_type = None
+        request = Mock()
+        result = get_endpoint_data(obj, request)
+        assert result == {}
 
     def uncompress(self, sitemapdata):
         sio = BytesIO(sitemapdata)
