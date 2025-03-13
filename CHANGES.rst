@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.1 (unreleased)
+1.3.1 (2025-03-13)
 ------------------
 
 - WEB-4165: Refactoring the generation of sitemap.xml.gz for search engines and modifying the site map for user display
