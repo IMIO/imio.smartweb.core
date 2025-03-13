@@ -41,3 +41,21 @@ class TestVocabulary(ImioSmartwebTestCase):
             self.assertEqual(
                 result["results"][0]["text"], "Activités et divertissement"
             )
+
+        self.page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="My Page",
+        )
+        self.contacts = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contancts",
+        )
+        self.request.form = {
+            "name": "imio.smartweb.vocabulary.RemoteContacts",
+            "field": "related_contacts",
+        }
+        view = queryMultiAdapter((self.contacts, self.request), name="getVocabulary")
+        result = json.loads(view())
+        self.assertEqual(result["results"], [])

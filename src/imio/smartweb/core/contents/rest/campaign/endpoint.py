@@ -107,7 +107,7 @@ class CampaignEndpoint(BaseTsEndpoint):
             extra_params = [f"{k}={v}" for k, v in self.request.form.items()]
             extra_params = "&".join(extra_params)
             campaign_id = self.context.linked_campaign
-            url = f"{wcs_api}/cards/imio-ideabox-projet/list?campagne={campaign_id}&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in&{extra_params}"
+            url = f"{wcs_api}/cards/imio-ideabox-projet/list?filter-campagne={campaign_id}&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in&{extra_params}"
         return url
 
 
@@ -124,7 +124,7 @@ class ZonesEndpoint(BaseTsEndpoint):
     def query_url(self):
         wcs_api = get_ts_api_url("wcs")
         campaign_id = self.context.linked_campaign
-        return f"{wcs_api}/cards/imio-ideabox-zone/list?campagne={campaign_id}"
+        return f"{wcs_api}/cards/imio-ideabox-zone/list?filter-campagne={campaign_id}"
 
 
 @implementer(IExpandableElement)
@@ -140,7 +140,7 @@ class TsTopicsEndpoint(BaseTsEndpoint):
     def query_url(self):
         wcs_api = get_ts_api_url("wcs")
         campaign_id = self.context.linked_campaign
-        return f"{wcs_api}/cards/imio-ideabox-theme/list?campagne={campaign_id}"
+        return f"{wcs_api}/cards/imio-ideabox-theme/list?filter-campagne={campaign_id}"
 
 
 @implementer(IExpandableElement)

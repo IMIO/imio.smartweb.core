@@ -85,6 +85,38 @@ class TestIdeabox(ImioSmartwebTestCase):
         self.assertEqual(campaign_view.title, "Sprint iMio Fall 2024")
         self.assertEqual(campaign_view.id, "sprint-imio-fall-2024")
 
+    # CampaignNameChooser : Give th Title to our object thanks to e-guichet object Title.
+    @patch("imio.smartweb.core.subscribers.get_basic_auth_json")
+    @patch("imio.smartweb.core.subscribers.get_value_from_registry")
+    @patch("imio.smartweb.core.contents.rest.campaign.content.get_basic_auth_json")
+    @patch("imio.smartweb.core.contents.rest.campaign.content.get_value_from_registry")
+    def test_campaign_name_chooser(
+        self,
+        m_get_value_from_registry_namechooser,
+        m_get_basic_auth_json_namechooser,
+        m_get_value_from_registry,
+        m_get_basic_auth_json,
+    ):
+        from imio.smartweb.core.contents.rest.campaign.content import CampaignView
+        from zope.component import queryAdapter
+        from zope.container.interfaces import INameChooser
+
+        m_get_value_from_registry.return_value = (
+            "https://staging3-formulaires.guichet-citoyen.be/api"
+        )
+        m_get_basic_auth_json.return_value = self.json_campaign_raw_mock
+
+        m_get_value_from_registry_namechooser.return_value = (
+            "https://staging3-formulaires.guichet-citoyen.be/api"
+        )
+        m_get_basic_auth_json_namechooser.return_value = self.json_campaign_raw_mock
+        campaign_view = CampaignView(id="test-campaign", title=None)
+        campaign_view.linked_campaign = "2"
+        name_chooser = queryAdapter(self.folder, INameChooser)
+        generated_id = name_chooser.chooseName(None, campaign_view)
+        self.assertEqual(campaign_view.title, "Sprint iMio Fall 2024")
+        self.assertEqual(generated_id, "sprint-imio-fall-2024")
+
     @requests_mock.Mocker()
     @patch("imio.smartweb.core.subscribers.get_basic_auth_json")
     @patch("imio.smartweb.core.subscribers.get_value_from_registry")
@@ -110,7 +142,7 @@ class TestIdeabox(ImioSmartwebTestCase):
         url = endpoint.query_url
         self.assertEqual(
             url,
-            "https://demo-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/list?campagne=2&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in&",
+            "https://demo-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/list?filter-campagne=2&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in&",
         )
 
         m.get(url, text=json.dumps({}))
