@@ -5,7 +5,8 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4165: Refactor some code for sitemap (Title, normalized_portal_type, ...)
+  [boulch]
 
 
 1.3.1 (2025-03-13)

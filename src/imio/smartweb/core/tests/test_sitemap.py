@@ -5,8 +5,10 @@ from gzip import GzipFile
 from io import BytesIO
 from imio.smartweb.core.browser.sitemap import CatalogSiteMap
 from imio.smartweb.core.browser.sitemap import get_endpoint_data
+from imio.smartweb.core.browser.sitemap import cache_key
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
@@ -14,9 +16,11 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.textfield.value import RichTextValue
 from plone.base.utils import safe_text
+from plone.memoize.ram import choose_cache
 from plone.namedfile.file import NamedBlobImage
 from unittest.mock import patch
 from unittest.mock import Mock
+from zope.annotation import IAnnotations
 from zope.component import getMultiAdapter
 
 import requests_mock
@@ -123,6 +127,10 @@ class TestPage(ImioSmartwebTestCase):
             "<loc>http://nohost/plone/folder/page1/gallery/image</loc>\n    <lastmod >2024-02-02T10:00:00",
             xml,
         )
+
+        cache = choose_cache("imio.smartweb.core.browser.sitemap.get_endpoint_data")
+        cache.ramcache.invalidateAll()
+
         with patch(
             "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint.__call__",
             return_value=self.json_rest_news,
@@ -132,6 +140,10 @@ class TestPage(ImioSmartwebTestCase):
                 "<loc>http://nohost/plone/news-view/ceci-est-une-deuxieme-actualite",
                 xml,
             )
+
+        cache = choose_cache("imio.smartweb.core.browser.sitemap.get_endpoint_data")
+        cache.ramcache.invalidateAll()
+
         with patch(
             "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
             return_value=self.json_rest_directory,
@@ -141,6 +153,10 @@ class TestPage(ImioSmartwebTestCase):
                 "<loc>http://nohost/plone/directory-view/service-communication-de-ladministration-communale",
                 xml,
             )
+
+        cache = choose_cache("imio.smartweb.core.browser.sitemap.get_endpoint_data")
+        cache.ramcache.invalidateAll()
+
         with patch(
             "imio.smartweb.core.contents.rest.events.endpoint.BaseEventsEndpoint.__call__",
             return_value=self.json_rest_events,
@@ -184,6 +200,9 @@ class TestPage(ImioSmartwebTestCase):
             if child.get("Title") == "directory view"
         ][0]
         self.assertEqual(len(directory_entry.get("children")), 0)
+
+        cache = choose_cache("imio.smartweb.core.browser.sitemap.get_endpoint_data")
+        cache.ramcache.invalidateAll()
 
         # Populate directory view with 6 contacts
         with patch(
