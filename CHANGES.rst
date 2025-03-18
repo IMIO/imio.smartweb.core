@@ -5,6 +5,9 @@ Changelog
 1.3.2 (unreleased)
 ------------------
 
+- WEB-4134: Set default_view as table_view for section "Timestamped publications"
+  [boulch]
+
 - WEB-4165: Refactor some code for sitemap (Title, normalized_portal_type, ...)
   [boulch]
 

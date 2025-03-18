@@ -16,11 +16,7 @@
 
   <!-- Hierarchy control -->
   <property name="global_allow">False</property>
-    <property name="filter_content_types">True</property>
-  <property name="allowed_content_types">
-    <element value="imio.smartweb.SectionTimestampedPublications" />
-  </property>
-
+  <property name="filter_content_types">True</property>
   <!-- Schema, class and security -->
   <!-- if we can add a page, we can add a page section -->
   <property name="add_permission">imio.smartweb.core.AddPage</property>

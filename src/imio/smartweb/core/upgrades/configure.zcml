@@ -291,6 +291,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1066_to_1067"
+      title="Upgrade core from 1066 to 1067"
+      directory="profiles/1066_to_1067"
+      description="BLA BLA BLA"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />      
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -960,6 +968,17 @@
       handler=".upgrades.update_control_panel_combo_api_fieldname"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1066"
+      destination="1067"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="BLA BLA BLA"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1066_to_1067"
+    />
+  </genericsetup:upgradeSteps>
+
 
   <!--genericsetup:upgradeStep
       title="Check contact itinerary if address was checked in visible blocks"

@@ -19,6 +19,7 @@
     <type type_id="imio.smartweb.SectionSlide"/>
     <type type_id="imio.smartweb.SectionNews"/>
     <type type_id="imio.smartweb.SectionText"/>
+    <type type_id="imio.smartweb.SectionTimestampedPublications"/>
     <type type_id="imio.smartweb.SectionVideo"/>
   </bindings>
 </object>

@@ -27,5 +27,6 @@
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSendinblue"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionSlide"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionText"/>
+  <object meta_type="Dexterity FTI" name="imio.smartweb.SectionTimestampedPublications"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.SectionVideo"/>
 </object>
