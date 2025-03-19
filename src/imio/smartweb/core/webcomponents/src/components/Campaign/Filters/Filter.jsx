@@ -13,8 +13,8 @@ import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
-    const [topicsFilter, setTopicsFilter] = useState(null);
-    const [zonesFilter, setZonesFilter] = useState(null);
+    const [topicsFilter, setTopicsFilter] = useState([]);
+    const [zonesFilter, setZonesFilter] = useState([]);
     // const [localsCategoryFilter, setLocalsCategoryFilter] = useState([]);
     const [dates, setDates] = useState(null);
     // Get data
@@ -178,8 +178,7 @@ function Filters(props) {
         <React.Fragment>
             <div className="react-filters-menu">
                 <div className="react-filters-container">
-                    <form className="r-filter r-filter-search" onSubmit={handleSubmit}>
-                        {/* <label>Recherche</label> */}
+                    {/* <form className="r-filter r-filter-search" onSubmit={handleSubmit}>
                         <div className="relative">
                             <Translator>
                                 {({ translate }) => (
@@ -209,8 +208,9 @@ function Filters(props) {
                                 <path d="M13 24a11 11 0 1 0 0-22 11 11 0 0 0 0 22zm8-3 9 9" />
                             </svg>
                         </div>
-                    </form>
-                    <div className="react-sep-menu"></div>
+                    </form> */}
+
+                    {/* <div className="react-sep-menu"></div> */}
                     {/* Filtre Thématique */}
                     {/* Filtre Thématique */}
                     <div className="r-filter top-filter topics-Filter">

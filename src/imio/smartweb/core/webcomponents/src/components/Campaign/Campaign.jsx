@@ -171,7 +171,7 @@ function CampaignView(props) {
             <div
                 className="r-result-filter-container"
                 ref={filterRef}
-                style={{ top: headerHeight }}
+                style={displayMap ? { top: headerHeight } : {}}
             >
                 <div
                     id="r-result-filter"
@@ -224,20 +224,6 @@ function CampaignView(props) {
                     element={
                         <div className="r-wrapper container r-campaign-wrapper">
                             <div className="r-result r-campaign-result">
-                                {itemsNumber > 0 ? (
-                                    <p className="r-results-numbers">
-                                        <span>{itemsNumber}</span>
-                                        {itemsNumber > 1 ? (
-                                            <Translate text="projets trouvés" />
-                                        ) : (
-                                            <Translate text="projet trouvé" />
-                                        )}
-                                    </p>
-                                ) : (
-                                    <p className="r-results-numbers">
-                                        <Translate text="Aucun résultat" />
-                                    </p>
-                                )}
                                 <div>{listRender}</div>
                                 <div className="r-load-more">
                                     {itemsNumber - props.batchSize > batchStart ? (
