@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.2 (unreleased)
+1.3.2 (2025-03-19)
 ------------------
 
 - WEB-4134: Set default_view as table_view for section "Timestamped publications"
