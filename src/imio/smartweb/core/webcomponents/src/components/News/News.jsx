@@ -45,7 +45,7 @@ const NewsView = (props) => {
         queryString.parse(useFilterQuery().toString())
     );
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
-    const [itemsArray, setItemsArray] = useState([]);
+    const [itemsArray, setItemsArray] = useState(null);
     const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [filters, setFilters] = useState(parsed);
@@ -125,6 +125,7 @@ const NewsView = (props) => {
 
     const divLoader = (
         <div className="lds-roller-container">
+            <Translate text="Chargement..." />
             <div className="lds-roller">
                 <div></div>
                 <div></div>
@@ -182,11 +183,9 @@ const NewsView = (props) => {
                                             )}
                                         </p>
                                     ) : (
-                                        <p className="r-results-numbers">
-                                            <Translate text="Aucun résultat" />
-                                        </p>
+                                        ""
                                     )}
-                                    <div>{listRender}</div>
+                                    <div>{itemsArray !== null ? listRender : divLoader}</div>
                                     <div className="r-load-more">
                                         {itemsNumber - props.batchSize > batchStart ? (
                                             <div>

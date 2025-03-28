@@ -22,7 +22,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     const [image, setImage] = useState();
     const [isSchedulVisible, setSchedulVisibility] = useState(true);
 
-    const { response } = useAxios(
+    const { response, isLoading, error } = useAxios(
         {
             method: "get",
             url: "",
@@ -98,7 +98,21 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     const toggleSchedul = () => {
         setSchedulVisibility(!isSchedulVisible);
     };
-    return (
+    return isLoading ? (
+        <div className="lds-roller-container">
+            <Translate text="Chargement..." />
+            <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    ) : (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />

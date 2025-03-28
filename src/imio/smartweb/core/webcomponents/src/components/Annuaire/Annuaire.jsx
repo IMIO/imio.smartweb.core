@@ -43,7 +43,7 @@ function AnnuaireView(props) {
         queryString.parse(useFilterQuery().toString())
     );
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
-    const [contactArray, setcontactArray] = useState([]);
+    const [contactArray, setcontactArray] = useState(null);
     const [contactNumber, setcontactNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
@@ -155,6 +155,7 @@ function AnnuaireView(props) {
 
     const divLoader = (
         <div className="lds-roller-container">
+            <Translate text="Chargement..." />
             <div className="lds-roller">
                 <div></div>
                 <div></div>
@@ -224,7 +225,7 @@ function AnnuaireView(props) {
                     element={
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
-                                <div>{listRender}</div>
+                                <div>{contactArray !== null ? listRender : divLoader}</div>
                                 <div className="r-load-more">
                                     {contactNumber - props.batchSize > batchStart ? (
                                         <div>
