@@ -15,6 +15,7 @@ export default function CampaignContent({ queryUrl, onChange }) {
     });
     const [params, setParams] = useState(parsed);
     const [item, setitem] = useState(null);
+    const [voteContext, setVoteContext] = useState("");
     const [urlVotePour, setUrlVotePour] = useState(null);
     const [urlVoteContre, setUrlVoteContre] = useState(null);
 
@@ -35,6 +36,14 @@ export default function CampaignContent({ queryUrl, onChange }) {
     // set all contacts state
     useEffect(() => {
         if (response !== null) {
+            const status = response.workflow.fields.statut;
+            if (status === "Publié sans vote" || status === "Publié") {
+                setVoteContext("vote_nodisplay");
+            } else if (["Clôture", "Retenu", "Rejeté"].includes(status)) {
+                setVoteContext("vote_noactif");
+            } else {
+                setVoteContext("vote_display");
+            }
             setitem(response.fields);
             const parsedUrl = new URL(response.url);
             const baseUrl = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
@@ -61,7 +70,12 @@ export default function CampaignContent({ queryUrl, onChange }) {
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />
             </button>
-            <ContentText item={item} urlVotePour={urlVotePour} urlVoteContre={urlVoteContre} />
+            <ContentText
+                item={item}
+                urlVotePour={urlVotePour}
+                urlVoteContre={urlVoteContre}
+                voteContext={voteContext}
+            />
         </div>
     ) : (
         <div className="lds-roller-container">
@@ -79,7 +93,7 @@ export default function CampaignContent({ queryUrl, onChange }) {
     );
 }
 
-function ContentText({ item, urlVotePour, urlVoteContre }) {
+function ContentText({ item, urlVotePour, urlVoteContre, voteContext }) {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
 
@@ -102,6 +116,7 @@ function ContentText({ item, urlVotePour, urlVoteContre }) {
             };
         }
     }, [item]);
+    console.log(voteContext);
     return (
         <>
             <article>
@@ -109,7 +124,7 @@ function ContentText({ item, urlVotePour, urlVoteContre }) {
                     <h2 className="r-content-title">{item.nom}</h2>
                 </header>
                 <figure>
-                    <div className="campaign-vote" style={{ marginTop: "1.5rem" }}>
+                    <div className={`campaign-vote ${voteContext}`} style={{ marginTop: "1.5rem" }}>
                         <a href={urlVotePour} target="_blank" className="campaign-vote-pour">
                             <i className="bi bi-hand-thumbs-up-fill"></i>
                             <span className="campaign-vote-pour-count">({item.votes_pour})</span>

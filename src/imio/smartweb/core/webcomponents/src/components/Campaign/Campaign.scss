@@ -765,3 +765,25 @@ smartweb-campaign {
         margin: 0 auto;
     }
 }
+
+// vote workflow
+
+.r-list-item,
+figure {
+    &.Publié sans vote {
+        .campaign-vote {
+            display: none;
+        }
+    }
+}
+
+.vote_nodisplay {
+    display: none;
+}
+
+.vote_noactif {
+    opacity: 0.6;
+    pointer-events: none;
+    filter: grayscale(30%);
+    color: #c7c7c7;
+}

@@ -54,6 +54,7 @@ const CampaignList = ({
                         ></Link>
                         <CampaignCard
                             item={item.fields}
+                            voteContext={item.workflow.fields.statut}
                             showCategoriesOrTopics={showCategoriesOrTopics}
                             key={item.created}
                             contextAuthenticatedUser={contextAuthenticatedUser}

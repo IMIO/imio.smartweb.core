@@ -4,6 +4,13 @@ import { Translate } from "react-translated";
 const CampaignCard = (props) => {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
+    const status = props.voteContext;
+    const voteContext =
+        status === "Publié sans vote" || status === "Publié"
+            ? "vote_nodisplay"
+            : ["Clôture", "Retenu", "Rejeté"].includes(status)
+              ? "vote_noactif"
+              : "vote_display";
 
     // Set image and image className
     useEffect(() => {
@@ -28,7 +35,6 @@ const CampaignCard = (props) => {
             loadImage();
         }
     }, [props.item]);
-
     return (
         <>
             <div className="r-list-item">
@@ -53,7 +59,7 @@ const CampaignCard = (props) => {
                 )}
                 <div className="r-item-text">
                     <span className="r-item-title">{props.item.nom}</span>
-                    <div className="campaign-vote">
+                    <div className={"campaign-vote " + voteContext}>
                         <div className="campaign-vote-pour">
                             <i className="bi bi-hand-thumbs-up-fill"></i>
                             <span className="campaign-vote-pour-count">
