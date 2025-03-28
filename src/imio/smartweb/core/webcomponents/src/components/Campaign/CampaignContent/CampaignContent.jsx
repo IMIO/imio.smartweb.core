@@ -79,6 +79,7 @@ export default function CampaignContent({ queryUrl, onChange }) {
         </div>
     ) : (
         <div className="lds-roller-container">
+            <Translate text="Chargement..." />
             <div className="lds-roller">
                 <div></div>
                 <div></div>
@@ -116,7 +117,6 @@ function ContentText({ item, urlVotePour, urlVoteContre, voteContext }) {
             };
         }
     }, [item]);
-    console.log(voteContext);
     return (
         <>
             <article>

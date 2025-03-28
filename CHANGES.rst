@@ -5,7 +5,8 @@ Changelog
 1.3.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Ideabox : Add status for vote 
+  [thomlamb]
 
 
 1.3.2 (2025-03-19)

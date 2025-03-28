@@ -52,7 +52,7 @@ function EventsView(props) {
         queryString.parse(useFilterQuery().toString())
     );
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
-    const [itemsArray, setItemsArray] = useState([]);
+    const [itemsArray, setItemsArray] = useState(null);
     const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
@@ -164,6 +164,7 @@ function EventsView(props) {
     }
     const divLoader = (
         <div className="lds-roller-container">
+            <Translate text="Chargement..." />
             <div className="lds-roller">
                 <div></div>
                 <div></div>
@@ -231,11 +232,9 @@ function EventsView(props) {
                                         )}
                                     </p>
                                 ) : (
-                                    <p className="r-results-numbers">
-                                        <Translate text="Aucun résultat" />
-                                    </p>
+                                    ""
                                 )}
-                                <div>{listRender}</div>
+                                <div>{itemsArray !== null ? listRender : divLoader}</div>
                                 <div className="r-load-more">
                                     {itemsNumber - props.batchSize > batchStart ? (
                                         <div>

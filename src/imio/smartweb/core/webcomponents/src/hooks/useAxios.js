@@ -19,6 +19,7 @@ const useAxios = (params) => {
 
         if (Object.keys(params.params).length === 0) {
             setResponse(null);
+            setIsLoading(false);
             return;
         }
 
@@ -57,10 +58,11 @@ const useAxios = (params) => {
                 const res = await axios.request(params);
                 setResponse(res.data);
             }
-            setIsLoading(false);
             setError(null);
         } catch (err) {
             setError(err);
+            setResponse(null);
+        } finally {
             setIsLoading(false);
         }
     };

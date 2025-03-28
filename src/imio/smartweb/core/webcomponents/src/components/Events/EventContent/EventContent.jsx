@@ -121,7 +121,21 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
     const closeSchedul = () => {
         setSchedulVisibility(false);
     };
-    return (
+    return isLoading ? (
+        <div className="lds-roller-container">
+            <Translate text="Chargement..." />
+            <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    ) : (
         <div className="envent-content r-content">
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />

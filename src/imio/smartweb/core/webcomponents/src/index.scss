@@ -1,3 +1,10 @@
+smartweb-events,
+smartweb-news,
+smartweb-annuaire,
+smartweb-campaign {
+    min-height: 80vh;
+    display: block;
+}
 .portaltype-imio-smartweb-directoryview {
     #portal-header {
         margin-bottom: 0 !important;
@@ -157,16 +164,19 @@
     left: 0;
     right: 0;
     background: hsla(0, 0%, 100%, 0.82);
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
 }
 
 .lds-roller {
     display: inline-block;
-    position: absolute;
     width: 80px;
     height: 80px;
     top: 5rem;
-    left: 50%;
-    transform: translate(-50%, -50%);
     z-index: 0;
 }
 

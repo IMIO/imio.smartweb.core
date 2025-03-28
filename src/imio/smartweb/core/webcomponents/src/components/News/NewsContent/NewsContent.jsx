@@ -70,7 +70,22 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     moment.locale("fr");
     const created = moment(item.created).startOf("minute").fromNow();
     const lastModified = moment(item.modified).startOf("minute").fromNow();
-    return (
+
+    return isLoading ? (
+        <div className="lds-roller-container">
+            <Translate text="Chargement..." />
+            <div className="lds-roller">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    ) : (
         <div className="new-content r-content">
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />
