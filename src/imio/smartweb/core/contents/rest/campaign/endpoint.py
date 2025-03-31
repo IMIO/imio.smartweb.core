@@ -17,6 +17,16 @@ import base64
 import requests
 
 
+PROJECT_WORKFLOW_STATUS_TO_KEEP = [
+    "Publié sans vote",
+    "Publié",
+    "Vote",
+    "Clôture",
+    "Retenu",
+    "Rejeté",
+]
+
+
 def get_ideabox_basic_auth_header() -> str:
     user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
     pwd = api.portal.get_registry_record("smartweb.iaideabox_api_password")
@@ -107,15 +117,7 @@ class CampaignEndpoint(BaseTsEndpoint):
             extra_params = [f"{k}={v}" for k, v in self.request.form.items()]
             extra_params = "&".join(extra_params)
             campaign_id = self.context.linked_campaign
-            project_workflow_status_to_keep = [
-                "Publié sans vote",
-                "Publié",
-                "Vote",
-                "Clôture",
-                "Retenu",
-                "Rejeté",
-            ]
-            filter_statut = "|".join(project_workflow_status_to_keep)
+            filter_statut = "|".join(PROJECT_WORKFLOW_STATUS_TO_KEEP)
             url = f"{wcs_api}/cards/imio-ideabox-projet/list?filter-campagne={campaign_id}&full=on&filter-statut={filter_statut}&filter-statut-operator=in&{extra_params}"
         return url
 

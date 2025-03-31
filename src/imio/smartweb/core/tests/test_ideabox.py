@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.campaign.endpoint import CampaignEndpoint
+from imio.smartweb.core.contents.rest.campaign.endpoint import (
+    PROJECT_WORKFLOW_STATUS_TO_KEEP,
+)
 from imio.smartweb.core.contents import ICampaignView
 from imio.smartweb.core.tests.utils import get_json
 
@@ -12,7 +14,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
 from unittest.mock import patch
 from zope.component import createObject
-from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 from zope.publisher.browser import TestRequest
 
@@ -140,9 +141,10 @@ class TestIdeabox(ImioSmartwebTestCase):
         request = TestRequest()
         endpoint = CampaignEndpoint(campaign_view, request)
         url = endpoint.query_url
+        filter_statut = "|".join(PROJECT_WORKFLOW_STATUS_TO_KEEP)
         self.assertEqual(
             url,
-            "https://demo-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/list?filter-campagne=2&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in&",
+            f"https://demo-formulaires.guichet-citoyen.be/api/cards/imio-ideabox-projet/list?filter-campagne=2&full=on&filter-statut={filter_statut}&filter-statut-operator=in&",
         )
 
         m.get(url, text=json.dumps({}))
