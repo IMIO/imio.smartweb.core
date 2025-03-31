@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.3 (unreleased)
+1.3.3 (2025-03-31)
 ------------------
 
 - WEB-4236 : Ensure that, in the control panel, the already filled passwords are better "informed"
