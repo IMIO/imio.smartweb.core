@@ -261,14 +261,19 @@ class SmartwebControlPanelForm(RegistryEditForm):
         password_fields = [
             "secret_key_api",
             "iaideabox_api_password",
-            "iadeliberation_api_password"]        
+            "iadeliberation_api_password",
+        ]
         for widget_name in self.widgets:
             widget = self.widgets[widget_name]
             if widget_name in password_fields:
                 field_value = api.portal.get_registry_record(f"smartweb.{widget_name}")
                 if field_value:
                     widget.placeholder = _("Password already filled")
-                    widget.klass = f"{widget.klass} password-already-filled" if widget.klass else "password-already-filled"
+                    widget.klass = (
+                        f"{widget.klass} password-already-filled"
+                        if widget.klass
+                        else "password-already-filled"
+                    )
 
 
 SmartwebControlPanelView = layout.wrap_form(

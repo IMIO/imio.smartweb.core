@@ -113,7 +113,8 @@ class CampaignEndpoint(BaseTsEndpoint):
                 "Vote",
                 "Clôture",
                 "Retenu",
-                "Rejeté",]
+                "Rejeté",
+            ]
             filter_statut = "|".join(project_workflow_status_to_keep)
             url = f"{wcs_api}/cards/imio-ideabox-projet/list?filter-campagne={campaign_id}&full=on&filter-statut={filter_statut}&filter-statut-operator=in&{extra_params}"
         return url

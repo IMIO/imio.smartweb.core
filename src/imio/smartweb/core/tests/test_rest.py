@@ -352,14 +352,16 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
     def test_rest_directory_results(self):
         params = {}
         react_view = "directory-view"
-        referer_url = f"{self.portal_url}/{react_view}" 
+        referer_url = f"{self.portal_url}/{react_view}"
         with patch(
             "imio.smartweb.core.contents.rest.base.get_json",
             return_value=self.json_rest_directory,
         ) as mypatch:
-            response = self.api_session.get(f"/{react_view}/@results", 
-                                            params=params,
-                                            headers={"Referer": referer_url})
+            response = self.api_session.get(
+                f"/{react_view}/@results",
+                params=params,
+                headers={"Referer": referer_url},
+            )
             patch_url = mypatch.return_value.get("@id")
             patch_urlparsed = urlparse(patch_url)
             patch_directory = parse_qs(patch_urlparsed.query)
@@ -410,7 +412,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
     @freeze_time("2021-11-15")
     def test_rest_events_results(self):
         react_view = "events-view"
-        referer_url = f"{self.portal_url}/{react_view}" 
+        referer_url = f"{self.portal_url}/{react_view}"
         params = {}
         # mock get_json from where we import/use it
         with patch(
@@ -422,9 +424,11 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             patch_selected_agendas = parse_qs(patch_urlparsed.query)[
                 "selected_agendas"
             ][0]
-            response = self.api_session.get(f"/{react_view}/@results", 
-                                            params=params,
-                                            headers={"Referer": referer_url})
+            response = self.api_session.get(
+                f"/{react_view}/@results",
+                params=params,
+                headers={"Referer": referer_url},
+            )
             response_url = response.json().get("@id")
             response_urlparsed = urlparse(response_url)
             response_selected_agendas = parse_qs(response_urlparsed.query)[
@@ -469,15 +473,17 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
     def test_rest_news_results(self):
         react_view = "news-view"
-        referer_url = f"{self.portal_url}/{react_view}" 
+        referer_url = f"{self.portal_url}/{react_view}"
         params = {}
         with patch(
             "imio.smartweb.core.contents.rest.base.get_json",
             return_value=self.json_rest_news,
         ) as mypatch:
-            response = self.api_session.get(f"/{react_view}/@results",
-                                            params=params,
-                                            headers={"Referer": referer_url})
+            response = self.api_session.get(
+                f"/{react_view}/@results",
+                params=params,
+                headers={"Referer": referer_url},
+            )
             patch_url = mypatch.return_value.get("@id")
             patch_urlparsed = urlparse(patch_url)
             patch_selected_news_folders = parse_qs(patch_urlparsed.query)[
