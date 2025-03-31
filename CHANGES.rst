@@ -5,6 +5,9 @@ Changelog
 1.3.3 (unreleased)
 ------------------
 
+- WEB-4236 : Ensure that, in the control panel, the already filled passwords are better "informed"
+  [boulch]
+
 - Ideabox : Use the correct workflow statuses to display projects
   [boulch]
 

@@ -9,6 +9,8 @@ from plone.app.registry.browser.controlpanel import RegistryEditForm
 from plone.autoform import directives
 from plone.z3cform import layout
 from zope import schema
+from z3c.form import field
+from z3c.form.browser.password import PasswordFieldWidget
 from zope.interface import Interface
 
 
@@ -211,6 +213,10 @@ class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
     schema_prefix = "smartweb"
     label = _("Smartweb Settings")
+    fields = field.Fields(ISmartwebControlPanel)
+    fields["secret_key_api"].widgetFactory = PasswordFieldWidget
+    fields["iaideabox_api_password"].widgetFactory = PasswordFieldWidget
+    fields["iadeliberation_api_password"].widgetFactory = PasswordFieldWidget
 
     def applyChanges(self, data):
         # Get current registry value for (controlpanel) passwords
@@ -239,7 +245,6 @@ class SmartwebControlPanelForm(RegistryEditForm):
     def updateFields(self):
         """Override updateFields to hide fields based on ideabox profile installation."""
         super(SmartwebControlPanelForm, self).updateFields()
-
         # Check if the 'ideabox' profile is installed
         portal_setup = api.portal.get_tool(name="portal_setup")
         profile_version = portal_setup.getLastVersionForProfile(
@@ -250,6 +255,20 @@ class SmartwebControlPanelForm(RegistryEditForm):
             # Hide the field related to Idea Box if the profile is not installed
             self.fields = self.fields.omit("iaideabox_api_username")
             self.fields = self.fields.omit("iaideabox_api_password")
+
+    def updateWidgets(self):
+        super(SmartwebControlPanelForm, self).updateWidgets()
+        password_fields = [
+            "secret_key_api",
+            "iaideabox_api_password",
+            "iadeliberation_api_password"]        
+        for widget_name in self.widgets:
+            widget = self.widgets[widget_name]
+            if widget_name in password_fields:
+                field_value = api.portal.get_registry_record(f"smartweb.{widget_name}")
+                if field_value:
+                    widget.placeholder = _("Password already filled")
+                    widget.klass = f"{widget.klass} password-already-filled" if widget.klass else "password-already-filled"
 
 
 SmartwebControlPanelView = layout.wrap_form(
