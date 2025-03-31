@@ -107,7 +107,15 @@ class CampaignEndpoint(BaseTsEndpoint):
             extra_params = [f"{k}={v}" for k, v in self.request.form.items()]
             extra_params = "&".join(extra_params)
             campaign_id = self.context.linked_campaign
-            url = f"{wcs_api}/cards/imio-ideabox-projet/list?filter-campagne={campaign_id}&full=on&filter-statut=Vote|Enregistr%C3%A9e&filter-statut-operator=in&{extra_params}"
+            project_workflow_status_to_keep = [
+                "Publié sans vote",
+                "Publié",
+                "Vote",
+                "Clôture",
+                "Retenu",
+                "Rejeté",]
+            filter_statut = "|".join(project_workflow_status_to_keep)
+            url = f"{wcs_api}/cards/imio-ideabox-projet/list?filter-campagne={campaign_id}&full=on&filter-statut={filter_statut}&filter-statut-operator=in&{extra_params}"
         return url
 
 
@@ -116,7 +124,10 @@ class CampaignEndpoint(BaseTsEndpoint):
 class ZonesEndpoint(BaseTsEndpoint):
 
     def __call__(self):
+        json_res = {"items": [], "items_total": 0}
         json = self._get_json(self.query_url)
+        if not json:
+            return json_res
         json_res = {"items": json["data"], "items_total": json.get("count")}
         return json_res
 
@@ -132,7 +143,10 @@ class ZonesEndpoint(BaseTsEndpoint):
 class TsTopicsEndpoint(BaseTsEndpoint):
 
     def __call__(self):
+        json_res = {"items": [], "items_total": 0}
         json = self._get_json(self.query_url)
+        if not json:
+            return json_res
         json_res = {"items": json["data"], "items_total": json.get("count")}
         return json_res
 

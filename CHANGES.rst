@@ -5,6 +5,9 @@ Changelog
 1.3.3 (unreleased)
 ------------------
 
+- Ideabox : Use the correct workflow statuses to display projects
+  [boulch]
+
 - Prevent unauthorized access: return 403 if request does not originate from the current context
   Prevent some basic stupid and wicked attack
   [boulch]
