@@ -18,7 +18,7 @@ export default function CampaignContent({ queryUrl, onChange }) {
     const [voteContext, setVoteContext] = useState("");
     const [urlVotePour, setUrlVotePour] = useState(null);
     const [urlVoteContre, setUrlVoteContre] = useState(null);
-
+    const [urlComment, setUrlComment] = useState(null);
     const [files, setFiles] = useState();
     const { response, error, isLoading } = useAxios(
         {
@@ -51,7 +51,8 @@ export default function CampaignContent({ queryUrl, onChange }) {
             const baseUrl = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
             const fullUrlPour = `${baseUrl}/ideabox-voter-pour-un-projet/?projet=${response.id}`;
             const fullUrlContre = `${baseUrl}/ideabox-voter-contre-un-projet/?projet=${response.id}`;
-
+            const urlComment = `${baseUrl}/ideabox-commenter-un-projet/`;
+            setUrlComment(urlComment);
             setUrlVotePour(fullUrlPour);
             setUrlVoteContre(fullUrlContre);
         }
@@ -77,6 +78,7 @@ export default function CampaignContent({ queryUrl, onChange }) {
                 urlVotePour={urlVotePour}
                 urlVoteContre={urlVoteContre}
                 voteContext={voteContext}
+                urlComment={urlComment}
             />
         </div>
     ) : (
@@ -96,7 +98,7 @@ export default function CampaignContent({ queryUrl, onChange }) {
     );
 }
 
-function ContentText({ item, urlVotePour, urlVoteContre, voteContext }) {
+function ContentText({ item, urlVotePour, urlVoteContre, urlComment, voteContext }) {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
 
@@ -183,6 +185,15 @@ function ContentText({ item, urlVotePour, urlVoteContre, voteContext }) {
                                     __html: item.commentaires,
                                 }}
                             />
+                            <div className="campaign-comment-actions">
+                                <a
+                                    href={urlComment}
+                                    target="_blank"
+                                    className="campaign-comment-action-button"
+                                >
+                                    <Translate text="Ajouter un commentaire" />
+                                </a>
+                            </div>
                         </div>
                     )}
                 </div>

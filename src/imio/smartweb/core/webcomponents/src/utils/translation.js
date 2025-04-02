@@ -432,4 +432,10 @@ export default {
         de: "Kommentare",
         nl: "Reacties",
     },
+    "Ajouter un commentaire": {
+        en: "Add a comment",
+        fr: "Ajouter un commentaire",
+        de: "Kommentar hinzufügen",
+        nl: "Reactie toevoegen",
+    },
 };

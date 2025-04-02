@@ -602,7 +602,7 @@ smartweb-campaign {
 .campaign-comment-title {
     font-size: 18px;
     font-weight: 400;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     color: #0f0f0f;
     border-bottom: solid 1px #cbcbcb;
 }
@@ -612,6 +612,26 @@ smartweb-campaign {
         margin-top: 5px;
         font-size: 1rem;
         color: #171717;
+    }
+}
+
+.campaign-comment-actions {
+    text-align: center;
+}
+.campaign-comment-action-button {
+    margin: 1rem 0;
+    background: #f5f5f5;
+    display: inline-block;
+    padding: 9px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    border: solid 1px transparent;
+    &:hover,
+    &:focus {
+        border: solid 1px #bbbbbb;
     }
 }
 // //  No Map
