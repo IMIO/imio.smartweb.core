@@ -5,7 +5,11 @@ Changelog
 1.3.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Ideabox : Add search filter in campaign view
+  [thomlamb]
+
+- Ideabox : Add comment in campaign view
+  [thomlamb]
 
 
 1.3.3 (2025-03-31)
