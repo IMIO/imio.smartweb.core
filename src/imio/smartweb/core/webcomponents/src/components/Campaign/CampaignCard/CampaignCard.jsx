@@ -75,7 +75,7 @@ const CampaignCard = (props) => {
                     </div>
                 </div>
                 <div className="r-item-arrow">
-                    <i class="bi bi-chevron-right"></i>
+                    <i className="bi bi-chevron-right"></i>
                 </div>
             </div>
         </>

@@ -55,6 +55,7 @@ function CampaignView(props) {
     const [clickId, setClickId] = useState(null);
     const [hoverId, setHoverId] = useState(null);
     const [filters, setFilters] = useState({ b_start: 0 });
+    const [searchValue, setSearchValue] = useState(null);
     const [batchStart, setBatchStart] = useState(0);
     const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
     const displayMap = props.displayMap === "True" ? true : false;
@@ -76,14 +77,25 @@ function CampaignView(props) {
     // set all campaigns state
     useEffect(() => {
         if (response !== null) {
-            if (isMore) {
-                setItemsArray((itemsArray) => [...itemsArray, ...response.items]);
-            } else {
-                setItemsArray(response.items);
+            let filteredItems = response.items;
+
+            // Filter items if searchValue exists
+            if (searchValue && searchValue.trim() !== "") {
+                const searchLower = searchValue.toLowerCase();
+                filteredItems = response.items.filter((item) => {
+                    const title = item.fields.nom?.toLowerCase() || "";
+                    return title.includes(searchLower);
+                });
             }
-            setItemsNumber(response.items_total);
+
+            if (isMore) {
+                setItemsArray((itemsArray) => [...itemsArray, ...filteredItems]);
+            } else {
+                setItemsArray(filteredItems);
+            }
+            setItemsNumber(filteredItems.length);
         }
-    }, [response]);
+    }, [response, searchValue]);
 
     // set state id when clicked on list element
     const clickID = (id) => {
@@ -101,6 +113,13 @@ function CampaignView(props) {
         setBatchStart(() => 0);
         setFilters(value);
         window.scrollTo(0, 0);
+    };
+
+    //set search SearchableText
+    const filtersChangeSearch = (value) => {
+        setLoadMoreLaunch(false);
+        setBatchStart(() => 0);
+        setSearchValue(value);
     };
 
     // set batch
@@ -183,6 +202,7 @@ function CampaignView(props) {
                         queryTopicsUrl={props.queryTopicsUrl}
                         activeFilter={filters}
                         onChange={filtersChange}
+                        onChangeSearch={filtersChangeSearch}
                     />
                     {props.proposeUrl && (
                         <div className="r-add-contact">

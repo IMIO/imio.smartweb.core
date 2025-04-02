@@ -426,4 +426,10 @@ export default {
         de: "Nach Thema filtern",
         nl: "Filteren op thema",
     },
+    Commentaires: {
+        en: "Comments",
+        fr: "Commentaires",
+        de: "Kommentare",
+        nl: "Reacties",
+    },
 };

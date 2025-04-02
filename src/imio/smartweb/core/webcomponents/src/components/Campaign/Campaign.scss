@@ -590,6 +590,30 @@ smartweb-campaign {
     min-height: 80vh;
     display: block;
 }
+
+.campaign-comment-container {
+    margin-top: 2rem;
+    padding: 24px;
+    border: solid 1px #cbcbcb;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #6c6c6c;
+}
+.campaign-comment-title {
+    font-size: 18px;
+    font-weight: 400;
+    margin-bottom: 1rem;
+    color: #0f0f0f;
+    border-bottom: solid 1px #cbcbcb;
+}
+.campaign-comment {
+    p {
+        margin-bottom: 0;
+        margin-top: 5px;
+        font-size: 1rem;
+        color: #171717;
+    }
+}
 // //  No Map
 //   // Main
 .no-map {

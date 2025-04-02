@@ -36,6 +36,8 @@ export default function CampaignContent({ queryUrl, onChange }) {
     // set all contacts state
     useEffect(() => {
         if (response !== null) {
+            console.log(response && response);
+
             const status = response.workflow.fields.statut;
             if (status === "Publié sans vote" || status === "Publié") {
                 setVoteContext("vote_nodisplay");
@@ -117,6 +119,7 @@ function ContentText({ item, urlVotePour, urlVoteContre, voteContext }) {
             };
         }
     }, [item]);
+
     return (
         <>
             <article>
@@ -159,7 +162,7 @@ function ContentText({ item, urlVotePour, urlVoteContre, voteContext }) {
             </article>
             <div className="contactCard">
                 <div className="contactText">
-                    <div className="r-content-description">
+                    <div className="r-content-text">
                         {item.description && (
                             <div
                                 className="campaign-description"
@@ -169,8 +172,19 @@ function ContentText({ item, urlVotePour, urlVoteContre, voteContext }) {
                             />
                         )}
                     </div>
-
-                    <div className="contactTextAll"></div>
+                    {item.commentaires && (
+                        <div className="campaign-comment-container">
+                            <p className="campaign-comment-title">
+                                <Translate text="Commentaires" />:
+                            </p>
+                            <div
+                                className="campaign-comment"
+                                dangerouslySetInnerHTML={{
+                                    __html: item.commentaires,
+                                }}
+                            />
+                        </div>
+                    )}
                 </div>
                 {/* add files to download */}
                 {/* {files && (
