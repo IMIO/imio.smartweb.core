@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.4 (unreleased)
+1.3.4 (2025-04-02)
 ------------------
 
 - Ideabox : Add search filter in campaign view
