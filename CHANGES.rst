@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.5 (unreleased)
+1.3.5 (2025-04-03)
 ------------------
 
 - Fix : Add are_views_available to @@/search view
