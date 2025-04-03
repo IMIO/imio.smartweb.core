@@ -5,7 +5,8 @@ Changelog
 1.3.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix : Add are_views_available to @@/search view
+  [thomlamb]
 
 
 1.3.4 (2025-04-02)
