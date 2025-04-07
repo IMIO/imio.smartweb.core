@@ -406,4 +406,20 @@
       factory=".toolbar.SmartwebHelpMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem" />
 
+  <adapter
+      factory=".menu.ActionsSubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      for="*
+           imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      name="plone.contentmenu.actions"
+      />
+
+  <adapter
+      factory=".menu.DisplaySubMenuItem"
+      provides="plone.app.contentmenu.interfaces.IContentMenuItem"
+      for="*
+           imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      name="plone.contentmenu.display"
+      />
+
 </configure>

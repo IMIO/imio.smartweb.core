@@ -5,7 +5,8 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4237 : Hide unnecessary toolbar entries when rendering a React view
+  [boulch]
 
 
 1.3.5 (2025-04-03)

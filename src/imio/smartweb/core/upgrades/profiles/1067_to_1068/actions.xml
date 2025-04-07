@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object name="portal_actions" meta_type="Plone Actions Tool"
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+  <object name="object" meta_type="CMF Action Category">
+    <object meta_type="CMF Action" name="cropping" i18n:domain="plone.app.imagecropping">
+      <property name="available_expr">python:object.restrictedTraverse('@@plone_interface_info').provides('plone.app.imagecropping.interfaces.IImageCroppingMarker') and object.portal_type not in ['imio.smartweb.CampaignView', 'imio.smartweb.DirectoryView', 'imio.smartweb.EventsView', 'imio.smartweb.NewsView']</property>
+    </object>
+  </object>
+</object>

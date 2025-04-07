@@ -13,6 +13,17 @@
       </property>
       <property name="visible">True</property>
     </object>
+    <object meta_type="CMF Action" name="cropping" i18n:domain="plone.app.imagecropping">
+      <property name="title" i18n:translate="">Cropping</property>
+      <property name="description" i18n:translate="">View the image cropping editor for this object</property>
+      <property name="icon_expr">string:crop</property>
+      <property name="url_expr">string:${object_url}/@@croppingeditor</property>
+      <property name="available_expr">python:object.restrictedTraverse('@@plone_interface_info').provides('plone.app.imagecropping.interfaces.IImageCroppingMarker') and object.portal_type not in ['imio.smartweb.CampaignView', 'imio.smartweb.DirectoryView', 'imio.smartweb.EventsView', 'imio.smartweb.NewsView']</property>
+      <property name="permissions">
+        <element value="Modify portal content" />
+      </property>
+      <property name="visible">True</property>
+    </object>
   </object>
 
   <object name="object_buttons" meta_type="CMF Action Category">

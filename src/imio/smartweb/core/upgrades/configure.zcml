@@ -295,7 +295,15 @@
       name="upgrade_1066_to_1067"
       title="Upgrade core from 1066 to 1067"
       directory="profiles/1066_to_1067"
-      description="BLA BLA BLA"
+      description="Correct default view for imio.smartweb.SectionTimestampedPublications"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1067_to_1068"
+      title="Upgrade core from 1067 to 1068"
+      directory="profiles/1067_to_1068"
+      description="Don't display cropping action on react views"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />      
 
@@ -974,11 +982,20 @@
       destination="1067"
       profile="imio.smartweb.core:default">
     <genericsetup:upgradeDepends
-        title="BLA BLA BLA"
+        title="Correct default view for imio.smartweb.SectionTimestampedPublications"
         import_profile="imio.smartweb.core.upgrades:upgrade_1066_to_1067"
     />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1067"
+      destination="1068"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Don't display cropping action on react views"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1067_to_1068"
+    />
+  </genericsetup:upgradeSteps>
 
   <!--genericsetup:upgradeStep
       title="Check contact itinerary if address was checked in visible blocks"
