@@ -47,6 +47,13 @@ class ICampaignView(model.Schema):
         default=True,
     )
 
+    display_red_thumbs = schema.Bool(
+        title=_("Display red thumbs"),
+        description=_("If selected, red thumbs will be displayed"),
+        required=False,
+        default=False,
+    )
+
 
 @implementer(ICampaignView, IInstanceBehaviorAssignableContent)
 class CampaignView(RestView):

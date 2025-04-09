@@ -5,6 +5,9 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
+- Ideabox : Add red thumbs display choice in campaign view
+  [thomlamb]
+
 - WEB-4237 : Hide unnecessary toolbar entries when rendering a React view
   [boulch]
 

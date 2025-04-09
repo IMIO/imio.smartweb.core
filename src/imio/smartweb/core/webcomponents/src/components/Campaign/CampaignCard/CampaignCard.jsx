@@ -66,12 +66,14 @@ const CampaignCard = (props) => {
                                 {props.item.votes_pour}
                             </span>
                         </div>
-                        <div className="campaign-vote-contre">
-                            <i className="bi bi-hand-thumbs-down-fill"></i>
-                            <span className="campaign-vote-contre-count">
-                                {props.item.votes_contre}
-                            </span>
-                        </div>
+                        {props.displayRedThumbs && (
+                            <div className="campaign-vote-contre">
+                                <i className="bi bi-hand-thumbs-down-fill"></i>
+                                <span className="campaign-vote-contre-count">
+                                    {props.item.votes_contre}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="r-item-arrow">

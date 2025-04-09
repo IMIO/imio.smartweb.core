@@ -9,6 +9,7 @@ const CampaignList = ({
     onHover,
     showCategoriesOrTopics,
     contextAuthenticatedUser,
+    displayRedThumbs,
 }) => {
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
 
@@ -58,6 +59,7 @@ const CampaignList = ({
                             showCategoriesOrTopics={showCategoriesOrTopics}
                             key={item.created}
                             contextAuthenticatedUser={contextAuthenticatedUser}
+                            displayRedThumbs={displayRedThumbs}
                         />
                     </li>
                 ))}

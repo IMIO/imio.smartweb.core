@@ -19,6 +19,10 @@ class CampaignViewView(BaseRestView):
         return self.context.display_map
 
     @property
+    def display_red_thumbs(self):
+        return self.context.display_red_thumbs
+
+    @property
     def local_query_zones_url(self):
         base_url = self.context.absolute_url()
         return f"{base_url}/@zones"

@@ -11,6 +11,7 @@
                                        propose-url view/propose_url;
                                        current-language view/current_language;
                                        display-map view/display_map;
+                                       display-red-thumbs view/display_red_thumbs;
                                        view-path view/view_path;
                                        context-authenticated-user view/context_authenticated_user;"></smartweb-campaign>
   </div>

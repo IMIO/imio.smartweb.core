@@ -7,7 +7,7 @@ import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
-export default function CampaignContent({ queryUrl, onChange }) {
+export default function CampaignContent({ queryUrl, onChange, displayRedThumbs }) {
     const navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
         id: queryString.parse(useFilterQuery().toString())["u"],
@@ -36,8 +36,6 @@ export default function CampaignContent({ queryUrl, onChange }) {
     // set all contacts state
     useEffect(() => {
         if (response !== null) {
-            console.log(response && response);
-
             const status = response.workflow.fields.statut;
             if (status === "Publié sans vote" || status === "Publié") {
                 setVoteContext("vote_nodisplay");
@@ -79,6 +77,7 @@ export default function CampaignContent({ queryUrl, onChange }) {
                 urlVoteContre={urlVoteContre}
                 voteContext={voteContext}
                 urlComment={urlComment}
+                displayRedThumbs={displayRedThumbs}
             />
         </div>
     ) : (
@@ -98,7 +97,14 @@ export default function CampaignContent({ queryUrl, onChange }) {
     );
 }
 
-function ContentText({ item, urlVotePour, urlVoteContre, urlComment, voteContext }) {
+function ContentText({
+    item,
+    urlVotePour,
+    urlVoteContre,
+    urlComment,
+    voteContext,
+    displayRedThumbs,
+}) {
     const [image, setImage] = useState(new Image());
     const [imageClassName, setImageClassName] = useState("");
 
@@ -135,13 +141,19 @@ function ContentText({ item, urlVotePour, urlVoteContre, urlComment, voteContext
                             <span className="campaign-vote-pour-count">({item.votes_pour})</span>
                             <span className="campaign-vote-contre-text"> Je vote pour</span>
                         </a>
-                        <a href={urlVoteContre} target="_blank" className="campaign-vote-contre">
-                            <i className="bi bi-hand-thumbs-down-fill"></i>
-                            <span className="campaign-vote-contre-count">
-                                ({item.votes_contre})
-                            </span>
-                            <span className="campaign-vote-contre-text"> Je vote contre</span>
-                        </a>
+                        {displayRedThumbs && (
+                            <a
+                                href={urlVoteContre}
+                                target="_blank"
+                                className="campaign-vote-contre"
+                            >
+                                <i className="bi bi-hand-thumbs-down-fill"></i>
+                                <span className="campaign-vote-contre-count">
+                                    ({item.votes_contre})
+                                </span>
+                                <span className="campaign-vote-contre-text"> Je vote contre</span>
+                            </a>
+                        )}
                     </div>
                     {image ? (
                         <div className="r-content-img">

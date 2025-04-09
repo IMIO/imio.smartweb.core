@@ -33,6 +33,7 @@ export default function Campaign(props) {
                         batchSize={props.batchSize}
                         displayMap={props.displayMap}
                         language={props.currentLanguage}
+                        displayRedThumbs={props.displayRedThumbs}
                     />
                 </ScrollContext.Provider>
             </Provider>
@@ -59,6 +60,8 @@ function CampaignView(props) {
     const [batchStart, setBatchStart] = useState(0);
     const [loadMoreLaunch, setLoadMoreLaunch] = useState(false);
     const displayMap = props.displayMap === "True" ? true : false;
+    const displayRedThumbs = props.displayRedThumbs === "True" ? true : false;
+
     const { response, error, isLoading, isMore } = useAxios(
         {
             method: "get",
@@ -154,7 +157,14 @@ function CampaignView(props) {
     let listRender;
     let MapRender;
     if (itemsArray && itemsArray.length > 0) {
-        listRender = <CampaignList onChange={clickID} itemsArray={itemsArray} onHover={hoverID} />;
+        listRender = (
+            <CampaignList
+                onChange={clickID}
+                itemsArray={itemsArray}
+                onHover={hoverID}
+                displayRedThumbs={displayRedThumbs}
+            />
+        );
         MapRender = (
             <Map
                 headerHeight={style.height + headerHeight}
@@ -167,7 +177,7 @@ function CampaignView(props) {
     } else if (!isLoading) {
         listRender = (
             <p>
-                <Translate text="Aucun événement n'a été trouvé" />
+                <Translate text="Aucun projet n'a été trouvé" />
             </p>
         );
     }
@@ -291,6 +301,7 @@ function CampaignView(props) {
                                     onChange={clickID}
                                     onlyPastCampaign={props.onlyPastCampaign}
                                     contextAuthenticatedUser={props.contextAuthenticatedUser}
+                                    displayRedThumbs={displayRedThumbs}
                                 />
                             </div>
                             {displayMap && (
