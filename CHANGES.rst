@@ -5,6 +5,9 @@ Changelog
 1.3.6 (unreleased)
 ------------------
 
+- Fix contact template to improve multi-contact display
+  [thomlamb]
+
 - Ideabox : Add red thumbs display choice in campaign view
   [thomlamb]
 
