@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.6 (unreleased)
+1.3.6 (2025-04-10)
 ------------------
 
 - Fix contact template to improve multi-contact display
