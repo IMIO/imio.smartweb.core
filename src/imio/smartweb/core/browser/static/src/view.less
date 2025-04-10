@@ -170,3 +170,51 @@ body {
     width: 100%;
   }
 }
+
+// muti contact
+.row.multicontact {
+  display: grid;
+  // Par défaut, 1 élément par ligne sur mobile
+  grid-template-columns: 1fr;
+
+  // 2 éléments par ligne sur tablette
+  @media screen and (min-width: 568px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // 3 éléments par ligne sur desktop
+  @media screen and (min-width: 992px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  // 4 éléments par ligne sur grand écran
+  @media screen and (min-width: 1200px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  // Classe pour forcer 1 élément par ligne
+  &.nb-contact-by-line-1 {
+    grid-template-columns: 1fr;
+  }
+
+  // Classe pour forcer 2 éléments par ligne
+  &.nb-contact-by-line-2 {
+    @media screen and (min-width: 568px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  // Classe pour forcer 3 éléments par ligne
+  &.nb-contact-by-line-3 {
+    @media screen and (min-width: 992px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  // Classe pour forcer 4 éléments par ligne
+  &.nb-contact-by-line-4 {
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
