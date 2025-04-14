@@ -94,8 +94,10 @@ article > header {
             .r-list-item-group {
                 position: relative;
                 list-style: none;
-                margin: 1rem 0;
-
+                margin: 2rem 0;
+                @media screen and (min-width: 600px) {
+                    margin: 1rem 0;
+                }
                 .r-list-item-link {
                     inset: 0px !important;
                     position: absolute !important;
@@ -140,7 +142,13 @@ article > header {
                         }
 
                         .r-item-title {
+                            display: block;
+                        }
+
+                        .r-item-date {
                             font-weight: bold;
+                            font-size: 1.1rem;
+                            margin-bottom: 0.5rem;
                             display: block;
                         }
 
@@ -230,7 +238,7 @@ article > header {
                         }
 
                         .r-item-categorie {
-                            margin-bottom: 5px;
+                            margin-top: 0.5rem;
                             text-transform: uppercase;
                             color: #747474;
                             font-weight: 400;
@@ -482,6 +490,11 @@ article > header {
     color: #8e8e8e;
     margin-right: 5px;
     font-size: 14px;
+}
+
+.r-add-event-icon {
+    width: 25px;
+    height: 25px;
 }
 
 // //  No Map
