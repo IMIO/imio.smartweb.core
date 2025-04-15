@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.7 (unreleased)
+1.3.7 (2025-04-15)
 ------------------
 
 - Fix base endpoint for imio app (like TS)
