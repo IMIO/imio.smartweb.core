@@ -5,7 +5,8 @@ Changelog
 1.3.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix base endpoint for imio app (like TS)
+  [boulch]
 
 
 1.3.6 (2025-04-10)

@@ -72,17 +72,21 @@ class BaseEndpoint(object):
 class BaseService(Service):
     def render(self):
         referer = self.request.get("HTTP_REFERER", "")
-        if self.context.absolute_url() not in referer:
+        if (
+            self.context.absolute_url() in referer
+            or bool(self.request.form.get("imio_app")) is True
+        ):
+            response = self.request.response
+            response.setHeader("Content-type", "application/json")
+            content = self.reply()
+            return json.dumps(
+                content,
+                indent=2,
+                separators=(", ", ": "),
+            )
+        else:
             self.request.response.setStatus(403)
             return json.dumps({"error": "Forbidden"})
-        response = self.request.response
-        response.setHeader("Content-type", "application/json")
-        content = self.reply()
-        return json.dumps(
-            content,
-            indent=2,
-            separators=(", ", ": "),
-        )
 
 
 class IRestView(Interface):
