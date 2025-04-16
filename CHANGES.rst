@@ -5,7 +5,11 @@ Changelog
 1.3.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Fix json pop to prevent errors when change comme from backoffice
+  [thomlamb]
+
+- Campaign view : Change add comment btn to be visible when there is no comment
+  [thomlamb]
 
 
 1.3.7 (2025-04-15)
