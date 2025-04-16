@@ -80,10 +80,10 @@ class CampaignEndpoint(BaseTsEndpoint):
 
         else:
             # single project
-            json.pop("evolution")
-            json.pop("roles")
-            json.pop("submission")
-            json.pop("user")
+            json.pop("evolution", None)
+            json.pop("roles", None)
+            json.pop("submission", None)
+            json.pop("user", None)
             json_res = json
         # Return a json which represents a project or which contains a list of projects
         return json_res
