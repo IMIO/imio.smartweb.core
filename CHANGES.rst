@@ -5,6 +5,9 @@ Changelog
 1.3.8 (unreleased)
 ------------------
 
+- Fix queries to get zones / topics from e-guichet
+  [boulch]
+
 - Fix json pop to prevent errors when change comme from backoffice
   [thomlamb]
 
