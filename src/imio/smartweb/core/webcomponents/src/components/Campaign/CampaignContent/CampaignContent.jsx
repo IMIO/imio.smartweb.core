@@ -127,8 +127,9 @@ function ContentText({
             };
         }
     }, [item]);
-
-    return (
+    return !item ? (
+        <div>Aucun projet</div>
+    ) : (
         <>
             <article>
                 <header>
@@ -197,17 +198,17 @@ function ContentText({
                                     __html: item.commentaires,
                                 }}
                             />
-                            <div className="campaign-comment-actions">
-                                <a
-                                    href={urlComment}
-                                    target="_blank"
-                                    className="campaign-comment-action-button"
-                                >
-                                    <Translate text="Ajouter un commentaire" />
-                                </a>
-                            </div>
                         </div>
                     )}
+                    <div className="campaign-comment-actions">
+                        <a
+                            href={urlComment}
+                            target="_blank"
+                            className="campaign-comment-action-button"
+                        >
+                            <Translate text="Ajouter un commentaire" />
+                        </a>
+                    </div>
                 </div>
                 {/* add files to download */}
                 {/* {files && (

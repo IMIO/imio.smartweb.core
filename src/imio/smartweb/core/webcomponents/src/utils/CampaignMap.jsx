@@ -38,7 +38,8 @@ function Map(props) {
             return;
         }
         const filterArray = props.items.filter((isgeo) => {
-            if (isgeo.fields) {
+            console.log(isgeo);
+            if (isgeo.fields.geolocalisation) {
                 return (
                     isgeo.fields.geolocalisation.lat &&
                     isgeo.fields.geolocalisation.lat !== 50.4989185 &&
