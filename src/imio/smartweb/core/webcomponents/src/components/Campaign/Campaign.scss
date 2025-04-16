@@ -634,6 +634,23 @@ smartweb-campaign {
         border: solid 1px #bbbbbb;
     }
 }
+
+.campaign-info-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 1rem;
+    div {
+        padding: 5px;
+        background: #f1f1f1;
+        border-radius: 5px;
+        margin-right: 5px;
+        font-size: 14px;
+        i {
+            margin-right: 5px;
+        }
+    }
+}
 // //  No Map
 //   // Main
 .no-map {

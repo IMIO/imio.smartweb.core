@@ -178,6 +178,22 @@ function ContentText({
             <div className="contactCard">
                 <div className="contactText">
                     <div className="r-content-text">
+                        {(item.themes || item.zones) && (
+                            <div className="campaign-info-container">
+                                {item.themes && (
+                                    <div className="campaign-topics">
+                                        <i class="bi bi-tag"></i>
+                                        <span>{item.themes}</span>
+                                    </div>
+                                )}
+                                {item.zones && (
+                                    <div className="campaign-zones">
+                                        <i class="bi bi-geo-alt"></i>
+                                        {item.zones}
+                                    </div>
+                                )}
+                            </div>
+                        )}
                         {item.description && (
                             <div
                                 className="campaign-description"
