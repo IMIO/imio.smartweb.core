@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.3.9 (unreleased)
+1.3.9 (2025-04-23)
 ------------------
 
 - Ideabox : Add suggestion button text in campaign view
