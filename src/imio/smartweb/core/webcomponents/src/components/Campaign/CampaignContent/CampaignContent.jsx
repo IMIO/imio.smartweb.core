@@ -206,7 +206,7 @@ function ContentText({
                     {item.commentaires && (
                         <div className="campaign-comment-container">
                             <p className="campaign-comment-title">
-                                <Translate text="Commentaires" />:
+                                <Translate text="Suggestions" />
                             </p>
                             <div
                                 className="campaign-comment"
@@ -222,7 +222,7 @@ function ContentText({
                             target="_blank"
                             className="campaign-comment-action-button"
                         >
-                            <Translate text="Ajouter un commentaire" />
+                            <Translate text="Ajouter une suggestion" />
                         </a>
                     </div>
                 </div>
