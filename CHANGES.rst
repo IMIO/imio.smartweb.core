@@ -5,7 +5,8 @@ Changelog
 1.3.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Ideabox : Add suggestion button text in campaign view
+  [thomlamb]
 
 
 1.3.8 (2025-04-16)
