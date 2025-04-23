@@ -5,7 +5,9 @@ Changelog
 1.3.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Remove obsolete and unused portal_properties in view_section template
+  PropertiesTool is deprecated in Plone 6.1
+  [bsuttor, remdub]
 
 
 1.3.9 (2025-04-23)
