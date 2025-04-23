@@ -6,7 +6,7 @@ Changelog
 -------------------
 
 - Remove obsolete and unused portal_properties in view_section template
-  PropertiesTool is deprecated in Plone 6.1
+  PropertiesTool is removed in Plone 6.1
   [bsuttor, remdub]
 
 
@@ -80,7 +80,7 @@ Changelog
   Prevent some basic stupid and wicked attack
   [boulch]
 
-- Ideabox : Add status for vote 
+- Ideabox : Add status for vote
   [thomlamb]
 
 
@@ -107,7 +107,7 @@ Changelog
   [thomlamb]
 
 - WEB-4231 : Prevent issues in research when default (agenda, news, directory) views objects were removed
-  [boulch] 
+  [boulch]
 
 
 1.3 (2025-03-04)
@@ -248,7 +248,7 @@ Changelog
 -------------------
 
 - WEB-4199 : Fix missing contacts when there are more contacts than default Plone batching
-  [boulch] 
+  [boulch]
 
 - Replace url by social icon in contact section
   [thomlamb]
@@ -295,11 +295,11 @@ Changelog
 
 - WEB-4024 : Add React event files size
   [thomlamb]
-  
-- WEB-4027 : Add linkedin icon and change Twitter icon to X icon 
+
+- WEB-4027 : Add linkedin icon and change Twitter icon to X icon
   [thomlamb]
 
-- WEB-4146 : Replace created by effective date in news cards 
+- WEB-4146 : Replace created by effective date in news cards
   [thomlamb]
 
 
