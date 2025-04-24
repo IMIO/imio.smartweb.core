@@ -5,6 +5,12 @@ Changelog
 1.3.10 (unreleased)
 -------------------
 
+- GHA tests on Python 3.10 3.11, 3.12 and 3.13
+  [remdub]
+
+- Update Python classifiers to be compatible with Plone 6.1 and Python 3.13
+  [remdub]
+
 - Remove obsolete and unused portal_properties in view_section template
   PropertiesTool is removed in Plone 6.1
   [bsuttor, remdub]
