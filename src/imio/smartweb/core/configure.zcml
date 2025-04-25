@@ -1,9 +1,15 @@
-<configure
-    xmlns="http://namespaces.zope.org/zope">
+<configure xmlns="http://namespaces.zope.org/zope">
 
-  <include package="z3c.unconfigure" file="meta.zcml" />
-  <include package="Products.CMFCore" file="permissions.zcml" />
+  <include
+      package="z3c.unconfigure"
+      file="meta.zcml"
+      />
+  <include
+      package="Products.CMFCore"
+      file="permissions.zcml"
+      />
   <include package="plone.app.imagecropping" />
+  <include package="plone.app.discussion" />
   <include package="eea.facetednavigation" />
   <include package="collective.autopublishing" />
   <include package="collective.faceted.map" />
@@ -14,10 +20,10 @@
   <include package="collective.solr" />
   <include package="collective.taxonomy" />
   <include package="collective.z3cform.datagridfield" />
-  
+
   <!-- Call this one before overrides adapter zope.container.interfaces.INameChooser-->
   <include package="plone.app.content" />
-  
+
   <!-- Temporary fix for plone.gallery 1.0.1 -->
   <include package="plone.app.contentmenu" />
   <include package="plone.gallery" />
