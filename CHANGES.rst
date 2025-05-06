@@ -5,7 +5,8 @@ Changelog
 1.4.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4165 : Add react-helmet pakcage (6.1.0) to manage og tags in directory view
+  [boulch]
 
 
 1.4 (2025-05-06)

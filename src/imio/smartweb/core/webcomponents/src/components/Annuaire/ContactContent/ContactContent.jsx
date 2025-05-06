@@ -5,6 +5,7 @@ import useFilterQuery from "../../../hooks/useFilterQuery";
 import ReactMarkdown from "react-markdown";
 import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
+import { Helmet } from 'react-helmet';
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
@@ -98,7 +99,17 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     const toggleSchedul = () => {
         setSchedulVisibility(!isSchedulVisible);
     };
-    return isLoading ? (
+    return (
+        <>
+        <Helmet>
+        <title>{(item.title || 'Fiche contact') + ' – Annuaire'}</title>
+        <meta property="og:title" content={item.title || 'Fiche contact'} />
+        <meta property="og:description" content={item.description || item.subtitle || ''} />
+        <meta property="og:image" content={item.image_affiche_scale || ''} />
+        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
+        <meta property="og:type" content="profile" />
+        </Helmet>
+        {isLoading ? (
         <div className="lds-roller-container">
             <Translate text="Chargement..." />
             <div className="lds-roller">
@@ -112,7 +123,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                 <div></div>
             </div>
         </div>
-    ) : (
+        ) : (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />
@@ -580,6 +591,8 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                 )}
             </div>
         </div>
+    )}
+    </>
     );
 };
 export default ContactContent;
