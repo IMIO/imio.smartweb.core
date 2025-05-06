@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.3.10 (unreleased)
--------------------
+1.4 (2025-05-06)
+----------------
 
 - Override singlecheckboxtool_hidden.pt to restore the "hidden" type to the hidden checkboxes
   This is a temporary fix, we will issue a PR to fix this en plone.app.z3cform
