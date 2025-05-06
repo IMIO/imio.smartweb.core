@@ -26,11 +26,13 @@ setup(
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
         "Framework :: Plone :: 6.0",
+        "Framework :: Plone :: 6.1",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13",
         "Operating System :: OS Independent",
         "License :: OSI Approved :: GNU General Public License v2 (GPLv2)",
     ],
@@ -56,6 +58,7 @@ setup(
         "z3c.jbot",
         "z3c.unconfigure",
         "plone.api>=1.8.4",
+        "plone.app.discussion",
         "plone.gallery",
         "plone.restapi",
         "plone.app.dexterity",
@@ -78,6 +81,7 @@ setup(
     ],
     extras_require={
         "test": [
+            "mock",
             "plone.app.testing",
             # Plone KGS does not use this version, because it would break
             # Remove if your package shall be part of coredev.

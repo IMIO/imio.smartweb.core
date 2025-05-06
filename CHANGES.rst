@@ -5,7 +5,20 @@ Changelog
 1.3.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Override singlecheckboxtool_hidden.pt to restore the "hidden" type to the hidden checkboxes
+  This is a temporary fix, we will issue a PR to fix this en plone.app.z3cform
+  See https://github.com/plone/plone.app.z3cform/commit/6351cf60d408d4a76743741db45093c8e5a1c4de
+  [remdub]
+
+- GHA tests on Python 3.10 3.11, 3.12 and 3.13
+  [remdub]
+
+- Update Python classifiers to be compatible with Plone 6.1 and Python 3.13
+  [remdub]
+
+- Remove obsolete and unused portal_properties in view_section template
+  PropertiesTool is removed in Plone 6.1
+  [bsuttor, remdub]
 
 
 1.3.9 (2025-04-23)
@@ -78,7 +91,7 @@ Changelog
   Prevent some basic stupid and wicked attack
   [boulch]
 
-- Ideabox : Add status for vote 
+- Ideabox : Add status for vote
   [thomlamb]
 
 
@@ -105,7 +118,7 @@ Changelog
   [thomlamb]
 
 - WEB-4231 : Prevent issues in research when default (agenda, news, directory) views objects were removed
-  [boulch] 
+  [boulch]
 
 
 1.3 (2025-03-04)
@@ -246,7 +259,7 @@ Changelog
 -------------------
 
 - WEB-4199 : Fix missing contacts when there are more contacts than default Plone batching
-  [boulch] 
+  [boulch]
 
 - Replace url by social icon in contact section
   [thomlamb]
@@ -293,11 +306,11 @@ Changelog
 
 - WEB-4024 : Add React event files size
   [thomlamb]
-  
-- WEB-4027 : Add linkedin icon and change Twitter icon to X icon 
+
+- WEB-4027 : Add linkedin icon and change Twitter icon to X icon
   [thomlamb]
 
-- WEB-4146 : Replace created by effective date in news cards 
+- WEB-4146 : Replace created by effective date in news cards
   [thomlamb]
 
 

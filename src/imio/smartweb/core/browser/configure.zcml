@@ -1,11 +1,15 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
-    xmlns:z3c="http://namespaces.zope.org/z3c"
     xmlns:browser="http://namespaces.zope.org/browser"
-    xmlns:plone="http://namespaces.plone.org/plone">
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    >
 
   <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
-  <include package="z3c.jbot" file="meta.zcml" />
+  <include
+      package="z3c.jbot"
+      file="meta.zcml"
+      />
   <browser:jbot
       directory="overrides"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
@@ -23,22 +27,22 @@
 
   <!-- Publish static files -->
   <plone:static
+      directory="static"
       name="imio.smartweb.core"
       type="plone"
-      directory="static"
       />
 
   <browser:page
-      for="*"
       name="plone_layout"
+      for="*"
       class=".layout.LayoutPolicy"
       permission="zope.Public"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
   <browser:page
-      for="*"
       name="smartwebiconresolver"
+      for="*"
       class=".icons.SmartwebIconsView"
       permission="zope.Public"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
@@ -56,23 +60,23 @@
       name="utils"
       for="*"
       class=".utils.UtilsView"
-      permission="zope2.View"
       allowed_attributes="is_previewable_content map_configuration is_plausible_set"
+      permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
   <!-- Custom edit view -->
   <browser:page
-      for="plone.dexterity.interfaces.IDexterityContent"
       name="edit"
+      for="plone.dexterity.interfaces.IDexterityContent"
       class=".forms.SmartwebCustomEditView"
       permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
   <browser:page
-      for="*"
       name="has_gdpr_text"
+      for="*"
       class=".utils.UtilsView"
       attribute="has_gdpr_text"
       permission="zope.Public"
@@ -80,8 +84,8 @@
       />
 
   <browser:page
-      for="*"
       name="is_eguichet_aware"
+      for="*"
       class=".utils.UtilsView"
       attribute="is_eguichet_aware"
       permission="zope.Public"
@@ -145,10 +149,18 @@
       />
 
   <z3c:widgetTemplate
-      mode="input"
       widget="plone.app.z3cform.interfaces.ILinkWidget"
-      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       template="templates/link_input.pt"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      mode="input"
+      />
+
+  <z3c:widgetTemplate
+      field="zope.schema.interfaces.IBool"
+      widget="plone.app.z3cform.interfaces.ISingleCheckBoxBoolWidget"
+      template="templates/singlecheckboxbool_hidden.pt"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      mode="hidden"
       />
 
 </configure>

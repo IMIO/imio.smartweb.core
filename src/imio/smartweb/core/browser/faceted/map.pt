@@ -32,9 +32,7 @@
 
 
             <div class=""
-                 tal:define="portal_type brain/portal_type|string:;
-                   useViewTypes brain/portal_properties/site_properties/typesUseViewActionInListings|python:[];
-                   useView python:portal_type in useViewTypes;"
+                 tal:define="portal_type brain/portal_type|string:;"
                  tal:attributes="data-index python:self.get_index(brain);
                                  class python:self.css_class(brain)">
               <a tal:define="description brain/Description|string:;

@@ -20,8 +20,7 @@
                             lang portal_state/language;
                             dummy python: plone_layout.mark_view(view);
                             portal_url portal_state/portal_url;
-                            checkPermission nocall: context/portal_membership/checkPermission;
-                            site_properties context/portal_properties/site_properties;">
+                            checkPermission nocall: context/portal_membership/checkPermission;">
 
         <div metal:use-macro="item_macro">
           content

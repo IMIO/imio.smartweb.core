@@ -3,6 +3,7 @@
   <version>1068</version>
   <dependencies>
     <dependency>profile-plone.app.dexterity:default</dependency>
+    <dependency>profile-plone.app.discussion:default</dependency>
     <dependency>profile-plone.app.imagecropping:default</dependency>
     <dependency>profile-eea.facetednavigation:default</dependency>
     <dependency>profile-collective.anysurfer:default</dependency>
