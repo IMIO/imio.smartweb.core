@@ -18,6 +18,33 @@ const ContactList = ({ contactArray, onChange, onHover, contextAuthenticatedUser
     useEffect(() => {
         window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
     }, [contactArray]);
+
+    useEffect(() => {
+        const metaUpdates = [
+            { name: "description", content: "Annuaire" },
+            { property: "og:title", content: "Annuaire" },
+            { property: "og:description", content: "Annuaire" },
+            { property: "og:image", content: "" },
+            { property: "og:image:width", content: "" },
+            { property: "og:image:height", content: "" },
+            { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
+            { property: "og:type", content: "website" },
+        ];
+
+        metaUpdates.forEach(({ name, property, content }) => {
+            const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+            let tag = document.head.querySelector(selector);
+
+            if (!tag) {
+                tag = document.createElement("meta");
+                if (name) tag.setAttribute("name", name);
+                if (property) tag.setAttribute("property", property);
+                document.head.appendChild(tag);
+            }
+
+            tag.setAttribute("content", content);
+        });
+    }, []);
     return (
         <React.Fragment>
             <ul className="r-result-list annuaire-result-list">

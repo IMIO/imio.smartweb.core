@@ -5,7 +5,6 @@ import useFilterQuery from "../../../hooks/useFilterQuery";
 import ReactMarkdown from "react-markdown";
 import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
-import { Helmet } from 'react-helmet';
 import { Translate } from "react-translated";
 import queryString from "query-string";
 
@@ -62,6 +61,40 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         }
     }, [item]);
 
+    useEffect(() => {
+        if (!item || !item.title) return;
+        // Met à jour le titre de la page
+        document.title = item.title;
+
+        const ogImageWidth = image ? image.width : "";
+        const ogImageHeight = image ? image.height : "";
+
+        const metaUpdates = [
+            { name: "description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
+            { property: "og:title", content: item.title },
+            { property: "og:description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
+            { property: "og:image", content: item.image_affiche_scale || "" },
+            { property: "og:image:width", content: ogImageWidth },
+            { property: "og:image:height", content: ogImageHeight },
+            { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
+            { property: "og:type", content: "profile" },
+        ];
+
+        metaUpdates.forEach(({ name, property, content }) => {
+            const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+            let tag = document.head.querySelector(selector);
+
+            if (!tag) {
+                tag = document.createElement("meta");
+                if (name) tag.setAttribute("name", name);
+                if (property) tag.setAttribute("property", property);
+                document.head.appendChild(tag);
+            }
+
+            tag.setAttribute("content", content);
+        });
+    }, [item, image]); // Ajoute image dans le tableau de dépendances    
+
     // set social link
     useEffect(() => {
         item.urls && setSocial(item.urls.filter((urls) => urls.type !== "website"));
@@ -99,17 +132,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     const toggleSchedul = () => {
         setSchedulVisibility(!isSchedulVisible);
     };
-    return (
-        <>
-        <Helmet>
-        <title>{(item.title || 'Fiche contact') + ' – Annuaire'}</title>
-        <meta property="og:title" content={item.title || 'Fiche contact'} />
-        <meta property="og:description" content={item.description || item.subtitle || ''} />
-        <meta property="og:image" content={item.image_affiche_scale || ''} />
-        <meta property="og:url" content={typeof window !== 'undefined' ? window.location.href : ''} />
-        <meta property="og:type" content="profile" />
-        </Helmet>
-        {isLoading ? (
+    return isLoading ? (
         <div className="lds-roller-container">
             <Translate text="Chargement..." />
             <div className="lds-roller">
@@ -123,7 +146,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                 <div></div>
             </div>
         </div>
-        ) : (
+    ) : (
         <div className="annuaire-content r-content">
             <button type="button" onClick={handleClick}>
                 <Translate text="Retour" />
@@ -591,8 +614,6 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                 )}
             </div>
         </div>
-    )}
-    </>
     );
 };
 export default ContactContent;

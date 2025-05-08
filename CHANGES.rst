@@ -5,6 +5,10 @@ Changelog
 1.4.1 (unreleased)
 ------------------
 
+- WEB-4165 : Refactoring : Don't use react-helmet/react-helmet-async anymore to manage og tags in directory view
+  because of duplicated og:tags. Favor for creating og:tags in header viewlet (SSR) and update it thanks to REACT script  
+  [boulch]
+
 - WEB-4165 : Add react-helmet pakcage (6.1.0) to manage og tags in directory view
   [boulch]
 

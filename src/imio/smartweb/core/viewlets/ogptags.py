@@ -109,7 +109,10 @@ class OgpTagsViewlet(HeaderViewlet):
     def description(self):
         if not self._item:
             return ""
-        return self._item.get("description", "")
+        subtitle = self._item.get("subtitle", "")
+        description = self._item.get("description", "")
+        result = " - ".join(filter(None, [subtitle, description]))
+        return result
 
     @property
     def url(self):
