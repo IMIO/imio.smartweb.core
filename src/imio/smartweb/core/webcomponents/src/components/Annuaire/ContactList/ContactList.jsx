@@ -20,13 +20,33 @@ const ContactList = ({ contactArray, onChange, onHover, contextAuthenticatedUser
     }, [contactArray]);
 
     useEffect(() => {
+        // Liste complète de toutes les balises possibles
+        const allMetaProps = [
+            { name: "description" },
+            { property: "og:title" },
+            { property: "og:description" },
+            { property: "og:url" },
+            { property: "og:type" },
+            { property: "og:image" },
+            { property: "og:image:type" },
+            { property: "og:image:alt" },
+            { property: "og:image:width" },
+            { property: "og:image:height" },
+        ];
+    
+        // Supprime les anciennes balises
+        allMetaProps.forEach(({ name, property }) => {
+            const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+            const existing = document.head.querySelector(selector);
+            if (existing) {
+                document.head.removeChild(existing);
+            }
+        });
+
         const metaUpdates = [
             { name: "description", content: "Annuaire" },
             { property: "og:title", content: "Annuaire" },
             { property: "og:description", content: "Annuaire" },
-            { property: "og:image", content: "" },
-            { property: "og:image:width", content: "" },
-            { property: "og:image:height", content: "" },
             { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
             { property: "og:type", content: "website" },
         ];

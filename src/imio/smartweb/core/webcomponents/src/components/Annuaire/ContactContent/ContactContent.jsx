@@ -63,37 +63,60 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
 
     useEffect(() => {
         if (!item || !item.title) return;
-        // Met à jour le titre de la page
         document.title = item.title;
-
-        const ogImageWidth = image ? image.width : "";
-        const ogImageHeight = image ? image.height : "";
-
+    
+        const ogImageWidth = image?.width || "";
+        const ogImageHeight = image?.height || "";
+    
+        // Liste complète de toutes les balises possibles
+        const allMetaProps = [
+            { name: "description" },
+            { property: "og:title" },
+            { property: "og:description" },
+            { property: "og:url" },
+            { property: "og:type" },
+            { property: "og:image" },
+            { property: "og:image:type" },
+            { property: "og:image:alt" },
+            { property: "og:image:width" },
+            { property: "og:image:height" },
+        ];
+    
+        // Supprime les anciennes balises
+        allMetaProps.forEach(({ name, property }) => {
+            const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+            const existing = document.head.querySelector(selector);
+            if (existing) {
+                document.head.removeChild(existing);
+            }
+        });
+    
+        // Recrée les balises à jour
         const metaUpdates = [
             { name: "description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
             { property: "og:title", content: item.title },
             { property: "og:description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
-            { property: "og:image", content: item.image_affiche_scale || "" },
-            { property: "og:image:width", content: ogImageWidth },
-            { property: "og:image:height", content: ogImageHeight },
             { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
             { property: "og:type", content: "profile" },
         ];
-
-        metaUpdates.forEach(({ name, property, content }) => {
-            const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
-            let tag = document.head.querySelector(selector);
-
-            if (!tag) {
-                tag = document.createElement("meta");
-                if (name) tag.setAttribute("name", name);
-                if (property) tag.setAttribute("property", property);
-                document.head.appendChild(tag);
+    
+        if (item.image_affiche_scale) {
+            metaUpdates.push({ property: "og:image", content: item.image_affiche_scale });
+    
+            if (ogImageWidth && ogImageHeight) {
+                metaUpdates.push({ property: "og:image:width", content: ogImageWidth });
+                metaUpdates.push({ property: "og:image:height", content: ogImageHeight });
             }
-
+        }
+    
+        metaUpdates.forEach(({ name, property, content }) => {
+            const tag = document.createElement("meta");
+            if (name) tag.setAttribute("name", name);
+            if (property) tag.setAttribute("property", property);
             tag.setAttribute("content", content);
+            document.head.appendChild(tag);
         });
-    }, [item, image]); // Ajoute image dans le tableau de dépendances    
+    }, [item, image]);
 
     // set social link
     useEffect(() => {

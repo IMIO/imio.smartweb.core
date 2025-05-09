@@ -25,6 +25,53 @@ const ContactList = ({
         window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
     }, [itemsArray]);
 
+    useEffect(() => {
+        // Liste complète de toutes les balises possibles
+        const allMetaProps = [
+            { name: "description" },
+            { property: "og:title" },
+            { property: "og:description" },
+            { property: "og:url" },
+            { property: "og:type" },
+            { property: "og:image" },
+            { property: "og:image:type" },
+            { property: "og:image:alt" },
+            { property: "og:image:width" },
+            { property: "og:image:height" },
+        ];
+    
+        // Supprime les anciennes balises
+        allMetaProps.forEach(({ name, property }) => {
+            const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+            const existing = document.head.querySelector(selector);
+            if (existing) {
+                document.head.removeChild(existing);
+            }
+        });
+
+        const metaUpdates = [
+            { name: "description", content: "Agenda" },
+            { property: "og:title", content: "Agenda" },
+            { property: "og:description", content: "Agenda" },
+            { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
+            { property: "og:type", content: "website" },
+        ];
+
+        metaUpdates.forEach(({ name, property, content }) => {
+            const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
+            let tag = document.head.querySelector(selector);
+
+            if (!tag) {
+                tag = document.createElement("meta");
+                if (name) tag.setAttribute("name", name);
+                if (property) tag.setAttribute("property", property);
+                document.head.appendChild(tag);
+            }
+
+            tag.setAttribute("content", content);
+        });
+    }, []);
+
     return (
         <React.Fragment>
             <ul className="r-result-list event-result-list">
