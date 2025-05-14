@@ -45,7 +45,6 @@ function EventsView(props) {
     const { u, ...parsed } = Object.assign(
         {
             b_start: 0,
-            fullobjects: 1,
             "event_dates.query": [moment().format("YYYY-MM-DD")],
             "event_dates.range": props.onlyPastEvents === "True" ? "max" : "min",
         },

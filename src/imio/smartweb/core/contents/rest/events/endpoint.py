@@ -11,6 +11,12 @@ from zope.interface import Interface
 
 
 class BaseEventsEndpoint(BaseEndpoint):
+    def __init__(self, context, request, fullobjects=0, batch_size=0):
+        self.fullobjects = fullobjects
+        super(BaseEventsEndpoint, self).__init__(
+            context, request, fullobjects=fullobjects, batch_size=batch_size
+        )
+
     def __call__(self):
         results = super(BaseEventsEndpoint, self).__call__() or {}
         if not results or not results.get("items"):
@@ -34,14 +40,56 @@ class BaseEventsEndpoint(BaseEndpoint):
     def query_url(self):
         params = [
             "selected_agendas={}".format(self.context.selected_agenda),
+            "metadata_fields=title_nl",
+            "metadata_fields=title_en",
+            "metadata_fields=title_de",
+            "metadata_fields=title_fr",
+            "metadata_fields=description",
+            "metadata_fields=description_nl",
+            "metadata_fields=description_en",
+            "metadata_fields=description_de",
+            "metadata_fields=description_fr",
+            "metadata_fields=latitude",
+            "metadata_fields=longitude",
+            "metadata_fields=city",
+            "metadata_fields=number",
+            "metadata_fields=street",
+            "metadata_fields=zipcode",
+            "metadata_fields=complement",
+            "metadata_fields=country",
+            "metadata_fields=contact_name",
+            "metadata_fields=contact_phone",
+            "metadata_fields=contact_email",
+            "metadata_fields=event_type",
+            "metadata_fields=event_url",
+            "metadata_fields=video_url",
+            "metadata_fields=facebook",
+            "metadata_fields=instagram",
+            "metadata_fields=twitter",
+            "metadata_fields=free_entry",
+            "metadata_fields=online_participation",
+            "metadata_fields=open_end",
+            "metadata_fields=topics",
             "metadata_fields=category",
             "metadata_fields=local_category",
-            "metadata_fields=container_uid",
-            "metadata_fields=topics",
+            "metadata_fields=iam",
+            "metadata_fields=usefull_container_id",
+            "metadata_fields=usefull_container_title",
+            "metadata_fields=whole_day",
+            "metadata_fields=created",
+            "metadata_fields=effective",
+            "metadata_fields=modified",
             "metadata_fields=start",
             "metadata_fields=end",
+            "metadata_fields=first_end",
+            "metadata_fields=first_start",
+            "metadata_fields=expires",
+            "metadata_fields=exclude_from_nav",
+            "metadata_fields=container_uid",
+            "metadata_fields=image_caption",
             "metadata_fields=has_leadimage",
             "metadata_fields=UID",
+            "metadata_fields=language",
             "sort_on=event_dates",
             "fullobjects={}".format(self.fullobjects),
         ]
@@ -73,7 +121,7 @@ class EventsEndpointGet(BaseService):
     def reply(self):
         return EventsEndpoint(self.context, self.request)()
 
-    def reply_for_given_object(self, obj, request, fullobjects=1, batch_size=0):
+    def reply_for_given_object(self, obj, request, fullobjects=0, batch_size=0):
         return EventsEndpoint(
             obj, request, fullobjects=fullobjects, batch_size=batch_size
         )()

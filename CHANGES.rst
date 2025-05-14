@@ -5,7 +5,8 @@ Changelog
 1.4.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4234 : Avoid using fullobjects when we get events from Agenda authentic sources
+  [boulch]
 
 
 1.4.1 (2025-05-14)
