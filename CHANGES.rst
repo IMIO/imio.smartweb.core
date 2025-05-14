@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.1 (unreleased)
+1.4.1 (2025-05-14)
 ------------------
 
 - WEB-4165 : Add the React script to manage og tags in other views (Agenda / News)
