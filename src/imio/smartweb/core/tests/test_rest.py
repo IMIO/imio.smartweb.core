@@ -433,7 +433,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=UID&"
             "metadata_fields=language&"
             "sort_on=event_dates&"
-            "fullobjects=1&"
+            "fullobjects=0&"
             "b_size=20&"
             "event_type=event-driven&"
             "translated_in_en=1".format(self.rest_events.selected_agenda),
