@@ -1,8 +1,17 @@
-#contentview-preview .icon-preview:before {
-  content: '\e833';
+.modal-wrapper .pattern-modal-buttons {
+  display: flex;
+  gap: 0 10px;
 }
 
-.pat-sortable> :hover {
+div#formfield-form-widgets-basic_analytics {
+  order: initial !important;
+}
+
+#contentview-preview .icon-preview:before {
+  content: "\e833";
+}
+
+.pat-sortable > :hover {
   cursor: move;
 }
 
@@ -63,21 +72,21 @@ ul.plonetoolbar-smartweb-help-menu {
 }
 
 a.manage[class*="contenttype-imio-smartweb-"] {
-    &:before {
-        display: none;
-    }
-    svg {
-      margin-right: 5px;
-    }
+  &:before {
+    display: none;
+  }
+  svg {
+    margin-right: 5px;
+  }
 }
 
 // layout select
 
 .manage-section .form_section_size option {
-  font-size: 15px;    
+  font-size: 15px;
 }
 .manage-section .form_section_size option:before {
-  content:"";
+  content: "";
   display: block;
   width: 40px;
   aspect-ratio: 16/9;

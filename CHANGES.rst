@@ -5,6 +5,9 @@ Changelog
 1.4.2 (unreleased)
 ------------------
 
+- WEB-4218 : Fix cookie modal tab index and improve ux
+  [thomlamb]
+
 - WEB-4234 : Avoid using fullobjects when we get events from Agenda authentic sources
   [boulch]
 
