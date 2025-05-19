@@ -108,9 +108,19 @@ def check_image_field(obj, interface, class_name, field_name):
         logger.info(f"No existing cropping to purge for {field_name}.")
 
 
+def clear_image_scales(obj, event):
+    if not hasattr(obj, "image"):
+        return
+    if obj.image is None:
+        annotations = IAnnotations(obj)
+        if "plone.scale" in annotations:
+            del annotations["plone.scale"]
+
+
 def modified_content(obj, event):
     if not hasattr(event, "descriptions") or not event.descriptions:
         return
+    clear_image_scales(obj, event)
     for d in event.descriptions:
         if not IAttributes.providedBy(d):
             # we do not have fields change description, but maybe a request

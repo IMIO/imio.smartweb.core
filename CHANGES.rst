@@ -5,6 +5,10 @@ Changelog
 1.4.2 (unreleased)
 ------------------
 
+- WEB-4242 : Clear scales annotations when we remove lead image from an object
+  Avoid scale is still accessible with direct link
+  [boulch]
+
 - WEB-4218 : Fix cookie modal tab index and improve ux
   [thomlamb]
 

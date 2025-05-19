@@ -12,12 +12,19 @@ from plone.app.dexterity.behaviors.metadata import IBasic
 from plone.app.imagecropping import PAI_STORAGE_KEY
 from plone.app.imagecropping.interfaces import IImageCroppingUtils
 from plone.app.testing import TEST_USER_ID
+from plone.app.testing import TEST_USER_NAME
+from plone.app.testing import TEST_USER_PASSWORD
 from plone.app.testing import setRoles
 from plone.namedfile.file import NamedBlobImage
+from plone.testing.zope import Browser
+from unittest.mock import patch
+from urllib.error import HTTPError
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getMultiAdapter
 from zope.lifecycleevent import Attributes
 from zope.lifecycleevent import modified
+
+import transaction
 
 
 class TestCropping(ImioSmartwebTestCase):
@@ -148,3 +155,49 @@ class TestCropping(ImioSmartwebTestCase):
         )
         annotation = IAnnotations(self.folder).get(PAI_STORAGE_KEY)
         self.assertEqual(annotation, {})
+
+    def test_removing_image_and_scales(self):
+        self.folder.image = NamedBlobImage(**make_named_image("plone.png"))
+        modified(
+            self.folder, Attributes(ILeadImageBehavior, "ILeadImageBehavior.image")
+        )
+        scales = self.folder.restrictedTraverse("@@images")
+        image = scales.scale("image", scale="paysage_vignette")
+        image_url = image.url
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_NAME,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open(image_url)
+        content = browser.contents
+        # Got picture.
+        self.assertIsInstance(content, bytes)
+
+        # Old situation before fix
+        # Ensure browser still can access the image URL
+        # Situation BEFORE we make clear_image_scales function
+        self.folder.image = None  # remive image from object
+        with patch("imio.smartweb.core.subscribers.clear_image_scales") as mock_clear:
+            modified(
+                self.folder, Attributes(ILeadImageBehavior, "ILeadImageBehavior.image")
+            )
+            transaction.commit()
+            browser.open(image_url)
+            content = browser.contents
+            self.assertIsInstance(content, bytes)
+
+        # New situation with fix
+        # Call subrscriber and pass in "real" clear_image_scales function
+        modified(
+            self.folder, Attributes(ILeadImageBehavior, "ILeadImageBehavior.image")
+        )
+        transaction.commit()
+        with self.assertRaises(HTTPError) as context:
+            browser.open(image_url)
+            self.assertIn("NotFound", str(context.exception))
