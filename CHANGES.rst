@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.3 (unreleased)
+1.4.3 (2025-05-20)
 ------------------
 
 - WEB-4218 : move (Fix cookie modal tab index and improve ux) into view.less
