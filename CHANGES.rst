@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.2 (unreleased)
+1.4.2 (2025-05-20)
 ------------------
 
 - WEB-4242 : Clear scales annotations when we remove lead image from an object
