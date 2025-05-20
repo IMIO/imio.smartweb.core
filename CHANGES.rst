@@ -5,7 +5,8 @@ Changelog
 1.4.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4218 : move (Fix cookie modal tab index and improve ux) into view.less
+  [thomlamb]
 
 
 1.4.2 (2025-05-20)
