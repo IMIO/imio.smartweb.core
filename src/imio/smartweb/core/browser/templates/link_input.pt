@@ -11,8 +11,8 @@
         <div>
           <div class="mb-3 main">
             <!-- this gives the name to the "linkType" -->
-            <input type="text" name="internal" class="pat-relateditems"
-                    tal:attributes="data-pat-relateditems view/pattern_data;
+            <input type="text" name="internal" class="pat-contentbrowser"
+                    tal:attributes="data-pat-contentbrowser view/pattern_data;
                                     value value;
                                     name string:${view/name}.internal" />
           </div>

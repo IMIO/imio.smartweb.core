@@ -5,6 +5,9 @@ Changelog
 1.4.4 (unreleased)
 ------------------
 
+- WEB-4256 : Use pat-contentbrowser instead of pat-relateditems for links
+  [remdub]
+
 - WEB-4252 : Increase timeout for section events
   [boulch]
 
@@ -36,7 +39,7 @@ Changelog
   [boulch]
 
 - WEB-4165 : Refactoring : Don't use react-helmet/react-helmet-async anymore to manage og tags in directory view
-  because of duplicated og:tags. Favor for creating og:tags in header viewlet (SSR) and update it thanks to REACT script  
+  because of duplicated og:tags. Favor for creating og:tags in header viewlet (SSR) and update it thanks to REACT script
   [boulch]
 
 - WEB-4165 : Add react-helmet pakcage (6.1.0) to manage og tags in directory view
