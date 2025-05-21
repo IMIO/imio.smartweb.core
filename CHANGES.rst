@@ -5,8 +5,8 @@ Changelog
 1.4.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
-
+- WEB-4252 : Increase timeout for section events
+  [boulch]
 
 1.4.3 (2025-05-20)
 ------------------

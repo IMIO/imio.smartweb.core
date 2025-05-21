@@ -52,7 +52,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "sort_on=event_dates",
             ]
         url = "{}/@events?{}".format(EVENTS_URL, "&".join(params))
-        self.json_data = get_json(url)
+        self.json_data = get_json(url, timeout=15)
         self.json_data = remove_cache_key(self.json_data)
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:
