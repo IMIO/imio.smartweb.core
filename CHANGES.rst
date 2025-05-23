@@ -5,6 +5,9 @@ Changelog
 1.4.4 (unreleased)
 ------------------
 
+- Fix bad catalog query when we get contacts from directory
+  [boulch]
+
 - WEB-4252 : Increase timeout for section events
   [boulch]
 

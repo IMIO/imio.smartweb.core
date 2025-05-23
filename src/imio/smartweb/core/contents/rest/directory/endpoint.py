@@ -52,7 +52,7 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             params.append("b_size={}".format(self.context.nb_results))
         else:
             params.append("b_size={}".format(self.batch_size))
-        if self.context.selected_categories is not None:
+        if self.context.selected_categories:
             for category in self.context.selected_categories:
                 params.append(f"taxonomy_contact_category.query={category}")
             params.append("taxonomy_contact_category.operator=or")
