@@ -5,7 +5,9 @@ Changelog
 1.4.7 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4256 : Use pat-contentbrowser instead of pat-relateditems for
+  links, quickaccess collectionssection, eventssection and newssection
+  [remdub]
 
 
 1.4.6 (2025-06-26)
@@ -36,8 +38,7 @@ Changelog
 
 - Fix bad catalog query when we get contacts from directory
   [boulch]
-- WEB-4256 : Use pat-contentbrowser instead of pat-relateditems for links
-  [remdub]
+
 - Fix bad catalog query when we get contacts from directory
   [boulch]
 
