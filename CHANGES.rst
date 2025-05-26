@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.4 (unreleased)
+1.4.4 (2025-05-26)
 ------------------
 
 - Fix bad catalog query when we get contacts from directory
