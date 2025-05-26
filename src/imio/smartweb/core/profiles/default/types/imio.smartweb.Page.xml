@@ -19,7 +19,7 @@
   <property name="filter_content_types">True</property>
   <property name="allowed_content_types">
     <element value="imio.smartweb.SectionContact" />
-    <element value="imio.smartweb.SectionExternalContent" />
+    <element value="imio.smartweb.SectionExternalContent" />    
     <element value="imio.smartweb.SectionFiles" />
     <element value="imio.smartweb.SectionGallery" />
     <element value="imio.smartweb.SectionHTML" />
@@ -28,6 +28,7 @@
     <element value="imio.smartweb.SectionPostit" />
     <element value="imio.smartweb.SectionSelections" />
     <element value="imio.smartweb.SectionText" />
+    <element value="imio.smartweb.SectionTimestampedPublications" />
     <element value="imio.smartweb.SectionVideo" />
   </property>
   <!-- Schema, class and security -->

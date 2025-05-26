@@ -5,7 +5,7 @@ Changelog
 1.4.5 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4268 : Added imio.smartweb.SectionTimeStampedPublicatons to Page and PortalPage
 
 
 1.4.4 (2025-05-26)

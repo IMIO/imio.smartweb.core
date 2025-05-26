@@ -32,6 +32,7 @@
     <element value="imio.smartweb.SectionSelections" />
     <element value="imio.smartweb.SectionSendinblue" />
     <element value="imio.smartweb.SectionText" />
+    <element value="imio.smartweb.SectionTimestampedPublications" />
     <element value="imio.smartweb.SectionVideo" />
   </property>
   <!-- Schema, class and security -->
