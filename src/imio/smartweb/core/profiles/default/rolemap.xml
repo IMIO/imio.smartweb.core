@@ -83,6 +83,11 @@
       <role name="Site Administrator"/>
     </permission>
 
+    <permission name="imio.smartweb.core: Manage site admin control panel" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+    </permission>
+
   </permissions>
 
 </rolemap>

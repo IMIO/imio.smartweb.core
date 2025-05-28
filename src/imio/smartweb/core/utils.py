@@ -9,11 +9,13 @@ from more_itertools import chunked
 from plone import api
 from plone.app.multilingual.interfaces import ILanguageRootFolder
 from plone.dexterity.interfaces import IDexterityContent
+from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
 from urllib.parse import urlparse, urlunparse
 from zope.component import getSiteManager
+from zope.component import getUtility
 from zope.component import queryMultiAdapter
 
 import base64
@@ -279,3 +281,21 @@ def remove_cache_key(json_data: dict) -> dict:
                 json_data["batching"][key] = pattern.sub("", json_data["batching"][key])
 
     return json_data
+
+
+def populate_procedure_button_text():
+    """Populate the procedure_button_text in the control panel registry."""
+    registry = getUtility(IRegistry)
+    current = registry.get("smartweb.procedure_button_text", None)
+    if not current:
+        logger.info("Populating smartweb.procedure_button_text in registry")
+    registry["smartweb.procedure_button_text"] = [
+        {"language": "en", "text": "Complete this procedure online"},
+        {"language": "fr", "text": "Effectuer cette démarche en ligne"},
+        {"language": "nl", "text": "Voltooi deze procedure online"},
+        {"language": "de", "text": "Diese Prozedur online abschließen"},
+        {"language": "en", "text": "Apply"},
+        {"language": "fr", "text": "Postuler"},
+        {"language": "nl", "text": "Solliciteren"},
+        {"language": "de", "text": "Bewerben"},
+    ]

@@ -74,4 +74,10 @@
     description=""
     />
 
+  <permission
+    id="imio.smartweb.core.ManageSiteAdminControlPanel"
+    title="imio.smartweb.core: Manage site admin control panel"
+    description=""
+    />
+
 </configure>

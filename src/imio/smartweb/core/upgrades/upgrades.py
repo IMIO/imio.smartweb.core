@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.utils import populate_procedure_button_text
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
@@ -13,7 +14,6 @@ from plone.registry.interfaces import IRegistry
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.schema import getFieldNames
-from zope.schema import TextLine
 
 import logging
 
@@ -291,3 +291,7 @@ def update_control_panel_combo_api_fieldname(context):
         logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
     except KeyError:
         logger.info("La clé 'smartweb.url_formdefs_api' n'existe pas dans le registre.")
+
+
+def populate_procedure_button_text(context):
+    populate_procedure_button_text()
