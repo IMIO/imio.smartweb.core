@@ -74,7 +74,7 @@ def format_sitemap_items(items, base_url):
     formatted_items = []
     for item in items:
         item_id = normalizeString(item.get("title"))
-        item_uid = item.get("id")
+        item_uid = item.get("UID")
         lastmod = item.get("modified") or "1970-01-01T00:00:00Z"
         formatted_items.append(
             {

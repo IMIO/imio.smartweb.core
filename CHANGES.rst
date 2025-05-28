@@ -5,7 +5,11 @@ Changelog
 1.4.5 (unreleased)
 ------------------
 
+- SUP-44089 : Fix sitemap. old id was used for some "copied/pasted contacts". Now we are using "real/updated" uid
+  [boulch]
+
 - WEB-4268 : Added imio.smartweb.SectionTimeStampedPublicatons to Page and PortalPage
+  [boulch]
 
 
 1.4.4 (2025-05-26)
@@ -16,6 +20,7 @@ Changelog
 
 - WEB-4252 : Increase timeout for section events
   [boulch]
+
 
 1.4.3 (2025-05-20)
 ------------------
