@@ -187,4 +187,10 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
+  <utility
+      name="imio.smartweb.vocabulary.ProcedureButtonLabels"
+      component=".vocabularies.ProcedureButtonLabelVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
 </configure>

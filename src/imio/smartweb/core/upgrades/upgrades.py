@@ -2,7 +2,9 @@
 
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
-from imio.smartweb.core.utils import populate_procedure_button_text
+from imio.smartweb.core.utils import (
+    populate_procedure_button_text as utils_populate_procedure_button_text,
+)
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
@@ -294,4 +296,4 @@ def update_control_panel_combo_api_fieldname(context):
 
 
 def populate_procedure_button_text(context):
-    populate_procedure_button_text()
+    utils_populate_procedure_button_text()

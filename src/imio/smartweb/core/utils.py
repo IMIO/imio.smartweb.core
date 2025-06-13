@@ -287,15 +287,21 @@ def populate_procedure_button_text():
     """Populate the procedure_button_text in the control panel registry."""
     registry = getUtility(IRegistry)
     current = registry.get("smartweb.procedure_button_text", None)
-    if not current:
-        logger.info("Populating smartweb.procedure_button_text in registry")
+    # if not current:
+    #     logger.info("Populating smartweb.procedure_button_text in registry")
     registry["smartweb.procedure_button_text"] = [
-        {"language": "en", "text": "Complete this procedure online"},
-        {"language": "fr", "text": "Effectuer cette démarche en ligne"},
-        {"language": "nl", "text": "Voltooi deze procedure online"},
-        {"language": "de", "text": "Diese Prozedur online abschließen"},
-        {"language": "en", "text": "Apply"},
-        {"language": "fr", "text": "Postuler"},
-        {"language": "nl", "text": "Solliciteren"},
-        {"language": "de", "text": "Bewerben"},
+        {
+            "label_id": "label-1",
+            "label_fr": "Effectuer cette démarche en ligne",
+            "label_nl": "Voltooi deze procedure online",
+            "label_de": "Diese Prozedur online abschließen",
+            "label_en": "Complete this procedure online",
+        },
+        {
+            "label_id": "label-2",
+            "label_fr": "Postuler",
+            "label_nl": "Solliciteren",
+            "label_de": "Bewerben",
+            "label_en": "Apply",
+        },
     ]

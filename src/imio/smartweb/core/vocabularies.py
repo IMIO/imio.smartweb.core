@@ -709,3 +709,29 @@ class RemoteIADeliberationsPublicationsVocabularyFactory:
 RemoteIADeliberationsPublicationsVocabulary = (
     RemoteIADeliberationsPublicationsVocabularyFactory()
 )
+
+
+class ProcedureButtonLabelVocabularyFactory:
+
+    def extract_labels(self, rows, current_language="fr"):
+        result = {}
+        key_name = f"label_{current_language}"
+        for row in rows:
+            label_id = row.get("label_id")
+            label_value = row.get(key_name)
+            if label_id and label_value:
+                result[label_id] = label_value
+        return result
+
+    def __call__(self, context=None):
+        language = api.portal.get_current_language(context=context)
+        rows = api.portal.get_registry_record("smartweb.procedure_button_text")
+        labels = self.extract_labels(rows, current_language=language)
+        terms = [
+            SimpleTerm(value=key, token=key, title=value)
+            for key, value in labels.items()
+        ]
+        return SimpleVocabulary(terms)
+
+
+ProcedureButtonLabelVocabulary = ProcedureButtonLabelVocabularyFactory()
