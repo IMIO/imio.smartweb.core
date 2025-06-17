@@ -1,11 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
 <vdex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" profileType="hierarchicalTokenTerms" orderSignificant="false" language="fr">
-  <vocabName>
-    <langstring language="fr">Catégorie d'une démarche</langstring>
-    <langstring language="en">Procedure category</langstring>
-    <langstring language="nl">Procedurecategorie</langstring>
-    <langstring language="de">Verfahrenskategorie</langstring>
-  </vocabName>
   <vocabIdentifier>procedure_category</vocabIdentifier>
   <term>
     <termIdentifier>actes</termIdentifier>

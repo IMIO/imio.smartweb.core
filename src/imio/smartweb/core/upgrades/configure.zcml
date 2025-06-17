@@ -315,6 +315,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1069_to_1070"
+      title="Upgrade core from 1069 to 1070"
+      directory="profiles/1069_to_1070"
+      description="Add term offre_d_emploi to procedure_taxonomy"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1017,6 +1025,16 @@
         title="Set some default texts for procedure button"
         handler=".upgrades.populate_procedure_button_text"
     />    
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1069"
+      destination="1070"      
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add term offre_d_emploi to procedure_taxonomy"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1069_to_1070"
+    />
   </genericsetup:upgradeSteps>
 
   <!--genericsetup:upgradeStep
