@@ -5,6 +5,9 @@ Changelog
 1.4.5 (unreleased)
 ------------------
 
+- WEB-4271: Refactor procedure button to add specific label to manage job offer or other use-case
+  [boulch]
+
 - SUP-44089 : Fix sitemap. old id was used for some "copied/pasted contacts". Now we are using "real/updated" uid
   [boulch]
 

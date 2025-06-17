@@ -1,6 +1,5 @@
-import './view.less'
-jQuery(document).ready(function ($) {
 
+jQuery(document).ready(function ($) {
   // Show full schedule table when clicking on today's schedule
   $(".opening_informations").click(function (e) {
     $(this).siblings(".table_schedule").toggleClass("table_schedule--active");
@@ -16,11 +15,19 @@ jQuery(document).ready(function ($) {
       }
     }
   });
+
+ if (window.location.href.indexOf('@@siteadmin-smartweb-controlpanel') !== -1) {
+        // On est bien sur la page @@siteadmin-smartweb-controlpanel
+        if ($('div.container div.statusmessage-error').length > 0) {
+            $('div.container div.statusmessage-info').remove();
+        }
+    }
   
 });
 // New navigation
 
 $(document).ready(function () {
+    
   const menu = $('#portal-globalnav');
   const submenu = $('#subsite-navigation');
 

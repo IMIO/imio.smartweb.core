@@ -25,6 +25,14 @@ class IProcedure(IPages):
 
     procedure_url = schema.URI(title=_("Procedure url"), required=False)
 
+    button_ts_label = schema.Choice(
+        vocabulary="imio.smartweb.vocabulary.ProcedureButtonLabels",
+        title=_("Button label"),
+        description=_("Set button label to redirect to e-guichet"),
+        required=False,
+        default=None,
+    )
+
     @invariant
     def required_procedure(data):
         # if data.procedure_ts is None and data.procedure_url is None:

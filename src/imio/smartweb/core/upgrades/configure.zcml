@@ -305,7 +305,23 @@
       directory="profiles/1067_to_1068"
       description="Don't display cropping action on react views"
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      />      
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1068_to_1069"
+      title="Upgrade core from 1068 to 1069"
+      directory="profiles/1068_to_1069"
+      description="Add new control panel for site admin"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
+  <genericsetup:registerProfile
+      name="upgrade_1069_to_1070"
+      title="Upgrade core from 1069 to 1070"
+      directory="profiles/1069_to_1070"
+      description="Add term offre_d_emploi to procedure_taxonomy"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
   <genericsetup:upgradeStep
       title="Configure first official release"
@@ -994,6 +1010,30 @@
     <genericsetup:upgradeDepends
         title="Don't display cropping action on react views"
         import_profile="imio.smartweb.core.upgrades:upgrade_1067_to_1068"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1068"
+      destination="1069"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new control panel for site admin"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1068_to_1069"
+    />
+    <genericsetup:upgradeStep
+        title="Set some default texts for procedure button"
+        handler=".upgrades.populate_procedure_button_text"
+    />    
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1069"
+      destination="1070"      
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add term offre_d_emploi to procedure_taxonomy"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1069_to_1070"
     />
   </genericsetup:upgradeSteps>
 

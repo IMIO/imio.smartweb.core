@@ -57,6 +57,14 @@
       />
 
   <browser:page
+      name="siteadmin-smartweb-controlpanel"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".controlpanel_siteadmin.SmartwebSiteAdminControlPanelView"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
       name="utils"
       for="*"
       class=".utils.UtilsView"

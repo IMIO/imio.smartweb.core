@@ -13,5 +13,6 @@
   <a target="_blank"
      tal:attributes="href procedure/value;
                      title python:'' if view.is_anonymous else procedure.title"
+     tal:content="view/get_button_label" 
      i18n:translate="">Complete this procedure online</a>
 </div>

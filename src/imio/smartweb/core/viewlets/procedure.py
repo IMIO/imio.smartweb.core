@@ -19,3 +19,17 @@ class ProcedureViewlet(common.ViewletBase):
     @property
     def is_anonymous(self):
         return self.portal_state.anonymous()
+
+    def get_button_label(self):
+        if self.context.button_ts_label is None:
+            return "Complete this procedure online"
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ProcedureButtonLabels"
+        )
+        vocabulary = factory()
+        try:
+            term = vocabulary.getTerm(self.context.button_ts_label)
+        except LookupError:
+            # If the term is not found, return a default label
+            return "Complete this procedure online"
+        return term.title

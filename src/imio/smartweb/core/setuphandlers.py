@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.utils import populate_procedure_button_text
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.interface import implementer
 
@@ -25,6 +26,7 @@ class HiddenProfiles(object):
 
 def post_install(context):
     """Post install script"""
+    populate_procedure_button_text()
 
 
 def uninstall(context):
