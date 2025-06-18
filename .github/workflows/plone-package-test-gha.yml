@@ -32,6 +32,7 @@ jobs:
     - name: Run check
       uses: IMIO/gha/plone-package-test-notify@setup-python-with-uv
       with:
+        BUILDOUT_COMMAND: .venv/bin/buildout
         CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-${{ matrix.python-version }}
         INSTALL_DEPENDENCIES_COMMANDS: |
           uv venv --python ${{ matrix.python-version }}
