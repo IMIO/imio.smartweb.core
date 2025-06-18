@@ -5,6 +5,9 @@ Changelog
 1.4.5 (unreleased)
 ------------------
 
+- WEB-4276: Fix missing or bad e-guichet api url in smartweb control panel settings
+  [boulch]
+
 - WEB-4271: Refactor procedure button to add specific label to manage job offer or other use-case
   [boulch]
 

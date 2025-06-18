@@ -103,12 +103,12 @@ class RemoteProceduresVocabularyFactory:
     def __call__(self, context=None):
         # sample : "https://olln-formulaires.guichet-citoyen.be/api/formdefs/"
         wcs_api = get_ts_api_url("wcs")
+        if not wcs_api:
+            return SimpleVocabulary([])
         url = f"{wcs_api}/formdefs/"
         # sample : "568DGess2x8j8twv7x2Y2MApjn789xfG7jM27r399q4xSD27Jz"
         key = get_value_from_registry("smartweb.secret_key_api")
         orig = "ia.smartweb"
-        if not url:
-            return SimpleVocabulary([])
         query_full = sign_url(url, key, orig)
         try:
             response = requests.get(query_full)

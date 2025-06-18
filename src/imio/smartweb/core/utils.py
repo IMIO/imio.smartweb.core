@@ -254,8 +254,20 @@ def get_basic_auth_json(url, user, pwd):
     return json
 
 
+def is_valid_url(url: str) -> bool:
+    try:
+        parsed = urlparse(url)
+        return all([parsed.scheme in ("http", "https"), parsed.netloc])
+    except Exception:
+        return False
+
+
 def get_ts_api_url(service="wcs"):
     url_ts = get_value_from_registry("smartweb.url_ts")
+    if url_ts is None:
+        return None
+    if not is_valid_url(url_ts):
+        return None
     parsed_url = urlparse(url_ts)
     if "wcs" in service:
         new_netloc = parsed_url.netloc.replace(
