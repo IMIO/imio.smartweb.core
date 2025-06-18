@@ -35,7 +35,7 @@ jobs:
         BUILDOUT_COMMAND: .venv/bin/buildout
         CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-${{ matrix.python-version }}
         INSTALL_DEPENDENCIES_COMMANDS: |
-          uv venv --python ${{ matrix.python-version }}
+          uv venv --python ${{ matrix.python-version }} --managed-python
           uv pip install -r requirements.txt
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
         PYTHON_VERSION: ${{ matrix.python-version }}
