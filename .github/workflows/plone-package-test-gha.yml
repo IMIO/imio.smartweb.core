@@ -33,9 +33,9 @@ jobs:
         plone_version: ['6.1']
     with:
       buildout_config_file: buildout-gha.cfg
+      buildout_command: '.venv/bin/buildout'
       buildout_options: 'buildout:extends=https://dist.plone.org/release/${{ matrix.plone_version }}-latest/versions.cfg https://raw.githubusercontent.com/collective/buildout.plonetest/master/qa.cfg'
       continue_on_error: false
-      install_dependencies_commands: 'sudo pip install -r https://dist.plone.org/release/${{ matrix.plone_version }}-latest/requirements.txt'
       python_version: ${{ matrix.python_version }}
       runner_label: gha-runners-smartweb
       soffice: false
