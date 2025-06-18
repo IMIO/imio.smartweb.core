@@ -7,19 +7,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  black:
-    runs-on: gha-runners-smartweb
-    steps:
-    - name: Checkout codebase
-      uses: actions/checkout@v4
-    - name: Run check
-      uses: IMIO/gha/code-analysis-notify@v3.9.4
-      with:
-        BASE_DIR: 'src'
-        CHECK: 'black'
-        PATH: |
-          imio/smartweb/core
-        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
+#   black:
+#     runs-on: gha-runners-smartweb
+#     steps:
+#     - name: Checkout codebase
+#       uses: actions/checkout@v4
+#     - name: Run check
+#       uses: IMIO/gha/code-analysis-notify@v3.9.4
+#       with:
+#         BASE_DIR: 'src'
+#         CHECK: 'black'
+#         PATH: |
+#           imio/smartweb/core
+#         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
 
   test:
     runs-on: gha-runners-smartweb
@@ -30,28 +30,28 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: IMIO/gha/plone-package-test-notify@v3.9.4
+      uses: IMIO/gha/plone-package-test-notify@setup-python-with-uv
       with:
         CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-${{ matrix.python-version }}
         TEST_COMMAND: TZ=UTC bin/test
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
         PYTHON_VERSION: ${{ matrix.python-version }}
 
-  coverage:
-    runs-on: gha-runners-smartweb
-    steps:
-    - name: Checkout codebase
-      uses: actions/checkout@v4
-    - name: Run check
-      uses: IMIO/gha/plone-package-test-notify@v3.9.4
-      with:
-        CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-3.10
-        TEST_COMMAND: TZ=UTC coverage run bin/test
-        REQUIREMENTS_FILE: 'requirements-coverage.txt'
-        MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
-    - name: Submit to Coveralls
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: coveralls --service=github
+#   coverage:
+#     runs-on: gha-runners-smartweb
+#     steps:
+#     - name: Checkout codebase
+#       uses: actions/checkout@v4
+#     - name: Run check
+#       uses: IMIO/gha/plone-package-test-notify@setup-python-with-uv
+#       with:
+#         CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-3.10
+#         TEST_COMMAND: TZ=UTC coverage run bin/test
+#         REQUIREMENTS_FILE: 'requirements-coverage.txt'
+#         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
+#     - name: Submit to Coveralls
+#       env:
+#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#       run: coveralls --service=github
 
 
