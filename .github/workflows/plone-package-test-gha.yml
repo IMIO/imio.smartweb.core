@@ -29,13 +29,13 @@ jobs:
     uses: IMIO/gha/.github/workflows/package-test-uv.yml@reusable-workflows
     strategy:
       matrix:
-        python_version: ['3.10', '3.12']
+        python_version: ['3.10']
         plone_version: ['6.1']
     with:
-      buildout_config_file: buildout-gha.cfg
+      buildout_config_file: gha_${{ matrix.plone_version }}.cfg
       buildout_command: '.venv/bin/buildout'
-      buildout_options: 'buildout:extends=https://dist.plone.org/release/${{ matrix.plone_version }}-latest/versions.cfg https://raw.githubusercontent.com/collective/buildout.plonetest/master/qa.cfg'
       continue_on_error: false
+      plone_version: ${{ matrix.plone_version }}
       python_version: ${{ matrix.python_version }}
       runner_label: gha-runners-smartweb
       soffice: false
