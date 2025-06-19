@@ -26,7 +26,7 @@ jobs:
   #       MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
 
   test:
-    uses: IMIO/gha/.github/workflows/package-test-uv.yml@reusable-workflows
+    uses: IMIO/gha-workflows/.github/workflows/package-test-uv.yml@main
     strategy:
       matrix:
         python_version: ['3.10']
