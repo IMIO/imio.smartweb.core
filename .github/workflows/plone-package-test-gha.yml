@@ -37,6 +37,7 @@ jobs:
       continue_on_error: false
       plone_version: ${{ matrix.plone_version }}
       python_version: ${{ matrix.python_version }}
+      requirements_file: requirements_${{ matrix.plone_version }}.txt
       runner_label: gha-runners-smartweb
       soffice: false
       test_command: 'TZ=UTC bin/test'
