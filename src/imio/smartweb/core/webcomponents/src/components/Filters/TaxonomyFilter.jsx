@@ -1,94 +1,147 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
+import PropTypes from "prop-types";
 import Select from "react-select";
 import "./TaxonomyFilter.scss";
 
 function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick }) {
-    const [select1Value, setSelect1Value] = useState(null);
-    const [select2Value, setSelect2Value] = useState(null);
-    const [select3Value, setSelect3Value] = useState(null);
-    const [firstLevelOptions, setFirstLevelOptions] = useState(null);
-    const [secondLevelOptions, setSecondLevelOptions] = useState(null);
-    // État pour suivre l'affichage de la div associée
-    const [secondLevelVisible, setsecondLevelVisible] = useState(false);
-    const [thirdLevelVisible, setThirdLevelVisible] = useState(false);
-    //  const avev la valeur des filtres
-    const [filterValue, setFilterValue] = useState({
-        taxonomy_contact_category_for_filtering: null,
+    // Regroupement des états liés
+    const [selectValues, setSelectValues] = useState({
+        first: null,
+        second: null,
+        third: null,
     });
 
-    // Object { b_start: "0", fullobjects: "1", taxonomy_contact_category_for_filtering: "ol8av3v8bn" }
+    const [visibility, setVisibility] = useState({
+        secondLevel: false,
+        thirdLevel: false,
+    });
 
-    // Dans le composant TaxonomyFilter
+    const [options, setOptions] = useState({
+        firstLevel: null,
+        secondLevel: null,
+    });
+
+    // Mémoisation des options du premier niveau
+    const firstLevelOptions = useMemo(() => {
+        if (!sub) return null;
+        return sub.map((d) => ({
+            value: d.token,
+            label: d.title,
+            ...(d.sub && { sub: d.sub }),
+        }));
+    }, [sub]);
+
+    // Gestionnaires d'événements avec useCallback
+    const handleLinkClick = useCallback(() => {
+        setVisibility((prev) => ({
+            secondLevel: !prev.secondLevel,
+            thirdLevel: false,
+        }));
+        setSelectValues((prev) => ({
+            ...prev,
+            second: null,
+            third: null,
+        }));
+    }, []);
+
+    const onChangeSub1 = useCallback(
+        (value, action) => {
+            // console.log(value);
+            if (value?.sub) {
+                const secondLevelOptions = value.sub.map((d) => ({
+                    value: d.token,
+                    label: d.title,
+                }));
+                setSelectValues((prev) => ({
+                    ...prev,
+                    second: value.label,
+                    third: null,
+                }));
+                setOptions((prev) => ({
+                    ...prev,
+                    secondLevel: secondLevelOptions,
+                }));
+                setVisibility((prev) => ({
+                    ...prev,
+                    thirdLevel: true,
+                }));
+                onChange(value, action);
+            } else {
+                setSelectValues((prev) => ({
+                    ...prev,
+                    second: value.label,
+                    third: null,
+                }));
+                setOptions((prev) => ({
+                    ...prev,
+                    secondLevel: null,
+                }));
+                onChange(value, action);
+            }
+        },
+        [onChange]
+    );
+
+    const onChangeSub2 = useCallback(
+        (value, action) => {
+            setSelectValues((prev) => ({
+                ...prev,
+                third: value.label,
+            }));
+            onChange(value, action);
+        },
+        [onChange]
+    );
+
+    const handleApply = useCallback(
+        (value, title) => {
+            setCat((prev) => !prev);
+            if (!visibility.secondLevel) {
+                onChange(
+                    { value, label: title },
+                    { name: "taxonomy_contact_category_for_filtering" }
+                );
+            } else {
+                onChange(null, { name: "taxonomy_contact_category_for_filtering" });
+            }
+        },
+        [visibility.secondLevel, onChange, setCat]
+    );
+
+    // Effet pour réinitialiser l'état quand isActive change
     useEffect(() => {
         if (!isActive) {
-            setsecondLevelVisible(false);
-            setThirdLevelVisible(false);
-            setSelect2Value(null);
+            setVisibility({
+                secondLevel: false,
+                thirdLevel: false,
+            });
+            setSelectValues((prev) => ({
+                ...prev,
+                second: null,
+                third: null,
+            }));
         }
     }, [isActive]);
 
+    // Effet pour mettre à jour les options du premier niveau
     useEffect(() => {
         if (sub) {
-            const optionsSub1 = sub.map((d) => ({
-                value: d.token,
-                label: d.title,
-                ...(d.sub && { sub: d.sub }),
+            setOptions((prev) => ({
+                ...prev,
+                firstLevel: firstLevelOptions,
             }));
-            setFirstLevelOptions(optionsSub1);
         }
-    }, [sub]);
-    // Gestionnaire d'événements pour le clic sur le lien
-    const handleLinkClick = () => {
-        // Inverser la valeur de l'état pour afficher ou masquer la div
-        setsecondLevelVisible(!secondLevelVisible);
-        setSelect2Value(null);
-        setThirdLevelVisible(false);
-    };
-
-    // Gestionnaire d'événements pour le changement de valeur dans le premier select
-    const onChangeSub1 = (value, action) => {
-        if (value && value.sub) {
-            const optionsSub2 = value.sub.map((d) => ({
-                value: d.token,
-                label: d.title,
-            }));
-            setSelect2Value(value.label);
-            setSelect3Value(null);
-            setSecondLevelOptions(optionsSub2);
-            setThirdLevelVisible(true);
-            onChange(value, action);
-        } else {
-            setSecondLevelOptions(null);
-        }
-    };
-
-    // Gestionnaire d'événements pour le changement de valeur dans le deuxième select
-    const onChangeSub2 = (value, action) => {
-        setSelect3Value(value.label);
-        onChange(value, action);
-    };
-
-    // send the value to the first level (a link)
-    const handleApply = (value, title) => {
-        setCat((prevCat) => !prevCat);
-        if (!secondLevelVisible) {
-            onChange(
-                { value: value, label: title },
-                { name: "taxonomy_contact_category_for_filtering" }
-            );
-        } else {
-            onChange(null, { name: "taxonomy_contact_category_for_filtering" });
-        }
-    };
+    }, [sub, firstLevelOptions]);
 
     return (
         <div onClick={onClick}>
             <div
                 className={
-                    secondLevelVisible ? "dropDownFilter dropDownFilter-active" : "dropDownFilter"
+                    visibility.secondLevel
+                        ? "dropDownFilter dropDownFilter-active"
+                        : "dropDownFilter"
                 }
             >
-                {/* Lien avec gestionnaire d'événements */}
                 <a
                     className="sub0"
                     href="#"
@@ -96,48 +149,48 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                     onClick={(e) => {
                         e.preventDefault();
                         handleLinkClick();
-                        handleApply(token, title); // Pass the correct value to handleApply
+                        handleApply(token, title);
                     }}
                 >
                     {title}
                 </a>
 
-                {/* Div conditionnellement rendue en fonction de l'état */}
-                {firstLevelOptions && (
+                {options.firstLevel && (
                     <div
                         className={
-                            secondLevelVisible
+                            visibility.secondLevel
                                 ? "sub1 dropDownFilter-visible"
                                 : "sub1 dropDownFilter-invisble"
                         }
                     >
                         <Select
-                            name={"taxonomy_contact_category_for_filtering"}
-                            className="select-custom-class library-facilities"
+                            name="taxonomy_contact_category_for_filtering"
+                            className="select-custom-class library-facilities react-select-container"
+                            classNamePrefix="react-select-custom-multi"
                             onChange={onChangeSub1}
-                            options={firstLevelOptions}
-                            value={select2Value}
-                            placeholder={select2Value ? select2Value : "Catégories"}
+                            options={options.firstLevel}
+                            value={selectValues.second}
+                            placeholder={selectValues.second ? selectValues.second : "Catégories"}
                         />
                     </div>
                 )}
 
-                {/* Div 3 conditionnellement rendue en fonction de l'état */}
-                {secondLevelOptions && (
+                {options.secondLevel && (
                     <div
                         className={
-                            thirdLevelVisible
+                            visibility.thirdLevel
                                 ? "sub2 dropDownFilter-visible"
                                 : "sub2 dropDownFilter-invisble"
                         }
                     >
                         <Select
-                            name={"taxonomy_contact_category_for_filtering"}
-                            className="select-custom-class library-facilities"
+                            name="taxonomy_contact_category_for_filtering"
+                            className="react-custom-multi-select-container library-facilities"
+                            classNamePrefix="react-select-custom-multi"
                             onChange={onChangeSub2}
-                            options={secondLevelOptions}
-                            value={select3Value}
-                            placeholder={select3Value ? select3Value : "Catégories"}
+                            options={options.secondLevel}
+                            value={selectValues.third}
+                            placeholder={selectValues.third ? selectValues.third : "Catégories"}
                         />
                     </div>
                 )}
@@ -145,5 +198,26 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
         </div>
     );
 }
+
+TaxonomyFilter.propTypes = {
+    onChange: PropTypes.func.isRequired,
+    sub: PropTypes.arrayOf(
+        PropTypes.shape({
+            token: PropTypes.string.isRequired,
+            title: PropTypes.string.isRequired,
+            sub: PropTypes.array,
+        })
+    ),
+    title: PropTypes.string.isRequired,
+    token: PropTypes.string.isRequired,
+    isActive: PropTypes.bool,
+    setCat: PropTypes.func.isRequired,
+    onClick: PropTypes.func,
+};
+
+TaxonomyFilter.defaultProps = {
+    isActive: false,
+    onClick: () => {},
+};
 
 export default TaxonomyFilter;

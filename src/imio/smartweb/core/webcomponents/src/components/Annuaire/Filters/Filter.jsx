@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useCallback, useState, useMemo } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
 import { Translator } from "react-translated";
 import queryString from "query-string";
-// import TaxonomyFilter from "../../Filters/TaxonomyFilter";
+import TaxonomyFilter from "../../Filters/TaxonomyFilter";
 import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
 
@@ -40,50 +40,66 @@ function formatData(data) {
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
+    const fixedParams = { b_start: 0, fullobjects: 1 };
     const [topicsFilter, setTopicsFilter] = useState([]);
-    // const [taxonomyData, setTaxonomyData] = useState(null);
+    const [taxonomyData, setTaxonomyData] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
     const [facilitiesFilter, setFacilitiesFilter] = useState(null);
     const [cat, setCat] = useState(false);
     const [activeComponent, setActiveComponent] = useState(null);
-    const { response, error, isLoading } = useAxios({
-        method: "get",
-        url: "",
-        baseURL: props.url,
-        headers: {
-            Accept: "application/json",
-        },
-        params: inputValues,
-    });
+    const axiosConfig = useMemo(
+        () => ({
+            method: "get",
+            url: "",
+            baseURL: props.url,
+            headers: {
+                Accept: "application/json",
+            },
+            params: fixedParams,
+        }),
+        [props.url]
+    );
 
-    useEffect(() => {
-        if (response !== null) {
-            const optionsTopics =
-                response.topics &&
-                response.topics.map((d) => ({
-                    value: d.token,
-                    label: d.title,
-                }));
+    const { response, error, isLoading } = useAxios(axiosConfig);
 
-            // const taxodonnee = formatData(response.taxonomy_contact_category);
-            const optionsTaxonomy =
-                response.taxonomy_contact_category &&
-                response.taxonomy_contact_category.map((d) => ({
-                    value: d.token,
-                    label: d.title,
-                }));
-            const optionsFacilities =
-                response.facilities &&
-                response.facilities.map((d) => ({
-                    value: d.token,
-                    label: d.title,
-                }));
-            setTopicsFilter(optionsTopics);
-            // setTaxonomyData(taxodonnee);
-            setTaxonomyFilter(optionsTaxonomy);
-            setFacilitiesFilter(optionsFacilities);
-        }
+    // Memoize the processed data
+    const processedData = useMemo(() => {
+        if (!response) return null;
+
+        const optionsTopics = response.topics?.map((d) => ({
+            value: d.token,
+            label: d.title,
+        }));
+
+        const taxodonnee = formatData(response.taxonomy_contact_category);
+
+        const optionsTaxonomy = response.taxonomy_contact_category?.map((d) => ({
+            value: d.token,
+            label: d.title,
+        }));
+
+        const optionsFacilities = response.facilities?.map((d) => ({
+            value: d.token,
+            label: d.title,
+        }));
+
+        return {
+            topics: optionsTopics,
+            taxonomy: optionsTaxonomy,
+            facilities: optionsFacilities,
+            taxodonnee,
+        };
     }, [response]);
+
+    // Update state when processed data changes
+    useEffect(() => {
+        if (processedData) {
+            setTopicsFilter(processedData.topics);
+            setTaxonomyData(processedData.taxodonnee);
+            setTaxonomyFilter(processedData.taxonomy);
+            setFacilitiesFilter(processedData.facilities);
+        }
+    }, [processedData]);
 
     // set values from search input
     const onChangeHandler = useCallback(({ target: { name, value } }) => {
@@ -100,6 +116,7 @@ function Filters(props) {
 
     // set values from select
     const onChangeHandlerSelect = useCallback((value, action) => {
+        console.log(value);
         const inputName = action.name;
         if (value) {
             setInputValues((state) => ({ ...state, [inputName]: value.value }), []);
@@ -187,7 +204,7 @@ function Filters(props) {
                         </div>
                     </form>
                     {/* More filter*/}
-                    <button
+                    {/* <button
                         className="more-filter-btn collapsed"
                         type="button"
                         data-bs-toggle="collapse"
@@ -208,7 +225,7 @@ function Filters(props) {
                         >
                             <path d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 108 0 4 4 0 00-8 0zM17 6a4 4 0 108 0 4 4 0 00-8 0zm0 20a4 4 0 108 0 4 4 0 00-8 0zm0 0H3"></path>
                         </svg>
-                    </button>
+                    </button> */}
                     <div className="react-sep-menu"></div>
                     {/* Filtre Thématique */}
                     <div className="r-filter top-filter topics-Filter">
@@ -276,12 +293,12 @@ function Filters(props) {
             {/* Affichage dynamique des liens avec divs associées */}
             <div
                 id="collapseOne"
-                className="accordion-collapse collapse more-filter-container "
+                className="accordion-collapse more-filter-container "
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample"
             >
                 <div className="accordion-body">
-                    {/* <div className="taxonomy-Filter">
+                    <div className="taxonomy-Filter">
                         {taxonomyData &&
                             taxonomyData.map((donnees, i) => (
                                 <TaxonomyFilter
@@ -294,10 +311,10 @@ function Filters(props) {
                                     test={i}
                                 />
                             ))}
-                    </div> */}
-                    <div className="r-filter  facilities-Filter">
-                        {/* <label>Catégories</label> */}
-                        <Translator>
+                    </div>
+                    {/* <div className="r-filter  facilities-Filter"> */}
+                    {/* <label>Catégories</label> */}
+                    {/* <Translator>
                             {({ translate }) => (
                                 <Select
                                     styles={moreFilterStyles}
@@ -312,8 +329,8 @@ function Filters(props) {
                                     value={actTaxo && actTaxo[0]}
                                 />
                             )}
-                        </Translator>
-                    </div>
+                        </Translator> */}
+                    {/* </div> */}
                 </div>
             </div>
         </React.Fragment>

@@ -1,41 +1,42 @@
 .taxonomy-Filter {
     width: 100%;
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
-    transition: all .3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 }
-
 
 .dropDownFilter {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0 5px;
-    transition: max-width .3s ease-in-out;
+    // gap: 0 5px;
+    transition: max-width 0.3s ease-in-out;
     transition: opacity 3s ease-in-out;
 
-    border: solid 1px #CFCFCF;
-    border-radius: 20px;
+    border: solid 1px #cfcfcf;
+    border-radius: 10px;
     outline: 1px solid transparent;
 
     &-active {
-        border-color: #2684FF;
-        outline: 1px solid #2684FF;
+        border-color: #2684ff;
+        outline: 1px solid #2684ff;
+        // background-color: #f2f2f2;
 
         // border-width: 2px;
-        .sub0 {}
+        .sub0 {
+        }
     }
 
     .sub0 {
         text-decoration: none;
-        padding: 10px 10px;
+        padding: 5px 10px;
     }
 
     .sub1 {
         // transition: max-width .3s ease-in-out;
         padding-right: 5px;
-        transition: all .4s cubic-bezier(0, .74, .58, 1.04);
+        transition: all 0.4s cubic-bezier(0, 0.74, 0.58, 1.04);
 
         div[class*="control"] {
             flex-wrap: nowrap;
@@ -46,7 +47,7 @@
     .sub2 {
         // transition: max-width .3s ease-in-out;
         padding-right: 5px;
-        transition: all .4s cubic-bezier(0, .74, .58, 1.04);
+        transition: all 0.4s cubic-bezier(0, 0.74, 0.58, 1.04);
 
         div[class*="control"] {
             flex-wrap: nowrap;
@@ -63,8 +64,27 @@
     }
 
     .dropDownFilter-visible {
-        max-width: 150px;
+        // max-width: 150px;
         height: auto;
         opacity: 1;
+    }
+}
+
+.react-select-custom-multi__placeholder {
+    color: rgb(51, 51, 51) !important;
+}
+
+.react-select-custom-multi__control {
+    border: none !important;
+    box-shadow: none !important;
+    position: relative;
+
+    &:after {
+        content: "";
+        height: 23px;
+        width: 1px;
+        background: #cfcfcf;
+        position: absolute;
+        left: 0;
     }
 }
