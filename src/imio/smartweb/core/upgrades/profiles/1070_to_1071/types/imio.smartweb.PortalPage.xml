@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    name="imio.smartweb.PortalPage"
+    meta_type="Dexterity FTI"
+    i18n:domain="imio.smartweb">
+
+  <property name="allowed_content_types">
+    <element value="imio.smartweb.SectionCollection" />
+    <element value="imio.smartweb.SectionContact" />
+    <element value="imio.smartweb.SectionExternalContent" />
+    <element value="imio.smartweb.SectionGallery" />
+    <element value="imio.smartweb.SectionHTML" />
+    <element value="imio.smartweb.SectionEvents" />
+    <element value="imio.smartweb.SectionFiles" />
+    <element value="imio.smartweb.SectionLinks" />
+    <element value="imio.smartweb.SectionMap" />
+    <element value="imio.smartweb.SectionNews" />
+    <element value="imio.smartweb.SectionPostit" />
+    <element value="imio.smartweb.SectionSelections" />
+    <element value="imio.smartweb.SectionText" />
+    <element value="imio.smartweb.SectionTimestampedPublications" />
+    <element value="imio.smartweb.SectionVideo" />
+  </property>
+
+</object>

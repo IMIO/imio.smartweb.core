@@ -293,9 +293,6 @@ class TestVocabularies(ImioSmartwebTestCase):
             "belleville >> commune >> Restauration de la Bibliothèque",
         )
 
-    def test_sendinblue_button_position(self):
-        self.assertVocabularyLen("imio.smartweb.vocabulary.SendInBlueButtonPosition", 2)
-
     @patch("imio.smartweb.core.vocabularies.get_iadeliberation_url_from_registry")
     @requests_mock.Mocker()
     def test_remote_iadeliberations_institutions(self, m_url, m):

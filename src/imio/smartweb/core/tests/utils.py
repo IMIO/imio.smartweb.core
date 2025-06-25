@@ -9,7 +9,6 @@ import os
 # "imio.smartweb.SectionContact",
 # "imio.smartweb.SectionEvents",
 # "imio.smartweb.SectionNews",
-# "imio.smartweb.SectionSendinblue",
 # "imio.smartweb.SectionSlide",
 
 

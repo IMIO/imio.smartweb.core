@@ -297,3 +297,22 @@ def update_control_panel_combo_api_fieldname(context):
 
 def populate_procedure_button_text(context):
     utils_populate_procedure_button_text()
+
+
+def remove_sendinblue_registry_records(context):
+    registry = api.portal.get_tool("portal_registry")
+    records_name = [
+        "plone.icon.contenttype/imio-smartweb-sectionsendinblue",
+        "smartweb.sendinblue_button_position",
+        "smartweb.sendinblue_button_text",
+    ]
+    for record_name in records_name:
+        if record_name in registry:
+            del registry.records[record_name]
+
+
+def uninstall_sendinblue(context):
+    """Uninstall sendinblue."""
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runAllImportStepsFromProfile("profile-collective.sendinblue:uninstall")
+    logger.info("Sendinblue uninstalled successfully.")
