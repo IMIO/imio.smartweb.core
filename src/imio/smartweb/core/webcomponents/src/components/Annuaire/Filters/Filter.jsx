@@ -47,6 +47,7 @@ function Filters(props) {
     const [facilitiesFilter, setFacilitiesFilter] = useState(null);
     const [cat, setCat] = useState(false);
     const [activeComponent, setActiveComponent] = useState(null);
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
     const axiosConfig = useMemo(
         () => ({
             method: "get",
@@ -167,6 +168,18 @@ function Filters(props) {
         setActiveComponent(index);
     };
 
+    // Check screen size on mount and resize
+    useEffect(() => {
+        const checkScreenSize = () => {
+            setIsSmallScreen(window.innerWidth <= 630);
+        };
+
+        checkScreenSize();
+        window.addEventListener("resize", checkScreenSize);
+
+        return () => window.removeEventListener("resize", checkScreenSize);
+    }, []);
+
     return (
         <React.Fragment>
             <div className="react-filters-menu">
@@ -203,29 +216,7 @@ function Filters(props) {
                             </svg>
                         </div>
                     </form>
-                    {/* More filter*/}
-                    {/* <button
-                        className="more-filter-btn collapsed"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#collapseOne"
-                        aria-expanded="false"
-                        aria-controls="collapseOne"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 32 32"
-                            style={{ height: 16, width: 16 }}
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="3"
-                            aria-hidden="true"
-                            display="block"
-                            overflow="visible"
-                        >
-                            <path d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 108 0 4 4 0 00-8 0zM17 6a4 4 0 108 0 4 4 0 00-8 0zm0 20a4 4 0 108 0 4 4 0 00-8 0zm0 0H3"></path>
-                        </svg>
-                    </button> */}
+
                     <div className="react-sep-menu"></div>
                     {/* Filtre Thématique */}
                     <div className="r-filter top-filter topics-Filter">
@@ -291,13 +282,53 @@ function Filters(props) {
             {/* More filter */}
 
             {/* Affichage dynamique des liens avec divs associées */}
+            {/* More filter*/}
+            <button
+                className="more-filter-btn more-filter-btn-annuaire collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="false"
+                aria-controls="collapseOne"
+            >
+                <span>
+                    <Translator>
+                        {({ translate }) => (
+                            <span>
+                                {translate({
+                                    text: "Catégories",
+                                })}
+                            </span>
+                        )}
+                    </Translator>
+                </span>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 32 32"
+                    style={{ height: 16, width: 16 }}
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    aria-hidden="true"
+                    display="block"
+                    overflow="visible"
+                >
+                    <path d="M7 16H3m26 0H15M29 6h-4m-8 0H3m26 20h-4M7 16a4 4 0 108 0 4 4 0 00-8 0zM17 6a4 4 0 108 0 4 4 0 00-8 0zm0 20a4 4 0 108 0 4 4 0 00-8 0zm0 0H3"></path>
+                </svg>
+            </button>
             <div
                 id="collapseOne"
-                className="accordion-collapse more-filter-container "
+                className={`accordion-collapse ${isSmallScreen ? "collapse" : ""} more-filter-container`}
                 aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample"
             >
-                <div className="accordion-body">
+                <div className="accordion-body-annuaire">
+                    <span className="accordion-body-annuaire-title-full-screen">
+                        <Translator>
+                            {({ translate }) => <span>{translate({ text: "Catégories" })}</span>}
+                        </Translator>
+                    </span>
+
                     <div className="taxonomy-Filter">
                         {taxonomyData &&
                             taxonomyData.map((donnees, i) => (

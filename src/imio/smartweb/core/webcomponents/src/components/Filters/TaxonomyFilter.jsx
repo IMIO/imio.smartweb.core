@@ -165,7 +165,11 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                     >
                         <Select
                             name="taxonomy_contact_category_for_filtering"
-                            className="select-custom-class library-facilities react-select-container"
+                            className={`select-custom-class library-facilities react-select-container ${
+                                selectValues.second && selectValues.second !== "Catégories"
+                                    ? "select-has-value"
+                                    : ""
+                            }`}
                             classNamePrefix="react-select-custom-multi"
                             onChange={onChangeSub1}
                             options={options.firstLevel}
@@ -185,7 +189,11 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                     >
                         <Select
                             name="taxonomy_contact_category_for_filtering"
-                            className="react-custom-multi-select-container library-facilities"
+                            className={`react-custom-multi-select-container library-facilities ${
+                                selectValues.third && selectValues.third !== "Catégories"
+                                    ? "select-has-value"
+                                    : ""
+                            }`}
                             classNamePrefix="react-select-custom-multi"
                             onChange={onChangeSub2}
                             options={options.secondLevel}

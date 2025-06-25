@@ -25,6 +25,7 @@
 
         // border-width: 2px;
         .sub0 {
+            font-weight: bold;
         }
     }
 
@@ -68,8 +69,16 @@
         height: auto;
         opacity: 1;
     }
+    @media screen and (max-width: 630px) {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }
-
+.select-has-value {
+    .react-select-custom-multi__placeholder {
+        font-weight: bold !important;
+    }
+}
 .react-select-custom-multi__placeholder {
     color: rgb(51, 51, 51) !important;
 }

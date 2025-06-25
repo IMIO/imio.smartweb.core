@@ -300,6 +300,37 @@ article > header {
     }
 }
 
+.accordion-body-annuaire {
+    padding-top: 1rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    span {
+        font-weight: bold;
+        margin-right: 0.5rem;
+    }
+    .taxonomy-Filter {
+        width: auto;
+    }
+}
+
+.more-filter-btn.more-filter-btn-annuaire {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    display: none;
+    @media screen and (max-width: 630px) {
+        display: flex;
+        margin-left: auto;
+        margin-bottom: 0.5rem;
+    }
+}
+.accordion-body-annuaire-title-full-screen {
+    @media screen and (max-width: 630px) {
+        display: none;
+    }
+}
 // FOR BLA
 
 .r-wrapper {

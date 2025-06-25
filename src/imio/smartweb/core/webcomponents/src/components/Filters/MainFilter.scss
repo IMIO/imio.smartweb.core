@@ -41,7 +41,6 @@
 .react-filters-menu {
     display: flex;
     width: 100%;
-    margin-bottom: 1rem;
 
     .react-filters-container {
         display: flex;
@@ -178,12 +177,9 @@
         top: inherit;
     }
 
-    &.collapsed {
+    &.collapsed svg {
         transform: rotate(180deg);
-
-        svg {
-            stroke: #9f9f9f;
-        }
+        stroke: #9f9f9f;
     }
 }
 
