@@ -69,7 +69,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     };
 
     moment.locale("fr");
-    const created = moment(item.created).startOf("minute").fromNow();
+    const created = moment(item.effective).startOf("minute").fromNow();
     const lastModified = moment(item.modified).startOf("minute").fromNow();
 
     // set image
@@ -86,10 +86,10 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     useEffect(() => {
         if (!item || !item.title) return;
         document.title = item.title;
-    
+
         const ogImageWidth = image?.width || "";
         const ogImageHeight = image?.height || "";
-    
+
         // Liste complète de toutes les balises possibles
         const allMetaProps = [
             { name: "description" },
@@ -103,7 +103,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
             { property: "og:image:width" },
             { property: "og:image:height" },
         ];
-    
+
         // Supprime les anciennes balises
         allMetaProps.forEach(({ name, property }) => {
             const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
@@ -112,25 +112,34 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                 document.head.removeChild(existing);
             }
         });
-    
+
         // Recrée les balises à jour
         const metaUpdates = [
-            { name: "description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
+            {
+                name: "description",
+                content: [item.subtitle, item.description].filter(Boolean).join(" - "),
+            },
             { property: "og:title", content: item.title },
-            { property: "og:description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
-            { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
+            {
+                property: "og:description",
+                content: [item.subtitle, item.description].filter(Boolean).join(" - "),
+            },
+            {
+                property: "og:url",
+                content: typeof window !== "undefined" ? window.location.href : "",
+            },
             { property: "og:type", content: "event" },
         ];
-    
+
         if (item.image_affiche_scale) {
             metaUpdates.push({ property: "og:image", content: item.image_affiche_scale });
-    
+
             if (ogImageWidth && ogImageHeight) {
                 metaUpdates.push({ property: "og:image:width", content: ogImageWidth });
                 metaUpdates.push({ property: "og:image:height", content: ogImageHeight });
             }
         }
-    
+
         metaUpdates.forEach(({ name, property, content }) => {
             const tag = document.createElement("meta");
             if (name) tag.setAttribute("name", name);
