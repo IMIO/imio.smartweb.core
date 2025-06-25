@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.5 (unreleased)
+1.4.5 (2025-06-25)
 ------------------
 
 - WEB-4276: Fix missing or bad e-guichet api url in smartweb control panel settings
