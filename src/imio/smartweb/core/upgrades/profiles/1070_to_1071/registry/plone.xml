@@ -3,22 +3,10 @@
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     i18n:domain="imio.smartweb">
 
-    <record name="plone.thumb_scale_listing"
-            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
-            field="thumb_scale_listing">
-      <value>paysage_liste</value>
-    </record>
-
-    <record name="plone.thumb_scale_summary"
-            interface="Products.CMFPlone.interfaces.controlpanel.ISiteSchema"
-            field="thumb_scale_summary">
-      <value>paysage_vignette</value>
-    </record>
-
     <record name="plone.types_not_searched"
             interface="Products.CMFPlone.interfaces.controlpanel.ISearchSchema"
             field="types_not_searched">
-      <value purge="false">
+      <value purge="true">
         <element>News Item</element>
         <element>imio.smartweb.HeroBanner</element>
         <element>Discussion Item</element>
@@ -49,30 +37,16 @@
       </value>
     </record>
 
-    <record name="plone.show_excluded_items"
-            interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
-            field="show_excluded_items">
-      <value>False</value>
+    <records prefix="plone.resources/smartweb-view"
+             interface='Products.CMFPlone.interfaces.IResourceRegistry'
+             remove="true" />
+
+    <record name="plone.icon.contenttype/imio-smartweb-sectionsendinblue">
+      <field type="plone.registry.field.TextLine">
+        <title i18n:translate="">SectionSendinblue content type icon</title>
+      </field>
+      <value key="resource">++plone++bootstrap-icons/send.svg</value>
     </record>
 
-    <record name="plone.displayed_types"
-            interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
-            field="displayed_types">
-      <value purge="false">
-        <element>imio.smartweb.CirkwiView</element>
-        <element>imio.smartweb.DirectoryView</element>
-        <element>imio.smartweb.EventsView</element>
-        <element>imio.smartweb.Folder</element>
-        <element>imio.smartweb.NewsView</element>
-        <element>imio.smartweb.Page</element>
-        <element>imio.smartweb.PortalPage</element>
-        <element>imio.smartweb.Procedure</element>
-      </value>
-    </record>
-
-    <records interface="Products.CMFPlone.interfaces.controlpanel.ILinkSchema"
-             prefix="plone">
-      <value key="external_links_open_new_window">True</value>
-    </records>
 
 </registry>

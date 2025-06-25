@@ -55,8 +55,6 @@ from .sections.postit.content import ISectionPostit  # NOQA
 from .sections.postit.content import SectionPostit  # NOQA
 from .sections.selections.content import ISectionSelections  # NOQA
 from .sections.selections.content import SectionSelections  # NOQA
-from .sections.sendinblue.content import ISectionSendinblue  # NOQA
-from .sections.sendinblue.content import SectionSendinblue  # NOQA
 from .sections.slide.content import ISectionSlide  # NOQA
 from .sections.slide.content import SectionSlide  # NOQA
 from .sections.text.content import ISectionText  # NOQA

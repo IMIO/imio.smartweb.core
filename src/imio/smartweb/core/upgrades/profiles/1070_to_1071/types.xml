@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<object name="portal_types" meta_type="Plone Types Tool">
+<object name="portal_types" meta_type="Plone Types Tool" purge="true">
   <object meta_type="Dexterity FTI" name="imio.smartweb.BlockLink"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.CirkwiView"/>
   <object meta_type="Dexterity FTI" name="imio.smartweb.DirectoryView"/>
