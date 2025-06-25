@@ -330,6 +330,13 @@
       description="Change permission to manage site admin control panel"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />      
+  <genericsetup:registerProfile
+      name="upgrade_1071_to_1072"
+      title="Upgrade core from 1071 to 1072"
+      directory="profiles/1071_to_1072"
+      description="Remove SendInBlue"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
   <genericsetup:upgradeStep
       title="Configure first official release"
@@ -1054,6 +1061,29 @@
         import_profile="imio.smartweb.core.upgrades:upgrade_1070_to_1071"
     />
   </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1071"
+      destination="1072"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Remove SendInBlue"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1071_to_1072"
+    />
+    <genericsetup:upgradeStep
+        title="Remove useless sendinblue icon registry record"
+        handler=".upgrades.remove_sendinblue_registry_records"
+    />        
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeStep
+      title="Uninstall collective.sendinblue add-on"
+      description="Uninstall collective.sendinblue add-on"
+      source="1072"
+      destination="1073"
+      handler=".upgrades.uninstall_sendinblue"
+      profile="imio.smartweb.core:default"
+      />
 
   <!--genericsetup:upgradeStep
       title="Check contact itinerary if address was checked in visible blocks"
