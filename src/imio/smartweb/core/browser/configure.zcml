@@ -60,7 +60,7 @@
       name="siteadmin-smartweb-controlpanel"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
       class=".controlpanel_siteadmin.SmartwebSiteAdminControlPanelView"
-      permission="cmf.ManagePortal"
+      permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 

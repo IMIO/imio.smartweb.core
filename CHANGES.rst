@@ -5,7 +5,8 @@ Changelog
 1.4.6 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Change permission to access to site admin control panel
+  [boulch]
 
 
 1.4.5 (2025-06-25)
