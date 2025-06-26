@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.6 (unreleased)
+1.4.6 (2025-06-26)
 ------------------
 
 - Change permission to access to site admin control panel
