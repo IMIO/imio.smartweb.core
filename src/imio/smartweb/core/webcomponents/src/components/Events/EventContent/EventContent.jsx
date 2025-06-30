@@ -191,6 +191,90 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
         setSchedulVisibility(false);
     };
     console.log(recurence);
+
+    // Helper functions for date display
+    const DateLabel = ({ text }) => (
+        <span>
+            <Translate text={text} />
+            &nbsp;
+        </span>
+    );
+
+    const TimeDisplay = ({ time, className = "r-time" }) => (
+        <div className={className}>{time}</div>
+    );
+
+    const HoursDisplay = ({ startHours, endHours }) => (
+        <>
+            <span>
+                <Translate text="de" />
+                &nbsp;
+            </span>
+            <TimeDisplay time={startHours} className="r-time-hours" />
+            <span>
+                &nbsp;
+                <Translate text="à" />
+                &nbsp;
+            </span>
+            <TimeDisplay time={endHours} className="r-time-hours" />
+        </>
+    );
+
+    const renderOpenEndDate = () => {
+        if (item.whole_day) {
+            return (
+                <div className="r-content-date-start">
+                    <DateLabel text="Le" />
+                    <TimeDisplay time={start} />
+                </div>
+            );
+        }
+        
+        return (
+            <div className="r-content-date-one-day">
+                <div className="r-content-date-start">
+                    <DateLabel text="Le" />
+                    <TimeDisplay time={start} />
+                    <span>
+                        &nbsp;
+                        <Translate text="à" />
+                        &nbsp;
+                    </span>
+                    <TimeDisplay time={startHours} className="r-time-hours" />
+                </div>
+            </div>
+        );
+    };
+
+    const renderClosedEndDate = () => {
+        if (item.whole_day) {
+            return (
+                <div className="r-content-date-du-au">
+                    <div className="r-content-date-start">
+                        <span>Du&nbsp;</span>
+                        <TimeDisplay time={start} />
+                    </div>
+                    <div className="r-content-date-end">
+                        <span>&nbsp;au&nbsp;</span>
+                        <TimeDisplay time={end} />
+                    </div>
+                </div>
+            );
+        }
+        
+        return (
+            <div className="r-content-date-one-day">
+                <div className="r-content-date-start">
+                    <DateLabel text="Le" />
+                    <TimeDisplay time={start} />
+                </div>
+                <div className="r-content-date-start-hours">
+                    <HoursDisplay startHours={startHours} endHours={endHours} />
+                </div>
+            </div>
+        );
+    };
+
     return isLoading ? (
         <div className="lds-roller-container">
             <Translate text="Chargement..." />
@@ -281,82 +365,12 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                             <div ref={modalRef} className="dpinlb">
                                 {!recurence && (
                                     <div className="r-content-news-info--date">
-                                        {start === end ? (
+                                        {item.open_end ? (
                                             <div>
-                                                {item.whole_day ? (
-                                                    <div className="r-content-date-start">
-                                                        <span>
-                                                            <Translate text="Le" />
-                                                            &nbsp;
-                                                        </span>
-                                                        <div className="r-time">{start}</div>
-                                                    </div>
-                                                ) : item.open_end ? (
-                                                    <>
-                                                        <div className="r-content-date-one-day">
-                                                            <div className="r-content-date-start">
-                                                                <span>
-                                                                    <Translate text="Le" />
-                                                                    &nbsp;
-                                                                </span>
-                                                                <div className="r-time">
-                                                                    {start}
-                                                                </div>
-                                                                <span>
-                                                                    &nbsp;
-                                                                    <Translate text="à" />
-                                                                    &nbsp;
-                                                                </span>
-                                                                <div className="r-time-hours">
-                                                                    {startHours}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <div className="r-content-date-one-day">
-                                                            <div className="r-content-date-start">
-                                                                <span>
-                                                                    <Translate text="Le" />
-                                                                    &nbsp;
-                                                                </span>
-                                                                <div className="r-time">
-                                                                    {start}
-                                                                </div>
-                                                            </div>
-                                                            <div className="r-content-date-start-hours">
-                                                                <span>
-                                                                    <Translate text="de" />
-                                                                    &nbsp;
-                                                                </span>
-                                                                <div className="r-time-hours">
-                                                                    {startHours}
-                                                                </div>
-                                                                <span>
-                                                                    &nbsp;
-                                                                    <Translate text="à" />
-                                                                    &nbsp;
-                                                                </span>
-                                                                <div className="r-time-hours">
-                                                                    {endHours}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                )}
+                                                {renderOpenEndDate()}
                                             </div>
                                         ) : (
-                                            <div className="r-content-date-du-au">
-                                                <div className="r-content-date-start">
-                                                    <span>Du&nbsp;</span>
-                                                    <div className="r-time">{start}</div>
-                                                </div>
-                                                <div className="r-content-date-end">
-                                                    <span>&nbsp;au&nbsp;</span>
-                                                    <div className="r-time">{end}</div>
-                                                </div>
-                                            </div>
+                                            renderClosedEndDate()
                                         )}
                                     </div>
                                 )}

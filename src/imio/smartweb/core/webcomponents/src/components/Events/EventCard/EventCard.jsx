@@ -51,7 +51,7 @@ const ContactCard = ({ item, showCategoriesOrTopics, contextAuthenticatedUser })
                 <div className="r-item-text">
                     {start && (
                         <span className="r-item-date">
-                            {start === end ? (
+                            {item.open_end || start === end ? (
                                 start
                             ) : (
                                 <>
