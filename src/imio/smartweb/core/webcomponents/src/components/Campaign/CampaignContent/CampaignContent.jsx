@@ -49,7 +49,7 @@ export default function CampaignContent({ queryUrl, onChange, displayRedThumbs }
             const baseUrl = `${parsedUrl.protocol}//${parsedUrl.hostname}`;
             const fullUrlPour = `${baseUrl}/ideabox-voter-pour-un-projet/?projet=${response.id}`;
             const fullUrlContre = `${baseUrl}/ideabox-voter-contre-un-projet/?projet=${response.id}`;
-            const urlComment = `${baseUrl}/ideabox-commenter-un-projet/`;
+            const urlComment = `${baseUrl}/ideabox-commenter-un-projet/?projet=${response.id}`;
             setUrlComment(urlComment);
             setUrlVotePour(fullUrlPour);
             setUrlVoteContre(fullUrlContre);
