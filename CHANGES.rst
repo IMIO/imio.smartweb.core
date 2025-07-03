@@ -5,6 +5,15 @@ Changelog
 1.4.7 (unreleased)
 ------------------
 
+- Fix effective news date
+  [thomlamb]
+
+- SUP-45270 : Fix open_end date display
+  [thomlamb]
+
+- Fix campaign comment url tagert
+  [thomlamb]
+
 - WEB-4256 : Use pat-contentbrowser instead of pat-relateditems for
   Link, QuickAccess, SectionCollection, SectionEvents and SectionNews
   [remdub]
