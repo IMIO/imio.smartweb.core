@@ -6,7 +6,7 @@ Changelog
 ------------------
 
 - WEB-4256 : Use pat-contentbrowser instead of pat-relateditems for
-  links, quickaccess collectionssection, eventssection and newssection
+  Link, QuickAccess, SectionCollection, SectionEvents and SectionNews
   [remdub]
 
 
@@ -38,11 +38,6 @@ Changelog
 
 - Fix bad catalog query when we get contacts from directory
   [boulch]
-
-- Fix bad catalog query when we get contacts from directory
-  [boulch]
-- WEB-4256 : Use pat-contentbrowser instead of pat-relateditems for links
-  [remdub]
 
 - WEB-4252 : Increase timeout for section events
   [boulch]
