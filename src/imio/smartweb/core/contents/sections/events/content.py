@@ -4,7 +4,7 @@ from imio.smartweb.common.widgets.select import TranslatedAjaxSelectWidget
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone.app.z3cform.widget import RelatedItemsFieldWidget
+from plone.app.z3cform.widgets.contentbrowser import ContentBrowserFieldWidget
 from plone.app.z3cform.widget import SelectFieldWidget
 from plone.autoform import directives
 from plone.supermodel import model
@@ -47,7 +47,7 @@ class ISectionEvents(ISection):
 
     directives.widget(
         "linking_rest_view",
-        RelatedItemsFieldWidget,
+        ContentBrowserFieldWidget,
         vocabulary="plone.app.vocabularies.Catalog",
         pattern_options={
             "selectableTypes": ["imio.smartweb.EventsView"],
