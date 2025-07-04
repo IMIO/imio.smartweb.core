@@ -5,8 +5,12 @@ import { Translate } from "react-translated";
 const ContactCard = ({ item, showCategoriesOrTopics, contextAuthenticatedUser }) => {
     moment.locale("be");
     const title = item.title && item.title;
-    const start = moment.utc(item.start).format("DD-MM-YYYY");
-    const end = moment.utc(item.end).format("DD-MM-YYYY");
+const start = moment.utc(item.start).format(
+  moment.utc(item.start).format("HH:mm") === "00:00" ? "DD-MM-YYYY" : "DD-MM-YYYY HH:mm"
+);
+const end = moment.utc(item.end).format(
+  moment.utc(item.end).format("HH:mm") === "00:00" ? "DD-MM-YYYY" : "DD-MM-YYYY HH:mm"
+);
     return (
         <>
             {contextAuthenticatedUser === "False" ? (

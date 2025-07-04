@@ -5,6 +5,9 @@ Changelog
 1.4.7 (unreleased)
 ------------------
 
+- SUP-45754 : Agenda view : Display hour and minute when it's necessary
+  [boulch]
+
 - Fix effective news date
   [thomlamb]
 
