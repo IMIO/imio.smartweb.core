@@ -116,4 +116,14 @@
       name="@news_request_forwarder"
       />
 
+  <plone:service
+      name="@find"
+      method="GET"
+      accept="application/json"
+      for="zope.interface.Interface"
+      factory=".endpoint.FindEndpoint"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>

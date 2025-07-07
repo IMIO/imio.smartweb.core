@@ -5,6 +5,9 @@ Changelog
 1.4.7 (unreleased)
 ------------------
 
+- Add new endpoint to find content in instance
+  [boulch]
+
 - Fix effective news date
   [thomlamb]
 
