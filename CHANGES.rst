@@ -5,6 +5,12 @@ Changelog
 1.4.7 (unreleased)
 ------------------
 
+- WEB-4218 improve cookier banner style. import view.less delete previous commit
+  [thomlamb]
+
+- WEB-4284: Enable section size button by adding htmx_js_header.pt to procedure view
+  [thomlamb]
+
 - Add new endpoint to find content in instance
   [boulch]
 
