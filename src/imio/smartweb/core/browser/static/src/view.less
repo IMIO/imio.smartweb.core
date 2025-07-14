@@ -227,3 +227,84 @@ body {
     }
   }
 }
+
+
+// cookies
+
+#gdpr-consent-banner {
+  z-index: 9;
+  padding: 50px 25px;
+  background: #fff;
+  position: fixed;
+  top: 100vh;
+  transform: translateY(-100%);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 20%);
+  border-radius: 5px;
+  color: #353535;
+  width: auto;
+  left: 0;
+  max-width: 100vw !important;
+
+  @media (min-width: 992px)  {
+    right: 0;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  & > span {
+    @media (min-width: 992px)  {
+      max-width: 500px;
+      display: inline-block;
+      vertical-align: top;
+      text-align: left;
+      padding-right: 30px;
+    }
+  }
+
+  & > form {
+    @media (min-width: 992px)  {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
+  .gdpr-actions {
+    line-height: 1;
+    display: flex;
+    gap: 10px;
+    margin-top: 1.5rem;
+
+    & > a,
+    input[name="consent"],
+    input[name="refuse"] {
+      background: #1863dc;
+      color: #fff;
+      border: 2px solid #1863dc;
+      padding: 1rem 2rem;
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      transition: all 0.1s ease;
+
+      &:hover,
+      &:focus {
+        background: #ededed;
+        color: #1863dc;
+        outline: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 767px) {
+  #gdpr-consent-banner .gdpr-actions > a {
+    margin-left: 0;
+    text-align: center;
+  }
+
+  #gdpr-consent-banner .gdpr-actions input[name="refuse"] {
+    margin-left: 0;
+    text-align: center;
+  }
+}

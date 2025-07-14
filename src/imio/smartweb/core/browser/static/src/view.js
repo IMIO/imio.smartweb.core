@@ -1,4 +1,4 @@
-
+import "./view.less";
 jQuery(document).ready(function ($) {
   // Show full schedule table when clicking on today's schedule
   $(".opening_informations").click(function (e) {
@@ -8,40 +8,43 @@ jQuery(document).ready(function ($) {
   });
   $(document).click(function (e) {
     if ($(".table_schedule").hasClass("table_schedule--active")) {
-      if (!$(".table_schedule").is(e.target)
-        && !$(".opening_informations").is(e.target)
-        && !$(".table_schedule td").is(e.target)) {
+      if (
+        !$(".table_schedule").is(e.target) &&
+        !$(".opening_informations").is(e.target) &&
+        !$(".table_schedule td").is(e.target)
+      ) {
         $(".table_schedule").toggleClass("table_schedule--active");
       }
     }
   });
 
- if (window.location.href.indexOf('@@siteadmin-smartweb-controlpanel') !== -1) {
-        // On est bien sur la page @@siteadmin-smartweb-controlpanel
-        if ($('div.container div.statusmessage-error').length > 0) {
-            $('div.container div.statusmessage-info').remove();
-        }
+  if (
+    window.location.href.indexOf("@@siteadmin-smartweb-controlpanel") !== -1
+  ) {
+    // On est bien sur la page @@siteadmin-smartweb-controlpanel
+    if ($("div.container div.statusmessage-error").length > 0) {
+      $("div.container div.statusmessage-info").remove();
     }
-  
+  }
 });
 // New navigation
 
 $(document).ready(function () {
-    
-  const menu = $('#portal-globalnav');
-  const submenu = $('#subsite-navigation');
+  const menu = $("#portal-globalnav");
+  const submenu = $("#subsite-navigation");
 
   $(".close-nav").click(function () {
     closeNav();
   });
 
-  $(document).mouseup(e => {
-    if (!menu.is(e.target) // if the target of the click isn't the container...
-      && menu.has(e.target).length === 0
-      && !submenu.is(e.target)
-      && submenu.has(e.target).length === 0
-    ) // ... nor a descendant of the container
-    {
+  $(document).mouseup((e) => {
+    if (
+      !menu.is(e.target) && // if the target of the click isn't the container...
+      menu.has(e.target).length === 0 &&
+      !submenu.is(e.target) &&
+      submenu.has(e.target).length === 0
+    ) {
+      // ... nor a descendant of the container
       closeNav();
     }
   });
@@ -49,8 +52,6 @@ $(document).ready(function () {
   // when you click a toggle show-nav its dropdown menu
 
   $("li.has_subtree > a").click(function () {
-
-
     // MENU
     if ($(this).closest(menu).length > 0) {
       if (!$("#portal-globalnav .show-nav").length > 0) {
@@ -59,10 +60,10 @@ $(document).ready(function () {
       }
       $(this).parent().toggleClass("show-nav");
       $(this).parent().find(".show-nav").toggleClass("show-nav");
-      $(this).parent().siblings(".show-nav").toggleClass("show-nav")
+      $(this).parent().siblings(".show-nav").toggleClass("show-nav");
       $(this).parent().find(".activated").toggleClass(".activated");
       if (!$("#portal-globalnav .show-nav").length > 0) {
-        closeNav()
+        closeNav();
       }
     }
 
@@ -70,31 +71,29 @@ $(document).ready(function () {
     if ($(this).closest(submenu).length > 0) {
       if (!$("#subsite-navigation .show-nav").length > 0) {
         $(submenu).toggleClass("activated");
-          document.body.classList.add('submenu-open-nav-overflow');
-          document.documentElement.classList.add('submenu-open-nav-overflow');
-
+        document.body.classList.add("submenu-open-nav-overflow");
+        document.documentElement.classList.add("submenu-open-nav-overflow");
       }
       $(this).parent().toggleClass("show-nav");
       $(this).parent().find(".show-nav").toggleClass("show-nav");
-      $(this).parent().siblings(".show-nav").toggleClass("show-nav")
+      $(this).parent().siblings(".show-nav").toggleClass("show-nav");
       $(this).parent().find(".activated").toggleClass(".activated");
       if (!$("#subsite-navigation .show-nav").length > 0) {
-        closeNav()
+        closeNav();
       }
     }
-    return false
+    return false;
   });
 
   // Prev nav
   $(".prev-nav").click(function () {
-    $(this).closest(".show-nav").toggleClass("show-nav")
+    $(this).closest(".show-nav").toggleClass("show-nav");
   });
 
-
   // ici on ferme le menu au focusout
-  menu.on('focusout', function(e) {
+  menu.on("focusout", function (e) {
     // Utilisez setTimeout pour s'assurer que document.activeElement est mis à jour
-    setTimeout(function() {
+    setTimeout(function () {
       if (!menu.has(document.activeElement).length) {
         closeNav();
       }
@@ -103,11 +102,11 @@ $(document).ready(function () {
 
   // close nav fonction
   function closeNav() {
-    menu.removeClass('activated');
-    submenu.removeClass('activated');
-    document.body.classList.remove('submenu-open-nav-overflow');
-    document.documentElement.classList.remove('submenu-open-nav-overflow');
-    $('.show-nav').removeClass('show-nav');
+    menu.removeClass("activated");
+    submenu.removeClass("activated");
+    document.body.classList.remove("submenu-open-nav-overflow");
+    document.documentElement.classList.remove("submenu-open-nav-overflow");
+    $(".show-nav").removeClass("show-nav");
     $(".mask-menu").removeClass("in");
   }
 });
