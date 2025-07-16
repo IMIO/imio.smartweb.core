@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
+import { LanguageContext } from "../News.jsx";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from "moment";
@@ -68,7 +69,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         return null;
     };
 
-    moment.locale("fr");
+    moment.locale(useContext(LanguageContext));
     const created = moment(item.effective).startOf("minute").fromNow();
     const lastModified = moment(item.modified).startOf("minute").fromNow();
 

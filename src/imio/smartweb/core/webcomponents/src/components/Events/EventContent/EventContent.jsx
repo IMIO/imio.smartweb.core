@@ -407,7 +407,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                                 </>
                                             )}
                                             <span className="recurence-schedul-more">
-                                                Prochaines dates
+                                            <Translate text="Prochaines dates" />
                                                 <i className="bi bi-arrow-down-short"></i>
                                             </span>
                                         </p>
@@ -451,7 +451,9 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                 <div className="r-content-news-info--itinirary">
                                     {item.street ? (
                                         <a href={itineraryLink} target="_blank">
-                                            <span>Itinéraire</span>
+                                            <span>
+                                                <Translate text="Itinéraire" />
+                                            </span>
                                         </a>
                                     ) : (
                                         ""

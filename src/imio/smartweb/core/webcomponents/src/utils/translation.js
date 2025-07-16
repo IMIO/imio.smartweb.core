@@ -333,7 +333,7 @@ export default {
     à: {
         en: "at",
         fr: "à",
-        de: "um",
+        de: "bis",
         nl: "om",
     },
     Du: {
@@ -411,7 +411,7 @@ export default {
     Itinéraire: {
         en: "Itinerary",
         fr: "Itinéraire",
-        de: "Route",
+        de: "Wegbeschreibung",
         nl: "Route",
     },
     "Filtrer par profil": {
@@ -443,5 +443,11 @@ export default {
         fr: "Suggestions",
         de: "Vorschläge",
         nl: "Suggesties",
+    },
+    "Prochaines dates": {
+        en: "Next dates",
+        fr: "Prochaines dates",
+        de: "Weitere Termine",
+        nl: "Volgende data",
     },
 };
