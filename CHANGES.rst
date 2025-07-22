@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.7 (unreleased)
+1.4.7 (2025-07-22)
 ------------------
 
 - WEB-4218 improve cookier banner style. import view.less delete previous commit
