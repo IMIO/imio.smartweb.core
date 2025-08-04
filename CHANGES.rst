@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.8 (unreleased)
+1.4.8 (2025-08-04)
 ------------------
 
 - WEB-4165 : SEO : Add new "hidden" view to authentic sources contents which generate href links to the "cards"
