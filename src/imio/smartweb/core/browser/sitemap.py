@@ -45,7 +45,8 @@ FRIENDLY_TYPES = [
 
 def cache_key(method, obj, request):
     """We cache data from authentic sources for the sitemap (.xml.gz) for 2 hours."""
-    return f"sitemap_{obj.UID()}_{time.time() // 7200}"
+    b_start = request.form.get("b_start", "0")
+    return f"sitemap_{obj.UID()}_{b_start}_{int(time.time() // 7200)}"
 
 
 @ram.cache(cache_key)
@@ -60,7 +61,10 @@ def get_endpoint_data(obj, request):
         return {}
 
     endpoint = endpoint_class()
-    batch_size = 1000 if obj.portal_type == "imio.smartweb.DirectoryView" else 365
+    if not request.form.get("b_size", 0):
+        batch_size = 1000 if obj.portal_type == "imio.smartweb.DirectoryView" else 365
+    else:
+        batch_size = int(request.form.get("b_size", 0))
     return (
         endpoint.reply_for_given_object(
             obj, request, fullobjects=0, batch_size=batch_size

@@ -316,6 +316,17 @@
     permission="zope2.View"
     />
 
+  <browser:viewlet
+    name="smartweb.noindexed.robots"
+    for="imio.smartweb.core.contents.IRestView"
+    view="imio.smartweb.core.interfaces.INoIndexedUtils"
+    manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    template="no_indexed_header.pt"
+    class=".header.NoIndexedViewlet"
+    permission="zope2.View"
+    />    
+
   <configure package="collective.messagesviewlet.browser">
     <browser:viewlet
         name="message-viewlet"

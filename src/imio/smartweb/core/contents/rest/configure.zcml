@@ -1,4 +1,5 @@
 <configure
+    xmlns:browser="http://namespaces.zope.org/browser"
     xmlns="http://namespaces.zope.org/zope">
 
   <include package=".campaign" />
@@ -12,6 +13,14 @@
            zope.publisher.interfaces.http.IHTTPRequest"
       provides="zope.publisher.interfaces.IPublishTraverse"
       factory=".traversal.RestViewTraversable"
+      />
+
+  <browser:page
+      for="imio.smartweb.core.contents.IRestView"
+      name="index_html"
+      class=".view.SeoHiddenReactLinks"
+      template="results.pt"
+      permission="zope2.View"
       />
 
 </configure>

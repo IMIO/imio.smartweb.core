@@ -5,7 +5,8 @@ Changelog
 1.4.8 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4165 : SEO : Add new "hidden" view to authentic sources contents which generate href links to the "cards"
+  [boulch]
 
 
 1.4.7 (2025-07-22)

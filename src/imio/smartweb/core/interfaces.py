@@ -52,3 +52,7 @@ class IOdwbViewUtils(Interface):
 
 class IHtmxViewUtils(Interface):
     """ """
+
+
+class INoIndexedUtils(Interface):
+    """ """

@@ -52,6 +52,10 @@ class BaseEndpoint(object):
         item.pop(field, None)
 
     def construct_query_string(self, params):
+        for k, v in self.request.form.items():
+            p = f"{k}={v}"
+            if p in params:
+                params.remove(p)
         params = "&".join(params)
         form = self.request.form
         extra_params = []

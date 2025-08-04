@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-
+from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
@@ -36,6 +37,20 @@ class BaseFooterViewlet(common.ViewletBase):
             return
         self.sections = self.footer.listFolderContents()
         self.current_page_url = context_state.current_page_url
+
+    def seo_auth_sources_links(self):
+        view_name = "index_html"
+        news_link = get_default_view_url("news")
+        news_link = f"{news_link}/{view_name}"
+        events_link = get_default_view_url("events")
+        events_link = f"{events_link}/{view_name}"
+        directory_link = get_default_view_url("directory")
+        directory_link = f"{directory_link}/{view_name}"
+        return [
+            {"label": _("Access to news links"), "url": news_link},
+            {"label": _("Access to events links"), "url": events_link},
+            {"label": _("Access to directory links"), "url": directory_link},
+        ]
 
 
 class FooterViewlet(BaseFooterViewlet):
