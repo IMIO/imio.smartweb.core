@@ -39,7 +39,7 @@ class BaseFooterViewlet(common.ViewletBase):
         self.current_page_url = context_state.current_page_url
 
     def seo_auth_sources_links(self):
-        view_name = "index_html"
+        view_name = "seo_html"
         news_link = get_default_view_url("news")
         news_link = f"{news_link}/{view_name}"
         events_link = get_default_view_url("events")

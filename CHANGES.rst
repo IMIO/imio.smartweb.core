@@ -5,7 +5,9 @@ Changelog
 1.4.9 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- WEB-4165 : SEO : Override the canonical URL in the HTML header for the REST view, 
+  so that each card (name?u=<uuid>) is considered canonical instead of the default container.
+  [boulch]
 
 
 1.4.8 (2025-08-04)

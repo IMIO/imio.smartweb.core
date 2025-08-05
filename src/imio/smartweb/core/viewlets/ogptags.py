@@ -10,9 +10,19 @@ from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.core.utils import hash_md5
 from plone import api
+from plone.app.layout.links.viewlets import CanonicalURL as BaseCanonicalURL
 from plone.app.layout.viewlets.httpheaders import HeaderViewlet
 
 import os
+
+
+class CanonicalURL(BaseCanonicalURL):
+
+    def render(self):
+        url = self.request.ACTUAL_URL
+        querystring = self.request.get("QUERY_STRING", "")
+        canonical_link = f"{url}?{querystring}" if querystring else url
+        return f'<link href="{canonical_link}" rel="canonical" />'
 
 
 class OgpTagsViewlet(HeaderViewlet):

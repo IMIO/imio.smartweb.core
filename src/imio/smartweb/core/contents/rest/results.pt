@@ -26,13 +26,13 @@
 
             <a tal:condition="has_prev"
                i18n:translate="previous"
-               tal:attributes="href string:${base_url}/index_html?b_start=${prev_start}&amp;b_size=${size}">
+               tal:attributes="href string:${base_url}/seo_html?b_start=${prev_start}&amp;b_size=${size}">
                &laquo; Previous
             </a>
 
             <a tal:condition="has_next"
                i18n:translate="label_external_url"
-               tal:attributes="href string:${base_url}/index_html?b_start=${next_start}&amp;b_size=${size}">
+               tal:attributes="href string:${base_url}/seo_html?b_start=${next_start}&amp;b_size=${size}">
                Next &raquo;
             </a>
 

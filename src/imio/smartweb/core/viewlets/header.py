@@ -29,13 +29,13 @@ class NoIndexedViewlet(HeaderViewlet):
         if b_start > 0:
             prev_start = max(0, b_start - b_size)
             links.append(
-                f'<link rel="prev" total="{total}" href="{base_url}/index_html?b_start={prev_start}&amp;b_size={b_size}" />'
+                f'<link rel="prev" total="{total}" href="{base_url}/seo_html?b_start={prev_start}&amp;b_size={b_size}" />'
             )
 
         if (b_start + b_size) < total:
             next_start = b_start + b_size
             links.append(
-                f'<link rel="next" total="{total}" href="{base_url}/index_html?b_start={next_start}&amp;b_size={b_size}" />'
+                f'<link rel="next" total="{total}" href="{base_url}/seo_html?b_start={next_start}&amp;b_size={b_size}" />'
             )
 
         return "\n".join(links)

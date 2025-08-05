@@ -17,7 +17,7 @@
 
   <browser:page
       for="imio.smartweb.core.contents.IRestView"
-      name="index_html"
+      name="seo_html"
       class=".view.SeoHiddenReactLinks"
       template="results.pt"
       permission="zope2.View"
