@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.9 (unreleased)
+1.4.9 (2025-08-05)
 ------------------
 
 - WEB-4165 : SEO : Override the canonical URL in the HTML header for the REST view, 
