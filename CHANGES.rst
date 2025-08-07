@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.10 (unreleased)
+1.4.10 (2025-08-07)
 -------------------
 
 - WEB-4165 : SEO : Build noscript fallback for React views (Agenda / Directory / News) to improve SEO
