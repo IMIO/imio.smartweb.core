@@ -5,7 +5,8 @@ Changelog
 1.4.10 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4165 : SEO : Build noscript fallback for React views (Agenda / Directory / News) to improve SEO
+  [boulch]
 
 
 1.4.9 (2025-08-05)

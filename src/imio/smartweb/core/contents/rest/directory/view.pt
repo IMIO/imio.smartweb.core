@@ -14,6 +14,33 @@
                                        view-path view/view_path;
                                        context-authenticated-user view/context_authenticated_user;"></smartweb-annuaire>
   </div>
+  <noscript tal:condition="view/direct_access">
+    <div class="seo-fallback" tal:define="contact view/contact">
+      <h1 tal:content="contact/name"></h1>
+      <p tal:condition="contact/subtitle" tal:content="contact/subtitle"></p>
+      <p tal:condition="contact/description" tal:content="contact/description"></p>
+      <p tal:condition="contact/address" tal:content="contact/address"></p>
+      <p tal:condition="contact/phone">
+        <span i18n:translate="label_phone">Phone</span>&nbsp;:&nbsp;
+        <a tal:attributes="href python:f'tel:{contact.get('phone')}'" tal:content="contact/phone"></a>
+      </p>
+      <p tal:condition="contact/url">
+        <span i18n:translate="label_website">Website</span>&nbsp;:&nbsp;
+        <a tal:attributes="href contact/url" tal:content="contact/url"></a>
+      </p>
+      <p tal:condition="contact/geolocation">
+        <span i18n:translate="label_geolocation">Geolocation</span>&nbsp;:&nbsp;
+        <span class="geolocation" 
+              tal:attributes="data-lat python:contact.get('geolocation', {})[0]; 
+                              data-lon python:contact.get('geolocation', {})[1]"
+              tal:content="python:', '.join(map(str, contact.get('geolocation', {})))">
+        </span>
+      </p>
+      <p tal:condition="contact/category" tal:content="contact/category"></p>
+      <p tal:content="contact/contact_type"></p>
+      <img tal:condition="contact/image_url" tal:attributes="src contact/image_url; alt contact/name" />
+    </div>
+  </noscript>
 </metal:main>
 </body>
 </html>

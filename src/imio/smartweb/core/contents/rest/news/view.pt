@@ -16,6 +16,22 @@
                                          show-categories-or-topics view/show_categories_or_topics;
                                          context-authenticated-user view/context_authenticated_user;"></smartweb-news>
       </div>
+      <noscript tal:condition="view/direct_access">
+        <div class="seo-fallback" tal:define="news view/news">
+          <h1 tal:content="news/name"></h1>
+          <p tal:condition="news/description" tal:content="news/description"></p>
+          <p tal:condition="news/text" tal:content="structure news/text/data"></p>      
+          <p tal:condition="news/phone">
+            <span i18n:translate="label_phone">Phone</span>&nbsp;:&nbsp;
+            <a tal:attributes="href python:f'tel:{news.get('phone')}'" tal:content="news/phone"></a>
+          </p>
+          <p tal:condition="news/url">
+            <span i18n:translate="label_website">Website</span>&nbsp;:&nbsp;
+            <a tal:attributes="href news/url" tal:content="news/url"></a>
+          </p>
+          <img tal:condition="news/image_url" tal:attributes="src news/image_url; alt news/name" />
+        </div>
+      </noscript>         
     </metal:main>
   </body>
 </html>

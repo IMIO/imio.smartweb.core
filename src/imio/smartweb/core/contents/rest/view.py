@@ -2,14 +2,19 @@
 from datetime import date
 from imio.smartweb.core.browser.sitemap import format_sitemap_items
 from imio.smartweb.core.browser.sitemap import get_endpoint_data
+from imio.smartweb.core.config import DIRECTORY_URL
+from imio.smartweb.core.config import EVENTS_URL
+from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents import IDirectoryView
 from imio.smartweb.core.contents import IEventsView
 from imio.smartweb.core.contents import INewsView
 from imio.smartweb.core.interfaces import INoIndexedUtils
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
+from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from Products.Five import BrowserView
+from urllib.parse import parse_qs
 from urllib.parse import urlsplit
 from zope.interface import implementer
 
@@ -47,6 +52,41 @@ class BaseRestView(BrowserView):
         url = self.context.absolute_url()
         parsed = urlsplit(url)
         return url.replace(f"{parsed.scheme}://{parsed.netloc}", "")
+
+    @property
+    def direct_access(self):
+        query_string = self.request.get("QUERY_STRING", "")
+        params = parse_qs(query_string)
+        uuid = params.get("u", [None])[0]
+        if uuid and self.request.HTTP_REFERER == "":
+            endpoint = "@search"
+            if IEventsView.providedBy(self.context):
+                endpoint = "@events"
+                url = EVENTS_URL
+            if IDirectoryView.providedBy(self.context):
+                url = DIRECTORY_URL
+            if INewsView.providedBy(self.context):
+                url = NEWS_URL
+            url = f"{url}/{endpoint}?UID={uuid}&fullobjects=0"
+            self._item = get_json(url)
+            return True
+        return False
+
+    @property
+    def item(self):
+        item = self._item.get("items", [])[0] if self._item else None
+        return item
+
+    def _format_address(
+        self, street=None, number=None, zipcode=None, city=None, country=None
+    ):
+        street_part = ", ".join(filter(None, [street, number]))
+        city_part = " ".join(filter(None, [str(zipcode) if zipcode else None, city]))
+        address_parts = [street_part, city_part]
+        address = " - ".join(filter(None, address_parts))
+        if country:
+            address += f" / {country}"
+        return address
 
 
 @implementer(INoIndexedUtils)

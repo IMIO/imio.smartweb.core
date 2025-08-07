@@ -18,6 +18,33 @@
                                        show-categories-or-topics view/show_categories_or_topics;
                                        context-authenticated-user view/context_authenticated_user;"></smartweb-events>
     </div>
+    <noscript tal:condition="view/direct_access">
+      <div class="seo-fallback" tal:define="event view/event">
+        <h1 tal:content="event/name"></h1>
+        <strong tal:condition="event/period_text" tal:content="event/period_text"></strong>
+        <p tal:condition="event/description" tal:content="event/description"></p>
+        <p tal:condition="event/text" tal:content="event/text"></p>      
+        <p tal:condition="event/address" tal:content="event/address"></p>
+        <p tal:condition="event/phone">
+          <span i18n:translate="label_phone">Phone</span>&nbsp;:&nbsp;
+          <a tal:attributes="href python:f'tel:{event.get('phone')}'" tal:content="event/phone"></a>
+        </p>
+        <p tal:condition="event/url">
+          <span i18n:translate="label_website">Website</span>&nbsp;:&nbsp;
+          <a tal:attributes="href event/url" tal:content="event/url"></a>
+        </p>
+        <p tal:condition="event/geolocation">
+          <span i18n:translate="label_geolocation">Geolocation</span>&nbsp;:&nbsp;
+          <span class="geolocation" 
+                tal:attributes="data-lat python:event.get('geolocation', {})[0]; 
+                                data-lon python:event.get('geolocation', {})[1]"
+                tal:content="python:', '.join(map(str, event.get('geolocation', {})))">
+          </span>
+        </p>
+        <p tal:content="event/event_type"></p>
+        <img tal:condition="event/image_url" tal:attributes="src event/image_url; alt event/name" />
+      </div>
+    </noscript>    
     </metal:main>
   </body>
 </html>
