@@ -88,7 +88,10 @@ class OgpTagsViewlet(HeaderViewlet):
         auth_source_url = f"{auth_source_url}/{endpoint}?UID={uid}&{params}"
         result_json = get_json(auth_source_url)
         if result_json:
-            self._item = result_json["items"][0]
+            if isinstance(result_json["items"], list):
+                self._item = result_json["items"][0]
+            else:
+                self._item = result_json["items"]
             self._set_image()
 
     def _set_image(self):

@@ -14,7 +14,7 @@ class IPortalHeaderTopContainerViewletManager(IViewletManager):
     """Viewlet manager containing top header viewlets"""
 
 
-class NoIndexedViewlet(HeaderViewlet):
+class SeoViewlet(HeaderViewlet):
     """Pages that should not be indexed by search engines"""
 
     def render(self):
@@ -41,6 +41,6 @@ class NoIndexedViewlet(HeaderViewlet):
         return "\n".join(links)
 
     def update(self):
-        super(NoIndexedViewlet, self).update()
+        super(SeoViewlet, self).update()
         # This page should not be indexed, we set the X-Robots-Tag header
         self.request.response.setHeader("X-Robots-Tag", "noindex, follow")

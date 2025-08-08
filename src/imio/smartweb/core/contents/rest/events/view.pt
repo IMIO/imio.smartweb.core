@@ -23,7 +23,7 @@
         <h1 tal:content="event/name"></h1>
         <strong tal:condition="event/period_text" tal:content="event/period_text"></strong>
         <p tal:condition="event/description" tal:content="event/description"></p>
-        <p tal:condition="event/text" tal:content="event/text"></p>      
+        <p tal:condition="event/text" tal:content="structure event/text/data"></p>      
         <p tal:condition="event/address" tal:content="event/address"></p>
         <p tal:condition="event/phone">
           <span i18n:translate="label_phone">Phone</span>&nbsp;:&nbsp;

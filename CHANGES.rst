@@ -5,7 +5,9 @@ Changelog
 1.4.11 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4165 : SEO : Improve sitemap.xml.gz generation to include new seo_html views
+  and some other seo improvements  
+  [boulch]
 
 
 1.4.10 (2025-08-07)

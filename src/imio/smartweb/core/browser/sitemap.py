@@ -4,6 +4,7 @@ from imio.smartweb.core.contents.rest.directory.endpoint import DirectoryEndpoin
 from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpointGet
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpointGet
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.sitemap.sitemap import SiteMapView
 from plone.base.interfaces import IPloneSiteRoot
@@ -76,7 +77,11 @@ def get_endpoint_data(obj, request):
 def format_sitemap_items(items, base_url):
     """Format items for sitemap(.xml.gz)"""
     formatted_items = []
+    latest_lastmod = None
+    item_type = ""
     for item in items:
+        item_type = item.get("@type", "")
+        lastmod = item.get("lastmod")
         item_id = normalizeString(item.get("title"))
         item_uid = item.get("UID")
         lastmod = item.get("modified") or "1970-01-01T00:00:00Z"
@@ -94,6 +99,29 @@ def format_sitemap_items(items, base_url):
                 "normalized_portal_type": "imio-smartweb-authsources-item",
             }
         )
+        if latest_lastmod is None or lastmod > latest_lastmod:
+            latest_lastmod = lastmod
+    seo_title = ""
+    if item_type == "imio.news.NewsItem":
+        seo_title = _("News : SEO Links")
+    elif item_type == "imio.directory.Contact":
+        seo_title = _("Directory : SEO Links")
+    else:
+        seo_title = _("Agenda : SEO Links")
+    formatted_items.append(
+        {
+            "loc": f"{base_url}/seo_html",
+            "lastmod": latest_lastmod,
+            "Title": seo_title,
+            "Description": seo_title,
+            "getURL": f"{base_url}/seo_html",
+            "getRemoteUrl": Missing.Value,
+            "currentItem": False,
+            "currentParent": False,
+            "normalized_review_state": "published",
+            "normalized_portal_type": "imio-smartweb-authsources-root",
+        }
+    )
     return formatted_items
 
 

@@ -215,7 +215,7 @@ class TestPage(ImioSmartwebTestCase):
                 for child in sitemap.siteMap().get("children")
                 if child.get("Title") == "directory view"
             ][0]
-            self.assertEqual(len(directory_entry.get("children")), 6)
+            self.assertEqual(len(directory_entry.get("children")), 7)
 
     def test_bad_portal_type(self):
         obj = Mock()

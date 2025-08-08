@@ -331,8 +331,8 @@
     view="imio.smartweb.core.interfaces.INoIndexedUtils"
     manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-    template="no_indexed_header.pt"
-    class=".header.NoIndexedViewlet"
+    template="seo_header.pt"
+    class=".header.SeoViewlet"
     permission="zope2.View"
     />    
 

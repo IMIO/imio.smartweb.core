@@ -6,38 +6,42 @@
     i18n:domain="imio.smartweb">
     <body>
         <metal:main fill-slot="content-core">
-        <h2 tal:content="view/label">SEO React Links</h2>
+            <script type="text/javascript" tal:content="structure string:window.location.href='${view/default_view}';">
+            </script>
+            <noscript>
+                <h2 tal:content="view/label">SEO Links</h2>
 
-        <ul>
-            <li tal:repeat="item view/get_data">
-            <a tal:attributes="href item/getURL" tal:content="item/Title">Link</a>
-            </li>
-        </ul>
+                <ul>
+                    <li tal:repeat="item view/get_data">
+                    <a tal:attributes="href item/getURL" tal:content="item/Title">Link</a>
+                    </li>
+                </ul>
 
-        <div class="batching">
-            <tal:batch tal:define="start python:view.b_start;
-                                size python:view.b_size;
-                                total python:view.total;
-                                base_url python:context.absolute_url();
-                                has_prev python:start > 0;
-                                has_next python:(start + size) < total;
-                                prev_start python:max(0, start - size);
-                                next_start python:start + size">
+                <div class="batching">
+                    <tal:batch tal:define="start python:view.b_start;
+                                        size python:view.b_size;
+                                        total python:view.total;
+                                        base_url python:context.absolute_url();
+                                        has_prev python:start > 0;
+                                        has_next python:(start + size) < total;
+                                        prev_start python:max(0, start - size);
+                                        next_start python:start + size">
 
-            <a tal:condition="has_prev"
-               i18n:translate="previous"
-               tal:attributes="href string:${base_url}/seo_html?b_start=${prev_start}&amp;b_size=${size}">
-               &laquo; Previous
-            </a>
+                    <a tal:condition="has_prev"
+                    i18n:translate="previous"
+                    tal:attributes="href string:${base_url}/seo_html?b_start=${prev_start}&amp;b_size=${size}">
+                    &laquo; Previous
+                    </a>
 
-            <a tal:condition="has_next"
-               i18n:translate="label_external_url"
-               tal:attributes="href string:${base_url}/seo_html?b_start=${next_start}&amp;b_size=${size}">
-               Next &raquo;
-            </a>
+                    <a tal:condition="has_next"
+                    i18n:translate="label_external_url"
+                    tal:attributes="href string:${base_url}/seo_html?b_start=${next_start}&amp;b_size=${size}">
+                    Next &raquo;
+                    </a>
 
-            </tal:batch>
-        </div>
+                    </tal:batch>
+                </div>
+            </noscript>
         </metal:main>
     </body>
 </html>
