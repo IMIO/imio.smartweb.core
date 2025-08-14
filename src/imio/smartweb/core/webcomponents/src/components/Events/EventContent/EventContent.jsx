@@ -382,30 +382,13 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                         aria-expanded="false"
                                     >
                                         <p>
-                                            {item.whole_day ? (
-                                                moment(futureDates[0]).format("DD-MM-YYYY")
-                                            ) : (
-                                                <>
-                                                    {moment(futureDates[0]).format("DD-MM-YYYY")}
-                                                    <div className="r-content-recur-start-hours">
-                                                        <span>
-                                                            <Translate text="de" />
-                                                            &nbsp;
-                                                        </span>
-                                                        <div className="r-time-hours">
-                                                            {startHours}
-                                                        </div>
-                                                        <span>
-                                                            &nbsp;
-                                                            <Translate text="à" />
-                                                            &nbsp;
-                                                        </span>
-                                                        <div className="r-time-hours">
-                                                            {endHours}
-                                                        </div>
-                                                    </div>
-                                                </>
-                                            )}
+                                        {item.open_end ? (
+                                            <div className="r-content-news-recurrence-date">
+                                                {renderOpenEndDate()}
+                                            </div>
+                                        ) : (
+                                            renderClosedEndDate()
+                                        )}
                                             <span className="recurence-schedul-more">
                                             <Translate text="Prochaines dates" />
                                                 <i className="bi bi-arrow-down-short"></i>
