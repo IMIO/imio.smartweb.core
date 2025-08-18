@@ -184,6 +184,11 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
         item.city;
     itineraryLink = itineraryLink.replaceAll("+null", "");
 
+    let itineraryText = [item.number, item.street, item.complement, item.zipcode, item.city]
+        .filter(Boolean)
+        .join(" ");
+
+
     const openSchedul = () => {
         setSchedulVisibility(true);
     };
@@ -435,7 +440,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                     {item.street ? (
                                         <a href={itineraryLink} target="_blank">
                                             <span>
-                                                <Translate text="Itinéraire" />
+                                               {itineraryText}
                                             </span>
                                         </a>
                                     ) : (

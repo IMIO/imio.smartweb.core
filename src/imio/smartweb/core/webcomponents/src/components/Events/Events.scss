@@ -314,7 +314,7 @@ article > header {
 .recurence-modal-display {
     background-color: #fff;
     position: absolute;
-    top: 0;
+    margin-top: -14px;
     left: 0;
     right: 0;
     width: max-content;
@@ -396,17 +396,12 @@ article > header {
         }
     }
 
-    .r-content-news-info--date {
+    .r-content-date-start,
+    .r-content-date-end,
+    .r-content-date-start-hours {
         display: flex;
-
-        .r-content-date-start,
-        .r-content-date-end,
-        .r-content-date-start-hours {
-            display: flex;
-            flex-wrap: wrap;
-        }
+        flex-wrap: wrap;
     }
-
     .r-content-news-info-social {
         svg {
             width: 30px;
