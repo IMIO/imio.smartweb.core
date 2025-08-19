@@ -5,6 +5,12 @@ Changelog
 1.4.11 (unreleased)
 -------------------
 
+- Changer Itinerary link to plain text in React view
+  [thomlamb]
+
+- Fix whole day date for recurrence event
+  [thomlamb]
+
 - WEB-4165 : SEO : Improve sitemap.xml.gz generation to include new seo_html views
   and some other seo improvements  
   [boulch]

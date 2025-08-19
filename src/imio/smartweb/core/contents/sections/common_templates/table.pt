@@ -120,7 +120,8 @@
                              tal:content="item/item_infos"/>
                       </a>
                   <!-- publication : attached file-->
-                    <a
+                    <a 
+                    class="publication_attached_file"
                     tal:condition="item/publication_attached_file | nothing"
                     tal:attributes="href item/publication_attached_file/download"
                         tal:content="item/publication_attached_file/filename"
