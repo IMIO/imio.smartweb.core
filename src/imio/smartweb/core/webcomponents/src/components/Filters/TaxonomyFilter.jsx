@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 import "./TaxonomyFilter.scss";
 
-function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick }) {
+function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick, unique}) {
     // Regroupement des états liés
     const [selectValues, setSelectValues] = useState({
         first: null,
@@ -12,7 +12,7 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
     });
 
     const [visibility, setVisibility] = useState({
-        secondLevel: false,
+        secondLevel: unique || false,
         thirdLevel: false,
     });
 
@@ -46,7 +46,6 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
 
     const onChangeSub1 = useCallback(
         (value, action) => {
-            // console.log(value);
             if (value?.sub) {
                 const secondLevelOptions = value.sub.map((d) => ({
                     value: d.token,
@@ -112,7 +111,7 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
     useEffect(() => {
         if (!isActive) {
             setVisibility({
-                secondLevel: false,
+                secondLevel: unique || false,
                 thirdLevel: false,
             });
             setSelectValues((prev) => ({
@@ -121,7 +120,7 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                 third: null,
             }));
         }
-    }, [isActive]);
+    }, [isActive, unique]);
 
     // Effet pour mettre à jour les options du premier niveau
     useEffect(() => {
@@ -133,6 +132,7 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
         }
     }, [sub, firstLevelOptions]);
 
+    console.log(unique)
     return (
         <div onClick={onClick}>
             <div
@@ -144,6 +144,7 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
             >
                 <a
                     className="sub0"
+                    style={unique ? { display: "none" } : {}}
                     href="#"
                     value={title}
                     onClick={(e) => {
@@ -221,11 +222,13 @@ TaxonomyFilter.propTypes = {
     isActive: PropTypes.bool,
     setCat: PropTypes.func.isRequired,
     onClick: PropTypes.func,
+    unique: PropTypes.bool,
 };
 
 TaxonomyFilter.defaultProps = {
     isActive: false,
     onClick: () => {},
+    unique: false,
 };
 
 export default TaxonomyFilter;

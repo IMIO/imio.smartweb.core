@@ -117,7 +117,6 @@ function Filters(props) {
 
     // set values from select
     const onChangeHandlerSelect = useCallback((value, action) => {
-        console.log(value);
         const inputName = action.name;
         if (value) {
             setInputValues((state) => ({ ...state, [inputName]: value.value }), []);
@@ -323,25 +322,39 @@ function Filters(props) {
                 data-bs-parent="#accordionExample"
             >
                 <div className="accordion-body-annuaire">
+                    {taxonomyData?.length !== 1 ? (
                     <span className="accordion-body-annuaire-title-full-screen">
                         <Translator>
                             {({ translate }) => <span>{translate({ text: "Catégories" })}</span>}
                         </Translator>
-                    </span>
+                    </span>) : ("")
+                    }
+
 
                     <div className="taxonomy-Filter">
-                        {taxonomyData &&
-                            taxonomyData.map((donnees, i) => (
-                                <TaxonomyFilter
-                                    key={i}
-                                    {...donnees}
-                                    setCat={setCat}
-                                    isActive={i === activeComponent}
-                                    onClick={() => handleClick(i)}
-                                    onChange={onChangeHandlerSelect}
-                                    test={i}
-                                />
-                            ))}
+                        {taxonomyData?.length === 1 ? (
+                        <TaxonomyFilter
+                            {...taxonomyData[0]}
+                            setCat={setCat}
+                            isActive={0 === activeComponent}
+                            onClick={() => handleClick(0)}
+                            onChange={onChangeHandlerSelect}
+                            unique={true}
+                        />
+                        ) : (
+                        taxonomyData?.map((donnees, i) => (
+                            <TaxonomyFilter
+                            key={i}
+                            {...donnees}
+                            setCat={setCat}
+                            isActive={i === activeComponent}
+                            onClick={() => handleClick(i)}
+                            onChange={onChangeHandlerSelect}
+                            unique={false}
+                            />
+                        ))
+                        )}
+
                     </div>
                     {/* <div className="r-filter  facilities-Filter"> */}
                     {/* <label>Catégories</label> */}
