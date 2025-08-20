@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.11 (unreleased)
+1.4.11 (2025-08-20)
 -------------------
 
 - Changer Itinerary link to plain text in React view
