@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.12 (unreleased)
+1.4.12 (2025-08-25)
 -------------------
 
 - WEB-4291 : Improve directory Categories: If only one category, no need to display the first one
