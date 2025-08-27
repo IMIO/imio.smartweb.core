@@ -5,6 +5,9 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
+- WEB-3835 : Accessibility : replace link with button for better keyboard navigation and adjust js for tabulation close menu
+  [thomlamb]
+
 - WEB-3718 : add h1 in portal page
   [thomlamb]
 

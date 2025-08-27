@@ -3,7 +3,6 @@ jQuery(document).ready(function ($) {
   // Show full schedule table when clicking on today's schedule
   $(".opening_informations").click(function (e) {
     $(this).siblings(".table_schedule").toggleClass("table_schedule--active");
-    // $(this).toggle("fast");
     e.preventDefault();
   });
   $(document).click(function (e) {
@@ -21,17 +20,23 @@ jQuery(document).ready(function ($) {
   if (
     window.location.href.indexOf("@@siteadmin-smartweb-controlpanel") !== -1
   ) {
-    // On est bien sur la page @@siteadmin-smartweb-controlpanel
     if ($("div.container div.statusmessage-error").length > 0) {
       $("div.container div.statusmessage-info").remove();
     }
   }
 });
-// New navigation
 
+// New navigation
 $(document).ready(function () {
   const menu = $("#portal-globalnav");
+  const menuInert = $("#portal-globalnav > li > .has_subtree");
+  const submenuInert = $("#subsite-navigation li > .has_subtree");
+
   const submenu = $("#subsite-navigation");
+
+  // ✅ On applique inert par défaut car le menu est fermé initialement
+  menuInert.attr("inert", "");
+  submenuInert.attr("inert", "");
 
   $(".close-nav").click(function () {
     closeNav();
@@ -39,24 +44,25 @@ $(document).ready(function () {
 
   $(document).mouseup((e) => {
     if (
-      !menu.is(e.target) && // if the target of the click isn't the container...
+      !menu.is(e.target) &&
       menu.has(e.target).length === 0 &&
       !submenu.is(e.target) &&
       submenu.has(e.target).length === 0
     ) {
-      // ... nor a descendant of the container
       closeNav();
     }
   });
 
-  // when you click a toggle show-nav its dropdown menu
-
+  // Gestion des clics pour ouvrir les menus
   $("li.has_subtree > a").click(function () {
     // MENU
     if ($(this).closest(menu).length > 0) {
       if (!$("#portal-globalnav .show-nav").length > 0) {
         $(menu).toggleClass("activated");
         $(".mask-menu").toggleClass("in");
+
+        // ✅ Quand on active, on enlève inert
+        menuInert.removeAttr("inert");
       }
       $(this).parent().toggleClass("show-nav");
       $(this).parent().find(".show-nav").toggleClass("show-nav");
@@ -73,6 +79,9 @@ $(document).ready(function () {
         $(submenu).toggleClass("activated");
         document.body.classList.add("submenu-open-nav-overflow");
         document.documentElement.classList.add("submenu-open-nav-overflow");
+
+        // ✅ Quand on active, on enlève inert
+        submenuInert.removeAttr("inert");
       }
       $(this).parent().toggleClass("show-nav");
       $(this).parent().find(".show-nav").toggleClass("show-nav");
@@ -85,14 +94,12 @@ $(document).ready(function () {
     return false;
   });
 
-  // Prev nav
   $(".prev-nav").click(function () {
     $(this).closest(".show-nav").toggleClass("show-nav");
   });
 
-  // ici on ferme le menu au focusout
-  menu.on("focusout", function (e) {
-    // Utilisez setTimeout pour s'assurer que document.activeElement est mis à jour
+  // Fermeture du menu au focusout
+  menu.on("focusout", function () {
     setTimeout(function () {
       if (!menu.has(document.activeElement).length) {
         closeNav();
@@ -100,7 +107,7 @@ $(document).ready(function () {
     }, 0);
   });
 
-  // close nav fonction
+  // ✅ Fonction de fermeture avec inert
   function closeNav() {
     menu.removeClass("activated");
     submenu.removeClass("activated");
@@ -108,5 +115,9 @@ $(document).ready(function () {
     document.documentElement.classList.remove("submenu-open-nav-overflow");
     $(".show-nav").removeClass("show-nav");
     $(".mask-menu").removeClass("in");
+
+    // ✅ On réactive inert pour bloquer le focus clavier
+    menuInert.attr("inert", "");
+    submenuInert.attr("inert", "");
   }
 });

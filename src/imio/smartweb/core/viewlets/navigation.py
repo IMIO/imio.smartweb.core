@@ -16,7 +16,7 @@ import Missing
 class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
     _close_menu_markup = (
         '<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
-        '<a aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></a>'
+        '<button aria-label="{close}" class="close-nav"><span class="close-nav-icon"></span></button>'
     )
     _prev_menu_markup = (
         '<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
