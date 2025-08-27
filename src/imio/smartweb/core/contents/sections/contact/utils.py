@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.common.contact_utils import ContactProperties as ContactSchedule
+from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import rich_description
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
@@ -125,11 +126,15 @@ class ContactProperties(ContactSchedule):
             self.contact.get("city"),
         ]
         entity = " ".join(filter(None, entity_parts))
-        country = (
-            self.contact.get("country")
-            and self.contact.get("country").get("title")
-            or ""
-        )
+
+        if self.contact.get("country"):
+            country = get_term_from_vocabulary(
+                "imio.smartweb.vocabulary.Countries",
+                self.contact.get("country").get("token", None),
+            )
+            country = country.title
+        else:
+            country = ""
         if not (street or entity or country):
             return None
         return {"street": street, "entity": entity, "country": country}

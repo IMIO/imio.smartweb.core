@@ -5,7 +5,8 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-46144 : Improve contact country translation
+  [thomlamb]
 
 
 1.4.12 (2025-08-25)
