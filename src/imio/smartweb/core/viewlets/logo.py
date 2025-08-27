@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
+from imio.smartweb.core.contents.pages.portal_page.content import IPortalPage
 from plone import api
 from plone.app.layout.viewlets.common import LogoViewlet as baseLogoViewlet
 from plone.formwidget.namedfile.converter import b64decode_file
@@ -58,3 +59,15 @@ class LogoViewlet(baseLogoViewlet):
             self.img_src = get_scale_url(minisite, self.request, "logo", "preview")
         self.show_title = minisite.logo_display_mode in ["title", "logo_title"]
         self.logo_title = self.navigation_root_title
+
+    @property
+    def is_portal_page(self):
+        """Check if the current context is a PortalPage"""
+        return IPortalPage.providedBy(self.context)
+
+    @property
+    def portal_page_title(self):
+        """Get the title of the PortalPage"""
+        if self.is_portal_page:
+            return getattr(self.context, 'title', '')
+        return ''

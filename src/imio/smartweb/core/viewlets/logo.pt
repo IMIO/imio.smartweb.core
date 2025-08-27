@@ -7,13 +7,27 @@
                    class python: 'minisite_logo' if view.is_in_minisite else ''">
 
   <tal:if tal:condition="view/show_logo">
-    <img src="logo.png" alt=""
-         tal:condition="not: view/is_svg"
-         tal:attributes="alt view/logo_title;
-                         title view/logo_title;
-                         src view/img_src" />
-    <span tal:condition="view/is_svg"
-          tal:replace="structure view/svg_data" />
+    <tal:h1 tal:condition="view/is_portal_page">
+        <img src="logo.png" alt=""
+             tal:condition="not: view/is_svg"
+             tal:attributes="alt view/logo_title;
+                             title view/logo_title;
+                             src view/img_src" />
+        <span tal:condition="view/is_svg"
+              tal:replace="structure view/svg_data" />
+      <h1 class="sr-only">
+          <span tal:content="view/portal_page_title" />
+      </h1>
+    </tal:h1>
+    <tal:not-h1 tal:condition="not: view/is_portal_page">
+      <img src="logo.png" alt=""
+           tal:condition="not: view/is_svg"
+           tal:attributes="alt view/logo_title;
+                           title view/logo_title;
+                           src view/img_src" />
+      <span tal:condition="view/is_svg"
+            tal:replace="structure view/svg_data" />
+    </tal:not-h1>
   </tal:if>
 
   <div class="minisite_title"

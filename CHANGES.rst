@@ -5,6 +5,9 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
+- WEB-3718 : add h1 in portal page
+  [thomlamb]
+
 - SUP-46144 : Improve contact country translation
   [thomlamb]
 
