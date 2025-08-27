@@ -132,7 +132,6 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
         }
     }, [sub, firstLevelOptions]);
 
-    console.log(unique)
     return (
         <div onClick={onClick}>
             <div

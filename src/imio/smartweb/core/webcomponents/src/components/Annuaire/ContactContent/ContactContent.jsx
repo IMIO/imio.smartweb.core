@@ -389,7 +389,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                             ""
                         )}
 
-                        {item.urls && item.urls.length > 0 ? (
+                        {item.urls && item.urls.filter((url) => url.type === "website").length > 0 ? (
                             <div className="annuaire-website-link">
                                 <div className="annuaire-website-link-icon">
                                     <svg

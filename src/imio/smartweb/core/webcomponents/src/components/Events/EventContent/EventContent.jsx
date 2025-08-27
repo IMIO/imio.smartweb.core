@@ -195,7 +195,6 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
     const closeSchedul = () => {
         setSchedulVisibility(false);
     };
-    console.log(recurence);
 
     // Helper functions for date display
     const DateLabel = ({ text }) => (

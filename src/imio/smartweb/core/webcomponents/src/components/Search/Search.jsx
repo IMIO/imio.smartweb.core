@@ -28,7 +28,6 @@ export default function Search(props) {
     );
 }
 const SearchView = (props) => {
-    console.log(props.areViewsAvailable);
     const parsed = queryString.parse(useFilterQuery().toString());
     const { SearchableText, iam, topics } = parsed;
     const parsed2 = { SearchableText: SearchableText, iam: iam, topics: topics };
