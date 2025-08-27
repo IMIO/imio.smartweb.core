@@ -333,7 +333,7 @@ export default {
     à: {
         en: "at",
         fr: "à",
-        de: "bis",
+        de: "ab",
         nl: "om",
     },
     Du: {
