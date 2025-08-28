@@ -5,6 +5,9 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
+- WEB-4297 : Accessibility : Fix keyboard navigation for taxonomy filter
+  [thomlamb]
+
 - WEB-3835 : Accessibility : replace link with button for better keyboard navigation and adjust js for tabulation close menu
   [thomlamb]
 

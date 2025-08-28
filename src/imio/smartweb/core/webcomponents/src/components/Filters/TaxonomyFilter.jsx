@@ -162,6 +162,7 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                                 ? "sub1 dropDownFilter-visible"
                                 : "sub1 dropDownFilter-invisble"
                         }
+                        {...(!visibility.secondLevel && { inert: "" })}
                     >
                         <Select
                             name="taxonomy_contact_category_for_filtering"
@@ -186,6 +187,7 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                                 ? "sub2 dropDownFilter-visible"
                                 : "sub2 dropDownFilter-invisble"
                         }
+                        {...(!visibility.thirdLevel && { inert: "" })}
                     >
                         <Select
                             name="taxonomy_contact_category_for_filtering"
