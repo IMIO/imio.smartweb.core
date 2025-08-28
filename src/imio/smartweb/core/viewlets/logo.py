@@ -69,5 +69,5 @@ class LogoViewlet(baseLogoViewlet):
     def portal_page_title(self):
         """Get the title of the PortalPage"""
         if self.is_portal_page:
-            return getattr(self.context, 'title', '')
-        return ''
+            return getattr(self.context, "title", "")
+        return ""
