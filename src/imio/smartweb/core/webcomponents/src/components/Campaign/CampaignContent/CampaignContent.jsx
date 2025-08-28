@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
-import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate } from "react-translated";
 import queryString from "query-string";
