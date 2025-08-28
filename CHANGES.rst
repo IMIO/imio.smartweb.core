@@ -5,6 +5,9 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
+- Add title and description for React gallery
+  [thomlamb]
+
 - WEB-4297 : Accessibility : Fix keyboard navigation for taxonomy filter
   [thomlamb]
 
