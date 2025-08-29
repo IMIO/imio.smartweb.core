@@ -5,6 +5,9 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
+- WEB-4213: Translate Swiper aria-label
+  [thomlamb]
+
 - Refactor "find" endpoint (1.4.7) : Move it into imio.smartweb.common
   [boulch]
 
