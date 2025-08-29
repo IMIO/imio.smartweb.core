@@ -8,21 +8,29 @@ document.addEventListener("DOMContentLoaded", function () {
       next: "Élément suivant",
       prev: "Élément précédent",
       pagination: "Aller à l'élément",
+      first: "Premier élément",
+      last: "Dernier élément",
     },
     en: {
       next: "Next slide",
       prev: "Previous slide",
       pagination: "Go to slide",
+      first: "First slide",
+      last: "Last slide",
     },
     de: {
       next: "Nächstes Element",
       prev: "Vorheriges Element",
       pagination: "Gehe zu Element",
+      first: "Erstes Element",
+      last: "Letztes Element",
     },
     nl: {
       next: "Volgende item",
       prev: "Vorig item",
       pagination: "Ga naar item",
+      first: "Eerste item",
+      last: "Laatste item",
     },
   };
 
@@ -56,6 +64,8 @@ document.addEventListener("DOMContentLoaded", function () {
         prevSlideMessage: getTranslation("prev"),
         nextSlideMessage: getTranslation("next"),
         paginationBulletMessage: getTranslation("pagination") + " {{index}}",
+        firstSlideMessage: getTranslation("first"),
+        lastSlideMessage: getTranslation("last"),
       },
       breakpoints: {
         // when window width is >= 320px
