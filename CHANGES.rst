@@ -5,6 +5,9 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
+- Refactor "find" endpoint (1.4.7) : Move it into imio.smartweb.common
+  [boulch]
+
 - Add title and description for React gallery
   [thomlamb]
 
