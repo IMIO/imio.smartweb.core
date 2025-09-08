@@ -164,13 +164,6 @@
       <value key="resource">++plone++bootstrap-icons/node-plus.svg</value>
     </record>
 
-    <record name="plone.icon.contenttype/imio-smartweb-sectionsendinblue">
-      <field type="plone.registry.field.TextLine">
-        <title i18n:translate="">SectionSendinblue content type icon</title>
-      </field>
-      <value key="resource">++plone++bootstrap-icons/send.svg</value>
-    </record>
-
     <record name="plone.icon.contenttype/imio-smartweb-sectionslide">
       <field type="plone.registry.field.TextLine">
         <title i18n:translate="">SectionSlide content type icon</title>

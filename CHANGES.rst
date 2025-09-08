@@ -5,6 +5,9 @@ Changelog
 1.4.13 (unreleased)
 -------------------
 
+- WEB-4249 : Remove sendinblue
+  [boulch]
+
 - WEB-4213: Translate Swiper aria-label
   [thomlamb]
 
