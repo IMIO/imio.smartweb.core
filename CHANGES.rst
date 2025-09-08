@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.13 (unreleased)
+1.4.13 (2025-09-08)
 -------------------
 
 - WEB-4249 : Remove sendinblue
