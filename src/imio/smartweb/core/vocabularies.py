@@ -25,10 +25,13 @@ from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
 from time import time
+from z3c.formwidget.query.interfaces import IQuerySource
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.component.hooks import getSite
 from zope.i18n import translate
+from zope.interface import implementer
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
@@ -36,6 +39,7 @@ from zope.schema.vocabulary import SimpleVocabulary
 import json
 import os
 import requests
+import unicodedata
 
 
 class IconsVocabularyFactory:
@@ -686,24 +690,106 @@ RemoteIADeliberationsInstitutionsVocabulary = (
 )
 
 
-class RemoteIADeliberationsPublicationsVocabularyFactory:
-    def __call__(self, context=None):
-        iadeliberation_institution = get_value_from_registry(
-            "smartweb.iadeliberations_institution"
-        )
-        url = f"{iadeliberation_institution}/@search?portal_type=Publication&metadata_fields=UID&metadata_fields=id&review_state=published&sort_on=sortable_title"
-        try:
-            json_publications = get_iadeliberation_json(url)
-            return SimpleVocabulary(
-                [
-                    SimpleTerm(
-                        value=elem["UID"], token=elem["UID"], title=elem["title"]
-                    )
-                    for elem in json_publications.get("items")
-                ]
+def _norm(s: str) -> str:
+    if not s:
+        return ""
+    s = unicodedata.normalize("NFKD", s)
+    s = "".join(ch for ch in s if not unicodedata.combining(ch))
+    return s.lower().strip()
+
+
+@implementer(IQuerySource)
+class RemotePublicationsSource(SimpleVocabulary):
+    """Queryable source for AjaxSelectWidget (Use search(query))."""
+
+    def __init__(self, base_url: str):
+        super().__init__([])
+        self.base_url = base_url.rstrip("/")
+        self._cache_items = None  # cache “full list”
+        self._title_cache = {}  # uid to title
+
+    def _fetch_all_items(self):
+        if self._cache_items is not None:
+            return self._cache_items
+        items = []
+        b_start, b_size = 0, 200
+        while True:
+            url = (
+                f"{self.base_url}/@search"
+                f"?portal_type=Publication"
+                f"&review_state=published"
+                f"&metadata_fields=UID"
+                f"&metadata_fields=id"
+                f"&metadata_fields=title"
+                f"&sort_on=sortable_title"
+                f"&b_start={b_start}&b_size={b_size}"
             )
+            try:
+                data = get_iadeliberation_json(url) or {}
+            except Exception:
+                data = {}
+            page = data.get("items", []) or []
+            items.extend(page)
+            total = data.get("items_total", len(items))
+            b_start += len(page)
+            if not page or len(items) >= total:
+                break
+        self._cache_items = items
+        return items
+
+    def _fetch_title_by_uid(self, uid: str) -> str | None:
+        if not uid:
+            return None
+        if uid in self._title_cache:
+            return self._title_cache[uid]
+        url = (
+            f"{self.base_url}/@search"
+            f"?UID={uid}"
+            f"&metadata_fields=title"
+            f"&b_size=1"
+        )
+        try:
+            data = get_iadeliberation_json(url) or {}
         except Exception:
-            return SimpleVocabulary([])
+            data = {}
+        items = data.get("items") or []
+        title = (items[0].get("title") if items else None) or uid
+        self._title_cache[uid] = title
+        return title
+
+    # z3c.formwidget.query / @@getVocabulary
+    def search(self, query):
+        q = _norm(query)
+        if not q:
+            return []
+        tokens = q.split()
+        results = []
+        for i in self._fetch_all_items():
+            title = i.get("title") or i.get("id") or ""
+            nt = _norm(title)
+            if all(tok in nt for tok in tokens):
+                uid = i["UID"]
+                self._title_cache[uid] = title
+                results.append(SimpleTerm(value=uid, token=uid, title=title))
+        return results[:30]
+
+    def getTerm(self, value):
+        title = self._fetch_title_by_uid(value) or str(value)
+        return SimpleTerm(value=value, token=value, title=title)
+
+    def getTermByToken(self, token):
+        return self.getTerm(token)
+
+    def __contains__(self, value):
+        return True
+
+
+@implementer(IVocabularyFactory)
+class RemoteIADeliberationsPublicationsVocabularyFactory:
+
+    def __call__(self, context=None):
+        base = get_value_from_registry("smartweb.iadeliberations_institution")
+        return RemotePublicationsSource(base)
 
 
 RemoteIADeliberationsPublicationsVocabulary = (

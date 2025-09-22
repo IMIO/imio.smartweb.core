@@ -16,7 +16,7 @@ class ISectionTimestampedPublications(ISection):
     related_timestamped_publications = schema.List(
         title=_("Related timestamped publications"),
         value_type=schema.Choice(
-            source="imio.smartweb.vocabulary.IADeliberationsPublications"
+            vocabulary="imio.smartweb.vocabulary.IADeliberationsPublications"
         ),
         required=False,
     )
@@ -24,7 +24,15 @@ class ISectionTimestampedPublications(ISection):
         "related_timestamped_publications",
         TranslatedAjaxSelectWidget,
         vocabulary="imio.smartweb.vocabulary.IADeliberationsPublications",
-        pattern_options={"multiple": True},
+        pattern_options={
+            "multiple": True,
+            "minimumInputLength": 2,
+            "ajax": {
+                "url": "@@getVocabulary?name=imio.smartweb.vocabulary.IADeliberationsPublications",
+                "dataType": "json",
+                "delay": 250,
+            },
+        },
     )
 
     nb_results_by_batch = schema.Choice(

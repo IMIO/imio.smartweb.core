@@ -5,7 +5,8 @@ Changelog
 1.4.14 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4306: Timestamped publications section : added live filtering of terms
+  [boulch]
 
 
 1.4.13 (2025-09-08)

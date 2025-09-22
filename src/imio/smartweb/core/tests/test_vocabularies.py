@@ -8,6 +8,8 @@ from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from unittest.mock import patch
+from zope.component import getUtility
+from zope.schema.interfaces import IVocabularyFactory
 
 import json
 import re
@@ -322,23 +324,53 @@ class TestVocabularies(ImioSmartwebTestCase):
         )
         m_url.return_value = "https://conseil.staging.imio.be"
         m_institution.return_value = "https://conseil.staging.imio.be/liege"
+
         url_institutions = (
             f"{m_url.return_value}/@search?portal_type=Institution&metadata_fields=UID"
         )
         m.get(url_institutions, text=json.dumps(json_institutions_raw_mock))
+
         json_publications_raw_mock = get_json(
             "resources/json_iadeliberations_publications.json"
         )
+
         url_institution = m_institution.return_value
-        url_publications = f"{url_institution}/@search?portal_type=Publication&metadata_fields=UID&review_state=published"
-        m.get(url_publications, text=json.dumps(json_publications_raw_mock))
-        self.assertVocabularyLen(
-            "imio.smartweb.vocabulary.IADeliberationsPublications", 22
+
+        # ❶ liste des publications (avec tous les params additionnels)
+        m.get(
+            re.compile(
+                rf"{re.escape(url_institution)}/@search\?portal_type=Publication.*"
+            ),
+            json=json_publications_raw_mock,
         )
-        vocabulary = get_vocabulary(
-            "imio.smartweb.vocabulary.IADeliberationsPublications"
+
+        # ❷ résolution du titre par UID (appelée par getTerm)
+        uid = "1eb1d97e162a4fe4be802ccd812fa180"
+        m.get(
+            f"{url_institution}/@search?UID={uid}&metadata_fields=title&b_size=1",
+            json={
+                "items": [
+                    {
+                        "title": "Autorisation de déroger temporairement aux normes de bruit - Fête de la Musique 2023"
+                    }
+                ]
+            },
         )
+
+        # Récupère la factory (qui retourne ta source IQuerySource)
+        vf = getUtility(
+            IVocabularyFactory,
+            name="imio.smartweb.vocabulary.IADeliberationsPublications",
+        )
+        vocab = vf(self.portal)
+
+        # Au lieu de assertVocabularyLen(...), appelle search()
+        results = vocab.search("musique")  # ou un terme présent dans ton JSON
+        # Vérifie qu’on a des résultats filtrés
+        self.assertTrue(any(t.value == uid for t in results))
+
+        # Vérifie la résolution du titre via getTerm (édition)
         self.assertEqual(
-            vocabulary.getTerm("1eb1d97e162a4fe4be802ccd812fa180").title,
+            vocab.getTerm(uid).title,
             "Autorisation de déroger temporairement aux normes de bruit - Fête de la Musique 2023",
         )
