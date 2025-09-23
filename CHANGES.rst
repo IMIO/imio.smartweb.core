@@ -5,6 +5,9 @@ Changelog
 1.4.14 (unreleased)
 -------------------
 
+- WEB-4306: Improve Select2: display initial items without requiring user input
+  [boulch]
+
 - WEB-4306: Timestamped publications section : added live filtering of terms
   [boulch]
 

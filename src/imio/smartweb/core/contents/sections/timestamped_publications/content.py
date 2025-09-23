@@ -26,11 +26,12 @@ class ISectionTimestampedPublications(ISection):
         vocabulary="imio.smartweb.vocabulary.IADeliberationsPublications",
         pattern_options={
             "multiple": True,
-            "minimumInputLength": 2,
+            "minimumInputLength": 0,  # important : autorise la requête sans saisie
             "ajax": {
                 "url": "@@getVocabulary?name=imio.smartweb.vocabulary.IADeliberationsPublications",
                 "dataType": "json",
                 "delay": 250,
+                "cache": True,
             },
         },
     )

@@ -760,18 +760,45 @@ class RemotePublicationsSource(SimpleVocabulary):
     # z3c.formwidget.query / @@getVocabulary
     def search(self, query):
         q = _norm(query)
+
+        # use case 1: No input yet → show an initial page of items
         if not q:
+            items = self._fetch_all_items()[:50]  # prends les 50 premiers
+            results = []
+            for i in items:
+                uid = i["UID"]
+                title = i.get("title") or i.get("id") or uid
+                self._title_cache[uid] = title
+                results.append(SimpleTerm(value=uid, token=uid, title=title))
+            return results
+
+        # use case 2: Start filtering once at least 2 characters are entered
+        if len(q) < 2:
             return []
-        tokens = q.split()
+
+        # use case 3 : Normal filtering logic
         results = []
         for i in self._fetch_all_items():
             title = i.get("title") or i.get("id") or ""
             nt = _norm(title)
-            if all(tok in nt for tok in tokens):
-                uid = i["UID"]
-                self._title_cache[uid] = title
-                results.append(SimpleTerm(value=uid, token=uid, title=title))
-        return results[:30]
+            if q not in nt:
+                continue
+            uid = i["UID"]
+            self._title_cache[uid] = title
+            results.append(SimpleTerm(value=uid, token=uid, title=title))
+
+        # use case 4: Search all token anywhere in the title
+        # Search all token anywhere in the title
+        # tokens = q.split()
+        # results = []
+        # for i in self._fetch_all_items():
+        #     title = i.get("title") or i.get("id") or ""
+        #     nt = _norm(title)
+        #     if all(tok in nt for tok in tokens):
+        #         uid = i["UID"]
+        #         self._title_cache[uid] = title
+        #         results.append(SimpleTerm(value=uid, token=uid, title=title))
+        return results[:50]
 
     def getTerm(self, value):
         title = self._fetch_title_by_uid(value) or str(value)
