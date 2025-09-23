@@ -5,6 +5,9 @@ Changelog
 1.4.14 (unreleased)
 -------------------
 
+- WEB-3838: Move header actions to burger menu under 991px width
+  [thomlamb]
+
 - WEB-4306: Improve Select2: display initial items without requiring user input
   [boulch]
 
