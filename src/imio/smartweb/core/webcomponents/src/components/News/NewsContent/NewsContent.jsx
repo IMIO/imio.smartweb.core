@@ -14,7 +14,7 @@ import queryString from "query-string";
 const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     let navigate = useNavigate();
     const parsed = queryString.parse(useFilterQuery().toString());
-    const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1 };
+    const parsed2 = { ...parsed, UID: parsed["u"], fullobjects: 1, batch_size:50 };
     const [params, setParams] = useState(parsed2);
     const [item, setitem] = useState({});
     const [files, setFiles] = useState(null);

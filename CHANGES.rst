@@ -5,6 +5,9 @@ Changelog
 1.4.14 (unreleased)
 -------------------
 
+- SUP-46788: Update React query to fetch up to 50 images for a single news item
+  [boulch]
+
 - WEB-3838: Move header actions to burger menu under 991px width
   [thomlamb]
 

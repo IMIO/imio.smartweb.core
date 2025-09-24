@@ -48,7 +48,12 @@ class BaseNewsEndpoint(BaseEndpoint):
             "sort_order=descending",
             "fullobjects={}".format(self.fullobjects),
         ]
-        if self.batch_size == 0:
+        self.request.form.update()
+        updated_query_form = self.request.form
+        if updated_query_form.get("batch_size", None):
+            batch_size = updated_query_form.get("batch_size")
+            params.append("b_size={}".format(batch_size))
+        elif self.batch_size == 0:
             params.append("b_size={}".format(self.context.nb_results))
         else:
             params.append("b_size={}".format(self.batch_size))
