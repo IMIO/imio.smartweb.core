@@ -1,0 +1,22 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:z3c="http://namespaces.zope.org/z3c"
+    >
+
+  <browser:page
+      name="process-textexpand"
+      for="*"
+      class=".process.ProcessTextExpandView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      name="process-suggestedtitles"
+      for="*"
+      class=".process.ProcessSuggestedTitlesView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+</configure>

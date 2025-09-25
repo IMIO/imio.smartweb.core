@@ -9,4 +9,19 @@
     <records interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
              prefix="smartweb" />
 
+    <record name="plone.custom_plugins"
+            interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema"
+            field="custom_plugins">
+      <field type="plone.registry.field.List">
+        <value_type type="plone.registry.field.TextLine" />
+      </field>
+      <value>
+        <element>process|++resource++tinymce.js</element>
+      </value>
+    </record>
+
+    <record name="plone.toolbar"
+            interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+      <value purge="false">undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen | process</value>
+    </record>
 </registry>
