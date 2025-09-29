@@ -16,12 +16,28 @@
         <value_type type="plone.registry.field.TextLine" />
       </field>
       <value>
-        <element>process|++resource++tinymce.js</element>
+        <element>text_expand|++resource++tinymce.js</element>
+        <element>suggest_titles|++resource++tinymce.js</element>
+        <element>ia|++resource++tinymce.js</element>
+        <element>ia_menuitems|++resource++tinymce.js</element>
       </value>
     </record>
 
+    <record name="plone.menu"
+            interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
+      <value purge="false">
+        {
+          "ia_menuitems": {
+            "title": "IA",
+            "items": "ia_text_expand ia_suggest_titles"
+          }
+        }
+      </value>
+    </record>
+
+
     <record name="plone.toolbar"
             interface="Products.CMFPlone.interfaces.controlpanel.ITinyMCESchema">
-      <value purge="false">undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen | process</value>
+      <value purge="false">undo redo | styleselect | bold italic superscript | bullist numlist | nonbreaking | plonelink unlink | fullscreen | text_expand | suggest_titles | ia</value>
     </record>
 </registry>

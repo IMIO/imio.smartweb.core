@@ -13,7 +13,7 @@
       />
 
   <browser:page
-      name="process-suggestedtitles"
+      name="process-suggesttitles"
       for="*"
       class=".process.ProcessSuggestedTitlesView"
       permission="cmf.ModifyPortalContent"
