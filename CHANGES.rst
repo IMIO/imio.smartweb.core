@@ -5,6 +5,9 @@ Changelog
 1.4.14 (unreleased)
 -------------------
 
+- SUP-47150 : Fix a bug in event section when a specific category is set
+  [boulch]
+
 - SUP-46788: Update React query to fetch up to 50 images for a single news item
   [boulch]
 

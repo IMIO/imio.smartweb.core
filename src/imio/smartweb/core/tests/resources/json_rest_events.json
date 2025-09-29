@@ -647,7 +647,7 @@
             ],
             "items_total": 7,
             "image_field": null,
-            "local_category": "Local Category title",
+            "local_category": {"title" : "Local Category title", "token" : "local_category_token"},
             "modified": "2021-05-11T13:31:00",
             "open_end": false,
             "recurrence": null,

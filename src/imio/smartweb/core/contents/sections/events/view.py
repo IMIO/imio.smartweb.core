@@ -72,7 +72,10 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             modified_hash = hash_md5(item["modified"])
             category = ""
             if self.context.show_categories_or_topics == "category":
-                category = item.get("local_category") or item.get("category_title", "")
+                if "local_category" in item:
+                    category = item.get("local_category", {}).get("title", "")
+                else:
+                    category = item.get("category_title", "")
             elif self.context.show_categories_or_topics == "topic":
                 topic = item.get("topics") and item["topics"][0] or None
                 category = translate_vocabulary_term(
