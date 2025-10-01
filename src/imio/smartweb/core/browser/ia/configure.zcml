@@ -6,7 +6,7 @@
     >
 
   <browser:page
-      name="slugify"
+      name="processsuggestedtitles"
       for="*"
       class=".ia.ProcessSuggestedTitlesView"
       permission="cmf.ModifyPortalContent"

@@ -1,43 +1,45 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      tal:omit-tag="">
-  <span class="slugify-with-button"
-        data-slug-url="${context/absolute_url}/@@slugify"
-        data-source-selector="#form-widgets-title">
-    <input id="" name="" class="" title="" lang="" disabled=""
-           readonly="" alt="" tabindex="" accesskey="" size="" maxlength=""
-           style="" value="" type="text"
-           tal:attributes="id view/id;
-                           name view/name;
-                           class view/klass;
-                           style view/style;
-                           title view/title;
-                           lang view/lang;
-                           onclick view/onclick;
-                           ondblclick view/ondblclick;
-                           onmousedown view/onmousedown;
-                           onmouseup view/onmouseup;
-                           onmouseover view/onmouseover;
-                           onmousemove view/onmousemove;
-                           onmouseout view/onmouseout;
-                           onkeypress view/onkeypress;
-                           onkeydown view/onkeydown;
-                           onkeyup view/onkeyup;
-                           value view/value;
-                           disabled view/disabled;
-                           tabindex view/tabindex;
-                           onfocus view/onfocus;
-                           onblur view/onblur;
-                           onchange view/onchange;
-                           readonly view/readonly;
-                           alt view/alt;
-                           accesskey view/accesskey;
-                           onselect view/onselect;
-                           size view/size;
-                           maxlength view/maxlength;
-                           placeholder view/placeholder;
-                           autocapitalize view/autocapitalize;"
-    />
-    <button type="button" class="slug-generate-button">Generate</button>
-  </span>
-</html>
+<tal:domain i18n:domain="imio.smartweb">
+<span class="suggestedtitles-with-button"
+      data-slug-url="${context/absolute_url}/@@processsuggestedtitles"
+      data-source-selector="#form-widgets-title">
+
+  <input id="" name="" class="" title="" lang="" disabled=""
+         readonly="" alt="" tabindex="" accesskey="" size="" maxlength=""
+         style="" value="" type="text"
+         tal:attributes="id view/id;
+                         name view/name;
+                         class view/klass;
+                         style view/style;
+                         title view/title;
+                         lang view/lang;
+                         value view/value;
+                         disabled view/disabled;
+                         tabindex view/tabindex;
+                         readonly view/readonly;
+                         size view/size;
+                         maxlength view/maxlength;
+                         placeholder view/placeholder;
+                         autocapitalize view/autocapitalize;" />
+
+  <a id="ia-suggest-open"
+     href="#ia-suggest-modal"
+     class="suggestedtitles-generate-button pat-plone-modal btn btn-secondary"
+     tal:attributes="data-pat-plone-modal view/data_pat_plone_modal;"
+     i18n:translate=""> 
+    Get titles
+  </a>
+</span>
+
+<div id="ia-suggest-modal" style="display:none">
+  <p class="formHelp" i18n:translate="">Select a title :</p>
+  <div class="ia-suggest-list"></div>
+  <button type="button"
+          class="btn btn-secondary plone-btn me-1 plone-modal-close"
+          data-bs-dismiss="modal"
+          data-dismiss="modal"
+          aria-label="Close"
+          i18n:translate="">
+    Close
+  </button>
+</div>
+</tal:domain>
