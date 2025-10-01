@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
+from imio.smartweb.core.widgets.widget import SuggestedIATitlesFieldWidget
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform import directives
 from zope import schema
@@ -10,6 +11,9 @@ from zope.interface import implementer
 
 class ISectionText(ISection):
     """Marker interface and Dexterity Python Schema for SectionText"""
+
+    directives.widget(title=SuggestedIATitlesFieldWidget)
+    title = schema.TextLine(title=_("Title"), required=True)
 
     directives.order_before(alignment="IVersionable.changeNote")
     alignment = schema.Choice(

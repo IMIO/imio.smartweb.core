@@ -46,5 +46,6 @@
   <include package=".upgrades" />
   <include package=".viewlets" />
   <include package=".webcomponents" />
+  <include package=".widgets" />
 
 </configure>
