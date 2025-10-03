@@ -305,7 +305,8 @@ body {
   margin-top: 5px;
 }
 
-#ia-suggest-open {
+#ia-suggest-open,
+#categorization_ia_link-btn {
   margin-top: 15px;
   position: relative;
   padding: 9px 18px;
@@ -320,11 +321,13 @@ body {
   transition: transform 0.2s ease;
 }
 
-#ia-suggest-open:hover {
+#ia-suggest-open:hover,
+#categorization_ia_link-btn:hover {
   transform: scale(1.03);
 }
 
-#ia-suggest-open::before {
+#ia-suggest-open::before,
+#categorization_ia_link-btn::before {
   content: "";
   position: absolute;
   top: -50%;
@@ -347,11 +350,13 @@ body {
   transition: transform 1.5s ease-in-out;
 }
 
-#ia-suggest-open:hover::before {
+#ia-suggest-open:hover::before,
+#categorization_ia_link-btn:hover::before {
   transform: rotate(180deg);
 }
 
-#ia-suggest-open::after {
+#ia-suggest-open::after,
+#categorization_ia_link-btn::after {
   content: "";
   position: absolute;
   inset: 3px;
@@ -381,7 +386,8 @@ body {
   animation: hue-rotating 2s linear infinite;
 }
 
-#ia-suggest-open:active {
+#ia-suggest-open:active,
+$#categorization_ia_link-btn:active {
   transform: scale(0.99);
 }
 
