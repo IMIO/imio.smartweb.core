@@ -12,5 +12,35 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      name="ProcessCategorizeContent"
+      for="*"
+      class=".ia.ProcessCategorizeContentView"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
+      for="imio.smartweb.core.contents.IPage"
+      name="edit"
+      class=".categorization_button_edit.PageEditForm"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <adapter
+      for="Products.CMFCore.interfaces.IFolderish
+           imio.smartweb.core.interfaces.IImioSmartwebCoreLayer
+           plone.dexterity.interfaces.IDexterityFTI"
+      provides="zope.publisher.interfaces.browser.IBrowserPage"
+      factory=".categorization_button_add.PagesAddView"
+      name="imio.smartweb.Page"
+      />
+  <class class=".categorization_button_add.PagesAddView">
+      <require
+          permission="cmf.AddPortalContent"
+          interface="zope.publisher.interfaces.browser.IBrowserPage"
+          />
+  </class>
+
 </configure>
 
