@@ -46,12 +46,12 @@
   }
 
   function buildListHTML(titles) {
-    if (!titles.length) return '<p>Aucune suggestion.</p>';
+    if (!titles.length) return '<p>No suggestion.</p>';
 
     const ul = document.createElement('ul');
     ul.className = 'list-group ia-suggest-ul';
     ul.setAttribute('role', 'listbox');
-    ul.setAttribute('aria-label', 'Suggestions de titres');
+    ul.setAttribute('aria-label', 'Title suggestions');
 
     for (const t of titles) {
       const li = document.createElement('li');
@@ -193,7 +193,7 @@
     const templateRoot = targetSel ? document.querySelector(targetSel) : null;
     const templateList = templateRoot ? templateRoot.querySelector('.ia-suggest-list') : null;
 
-    if (templateList) templateList.textContent = 'Chargement…';
+    if (templateList) templateList.textContent = 'Loading…';
 
     const textHtml = getRichTextHtml();
 
@@ -205,7 +205,8 @@
         mirrorIntoOpenModal(listHTML);
       })
       .catch((err) => {
-        const errorHTML = `<div class="alert alert-warning">Impossible de récupérer des suggestions (${String(err)}).</div>`;
+        // (${String(err)})
+        const errorHTML = `<div class="alert alert-warning">Not possible to get suggestions.</div>`;
         if (templateList) templateList.innerHTML = errorHTML;
         mirrorIntoOpenModal(errorHTML);
       });
