@@ -26,12 +26,12 @@
      class="suggestedtitles-generate-button pat-plone-modal btn btn-secondary"
      tal:attributes="data-pat-plone-modal view/data_pat_plone_modal;"
      i18n:translate=""> 
-    Get titles
+    Générer via IA
   </a>
 </span>
 
 <div id="ia-suggest-modal" style="display:none">
-  <p class="formHelp" i18n:translate="">Select a title :</p>
+  <p class="formHelp ia-modale" i18n:translate="">Select a title :</p>
   <div class="ia-suggest-list"></div>
   <button type="button"
           class="btn btn-secondary plone-btn me-1 plone-modal-close"
