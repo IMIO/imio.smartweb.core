@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.14 (unreleased)
+1.4.14 (2025-10-06)
 -------------------
 
 - SUP-47150 : Fix a bug in event section when a specific category is set
