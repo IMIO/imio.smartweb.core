@@ -72,7 +72,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             modified_hash = hash_md5(item["modified"])
             category = ""
             if self.context.show_categories_or_topics == "category":
-                if "local_category" in item:
+                if "local_category" in item and item.get("local_category") is not None:
                     category = item.get("local_category", {}).get("title", "")
                 else:
                     category = item.get("category_title", "")
