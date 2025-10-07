@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.15 (unreleased)
+1.4.15 (2025-10-07)
 -------------------
 
 - Fix a bug in event section when a specific category is set (again)
