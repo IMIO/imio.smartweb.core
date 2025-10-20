@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.16 (unreleased)
+1.4.16 (2025-10-20)
 -------------------
 
 - SUP-47150 : local_category are often in str but previously (04f9a0a) we met a dict : we'll have to dig !
