@@ -73,7 +73,12 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             category = ""
             if self.context.show_categories_or_topics == "category":
                 if "local_category" in item and item.get("local_category") is not None:
-                    category = item.get("local_category", {}).get("title", "")
+                    local_category = item.get("local_category")
+                    category = (
+                        local_category
+                        if isinstance(local_category, str)
+                        else local_category.get("title", "")
+                    )
                 else:
                     category = item.get("category_title", "")
             elif self.context.show_categories_or_topics == "topic":
