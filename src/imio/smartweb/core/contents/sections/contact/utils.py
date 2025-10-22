@@ -6,7 +6,6 @@ from imio.smartweb.common.utils import rich_description
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
-from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from zope.i18n import translate
@@ -42,27 +41,9 @@ class ContactProperties(ContactSchedule):
     def leadimage(self):
         if self.contact.get("image") is None:
             return ""
-        request = api.portal.get().REQUEST
-
-        class ContactBrain:
-            def __init__(self, contact_data):
-                self.contact_data = contact_data
-
-            def getURL(self):
-                return self.contact_data.get("@id", "")
-
-            @property
-            def ModificationDate(self):
-                return self.contact_data.get("modified", "")
-
-            @property
-            def has_leadimage(self):
-                return self.contact_data.get("image") is not None
-
-        brain = ContactBrain(self.contact)
-        orientation = getattr(self.context, "orientation", "paysage")
-        leadimage_url = get_scale_url(brain, request, "image", "affiche", orientation)
-        return leadimage_url
+        modified_hash = hash_md5(self.contact["modified"])
+        leadimage = f"{self.contact['@id']}/@@images/image/{self.context.orientation}_affiche?cache_key={modified_hash}"
+        return leadimage
 
     def data_geojson(self):
         """Return the contact geolocation as GeoJSON string."""
