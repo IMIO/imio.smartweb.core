@@ -5,7 +5,8 @@ Changelog
 1.4.17 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4302 : Add square scale for lead image in section contact
+  [thomlamb]
 
 
 1.4.16 (2025-10-20)
