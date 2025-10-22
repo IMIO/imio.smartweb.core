@@ -549,9 +549,29 @@ class TestSectionContact(ImioSmartwebTestCase):
         )
         contact.visible_blocks = ["titles", "leadimage"]
         m.get(contact_search_url, text=json.dumps(self.json_contact))
-        self.assertNotIn("contact_leadimage portrait", view())
+
+        # Test default orientation (should be paysage by default)
+        self.assertNotIn("contact_leadimage display-portrait", view())
+        self.assertNotIn("contact_leadimage display-carre", view())
+        self.assertIn("contact_leadimage display-paysage", view())
+
+        # Test portrait orientation
         contact.orientation = "portrait"
-        self.assertIn("contact_leadimage portrait", view())
+        self.assertIn("contact_leadimage display-portrait", view())
+        self.assertNotIn("contact_leadimage display-carre", view())
+        self.assertNotIn("contact_leadimage display-paysage", view())
+
+        # Test carre (square) orientation
+        contact.orientation = "carre"
+        self.assertIn("contact_leadimage display-carre", view())
+        self.assertNotIn("contact_leadimage display-portrait", view())
+        self.assertNotIn("contact_leadimage display-paysage", view())
+
+        # Test paysage (landscape) orientation
+        contact.orientation = "paysage"
+        self.assertIn("contact_leadimage display-paysage", view())
+        self.assertNotIn("contact_leadimage display-portrait", view())
+        self.assertNotIn("contact_leadimage display-carre", view())
 
     @requests_mock.Mocker()
     def test_contact_modified(self, m):
