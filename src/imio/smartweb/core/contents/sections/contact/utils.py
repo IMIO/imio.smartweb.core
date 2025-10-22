@@ -43,24 +43,24 @@ class ContactProperties(ContactSchedule):
         if self.contact.get("image") is None:
             return ""
         request = api.portal.get().REQUEST
-        
+
         class ContactBrain:
             def __init__(self, contact_data):
                 self.contact_data = contact_data
-                
+
             def getURL(self):
                 return self.contact_data.get("@id", "")
-                
+
             @property
             def ModificationDate(self):
                 return self.contact_data.get("modified", "")
-                
+
             @property
             def has_leadimage(self):
                 return self.contact_data.get("image") is not None
-        
+
         brain = ContactBrain(self.contact)
-        orientation = getattr(self.context, 'orientation', 'paysage')
+        orientation = getattr(self.context, "orientation", "paysage")
         leadimage_url = get_scale_url(brain, request, "image", "affiche", orientation)
         return leadimage_url
 
