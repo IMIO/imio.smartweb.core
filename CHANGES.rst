@@ -5,6 +5,9 @@ Changelog
 1.4.17 (unreleased)
 -------------------
 
+- Migrate to Plone 6.1.3
+  [boulch]
+
 - WEB-4302 : Add square scale for lead image in section contact
   [thomlamb]
 
