@@ -28,13 +28,14 @@
 
         <tal:block tal:condition="python:'leadimage' in visible_blocks">
           <tal:def tal:define="leadimage python:contact.leadimage();
-                               portrait_class python:'portrait' if context.orientation == 'portrait' else ''">
+                               images_orientation context/orientation | nothing;
+                               orientation_class python:images_orientation and f'display-{images_orientation}' or ''">
             <div tal:condition="leadimage"
-                 tal:attributes="style string:background-image:url(${leadimage};
-                                 class string:contact_leadimage ${portrait_class}">
+                 tal:attributes="style string:background-image:url(${leadimage});
+                                 class string:contact_leadimage ${orientation_class}">
             </div>
             <div tal:condition="not: leadimage"
-                 tal:attributes="class string:contact_leadimage contact_placeholder ${portrait_class}">
+                 tal:attributes="class string:contact_leadimage contact_placeholder ${orientation_class}">
             </div>
           </tal:def>
         </tal:block>
