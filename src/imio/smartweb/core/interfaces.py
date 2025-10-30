@@ -7,6 +7,7 @@ from imio.smartweb.common.interfaces import IImioSmartwebCommonLayer
 from plone.app.contenttypes.interfaces import IPloneAppContenttypesLayer
 from Products.CMFPlone.browser.interfaces import ISiteMap
 from zope.interface import Interface
+from imio.gdpr.interfaces import IImioGdprLayer
 
 
 class ISmartwebIcon(Interface):
@@ -18,6 +19,7 @@ class IViewWithoutLeadImage(Interface):
 
 
 class IImioSmartwebCoreLayer(
+    IImioGdprLayer,
     IImioSmartwebCommonLayer,
     IPloneAppContenttypesLayer,
     ILayerSpecific,

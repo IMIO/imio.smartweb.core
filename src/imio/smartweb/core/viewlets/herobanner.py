@@ -10,6 +10,10 @@ class HeroBannerViewlet(common.ViewletBase):
     _herobanner = None
 
     def available(self):
+
+        if getattr(self.view, "hide_herobanner", None) is not None:
+            hide_herobanner = self.view.hide_herobanner
+            return not hide_herobanner
         return self.herobanner is not None
 
     def update(self):
