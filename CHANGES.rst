@@ -5,6 +5,9 @@ Changelog
 1.4.17 (unreleased)
 -------------------
 
+- WEB-4216 : Hide herobanner on accessibility and gdpr "page"
+  [boulch]
+
 - Migrate to Plone 6.1.3
   [boulch]
 

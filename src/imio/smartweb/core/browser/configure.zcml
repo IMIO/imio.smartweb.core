@@ -156,6 +156,22 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:view
+      for="*"
+      name="gdpr-view"
+      permission="zope2.Public"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class=".gdpr.GDPRView"
+      />
+
+    <browser:page
+        name="accessibility-info"
+        for="plone.base.interfaces.INavigationRoot"
+        class=".anysurfer.AccessibilityInfo"
+        permission="zope2.Public"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    />
+
   <z3c:widgetTemplate
       widget="plone.app.z3cform.interfaces.ILinkWidget"
       template="templates/link_input.pt"

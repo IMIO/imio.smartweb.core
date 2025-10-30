@@ -7,6 +7,7 @@ from plone import api
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
 from zope.component import getMultiAdapter
+from zope.viewlet.interfaces import IViewletManager
 
 
 class TestHeroBanner(ImioSmartwebTestCase):
@@ -146,3 +147,45 @@ class TestHeroBanner(ImioSmartwebTestCase):
         self.assertNotIn("<h2", render)
         self.assertNotIn('class="manage-section"', render)
         self.assertNotIn("section-container", render)
+
+    def _names_in_manager(self, context, view, manager_name="plone.portalheader"):
+        manager = getMultiAdapter(
+            (context, self.request, view), IViewletManager, name=manager_name
+        )
+        manager.update()
+        available_viewlets = [
+            v.__name__
+            for v in manager.viewlets
+            if getattr(v, "available", lambda: True)()
+        ]
+        return available_viewlets
+
+    # Herobanner musn't display on accessibility "page".
+    # So we implement a new property "hide_herobanner"
+    def test_accessibility_info_hide_herobanner(self):
+        view = getMultiAdapter((self.portal, self.request), name="herobanner_settings")
+        view.add_herobanner()
+        view = self.portal.restrictedTraverse("@@accessibility-info")
+        view.hide_herobanner = False
+        names = self._names_in_manager(self.portal, view)
+        self.assertIn("imio.smartweb.herobanner", names)
+
+        # by default, we hide herobanner
+        view = self.portal.restrictedTraverse("@@accessibility-info")
+        names = self._names_in_manager(self.portal, view)
+        self.assertNotIn("imio.smartweb.herobanner", names)
+
+    # Herobanner musn't display on gdpr "page"
+    # So we implement a new property "hide_herobanner"
+    def test_gdpr_view_hide_herobanner(self):
+        view = getMultiAdapter((self.portal, self.request), name="herobanner_settings")
+        view.add_herobanner()
+        view = self.portal.restrictedTraverse("@@gdpr-view")
+        view.hide_herobanner = False
+        names = self._names_in_manager(self.portal, view)
+        self.assertIn("imio.smartweb.herobanner", names)
+
+        # by default, we hide herobanner
+        view = self.portal.restrictedTraverse("@@gdpr-view")
+        names = self._names_in_manager(self.portal, view)
+        self.assertNotIn("imio.smartweb.herobanner", names)
