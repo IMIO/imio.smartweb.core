@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.17 (unreleased)
+1.4.17 (2025-11-03)
 -------------------
 
 - WEB-4216 : Hide herobanner on accessibility and gdpr "page"
