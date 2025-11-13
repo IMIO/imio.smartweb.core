@@ -338,6 +338,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1073_to_1074"
+      title="Upgrade core from 1073 to 1074"
+      directory="profiles/1073_to_1074"
+      description="Add new bundle to manage ia js"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1084,6 +1092,16 @@
       handler=".upgrades.uninstall_sendinblue"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1073"
+      destination="1074"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add new bundle to manage ia js"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1073_to_1074"
+    />
+  </genericsetup:upgradeSteps>
 
   <!--genericsetup:upgradeStep
       title="Check contact itinerary if address was checked in visible blocks"

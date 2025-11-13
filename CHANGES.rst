@@ -5,7 +5,8 @@ Changelog
 1.4.18 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- IPA : Add new bundle to manage I.A. js
+  [boulch]
 
 
 1.4.17 (2025-11-03)
