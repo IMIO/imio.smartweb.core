@@ -83,16 +83,20 @@ class ProcessCategorizeContentView(BrowserView):
                 if ISectionText.providedBy(obj):
                     all_text += obj.text.output or ""
 
-        categories_taxo = get_categories()
-        categories_voca = categories_taxo.makeVocabulary(self.current_lang).inv_data
-        categories_voc = [{"title": v, "token": k} for k, v in categories_voca.items()]
-        data = self._ask_categorization_to_ia(all_text, categories_voc)
-        if not data:
-            return ""
-        results["form-widgets-page_category-taxonomy_page_category"] = [
-            {"title": r.get("title"), "token": r.get("token")}
-            for r in data.get("result")
-        ]
+        # If agent doesn't register prevsouly a categorization so IA can bring categorization
+        if self.context.taxonomy_page_category is None:
+            categories_taxo = get_categories()
+            categories_voca = categories_taxo.makeVocabulary(self.current_lang).inv_data
+            categories_voc = [
+                {"title": v, "token": k} for k, v in categories_voca.items()
+            ]
+            data = self._ask_categorization_to_ia(all_text, categories_voc)
+            if not data:
+                return ""
+            results["form-widgets-page_category-taxonomy_page_category"] = [
+                {"title": r.get("title"), "token": r.get("token")}
+                for r in data.get("result")
+            ]
 
         iam_voc = self._get_structured_data_from_vocabulary(
             "imio.smartweb.vocabulary.IAm"
@@ -100,10 +104,17 @@ class ProcessCategorizeContentView(BrowserView):
         data = self._ask_categorization_to_ia(all_text, iam_voc)
         if not data:
             return ""
-        results["form-widgets-IAm-iam"] = [
+        # iam tokens already register in field
+        iam_tokens = self.context.iam or []
+        ia_iam = [
             {"title": r.get("title"), "token": r.get("token")}
             for r in data.get("result")
         ]
+        results["form-widgets-IAm-iam"] = ia_iam
+        for iam_token in iam_tokens:
+            if iam_token not in (t.get("token") for t in ia_iam):
+                iam = next((t for t in topics_voc if t.get("token") == iam_token), [])
+                results["form-widgets-IAm-iam"].append(iam)
 
         topics_voc = self._get_structured_data_from_vocabulary(
             "imio.smartweb.vocabulary.Topics"
@@ -111,10 +122,21 @@ class ProcessCategorizeContentView(BrowserView):
         data = self._ask_categorization_to_ia(all_text, topics_voc)
         if not data:
             return ""
-        results["form-widgets-ITopics-topics"] = [
+        # Topic tokens already register in field
+        topic_tokens = self.context.topics or []
+        ia_topics = [
             {"title": r.get("title"), "token": r.get("token")}
             for r in data.get("result")
         ]
+
+        results["form-widgets-ITopics-topics"] = ia_topics
+
+        for topic_token in topic_tokens:
+            if topic_token not in (t.get("token") for t in ia_topics):
+                topic = next(
+                    (t for t in topics_voc if t.get("token") == topic_token), []
+                )
+                results["form-widgets-ITopics-topics"].append(topic)
 
         return json.dumps(
             {

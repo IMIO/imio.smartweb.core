@@ -16,10 +16,9 @@ class HtmlSnippetWidget(z3c_widget.Widget):
     template = ViewPageTemplateFile("html_snippet_widget.pt")
 
     def update(self):
-        # En ++add++ : context = conteneur ; en edit : context = objet
+        # ++add++ : context = container ; edit : context = object
         base = self.context.absolute_url()
         self.endpoint = f"{base}/@@ProcessCategorizeContent"
-        # id/nom unique pour le bouton+status
         self.wid = getattr(self, "name", "categorization_ia_link")
 
     def render(self):
@@ -32,16 +31,13 @@ class PageAddForm(CustomAddForm):
     def update(self):
         super(PageAddForm, self).update()
 
-        # 1) Ta logique existante (cacher "hide_title")
         for group in self.groups:
             if getattr(group, "__name__", "") == "layout":
-                # IDs exacts à adapter si besoin
                 if "hide_title" in group.widgets:
                     group.widgets["hide_title"].mode = HIDDEN_MODE
                     group.widgets["hide_title"].value = ["selected"]
 
-        # 2) Injecter notre bouton HTML dans le group "categorization"
-        # S'assurer que les groupes & widgets existent
+        # 2) Inject HTML button in "categorization" group
         if not getattr(self, "groups", None):
             self.updateGroups()
 
@@ -52,12 +48,12 @@ class PageAddForm(CustomAddForm):
         if not cat or not getattr(cat, "widgets", None):
             return
 
-        # Éviter les doublons (rafraîchissements)
+        # Avoid doublons (refresh)
         for k in getattr(cat.widgets, "keys", lambda: [])():
             if k.endswith(FIELD_NAME) or k == FIELD_NAME:
                 return
 
-        # Créer un "champ" factice + FieldWidget(HtmlSnippetWidget)
+        # Create dummy field + FieldWidget(HtmlSnippetWidget)
         zfield = schema.Text(__name__=FIELD_NAME, title="", description="")
         w = FieldWidget(zfield, HtmlSnippetWidget(self.request))
         w.mode = DISPLAY_MODE
@@ -67,7 +63,6 @@ class PageAddForm(CustomAddForm):
         w.label = ""
         w.update()
 
-        # Insérer dans le manager de widgets du group (clé varie selon versions)
         try:
             cat.widgets[f"form.widgets.{FIELD_NAME}"] = w
         except Exception:

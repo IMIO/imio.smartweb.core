@@ -11,7 +11,7 @@ from z3c.form import widget as z3c_widget
 from zope.browserpage.viewpagetemplatefile import ViewPageTemplateFile
 
 
-FIELD_NAME = "categorization_ia_link"  # identifiant interne pour le faux champ
+FIELD_NAME = "categorization_ia_link"  # Internal id for dummy field
 
 
 class HtmlSnippetWidget(z3c_widget.Widget):
@@ -20,10 +20,10 @@ class HtmlSnippetWidget(z3c_widget.Widget):
     template = ViewPageTemplateFile("html_snippet_widget.pt")
 
     def update(self):
-        # En edit, context == objet
+        # edit : context == objet
         base = self.context.absolute_url()
         self.endpoint = f"{base}/@@ProcessCategorizeContent"
-        # id unique pour le bouton + zone de statut
+        # Unique id for button + status zone
         self.wid = getattr(self, "name", FIELD_NAME)
 
     def render(self):
@@ -36,7 +36,7 @@ class PageEditForm(SmartwebCustomEditForm):
     def update(self):
         super(PageEditForm, self).update()
 
-        # 1) Ta logique existante : cacher hide_title dans le group 'layout'
+        # 1) Hide hide_title in 'layout' group
         for group in getattr(self, "groups", []):
             if (
                 getattr(group, "__name__", "") == "layout"
@@ -45,12 +45,11 @@ class PageEditForm(SmartwebCustomEditForm):
                 group.widgets["hide_title"].mode = HIDDEN_MODE
                 group.widgets["hide_title"].value = ["selected"]
 
-        # 2) Injecter le bouton en haut du fieldset 'categorization'
-        #    (on travaille sur les widgets *instanciés*)
+        # 2) Inject button on top of 'categorization' fieldset
         if not getattr(self, "groups", None):
             return
 
-        # Trouver le groupe 'categorization'
+        # Find 'categorization' group
         cat = next(
             (g for g in self.groups if getattr(g, "__name__", "") == "categorization"),
             None,
@@ -58,7 +57,7 @@ class PageEditForm(SmartwebCustomEditForm):
         if not cat or not getattr(cat, "widgets", None):
             return
 
-        # Eviter doublons : si déjà présent, on stoppe
+        # Avoid doublons (refresh) if already here => stop
         existing_keys = list(getattr(cat.widgets, "keys", lambda: [])())
         for k in existing_keys:
             if (
@@ -68,7 +67,7 @@ class PageEditForm(SmartwebCustomEditForm):
             ):
                 return
 
-        # Créer un 'champ' factice sans label/description + FieldWidget(HtmlSnippetWidget)
+        # Create dummy field + FieldWidget(HtmlSnippetWidget)
         zfield = schema.Text(__name__=FIELD_NAME, title="", description="")
         w = FieldWidget(zfield, HtmlSnippetWidget(self.request))
         w.mode = DISPLAY_MODE
@@ -78,12 +77,10 @@ class PageEditForm(SmartwebCustomEditForm):
         w.label = ""
         w.update()  # prépare endpoint/wid
 
-        # Insérer tout en HAUT du manager (clé varie selon versions)
         key = f"form.widgets.{FIELD_NAME}"
 
-        # 2.1) si le manager expose la structure interne (_data_keys/_widgets)
         if hasattr(cat.widgets, "_data_keys") and hasattr(cat.widgets, "_widgets"):
-            # supprimer occurrences résiduelles
+            # Remove residual occurrences
             try:
                 while key in cat.widgets._data_keys:
                     idx = cat.widgets._data_keys.index(key)
@@ -91,26 +88,25 @@ class PageEditForm(SmartwebCustomEditForm):
                     cat.widgets._widgets.pop(idx)
             except Exception:
                 pass
-            # pré-insertion en tête
             cat.widgets._data_keys.insert(0, key)
             cat.widgets._widgets.insert(0, w)
             return
 
-        # 2.2) fallback : reconstruire le mapping avec notre widget en premier
+        # fallback : rebuild mapping with our with our widget
         try:
             existing = [(k, cat.widgets[k]) for k in list(cat.widgets.keys())]
             try:
                 cat.widgets.clear()
             except Exception:
                 pass
-            # notre widget d'abord
+            # Firstly, our widget
             cat.widgets[key] = w
-            # puis les autres
+            # Next...
             for k, ww in existing:
                 if k != key:
                     cat.widgets[k] = ww
         except Exception:
-            # dernier recours : si rien d'autre n'a marché
+            # Last resort: If nothing else worked
             try:
                 cat.widgets[key] = w
             except Exception:
