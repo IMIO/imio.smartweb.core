@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.18 (unreleased)
+1.4.18 (2025-11-21)
 -------------------
 
 - IPA : endpoints, categorization helping, titles proposal generation
