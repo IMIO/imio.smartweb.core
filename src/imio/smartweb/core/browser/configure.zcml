@@ -20,6 +20,7 @@
   <include package=".faceted" />
   <include package=".footer" />
   <include package=".herobanner" />
+  <include package=".ia" />
   <include package=".instancebehaviors" />
   <include package=".minisite" />
   <include package=".subsite" />
@@ -186,5 +187,10 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       mode="hidden"
       />
+
+  <!-- browser:resource
+      name="pat-slugify-with-button.js"
+      file="./static/src/pat-slugify-with-button.js"
+      /-->
 
 </configure>

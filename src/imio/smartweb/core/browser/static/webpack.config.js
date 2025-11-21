@@ -5,12 +5,12 @@ const TerserPlugin = require("terser-webpack-plugin");
 
 
 module.exports = {
-    mode: 'development',
+    mode: 'development',   
     entry: {
         view: './src/view.js',
         edit: './src/edit.js',
         swiperconfig: './src/swiper-config.js',
-
+        ia: './src/ia.js',
     },
     output: {
         filename: 'smartweb-[name]-compiled.js',

@@ -1,0 +1,320 @@
+<tal:root xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:tal="http://xml.zope.org/namespaces/tal">
+  <div class="autotoc-section">
+    <button type="button"
+            class="btn btn-sm btn-primary"
+            tal:attributes="id string:${view/wid}-btn;
+                            data-endpoint view/endpoint">
+      Catégoriser ce contenu →
+    </button>
+    <span tal:attributes="id string:${view/wid}-status"
+          style="margin-left:.5rem;"></span>
+  </div>
+
+<script type="text/javascript">
+(function(){
+  var btnId = '${view/wid}-btn';
+  var statusId = '${view/wid}-status';
+  var btn = document.getElementById(btnId);
+  if(!btn) return;
+
+  var status = document.getElementById(statusId);
+  var endpoint = btn.getAttribute('data-endpoint');
+  var form = btn.closest('form') || document.querySelector('form');
+
+  // ---------- UI helpers ----------
+  function setStatus(msg){ if(status){ status.textContent = msg; } }
+  function ok(msg){ setStatus(msg || 'Mis à jour ✔'); }
+  function err(msg){ setStatus('Erreur : ' + (msg || 'inconnue')); }
+
+  // ---------- CSRF ----------
+  function getCsrf(){
+    var t = form && form.querySelector('input[name="_authenticator"]');
+    return t ? t.value : '';
+  }
+
+  // ---------- Helpers IDs / champs ----------
+  function resolveTarget(id){
+    if (!id) return null;
+    id = (id[0] === '#') ? id.slice(1) : id;
+
+    var el = document.getElementById(id);
+    if (el && (id.indexOf('formfield-') === 0 || el.matches('div, fieldset, section'))) {
+      var inner = el.querySelector('select, input, textarea');
+      if (inner) el = inner;
+    }
+    if (!el && form){
+      try { el = form.querySelector('#'+(window.CSS && CSS.escape ? CSS.escape(id) : id)+', [name="'+id+'"]'); }
+      catch(e){ el = form.querySelector('#'+id+', [name="'+id+'"]'); }
+    }
+    return el || null;
+  }
+
+  function isPatSelect2Input(el){
+    return el && el.tagName === 'INPUT' && el.classList.contains('pat-select2');
+  }
+
+  function normalizeEntry(item){
+    // Supporte: "token"  OU  {token,title}  OU  {value,text}
+    if (item && typeof item === 'object'){
+      var v = item.value || item.token || '';
+      var t = item.text  || item.title || v;
+      return {value: String(v), text: String(t)};
+    }
+    var s = String(item == null ? '' : item);
+    return {value: s, text: s};
+  }
+
+  // ---------- SELECT classique (<select>) ----------
+  function setSelectSequential(selectEl, values, options){
+    options = options || {};
+    var replace = (options.replace !== false);
+    var delay = typeof options.delay === 'number' ? options.delay : 0;
+    var isMulti = !!selectEl.multiple;
+
+    var seq = (Array.isArray(values) ? values : [values]).map(normalizeEntry);
+
+    if (replace){
+      for (var i=0; i<selectEl.options.length; i++){ selectEl.options[i].selected = false; }
+      try { selectEl.dispatchEvent(new Event('change', {bubbles:true})); } catch(e){}
+    }
+
+    var i = 0;
+    function addNext(){
+      if (i >= seq.length){
+        if (!isMulti && seq.length){
+          selectEl.value = seq[0].value;
+          try { selectEl.dispatchEvent(new Event('change', {bubbles:true})); } catch(e){}
+        }
+        return;
+      }
+      var item = seq[i++]; // {value, text}
+
+      var opt = null;
+      for (var j=0; j<selectEl.options.length; j++){
+        if (selectEl.options[j].value === item.value){ opt = selectEl.options[j]; break; }
+      }
+      if (!opt){
+        // fallback label
+        for (var k=0; k<selectEl.options.length; k++){
+          if (selectEl.options[k].text === item.text){ opt = selectEl.options[k]; break; }
+        }
+      }
+      if (!opt){
+        opt = new Option(item.text, item.value, false, false);
+        selectEl.add(opt);
+      }
+
+      opt.selected = true;
+      try { selectEl.dispatchEvent(new Event('change', {bubbles:true})); } catch(e){}
+
+      if (delay > 0) setTimeout(addNext, delay);
+      else if (window.requestAnimationFrame) requestAnimationFrame(addNext);
+      else setTimeout(addNext, 0);
+    }
+    addNext();
+  }
+
+  // ---------- INPUT pat-select2 (remote) ----------
+function setPatSelect2(el, values, options){
+  options = options || {};
+  var replace = (options.replace !== false);
+
+  // Lire le séparateur depuis la pattern (défaut ;)
+  var sep = ';';
+  var cfg = el.getAttribute('data-pat-select2');
+  if (cfg){
+    try { var parsed = JSON.parse(cfg); if (parsed && parsed.separator) sep = parsed.separator; } catch(e){}
+  }
+
+  // Normaliser en {value, text}
+  function norm(item){
+    if (item && typeof item === 'object'){
+      var v = item.value || item.token || '';
+      var t = item.text  || item.title || v;
+      return {value:String(v), text:String(t)};
+    }
+    var s = String(item == null ? '' : item);
+    return {value:s, text:s};
+  }
+  var seq = (Array.isArray(values) ? values : [values]).map(norm);
+  var tokens = seq.map(function(x){ return x.value; });
+
+  // Append vs replace
+  if (!replace && el.value){
+    var current = el.value.split(sep).filter(Boolean);
+    var set = Object.create(null);
+    current.forEach(function(v){ set[v] = true; });
+    tokens.forEach(function(v){ if (!set[v]) current.push(v); });
+    tokens = current;
+  }
+
+  // 1) Écrire les tokens dans l'input (ce qui sera soumis)
+  el.value = tokens.join(sep);
+
+  // 2) Si Select2 (v3) est présent, pousser *puis* figer les labels
+  var hadSelect2 = false;
+  if (window.jQuery){
+    var $el = window.jQuery(el);
+    var api = $el.data('select2');
+    if (api){
+      hadSelect2 = true;
+      var data = seq.map(function(x){ return {id: x.value, text: x.text}; });
+
+      try {
+        // Important: ne PAS déclencher de change ici avant d'avoir injecté les labels
+        // Fixer d'abord les ids (facultatif, mais garde la cohérence interne)
+        $el.select2('val', tokens);
+
+        // Puis injecter les labels
+        $el.select2('data', data);
+
+        // Enfin, notifier (léger) : input + (éventuellement) change
+        el.dispatchEvent(new Event('input', {bubbles:true}));
+        // Si tu veux éviter que pat-select2 réécrase juste derrière, commente la ligne suivante :
+        el.dispatchEvent(new Event('change', {bubbles:true}));
+      } catch(e){}
+    }
+  }
+
+  // 3) Fallback DOM si l'API select2 n'est pas dispo OU si la pattern a écrasé les labels
+  //    => on remplace manuellement le texte des chips par les labels
+  try {
+    var container = document.getElementById('s2id_' + el.id);
+    if (container){
+      var chips = container.querySelectorAll('.select2-search-choice > div');
+      if (chips && chips.length){
+        // Construire un map token->label
+        var map = Object.create(null);
+        seq.forEach(function(x){ map[x.value] = x.text; });
+
+        chips.forEach(function(div){
+          var current = (div.textContent || '').trim();
+          if (map[current]) {
+            div.textContent = map[current];
+          }
+        });
+      }
+    }
+  } catch(e){}
+}
+
+
+
+  // ---------- Checkboxes / Radios ----------
+  function setCheckboxGroup(el, value){
+    var name = el.name;
+    if (!name || !form){ el.checked = !!value; return; }
+    var vals = Array.isArray(value) ? value.map(String) : (value == null ? [] : [String(value)]);
+    var boxes = form.querySelectorAll('input[type="checkbox"][name="'+name+'"]');
+    boxes.forEach(function(b){
+      b.checked = vals.indexOf(b.value) !== -1 || (vals.length === 0 && !!value === true);
+      try { b.dispatchEvent(new Event('change', {bubbles:true})); } catch(e){}
+    });
+  }
+  function setRadioGroup(el, value){
+    var name = el.name;
+    if (!name || !form) return;
+    var v = (value == null) ? '' : String(value);
+    var radios = form.querySelectorAll('input[type="radio"][name="'+name+'"]');
+    radios.forEach(function(r){ r.checked = (r.value === v); });
+    try { el.dispatchEvent(new Event('change', {bubbles:true})); } catch(e){}
+  }
+
+  // ---------- Dispatcher ----------
+  function setFieldById(id, value){
+    var el = resolveTarget(id);
+    if (!el) return;
+
+    // Support format objet {values:[...], append:true}
+    var values = value;
+    var replace = true;
+    if (value && typeof value === 'object' && !Array.isArray(value) && ('values' in value || 'append' in value)){
+      values = value.values != null ? value.values : value;
+      replace = value.append ? false : true;
+    }
+
+    if (el.tagName === 'SELECT'){ setSelectSequential(el, values, {replace:replace, delay:0}); return; }
+    if (isPatSelect2Input(el)){ setPatSelect2(el, values, {replace:replace}); return; }
+
+    if (el.tagName === 'INPUT'){
+      var t = (el.getAttribute('type') || '').toLowerCase();
+      if (t === 'checkbox'){ setCheckboxGroup(el, values); return; }
+      if (t === 'radio'){ setRadioGroup(el, values); return; }
+      el.value = Array.isArray(values) ? values.join(', ') : (values == null ? '' : String(values));
+      try { el.dispatchEvent(new Event('input', {bubbles:true})); } catch(e){}
+      try { el.dispatchEvent(new Event('change', {bubbles:true})); } catch(e){}
+      return;
+    }
+    if (el.tagName === 'TEXTAREA'){
+      el.value = Array.isArray(values) ? values.join('\n') : (values == null ? '' : String(values));
+      try { el.dispatchEvent(new Event('input', {bubbles:true})); } catch(e){}
+      try { el.dispatchEvent(new Event('change', {bubbles:true})); } catch(e){}
+      return;
+    }
+    if (el.hasAttribute('contenteditable')){
+      el.textContent = Array.isArray(values) ? values.join(', ') : (values == null ? '' : String(values));
+    }
+  }
+
+  function applyValues(data){
+    if (!data) return;
+    Object.keys(data).forEach(function(id){
+      setFieldById(id, data[id]);
+    });
+  }
+
+  // (optionnel) collecte minimale pour le backend
+  function collect(){
+    var out = {};
+    var t = document.getElementById('form-widgets-IBasic-title');
+    if (t) out['form-widgets-IBasic-title'] = t.value;
+    return out;
+  }
+
+  // ---------- Action bouton ----------
+  btn.addEventListener('click', function(){
+    if (!endpoint){ err('Endpoint manquant'); return; }
+    btn.disabled = true;
+    setStatus('Traitement…');
+
+    // edit ici; si tu réutilises en add, adapte si besoin
+    var payload = {
+      mode: 'edit',
+      formdata: collect()
+    };
+
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': getCsrf()
+      },
+      body: JSON.stringify(payload),
+      credentials: 'same-origin'
+    })
+    .then(function(resp){
+      if (!resp.ok) throw new Error('HTTP '+resp.status);
+      return resp.text().then(function(t){ return t ? JSON.parse(t) : {}; });
+    })
+    .then(function(data){
+      var payload = data && (data.data || data);
+      applyValues(payload);
+      ok((data && data.message) || 'Appliqué');
+    })
+    .catch(function(e){
+      err(e && e.message);
+    })
+    .finally(function(){
+      btn.disabled = false;
+    });
+  });
+})();
+</script>
+
+
+
+
+
+</tal:root>
