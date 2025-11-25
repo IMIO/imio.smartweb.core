@@ -5,8 +5,8 @@ Changelog
 1.4.19 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- IAK-77 : IPA : Add new header to queries + some Refactoring
+  [boulch]
 
 1.4.18 (2025-11-21)
 -------------------

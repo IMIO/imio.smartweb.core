@@ -1,3 +1,5 @@
+from imio.smartweb.common.utils import get_vocabulary
+from imio.smartweb.common.browser.ia import BaseIAView
 from imio.smartweb.common.config import IPA_URL
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core.contents import IPages
@@ -8,18 +10,11 @@ from Products.Five import BrowserView
 from zope.i18n import translate
 
 import json
+import os
 import requests
 
 
-class ProcessSuggestedTitlesView(BrowserView):
-
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-        self.headers = {
-            "accept": "application/json",
-            "Content-Type": "application/json",
-        }
+class ProcessSuggestedTitlesView(BaseIAView):
 
     def __call__(self):
         self.request.response.setHeader(
@@ -40,19 +35,12 @@ class ProcessSuggestedTitlesView(BrowserView):
         return json.dumps(data)
 
 
-class ProcessCategorizeContentView(BrowserView):
+class ProcessCategorizeContentView(BaseIAView):
 
     def __init__(self, context, request):
         self.current_lang = api.portal.get_current_language()[:2]
-        self.context = context
-        self.request = request
-        self.headers = {
-            "accept": "application/json",
-            "Content-Type": "application/json",
-        }
 
     def _get_structured_data_from_vocabulary(self, vocabulary_name):
-
         voc = get_vocabulary(vocabulary_name)
         voc_translated_dict = [
             {
