@@ -1,20 +1,17 @@
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
-
+@import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css);
 .modal-wrapper .pattern-modal-buttons {
   display: flex;
   gap: 0 10px;
 }
-
 div#formfield-form-widgets-basic_analytics {
-  order: initial !important;
+  order: 0 !important;
 }
-
 * {
+  background-position: 50%;
   background-size: cover;
-  background-position: center;
 }
-html,
-body {
+body,
+html {
   max-width: 100%;
 }
 body {
@@ -23,308 +20,316 @@ body {
 .table_schedule--active {
   display: block !important;
 }
-
 .card-img-top {
   padding-top: 56.25%;
 }
-// for edition
 .template-folder_contents table .actionmenu a.action.set-default-page {
   display: none;
 }
-//
-// banner
 #banner {
-  grid-column-start: 1;
-  grid-column-end: -1;
-  height: 200px;
   background-size: cover;
+  grid-column-end: -1;
+  grid-column-start: 1;
+  height: 200px;
 }
 .hidden-banner {
   height: 55px !important;
 }
-
 .pat-structure .pagination > .active > a {
   z-index: 0;
 }
-
-//// slidier
-
 .carousel-image {
   padding-bottom: 50%;
 }
-
 .swiper-slide .swiper-image {
   padding-bottom: 60%;
 }
 .swiper-wrapper {
   padding-bottom: 50px;
 }
-
-/* si identifiant numérique on cache l'identifiant */
-.template-taxonomy-edit-data {
-  .taxonomy-tree {
-    border: 0px solid white;
-    & > .tree-view > .tree-view_item {
-      font-size: 1.25rem;
-      padding: 0rem 0 1rem;
-      text-transform: uppercase;
-      border: none;
-    }
-  }
-  .super-text {
-    display: none;
-  }
-  .editable-divs {
-    display: none !important;
-  }
-  span .super-text + .editable-divs:nth-child(2),
-  div.info .super-text + .editable-divs:nth-child(2) {
-    display: inline !important;
-  }
-  .taxonomy-tree > .tree-view > .tree-view_children > .info,
-  .taxonomy-tree
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_item {
-    border-bottom: 2px solid #555;
-  }
-  .tree-view_item,
-  .info {
-    border-bottom: 1px dashed #d2d2d2;
-  }
-  .taxonomy-tree > .tree-view > .tree-view_children > .info input,
-  .taxonomy-tree
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_item
-    input {
-    text-shadow: 0px 1px 0px #303030;
-    padding-top: 0.5rem !important;
-    color: #303030;
-  }
-
-  .taxonomy-tree
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_children
-    > .info:before,
-  .taxonomy-tree
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_item:before {
-    content: "⤷";
-    font-weight: bold;
-    float: left;
-    margin-top: 0.3rem;
-  }
-  .taxonomy-tree
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_children
-    > .info:before,
-  .taxonomy-tree
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_children
-    > .tree-view
-    > .tree-view_item:before {
-    font-weight: bold;
-    float: left;
-    margin-top: 1px;
-    content: "•";
-    font-size: 1.5rem;
-  }
-  .taxonomy-tree .tree-view_arrow {
-    display: none;
-  }
-  .taxonomy-tree .tree-view_children {
-    margin-left: 2rem;
-  }
+.template-taxonomy-edit-data .taxonomy-tree {
+  border: 0 solid #fff;
 }
-.smartweb_herobanner {
-  .section-slide {
-    height: 100%;
-    .swiper-banner-image {
-      height: 100%;
-    }
-  }
+.template-taxonomy-edit-data .taxonomy-tree > .tree-view > .tree-view_item {
+  border: none;
+  font-size: 1.25rem;
+  padding: 0 0 1rem;
+  text-transform: uppercase;
+}
+.template-taxonomy-edit-data .super-text {
+  display: none;
+}
+.template-taxonomy-edit-data .editable-divs {
+  display: none !important;
+}
+.template-taxonomy-edit-data div.info .super-text + .editable-divs:nth-child(2),
+.template-taxonomy-edit-data span .super-text + .editable-divs:nth-child(2) {
+  display: inline !important;
+}
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .info,
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_item {
+  border-bottom: 2px solid #555;
+}
+.template-taxonomy-edit-data .info,
+.template-taxonomy-edit-data .tree-view_item {
+  border-bottom: 1px dashed #d2d2d2;
+}
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .info
+  input,
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_item
+  input {
+  color: #303030;
+  padding-top: 0.5rem !important;
+  text-shadow: 0 1px 0 #303030;
+}
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_children
+  > .info:before,
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_item:before {
+  content: "⤷";
+  float: left;
+  font-weight: 700;
+  margin-top: 0.3rem;
+}
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_children
+  > .info:before,
+.template-taxonomy-edit-data
+  .taxonomy-tree
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_children
+  > .tree-view
+  > .tree-view_item:before {
+  content: "•";
+  float: left;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-top: 1px;
+}
+.template-taxonomy-edit-data .taxonomy-tree .tree-view_arrow {
+  display: none;
+}
+.template-taxonomy-edit-data .taxonomy-tree .tree-view_children {
+  margin-left: 2rem;
+}
+.smartweb_herobanner .section-slide,
+.smartweb_herobanner .section-slide .swiper-banner-image {
+  height: 100%;
 }
 #portal-globalnav-collapse .nav_index_html,
 #subsite-navigation .nav_index_html {
   display: none;
 }
-
-#portal-globalnav > li > .has_subtree .close-nav {
-	background: transparent;
-	border: none;
-	display: block;
-	padding: 1rem 0;
-}
+#portal-globalnav > li > .has_subtree .close-nav,
 #subsite-navigation > ul > li > .has_subtree .close-nav {
-	background: transparent;
-	border: none;
-	display: block;
-	padding: 1rem 0;
+  background: transparent;
+  border: none;
+  display: block;
+  padding: 1rem 0;
 }
-
 .block-menu-element,
 .list-menu-element {
   list-style: none;
 }
-
 .contact_informations_social {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  .website {
-    width: 100%;
-  }
 }
-
-// muti contact
+.contact_informations_social .website {
+  width: 100%;
+}
 .row.multicontact {
   display: grid;
-  // Par défaut, 1 élément par ligne sur mobile
   grid-template-columns: 1fr;
-
-  // 2 éléments par ligne sur tablette
-  @media screen and (min-width: 568px) {
+}
+@media screen and (min-width: 568px) {
+  .row.multicontact {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  // 3 éléments par ligne sur desktop
-  @media screen and (min-width: 992px) {
+}
+@media screen and (min-width: 992px) {
+  .row.multicontact {
     grid-template-columns: repeat(3, 1fr);
   }
-
-  // 4 éléments par ligne sur grand écran
-  @media screen and (min-width: 1200px) {
+}
+@media screen and (min-width: 1200px) {
+  .row.multicontact {
     grid-template-columns: repeat(4, 1fr);
   }
-
-  // Classe pour forcer 1 élément par ligne
-  &.nb-contact-by-line-1 {
-    grid-template-columns: 1fr;
-  }
-
-  // Classe pour forcer 2 éléments par ligne
-  &.nb-contact-by-line-2 {
-    @media screen and (min-width: 568px) {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  // Classe pour forcer 3 éléments par ligne
-  &.nb-contact-by-line-3 {
-    @media screen and (min-width: 992px) {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  // Classe pour forcer 4 éléments par ligne
-  &.nb-contact-by-line-4 {
-    @media screen and (min-width: 1200px) {
-      grid-template-columns: repeat(4, 1fr);
-    }
+}
+.row.multicontact.nb-contact-by-line-1 {
+  grid-template-columns: 1fr;
+}
+@media screen and (min-width: 568px) {
+  .row.multicontact.nb-contact-by-line-2 {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
-
-
-// cookies
-
+@media screen and (min-width: 992px) {
+  .row.multicontact.nb-contact-by-line-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media screen and (min-width: 1200px) {
+  .row.multicontact.nb-contact-by-line-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 #gdpr-consent-banner {
-  z-index: 9;
-  padding: 50px 25px;
   background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.2);
+  color: #353535;
+  left: 0;
+  max-width: 100vw !important;
+  padding: 50px 25px;
   position: fixed;
   top: 100vh;
   transform: translateY(-100%);
-  box-shadow: 0 0 18px rgba(0, 0, 0, 20%);
-  border-radius: 5px;
-  color: #353535;
   width: auto;
-  left: 0;
-  max-width: 100vw !important;
-
-  @media (min-width: 992px)  {
-    right: 0;
+  z-index: 9;
+}
+@media (min-width: 992px) {
+  #gdpr-consent-banner {
     max-width: 100%;
+    right: 0;
     text-align: center;
   }
-
-  & > span {
-    @media (min-width: 992px)  {
-      max-width: 500px;
-      display: inline-block;
-      vertical-align: top;
-      text-align: left;
-      padding-right: 30px;
-    }
+  #gdpr-consent-banner > span {
+    display: inline-block;
+    max-width: 500px;
+    padding-right: 30px;
+    text-align: left;
+    vertical-align: top;
   }
-
-  & > form {
-    @media (min-width: 992px)  {
-      display: inline-block;
-      vertical-align: middle;
-    }
-  }
-
-  .gdpr-actions {
-    line-height: 1;
-    display: flex;
-    gap: 10px;
-    margin-top: 1.5rem;
-
-    & > a,
-    input[name="consent"],
-    input[name="refuse"] {
-      background: #1863dc;
-      color: #fff;
-      border: 2px solid #1863dc;
-      padding: 1rem 2rem;
-      font-size: 13px;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.1s ease;
-
-      &:hover,
-      &:focus {
-        background: #ededed;
-        color: #1863dc;
-        outline: none;
-      }
-    }
+  #gdpr-consent-banner > form {
+    display: inline-block;
+    vertical-align: middle;
   }
 }
-
+#gdpr-consent-banner .gdpr-actions {
+  display: flex;
+  gap: 10px;
+  line-height: 1;
+  margin-top: 1.5rem;
+}
+#gdpr-consent-banner .gdpr-actions input[name="consent"],
+#gdpr-consent-banner .gdpr-actions input[name="refuse"],
+#gdpr-consent-banner .gdpr-actions > a {
+  background: #1863dc;
+  border: 2px solid #1863dc;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 13px;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  transition: all 0.1s ease;
+}
+#gdpr-consent-banner .gdpr-actions input[name="consent"]:focus,
+#gdpr-consent-banner .gdpr-actions input[name="consent"]:hover,
+#gdpr-consent-banner .gdpr-actions input[name="refuse"]:focus,
+#gdpr-consent-banner .gdpr-actions input[name="refuse"]:hover,
+#gdpr-consent-banner .gdpr-actions > a:focus,
+#gdpr-consent-banner .gdpr-actions > a:hover {
+  background: #ededed;
+  color: #1863dc;
+  outline: none;
+}
 @media screen and (max-width: 767px) {
+  #gdpr-consent-banner .gdpr-actions input[name="refuse"],
   #gdpr-consent-banner .gdpr-actions > a {
     margin-left: 0;
     text-align: center;
   }
-
-  #gdpr-consent-banner .gdpr-actions input[name="refuse"] {
-    margin-left: 0;
-    text-align: center;
-  }
 }
-
 #portal-globalnav-collapse {
   flex-direction: column;
 }
 #portal-globalnav-collapse #header-actions {
   margin-top: 1.5rem;
+}
+
+/* ia */
+.plone-modal-close {
+  font-size: 1rem !important;
+}
+.ia-modale {
+  font-weight: bold;
+}
+
+.ia-suggest-list .list-group-item {
+  background: #f9f9f9;
+  padding: 6px 10px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.suggestedtitles-with-button {
+  position: relative;
+}
+
+.suggestedtitles-generate-button {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  right: 17px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  text-transform: none;
+  text-decoration: none;
+  &::before {
+    content: "";
+    width: 37px;
+    height: 22px;
+    display: block;
+    background-image: url("./icons/omnia-logo.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:hover {
+    color: #e6007e;
+  }
 }

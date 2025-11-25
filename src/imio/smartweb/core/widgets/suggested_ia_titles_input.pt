@@ -1,5 +1,5 @@
 <tal:domain i18n:domain="imio.smartweb">
-<span class="suggestedtitles-with-button"
+<div class="suggestedtitles-with-button"
       data-slug-url="${context/absolute_url}/@@processsuggestedtitles"
       data-source-selector="#form-widgets-title">
 
@@ -23,12 +23,12 @@
 
   <a id="ia-suggest-open"
      href="#ia-suggest-modal"
-     class="suggestedtitles-generate-button pat-plone-modal btn btn-secondary"
+     class="suggestedtitles-generate-button pat-plone-modal"
      tal:attributes="data-pat-plone-modal view/data_pat_plone_modal;"
      i18n:translate=""> 
     Générer via IA
   </a>
-</span>
+</div>
 
 <div id="ia-suggest-modal" style="display:none">
   <p class="formHelp ia-modale" i18n:translate="">Select a title :</p>

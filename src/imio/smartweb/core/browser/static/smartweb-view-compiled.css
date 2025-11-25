@@ -305,94 +305,31 @@ body {
   margin-top: 5px;
 }
 
-#ia-suggest-open,
-#categorization_ia_link-btn {
-  margin-top: 15px;
+.suggestedtitles-with-button {
   position: relative;
-  padding: 9px 18px;
-  font-size: 16px;
-  font-weight: regular;
-  color: #383838;
+}
+
+.suggestedtitles-generate-button {
   background: transparent;
-  border: none;
-  cursor: pointer;
-  border-radius: 50px;
-  overflow: hidden;
-  transition: transform 0.2s ease;
-}
-
-#ia-suggest-open:hover,
-#categorization_ia_link-btn:hover {
-  transform: scale(1.03);
-}
-
-#ia-suggest-open::before,
-#categorization_ia_link-btn::before {
-  content: "";
+  display: flex;
+  align-items: center;
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: conic-gradient(
-    from 0deg,
-    #ff6b6b,
-    #4ecdc4,
-    #45b7d1,
-    #41b17d,
-    #f9b219,
-    #e30289,
-    #d000ff
-  );
-  z-index: -2;
-  filter: blur(10px);
-  transform: rotate(0deg);
-  transition: transform 1.5s ease-in-out;
-}
-
-#ia-suggest-open:hover::before,
-#categorization_ia_link-btn:hover::before {
-  transform: rotate(180deg);
-}
-
-#ia-suggest-open::after,
-#categorization_ia_link-btn::after {
-  content: "";
-  position: absolute;
-  inset: 3px;
-  background: rgb(255, 255, 255);
-  border-radius: 47px;
-  z-index: -1;
-  filter: blur(3px);
-}
-
-.gradient-text {
-  color: transparent;
-  background: conic-gradient(
-    from 0deg,
-    #ff6b6b,
-    #4ecdc4,
-    #45b7d1,
-    #96ceb4,
-    #feca57,
-    #ff9ff3,
-    #ff6b6b
-  );
-  background-clip: text;
-  filter: hue-rotate(0deg);
-}
-
-#ia-suggest-open:hover .gradient-text {
-  animation: hue-rotating 2s linear infinite;
-}
-
-#ia-suggest-open:active,
-$#categorization_ia_link-btn:active {
-  transform: scale(0.99);
-}
-
-@keyframes hue-rotating {
-  to {
-    filter: hue-rotate(360deg);
+  top: 50%;
+  right: 17px;
+  transform: translateY(-50%);
+  font-size: 14px;
+  text-transform: none;
+  text-decoration: none;
+  &::before {
+    content: "";
+    width: 37px;
+    height: 22px;
+    display: block;
+    background-image: url("./icons/omnia-logo.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  &:hover {
+    color: #e6007e;
   }
 }
