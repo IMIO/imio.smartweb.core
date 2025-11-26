@@ -251,7 +251,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
     };
 
     const renderClosedEndDate = () => {
-        if (item.whole_day) {
+        if (start !== end) {
             return (
                 <div className="r-content-date-du-au">
                     <div className="r-content-date-start">
@@ -262,6 +262,11 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                         <span>&nbsp;au&nbsp;</span>
                         <TimeDisplay time={end} />
                     </div>
+                    {!item.whole_day ? 
+                        <div className="r-content-date-start-hours">
+                        <HoursDisplay startHours={startHours} endHours={endHours} />
+                        </div> 
+                    : ""}
                 </div>
             );
         }
@@ -272,9 +277,11 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                     <DateLabel text="Le" />
                     <TimeDisplay time={start} />
                 </div>
-                <div className="r-content-date-start-hours">
-                    <HoursDisplay startHours={startHours} endHours={endHours} />
-                </div>
+                    {!item.whole_day ? 
+                        <div className="r-content-date-start-hours">
+                        <HoursDisplay startHours={startHours} endHours={endHours} />
+                        </div> 
+                    : ""}
             </div>
         );
     };
