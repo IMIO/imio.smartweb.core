@@ -2,10 +2,10 @@
           xmlns:tal="http://xml.zope.org/namespaces/tal">
   <div class="autotoc-section">
     <button type="button"
-            class="btn btn-sm btn-primary"
+            class="suggestedcategorization-generate-button"
             tal:attributes="id string:${view/wid}-btn;
                             data-endpoint view/endpoint">
-      Catégoriser ce contenu →
+      Catégoriser via IA
     </button>
     <span tal:attributes="id string:${view/wid}-status"
           style="margin-left:.5rem;"></span>
