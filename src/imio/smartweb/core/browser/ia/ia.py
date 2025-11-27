@@ -38,6 +38,7 @@ class ProcessSuggestedTitlesView(BaseIAView):
 class ProcessCategorizeContentView(BaseIAView):
 
     def __init__(self, context, request):
+        super().__init__(context, request)
         self.current_lang = api.portal.get_current_language()[:2]
 
     def _get_structured_data_from_vocabulary(self, vocabulary_name):
