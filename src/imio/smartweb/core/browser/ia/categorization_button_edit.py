@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # imio/smartweb/core/browser/categorization_button_edit.py
-
+from imio.smartweb.common.config import APPLICATION_ID
+from imio.smartweb.common.config import PROJECT_ID
 from imio.smartweb.core.browser.forms import SmartwebCustomEditForm
 from plone.z3cform import layout
 
@@ -18,6 +19,8 @@ class HtmlSnippetWidget(z3c_widget.Widget):
     """Widget HTML (bouton + JS) avec template ZPT."""
 
     template = ViewPageTemplateFile("html_snippet_widget.pt")
+    x_imio_application = APPLICATION_ID
+    x_imio_municipality = PROJECT_ID
 
     def update(self):
         # edit : context == objet

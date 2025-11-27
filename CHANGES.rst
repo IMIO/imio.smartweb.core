@@ -4,6 +4,8 @@ Changelog
 
 1.4.19 (unreleased)
 -------------------
+- IAK-77 : IPA : Add new header to js queries (html_snippet_widget.pt)
+  [boulch]
 
 - IAK-77 : IPA : Add new header to queries + some Refactoring
   [boulch]

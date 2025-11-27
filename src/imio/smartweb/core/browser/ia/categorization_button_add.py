@@ -1,6 +1,7 @@
 from imio.smartweb.common.browser.forms import CustomAddForm
+from imio.smartweb.common.config import APPLICATION_ID
+from imio.smartweb.common.config import PROJECT_ID
 from plone.dexterity.browser.add import DefaultAddView
-from plone.z3cform import layout
 
 from z3c.form.interfaces import HIDDEN_MODE, DISPLAY_MODE
 from z3c.form.widget import FieldWidget
@@ -14,6 +15,8 @@ FIELD_NAME = "categorization_ia_link"
 
 class HtmlSnippetWidget(z3c_widget.Widget):
     template = ViewPageTemplateFile("html_snippet_widget.pt")
+    x_imio_application = APPLICATION_ID
+    x_imio_municipality = PROJECT_ID
 
     def update(self):
         # ++add++ : context = container ; edit : context = object

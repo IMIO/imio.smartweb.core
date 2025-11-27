@@ -288,7 +288,9 @@ function setPatSelect2(el, values, options){
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json',        
+        'x-imio-application': '${view/x_imio_application}',
+        'x-imio-municipality': '${view/x_imio_municipality}',
         'X-CSRF-TOKEN': getCsrf()
       },
       body: JSON.stringify(payload),
