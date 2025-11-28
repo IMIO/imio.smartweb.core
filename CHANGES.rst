@@ -4,6 +4,13 @@ Changelog
 
 1.4.19 (unreleased)
 -------------------
+
+- IAK-77 : IPA : Fix ia categorize if section text is empty
+  [thomlamb]
+
+- IAK-77 : IPA : Add ia omnia icon and styles
+  [thomlamb]
+
 - IAK-77 : IPA : Add new header to js queries (html_snippet_widget.pt)
   [boulch]
 
