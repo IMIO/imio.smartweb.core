@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.19 (unreleased)
+1.4.19 (2025-11-28)
 -------------------
 
 - IAK-77 : IPA : Fix ia categorize if section text is empty
