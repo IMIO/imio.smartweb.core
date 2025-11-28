@@ -70,7 +70,7 @@ class ProcessCategorizeContentView(BaseIAView):
             for item in self.context.objectItems():
                 obj = item[1]
                 if ISectionText.providedBy(obj):
-                    all_text += obj.text.output or ""
+                    all_text += getattr(obj.text, "output", "")
 
         # If agent doesn't register prevsouly a categorization so IA can bring categorization
         if self.context.taxonomy_page_category is None:
