@@ -34,7 +34,7 @@ class HtmlSnippetWidget(z3c_widget.Widget):
         # Désactiver le bouton si aucune section texte avec contenu n'est présente
         self.klass = getattr(self, "klass", "")
         has_text_content = False
-        
+
         # Vérifie si le contexte contient au moins une section texte avec du contenu
         try:
             for item in getattr(self.context, "objectItems", lambda: [])():
@@ -47,7 +47,7 @@ class HtmlSnippetWidget(z3c_widget.Widget):
                         break
         except Exception:
             pass
-        
+
         if not has_text_content:
             self.klass = f"{self.klass} disabled".strip() if self.klass else "disabled"
             self.is_disabled = True
