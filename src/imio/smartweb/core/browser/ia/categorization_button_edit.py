@@ -3,6 +3,8 @@
 from imio.smartweb.common.config import APPLICATION_ID
 from imio.smartweb.common.config import PROJECT_ID
 from imio.smartweb.core.browser.forms import SmartwebCustomEditForm
+from imio.smartweb.core.contents import ISectionText
+
 from plone.z3cform import layout
 
 from zope import schema
@@ -28,6 +30,29 @@ class HtmlSnippetWidget(z3c_widget.Widget):
         self.endpoint = f"{base}/@@ProcessCategorizeContent"
         # Unique id for button + status zone
         self.wid = getattr(self, "name", FIELD_NAME)
+
+        # Désactiver le bouton si aucune section texte avec contenu n'est présente
+        self.klass = getattr(self, "klass", "")
+        has_text_content = False
+
+        # Vérifie si le contexte contient au moins une section texte avec du contenu
+        try:
+            for item in getattr(self.context, "objectItems", lambda: [])():
+                obj = item[1]
+                if ISectionText.providedBy(obj):
+                    # Vérifier si la section texte a du contenu (non vide)
+                    text_output = getattr(getattr(obj, "text", None), "output", "")
+                    if text_output and text_output.strip():
+                        has_text_content = True
+                        break
+        except Exception:
+            pass
+
+        if not has_text_content:
+            self.klass = f"{self.klass} disabled".strip() if self.klass else "disabled"
+            self.is_disabled = True
+        else:
+            self.is_disabled = False
 
     def render(self):
         return self.template()

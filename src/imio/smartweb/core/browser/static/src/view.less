@@ -354,8 +354,18 @@ body {
   &:hover {
     color: #e6007e;
   }
+  &.disabled {
+    &:hover {
+      color: initial!important;
+    }
+    &::before {
+      filter: grayscale(100%);
+      opacity: 0.5;
+    }
+  }
 }
 
 .autotoc-section {
   display: flex;
+  align-items: center;
 }
