@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+
+  <browser:page
+    name="import_content"
+    for="zope.interface.Interface"
+    class=".import_content.CustomImportContent"
+    layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+    permission="cmf.ManagePortal"
+    />
+
+  <browser:page
+      name="create_contents"
+      for="*"
+      class=".create.CreateContentsForMigration"
+      permission="cmf.AddPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+</configure>

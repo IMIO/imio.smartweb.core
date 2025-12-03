@@ -22,6 +22,7 @@
   <include package=".herobanner" />
   <include package=".ia" />
   <include package=".instancebehaviors" />
+  <include package=".migration" />
   <include package=".minisite" />
   <include package=".subsite" />
   <include package=".search" />
