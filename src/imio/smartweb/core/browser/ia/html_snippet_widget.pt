@@ -1,14 +1,19 @@
-<tal:root xmlns="http://www.w3.org/1999/xhtml"
+<tal:root xmlns="http://www.w3.org/1999/xhtml" i18n:domain="imio.smartweb"
           xmlns:tal="http://xml.zope.org/namespaces/tal">
   <div class="autotoc-section">
     <button type="button"
-            class="suggestedcategorization-generate-button"
             tal:attributes="id string:${view/wid}-btn;
-                            data-endpoint view/endpoint">
+                            data-endpoint view/endpoint;
+                            class python:view.klass and f'suggestedcategorization-generate-button {view.klass}' or 'suggestedcategorization-generate-button';
+                            disabled python:view.is_disabled and 'disabled' or nothing"
+            i18n:translate="">
       Catégoriser via IA
     </button>
     <span tal:attributes="id string:${view/wid}-status"
           style="margin-left:.5rem;"></span>
+    <span tal:condition="view/is_disabled"
+          style="margin-left:.1rem;font-size: 14px;"
+          i18n:translate="">(Contenu insuffisant pour catégoriser)</span>
   </div>
 
 <script type="text/javascript">
