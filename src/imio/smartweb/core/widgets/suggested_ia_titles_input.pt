@@ -26,7 +26,7 @@
      class="suggestedtitles-generate-button pat-plone-modal"
      tal:attributes="data-pat-plone-modal view/data_pat_plone_modal;"
      i18n:translate=""> 
-    Générer via IA
+    Generate using AI
   </a>
 </div>
 

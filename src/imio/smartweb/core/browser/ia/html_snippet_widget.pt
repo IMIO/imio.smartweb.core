@@ -7,13 +7,13 @@
                             class python:view.klass and f'suggestedcategorization-generate-button {view.klass}' or 'suggestedcategorization-generate-button';
                             disabled python:view.is_disabled and 'disabled' or nothing"
             i18n:translate="">
-      Catégoriser via IA
+      Categorize using AI
     </button>
     <span tal:attributes="id string:${view/wid}-status"
           style="margin-left:.5rem;"></span>
     <span tal:condition="view/is_disabled"
           style="margin-left:.1rem;font-size: 14px;"
-          i18n:translate="">(Catégorisation indisponible car section de texte manquante ou vide)</span>
+          i18n:translate="">(Categorization unavailable because a section of text is missing or empty.)</span>
   </div>
 
 <script type="text/javascript">
