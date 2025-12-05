@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.20 (unreleased)
+1.4.20 (2025-12-05)
 -------------------
 
 - WEB-4334 : IPA : Disable IA categorization button if section text is empty or missing to prevent errors
