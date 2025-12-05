@@ -13,7 +13,7 @@
           style="margin-left:.5rem;"></span>
     <span tal:condition="view/is_disabled"
           style="margin-left:.1rem;font-size: 14px;"
-          i18n:translate="">(Contenu insuffisant pour catégoriser)</span>
+          i18n:translate="">(Catégorisation indisponible car section de texte manquante ou vide)</span>
   </div>
 
 <script type="text/javascript">
