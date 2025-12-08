@@ -41,6 +41,16 @@ class BaseRequestForwarder(Service):
         return self
 
     def forward_request(self, url):
+        hop_by_hop = (
+            "connection",
+            "keep-alive",
+            "proxy-authenticate",
+            "proxy-authorization",
+            "te",
+            "trailer",
+            "transfer-encoding",
+            "upgrade",
+        )
         method = self.request.method
         token = None
         if method == "GET" and self.request.form.get("wcatoken") == "false":
@@ -52,6 +62,8 @@ class BaseRequestForwarder(Service):
         if is_log_active():
             logger.info("======== Forwarding request to AUTHENTIC SOURCE =========")
             logger.info(f"url to forward : {url} ({method})")
+            for key, value in self.request.form.items():
+                logger.info(f"param : {key} = {value}")
             logger.info(f"token : {token}")
             logger.info(f"headers : {headers}")
         params = self.request.form
@@ -67,12 +79,22 @@ class BaseRequestForwarder(Service):
         # Set the status code and headers from the authentic source server response
         response.setStatus(auth_source_response.status_code)
         for header, value in auth_source_response.headers.items():
-            response.setHeader(header, value)
-
+            # Skip hop-by-hop headers
+            # And also skip content-encoding because we forward uncompressed data
+            if (
+                header.lower() not in hop_by_hop
+                and header.lower() != "content-encoding"
+            ):
+                response.setHeader(header, value)
         if auth_source_response.status_code == 204 or auth_source_response.text == "":
             # Empty response
             return ""
-
+        if is_log_active():
+            logger.info("======== Response from AUTHENTIC SOURCE =========")
+            logger.info(f"status code : {auth_source_response.status_code}")
+            for key, value in auth_source_response.headers.items():
+                logger.info(f"header : {key} = {value}")
+            logger.info(f"response text : {auth_source_response.text}")
         return auth_source_response.json()
 
     def construct_url(self, view_url, item):

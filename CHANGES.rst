@@ -5,7 +5,8 @@ Changelog
 1.4.21 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4336 : Remove hop-by-hop headers and content-encoding when forwarding requests to authentic sources
+  [remdub]
 
 
 1.4.20 (2025-12-07)
@@ -131,7 +132,7 @@ Changelog
   [thomlamb]
 
 - WEB-4165 : SEO : Improve sitemap.xml.gz generation to include new seo_html views
-  and some other seo improvements  
+  and some other seo improvements
   [boulch]
 
 
@@ -145,7 +146,7 @@ Changelog
 1.4.9 (2025-08-05)
 ------------------
 
-- WEB-4165 : SEO : Override the canonical URL in the HTML header for the REST view, 
+- WEB-4165 : SEO : Override the canonical URL in the HTML header for the REST view,
   so that each card (name?u=<uuid>) is considered canonical instead of the default container.
   [boulch]
 
