@@ -607,12 +607,12 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "Connection": "keep-alive",
                 "Keep-Alive": "timeout=5, max=200",
                 "Transfer-Encoding": "chunked",
-                "Proxy-Authenticate": "Basic realm=\"Dev\", charset=\"UTF-8\"",
+                "Proxy-Authenticate": 'Basic realm="Dev", charset="UTF-8"',
                 "Proxy-Authorization": "Bearer kNTktNTA1My00YzLT1234",
                 "TE": "trailers, deflate;q=0.5",
                 "Trailer": "Server-Timing",
-                "Upgrade": "foo/2"
-                },
+                "Upgrade": "foo/2",
+            },
         )
 
         # traversal stack

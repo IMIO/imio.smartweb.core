@@ -42,15 +42,15 @@ class BaseRequestForwarder(Service):
 
     def forward_request(self, url):
         hop_by_hop = (
-                "connection",
-                "keep-alive",
-                "proxy-authenticate",
-                "proxy-authorization",
-                "te",
-                "trailer",
-                "transfer-encoding",
-                "upgrade",
-            )
+            "connection",
+            "keep-alive",
+            "proxy-authenticate",
+            "proxy-authorization",
+            "te",
+            "trailer",
+            "transfer-encoding",
+            "upgrade",
+        )
         method = self.request.method
         token = None
         if method == "GET" and self.request.form.get("wcatoken") == "false":
@@ -81,7 +81,10 @@ class BaseRequestForwarder(Service):
         for header, value in auth_source_response.headers.items():
             # Skip hop-by-hop headers
             # And also skip content-encoding because we forward uncompressed data
-            if header.lower() not in hop_by_hop and header.lower() != "content-encoding":
+            if (
+                header.lower() not in hop_by_hop
+                and header.lower() != "content-encoding"
+            ):
                 response.setHeader(header, value)
         if auth_source_response.status_code == 204 or auth_source_response.text == "":
             # Empty response
