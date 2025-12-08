@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.21 (unreleased)
+1.4.21 (2025-12-08)
 -------------------
 
 - WEB-4336 : Remove hop-by-hop headers and content-encoding when forwarding requests to authentic sources
