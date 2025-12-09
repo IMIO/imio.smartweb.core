@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.22 (unreleased)
+1.4.22 (2025-12-09)
 -------------------
 
 - WEB-4334 : IPA : Fix error when new page is created.
