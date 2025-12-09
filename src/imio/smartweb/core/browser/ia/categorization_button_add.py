@@ -23,6 +23,8 @@ class HtmlSnippetWidget(z3c_widget.Widget):
         base = self.context.absolute_url()
         self.endpoint = f"{base}/@@ProcessCategorizeContent"
         self.wid = getattr(self, "name", "categorization_ia_link")
+        self.klass = getattr(self, "klass", "")
+        self.is_disabled = False
 
     def render(self):
         return self.template()

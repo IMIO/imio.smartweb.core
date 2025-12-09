@@ -5,7 +5,8 @@ Changelog
 1.4.21 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4334 : IPA : Fix error when new page is created. 
+  [thomlamb]
 
 
 1.4.20 (2025-12-05)
