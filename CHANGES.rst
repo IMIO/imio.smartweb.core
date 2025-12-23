@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.23 (unreleased)
+1.4.23 (2025-12-23)
 -------------------
 
 - Improve migration from cpskin.core (Plone4) to smartweb (Plone6)
