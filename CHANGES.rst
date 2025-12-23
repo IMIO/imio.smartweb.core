@@ -5,7 +5,8 @@ Changelog
 1.4.23 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Improve migration from cpskin.core (Plone4) to smartweb (Plone6)
+  [boulch]
 
 
 1.4.22 (2025-12-09)
