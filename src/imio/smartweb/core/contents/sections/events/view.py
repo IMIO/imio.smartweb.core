@@ -39,6 +39,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "metadata_fields=has_leadimage",
             "metadata_fields=modified",
             "metadata_fields=UID",
+            # review_state=published => by default, @events endpoint has this filter.
             f"cache_key={modified_hash}",
             f"event_dates.query={today}",
             "event_dates.range=min",

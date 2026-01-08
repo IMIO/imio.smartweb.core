@@ -75,7 +75,7 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
-  <!-- Custom edit view -->
+  <!-- START Custom edit view -->
   <browser:page
       name="edit"
       for="plone.dexterity.interfaces.IDexterityContent"
@@ -83,6 +83,31 @@
       permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
+  <browser:page
+      for="imio.smartweb.core.contents.ISectionEvents"
+      name="edit"
+      class=".forms.SectionEventsCustomEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="imio.smartweb.core.contents.ISectionNews"
+      name="edit"
+      class=".forms.SectionNewsCustomEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="imio.smartweb.core.contents.ISectionTimestampedPublications"
+      name="edit"
+      class=".forms.SectionPublicationsCustomEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+  <!-- END Custom edit view -->
 
   <browser:page
       name="has_gdpr_text"

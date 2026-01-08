@@ -5,7 +5,8 @@ Changelog
 1.4.24 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4338 : 1. Fix specfic events/news/publications staying in choice field in edit mode
+  [boulch]
 
 
 1.4.23 (2025-12-23)

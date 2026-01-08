@@ -28,6 +28,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
         params = [
             selected_item,
             "portal_type=imio.news.NewsItem",
+            "review_state=published",
             "metadata_fields=container_uid",
             "metadata_fields=category_title",
             "metadata_fields=local_category",

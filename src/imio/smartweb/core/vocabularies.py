@@ -558,6 +558,7 @@ class EventsFromEntityVocabularyFactory:
         params = [
             selected_agendas,
             "portal_type=imio.events.Event",
+            "review_state=published",
             "metadata_fields=category_title",
             "metadata_fields=topics",
             "metadata_fields=start",
@@ -598,6 +599,7 @@ class NewsItemsFromEntityVocabularyFactory:
         params = [
             selected_newsfolders,
             "portal_type=imio.news.NewsItem",
+            "review_state=published",
             "metadata_fields=category_title",
             "metadata_fields=topics",
             "metadata_fields=has_leadimage",
