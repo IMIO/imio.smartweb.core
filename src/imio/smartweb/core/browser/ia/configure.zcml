@@ -5,16 +5,16 @@
     xmlns:z3c="http://namespaces.zope.org/z3c"
     >
 
-  <browser:page
+  <!-- <browser:page
       name="processsuggestedtitles"
       for="*"
       class=".ia.ProcessSuggestedTitlesView"
       permission="cmf.ModifyPortalContent"
-      />
+      /> -->
 
   <browser:page
       name="ProcessCategorizeContent"
-      for="*"
+      for="imio.smartweb.core.contents.IPage"
       class=".ia.ProcessCategorizeContentView"
       permission="cmf.ModifyPortalContent"
       />
