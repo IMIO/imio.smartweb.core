@@ -78,7 +78,7 @@
   <!-- START Custom edit view -->
   <browser:page
       name="edit"
-      for="plone.dexterity.interfaces.IDexterityContent"
+      for="imio.smartweb.core.contents.IFolder"
       class=".forms.SmartwebCustomEditView"
       permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
