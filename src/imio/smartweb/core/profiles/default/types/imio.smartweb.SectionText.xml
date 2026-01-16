@@ -26,6 +26,7 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
+    <element value="imio.smartweb.ia.titles"/>
     <element value="plone.namefromtitle"/>
     <element value="plone.locking"/>
     <element value="plone.shortname"/>

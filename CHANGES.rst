@@ -5,6 +5,9 @@ Changelog
 1.4.24 (unreleased)
 -------------------
 
+- OIA-109 : Refactor "CategorizeContent" feature from imio.smartweb.core to imio.smartweb.common
+  [boulch]
+
 - WEB-4338 : 1. Fix specfic events/news/publications staying in choice field in edit mode
   [boulch]
 

@@ -346,6 +346,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1074_to_1075"
+      title="Upgrade core from 1074 to 1075"
+      directory="profiles/1074_to_1075"
+      description="Remove useless plone.IBasic beahavior. Replace with imio.smartweb.ia.titles behavior"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />      
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1099,6 +1107,16 @@
       profile="imio.smartweb.core:default">
     <genericsetup:upgradeDepends
         title="Add new bundle to manage ia js"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1073_to_1074"
+    />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1074"
+      destination="1075"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Remove useless plone.IBasic beahavior. Replace with imio.smartweb.ia.titles behavior"
         import_profile="imio.smartweb.core.upgrades:upgrade_1073_to_1074"
     />
   </genericsetup:upgradeSteps>

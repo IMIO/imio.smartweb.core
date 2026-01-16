@@ -12,8 +12,11 @@ from zope.interface import implementer
 class ISectionText(ISection):
     """Marker interface and Dexterity Python Schema for SectionText"""
 
-    directives.widget(title=SuggestedIATitlesFieldWidget)
-    title = schema.TextLine(title=_("Title"), required=True)
+    # directives.widget(title=SuggestedIATitlesFieldWidget)
+    # title = schema.TextLine(title=_("Title"), required=True)
+
+    # We only want title from behavior (imio.smartweb.common ia)
+    directives.omitted("title")
 
     directives.order_before(alignment="IVersionable.changeNote")
     alignment = schema.Choice(
