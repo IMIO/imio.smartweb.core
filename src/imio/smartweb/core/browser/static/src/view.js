@@ -27,7 +27,7 @@ jQuery(document).ready(function ($) {
 });
 
 // New navigation
-$(document).ready(function () {
+document.addEventListener("DOMContentLoaded", function () {
   const menu = $("#portal-globalnav");
   const menuInert = $("#portal-globalnav > li > .has_subtree");
   const submenuInert = $("#subsite-navigation li > .has_subtree");
@@ -147,4 +147,52 @@ document.addEventListener("DOMContentLoaded", function () {
 
   moveHeaderActions();
   window.addEventListener("resize", moveHeaderActions);
+});
+
+// gestion du menu sticky
+
+document.addEventListener("DOMContentLoaded", function () {
+  // const header = document.querySelector("#portal-header-top");
+  // if (header) {
+  //   const parentHeader = document.querySelector("#portal-header");
+  //   let headerHeight = header.offsetHeight;
+  //   const headerOffset = header.offsetTop;
+  //   // Fonction pour mettre à jour les dimensions du header
+  //   function updateHeaderDimensions() {
+  //     headerHeight = header.offsetHeight;
+  //     document.documentElement.style.setProperty(
+  //       "--header-height",
+  //       headerHeight + "px"
+  //     );
+  //     if (parentHeader) {
+  //       const parentRect = parentHeader.getBoundingClientRect();
+  //       const parentWidth = parentHeader.offsetWidth;
+  //       const parentLeft = parentRect.left;
+  //       document.documentElement.style.setProperty(
+  //         "--header-width",
+  //         parentWidth + "px"
+  //       );
+  //       document.documentElement.style.setProperty(
+  //         "--header-left",
+  //         parentLeft + "px"
+  //       );
+  //     }
+  //   }
+  //   // Initialiser les dimensions
+  //   updateHeaderDimensions();
+  //   window.addEventListener("scroll", function () {
+  //     if (window.pageYOffset > headerOffset) {
+  //       header.classList.add("sticky");
+  //       document.body.classList.add("has-sticky-header");
+  //       updateHeaderDimensions();
+  //     } else {
+  //       header.classList.remove("sticky");
+  //       document.body.classList.remove("has-sticky-header");
+  //     }
+  //   });
+  //   // Gérer le redimensionnement de la fenêtre
+  //   window.addEventListener("resize", function () {
+  //     updateHeaderDimensions();
+  //   });
+  // }
 });

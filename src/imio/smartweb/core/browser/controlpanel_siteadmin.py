@@ -20,6 +20,7 @@ from zope.interface import Interface
 from zope.interface import Invalid
 from zope.schema import ValidationError
 from zope import schema
+from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
 import json
 import logging
@@ -75,6 +76,19 @@ class IProcedureTextRowSchema(Interface):
 
 
 class ISmartwebSiteAdminControlPanel(Interface):
+
+    # Exemple de champ select
+    menu_position_select = schema.Choice(
+        title=_("Choice of menu position"),
+        description=_("Choice comportment of the menu on scroll"),
+        vocabulary=SimpleVocabulary([
+            SimpleTerm(value='default', token='default', title=_('Position par défaut')),
+            SimpleTerm(value='sticky', token='sticky', title=_('Sticky (le menu reste visible au scroll)')),
+            SimpleTerm(value='sticky-on-top', token='sticky-on-top', title=_('Sticky 2 (le menu est uniquement visible au scroll vers le haut)')),
+        ]),
+        required=True,
+        default='default',
+    )
 
     widget(procedure_button_text=DataGridFieldFactory)
     procedure_button_text = schema.List(
