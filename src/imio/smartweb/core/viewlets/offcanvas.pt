@@ -9,7 +9,8 @@
                                        query-url view/navroot_url;
                                        context-user-has-roles view/context_user_has_roles;
                                        are-views-available view/are_views_available;
-                                       result-option view/get_search_result_option">
+                                       result-option view/get_search_result_option"
+                         search-text="">
         </smartweb-search>
       </template>
     </div>
@@ -21,11 +22,23 @@
     const offcanvas = document.getElementById('offcanvasSearch');
     const searchContainer = document.getElementById('search-container');
     const template = document.getElementById('search-template');
+    const searchInput = document.getElementById('searchbox-input');
     let searchContent = null;
 
     offcanvas.addEventListener('show.bs.offcanvas', function () {
       if (!searchContent) {
         searchContent = template.content.cloneNode(true);
+        const smartwebSearch = searchContent.querySelector('smartweb-search');
+        if (smartwebSearch && searchInput) {
+          const searchText = searchInput.value || '';
+          smartwebSearch.setAttribute('search-text', searchText);
+          // Ajouter à l'URL aussi
+          if (searchText) {
+            const url = new URL(window.location);
+            url.searchParams.set('SearchableText', searchText);
+            window.history.pushState({}, '', url);
+          }
+        }
         searchContainer.appendChild(searchContent);
       }
     });

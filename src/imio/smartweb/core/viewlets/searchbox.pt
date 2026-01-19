@@ -2,11 +2,25 @@
      tal:define="portal_state context/@@plone_portal_state;
                  nav_root_url portal_state/navigation_root_url;"
      i18n:domain="imio.smartweb">
-  <a data-bs-toggle="offcanvas" 
-     data-bs-target="#offcanvasSearch"
-     aria-controls="offcanvasSearch"
-     href="#offcanvasSearch">
-     <span class="sr-only"
-           i18n:translate="">Search</span>
-  </a>
+  <form id="searchbox" onsubmit="event.preventDefault(); document.querySelector('#searchbox button').click(); return false;">
+    <div class="input-group">
+      <input type="search" 
+             id="searchbox-input"
+             name="SearchableText" 
+             class="form-control" 
+             placeholder="Rechercher..."
+             aria-label="Recherche"
+             i18n:attributes="placeholder label_search_site; aria-label label_search_site" />
+      <button class="btn btn-primary" 
+              type="button"
+              data-bs-toggle="offcanvas" 
+              data-bs-target="#offcanvasSearch"
+              aria-controls="offcanvasSearch"
+              aria-label="Lancer la recherche"
+              i18n:attributes="aria-label label_submit_search">
+        <span class="white" i18n:translate="label_search_site">Search</span>
+        <i class="fas fa-search" aria-hidden="true"></i>
+      </button>
+    </div>
+  </form>
 </div>

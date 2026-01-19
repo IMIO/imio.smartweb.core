@@ -14,6 +14,8 @@ import { Translate } from "react-translated";
 import "./Search.scss";
 
 export default function Search(props) {
+    console.log(props);
+
     return (
         <BrowserRouter>
             <Provider language={props.currentLanguage} translation={translation}>
@@ -22,6 +24,7 @@ export default function Search(props) {
                     queryUrl={props.queryUrl}
                     resultOption={JSON.parse(props.resultOption)}
                     areViewsAvailable={JSON.parse(props.areViewsAvailable)}
+                    searchText={props.searchText}
                 />
             </Provider>
         </BrowserRouter>
@@ -29,7 +32,13 @@ export default function Search(props) {
 }
 const SearchView = (props) => {
     const parsed = queryString.parse(useFilterQuery().toString());
-    const { SearchableText, iam, topics } = parsed;
+    let { SearchableText, iam, topics } = parsed;
+    
+    // Si SearchableText n'est pas dans l'URL mais fourni via les props, l'utiliser
+    if (!SearchableText && props.searchText) {
+        SearchableText = props.searchText;
+    }
+    
     const parsed2 = { SearchableText: SearchableText, iam: iam, topics: topics };
     // const parsed2 = { ...parsed };
     const [filters, setFilters] = useState(parsed2);
@@ -41,6 +50,8 @@ const SearchView = (props) => {
     const callback = () => {
         setBatchSize(batchSize + 5);
     };
+
+    console.log(props);
     return (
         <div className="ref">
             <div className="r-search r-search-container">

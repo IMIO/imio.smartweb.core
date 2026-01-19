@@ -8,7 +8,9 @@ import queryString from "query-string";
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
-    const [searchValues, setSearchValues] = useState({});
+    const [searchValues, setSearchValues] = useState({ 
+        SearchableText: props.activeFilter.SearchableText || '' 
+    });
     const [topicsFilter, setTopicsFilter] = useState(null);
     const [iamFilter, setIamFilter] = useState(null);
     const apiCall = () => {
