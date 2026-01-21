@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.24 (unreleased)
+1.4.24 (2026-01-21)
 -------------------
 
 - OIA-109 : Refactor "CategorizeContent" feature from imio.smartweb.core to imio.smartweb.common
