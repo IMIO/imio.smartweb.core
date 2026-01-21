@@ -1117,7 +1117,7 @@
       profile="imio.smartweb.core:default">
     <genericsetup:upgradeDepends
         title="Remove useless plone.IBasic beahavior. Replace with imio.smartweb.ia.titles behavior"
-        import_profile="imio.smartweb.core.upgrades:upgrade_1073_to_1074"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1074_to_1075"
     />
   </genericsetup:upgradeSteps>
 
