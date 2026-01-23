@@ -354,6 +354,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />      
 
+  <genericsetup:registerProfile
+      name="upgrade_1075_to_1076"
+      title="Upgrade core from 1075 to 1076"
+      directory="profiles/1075_to_1076"
+      description="Add menu_position_select setting to registry"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1129,4 +1137,15 @@
       handler=".upgrades.migrate_external_links"
       profile="imio.smartweb.core:default"
       /-->
+
+  <genericsetup:upgradeSteps
+      source="1075"
+      destination="1076"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add menu_position_select setting to registry"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1075_to_1076"
+    />
+  </genericsetup:upgradeSteps>
+
 </configure>

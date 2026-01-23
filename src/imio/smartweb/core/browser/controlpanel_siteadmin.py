@@ -77,7 +77,6 @@ class IProcedureTextRowSchema(Interface):
 
 class ISmartwebSiteAdminControlPanel(Interface):
 
-    # Exemple de champ select
     menu_position_select = schema.Choice(
         title=_("Choice of menu position"),
         description=_("Choice comportment of the menu on scroll"),
