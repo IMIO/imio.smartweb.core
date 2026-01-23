@@ -80,13 +80,27 @@ class ISmartwebSiteAdminControlPanel(Interface):
     menu_position_select = schema.Choice(
         title=_("Choice of menu position"),
         description=_("Choice comportment of the menu on scroll"),
-        vocabulary=SimpleVocabulary([
-            SimpleTerm(value='default', token='default', title=_('Position par défaut')),
-            SimpleTerm(value='sticky', token='sticky', title=_('Sticky (le menu reste visible au scroll)')),
-            SimpleTerm(value='sticky-on-top', token='sticky-on-top', title=_('Sticky 2 (le menu est uniquement visible au scroll vers le haut)')),
-        ]),
+        vocabulary=SimpleVocabulary(
+            [
+                SimpleTerm(
+                    value="default", token="default", title=_("Position par défaut")
+                ),
+                SimpleTerm(
+                    value="sticky",
+                    token="sticky",
+                    title=_("Sticky (le menu reste visible au scroll)"),
+                ),
+                SimpleTerm(
+                    value="sticky-on-top",
+                    token="sticky-on-top",
+                    title=_(
+                        "Sticky 2 (le menu est uniquement visible au scroll vers le haut)"
+                    ),
+                ),
+            ]
+        ),
         required=True,
-        default='default',
+        default="default",
     )
 
     widget(procedure_button_text=DataGridFieldFactory)
