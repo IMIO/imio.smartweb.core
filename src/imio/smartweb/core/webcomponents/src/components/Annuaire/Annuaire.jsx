@@ -147,7 +147,7 @@ function AnnuaireView(props) {
         );
     } else if (!isLoading) {
         listRender = (
-            <p>
+            <p role="status" aria-live="polite">
                 <Translate text="Aucun contact n'a été trouvé" />
             </p>
         );
@@ -203,16 +203,21 @@ function AnnuaireView(props) {
                         </div>
                     )}
                     {contactNumber > 0 ? (
-                        <p className="r-results-numbers">
-                            <span>{contactNumber}</span>
-                            {contactNumber > 1 ? (
-                                <Translate text="contacts trouvés" />
-                            ) : (
-                                <Translate text="contact trouvé" />
-                            )}
+                        <p
+                            role="status"
+                            aria-live="polite"
+                            className="r-results-numbers"
+                            aria-label={
+                                contactNumber > 1
+                                ? `${contactNumber} contacts trouvés`
+                                : `${contactNumber} contact trouvé`
+                            }
+                            >
+                            <span aria-hidden="true">{contactNumber}</span>
+                            {contactNumber > 1 ? " contacts trouvés" : " contact trouvé"}
                         </p>
                     ) : (
-                        <p className="r-results-numbers">
+                        <p role="status" aria-live="polite" className="r-results-numbers">
                             <Translate text="Aucun résultat" />
                         </p>
                     )}

@@ -117,7 +117,7 @@ const NewsView = (props) => {
         );
     } else if (!isLoading) {
         listRender = (
-            <p>
+            <p role="status" aria-live="polite" className="r-results-numbers">
                 <Translate text="Aucune actualité n'a été trouvée" />
             </p>
         );
@@ -174,13 +174,18 @@ const NewsView = (props) => {
                                         )}
                                     </div>
                                     {itemsNumber > 0 ? (
-                                        <p className="r-results-numbers">
-                                            <span>{itemsNumber}</span>{" "}
-                                            {itemsNumber > 1 ? (
-                                                <Translate text="Actualités trouvées" />
-                                            ) : (
-                                                <Translate text="Actualité trouvée" />
-                                            )}
+                                        <p
+                                        role="status"
+                                        aria-live="polite"
+                                        className="r-results-numbers"
+                                        aria-label={
+                                            itemsNumber > 1
+                                            ? `${itemsNumber} actualités trouvées`
+                                            : `${itemsNumber} actualité trouvée`
+                                        }
+                                        >
+                                        <span aria-hidden="true">{itemsNumber}</span>
+                                        {itemsNumber > 1 ? " actualités trouvées" : " actualité trouvée"}
                                         </p>
                                     ) : (
                                         ""
