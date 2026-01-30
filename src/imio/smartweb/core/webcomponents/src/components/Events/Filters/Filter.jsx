@@ -9,6 +9,8 @@ import queryString from "query-string";
 import { taxonomy_event_public } from "./../../Filters/PublicTargetData";
 import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
+import AccessibleClearIndicator from "../../../utils/AccessibleClearIndicator";
+
 
 function Filters(props) {
     let navigate = useNavigate();
@@ -179,10 +181,18 @@ function Filters(props) {
                         <div className="relative">
                             <Translator>
                                 {({ translate }) => (
+                                    <label className="sr-only" for="event-search">
+                                        {translate({ text: "Rechercher dans l'agenda" })}
+                                    </label>
+                                )}
+                            </Translator>
+                            <Translator>
+                                {({ translate }) => (
                                     <input
                                         className="input-custom-class"
+                                        id="event-search"
                                         name="SearchableText"
-                                        type="text"
+                                        type="search"
                                         value={inputValues.SearchableText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
@@ -245,6 +255,7 @@ function Filters(props) {
                                     name={"category"}
                                     className="select-custom-no-border library-facilities"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={categoryFilter && categoryFilter}
                                     placeholder={translate({
@@ -266,6 +277,7 @@ function Filters(props) {
                                     name={"category"}
                                     className="select-custom-no-border library-facilities"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeGroupSelect}
                                     options={localsCategoryFilter.length === 0 ?  categoryFilter && categoryFilter :groupedOptions}
                                     placeholder={translate({
@@ -298,6 +310,7 @@ function Filters(props) {
                                     name={"topics"}
                                     className="library-topics"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={topicsFilter && topicsFilter}
                                     placeholder={translate({
@@ -318,6 +331,7 @@ function Filters(props) {
                                     name={"taxonomy_event_public"}
                                     className="library-topics"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={taxonomy_event_public && taxonomy_event_public}
                                     placeholder={translate({
@@ -339,6 +353,7 @@ function Filters(props) {
                                     name={"iam"}
                                     className="library-topics"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={iam && iam}
                                     placeholder={translate({

@@ -6,6 +6,7 @@ import { Translator, Translate} from "react-translated";
 import queryString from "query-string";
 import { iam } from "./../../Filters/IamData";
 import { menuStyles } from "./../../Filters/SelectStyles";
+import AccessibleClearIndicator from "../../../utils/AccessibleClearIndicator";
 
 function Filters(props) {
     let navigate = useNavigate();
@@ -135,10 +136,18 @@ function Filters(props) {
                         <div className="relative">
                             <Translator>
                                 {({ translate }) => (
+                                    <label className="sr-only" for="news-search">
+                                        {translate({ text: "Rechercher dans l'actualité" })}
+                                    </label>
+                                )}
+                            </Translator>
+                            <Translator>
+                                {({ translate }) => (
                                     <input
                                         className="input-custom-class"
+                                        id="news-search"
                                         name="SearchableText"
-                                        type="text"
+                                        type="search"
                                         value={inputValues.SearchableText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
@@ -172,6 +181,7 @@ function Filters(props) {
                                     name={"topics"}
                                     className="select-custom-no-border library-topics"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={topicsFilter && topicsFilter}
                                     placeholder={translate({
@@ -192,6 +202,7 @@ function Filters(props) {
                                     name={"category"}
                                     className="select-custom-no-border library-facilities"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeGroupSelect}
                                     options={localsCategoryFilter.length === 0 ? taxonomyFilter &&  taxonomyFilter : groupedOptions}
                                     placeholder={translate({
@@ -213,6 +224,7 @@ function Filters(props) {
                                     name={"iam"}
                                     className="select-custom-no-border library-topics"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={iam && iam}
                                     placeholder={translate({
