@@ -450,4 +450,22 @@ export default {
         de: "Weitere Termine",
         nl: "Volgende data",
     },
+    "Retour à la liste": {
+        en: "Back to list",
+        fr: "Retour à la liste",
+        de: "Zurück zur Liste",
+        nl: "Terug naar de lijst",
+    },
+    "Rechercher sur le site": {
+        en: "Search the site",
+        fr: "Rechercher sur le site",
+        de: "Auf der Seite suchen",
+        nl: "Zoek op de site",
+    },
+    "Effacer la sélection": {
+        en: "Clear selection",
+        fr: "Effacer la sélection",
+        de: "Auswahl löschen",
+        nl: "Selectie wissen",
+    },
 };
