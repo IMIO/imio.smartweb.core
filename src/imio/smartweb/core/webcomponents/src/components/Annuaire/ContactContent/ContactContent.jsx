@@ -5,7 +5,7 @@ import useFilterQuery from "../../../hooks/useFilterQuery";
 import ReactMarkdown from "react-markdown";
 import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
-import { Translate } from "react-translated";
+import { Translate, Translator } from "react-translated";
 import queryString from "query-string";
 
 const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
@@ -171,9 +171,19 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         </div>
     ) : (
         <div className="annuaire-content r-content">
-            <button type="button" onClick={handleClick}>
-                <Translate text="Retour" />
-            </button>
+            <Translator>
+                {({ translate }) => (
+                    <button 
+                        type="button" 
+                        onClick={handleClick}
+                        aria-label={translate({ text: "Retour à la liste" })}
+                        title={translate({ text: "Retour à la liste" })}
+                        className="r-back-button"
+                    >
+                        <i class="bi bi-arrow-left-short"></i>
+                    </button>
+                )}
+            </Translator>
 
             {contextAuthenticatedUser === "False" ? (
                 <a
