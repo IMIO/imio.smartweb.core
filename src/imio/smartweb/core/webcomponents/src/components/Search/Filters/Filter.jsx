@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Translate, Translator } from "react-translated";
 import queryString from "query-string";
+import AccessibleClearIndicator from "../../../utils/AccessibleClearIndicator";
 
 function Filters(props) {
     let navigate = useNavigate();
@@ -144,12 +145,13 @@ function Filters(props) {
         <React.Fragment>
             <div className="col-md-6 py-1 r-search search-bar-filter">
                 <form onSubmit={handleSubmit}>
-                    <label>
+                    <label className="sr-only" for="global-search"><Translate text="Rechercher sur le site" /></label>
                         <Translator>
                             {({ translate }) => (
                                 <input
                                     name="SearchableText"
-                                    type="text"
+                                    type="search"
+                                    id="global-search"
                                     onChange={HandlerText}
                                     value={searchValues.SearchableText}
                                     placeholder={translate({
@@ -158,8 +160,7 @@ function Filters(props) {
                                 />
                             )}
                         </Translator>
-                    </label>
-                    <button type="submit"></button>
+                    <button type="submit"><span className="sr-only"><Translate text="Rechercher" /></span> </button>
                 </form>
             </div>
             <div className="col-md-3 col-lg-2 py-1 r-search search-select-filter">
@@ -170,6 +171,7 @@ function Filters(props) {
                             name={"iam"}
                             className="r-search-select"
                             isClearable
+                            components={{ ClearIndicator: AccessibleClearIndicator }}
                             onChange={onChangeHandlerSelect}
                             options={iamFilter && iamFilter}
                             placeholder={translate({
@@ -188,6 +190,7 @@ function Filters(props) {
                             name={"topics"}
                             className="r-search-select"
                             isClearable
+                            components={{ ClearIndicator: AccessibleClearIndicator }}
                             onChange={onChangeHandlerSelect}
                             options={topicsFilter && topicsFilter}
                             placeholder={translate({

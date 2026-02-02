@@ -7,6 +7,7 @@ import queryString from "query-string";
 import TaxonomyFilter from "../../Filters/TaxonomyFilter";
 import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
+import AccessibleClearIndicator from "../../../utils/AccessibleClearIndicator";
 
 function formatData(data) {
     let result = [];
@@ -188,10 +189,18 @@ function Filters(props) {
                         <div className="relative">
                             <Translator>
                                 {({ translate }) => (
+                                    <label className="sr-only" for="annuaire-search">
+                                        {translate({ text: "Rechercher dans l'annuaire" })}
+                                    </label>
+                                )}
+                            </Translator>
+                            <Translator>
+                                {({ translate }) => (
                                     <input
                                         className="input-custom-class"
+                                        id="annuaire-search"
                                         name="SearchableText"
-                                        type="text"
+                                        type="search"
                                         value={inputValues.SearchableText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
@@ -226,6 +235,7 @@ function Filters(props) {
                                     name={"topics"}
                                     className="select-custom-no-border"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={topicsFilter && topicsFilter}
                                     placeholder={translate({
@@ -246,6 +256,7 @@ function Filters(props) {
                                     name={"iam"}
                                     className="select-custom-no-border"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={iam && iam}
                                     placeholder={translate({
@@ -266,6 +277,7 @@ function Filters(props) {
                                     name={"facilities"}
                                     className="select-custom-no-border"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={facilitiesFilter && facilitiesFilter}
                                     placeholder={translate({
@@ -365,6 +377,7 @@ function Filters(props) {
                                     name={"taxonomy_contact_category_for_filtering"}
                                     className="select-custom-class library-facilities"
                                     isClearable
+                                    components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
                                     options={taxonomyFilter && taxonomyFilter}
                                     placeholder={translate({

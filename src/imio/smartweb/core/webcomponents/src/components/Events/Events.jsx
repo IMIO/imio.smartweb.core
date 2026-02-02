@@ -156,7 +156,7 @@ function EventsView(props) {
         );
     } else if (!isLoading) {
         listRender = (
-            <p>
+            <p role="status" aria-live="polite">
                 <Translate text="Aucun événement n'a été trouvé" />
             </p>
         );
@@ -221,14 +221,19 @@ function EventsView(props) {
                         <div className="r-wrapper container r-annuaire-wrapper">
                             <div className="r-result r-annuaire-result">
                                 {itemsNumber > 0 ? (
-                                    <p className="r-results-numbers">
-                                        <span>{itemsNumber}</span>
-                                        {itemsNumber > 1 ? (
-                                            <Translate text="événements trouvés" />
-                                        ) : (
-                                            <Translate text="événement trouvé" />
-                                        )}
-                                    </p>
+                                <p
+                                role="status"
+                                aria-live="polite"
+                                className="r-results-numbers"
+                                aria-label={
+                                    itemsNumber > 1
+                                    ? `${itemsNumber} événements trouvés`
+                                    : `${itemsNumber} événement trouvé`
+                                }
+                                >
+                                <span aria-hidden="true">{itemsNumber}</span>
+                                {itemsNumber > 1 ? " événements trouvés" : " événement trouvé"}
+                                </p>
                                 ) : (
                                     ""
                                 )}

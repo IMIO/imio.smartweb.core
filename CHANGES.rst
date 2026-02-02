@@ -5,7 +5,8 @@ Changelog
 1.4.25 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add sticky menu option to control panel and js/css
+  [thomlamb]
 
 
 1.4.24 (2026-01-21)

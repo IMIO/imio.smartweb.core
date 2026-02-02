@@ -50,4 +50,12 @@ class LayoutPolicy(AnysurferLayoutPolicy):
                 ANNO_FACETED_LAYOUT, "faceted-block-view"
             )
             body_class += f" {faceted_layout}"
+
+        # 5. Add menu position class from registry
+        menu_position = api.portal.get_registry_record(
+            "smartweb.menu_position_select", default="default"
+        )
+        if menu_position and menu_position != "default":
+            body_class += f" menu-{menu_position}"
+
         return body_class
