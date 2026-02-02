@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.25 (unreleased)
+1.4.25 (2026-02-02)
 -------------------
 
 - Add sticky menu option to control panel and js/css
