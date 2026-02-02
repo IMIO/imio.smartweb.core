@@ -83,19 +83,17 @@ class ISmartwebSiteAdminControlPanel(Interface):
         vocabulary=SimpleVocabulary(
             [
                 SimpleTerm(
-                    value="default", token="default", title=_("Position par défaut")
+                    value="default", token="default", title=_("Default position")
                 ),
                 SimpleTerm(
                     value="sticky",
                     token="sticky",
-                    title=_("Sticky (le menu reste visible au scroll)"),
+                    title=_("Sticky (always visible on scroll)"),
                 ),
                 SimpleTerm(
                     value="sticky-on-top",
                     token="sticky-on-top",
-                    title=_(
-                        "Sticky 2 (le menu est uniquement visible au scroll vers le haut)"
-                    ),
+                    title=_("Sticky 2 (visible on upward scroll only)"),
                 ),
             ]
         ),
