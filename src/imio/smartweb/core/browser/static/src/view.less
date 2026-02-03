@@ -395,21 +395,16 @@ body {
 
 // --- Sticky only on scroll to top --- //
 
-.sticky-demi-active,
-.sticky-hidden {
-  transition: all 0.3s ease;
-}
-
 .menu-sticky-on-top {
   padding-top: var(--header-height, 80px) !important;
 
   #portal-header #portal-header-top {
-    transition: all 0.3s ease;
+    transition: transform 0.3s ease;
     position: fixed !important;
     top: 0;
     left: var(--header-left, 0);
     width: var(--header-width, 100%);
-
+    max-width: 1296px;
     &.sticky-on-top {
       position: fixed !important;
       top: 0;

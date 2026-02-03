@@ -5,7 +5,8 @@ Changelog
 1.4.26 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix sticky menu transition issue
+  [thomlamb]
 
 
 1.4.25 (2026-02-02)
