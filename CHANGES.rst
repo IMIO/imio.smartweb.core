@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.26 (unreleased)
+1.4.26 (2026-02-03)
 -------------------
 
 - Fix sticky menu transition issue
