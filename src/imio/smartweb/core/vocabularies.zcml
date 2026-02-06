@@ -1,5 +1,6 @@
 <configure
-    xmlns="http://namespaces.zope.org/zope">
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:z3c="http://namespaces.zope.org/z3c">
 
   <utility
       name="imio.smartweb.vocabulary.Icons"
@@ -190,6 +191,12 @@
   <utility
       name="imio.smartweb.vocabulary.ProcedureButtonLabels"
       component=".vocabularies.ProcedureButtonLabelVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.FilteredTypes"
+      component=".vocabularies.SmartwebTypesVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 

@@ -362,6 +362,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1076_to_1077"
+      title="Upgrade core from 1076 to 1077"
+      directory="profiles/1076_to_1077"
+      description="Reload taxonomies to update 'field_title' (.cfg). It's clearer in collection attributes"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />      
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1146,6 +1154,16 @@
         title="Add menu_position_select setting to registry"
         import_profile="imio.smartweb.core.upgrades:upgrade_1075_to_1076"
     />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1076"
+      destination="1077"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Reload taxonomies to update 'field_title' (.cfg). It's clearer in collection attributes"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1076_to_1077"
+        />
   </genericsetup:upgradeSteps>
 
 </configure>

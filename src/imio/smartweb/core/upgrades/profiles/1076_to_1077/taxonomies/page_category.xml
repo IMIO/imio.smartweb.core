@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='utf-8'?>
+<vdex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" profileType="hierarchicalTokenTerms" orderSignificant="false" language="fr">
+  <vocabName>
+    <langstring language="fr">Catégorie d'une page</langstring>
+    <langstring language="en">Page category</langstring>
+    <langstring language="nl">Paginacategorie</langstring>
+    <langstring language="de">Seitenkategorie</langstring>
+  </vocabName>
+  <vocabIdentifier>page_category</vocabIdentifier>
+  <term>
+    <termIdentifier>avis_et_enquete</termIdentifier>
+    <caption>
+      <langstring language="fr">Avis et enquête</langstring>
+      <langstring language="en">Advice and enquiry</langstring>
+      <langstring language="nl">Advies en onderzoek</langstring>
+      <langstring language="de">Gutachten und Untersuchung</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>emploi</termIdentifier>
+    <caption>
+      <langstring language="fr">Emploi</langstring>
+      <langstring language="en">Job</langstring>
+      <langstring language="nl">Werk</langstring>
+      <langstring language="de">Arbeit</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>info_travaux</termIdentifier>
+    <caption>
+      <langstring language="fr">Info travaux</langstring>
+      <langstring language="en">Works information</langstring>
+      <langstring language="nl">Werkinformatie</langstring>
+      <langstring language="de">Arbeitsinformation</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>presse</termIdentifier>
+    <caption>
+      <langstring language="fr">Presse</langstring>
+      <langstring language="en">Press</langstring>
+      <langstring language="nl">Pers</langstring>
+      <langstring language="de">Presse</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>publication</termIdentifier>
+    <caption>
+      <langstring language="fr">Publication</langstring>
+      <langstring language="en">Publication</langstring>
+      <langstring language="nl">Publicatie</langstring>
+      <langstring language="de">Veröffentlichung</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>reglement</termIdentifier>
+    <caption>
+      <langstring language="fr">Règlement</langstring>
+      <langstring language="en">Regulation</langstring>
+      <langstring language="nl">Regelgeving</langstring>
+      <langstring language="de">Vorschrift</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>taxe_et_redevance</termIdentifier>
+    <caption>
+      <langstring language="fr">Taxe et redevance</langstring>
+      <langstring language="en">Taxe and fee</langstring>
+      <langstring language="nl">Belasting en vergoeding</langstring>
+      <langstring language="de">Steuer und Gebühr</langstring>
+    </caption>
+  </term>
+</vdex>

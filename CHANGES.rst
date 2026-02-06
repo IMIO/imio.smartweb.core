@@ -5,7 +5,8 @@ Changelog
 1.4.27 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- CITIBDC-510 : Better collection portal_types attributes Filtrering + update cateogies labels (naming clearer)
+  [boulch]              
 
 
 1.4.26 (2026-02-03)

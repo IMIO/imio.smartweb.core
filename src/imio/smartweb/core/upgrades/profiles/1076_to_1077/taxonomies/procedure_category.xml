@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='utf-8'?>
+<vdex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" profileType="hierarchicalTokenTerms" orderSignificant="false" language="fr">
+  <vocabName>
+    <langstring language="fr">Catégorie d'une démarche</langstring>
+    <langstring language="en">Procedure category</langstring>
+    <langstring language="nl">Procedurecategorie</langstring>
+    <langstring language="de">Verfahrenskategorie</langstring>
+  </vocabName>
+  <vocabIdentifier>procedure_category</vocabIdentifier>
+  <term>
+    <termIdentifier>actes</termIdentifier>
+    <caption>
+      <langstring language="fr">Acte (naissance, mariage, décès, etc.)</langstring>
+      <langstring language="en">Act (birth, marriage, death, etc.)</langstring>
+      <langstring language="nl">Akte (geboorte, huwelijk, overlijden, enz.)</langstring>
+      <langstring language="de">Urkunde (Geburt, Ehe, Tod, usw.)</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>autorisation_carte</termIdentifier>
+    <caption>
+      <langstring language="fr">Autorisation et carte</langstring>
+      <langstring language="en">Authorization and card</langstring>
+      <langstring language="nl">Vergunning en kaart</langstring>
+      <langstring language="de">Genehmigung und Karte</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>certificat</termIdentifier>
+    <caption>
+      <langstring language="fr">Certificat (de vie, d'hérédité, etc.)</langstring>
+      <langstring language="en">Certificate (of life, inheritance, etc.)</langstring>
+      <langstring language="nl">Certificaat (van leven, van erfenis, enz.)</langstring>
+      <langstring language="de">Bescheinigung (des Lebens, des Erbes, usw.)</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>declaration</termIdentifier>
+    <caption>
+      <langstring language="fr">Déclaration</langstring>
+      <langstring language="en">Statement</langstring>
+      <langstring language="nl">Verklaring</langstring>
+      <langstring language="de">Erklärung</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>demande</termIdentifier>
+    <caption>
+      <langstring language="fr">Demande (concession funéraire, changement de prénom, etc.)</langstring>
+      <langstring language="en">Request (funeral concession, change of first name, etc.)</langstring>
+      <langstring language="nl">Aanvraag (begrafenisconcessie, naamsverandering, enz.)</langstring>
+      <langstring language="de">Antrag (Begräbnis Konzession, Namensänderung, usw.)</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>document_d_identite</termIdentifier>
+    <caption>
+      <langstring language="fr">Document d'identité</langstring>
+      <langstring language="en">Identity document</langstring>
+      <langstring language="nl">Identiteitsdocument</langstring>
+      <langstring language="de">Ausweisdokument</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>extrait_de_registre</termIdentifier>
+    <caption>
+      <langstring language="fr">Extrait de registre</langstring>
+      <langstring language="en">Register extract</langstring>
+      <langstring language="nl">Uittreksel uit het register</langstring>
+      <langstring language="de">Registerauszug</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>information_pratique</termIdentifier>
+    <caption>
+      <langstring language="fr">Information pratique</langstring>
+      <langstring language="en">Practical information</langstring>
+      <langstring language="nl">Praktische informatie</langstring>
+      <langstring language="de">Praktische Information</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>inscription</termIdentifier>
+    <caption>
+      <langstring language="fr">Inscription</langstring>
+      <langstring language="en">Registration</langstring>
+      <langstring language="nl">Inschrijving</langstring>
+      <langstring language="de">Anmeldung</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>permis</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis</langstring>
+      <langstring language="en">License</langstring>
+      <langstring language="nl">Vergunning</langstring>
+      <langstring language="de">Erlaubnis</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>plainte_et_reclamation</termIdentifier>
+    <caption>
+      <langstring language="fr">Plainte et réclamation</langstring>
+      <langstring language="en">Complaint</langstring>
+      <langstring language="nl">Klacht</langstring>
+      <langstring language="de">Beschwerde</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>prime_et_aide</termIdentifier>
+    <caption>
+      <langstring language="fr">Prime et aide</langstring>
+      <langstring language="en">Bonus and aid</langstring>
+      <langstring language="nl">Premie en hulp</langstring>
+      <langstring language="de">Prämie und Hilfe</langstring>
+    </caption>
+  </term>
+</vdex>

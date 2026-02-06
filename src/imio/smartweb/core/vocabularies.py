@@ -21,6 +21,7 @@ from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.interfaces import ICollection
+from plone.app.vocabularies.types import ReallyUserFriendlyTypesVocabulary
 from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
@@ -850,3 +851,23 @@ class ProcedureButtonLabelVocabularyFactory:
 
 
 ProcedureButtonLabelVocabulary = ProcedureButtonLabelVocabularyFactory()
+
+
+class SmartwebTypesVocabularyFactory(ReallyUserFriendlyTypesVocabulary):
+
+    hidden_types = [
+        "Document",
+        "Event",
+        "Folder",
+        "Link",
+        "News Item",
+        "imio.smartweb.SectionSendinblue",
+    ]
+
+    def __call__(self, context):
+        """filtering collections types"""
+        vocab = super().__call__(context)
+        return [term for term in vocab if term.value not in self.hidden_types]
+
+
+SmartwebTypesVocabulary = SmartwebTypesVocabularyFactory()
