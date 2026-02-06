@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.27 (unreleased)
+1.4.27 (2026-02-06)
 -------------------
 
 - CITIBDC-510 : Better collection portal_types attributes Filtrering + update cateogies labels (naming clearer)
