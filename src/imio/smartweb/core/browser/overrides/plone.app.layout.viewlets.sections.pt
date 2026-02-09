@@ -12,7 +12,7 @@
       </button>
 
       <div class="collapse navbar-collapse" id="portal-globalnav-collapse">
-        <ul class="navbar-nav" id="portal-globalnav">
+        <ul class="navbar-nav" id="portal-globalnav" role="menubar">
           <navtree tal:replace="structure python:view.render_globalnav()" />
         </ul>
       </div>

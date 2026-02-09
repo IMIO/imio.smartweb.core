@@ -21,12 +21,12 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
     _prev_menu_markup = (
         '<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
     )
-    _subtree_markup_wrapper = '<ul tabindex="-1">{out}{qa_out}</ul>'
+    _subtree_markup_wrapper = '<ul role="menu" tabindex="-1">{out}{qa_out}</ul>'
     _submenu_markup_wrapper = '<div class="has_subtree dropdown">{menu_action}<span class="nav-title"><a href="{url}">{title}</span></a>{sub}</div>'
     _quickaccesses_markup_wrapper = '<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
     _item_markup_template = (
-        '<li class="nav_{id}{has_sub_class} nav-item">'
-        '<a href="{url}" class="state-{review_state} nav-link"{aria_haspopup}>{title}</a>{opener}'  # noqa: E 501
+        '<li class="nav_{id}{has_sub_class} nav-item" role="presentation">'
+        '<a href="{url}" class="state-{review_state} nav-link" role="menuitem"{aria_haspopup}>{title}</a>{opener}'  # noqa: E 501
         "{sub_wrapper}"
         "</li>"
     )
