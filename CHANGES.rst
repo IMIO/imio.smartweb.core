@@ -5,7 +5,8 @@ Changelog
 1.4.28 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add icon to section edit bar and improve section edit style
+  [thomlamb]
 
 
 1.4.27 (2026-02-06)

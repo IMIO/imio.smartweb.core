@@ -20,91 +20,121 @@
 
         <span tal:replace="structure view/locking_info" />
 
-        <tal:if tal:condition="python: can_toggle_title_visibility and not collapsible_section">
-          <tal:hide tal:condition="not: hide_title">
-            <span class="glyphicon-eye-close glyphicon"></span>
-            <a tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token}"
-              i18n:translate="">Hide title</a>
-          </tal:hide>
-          <tal:show tal:condition="hide_title">
-            <span class="glyphicon-eye-open glyphicon"></span>
-            <a tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token}"
-              i18n:translate="">Show title</a>
-          </tal:show>
-        </tal:if>
+        <div class="edit-section-container">
 
-        <span class="icon-edit"></span>
-        <a class="edit-section" tal:attributes="href string:${context/absolute_url}/edit"
-           i18n:translate="">Edit section</a>
+          <tal:if tal:condition="python: can_toggle_title_visibility and not collapsible_section">
+            <tal:hide tal:condition="not: hide_title">
+              <a class="edit-section-link edit-section-title--hide"
+                 tal:attributes="href string:${context/absolute_url}/@@hide_section_title?_authenticator=${token};
+                                 title string:Hide title"
+                 i18n:attributes="title">
+                <i class="bi bi-type-h2"></i>
+                <span class="edit-section-title" i18n:translate="">Hide title</span>
+              </a>
+            </tal:hide>
+            <tal:show tal:condition="hide_title">
+              <a class="edit-section-link edit-section-title--show"
+                 tal:attributes="href string:${context/absolute_url}/@@show_section_title?_authenticator=${token};
+                                 title string:Show title"
+                 i18n:attributes="title">
+                <i class="bi bi-type-h2"></i>
+                <span class="edit-section-title" i18n:translate="">Show title</span>
+              </a>
+            </tal:show>
+          </tal:if>
 
-        <tal:if tal:condition="context/manage_content">
-          <span class="icon-folderContents"></span>
-          <a class="edit-section-content" tal:attributes="href string:${context/absolute_url}/folder_contents"
-             i18n:translate="">Manage section contents</a>
-        </tal:if>
+          <a class="edit-section-link edit-section-edit"
+             tal:attributes="href string:${context/absolute_url}/edit;
+                             title string:Edit section"
+             i18n:attributes="title">
+            <i class="bi bi-pencil"></i>
+            <span class="edit-section-title" i18n:translate="">Edit</span>
+          </a>
 
-        <tal:if tal:condition="context/manage_display">
-          <span class="icon-plone-contentmenu-display"></span>
-          <a tal:attributes="href string:${context/absolute_url}/select_default_view"
-             i18n:translate="">Select view</a>
-        </tal:if>
-
-        <span class="glyphicon-trash glyphicon"></span>
-        <a tal:attributes="href string:${context/absolute_url}/delete_confirmation"
-           i18n:translate="">Delete section</a>
-
-        <form class="form_section_size"
-              style="display: none;"
-              hx-swap="innerHTML"
-              hx-trigger="change"
-              tal:attributes="name string:sizesForm_${context/UID};
-                              id string:sizesForm_${context/UID};
-                              hx-boost string:${context/UID};
-                              hx-post string:${context/absolute_url}/@@savesize;
-                              hx-target string:#selected_size_${context/UID}">
-          <select name="sectionSize"
-                  class="form-select select_section_size"
-                  hx-vals="serialize"
-                  tal:attributes="name string:select_${context/UID};
-                                  id string:select_${context/UID}">
-            <option tal:repeat="size view/get_sizes"
-                    tal:attributes="title size/value; value size/key; class string:icon_${size/key}"
-                    >
-            </option>
-          </select>
-        </form>
-        <a class="section_size"
-           href="#"
-           tal:attributes="id string:selected_size_${context/UID};
-                           uid string:${context/UID}"
-           tal:content="string:${view/get_section_size}"></a>
-
-        <tal:if tal:condition="python:context.portal_type in ['imio.smartweb.SectionNews', 'imio.smartweb.SectionEvents']">
-          <span class="glyphicon-repeat glyphicon"></span>
-          <a tal:attributes="href string:${context/absolute_url}/refresh_modification_date"
-            i18n:translate="">Hard refresh</a>
-        </tal:if>
-
-        <tal:dates define="modified context/ModificationDate">
-          <span class="documentModified"
-                tal:condition="modified">
-            <a class="documentModified"
-               tal:attributes="href string:${context/absolute_url}/@@historyview"
-               tal:omit-tag="python:context.portal_type != 'imio.smartweb.SectionText'">
-              <span i18n:translate="">
-                Modified
-              </span>
-              <span class="pat-display-time"
-                    data-pat-display-time="from-now: true"
-                    tal:attributes="datetime modified"
-                    tal:content="modified">
-                Modified
-              </span>
+          <tal:if tal:condition="context/manage_content">
+            <a class="edit-section-link edit-section-content"
+               tal:attributes="href string:${context/absolute_url}/folder_contents;
+                               title string:Manage section contents"
+               i18n:attributes="title">
+              <i class="bi bi-folder2-open"></i>
+              <span class="edit-section-title" i18n:translate="">Contents</span>
             </a>
-          </span>
-        </tal:dates>
+          </tal:if>
+
+          <tal:if tal:condition="context/manage_display">
+            <a class="edit-section-link edit-section-view"
+               tal:attributes="href string:${context/absolute_url}/select_default_view;
+                               title string:Select view"
+               i18n:attributes="title">
+              <i class="bi bi-layers-half"></i>
+              <span class="edit-section-title" i18n:translate="">Select view</span>
+            </a>
+          </tal:if>
+
+          <tal:size define="size_labels python:{'col-sm-3': '1/4', 'col-sm-4': '1/3', 'col-sm-6': '1/2', 'col-sm-8': '2/3', 'col-sm-9': '3/4', 'col-sm-12': '1/1'}">
+            <form class="edit-section-link edit-section-size"
+                  hx-trigger="change"
+                  hx-swap="none"
+                  tal:attributes="hx-post string:${context/absolute_url}/@@savesize">
+              <i class="bi bi-grid-1x2"></i>
+              <select class="form-select select_section_size"
+                      tal:attributes="name string:select_${context/UID};
+                                      id string:select_${context/UID}">
+                <option value=""
+                        tal:condition="not: context/bootstrap_css_class"
+                        selected="selected"
+                        i18n:translate="">Size</option>
+                <option tal:repeat="size view/get_sizes"
+                        tal:attributes="value size/key;
+                                        title size/value;
+                                        selected python:size['key'] == context.bootstrap_css_class"
+                        tal:content="python:size_labels.get(size['key'], size['value'])">
+                </option>
+              </select>
+            </form>
+          </tal:size>
+
+          <tal:if tal:condition="python:context.portal_type in ['imio.smartweb.SectionNews', 'imio.smartweb.SectionEvents']">
+            <a class="edit-section-link edit-section-refresh"
+               tal:attributes="href string:${context/absolute_url}/refresh_modification_date;
+                               title string:"
+               i18n:translate="title">
+              <i class="bi bi-arrow-clockwise"></i>
+              <span class="edit-section-title" i18n:translate="">Refresh</span>
+            </a>
+          </tal:if>
+
+          <a class="edit-section-link edit-section-delete"
+             tal:attributes="href string:${context/absolute_url}/delete_confirmation;
+                             title string:Delete section"
+             i18n:attributes="title">
+            <i class="bi bi-trash3"></i>
+            <span class="edit-section-title" i18n:translate="">Delete</span>
+          </a>
+
+          <tal:dates define="modified context/ModificationDate">
+            <span class="documentModified"
+                  tal:condition="modified">
+              <a class="documentModified"
+                 tal:attributes="href string:${context/absolute_url}/@@historyview"
+                 tal:omit-tag="python:context.portal_type != 'imio.smartweb.SectionText'">
+                <span class="edit-section-title" i18n:translate="">
+                  Modified
+                </span>
+                <span class="pat-display-time"
+                      data-pat-display-time="from-now: true"
+                      tal:attributes="datetime modified"
+                      tal:content="modified">
+                  Modified
+                </span>
+              </a>
+            </span>
+          </tal:dates>
+
+        </div>
 
       </div>
+
     </div>
 
   </tal:def>

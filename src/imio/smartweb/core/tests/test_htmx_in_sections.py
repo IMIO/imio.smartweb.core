@@ -58,10 +58,10 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn("https://unpkg.com/htmx.org@1.9.10/dist/htmx.js", view())
         section_text_uid = self.section_text.UID()
         # test if elements are here and have the right id
-        self.assertIn(f"sizesForm_{section_text_uid}", view())
-        self.assertIn(f'hx-boost="{section_text_uid}"', view())
-        self.assertIn(f'id="selected_size_{section_text_uid}"', view())
-        self.assertIn(f'hx-target="#selected_size_{section_text_uid}"', view())
+        self.assertIn(f'id="select_{section_text_uid}"', view())
+        self.assertIn(f'name="select_{section_text_uid}"', view())
+        self.assertIn('class="edit-section-link edit-section-size"', view())
+        self.assertIn("@@savesize", view())
 
     def test_options_in_select(self):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
@@ -70,20 +70,17 @@ class TestSections(ImioSmartwebTestCase):
         )
         available_sizes = section_text_view.get_sizes
         match = re.search(
-            r'<form class="form_section_size".*?</form>', view(), re.DOTALL
+            r'<form class="edit-section-link edit-section-size".*?</form>',
+            view(),
+            re.DOTALL,
         )
         form_to_choose_size = match.group(0)
         nb_occurrences = len(re.findall(r"<option", form_to_choose_size))
-        self.assertEqual(len(available_sizes), nb_occurrences)
+        # +1 for the default "Size" option when no size is selected
+        self.assertEqual(len(available_sizes) + 1, nb_occurrences)
         for size in available_sizes:
-            self.assertIn(
-                f'<option title="{size["value"]}" value="{size["key"]}" class="icon_{size["key"]}" >',
-                form_to_choose_size,
-            )
-            # self.assertIn(
-            #     f'<option value="{size["key"]}">{size["value"]}</option>',
-            #     form_to_choose_size,
-            # )
+            self.assertIn(f'value="{size["key"]}"', form_to_choose_size)
+            self.assertIn(f'title="{size["value"]}"', form_to_choose_size)
 
     def test_change_section_size(self):
         portal_api.get_current_language = mock.Mock(return_value="en")
@@ -105,15 +102,13 @@ class TestSections(ImioSmartwebTestCase):
         )
         self.assertIn(div_section_container, contents)
 
-        select = browser.getControl(name=f"select_{section_text_uid}")
-        select.value = "col-sm-12"
-        browser.getForm(name=f"sizesForm_{section_text_uid}").submit()
+        # Test save_size view directly via request
         section_text_view = getMultiAdapter(
             (self.section_text, self.request), name="view"
         )
         self.assertEqual(section_text_view.save_size, json.dumps({}))
         select_name = f"select_{self.section_text.UID()}"
-        self.request.form[select_name] = select.value[0]
+        self.request.form[select_name] = "col-sm-12"
         self.request.form["_authenticator"] = createToken()
         section_text_view = getMultiAdapter(
             (self.section_text, self.request), name="view"
@@ -127,5 +122,5 @@ class TestSections(ImioSmartwebTestCase):
 
         browser.open(f"{self.page.absolute_url()}/full_view/?language=fr")
         contents = browser.contents
-        div_section_container = f'<div class="sortable-section sectiontext {select.value[0]}" data-id="section-text" style="">'
+        div_section_container = '<div class="sortable-section sectiontext col-sm-12" data-id="section-text" style="">'
         self.assertIn(div_section_container, contents)

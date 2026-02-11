@@ -4,41 +4,13 @@
 document.addEventListener("DOMContentLoaded", function() {
     /**
       Manage section size
-      When clicking on link (<a>) with class "section_size", display the form to select the section size
+      When changing the select, update the class of the parent element to resize the section
     */
-    document.querySelectorAll(".manage-section > a.section_size").forEach(function(element) {
-        element.addEventListener("click", function(event) {
-            event.preventDefault();
-            var clickedElement = event.target;
-            var uid = clickedElement.getAttribute("uid");
-            var sizesForm = document.getElementById("sizesForm_" + uid);
-            // Get <select>
-            var selectElement = document.querySelector("#sizesForm_" + uid + " > select");
-            sizesForm.style.display = "inline-block";
-            sizesForm.style.position = "absolute";
-            sizesForm.style.zIndex = "2";
-            selectElement.selectedIndex = -1;
-            selectElement.size = selectElement.options.length;
-            selectElement.focus();
-            selectElement.addEventListener('focusout', function(event) {
-                sizesForm.style.display = "none";
-            });
-        });
-    });
-
-    /**
-      Manage section size
-      When submitting the form, update the section size and the class of the parent element
-      (to directly resize the section)
-    */
-    document.querySelectorAll(".manage-section > form").forEach(function(form) {
+    document.querySelectorAll(".edit-section-container form.edit-section-size").forEach(function(form) {
         form.addEventListener("htmx:afterRequest", function(event) {
-            event.preventDefault();
             var response = JSON.parse(event.detail.xhr.response);
-            var currentForm = event.target;
-            var uid = currentForm.getAttribute("hx-boost");
-            var link = document.getElementById("selected_size_" + uid);
-            var parent = currentForm.closest('.sortable-section');
+            if (!response.id) return;
+            var parent = form.closest('.sortable-section');
             var lst_parent_classes = parent.className.split(" ");
             var new_parent_classes = "";
             var find = false;
@@ -54,9 +26,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 new_parent_classes += " " + response.id;
             }
             parent.className = new_parent_classes.trim();
-            currentForm.style.display = "none";
-            link.innerText = response.title;
-            link.style.display = "inline-block";
         });
     });
 });
