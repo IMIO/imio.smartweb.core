@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.28 (unreleased)
+1.4.28 (2026-02-11)
 -------------------
 
 - Add icon to section edit bar and improve section edit style
