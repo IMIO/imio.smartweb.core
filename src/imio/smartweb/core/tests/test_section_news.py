@@ -8,6 +8,7 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from time import sleep
+from unittest.mock import patch
 from z3c.relationfield import RelationValue
 from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
@@ -49,34 +50,45 @@ class TestSectionNews(ImioSmartwebTestCase):
         self.news.related_news = "64f4cbee9a394a018a951f6d94452914"
         self.news.linking_rest_view = RelationValue(intids.getId(self.rest_news_view))
         self.news.link_text = "Voir toutes les actualités"
-        view = queryMultiAdapter((self.portalpage, self.request), name="full_view")
-        self.assertIn("My news", view())
-        news_view = queryMultiAdapter((self.news, self.request), name="carousel_view")
-        self.assertEqual(news_view.items, [])
-        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
-        m.get(url, text=json.dumps(self.json_news))
-        self.assertEqual(news_view.items[0][0].get("title"), "Première actualité")
-        self.assertEqual(len(news_view.items[0]), 3)
+        # Juste a patch to avoid "checking entity (get_json)" in case of missing NewsFolder in auth sources
+        with patch(
+            "imio.smartweb.core.contents.sections.news.view.NewsView.get_news_folders_uids_and_title_from_entity",
+            return_value=(
+                ["64f4cbee9a394a018a951f6d94452914"],
+                {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+            ),
+        ):
+            view = queryMultiAdapter((self.portalpage, self.request), name="full_view")
+            self.assertIn("My news", view())
+            news_view = queryMultiAdapter(
+                (self.news, self.request), name="carousel_view"
+            )
+            self.assertEqual(news_view.items, [])
 
-        self.news.specific_related_newsitems = [
-            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-            "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
-        ]
-        url = "http://localhost:8080/Plone/@search?UID=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1"
-        m.get(url, text=json.dumps(self.json_specific_news))
-        self.assertEqual(len(news_view.items[0]), 2)
-        self.assertEqual(
-            news_view.items[0][0].get("title"), "Restauration de la piscine"
-        )
+            url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
+            m.get(url, text=json.dumps(self.json_news))
+            self.assertEqual(news_view.items[0][0].get("title"), "Première actualité")
+            self.assertEqual(len(news_view.items[0]), 3)
 
-        self.news.specific_related_newsitems = [
-            "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
-            "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        ]
-        m.get(url, text=json.dumps(self.json_specific_news))
-        self.assertEqual(
-            news_view.items[0][0].get("title"), "Restauration de la Bibliothèque"
-        )
+            self.news.specific_related_newsitems = [
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
+            ]
+            url = "http://localhost:8080/Plone/@search?UID=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&UID=bfe2b4391a0f4a8db6d8b7fed63d1c4a&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1"
+            m.get(url, text=json.dumps(self.json_specific_news))
+            self.assertEqual(len(news_view.items[0]), 2)
+            self.assertEqual(
+                news_view.items[0][0].get("title"), "Restauration de la piscine"
+            )
+
+            self.news.specific_related_newsitems = [
+                "bfe2b4391a0f4a8db6d8b7fed63d1c4a",
+                "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            ]
+            m.get(url, text=json.dumps(self.json_specific_news))
+            self.assertEqual(
+                news_view.items[0][0].get("title"), "Restauration de la Bibliothèque"
+            )
 
     @requests_mock.Mocker()
     def test_news_modified(self, m):
@@ -85,65 +97,94 @@ class TestSectionNews(ImioSmartwebTestCase):
         self.news.linking_rest_view = RelationValue(intids.getId(self.rest_news_view))
         annotations = IAnnotations(self.news)
         self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
+        # Juste a patch to avoid "checking entity (get_json)" in case of missing NewsFolder in auth sources
+        with patch(
+            "imio.smartweb.core.contents.sections.news.view.NewsView.get_news_folders_uids_and_title_from_entity",
+            return_value=(
+                ["64f4cbee9a394a018a951f6d94452914"],
+                {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+            ),
+        ):
+            news_view = queryMultiAdapter(
+                (self.news, self.request), name="carousel_view"
+            )
+            url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
+            m.get(url, text=json.dumps(self.json_news))
+            self.assertEqual(len(news_view.items[0]), 3)
+            hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
+            self.assertIsNotNone(hash_1)
+            first_modification = self.portalpage.ModificationDate()
 
-        news_view = queryMultiAdapter((self.news, self.request), name="carousel_view")
-        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
-        m.get(url, text=json.dumps(self.json_news))
-        self.assertEqual(len(news_view.items[0]), 3)
-        hash_1 = annotations.get(SECTION_ITEMS_HASH_KEY)
-        self.assertIsNotNone(hash_1)
-        first_modification = self.portalpage.ModificationDate()
+            sleep(1)
+            url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
+            m.get(url, text="{}")
+            self.assertEqual(len(news_view.items), 0)
+            next_modification = self.portalpage.ModificationDate()
+            hash_2 = annotations.get(SECTION_ITEMS_HASH_KEY)
+            self.assertNotEqual(hash_1, hash_2)
+            self.assertNotEqual(first_modification, next_modification)
 
-        sleep(1)
-        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
-        m.get(url, text="{}")
-        self.assertEqual(len(news_view.items), 0)
-        next_modification = self.portalpage.ModificationDate()
-        hash_2 = annotations.get(SECTION_ITEMS_HASH_KEY)
-        self.assertNotEqual(hash_1, hash_2)
-        self.assertNotEqual(first_modification, next_modification)
+            sleep(1)
+            self.assertEqual(len(news_view.items), 0)
+            last_modification = self.portalpage.ModificationDate()
+            hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
+            self.assertEqual(hash_2, hash_3)
+            self.assertEqual(next_modification, last_modification)
 
-        sleep(1)
-        self.assertEqual(len(news_view.items), 0)
-        last_modification = self.portalpage.ModificationDate()
-        hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
-        self.assertEqual(hash_2, hash_3)
-        self.assertEqual(next_modification, last_modification)
-
-        sleep(1)
-        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
-        m.get(url, text=None)
-        self.assertEqual(len(news_view.items), 0)
-        no_modification = self.portalpage.ModificationDate()
-        hash_4 = annotations.get(SECTION_ITEMS_HASH_KEY)
-        self.assertEqual(hash_3, hash_4)
-        self.assertEqual(last_modification, no_modification)
+            sleep(1)
+            url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
+            m.get(url, text=None)
+            self.assertEqual(len(news_view.items), 0)
+            no_modification = self.portalpage.ModificationDate()
+            hash_4 = annotations.get(SECTION_ITEMS_HASH_KEY)
+            self.assertEqual(hash_3, hash_4)
+            self.assertEqual(last_modification, no_modification)
 
     @requests_mock.Mocker()
     def test_orientation(self, m):
         intids = getUtility(IIntIds)
         self.news.related_news = "64f4cbee9a394a018a951f6d94452914"
         self.news.linking_rest_view = RelationValue(intids.getId(self.rest_news_view))
-        news_view = queryMultiAdapter((self.news, self.request), name="carousel_view")
-        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
-        m.get(url, text=json.dumps(self.json_news))
+        # Juste a patch to avoid "checking entity (get_json)" in case of missing NewsFolder in auth sources
+        with patch(
+            "imio.smartweb.core.contents.sections.news.view.NewsView.get_news_folders_uids_and_title_from_entity",
+            return_value=(
+                ["64f4cbee9a394a018a951f6d94452914"],
+                {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+            ),
+        ):
+            news_view = queryMultiAdapter(
+                (self.news, self.request), name="carousel_view"
+            )
+            url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
+            m.get(url, text=json.dumps(self.json_news))
 
-        self.assertIn("paysage_vignette", news_view.items[0][0]["image"])
-        self.news.orientation = "portrait"
-        self.assertIn("portrait_vignette", news_view.items[0][0]["image"])
+            self.assertIn("paysage_vignette", news_view.items[0][0]["image"])
+            self.news.orientation = "portrait"
+            self.assertIn("portrait_vignette", news_view.items[0][0]["image"])
 
     @requests_mock.Mocker()
     def test_show_categories_or_topics(self, m):
         intids = getUtility(IIntIds)
         self.news.related_news = "64f4cbee9a394a018a951f6d94452914"
         self.news.linking_rest_view = RelationValue(intids.getId(self.rest_news_view))
-        news_view = queryMultiAdapter((self.news, self.request), name="carousel_view")
-        url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
-        m.get(url, text=json.dumps(self.json_news))
-        self.assertEqual(news_view.items[0][0]["category"], "Presse")
-        self.news.show_categories_or_topics = "category"
-        self.assertEqual(news_view.items[0][0]["category"], "Presse")
-        self.news.show_categories_or_topics = "topic"
-        self.assertEqual(news_view.items[0][0]["category"], "Education")
-        self.news.show_categories_or_topics = ""
-        self.assertEqual(news_view.items[0][0]["category"], "")
+        # Juste a patch to avoid "checking entity (get_json)" in case of missing NewsFolder in auth sources
+        with patch(
+            "imio.smartweb.core.contents.sections.news.view.NewsView.get_news_folders_uids_and_title_from_entity",
+            return_value=(
+                ["64f4cbee9a394a018a951f6d94452914"],
+                {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+            ),
+        ):
+            news_view = queryMultiAdapter(
+                (self.news, self.request), name="carousel_view"
+            )
+            url = "http://localhost:8080/Plone/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&portal_type=imio.news.NewsItem&metadata_fields=container_uid&metadata_fields=category_title&metadata_fields=local_category&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=modified&metadata_fields=effective&metadata_fields=UID&sort_limit=6&translated_in_en=1&sort_on=effective&sort_order=descending"
+            m.get(url, text=json.dumps(self.json_news))
+            self.assertEqual(news_view.items[0][0]["category"], "Presse")
+            self.news.show_categories_or_topics = "category"
+            self.assertEqual(news_view.items[0][0]["category"], "Presse")
+            self.news.show_categories_or_topics = "topic"
+            self.assertEqual(news_view.items[0][0]["category"], "Education")
+            self.news.show_categories_or_topics = ""
+            self.assertEqual(news_view.items[0][0]["category"], "")

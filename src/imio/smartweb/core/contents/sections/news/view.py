@@ -4,21 +4,51 @@ from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.core.utils import remove_cache_key
 from plone import api
 from Products.CMFPlone.utils import normalizeString
+from zope.i18n import translate
 
 
 class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
     """News Section view"""
 
+    def get_news_folders_uids_and_title_from_entity(self, entity_uid):
+        url = f"{NEWS_URL}/@search?UID={entity_uid}"
+        data = get_json(url)
+        url_to_get_news_folders = (
+            f"{data.get('items')[0].get('@id')}"
+            "/@search?portal_type=imio.news.NewsFolder&depth=1&metadata_fields=UID"
+        )
+
+        data = get_json(url_to_get_news_folders)
+        uids = [item["UID"] for item in data["items"]]
+        data = {item["UID"]: item["title"] for item in data["items"]}
+        return uids, data
+
     @property
     def items(self):
+        entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
+        # Fallback if news folder is breaked (removed from auth source)
+        uids, data = self.get_news_folders_uids_and_title_from_entity(entity_uid)
         selected_item = f"selected_news_folders={self.context.related_news}"
+        if self.context.related_news not in uids:
+            item = [k for k, v in data.items() if "administration" in v.lower()][0]
+            if not item:
+                selected_item = uids[0]
+            selected_item = f"selected_news_folders={item}"
+            current_lang = api.portal.get_current_language()[:2]
+            self._issue = translate(
+                _(
+                    "Warning: Deleted news folder. We get random news folder for this section"
+                ),
+                target_language=current_lang,
+            )
         specific_related_newsitems = self.context.specific_related_newsitems
         if specific_related_newsitems:
             selected_item = "&".join(
@@ -39,6 +69,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "metadata_fields=UID",
             f"cache_key={modified_hash}",
             f"sort_limit={max_items}",
+            f"entity_uid={entity_uid}",
         ]
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
@@ -90,6 +121,10 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 results, key=lambda x: specific_related_newsitems.index(x["uid"])
             )
         return batch_results(results, self.context.nb_results_by_batch)
+
+    @property
+    def issue(self):
+        return self._issue
 
     @property
     def see_all_url(self):

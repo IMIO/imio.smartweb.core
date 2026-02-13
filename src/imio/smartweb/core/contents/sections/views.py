@@ -31,6 +31,8 @@ class ISectionView(Interface):
 class SectionView(BrowserView):
     """Section view"""
 
+    _issue = None
+
     def __call__(self):
         self.redirect_to_section(self.context.id)
 
@@ -107,6 +109,10 @@ class SectionView(BrowserView):
             current_lang,
         )
         return json.dumps({"id": section_size, "title": size_txt})
+
+    @property
+    def issue(self):
+        return self._issue
 
     def open_in_new_tab(self, item):
         open_in_new_tab = (

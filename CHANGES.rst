@@ -5,7 +5,8 @@ Changelog
 1.4.30 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4366 : Fix incorrect/random? entity retrieval from cache and add warning message
+  [boulch]
 
 
 1.4.29 (2026-02-13)
