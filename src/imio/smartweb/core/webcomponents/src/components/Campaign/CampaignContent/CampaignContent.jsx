@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 import "../../../../node_modules/flexbin/flexbin.css";
-import { Translate } from "react-translated";
+import { Translate, Translator } from "react-translated";
 import queryString from "query-string";
 
 export default function CampaignContent({ queryUrl, onChange, displayRedThumbs }) {
@@ -67,9 +67,19 @@ export default function CampaignContent({ queryUrl, onChange, displayRedThumbs }
     }
     return !isLoading ? (
         <div className="campaign-content r-content">
-            <button type="button" onClick={handleClick}>
-                <Translate text="Retour" />
-            </button>
+            <Translator>
+                {({ translate }) => (
+                    <button 
+                        type="button" 
+                        onClick={handleClick}
+                        aria-label={translate({ text: "Retour à la liste" })}
+                        title={translate({ text: "Retour à la liste" })}
+                        className="r-back-button"
+                    >
+                        <i class="bi bi-arrow-left-short"></i>
+                    </button>
+                )}
+            </Translator>
             <ContentText
                 item={item}
                 urlVotePour={urlVotePour}
