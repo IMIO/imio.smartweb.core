@@ -5,8 +5,8 @@ Changelog
 1.4.29 (unreleased)
 -------------------
 
-- Nothing changed yet.
-
+- Fix edit menu style and name
+  [thomlamb]
 
 1.4.28 (2026-02-11)
 -------------------
