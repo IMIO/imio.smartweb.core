@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.29 (unreleased)
+1.4.29 (2026-02-13)
 -------------------
 
 - Fix edit menu style and name
