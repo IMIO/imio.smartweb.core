@@ -83,7 +83,7 @@
                 <option value=""
                         tal:condition="not: context/bootstrap_css_class"
                         selected="selected"
-                        i18n:translate="">Size</option>
+                        i18n:translate="">Width</option>
                 <option tal:repeat="size view/get_sizes"
                         tal:attributes="value size/key;
                                         title size/value;
@@ -97,8 +97,8 @@
           <tal:if tal:condition="python:context.portal_type in ['imio.smartweb.SectionNews', 'imio.smartweb.SectionEvents']">
             <a class="edit-section-link edit-section-refresh"
                tal:attributes="href string:${context/absolute_url}/refresh_modification_date;
-                               title string:"
-               i18n:translate="title">
+                               title string:Refresh"
+               i18n:attributes="title">
               <i class="bi bi-arrow-clockwise"></i>
               <span class="edit-section-title" i18n:translate="">Refresh</span>
             </a>
