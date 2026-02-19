@@ -5,5 +5,5 @@
      tal:define="portal_state context/@@plone_portal_state;
                  portal_url portal_state/portal_url;"
      tal:attributes="href portal_url"
-     i18n:translate=""> Go to <span i18n:name="url" tal:replace="view/get_hostname">maville.be</span><i class="bi bi-arrow-right-short portal-link-arrow"></i></a>
+     i18n:translate="">Go to <span i18n:name="url" tal:replace="view/get_hostname">maville.be</span><i i18n:name="icon" class="bi bi-arrow-right-short portal-link-arrow"></i></a>
 </div>
