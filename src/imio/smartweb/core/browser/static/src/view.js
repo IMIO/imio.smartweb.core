@@ -155,7 +155,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Gestion du sticky menu avec deux comportements possibles
   const header = document.querySelector("#portal-header-top");
   if (header) {
-    console.log("Sticky header script loaded.");
     const parentHeader = document.querySelector("#portal-header");
     const isBasicSticky = document.body.classList.contains("menu-sticky");
     const isStickyOnTop =
