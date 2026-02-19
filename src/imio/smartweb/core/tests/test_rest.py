@@ -480,34 +480,42 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
     @requests_mock.Mocker()
     def test_call_news(self, m):
-        endpoint = NewsEndpoint(self.rest_news, self.request)
-        url = endpoint.query_url
-        self.maxDiff = None
-        self.assertEqual(
-            url,
-            "http://localhost:8080/Plone/@search?"
-            "selected_news_folders={}&"
-            "portal_type=imio.news.NewsItem&"
-            "metadata_fields=category&"
-            "metadata_fields=local_category&"
-            "metadata_fields=container_uid&"
-            "metadata_fields=topics&"
-            "metadata_fields=has_leadimage&"
-            "metadata_fields=UID&"
-            "sort_on=effective&"
-            "sort_order=descending&"
-            "fullobjects=1&"
-            "b_size=20&"
-            "translated_in_en=1".format(self.rest_news.selected_news_folder),
-        )
-        m.get(url, text=json.dumps({}))
-        call = endpoint()
-        self.assertEqual(call, {})
+        with patch(
+            "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
+            return_value=(
+                ["64f4cbee9a394a018a951f6d94452914"],
+                {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+            ),
+        ):
+            endpoint = NewsEndpoint(self.rest_news, self.request)
+            url = endpoint.query_url
+            self.maxDiff = None
+            self.assertEqual(
+                url,
+                "http://localhost:8080/Plone/@search?"
+                "selected_news_folders={}&"
+                "portal_type=imio.news.NewsItem&"
+                "metadata_fields=category&"
+                "metadata_fields=local_category&"
+                "metadata_fields=container_uid&"
+                "metadata_fields=topics&"
+                "metadata_fields=has_leadimage&"
+                "metadata_fields=UID&"
+                "sort_on=effective&"
+                "sort_order=descending&"
+                "entity_uid=7c69f9a738ec497c819725c55888ee32&"
+                "fullobjects=1&"
+                "b_size=20&"
+                "translated_in_en=1".format(self.rest_news.selected_news_folder),
+            )
+            m.get(url, text=json.dumps({}))
+            call = endpoint()
+            self.assertEqual(call, {})
 
-        self.rest_news.nb_results = 30
-        url = endpoint.query_url
-        self.assertNotIn("b_size=20", url)
-        self.assertIn("b_size=30", url)
+            self.rest_news.nb_results = 30
+            url = endpoint.query_url
+            self.assertNotIn("b_size=20", url)
+            self.assertIn("b_size=30", url)
 
     def test_render_rest_news(self):
         view = queryMultiAdapter((self.rest_news, self.request), name="view")
@@ -520,7 +528,13 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         with patch(
             "imio.smartweb.core.contents.rest.base.get_json",
             return_value=self.json_rest_news,
-        ) as mypatch:
+        ) as mypatch, patch(
+            "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
+            return_value=(
+                ["64f4cbee9a394a018a951f6d94452914"],
+                {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+            ),
+        ):
             response = self.api_session.get(
                 f"/{react_view}/@results",
                 params=params,

@@ -3,7 +3,9 @@
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
+from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
+from plone import api
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.interface import implementer
@@ -30,13 +32,35 @@ class BaseNewsEndpoint(BaseEndpoint):
                 )
         return results
 
+    def _get_news_folders_uids_and_title_from_entity(self, entity_uid):
+        url = f"{NEWS_URL}/@search?UID={entity_uid}"
+        data = get_json(url)
+        url_to_get_news_folders = (
+            f"{data.get('items')[0].get('@id')}"
+            "/@search?portal_type=imio.news.NewsFolder&depth=1&metadata_fields=UID"
+        )
+
+        data = get_json(url_to_get_news_folders)
+        uids = [item["UID"] for item in data["items"]]
+        data = {item["UID"]: item["title"] for item in data["items"]}
+        return uids, data
+
     @property
     def query_url(self):
         # Temporary use fullobjects=1 to get inner news contents
         # This should does the job !?
         # https://github.com/IMIO/imio.news.core/commit/fe63e9945c2880abdf2d74374e8bbc2e86b7b6a3#diff-6a114600617a2e65a563a363d1825914a8d9afe1608812eb0e2373b3cec93e1fR16
+        entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
+        # Fallback if news folder is breaked (removed from auth source)
+        uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
+        selected_item = self.context.selected_news_folder
+        if self.context.selected_news_folder not in uids:
+            item = [k for k, v in data.items() if "administration" in v.lower()][0]
+            if not item:
+                selected_item = uids[0]
+            selected_item = item
         params = [
-            "selected_news_folders={}".format(self.context.selected_news_folder),
+            "selected_news_folders={}".format(selected_item),
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
             "metadata_fields=local_category",
@@ -46,6 +70,7 @@ class BaseNewsEndpoint(BaseEndpoint):
             "metadata_fields=UID",
             "sort_on=effective",
             "sort_order=descending",
+            f"entity_uid={entity_uid}",
             "fullobjects={}".format(self.fullobjects),
         ]
         self.request.form.update()

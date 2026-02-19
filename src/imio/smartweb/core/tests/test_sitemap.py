@@ -92,8 +92,15 @@ class TestPage(ImioSmartwebTestCase):
 
     # 'http://localhost:8080/Plone/@search?selected_entities=396907b3b1b04a97896b12cc792c77f8&portal_type=imio.directory.Contact&fullobjects=0&sort_on=sortable_title'
     @freeze_time("2024-02-02 10:00:00")
+    @patch(
+        "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
+        return_value=(
+            ["64f4cbee9a394a018a951f6d94452914"],
+            {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+        ),
+    )
     @requests_mock.Mocker()
-    def test_sitemap(self, m):
+    def test_sitemap(self, mock_news, m):
         sitemap = getMultiAdapter(
             (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
         )
@@ -167,7 +174,14 @@ class TestPage(ImioSmartwebTestCase):
                 xml,
             )
 
-    def test_site_map_for_user_display(self):
+    @patch(
+        "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
+        return_value=(
+            ["64f4cbee9a394a018a951f6d94452914"],
+            {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+        ),
+    )
+    def test_site_map_for_user_display(self, mock_news):
         sitemap = CatalogSiteMap(self.portal, self.request)
         # 3 authentic sources
         self.assertEqual(len(sitemap.siteMap().get("children")), 3)
