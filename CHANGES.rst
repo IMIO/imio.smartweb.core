@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.30 (unreleased)
+1.4.30 (2026-02-23)
 -------------------
 
 - Fix i18n for back to main site link in minisite header
