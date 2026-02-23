@@ -5,6 +5,9 @@ Changelog
 1.4.30 (unreleased)
 -------------------
 
+- Fix i18n for back to main site link in minisite header
+  [thomlamb]
+
 - WEB-4366 : Fix incorrect/random? entity retrieval from cache and add warning message
   [boulch]
 
@@ -14,6 +17,7 @@ Changelog
 
 - Fix edit menu style and name
   [thomlamb]
+
 
 1.4.28 (2026-02-11)
 -------------------
