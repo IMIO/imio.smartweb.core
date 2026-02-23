@@ -394,24 +394,28 @@ body {
 }
 
 // --- Sticky only on scroll to top --- //
+.is-in-minisite.menu-sticky-on-top #portal-header #portal-header-top {
+    margin-top: 1.8rem;
+}
 
 .menu-sticky-on-top {
   padding-top: var(--header-height, 80px) !important;
 
+  .to-portal {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
   #portal-header #portal-header-top {
     transition: transform 0.3s ease;
+    transition-property: transform, margin-top;
     position: fixed !important;
     top: 0;
     left: var(--header-left, 0);
     width: var(--header-width, 100%);
     max-width: 1296px;
-    &.sticky-on-top {
-      position: fixed !important;
-      top: 0;
-      left: var(--header-left, 0);
-      width: var(--header-width, 100%);
-      padding: 0.3rem 0;
-    }
 
     &.sticky-hidden {
       position: fixed !important;
@@ -420,9 +424,16 @@ body {
       width: var(--header-width, 100%);
       padding: 0.3rem 0;
       transform: translateY(-100%);
+      margin-top: 0;
+    }
+    &.sticky-demi-active {
+      margin-top: 0;
     }
   }
-}
+} 
+
+
+
 
 // Compensation du header sticky pour éviter que le contenu passe en dessous
 
