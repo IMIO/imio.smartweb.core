@@ -5,7 +5,8 @@ Changelog
 1.4.31 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- UNDO RAM caching to @search endpoint - too many side effects [boulch]
+  [boulch]
 
 
 1.4.30 (2026-02-23)

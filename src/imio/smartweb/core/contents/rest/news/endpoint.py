@@ -51,16 +51,21 @@ class BaseNewsEndpoint(BaseEndpoint):
         # This should does the job !?
         # https://github.com/IMIO/imio.news.core/commit/fe63e9945c2880abdf2d74374e8bbc2e86b7b6a3#diff-6a114600617a2e65a563a363d1825914a8d9afe1608812eb0e2373b3cec93e1fR16
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
+        # UNDO CACHE
         # Fallback if news folder is breaked (removed from auth source)
-        uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
-        selected_item = self.context.selected_news_folder
-        if self.context.selected_news_folder not in uids:
-            item = [k for k, v in data.items() if "administration" in v.lower()][0]
-            if not item:
-                selected_item = uids[0]
-            selected_item = item
+        # uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
+        # selected_item = self.context.selected_news_folder
+        # if self.context.selected_news_folder not in uids:
+        #     item = [k for k, v in data.items() if "administration" in v.lower()][0]
+        #     if not item:
+        #         selected_item = uids[0]
+        #     selected_item = item
+
+        # UNDO CACHE
+        # "selected_news_folders={}".format(selected_item),
+        # f"entity_uid={entity_uid}",
         params = [
-            "selected_news_folders={}".format(selected_item),
+            "selected_news_folders={}".format(self.context.selected_news_folder),
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
             "metadata_fields=local_category",
@@ -70,7 +75,6 @@ class BaseNewsEndpoint(BaseEndpoint):
             "metadata_fields=UID",
             "sort_on=effective",
             "sort_order=descending",
-            f"entity_uid={entity_uid}",
             "fullobjects={}".format(self.fullobjects),
         ]
         self.request.form.update()

@@ -34,27 +34,37 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
     def items(self):
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
+        # UNDO CACHE
         # Fallback if news folder is breaked (removed from auth source)
-        uids, data = self.get_news_folders_uids_and_title_from_entity(entity_uid)
+        # uids, data = self.get_news_folders_uids_and_title_from_entity(entity_uid)
+        # selected_item = f"selected_news_folders={self.context.related_news}"
+        # if self.context.related_news not in uids:
+        #     item = [k for k, v in data.items() if "administration" in v.lower()][0]
+        #     if not item:
+        #         selected_item = uids[0]
+        #     selected_item = f"selected_news_folders={item}"
+        #     current_lang = api.portal.get_current_language()[:2]
+        #     self._issue = translate(
+        #         _(
+        #             "Warning: Deleted news folder. We get random news folder for this section"
+        #         ),
+        #         target_language=current_lang,
+        #     )
+        # specific_related_newsitems = self.context.specific_related_newsitems
+        # if specific_related_newsitems:
+        #     selected_item = "&".join(
+        #         [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
+        #     )
+
         selected_item = f"selected_news_folders={self.context.related_news}"
-        if self.context.related_news not in uids:
-            item = [k for k, v in data.items() if "administration" in v.lower()][0]
-            if not item:
-                selected_item = uids[0]
-            selected_item = f"selected_news_folders={item}"
-            current_lang = api.portal.get_current_language()[:2]
-            self._issue = translate(
-                _(
-                    "Warning: Deleted news folder. We get random news folder for this section"
-                ),
-                target_language=current_lang,
-            )
         specific_related_newsitems = self.context.specific_related_newsitems
         if specific_related_newsitems:
             selected_item = "&".join(
                 [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
             )
         modified_hash = hash_md5(str(self.context.modification_date))
+        # UNDO CACHE
+        # f"entity_uid={entity_uid}",
         params = [
             selected_item,
             "portal_type=imio.news.NewsItem",
@@ -69,7 +79,6 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "metadata_fields=UID",
             f"cache_key={modified_hash}",
             f"sort_limit={max_items}",
-            f"entity_uid={entity_uid}",
         ]
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
