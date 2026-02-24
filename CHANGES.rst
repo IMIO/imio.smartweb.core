@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.31 (unreleased)
+1.4.31 (2026-02-24)
 -------------------
 
 - UNDO RAM caching to @search endpoint - too many side effects [boulch]
