@@ -23,6 +23,8 @@ Changelog
 
 - WEB-3495 : Improve minisite logo accessibility label
   [thomlamb]
+- WEB-4366 : Refactor caching with more specialized endpoints to avoid incorrect/random? entity/newsfolders retrieval from cache
+  [boulch]
 
 
 1.4.31 (2026-02-24)

@@ -494,7 +494,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             # "entity_uid=7c69f9a738ec497c819725c55888ee32&"
             self.assertEqual(
                 url,
-                "http://localhost:8080/Plone/@search?"
+                "http://localhost:8080/Plone/@search_newsitems?"
                 "selected_news_folders={}&"
                 "portal_type=imio.news.NewsItem&"
                 "metadata_fields=category&"
@@ -505,6 +505,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "metadata_fields=UID&"
                 "sort_on=effective&"
                 "sort_order=descending&"
+                "entity_uid=7c69f9a738ec497c819725c55888ee32&"
                 "fullobjects=1&"
                 "b_size=20&"
                 "translated_in_en=1".format(self.rest_news.selected_news_folder),

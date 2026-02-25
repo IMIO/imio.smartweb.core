@@ -33,13 +33,14 @@ class BaseNewsEndpoint(BaseEndpoint):
         return results
 
     def _get_news_folders_uids_and_title_from_entity(self, entity_uid):
-        url = f"{NEWS_URL}/@search?UID={entity_uid}"
+        url = f"{NEWS_URL}/@search_entity?UID={entity_uid}&metadata_fields=UID"
+
         data = get_json(url)
+        entity_uid = data.get("items")[0].get("UID")
         url_to_get_news_folders = (
             f"{data.get('items')[0].get('@id')}"
-            "/@search?portal_type=imio.news.NewsFolder&depth=1&metadata_fields=UID"
+            f"/@search_newsfolder_for_entity?portal_type=imio.news.NewsFolder&metadata_fields=UID&entity_uid={entity_uid}"
         )
-
         data = get_json(url_to_get_news_folders)
         uids = [item["UID"] for item in data["items"]]
         data = {item["UID"]: item["title"] for item in data["items"]}
@@ -51,21 +52,19 @@ class BaseNewsEndpoint(BaseEndpoint):
         # This should does the job !?
         # https://github.com/IMIO/imio.news.core/commit/fe63e9945c2880abdf2d74374e8bbc2e86b7b6a3#diff-6a114600617a2e65a563a363d1825914a8d9afe1608812eb0e2373b3cec93e1fR16
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
-        # UNDO CACHE
         # Fallback if news folder is breaked (removed from auth source)
-        # uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
-        # selected_item = self.context.selected_news_folder
-        # if self.context.selected_news_folder not in uids:
-        #     item = [k for k, v in data.items() if "administration" in v.lower()][0]
-        #     if not item:
-        #         selected_item = uids[0]
-        #     selected_item = item
-
-        # UNDO CACHE
-        # "selected_news_folders={}".format(selected_item),
-        # f"entity_uid={entity_uid}",
+        uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
+        selected_item = self.context.selected_news_folder
+        if selected_item not in uids:
+            item = next(
+                (k for k, v in data.items() if "administration" in v.lower()),
+                uids[0] if uids else None,
+            )
+            selected_item = item if item else None
+            if not selected_item:
+                selected_item = uids[0]
         params = [
-            "selected_news_folders={}".format(self.context.selected_news_folder),
+            "selected_news_folders={}".format(selected_item),
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
             "metadata_fields=local_category",
@@ -75,6 +74,7 @@ class BaseNewsEndpoint(BaseEndpoint):
             "metadata_fields=UID",
             "sort_on=effective",
             "sort_order=descending",
+            "entity_uid={}".format(entity_uid),
             "fullobjects={}".format(self.fullobjects),
         ]
         self.request.form.update()
@@ -94,7 +94,7 @@ class BaseNewsEndpoint(BaseEndpoint):
 @implementer(IExpandableElement)
 @adapter(Interface, Interface)
 class NewsEndpoint(BaseNewsEndpoint):
-    remote_endpoint = "@search"
+    remote_endpoint = "@search_newsitems"
 
 
 @implementer(IExpandableElement)
