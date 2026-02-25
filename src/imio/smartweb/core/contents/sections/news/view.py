@@ -17,14 +17,14 @@ from zope.i18n import translate
 class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
     """News Section view"""
 
-    def get_news_folders_uids_and_title_from_entity(self, entity_uid):
-        url = f"{NEWS_URL}/@search?UID={entity_uid}"
+    def _get_news_folders_uids_and_title_from_entity(self, entity_uid):
+        url = f"{NEWS_URL}/@search_entity?UID={entity_uid}&metadata_fields=UID"
         data = get_json(url)
+        entity_uid = data.get("items")[0].get("UID")
         url_to_get_news_folders = (
             f"{data.get('items')[0].get('@id')}"
-            "/@search?portal_type=imio.news.NewsFolder&depth=1&metadata_fields=UID"
+            f"/@search_newsfolder_for_entity?portal_type=imio.news.NewsFolder&metadata_fields=UID&entity_uid={entity_uid}"
         )
-
         data = get_json(url_to_get_news_folders)
         uids = [item["UID"] for item in data["items"]]
         data = {item["UID"]: item["title"] for item in data["items"]}
@@ -34,37 +34,28 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
     def items(self):
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
-        # UNDO CACHE
         # Fallback if news folder is breaked (removed from auth source)
-        # uids, data = self.get_news_folders_uids_and_title_from_entity(entity_uid)
-        # selected_item = f"selected_news_folders={self.context.related_news}"
-        # if self.context.related_news not in uids:
-        #     item = [k for k, v in data.items() if "administration" in v.lower()][0]
-        #     if not item:
-        #         selected_item = uids[0]
-        #     selected_item = f"selected_news_folders={item}"
-        #     current_lang = api.portal.get_current_language()[:2]
-        #     self._issue = translate(
-        #         _(
-        #             "Warning: Deleted news folder. We get random news folder for this section"
-        #         ),
-        #         target_language=current_lang,
-        #     )
-        # specific_related_newsitems = self.context.specific_related_newsitems
-        # if specific_related_newsitems:
-        #     selected_item = "&".join(
-        #         [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
-        #     )
-
+        uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
         selected_item = f"selected_news_folders={self.context.related_news}"
+        if self.context.related_news not in uids:
+            item = next(
+                (k for k, v in data.items() if "administration" in v.lower()),
+                uids[0] if uids else None,
+            )
+            selected_item = f"selected_news_folders={item}" if item else ""
+            current_lang = api.portal.get_current_language()[:2]
+            self._issue = translate(
+                _(
+                    "Warning: Deleted news folder. We get random news folder for this section"
+                ),
+                target_language=current_lang,
+            )
         specific_related_newsitems = self.context.specific_related_newsitems
         if specific_related_newsitems:
             selected_item = "&".join(
                 [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
             )
         modified_hash = hash_md5(str(self.context.modification_date))
-        # UNDO CACHE
-        # f"entity_uid={entity_uid}",
         params = [
             selected_item,
             "portal_type=imio.news.NewsItem",
@@ -77,6 +68,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
             "metadata_fields=modified",
             "metadata_fields=effective",
             "metadata_fields=UID",
+            f"entity_uid={entity_uid}",
             f"cache_key={modified_hash}",
             f"sort_limit={max_items}",
         ]
@@ -88,7 +80,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "sort_on=effective",
                 "sort_order=descending",
             ]
-        url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
+        url = "{}/@search_newsitems?{}".format(NEWS_URL, "&".join(params))
         self.json_data = get_json(url)
         self.json_data = remove_cache_key(self.json_data)
         self.refresh_modification_date()
