@@ -5,7 +5,8 @@ Changelog
 1.4.32 (unreleased)
 -------------------
 
-- Nothing changed yet.
+ - WEB-3495 : Improve minisite logo accessibility label
+  [thomlamb]
 
 
 1.4.31 (2026-02-24)
