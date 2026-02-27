@@ -5,7 +5,8 @@ Changelog
 1.4.32 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4366 : Refactor caching with more specialized endpoints to avoid incorrect/random? entity/newsfolders retrieval from cache
+  [boulch]
 
 
 1.4.31 (2026-02-24)
