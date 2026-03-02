@@ -184,6 +184,26 @@ function AnnuaireView(props) {
                         activeFilter={filters}
                         onChange={filtersChange}
                     />
+                    <div className="r-result-numbers-and-add-container">
+                        {contactNumber > 0 ? (
+                            <p
+                                role="status"
+                                aria-live="polite"
+                                className="r-results-numbers"
+                                aria-label={
+                                    contactNumber > 1
+                                    ? `${contactNumber} contacts trouvés`
+                                    : `${contactNumber} contact trouvé`
+                                }
+                                >
+                                <span aria-hidden="true">{contactNumber}</span>
+                                {contactNumber > 1 ? " contacts trouvés" : " contact trouvé"}
+                            </p>
+                        ) : (
+                            <p role="status" aria-live="polite" className="r-results-numbers">
+                                <Translate text="Aucun résultat" />
+                            </p>
+                        )}
                     {props.proposeUrl && (
                         <div className="r-add-contact">
                             <a target="_blank" rel="noreferrer" href={props.proposeUrl}>
@@ -202,25 +222,7 @@ function AnnuaireView(props) {
                             </a>
                         </div>
                     )}
-                    {contactNumber > 0 ? (
-                        <p
-                            role="status"
-                            aria-live="polite"
-                            className="r-results-numbers"
-                            aria-label={
-                                contactNumber > 1
-                                ? `${contactNumber} contacts trouvés`
-                                : `${contactNumber} contact trouvé`
-                            }
-                            >
-                            <span aria-hidden="true">{contactNumber}</span>
-                            {contactNumber > 1 ? " contacts trouvés" : " contact trouvé"}
-                        </p>
-                    ) : (
-                        <p role="status" aria-live="polite" className="r-results-numbers">
-                            <Translate text="Aucun résultat" />
-                        </p>
-                    )}
+                    </div>
                 </div>
             </div>
             <Routes>

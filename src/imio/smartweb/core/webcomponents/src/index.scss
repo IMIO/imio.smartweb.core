@@ -35,25 +35,31 @@ smartweb-campaign {
     position: relative;
 }
 
+.r-result-numbers-and-add-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
 .r-add-event,
 .r-add-news,
 .r-add-contact {
     @media screen and (min-width: 992px) {
-        position: absolute;
-        right: 0;
-        bottom: 0px;
-        padding-bottom: 1rem;
     }
     a {
         color: #2d2d2d;
+        background-color: #f1f1f1;
         text-decoration: none;
         display: flex;
         flex-direction: row;
         align-items: center;
         gap: 7px;
+        padding: 0.6rem 0.6rem;
+        border-radius: 5px;
         &:hover,
         &:focus {
             text-decoration: underline;
+            background-color: #e8e8e8;
         }
     }
 }
@@ -362,4 +368,10 @@ smartweb-campaign {
 }
 .edit-rest-elements-news {
     padding: 10px;
+}
+
+.offcanvas-start {
+    top: 0;
+    left: 0;
+    width: 100% !important;
 }
