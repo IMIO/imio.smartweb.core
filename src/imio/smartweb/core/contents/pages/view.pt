@@ -16,6 +16,20 @@
   </script>
 </metal:head>
 
+ <metal:content-title fill-slot="content-title">
+   <h1 tal:condition="context/title | nothing"
+       tal:content="context/title"
+       tal:attributes="class python: 'page-title text-align-container' if getattr(context, 'text_align_container', False) else 'page-title'">
+   </h1>
+ </metal:content-title>
+
+  <metal:content-description fill-slot="content-description">
+   <p tal:condition="context/description | nothing"
+       tal:content="context/description"
+       tal:attributes="class python: 'lead rich_description text-align-container' if getattr(context, 'text_align_container', False) else 'lead rich_description'">
+   </p>
+ </metal:content-description>
+
 <metal:content-core fill-slot="content-core">
 <metal:block define-macro="content-core"
              tal:define="uuid context/@@uuid | nothing">
