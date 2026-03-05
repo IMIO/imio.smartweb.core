@@ -18,4 +18,12 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="*"
+      name="move_single_page"
+      class=".move_single_page_in_folder.MoveSinglePageView"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />      
+
 </configure>

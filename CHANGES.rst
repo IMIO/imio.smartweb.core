@@ -5,6 +5,9 @@ Changelog
 1.4.32 (unreleased)
 -------------------
 
+- CITIBDC-461 : Flatten folders containing a single page when it is set as the default view
+  [boulch]
+
 - Adding an interface to indicate that we are in a migration context
   [boulch]
 
