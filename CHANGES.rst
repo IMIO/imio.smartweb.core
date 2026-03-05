@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.32 (unreleased)
+1.4.32 (2026-03-05)
 -------------------
 
 - CITIBDC-461 : Flatten folders containing a single page when it is set as the default view
