@@ -58,3 +58,9 @@ class IHtmxViewUtils(Interface):
 
 class INoIndexedUtils(Interface):
     """ """
+
+
+class IImportInProgress(Interface):
+    """Marker interface applied to the request during content import.
+    Used to bypass remote vocabulary validation (e.g. RemoteContacts).
+    """

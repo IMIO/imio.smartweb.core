@@ -5,7 +5,10 @@ Changelog
 1.4.32 (unreleased)
 -------------------
 
- - WEB-3495 : Improve minisite logo accessibility label
+- Adding an interface to indicate that we are in a migration context
+  [boulch]
+
+- WEB-3495 : Improve minisite logo accessibility label
   [thomlamb]
 
 

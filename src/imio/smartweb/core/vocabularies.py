@@ -7,6 +7,7 @@ from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core.config import DIRECTORY_URL, EVENTS_URL, NEWS_URL
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.pages.procedure.utils import sign_url
+from imio.smartweb.core.interfaces import IImportInProgress
 from imio.smartweb.core.interfaces import ISmartwebIcon
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
@@ -30,6 +31,7 @@ from z3c.formwidget.query.interfaces import IQuerySource
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.component.hooks import getSite
+from zope.globalrequest import getRequest
 from zope.i18n import translate
 from zope.interface import implementer
 from zope.schema.interfaces import IContextSourceBinder
@@ -244,10 +246,26 @@ class ContactBlocksVocabularyFactory:
 ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
 
 
+class PermissiveVocabulary(SimpleVocabulary):
+    """Vocabulary that accepts any value — used during content import to bypass
+    remote vocabulary validation when the remote service is unavailable or not
+    yet populated.
+    """
+
+    def __contains__(self, value):
+        return True
+
+    def getTerm(self, value):
+        return SimpleTerm(value=value, token=str(value), title=str(value))
+
+    def getTermByToken(self, token):
+        return self.getTerm(token)
+
+
 class RemoteContactsVocabularyFactory:
 
     @ram.cache(lambda *args: time() // (60))
-    def __call__(self, context=None):
+    def _fetch(self, context=None):
         entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
         params = [
             "portal_type=imio.directory.Contact",
@@ -267,6 +285,12 @@ class RemoteContactsVocabularyFactory:
                 for elem in json_contacts.get("items")
             ]
         )
+
+    def __call__(self, context=None):
+        request = getRequest()
+        if IImportInProgress.providedBy(request):
+            return PermissiveVocabulary([])
+        return self._fetch(context)
 
 
 RemoteContactsVocabulary = RemoteContactsVocabularyFactory()

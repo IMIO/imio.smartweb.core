@@ -2,6 +2,7 @@ from collective.exportimport.import_content import ImportContent
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisiteSettings
 from imio.smartweb.core.contents.pages.pages import IDefaultPages
+from imio.smartweb.core.interfaces import IImportInProgress
 from plone.dexterity.interfaces import IDexterityFTI
 from six.moves.urllib.parse import unquote
 from six.moves.urllib.parse import urlparse
@@ -17,6 +18,9 @@ from Products.CMFCore.utils import getToolByName
 
 
 class CustomImportContent(ImportContent):
+
+    def start(self):
+        alsoProvides(self.request, IImportInProgress)
 
     def cleanup_broken_brains(self, context, root_path, depth=3):
         catalog = getToolByName(context, "portal_catalog")
@@ -132,22 +136,36 @@ class CustomImportContent(ImportContent):
             logger.info(
                 f"Set INTERFACE 'cause I'm a default page : ({obj.absolute_url()}) "
             )
-        # layout = item.get("layout")
-        # if "fr/decouvrir/plein-air/art-public/la-fontaine-de-la-tradition-1" in item["@id"]:
-        #     import pdb; pdb.set_trace()
-        # if layout:
-        #     try:
-        #         obj.setLayout(layout)
-        #         logger.info(f"  {layout} to {obj.absolute_url()} ")
-        #         # print(f"setLayout {layout} TO {obj.absolute_url()}")
-        #     except AttributeError:
-        #         pass
-        # if item.get("_cpskin_default_page", None):
-        #     obj.setDefaultPage(item.get("_cpskin_default_page"))
-        #     logger.info(f"Set default page to {obj.absolute_url()} ")
+        # TEST d'import des collections (les attributs ne sont pas récupérés correctement pour l'instant.)
+        if "fr/a-la-une/a-la-une" in item["@id"]:
+            obj = self.update_collection(obj)
+
         obj.reindexObject()
         return obj
 
     # !!! by default, this method remove item layout
     def global_dict_hook(self, item):
         return item
+
+    def update_collection(self, obj):
+        new_query = []
+        for term in obj.query or []:
+            term = dict(term)
+            if term.get("i") == "hiddenTags":
+                continue  # drop
+            # exemple d'un Termes de recherche basé sur une taxonomie existante (ici: typesorganisation)
+            if term.get("i") == "taxonomy_typesdorganisations":
+                # 'v': ['0noeru9hfh']
+                continue
+            if term.get("i") == "review_state":
+                # plone4 : {'i': 'review_state', 'o': 'plone.app.querystring.operation.selection.is', 'v': 'active'}
+                if term.get("o") == "plone.app.querystring.operation.selection.is":
+                    term["o"] = "plone.app.querystring.operation.selection.any"
+                    term["v"] = [term["v"]]
+            elif term.get("i") == "expires":
+                if "v" not in term:
+                    term["v"] = ""
+            new_query.append(term)
+        obj.query = new_query
+        obj._p_changed = True
+        return obj
