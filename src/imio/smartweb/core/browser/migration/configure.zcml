@@ -22,6 +22,7 @@
       for="*"
       name="move_single_page"
       class=".move_single_page_in_folder.MoveSinglePageView"
+      template="move_single_page_in_folder.pt"
       permission="cmf.ManagePortal"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />      

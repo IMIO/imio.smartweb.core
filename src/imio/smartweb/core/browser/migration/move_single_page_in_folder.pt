@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master">
+<body>
+<metal:content-core fill-slot="content-core">
+
+  <h1>Résultats — Remontée de pages uniques</h1>
+
+  <table class="table table-sm table-bordered">
+    <tbody>
+      <tr>
+        <th>Dossiers ne contenant qu'une seule page</th>
+        <td tal:content="view/cpt_single_page_folders">0</td>
+      </tr>
+      <tr>
+        <th>Pages remontées avec succès</th>
+        <td tal:content="view/cpt_default_pages">0</td>
+      </tr>
+      <tr>
+        <th>Liens cassés (dossiers orphelins)</th>
+        <td tal:content="python: len(view.break_link_integrity_links)">0</td>
+      </tr>
+      <tr>
+        <th>Dossiers non traités (pas de page par défaut)</th>
+        <td tal:content="python: len(view.not_default_pages)">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <tal:moved condition="view/moved_pages">
+    <h2>Pages déplacées</h2>
+    <table class="table table-sm table-striped table-bordered">
+      <thead>
+        <tr>
+          <th>Source</th>
+          <th>Destination</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tal:repeat="item view/moved_pages">
+          <td tal:content="item/from">-</td>
+          <td tal:content="item/to">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </tal:moved>
+
+  <tal:integrity condition="view/break_link_integrity_links">
+    <h2>Dossiers non supprimés — intégrité des liens compromise</h2>
+    <p class="text-warning">
+      Ces dossiers ont été rétractés mais n'ont pas pu être supprimés
+      car ils sont référencés par d'autres contenus.
+    </p>
+    <ul>
+      <li tal:repeat="path view/break_link_integrity_links"
+          tal:content="path">-</li>
+    </ul>
+  </tal:integrity>
+
+  <tal:not_default condition="view/not_default_pages">
+    <h2>Dossiers non traités — pas de page par défaut</h2>
+    <p class="text-info">
+      Ces dossiers contiennent une seule page mais celle-ci n'est pas
+      définie comme vue par défaut (<code>element_view</code>).
+    </p>
+    <ul>
+      <li tal:repeat="path view/not_default_pages"
+          tal:content="path">-</li>
+    </ul>
+  </tal:not_default>
+
+</metal:content-core>
+</body>
+</html>

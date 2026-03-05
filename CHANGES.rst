@@ -5,7 +5,8 @@ Changelog
 1.4.33 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- CITIBDC-461 : Creating a template to have better view on the move_single_page view
+  [boulch]
 
 
 1.4.32 (2026-03-05)
