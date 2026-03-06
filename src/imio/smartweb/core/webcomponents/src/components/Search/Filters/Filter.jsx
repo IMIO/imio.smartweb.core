@@ -143,7 +143,7 @@ function Filters(props) {
     };
     return (
         <React.Fragment>
-            <div className="col-md-6 py-1 r-search search-bar-filter">
+            <div className="r-search search-bar-filter">
                 <form onSubmit={handleSubmit}>
                     <label className="sr-only" for="global-search"><Translate text="Rechercher sur le site" /></label>
                         <Translator>
@@ -163,7 +163,7 @@ function Filters(props) {
                     <button type="submit"><span className="sr-only"><Translate text="Rechercher" /></span> </button>
                 </form>
             </div>
-            <div className="col-md-3 col-lg-2 py-1 r-search search-select-filter">
+            <div className="r-search search-select-filter">
                 <Translator>
                     {({ translate }) => (
                         <Select
@@ -182,7 +182,7 @@ function Filters(props) {
                     )}
                 </Translator>
             </div>
-            <div className="col-md-3 col-lg-2 py-1 r-search search-select-filter">
+            <div className="r-search search-select-filter">
                 <Translator>
                     {({ translate }) => (
                         <Select

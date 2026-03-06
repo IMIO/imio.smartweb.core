@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import useAxios from "../../../hooks/useAxios";
+import useIsMobile from "../../../hooks/useIsMobile";
 import Highlighter from "react-highlight-words";
 import { Translate } from "react-translated";
 
 const WebResult = (props) => {
     const [resultArray, setresultArray] = useState([]);
+    const [visibleCount, setVisibleCount] = useState(3);
+    const isMobile = useIsMobile();
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
@@ -28,6 +31,11 @@ const WebResult = (props) => {
             setresultArray([]);
         }
     }, [response]);
+
+    useEffect(() => {
+        setVisibleCount(3);
+    }, [props.urlParams]);
+
     return (
         <div className="search-web">
             <div className="r-search-header">
@@ -46,7 +54,7 @@ const WebResult = (props) => {
                 </p>
             </div>
             <ul className="r-search-list">
-                {resultArray.map((item, i) => (
+                {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
                     <li key={i} className="r-search-item">
                         <a href={item["@id"]}>
                             <Highlighter
@@ -58,6 +66,14 @@ const WebResult = (props) => {
                     </li>
                 ))}
             </ul>
+            {isMobile && resultArray.length > visibleCount && (
+                <button
+                    className="r-load-more-btn"
+                    onClick={() => setVisibleCount(visibleCount + 3)}
+                >
+                    <Translate text="Afficher plus" />
+                </button>
+            )}
         </div>
     );
 };

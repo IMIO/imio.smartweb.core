@@ -96,6 +96,12 @@ export default {
         de: "Mehr Ergebnisse",
         nl: "Meer resultaten",
     },
+    "Afficher plus": {
+        fr: "Afficher plus",
+        en: "Show more",
+        de: "Mehr anzeigen",
+        nl: "Meer weergeven",
+    },
     "Aucun résultat": {
         en: "No result",
         fr: "Aucun résultat",

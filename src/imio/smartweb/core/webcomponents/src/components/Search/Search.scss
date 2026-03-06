@@ -3,11 +3,25 @@
         padding: 0 20px 0 123px;
     }
 }
+.offcanvas-start {
+    top: 0;
+    left: 0;
+    width: 98% !important;
+}
+@media screen and (min-width: 700px) {
+    .offcanvas-start {
+        max-width: 1400px;
+    }
+}
+
+.offcanvas-body {
+    padding-top: 0;
+    margin-top: 1rem;
+}
 
 .r-search-container {
     max-width: 1330px;
     margin: 0 auto;
-    padding: 0 20px 0 20px;
 
     .full-width {
         width: 100vw;
@@ -23,35 +37,47 @@
         font-weight: bold;
         background: transparent;
         position: relative;
+        color: #1f1f1f;
+        font-weight: bold;
         border-bottom: 2px solid #f9b300;
     }
 
     .r-search-header {
         border-bottom: 1px solid #000;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 5px 0;
     }
 
     .r-search-header-title {
         font-weight: bold;
         font-size: 15px;
         text-transform: uppercase;
+        margin: 0;
     }
 
     .r-search-header-count {
         font-size: 10px;
         text-transform: uppercase;
         color: #808080;
+        margin: 0;
     }
 
     .r-search-result {
-        margin-top: 2rem;
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
         gap: 1.5rem;
+        background: #f8f8f8;
+        padding: 30px;
+        border-radius: 3px;
     }
 
     .r-search.search-bar-filter {
         position: relative;
-
+        @media screen and (min-width: 854px) {
+            max-width: 400px;
+        }
         form {
             position: relative;
         }
@@ -98,12 +124,27 @@
         border-radius: 0px;
     }
 
+    .r-load-more-btn {
+        display: block;
+        margin: 0.75rem auto 0;
+        padding: 0.4rem 1.2rem;
+        background: transparent;
+        border: 1px solid #000;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        &:hover {
+            background: #000;
+            color: #fff;
+        }
+    }
+
     .r-search-list {
-        margin-top: 20px;
+        margin-top: 5px;
         overflow-y: scroll;
 
         @media screen and (min-width: 992px) {
-            max-height: 375px;
         }
 
         .r-search-item {
@@ -114,6 +155,10 @@
             display: flex;
             gap: 10px;
 
+            a {
+                font-weight: 500;
+                color: #1f1f1f;
+            }
             .r-search-img {
                 width: 91px;
                 height: 61px;
@@ -155,5 +200,19 @@
 }
 
 .r-search-filters {
+    padding-bottom: 2rem;
     align-items: center;
+    justify-content: center;
+    gap: 10px 0;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+}
+
+.search-select-filter {
+    max-width: 200px;
+    @media screen and (max-width: 854px) {
+        max-width: 50%;
+    }
 }
