@@ -3,6 +3,7 @@ import useAxios from "../../../hooks/useAxios";
 import useIsMobile from "../../../hooks/useIsMobile";
 import Highlighter from "react-highlight-words";
 import { Translate } from "react-translated";
+import Spinner from "../Spinner";
 
 const ContactResult = (props) => {
     const [resultArray, setresultArray] = useState([]);
@@ -53,31 +54,35 @@ const ContactResult = (props) => {
                     )}
                 </p>
             </div>
-            <ul className="r-search-list">
-                {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
-                    <li key={i} className="r-search-item">
-                        <a href={item["_url"]}>
-                            <div className="r-search-img">
-                                {item.has_leadimage[0] ? (
-                                    <div
-                                        className="r-search-img"
-                                        style={{
-                                            backgroundImage: "url(" + item.image_url + ")",
-                                        }}
-                                    ></div>
-                                ) : (
-                                    <div className="r-search-img no-search-item-img"></div>
-                                )}
-                            </div>
-                            <Highlighter
-                                highlightClassName="r-search-highlighter"
-                                searchWords={[props.urlParams.SearchableText]}
-                                textToHighlight={item.title}
-                            />
-                        </a>
-                    </li>
-                ))}
-            </ul>
+            {isLoading ? (
+                <Spinner />
+            ) : (
+                <ul className="r-search-list">
+                    {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
+                        <li key={i} className="r-search-item">
+                            <a href={item["_url"]}>
+                                <div className="r-search-img">
+                                    {item.has_leadimage[0] ? (
+                                        <div
+                                            className="r-search-img"
+                                            style={{
+                                                backgroundImage: "url(" + item.image_url + ")",
+                                            }}
+                                        ></div>
+                                    ) : (
+                                        <div className="r-search-img no-search-item-img"></div>
+                                    )}
+                                </div>
+                                <Highlighter
+                                    highlightClassName="r-search-highlighter"
+                                    searchWords={[props.urlParams.SearchableText]}
+                                    textToHighlight={item.title}
+                                />
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            )}
             {isMobile && resultArray.length > visibleCount && (
                 <button
                     className="r-load-more-btn"

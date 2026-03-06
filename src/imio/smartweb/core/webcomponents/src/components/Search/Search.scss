@@ -124,6 +124,25 @@
         border-radius: 0px;
     }
 
+    .r-search-spinner {
+        display: flex;
+        justify-content: center;
+        padding: 1.5rem 0;
+        color: #808080;
+        svg {
+            animation: r-spin 0.8s linear infinite;
+        }
+    }
+
+    @keyframes r-spin {
+        from {
+            transform: rotate(0deg);
+        }
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
     .r-load-more-btn {
         display: block;
         margin: 0.75rem auto 0;
