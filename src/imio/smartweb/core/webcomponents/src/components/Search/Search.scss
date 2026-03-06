@@ -1,12 +1,7 @@
-.userrole-authenticated {
-    .r-search-container {
-        padding: 0 20px 0 123px;
-    }
-}
 .offcanvas-start {
     top: 0;
     left: 0;
-    width: 98% !important;
+    width: 98vw !important;
 }
 @media screen and (min-width: 700px) {
     .offcanvas-start {
@@ -45,6 +40,7 @@
     .r-search-header {
         border-bottom: 1px solid #000;
         display: flex;
+        flex-wrap: wrap;
         align-items: center;
         gap: 10px;
         padding: 5px 0;
