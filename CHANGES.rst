@@ -5,6 +5,9 @@ Changelog
 1.4.33 (unreleased)
 -------------------
 
+- Improve search modale for mobile
+  [thomlamb]
+
 - CITIBDC-461 : Creating a template to have better view on the move_single_page view
   [boulch]
 
