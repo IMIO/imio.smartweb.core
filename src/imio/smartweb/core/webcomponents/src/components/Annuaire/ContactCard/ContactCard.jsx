@@ -108,19 +108,14 @@ const ContactCard = ({ item, contextAuthenticatedUser }) => {
                     {category ? <span className="r-item-categorie">{category.title}</span> : ""}
                     <div className="r-item-all">
                         {street ? (
-                            <div className="r-item-adresse">
+                            <a href={itineraryLink} target="_blank" rel="noreferrer" className="r-item-adresse">
                                 {number ? <span>{number + " "}</span> : ""}
                                 {street ? <span>{street + ", "}</span> : ""}
                                 {complement ? <span>{complement + ", "}</span> : ""}
                                 <br />
                                 {zipcode ? <span>{zipcode + " "}</span> : ""}
                                 {city ? <span>{city}</span> : ""}
-                                <div className="itineraty">
-                                    <a href={itineraryLink} target="_blank" rel="noreferrer">
-                                        <Translate text="Itinéraire" />
-                                    </a>
-                                </div>
-                            </div>
+                            </a>
                         ) : (
                             ""
                         )}
