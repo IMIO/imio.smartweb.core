@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import useAxios from "../../../hooks/useAxios";
 import useIsMobile from "../../../hooks/useIsMobile";
 import Highlighter from "react-highlight-words";
@@ -9,12 +10,15 @@ const ContactResult = (props) => {
     const [resultArray, setresultArray] = useState([]);
     const [visibleCount, setVisibleCount] = useState(1);
     const [announcement, setAnnouncement] = useState("");
+    const [vocabMap, setVocabMap] = useState({});
     const isMobile = useIsMobile();
     const { response, error, isLoading } = useAxios(
         {
             method: "get",
             url: "",
-            baseURL: props.url + "/@search?&_core=directory&b_size=100", //props.queryUrl*/,
+            baseURL:
+                props.url +
+                "/@search?&_core=directory&b_size=100&metadata_fields=taxonomy_contact_category",
             headers: {
                 Accept: "application/json",
             },
@@ -25,6 +29,30 @@ const ContactResult = (props) => {
         },
         [props]
     );
+    
+    useEffect(() => {
+        if (props.url) {
+            axios
+                .get(
+                    props.url +
+                        "/@directory_request_forwarder/@vocabularies/collective.taxonomy.contact_category",
+                    {
+                        headers: { Accept: "application/json" },
+                        params: { wcatoken: "false" },
+                    }
+                )
+                .then((res) => {
+                    if (res.data?.items) {
+                        const map = {};
+                        res.data.items.forEach((item) => {
+                            map[item.token] = item.title;
+                        });
+                        setVocabMap(map);
+                    }
+                })
+                .catch(() => {});
+        }
+    }, [props.url]);
 
     useEffect(() => {
         if (response !== null) {
@@ -39,7 +67,6 @@ const ContactResult = (props) => {
         setVisibleCount(1);
     }, [props.urlParams]);
 
-    console.log(resultArray);
     return (
         <div className="search-contact">
             <div className="r-search-header">
@@ -60,7 +87,11 @@ const ContactResult = (props) => {
             {isLoading ? (
                 <Spinner />
             ) : (
-                <ul id="contact-results-list" className="r-search-list" aria-label="Liste des résultats dans l'annuaire">
+                <ul
+                    id="contact-results-list"
+                    className="r-search-list"
+                    aria-label="Liste des résultats dans l'annuaire"
+                >
                     {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
                         <li key={i} className="r-search-item">
                             <a href={item["_url"]}>
@@ -69,6 +100,23 @@ const ContactResult = (props) => {
                                     searchWords={[props.urlParams.SearchableText]}
                                     textToHighlight={item.title}
                                 />
+                            {item.taxonomy_contact_category?.length > 0 && (() => {
+                                const titles = item.taxonomy_contact_category.map(
+                                    (token) => vocabMap[token] || token
+                                );
+                                const leaves = titles
+                                    .filter(
+                                        (title) =>
+                                            !titles.some(
+                                                (other) =>
+                                                    other !== title && other.startsWith(title + " » ")
+                                            )
+                                    )
+                                    .map((title) => title.split(" » ").pop());
+                                return (
+                                    <span className="r-search-item-category">{leaves.join(", ")}</span>
+                                );
+                            })()}
                             </a>
                         </li>
                     ))}

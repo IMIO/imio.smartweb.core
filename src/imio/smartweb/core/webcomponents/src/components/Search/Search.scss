@@ -256,3 +256,22 @@
         max-width: 50%;
     }
 }
+
+#contact-results-list {
+    .r-search-item {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.r-search-item-category {
+    display: block;
+    font-size: 14px;
+    padding: 5px;
+    background: #e6e6e6;
+    width: max-content;
+    border-radius: 10px;
+    margin-top: 0.6rem;
+    text-transform: inherit;
+    font-style: italic;
+}
