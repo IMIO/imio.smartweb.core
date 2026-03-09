@@ -7,7 +7,8 @@ import Spinner from "../Spinner";
 
 const EventsResult = (props) => {
     const [resultArray, setresultArray] = useState([]);
-    const [visibleCount, setVisibleCount] = useState(3);
+    const [visibleCount, setVisibleCount] = useState(1);
+    const [announcement, setAnnouncement] = useState("");
     const isMobile = useIsMobile();
     const { response, error, isLoading } = useAxios(
         {
@@ -28,13 +29,14 @@ const EventsResult = (props) => {
     useEffect(() => {
         if (response !== null) {
             setresultArray(response.items);
+            props.onCount?.(response.items.length);
         } else {
             setresultArray([]);
         }
-    }, [response]);
+    }, [response]); // eslint-disable-line react-hooks/exhaustive-deps
 
     useEffect(() => {
-        setVisibleCount(3);
+        setVisibleCount(1);
     }, [props.urlParams]);
 
     return (
@@ -57,7 +59,7 @@ const EventsResult = (props) => {
             {isLoading ? (
                 <Spinner />
             ) : (
-                <ul className="r-search-list">
+                <ul id="events-results-list" className="r-search-list" aria-label="Liste des résultats pour les événements">
                     {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
                         <li key={i} className="r-search-item">
                             <a href={item["_url"]}>
@@ -83,10 +85,19 @@ const EventsResult = (props) => {
                     ))}
                 </ul>
             )}
+            <div role="status" aria-live="polite" aria-atomic="true" className="r-sr-only">
+                {announcement}
+            </div>
             {isMobile && resultArray.length > visibleCount && (
                 <button
+                    type="button"
                     className="r-load-more-btn"
-                    onClick={() => setVisibleCount(visibleCount + 3)}
+                    aria-controls="events-results-list"
+                    onClick={() => {
+                        const next = visibleCount + 3;
+                        setVisibleCount(next);
+                        setAnnouncement(`${Math.min(next, resultArray.length)} / ${resultArray.length}`);
+                    }}
                 >
                     <Translate text="Afficher plus" />
                 </button>
