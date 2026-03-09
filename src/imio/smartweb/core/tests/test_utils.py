@@ -5,14 +5,21 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.utils import batch_results
+from imio.smartweb.core.utils import get_plausible_vars
 from imio.smartweb.core.utils import get_scale_url
+from imio.smartweb.core.utils import get_ts_api_url
+from imio.smartweb.core.utils import is_valid_url
+from imio.smartweb.core.utils import populate_procedure_button_text
 from imio.smartweb.core.utils import remove_cache_key
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobImage
+from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
+from unittest.mock import patch
+from zope.component import getUtility
 
 
 class TestUtils(ImioSmartwebTestCase):
@@ -111,3 +118,47 @@ class TestUtils(ImioSmartwebTestCase):
                 self.json_news["batching"][key], str
             ):
                 self.assertNotIn("cache_key", self.json_news["batching"][key])
+
+    def test_remove_cache_key_none(self):
+        result = remove_cache_key(None)
+        self.assertIsNone(result)
+
+    def test_is_valid_url(self):
+        self.assertTrue(is_valid_url("https://kamoulox.be"))
+        self.assertTrue(is_valid_url("http://www.kamoulox.be/path?q=1"))
+        self.assertFalse(is_valid_url("not-a-url"))
+        self.assertFalse(is_valid_url("ftp://kamoulox.be"))
+        self.assertFalse(is_valid_url(""))
+
+    def test_get_ts_api_url_no_registry_value(self):
+        # When registry value is None, returns None
+        with patch("imio.smartweb.core.utils.get_value_from_registry") as mock_registry:
+            mock_registry.return_value = None
+            result = get_ts_api_url("wcs")
+            self.assertIsNone(result)
+
+    def test_get_ts_api_url_invalid_url(self):
+        with patch("imio.smartweb.core.utils.get_value_from_registry") as mock_registry:
+            mock_registry.return_value = "not-a-valid-url"
+            result = get_ts_api_url("wcs")
+            self.assertIsNone(result)
+
+    def test_get_ts_api_url_valid_url(self):
+        with patch("imio.smartweb.core.utils.get_value_from_registry") as mock_registry:
+            mock_registry.return_value = "https://mysite.guichet-citoyen.be"
+            result = get_ts_api_url("wcs")
+            self.assertIsNotNone(result)
+            self.assertIn("-formulaires.guichet-citoyen.be", result)
+            self.assertIn("/api", result)
+
+    def test_get_plausible_vars_not_set(self):
+        # By default, registry values are None, so get_plausible_vars returns None
+        result = get_plausible_vars()
+        self.assertIsNone(result)
+
+    def test_populate_procedure_button_text(self):
+        populate_procedure_button_text()
+        registry = getUtility(IRegistry)
+        labels = registry.get("smartweb.procedure_button_text")
+        self.assertIsNotNone(labels)
+        self.assertGreater(len(labels), 0)

@@ -4,6 +4,8 @@ from imio.smartweb.core.contents.pages.views import PagesView
 from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.utils import populate_procedure_button_text
+from imio.smartweb.core.viewlets.procedure import ProcedureViewlet
 from plone import api
 from plone.app.testing import login
 from plone.app.testing import logout
@@ -179,3 +181,77 @@ class TestProcedure(ImioSmartwebTestCase):
             "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/"
         )
         self.assertIn("Acte de d\\u00e9c\\u00e8s", viewlet[0]())
+
+
+class TestProcedureViewletMethods(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.json_procedures_raw_mock = get_json(
+            "resources/json_procedures_raw_mock.json"
+        )
+        self.procedure = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Procedure",
+            id="test-procedure",
+        )
+
+    def _make_viewlet(self):
+        view = PagesView(self.procedure, self.request)
+        viewlet = ProcedureViewlet(self.procedure, self.request, view, None)
+        viewlet.update()
+        return viewlet
+
+    # --- get_selected_procedure_title ---
+
+    def test_get_selected_procedure_title_none_when_no_procedure_ts(self):
+        self.procedure.procedure_ts = None
+        viewlet = self._make_viewlet()
+        self.assertIsNone(viewlet.get_selected_procedure_title())
+
+    @requests_mock.Mocker()
+    def test_get_selected_procedure_title_returns_term_when_set(self, m):
+        url = f"{WCS_URL}formdefs/"
+        m.get(url, text=json.dumps(self.json_procedures_raw_mock))
+        self.procedure.procedure_ts = (
+            "https://demo-formulaires.guichet-citoyen.be/acte-de-deces/"
+        )
+        viewlet = self._make_viewlet()
+        term = viewlet.get_selected_procedure_title()
+        self.assertIsNotNone(term)
+        self.assertIn("Acte de d\\u00e9c\\u00e8s", term.title)
+
+    # --- is_anonymous ---
+
+    def test_is_anonymous_returns_false_when_authenticated(self):
+        login(self.portal, "test")
+        viewlet = self._make_viewlet()
+        self.assertFalse(viewlet.is_anonymous)
+
+    def test_is_anonymous_returns_true_when_anonymous(self):
+        logout()
+        viewlet = self._make_viewlet()
+        self.assertTrue(viewlet.is_anonymous)
+        login(self.portal, "test")
+
+    # --- get_button_label ---
+
+    def test_get_button_label_default_when_button_ts_label_is_none(self):
+        self.procedure.button_ts_label = None
+        viewlet = self._make_viewlet()
+        self.assertEqual(viewlet.get_button_label(), "Complete this procedure online")
+
+    def test_get_button_label_returns_term_title_when_valid_label(self):
+        populate_procedure_button_text()
+        self.procedure.button_ts_label = "label-2"
+        viewlet = self._make_viewlet()
+        self.assertEqual(viewlet.get_button_label(), "Apply")
+
+    def test_get_button_label_default_when_unknown_token(self):
+        populate_procedure_button_text()
+        self.procedure.button_ts_label = "nonexistent-label"
+        viewlet = self._make_viewlet()
+        self.assertEqual(viewlet.get_button_label(), "Complete this procedure online")
