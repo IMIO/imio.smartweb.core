@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.33 (unreleased)
+1.4.33 (2026-03-10)
 -------------------
 
 - Improve search modale for mobile
