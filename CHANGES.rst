@@ -5,6 +5,9 @@ Changelog
 1.4.34 (unreleased)
 -------------------
 
+- WEB-4371 : Fix issue with ogptags viewlet
+  [boulch]
+
 - Migrate to Plone 6.1.4
   [boulch]
 

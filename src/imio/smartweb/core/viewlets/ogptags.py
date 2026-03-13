@@ -89,6 +89,8 @@ class OgpTagsViewlet(HeaderViewlet):
         result_json = get_json(auth_source_url)
         if result_json:
             if isinstance(result_json["items"], list):
+                if not result_json["items"]:
+                    return
                 self._item = result_json["items"][0]
             else:
                 self._item = result_json["items"]
