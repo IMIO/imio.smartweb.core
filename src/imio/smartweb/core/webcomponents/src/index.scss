@@ -39,6 +39,10 @@ smartweb-campaign {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+
+    @media screen and (max-width: 992px) {
+        margin-top: 1rem;
+    }
 }
 
 .r-add-event,
