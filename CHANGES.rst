@@ -5,7 +5,8 @@ Changelog
 1.4.34 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migrate to Plone 6.1.4
+  [boulch]
 
 
 1.4.33 (2026-03-10)
