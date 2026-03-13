@@ -5,6 +5,9 @@ Changelog
 1.4.34 (unreleased)
 -------------------
 
+- Fix React add button position and style
+  [thomlamb]
+
 - WEB-4371 : Fix issue with ogptags viewlet
   [boulch]
 
