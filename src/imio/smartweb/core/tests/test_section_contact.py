@@ -10,6 +10,7 @@ from imio.smartweb.core.contents.sections.contact.utils import ContactProperties
 from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
 from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
@@ -679,3 +680,218 @@ class TestSectionContact(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertNotIn('Error in section : "My contact"', view())
         self.assertIn("contact_informations_social", view())
+
+
+class TestContactPropertiesMethods(ImioSmartwebTestCase):
+    """Direct unit tests for ContactProperties methods in contact/utils.py"""
+
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            id="page",
+        )
+        self.section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionContact",
+            title="My contact section",
+        )
+        self._contact_data = {
+            "@id": "http://localhost:8080/Plone/contact1",
+            "title": "My Contact",
+            "modified": "2021-05-19T08:04:06+00:00",
+            "type": {"token": "organization", "title": "Organization"},
+            "geolocation": {"latitude": 50.4, "longitude": 4.7},
+            "street": "Rue de la Paix",
+            "number": "1",
+            "complement": None,
+            "zipcode": "4000",
+            "city": "Liège",
+            "country": {"token": "be", "title": "Belgique"},
+            "description": "Hello **world**",
+            "logo": None,
+            "image": None,
+            "urls": [],
+        }
+
+    def _make_contact_properties(self, overrides=None):
+        data = {**self._contact_data}
+        if overrides:
+            data.update(overrides)
+        return ContactProperties(data, self.section)
+
+    # --- logo ---
+
+    def test_logo_returns_empty_when_none(self):
+        cp = self._make_contact_properties({"logo": None})
+        self.assertEqual(cp.logo(), "")
+
+    def test_logo_returns_url_when_set(self):
+        cp = self._make_contact_properties({"logo": {"content-type": "image/jpeg"}})
+        result = cp.logo()
+        self.assertIn("@@images/logo/preview", result)
+        self.assertIn("cache_key=", result)
+
+    # --- leadimage ---
+
+    def test_leadimage_returns_empty_when_none(self):
+        cp = self._make_contact_properties({"image": None})
+        self.assertEqual(cp.leadimage(), "")
+
+    def test_leadimage_default_orientation_is_paysage(self):
+        cp = self._make_contact_properties({"image": {"content-type": "image/jpeg"}})
+        result = cp.leadimage()
+        self.assertIn("@@images/image/paysage_affiche", result)
+        self.assertIn("cache_key=", result)
+
+    def test_leadimage_uses_section_orientation(self):
+        self.section.orientation = "portrait"
+        cp = self._make_contact_properties({"image": {"content-type": "image/jpeg"}})
+        result = cp.leadimage()
+        self.assertIn("@@images/image/portrait_affiche", result)
+
+    # --- data_geojson ---
+
+    def test_data_geojson_returns_valid_geojson_structure(self):
+        cp = self._make_contact_properties()
+        result = json.loads(cp.data_geojson())
+        self.assertEqual(result["type"], "Feature")
+        self.assertEqual(result["geometry"]["type"], "Point")
+        self.assertEqual(result["geometry"]["coordinates"], [4.7, 50.4])
+        self.assertIn("popup", result["properties"])
+
+    def test_data_geojson_popup_contains_itinerary_link(self):
+        cp = self._make_contact_properties()
+        result = json.loads(cp.data_geojson())
+        self.assertIn("google.com", result["properties"]["popup"])
+
+    # --- get_itinerary_link ---
+
+    def test_get_itinerary_link_with_full_address(self):
+        cp = self._make_contact_properties()
+        result = cp.get_itinerary_link()
+        self.assertIsNotNone(result)
+        self.assertTrue(result.startswith("https://www.google.com/maps/dir/"))
+        self.assertIn("Rue de la Paix", result)
+
+    def test_get_itinerary_link_returns_none_when_no_address(self):
+        cp = self._make_contact_properties(
+            {
+                "street": None,
+                "number": None,
+                "complement": None,
+                "zipcode": None,
+                "city": None,
+                "country": None,
+            }
+        )
+        self.assertIsNone(cp.get_itinerary_link())
+
+    def test_get_itinerary_link_includes_country_title(self):
+        cp = self._make_contact_properties()
+        result = cp.get_itinerary_link()
+        self.assertIn("Belgique", result)
+
+    # --- get_translated_url_type ---
+
+    def test_get_translated_url_type_capitalizes_label(self):
+        cp = self._make_contact_properties()
+        result = cp.get_translated_url_type("facebook")
+        self.assertIsNotNone(result)
+        self.assertTrue(result[0].isupper())
+
+    def test_get_translated_url_type_already_capitalized(self):
+        cp = self._make_contact_properties()
+        result = cp.get_translated_url_type("Website")
+        self.assertIsNotNone(result)
+
+    # --- formatted_address ---
+
+    def test_formatted_address_with_full_data(self):
+        cp = self._make_contact_properties()
+        result = cp.formatted_address()
+        self.assertIsNotNone(result)
+        self.assertIn("Rue de la Paix", result["street"])
+        self.assertIn("1", result["street"])
+        self.assertIn("4000", result["entity"])
+        self.assertIn("Liège", result["entity"])
+        self.assertNotEqual(result["country"], "")
+
+    def test_formatted_address_returns_none_when_all_empty(self):
+        cp = self._make_contact_properties(
+            {
+                "street": None,
+                "number": None,
+                "complement": None,
+                "zipcode": None,
+                "city": None,
+                "country": None,
+            }
+        )
+        self.assertIsNone(cp.formatted_address())
+
+    def test_formatted_address_without_country(self):
+        cp = self._make_contact_properties({"country": None})
+        result = cp.formatted_address()
+        self.assertIsNotNone(result)
+        self.assertEqual(result["country"], "")
+
+    def test_formatted_address_includes_complement(self):
+        cp = self._make_contact_properties({"complement": "Bte 2"})
+        result = cp.formatted_address()
+        self.assertIn("Bte 2", result["street"])
+
+    # --- get_urls ---
+
+    def test_get_urls_returns_none_when_all_items_have_none_type_and_url(self):
+        cp = self._make_contact_properties(
+            {"urls": [{"type": None, "url": None}, {"type": None, "url": None}]}
+        )
+        self.assertIsNone(cp.get_urls)
+
+    def test_get_urls_filters_out_null_items(self):
+        cp = self._make_contact_properties(
+            {
+                "urls": [
+                    {"type": None, "url": None},
+                    {"type": "facebook", "url": "https://facebook.com"},
+                ]
+            }
+        )
+        result = cp.get_urls
+        self.assertIsNotNone(result)
+        self.assertEqual(len(result), 1)
+        self.assertEqual(result[0]["type"], "facebook")
+
+    def test_get_urls_returns_none_when_urls_is_none(self):
+        cp = self._make_contact_properties({"urls": None})
+        self.assertIsNone(cp.get_urls)
+
+    def test_get_urls_returns_non_list_value_as_is(self):
+        cp = self._make_contact_properties({"urls": "not-a-list"})
+        self.assertEqual(cp.get_urls, "not-a-list")
+
+    # --- description ---
+
+    def test_description_renders_markdown_bold(self):
+        cp = self._make_contact_properties({"description": "Hello **world**"})
+        self.assertIn("<strong>world</strong>", cp.description)
+
+    def test_description_renders_line_breaks(self):
+        cp = self._make_contact_properties({"description": "line1\r\nline2"})
+        self.assertIn("<br/>", cp.description)
+
+    # --- __getattr__ ---
+
+    def test_getattr_returns_value_from_contact_dict(self):
+        cp = self._make_contact_properties()
+        self.assertEqual(cp.title, "My Contact")
+
+    def test_getattr_returns_none_for_missing_key(self):
+        cp = self._make_contact_properties()
+        self.assertIsNone(cp.nonexistent_key)

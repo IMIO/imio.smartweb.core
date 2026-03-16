@@ -5,6 +5,9 @@ Changelog
 1.4.34 (unreleased)
 -------------------
 
+- WEB-4366 : Refactor caching with more specialized endpoints to avoid incorrect/random? entity/newsfolders retrieval from cache
+  [boulch]
+
 - Fix React add button position and style
   [thomlamb]
 
