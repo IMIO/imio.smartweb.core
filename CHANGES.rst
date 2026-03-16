@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.34 (unreleased)
+1.4.34 (2026-03-16)
 -------------------
 
 - WEB-4366 : Refactor caching with more specialized endpoints to avoid incorrect/random? entity/newsfolders retrieval from cache
