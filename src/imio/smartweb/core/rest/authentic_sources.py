@@ -56,8 +56,9 @@ class BaseRequestForwarder(Service):
         if method == "GET" and self.request.form.get("wcatoken") == "false":
             headers = {"Accept": "application/json"}
         else:
-            token = get_wca_token(self.client_id, self.client_secret)
-            headers = {"Accept": "application/json", "Authorization": token}
+            # token = get_wca_token(self.client_id, self.client_secret)
+            # headers = {"Accept": "application/json", "Authorization": token}
+            headers = {"Accept": "application/json"}
         self.request.form.pop("wcatoken", None)
         if is_log_active():
             logger.info("======== Forwarding request to AUTHENTIC SOURCE =========")
