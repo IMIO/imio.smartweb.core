@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.35 (unreleased)
+1.4.35 (2026-03-17)
 -------------------
 
 - GISR-19 : Remove wca_token from query parameters when forwarding requests to authentic sources
