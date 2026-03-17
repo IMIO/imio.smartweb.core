@@ -5,7 +5,8 @@ Changelog
 1.4.35 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- GISR-19 : Remove wca_token from query parameters when forwarding requests to authentic sources
+  [remdub]
 
 
 1.4.34 (2026-03-16)
@@ -82,7 +83,7 @@ Changelog
 -------------------
 
 - CITIBDC-510 : Better collection portal_types attributes Filtrering + update cateogies labels (naming clearer)
-  [boulch]              
+  [boulch]
 
 
 1.4.26 (2026-02-03)
