@@ -98,8 +98,6 @@ def get_wca_token(client_id, client_secret):
     }
     response = requests.post(WCA_URL, headers=headers, data=payload)
     id_token = response.json().get("id_token")
-    if is_log_active():
-        logger.info(f"WCA token retrieved : {id_token}")
     return "Bearer {0}".format(id_token)
 
 

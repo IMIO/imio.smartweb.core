@@ -65,8 +65,6 @@ class BaseRequestForwarder(Service):
             logger.info(f"url to forward : {url} ({method})")
             for key, value in self.request.form.items():
                 logger.info(f"param : {key} = {value}")
-            logger.info(f"token : {token}")
-            logger.info(f"headers : {headers}")
         params = self.request.form
         if method == "GET":
             params = self.add_missing_metadatas(params)
