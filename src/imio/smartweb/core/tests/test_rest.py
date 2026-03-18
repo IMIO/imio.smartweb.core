@@ -676,7 +676,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
         # reply
         service = self.traverse("/plone/@news_request_forwarder/belleville/@search")
-        self.request.environ["HTTP_AUTHORIZATION"] = "Bearer kamoulox"
+        self.request._auth = "Bearer kamoulox"
         response = service.reply()
         mock_request.assert_called_with(
             "GET",
@@ -692,7 +692,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         service = self.traverse(
             "/plone/@events_request_forwarder/belleville/", method="POST"
         )
-        self.request.environ["HTTP_AUTHORIZATION"] = "Bearer kamoulox"
+        self.request._auth = "Bearer kamoulox"
         service.reply()
         mock_request.assert_called_with(
             "POST",
@@ -702,8 +702,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             json={},
         )
 
-        # no-auth case: when HTTP_AUTHORIZATION is absent, no Authorization header
-        del self.request.environ["HTTP_AUTHORIZATION"]
+        # no-auth case: when _auth is absent, no Authorization header
+        self.request._auth = ""
         service = self.traverse("/plone/@news_request_forwarder/belleville/@search")
         service.reply()
         mock_request.assert_called_with(
