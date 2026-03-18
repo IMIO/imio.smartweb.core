@@ -609,12 +609,10 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         view = queryMultiAdapter((rest_news, self.request), name="view")
         self.assertIn('show-categories-or-topics=""', view())
 
-    @patch("imio.smartweb.core.rest.authentic_sources.get_wca_token")
     @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
     @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
-    def test_request_forwarder(self, mock_view_url, mock_request, mock_get_wca_token):
+    def test_request_forwarder(self, mock_view_url, mock_request):
         mock_view_url.return_value = "http://view-url"
-        mock_get_wca_token.return_value = "kamoulox"
         mock_request.return_value = FakeResponse(
             status_code=200,
             headers={
@@ -677,12 +675,14 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
 
         # reply
+        service = self.traverse("/plone/@news_request_forwarder/belleville/@search")
+        self.request.environ["HTTP_AUTHORIZATION"] = "Bearer kamoulox"
         response = service.reply()
         mock_request.assert_called_with(
             "GET",
             "http://localhost:8080/Plone/belleville/@search",
             params={"metadata_fields": ["id", "UID"]},
-            headers={"Accept": "application/json", "Authorization": "kamoulox"},
+            headers={"Accept": "application/json", "Authorization": "Bearer kamoulox"},
             json={},
         )
         self.assertEqual(response, {})
@@ -692,12 +692,25 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         service = self.traverse(
             "/plone/@events_request_forwarder/belleville/", method="POST"
         )
+        self.request.environ["HTTP_AUTHORIZATION"] = "Bearer kamoulox"
         service.reply()
         mock_request.assert_called_with(
             "POST",
             "http://localhost:8080/Plone/belleville",
             params={},
-            headers={"Accept": "application/json", "Authorization": "kamoulox"},
+            headers={"Accept": "application/json", "Authorization": "Bearer kamoulox"},
+            json={},
+        )
+
+        # no-auth case: when HTTP_AUTHORIZATION is absent, no Authorization header
+        del self.request.environ["HTTP_AUTHORIZATION"]
+        service = self.traverse("/plone/@news_request_forwarder/belleville/@search")
+        service.reply()
+        mock_request.assert_called_with(
+            "GET",
+            "http://localhost:8080/Plone/belleville/@search",
+            params={"metadata_fields": ["id", "UID"]},
+            headers={"Accept": "application/json"},
             json={},
         )
 

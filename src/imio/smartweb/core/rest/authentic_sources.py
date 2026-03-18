@@ -5,7 +5,6 @@ from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
-from imio.smartweb.core.utils import get_wca_token
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
@@ -52,19 +51,20 @@ class BaseRequestForwarder(Service):
             "upgrade",
         )
         method = self.request.method
-        token = None
         if method == "GET" and self.request.form.get("wcatoken") == "false":
             headers = {"Accept": "application/json"}
         else:
-            # token = get_wca_token(self.client_id, self.client_secret)
-            # headers = {"Accept": "application/json", "Authorization": token}
+            auth_header = self.request.environ.get("HTTP_AUTHORIZATION", "")
             headers = {"Accept": "application/json"}
+            if auth_header.startswith("Bearer "):
+                headers["Authorization"] = auth_header
         self.request.form.pop("wcatoken", None)
         if is_log_active():
             logger.info("======== Forwarding request to AUTHENTIC SOURCE =========")
             logger.info(f"url to forward : {url} ({method})")
             for key, value in self.request.form.items():
                 logger.info(f"param : {key} = {value}")
+            logger.info(f"headers : {headers}")
         params = self.request.form
         if method == "GET":
             params = self.add_missing_metadatas(params)
