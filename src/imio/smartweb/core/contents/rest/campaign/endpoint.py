@@ -205,7 +205,8 @@ class CampaignEndpointGet(BaseService):
 
 class AuthCampaignEndpointGet(BaseService):
     def reply(self):
-        return get_ideabox_basic_auth_header()
+        user = api.portal.get_registry_record("smartweb.iaideabox_api_username")
+        return {"configured": bool(user)}
 
 
 class ZonesEndpointGet(BaseService):

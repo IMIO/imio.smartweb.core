@@ -26,10 +26,10 @@
   <plone:service
     name="@auth"
     method="GET"
-    accept="text/plain"
+    accept="application/json"
     for="imio.smartweb.core.contents.ICampaignView"
     factory=".endpoint.AuthCampaignEndpointGet"
-    permission="zope.Public"
+    permission="cmf.ManagePortal"
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />
 

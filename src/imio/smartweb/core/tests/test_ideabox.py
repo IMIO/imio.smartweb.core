@@ -720,7 +720,19 @@ class TestServiceClasses(_CampaignViewMixin):
     def test_auth_campaign_endpoint_get_reply(self, _mock):
         service = self._make_service(AuthCampaignEndpointGet)
         result = service.reply()
-        self.assertTrue(result.startswith("Basic "))
+        self.assertEqual(result, {"configured": True})
+
+    @patch(
+        "plone.api.portal.get_registry_record",
+        side_effect=lambda k: {
+            "smartweb.iaideabox_api_username": None,
+            "smartweb.iaideabox_api_password": None,
+        }[k],
+    )
+    def test_auth_campaign_endpoint_get_reply_not_configured(self, _mock):
+        service = self._make_service(AuthCampaignEndpointGet)
+        result = service.reply()
+        self.assertEqual(result, {"configured": False})
 
     def test_zones_endpoint_get_reply(self):
         service = self._make_service(ZonesEndpointGet)
