@@ -56,7 +56,7 @@ class BaseRequestForwarder(Service):
         else:
             auth_header = self.request.environ.get("HTTP_AUTHORIZATION", "")
             headers = {"Accept": "application/json"}
-            if auth_header:
+            if auth_header.startswith("Bearer "):
                 headers["Authorization"] = auth_header
         self.request.form.pop("wcatoken", None)
         if is_log_active():
