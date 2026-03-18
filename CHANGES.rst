@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.36 (unreleased)
+1.4.36 (2026-03-18)
 -------------------
 
 - GISR-19 : Forward Authorization header from original request when forwarding requests to authentic sources
