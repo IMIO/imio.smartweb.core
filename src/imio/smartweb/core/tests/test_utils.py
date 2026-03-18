@@ -74,32 +74,32 @@ class TestUtils(ImioSmartwebTestCase):
         )
         self.assertEqual(
             get_scale_url(content, self.request, "image", ""),
-            "http://nohost/plone/page/@@images/image/?cache_key=2155e3f9408f4c6ddbd485f2b42d44e9",
+            "http://nohost/plone/page/@@images/image/?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         brain = api.content.find(UID=uuid)[0]
         self.assertEqual(
             get_scale_url(brain, self.request, "image", "preview"),
-            "http://nohost/plone/page/@@images/image/preview?cache_key=2155e3f9408f4c6ddbd485f2b42d44e9",
+            "http://nohost/plone/page/@@images/image/preview?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         self.assertEqual(
             get_scale_url(brain, self.request, "image", "affiche", "paysage"),
-            "http://nohost/plone/page/@@images/image/paysage_affiche?cache_key=2155e3f9408f4c6ddbd485f2b42d44e9",
+            "http://nohost/plone/page/@@images/image/paysage_affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         self.assertEqual(
             get_scale_url(brain, self.request, "image", "affiche", "portrait"),
-            "http://nohost/plone/page/@@images/image/portrait_affiche?cache_key=2155e3f9408f4c6ddbd485f2b42d44e9",
+            "http://nohost/plone/page/@@images/image/portrait_affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         self.assertEqual(
             get_scale_url(brain, self.request, "image", "nonexisting"),
-            "http://nohost/plone/page/@@images/image/nonexisting?cache_key=2155e3f9408f4c6ddbd485f2b42d44e9",
+            "http://nohost/plone/page/@@images/image/nonexisting?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         self.assertEqual(
             get_scale_url(brain, self.request, "image", ""),
-            "http://nohost/plone/page/@@images/image/?cache_key=2155e3f9408f4c6ddbd485f2b42d44e9",
+            "http://nohost/plone/page/@@images/image/?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
         self.assertEqual(
             get_scale_url(brain, self.request, "image", "portrait_affiche", "portrait"),
-            "http://nohost/plone/page/@@images/image/portrait_affiche?cache_key=2155e3f9408f4c6ddbd485f2b42d44e9",
+            "http://nohost/plone/page/@@images/image/portrait_affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
 
     def test_remove_cache_key(self):
