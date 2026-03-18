@@ -95,7 +95,7 @@ class TestText(ImioSmartwebTestCase):
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn('<div class="body-section figure-left figure-affiche "', view())
         self.assertIn("<figure", view())
-        self.assertIn("@@images/image-750-", view())
+        self.assertIn("@@images/image-760-", view())
         self.assertNotIn("figcaption", view())
 
         section.image_caption = "Kamoulox"
@@ -112,4 +112,4 @@ class TestText(ImioSmartwebTestCase):
         section.image_size = "vignette"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn('<div class="body-section figure-right figure-vignette "', view())
-        self.assertIn("@@images/image-430-", view())
+        self.assertIn("@@images/image-760-", view())
