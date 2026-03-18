@@ -5,7 +5,8 @@ Changelog
 1.4.37 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- GISR-19 : Forward Authorization header from original request when forwarding requests to authentic sources - again
+  [remdub]
 
 
 1.4.36 (2026-03-18)
