@@ -13,7 +13,7 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: IMIO/gha/code-analysis-notify@v3.9.4
+      uses: IMIO/gha/code-analysis-notify@harden_security
       with:
         BASE_DIR: 'src'
         CHECK: 'black'
@@ -30,7 +30,7 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: IMIO/gha/plone-package-test-notify@v5
+      uses: IMIO/gha/plone-package-test-notify@harden_security
       with:
         BUILDOUT_COMMAND: .venv/bin/buildout
         CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-${{ matrix.python-version }}
@@ -47,7 +47,7 @@ jobs:
     - name: Checkout codebase
       uses: actions/checkout@v4
     - name: Run check
-      uses: IMIO/gha/plone-package-test-notify@v3.9.4
+      uses: IMIO/gha/plone-package-test-notify@harden_security
       with:
         CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-3.10
         TEST_COMMAND: TZ=UTC coverage run bin/test
