@@ -5,7 +5,8 @@ Changelog
 1.4.38 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add custom scale for section text
+  [thomlamb]
 
 
 1.4.37 (2026-03-18)
