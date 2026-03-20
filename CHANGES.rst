@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.38 (unreleased)
+1.4.38 (2026-03-20)
 -------------------
 
 - Add custom scale for section text
