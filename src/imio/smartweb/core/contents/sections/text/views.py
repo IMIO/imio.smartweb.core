@@ -8,4 +8,5 @@ class TextView(SectionView):
     """Gallery Section view"""
 
     def get_scale_url(self, item):
-        return get_scale_url(item, self.request, "image", "section_text")
+        scale = getattr(item, "image_scale", "section_text")
+        return get_scale_url(item, self.request, "image", scale)

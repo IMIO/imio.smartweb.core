@@ -25,13 +25,13 @@ class ISectionText(ISection):
         default="left",
         required=True,
     )
-    directives.order_after(image_size="alignment")
-    image_size = schema.Choice(
-        title=_("Image size"),
-        description=_("Select image size"),
-        source="imio.smartweb.vocabulary.ImageSize",
-        default="affiche",
-        required=False,
+    directives.order_after(image_scale="alignment")
+    image_scale = schema.Choice(
+        title=_("Image scale"),
+        description=_("Select the image resolution to use"),
+        source="imio.smartweb.vocabulary.SectionTextScale",
+        default="section_text",
+        required=True,
     )
 
 
