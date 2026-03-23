@@ -23,7 +23,6 @@ class TextCustomAddForm(CustomAddForm):
     def updateFields(self):
         super(TextCustomAddForm, self).updateFields()
         self.fields["ILeadImageBehavior.image_caption"].mode = INPUT_MODE
-        self.fields["image_size"].mode = HIDDEN_MODE
 
 
 class TextCustomAddView(DefaultAddView):
@@ -43,7 +42,6 @@ class TextCustomEditForm(SmartwebCustomEditForm):
     def updateFields(self):
         super(TextCustomEditForm, self).updateFields()
         self.fields["ILeadImageBehavior.image_caption"].mode = INPUT_MODE
-        self.fields["image_size"].mode = HIDDEN_MODE
 
 
 TextCustomEditView = layout.wrap_form(TextCustomEditForm)
