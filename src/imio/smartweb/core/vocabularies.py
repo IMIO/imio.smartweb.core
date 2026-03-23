@@ -413,6 +413,19 @@ class ImageSizeVocabularyFactory:
 ImageSizeVocabulary = ImageSizeVocabularyFactory()
 
 
+class SectionTextScaleVocabularyFactory:
+    def __call__(self, context=None):
+        scales_text = [
+            ("section_text", _("Standard (760px)")),
+            ("section_text_container", _("Container (1296px)")),
+            ("section_text_viewport", _("Viewport (1920px)")),
+        ]
+        terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in scales_text]
+        return SimpleVocabulary(terms)
+
+SectionTextScaleVocabulary = SectionTextScaleVocabularyFactory()
+
+
 class DirectoryViewsVocabularyFactory(object):
     def __call__(self, context=None):
         if IDexterityContent.providedBy(context):
