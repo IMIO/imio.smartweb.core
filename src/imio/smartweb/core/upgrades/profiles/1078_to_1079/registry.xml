@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<registry xmlns:i18n="http://xml.zope.org/namespaces/i18n" i18n:domain="imio.smartweb">
+  <record name="plone.allowed_sizes"
+          interface="Products.CMFPlone.interfaces.controlpanel.IImagingSchema"
+          field="allowed_sizes">
+    <value purge="false">
+      <element>section_text 760:0</element>
+      <element>section_text_container 1296:0</element>
+      <element>section_text_viewport 1920:0</element>
+    </value>
+  </record>
+</registry>
