@@ -377,6 +377,14 @@
       description="Add section_text image scale (760px max width, no height constraint)"
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
+    
+   <genericsetup:registerProfile
+      name="upgrade_1078_to_1079"
+      title="Upgrade core from 1078 to 1079"
+      directory="profiles/1078_to_1079"
+      description="Add section_text_container and section_text_viewport image scale"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
 
   <genericsetup:upgradeStep
       title="Configure first official release"
@@ -1181,6 +1189,16 @@
     <genericsetup:upgradeDepends
         title="Add section_text image scale (760px max width, no height constraint)"
         import_profile="imio.smartweb.core.upgrades:upgrade_1077_to_1078"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1078"
+      destination="1079"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="WEB-4320: Add section_text image scales and image_scale field to SectionText"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1078_to_1079"
         />
   </genericsetup:upgradeSteps>
 
