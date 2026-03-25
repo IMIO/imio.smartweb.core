@@ -84,14 +84,17 @@ class TestText(ImioSmartwebTestCase):
         section.alignment = "left"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<div class="body-section figure-left figure-section_text  no-image"', view()
+            '<div class="body-section figure-left figure-section_text  no-image"',
+            view(),
         )
         self.assertNotIn("<figure", view())
         self.assertNotIn("figcaption", view())
 
         section.image = NamedBlobImage(**make_named_image())
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-left figure-section_text "', view())
+        self.assertIn(
+            '<div class="body-section figure-left figure-section_text "', view()
+        )
         self.assertIn("<figure", view())
         self.assertIn("@@images/image-760-", view())
         self.assertNotIn("figcaption", view())
@@ -99,15 +102,22 @@ class TestText(ImioSmartwebTestCase):
         section.image_caption = "Kamoulox"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         # Assert section text has lead image
-        self.assertIn('<div class="body-section figure-left figure-section_text "', view())
+        self.assertIn(
+            '<div class="body-section figure-left figure-section_text "', view()
+        )
         self.assertIn("<figure", view())
         self.assertIn("figcaption", view())
 
         section.alignment = "right"
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-right figure-section_text "', view())
+        self.assertIn(
+            '<div class="body-section figure-right figure-section_text "', view()
+        )
 
         section.image_scale = "section_text_container"
         view = getMultiAdapter((self.page, self.request), name="full_view")
-        self.assertIn('<div class="body-section figure-right figure-section_text_container "', view())
+        self.assertIn(
+            '<div class="body-section figure-right figure-section_text_container "',
+            view(),
+        )
         self.assertIn("@@images/image-1296-", view())

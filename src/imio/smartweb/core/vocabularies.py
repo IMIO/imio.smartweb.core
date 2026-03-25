@@ -424,6 +424,7 @@ class SectionTextScaleVocabularyFactory:
         terms = [SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in scales_text]
         return SimpleVocabulary(terms)
 
+
 SectionTextScaleVocabulary = SectionTextScaleVocabularyFactory()
 
 
