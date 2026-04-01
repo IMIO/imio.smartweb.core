@@ -6,12 +6,10 @@ from imio.smartweb.core.utils import get_basic_auth_json
 from imio.smartweb.core.utils import get_ts_api_url
 from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.locales import SmartwebMessageFactory as _
-from plone import api
 from plone.app.content.namechooser import NormalizingNameChooser
 from plone.i18n.normalizer import idnormalizer
 from plone.supermodel import model
 from zope import schema
-from zope.component import getUtility
 from zope.container.interfaces import INameChooser
 from zope.interface import implementer
 

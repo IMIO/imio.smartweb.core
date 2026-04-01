@@ -2,7 +2,6 @@
 
 from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
-from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import WCA_URL
 from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
@@ -296,8 +295,7 @@ def remove_cache_key(json_data: dict) -> dict:
 def populate_procedure_button_text():
     """Populate the procedure_button_text in the control panel registry."""
     registry = getUtility(IRegistry)
-    current = registry.get("smartweb.procedure_button_text", None)
-    # if not current:
+    # if not registry.get("smartweb.procedure_button_text", None):
     #     logger.info("Populating smartweb.procedure_button_text in registry")
     registry["smartweb.procedure_button_text"] = [
         {

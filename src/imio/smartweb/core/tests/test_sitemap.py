@@ -5,10 +5,8 @@ from gzip import GzipFile
 from io import BytesIO
 from imio.smartweb.core.browser.sitemap import CatalogSiteMap
 from imio.smartweb.core.browser.sitemap import get_endpoint_data
-from imio.smartweb.core.browser.sitemap import cache_key
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
-from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
@@ -20,7 +18,6 @@ from plone.memoize.ram import choose_cache
 from plone.namedfile.file import NamedBlobImage
 from unittest.mock import patch
 from unittest.mock import Mock
-from zope.annotation import IAnnotations
 from zope.component import getMultiAdapter
 
 import requests_mock
@@ -141,7 +138,7 @@ class TestPage(ImioSmartwebTestCase):
         with patch(
             "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint.__call__",
             return_value=self.json_rest_news,
-        ) as mypatch:
+        ):
             xml = self.uncompress(sitemap())
             self.assertIn(
                 "<loc>http://nohost/plone/news-view/ceci-est-une-deuxieme-actualite",
@@ -154,7 +151,7 @@ class TestPage(ImioSmartwebTestCase):
         with patch(
             "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
             return_value=self.json_rest_directory,
-        ) as mypatch:
+        ):
             xml = self.uncompress(sitemap())
             self.assertIn(
                 "<loc>http://nohost/plone/directory-view/service-communication-de-ladministration-communale",

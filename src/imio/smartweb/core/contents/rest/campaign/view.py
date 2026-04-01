@@ -2,7 +2,6 @@
 
 from imio.smartweb.core.contents.rest.view import BaseRestView
 from imio.smartweb.core.interfaces import IOgpViewUtils
-from plone import api
 from zope.interface import implementer
 
 

@@ -239,7 +239,7 @@ def update_control_panel_combo_api_url(context):
     url_ts = ""
     try:
         url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
-    except:
+    except Exception:
         logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
         return
     url_ts = url_ts.replace("/api", "")
@@ -251,7 +251,7 @@ def update_control_panel_combo_api_fieldname(context):
     url_ts = ""
     try:
         url_ts = api.portal.get_registry_record("smartweb.url_formdefs_api") or ""
-    except:
+    except Exception:
         logger.info("La clé 'smartweb.url_formdefs_api' a été supprimée.")
     registry = getUtility(IRegistry)
     records = registry.records

@@ -3,18 +3,18 @@ from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisiteSettings
 from imio.smartweb.core.contents.pages.pages import IDefaultPages
 from imio.smartweb.core.interfaces import IImportInProgress
+from plone import api
 from plone.dexterity.interfaces import IDexterityFTI
+from Products.CMFCore.utils import getToolByName
 from six.moves.urllib.parse import unquote
 from six.moves.urllib.parse import urlparse
 from zExceptions import NotFound
 from zope.component import getUtility
 from zope.interface import alsoProvides
-from plone import api
 
 import logging
 
 logger = logging.getLogger(__name__)
-from Products.CMFCore.utils import getToolByName
 
 
 class CustomImportContent(ImportContent):
@@ -104,7 +104,7 @@ class CustomImportContent(ImportContent):
                         folder.absolute_url(),
                     )
                     raise
-        except:
+        except Exception:
             logger.error(
                 f"ERREUR SUR :{element} -- {folder} -- {folder.absolute_url()}"
             )

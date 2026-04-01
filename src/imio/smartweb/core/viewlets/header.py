@@ -2,7 +2,6 @@
 
 from plone.app.layout.viewlets import common
 from plone.app.layout.viewlets.httpheaders import HeaderViewlet
-from zope.component import queryMultiAdapter
 from zope.viewlet.interfaces import IViewletManager
 
 

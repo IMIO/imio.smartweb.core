@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-from imio.smartweb.core.config import DIRECTORY_URL
-from imio.smartweb.locales import SmartwebMessageFactory as _
-from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.contents.rest.view import BaseRestView
 from imio.smartweb.core.interfaces import IOgpViewUtils
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
-from urllib.parse import parse_qs
 from zope.interface import implementer
 
 

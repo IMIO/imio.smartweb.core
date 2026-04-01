@@ -9,7 +9,6 @@ from plone.app.testing import TEST_USER_ID
 from plone.dexterity.interfaces import IDexterityFTI
 from unittest.mock import patch
 from zope.component import createObject
-from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 
 

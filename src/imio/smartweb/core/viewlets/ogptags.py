@@ -7,13 +7,10 @@ from imio.smartweb.core.contents import IDirectoryView
 from imio.smartweb.core.contents import IEventsView
 from imio.smartweb.core.contents import INewsView
 from imio.smartweb.core.utils import get_json
-from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.core.utils import hash_md5
 from plone import api
 from plone.app.layout.links.viewlets import CanonicalURL as BaseCanonicalURL
 from plone.app.layout.viewlets.httpheaders import HeaderViewlet
-
-import os
 
 
 class CanonicalURL(BaseCanonicalURL):

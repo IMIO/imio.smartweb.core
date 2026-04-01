@@ -25,7 +25,6 @@ from zope.component import queryMultiAdapter
 from zope.event import notify
 from zope.publisher.browser import TestRequest
 from ZPublisher.pubevents import PubStart
-from imio.smartweb.core.viewlets.ogptags import OgpTagsViewlet
 
 import json
 import requests_mock
@@ -282,10 +281,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             self.assertIn('<meta property="og:image:width" content="400">', view())
             self.assertIn('<meta property="og:image:height" content="400">', view())
 
-    # @mock.patch.dict(os.environ, {"client_id": "Kamoulox", "client_secret": "Kamoulox"})
-    @patch("imio.smartweb.core.viewlets.ogptags.get_wca_token")
     @patch("imio.smartweb.core.viewlets.ogptags.get_json")
-    def test_render_rest_auth_sources_item(self, mock_get_json, mock_get_wca_token):
+    def test_render_rest_auth_sources_item(self, mock_get_json):
         """og:tags on an item in a rest view"""
 
         auth_sources = [
@@ -294,7 +291,6 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             {"name": "agenda", "content": self.rest_events},
         ]
         for auth_source in auth_sources:
-            mock_get_wca_token.return_value = "kamoulox"
             mock_get_json.return_value = {
                 "items": [
                     {

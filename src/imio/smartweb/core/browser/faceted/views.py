@@ -7,7 +7,6 @@ from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.browser.folder import FolderView
-from plone.app.contenttypes.interfaces import IFile
 from zope.component import queryAdapter
 from zope.i18n import translate
 from zope.interface import implementer

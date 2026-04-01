@@ -85,7 +85,6 @@ class TestSections(ImioSmartwebTestCase):
     def test_change_section_size(self):
         portal_api.get_current_language = mock.Mock(return_value="en")
         transaction.commit()
-        section_text_uid = self.section_text.UID()
         browser = Browser(self.layer["app"])
         browser.addHeader(
             "Authorization",

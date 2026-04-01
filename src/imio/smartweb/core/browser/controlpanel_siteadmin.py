@@ -13,16 +13,12 @@ from plone.registry.interfaces import IRegistry
 from plone.z3cform import layout
 from Products.statusmessages.interfaces import IStatusMessage
 
-from z3c.form.interfaces import ActionExecutionError
 from zope import schema
 from zope.component import getUtility
 from zope.interface import Interface
-from zope.interface import Invalid
 from zope.schema import ValidationError
-from zope import schema
 from zope.schema.vocabulary import SimpleVocabulary, SimpleTerm
 
-import json
 import logging
 
 logger = logging.getLogger("imio.smartweb.core.browser.controlpanel_siteadmin")
@@ -112,13 +108,6 @@ class ISmartwebSiteAdminControlPanel(Interface):
         default=[],
         required=False,
     )
-
-
-class SmartwebSiteAdminControlPanelForm(RegistryEditForm):
-    schema = ISmartwebSiteAdminControlPanel
-    schema_prefix = "smartweb"
-    label = _("Smartweb Site admin Settings")
-    # fields = field.Fields(ISmartwebSiteAdminControlPanel)
 
 
 class SmartwebSiteAdminControlPanelForm(RegistryEditForm):

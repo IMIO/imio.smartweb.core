@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
-from imio.smartweb.core.contents.rest.directory.view import (
+from imio.smartweb.core.contents.rest.directory.view import (  # noqa: F401
     DirectoryViewView,
-)  # noqa: F401
+)
 from imio.smartweb.core.contents.rest.events.view import EventsViewView  # noqa: F401
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpointGet

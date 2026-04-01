@@ -183,7 +183,7 @@ class TestCropping(ImioSmartwebTestCase):
         # Ensure browser still can access the image URL
         # Situation BEFORE we make clear_image_scales function
         self.folder.image = None  # remive image from object
-        with patch("imio.smartweb.core.subscribers.clear_image_scales") as mock_clear:
+        with patch("imio.smartweb.core.subscribers.clear_image_scales"):
             modified(
                 self.folder, Attributes(ILeadImageBehavior, "ILeadImageBehavior.image")
             )

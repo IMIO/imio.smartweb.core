@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from imio.smartweb.core.contents.rest.view import BaseRestView
 from imio.smartweb.core.interfaces import IOgpViewUtils
@@ -67,7 +66,7 @@ class EventsViewView(BaseRestView):
         whole_day = data.get("whole_day", False)
         if whole_day:
             formatted_date = start_date_obj.date().strftime("%d/%m/%Y")
-            wd = _(f"Whole day")
+            wd = _("Whole day")
             display_period_text = _(f"{formatted_date} ({wd})")
         else:
             formatted_start = start_date_obj.strftime("%d/%m/%Y %H:%M")
@@ -99,7 +98,6 @@ class EventsViewView(BaseRestView):
         prefix_address = _("Address")
         prefix_email = _("Email")
         prefix_description = _("Description")
-        prefix_category = _("Event category")
         prefix_type = _("Event type")
         event = {
             "name": name,

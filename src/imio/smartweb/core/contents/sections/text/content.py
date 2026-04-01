@@ -2,7 +2,6 @@
 
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
-from imio.smartweb.core.widgets.widget import SuggestedIATitlesFieldWidget
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform import directives
 from zope import schema
