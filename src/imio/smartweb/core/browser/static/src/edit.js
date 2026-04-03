@@ -48,3 +48,26 @@ jQuery(window).on("load", function(e) {
   var smartweb_help = $("#plone-smartweb-help-menu").wrap("<ul class='plonetoolbar-smartweb-help-menu'>").parent();
   $(".personaltools-wrapper").prepend(smartweb_help);
 });
+
+// Show/hide image_scale field based on alignment value (SectionText form)
+document.addEventListener("DOMContentLoaded", function () {
+  const alignmentSelect = document.getElementById("form-widgets-alignment");
+  if (!alignmentSelect) return;
+
+  const imageScaleField = document.getElementById(
+    "formfield-form-widgets-image_scale"
+  );
+  const imageScaleSelect = document.getElementById("form-widgets-image_scale");
+
+  function toggleImageScale() {
+    const show =
+      alignmentSelect.value === "top" || alignmentSelect.value === "bottom";
+    imageScaleField.style.display = show ? "" : "none";
+    if (!show) {
+      imageScaleSelect.value = "section_text";
+    }
+  }
+
+  alignmentSelect.addEventListener("change", toggleImageScale);
+  toggleImageScale();
+});
