@@ -73,7 +73,7 @@ const SearchView = (props) => {
                         <Translate text="Actualités" />
                     </h2>
                     <div className="search-disabled-message">
-                        Recherche impossible car vue actualités supprimée
+                        <Translate text="Recherche impossible car vue actualités supprimée" />
                     </div>
                 </div>
             ),
@@ -95,7 +95,7 @@ const SearchView = (props) => {
                         <Translate text="Événements" />
                     </h2>
                     <div className="search-disabled-message">
-                        Recherche impossible car vue événements supprimée
+                        <Translate text="Recherche impossible car vue événements supprimée" />
                     </div>
                 </div>
             ),
@@ -117,7 +117,7 @@ const SearchView = (props) => {
                         <Translate text="Annuaire" />
                     </h2>
                     <div className="search-disabled-message">
-                        Recherche impossible car vue annuaire supprimée
+                        <Translate text="Recherche impossible car vue annuaire supprimée" />
                     </div>
                 </div>
             ),

@@ -137,7 +137,7 @@ function ContentText({
         }
     }, [item]);
     return !item ? (
-        <div>Aucun projet</div>
+        <div><Translate text="Aucun projet n'a été trouvé" /></div>
     ) : (
         <>
             <article>

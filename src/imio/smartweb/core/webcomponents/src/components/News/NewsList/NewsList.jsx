@@ -42,7 +42,7 @@ const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics, contextAuthent
         const metaUpdates = [
             { name: "description", content: "Actualités" },
             { property: "og:title", content: "Actualités" },
-            { property: "og:description", content: "Actualtés" },
+            { property: "og:description", content: "Actualités" },
             { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
             { property: "og:type", content: "website" },
         ];

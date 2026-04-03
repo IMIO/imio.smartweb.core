@@ -167,9 +167,7 @@ const NewsView = (props) => {
                                                     }
                                                 >
                                                     <span aria-hidden="true">{itemsNumber}</span>
-                                                    {itemsNumber > 1
-                                                        ? " actualités trouvées"
-                                                        : " actualité trouvée"}
+                                                    <Translate text={itemsNumber > 1 ? "Actualités trouvées" : "Actualité trouvée"} />
                                                 </p>
                                             ) : (
                                                 <p

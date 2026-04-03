@@ -210,12 +210,6 @@ export default {
         de: "Veranstaltung vorschlagen",
         nl: "Evenement voorstellen",
     },
-    "Infos pratiques": {
-        en: "Practical information",
-        fr: "Infos pratiques",
-        de: "Praktische Informationen",
-        nl: "Praktische informatie",
-    },
     "Accessible aux PMR": {
         en: "Accessibility for PRM",
         fr: "Accessible aux PMR",
@@ -251,18 +245,6 @@ export default {
         fr: "Proposer un contact",
         de: "Kontakt vorschlagen",
         nl: "Contact voorstellen",
-    },
-    "projets trouvés": {
-        en: " Projects found",
-        fr: " Projets trouvés",
-        de: " Projekte gefunden",
-        nl: " Projecten gevonden",
-    },
-    "projet trouvé": {
-        en: " Project found",
-        fr: " Projet trouvé",
-        de: " Projekt gefunden",
-        nl: " Project gevonden",
     },
     "Aucun projet n'a été trouvé": {
         en: "No project was found",
@@ -491,5 +473,23 @@ export default {
         fr: "Effacer la sélection",
         de: "Auswahl löschen",
         nl: "Selectie wissen",
+    },
+    "Recherche impossible car vue actualités supprimée": {
+        en: "Search unavailable: news view deleted",
+        fr: "Recherche impossible car vue actualités supprimée",
+        de: "Suche nicht möglich: Nachrichtenansicht gelöscht",
+        nl: "Zoeken niet mogelijk: nieuwsweergave verwijderd",
+    },
+    "Recherche impossible car vue événements supprimée": {
+        en: "Search unavailable: events view deleted",
+        fr: "Recherche impossible car vue événements supprimée",
+        de: "Suche nicht möglich: Veranstaltungsansicht gelöscht",
+        nl: "Zoeken niet mogelijk: evenementenweergave verwijderd",
+    },
+    "Recherche impossible car vue annuaire supprimée": {
+        en: "Search unavailable: directory view deleted",
+        fr: "Recherche impossible car vue annuaire supprimée",
+        de: "Suche nicht möglich: Verzeichnisansicht gelöscht",
+        nl: "Zoeken niet mogelijk: adresboekoverzicht verwijderd",
     },
 };

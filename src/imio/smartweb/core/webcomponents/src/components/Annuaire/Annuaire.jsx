@@ -197,7 +197,7 @@ function AnnuaireView(props) {
                                 }
                                 >
                                 <span aria-hidden="true">{contactNumber}</span>
-                                {contactNumber > 1 ? " contacts trouvés" : " contact trouvé"}
+                                <Translate text={contactNumber > 1 ? "contacts trouvés" : "contact trouvé"} />
                             </p>
                         ) : (
                             <p role="status" aria-live="polite" className="r-results-numbers">

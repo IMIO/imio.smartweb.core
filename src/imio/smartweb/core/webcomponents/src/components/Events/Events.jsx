@@ -207,7 +207,7 @@ function EventsView(props) {
                                 }
                             >
                                 <span aria-hidden="true">{itemsNumber}</span>
-                                {itemsNumber > 1 ? " événements trouvés" : " événement trouvé"}
+                                <Translate text={itemsNumber > 1 ? "événements trouvés" : "événement trouvé"} />
                             </p>
                         ) : (
                             <p role="status" aria-live="polite" className="r-results-numbers">
