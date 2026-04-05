@@ -89,7 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!viewportOption) return;
 
   function toggleViewportOption() {
-    const isFullWidth = bootstrapSelect.value === "col-sm-12";
+    const isFullWidth =
+      bootstrapSelect.value === "col-sm-12" ||
+      bootstrapSelect.value === "--NOVALUE--";
     if (!isFullWidth) {
       if (imageScaleSelect.value === "section_text_viewport") {
         imageScaleSelect.value = "section_text";
