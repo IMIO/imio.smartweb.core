@@ -223,13 +223,13 @@ def migrate_old_sizes_from_section_text(context):
         brains = api.content.find(portal_type=["imio.smartweb.SectionText"])
         for brain in brains:
             obj = brain.getObject()
-            old_scale = obj.image_size
+            old_scale = obj.image_scale
             if old_scale in ["affiche", "vignette"]:
                 continue
             new_scale = "affiche"
             if old_scale == "preview":
                 new_scale = "vignette"
-            obj.image_size = new_scale
+            obj.image_scale = new_scale
             logger.info(
                 f"Migrated deprecated scale from {old_scale} to {new_scale} for {obj.absolute_url()}"
             )
