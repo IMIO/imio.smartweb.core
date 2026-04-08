@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "formfield-form-widgets-image_scale",
   );
   const imageScaleSelect = document.getElementById("form-widgets-image_scale");
+  if (!imageScaleField || !imageScaleSelect) return;
 
   function toggleImageScale() {
     const show =
