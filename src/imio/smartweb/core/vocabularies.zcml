@@ -105,6 +105,12 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.SectionTextScale"
+      component=".vocabularies.SectionTextScaleVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.DirectoryViews"
       component=".vocabularies.DirectoryViewsVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
