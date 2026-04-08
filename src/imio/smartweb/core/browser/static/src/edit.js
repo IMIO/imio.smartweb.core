@@ -56,12 +56,11 @@ jQuery(window).on("load", function (e) {
 document.addEventListener("DOMContentLoaded", function () {
   const alignmentSelect = document.getElementById("form-widgets-alignment");
   if (!alignmentSelect) return;
-
   const imageScaleField = document.getElementById(
     "formfield-form-widgets-image_scale",
   );
   const imageScaleSelect = document.getElementById("form-widgets-image_scale");
-
+  if (!imageScaleField || !imageScaleSelect) return;
   function toggleImageScale() {
     const show =
       alignmentSelect.value === "top" || alignmentSelect.value === "bottom";
