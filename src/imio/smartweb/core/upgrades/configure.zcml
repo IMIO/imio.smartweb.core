@@ -1200,6 +1200,10 @@
         title="WEB-4320: Add section_text image scales and image_scale field to SectionText"
         import_profile="imio.smartweb.core.upgrades:upgrade_1078_to_1079"
         />
+    <genericsetup:upgradeStep
+        title="WEB-4320: Migrate SectionText image_size to image_scale"
+        handler=".upgrades.migrate_section_text_image_scale"
+        />
   </genericsetup:upgradeSteps>
 
 </configure>
