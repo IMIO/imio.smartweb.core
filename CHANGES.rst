@@ -5,7 +5,11 @@ Changelog
 1.4.40 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add possibility to set a custom scale for section text lead image
+  [thomlamb]
+
+- Add possibility to set title alignment to align with section text
+  [thomlamb]
 
 
 1.4.39 (2026-03-31)
