@@ -5,6 +5,12 @@ Changelog
 1.4.40 (unreleased)
 -------------------
 
+- Add possibility to set a custom scale for section text lead image
+  [thomlamb]
+
+- Add possibility to set center title in page
+  [thomlamb]
+
 - WEB-4353 : Align React view with Europe/Brussels timezone for agenda
   [boulch]
 
