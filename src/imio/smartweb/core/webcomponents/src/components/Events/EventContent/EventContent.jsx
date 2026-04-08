@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useRef } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
-import moment from "moment";
+import moment from "moment-timezone";
 import ReactMarkdown from "react-markdown";
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
@@ -47,9 +47,8 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
             // set recurrence
             if (response.items.length > 1) {
                 response.items.map((item, i) => {
-                    const currentDate = new Date();
-                    const itemDate = new Date(item.start);
-                    if (itemDate >= currentDate) {
+                    const itemDate = moment.tz(item.start, "Europe/Brussels");
+                    if (itemDate.isSameOrAfter(moment.tz("Europe/Brussels"))) {
                         setRecurence((prevRecurrence) => [...prevRecurrence, item.start]);
                     }
                 });
@@ -162,10 +161,10 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
 
     //  moment
     moment.locale("be");
-    const start = moment.utc(item.start).format("DD-MM-YYYY");
-    const end = moment.utc(item.end).format("DD-MM-YYYY");
-    const startHours = moment.utc(item.start).format("LT");
-    const endHours = moment.utc(item.end).format("LT");
+    const start = moment.tz(item.start, "Europe/Brussels").format("DD-MM-YYYY");
+    const end = moment.tz(item.end, "Europe/Brussels").format("DD-MM-YYYY");
+    const startHours = moment.tz(item.start, "Europe/Brussels").format("LT");
+    const endHours = moment.tz(item.end, "Europe/Brussels").format("LT");
 
     // Trouver la date la plus proche dans le futur
     const now = moment();
@@ -426,7 +425,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                                 {futureDates.map((date, i) => {
                                                     return (
                                                         <li key={i}>
-                                                            {moment(date).format("DD-MM-YYYY")}
+                                                            {moment.tz(date, "Europe/Brussels").format("DD-MM-YYYY")}
                                                         </li>
                                                     );
                                                 })}

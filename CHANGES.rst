@@ -5,7 +5,8 @@ Changelog
 1.4.40 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4353 : Align React view with Europe/Brussels timezone for agenda
+  [boulch]
 
 
 1.4.39 (2026-03-31)

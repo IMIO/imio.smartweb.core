@@ -61,6 +61,7 @@
         "leaflet": "^1.9.4",
         "lodash": "^4.17.21",
         "moment": "^2.30.1",
+        "moment-timezone": "^0.6.1",
         "query-string": "^9.0.0",
         "react": "^18.2.0",
         "react-bootstrap": "^2.10.2",

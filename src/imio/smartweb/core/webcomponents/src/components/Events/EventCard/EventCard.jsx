@@ -1,12 +1,12 @@
 import React from "react";
-import moment from "moment";
+import moment from "moment-timezone";
 import { Translate } from "react-translated";
 
 const ContactCard = ({ item, showCategoriesOrTopics, contextAuthenticatedUser }) => {
     moment.locale("be");
     const title = item.title && item.title;
-    const start = moment.utc(item.start).format("DD-MM-YYYY");
-    const end = moment.utc(item.end).format("DD-MM-YYYY");
+    const start = moment.tz(item.start, "Europe/Brussels").format("DD-MM-YYYY");
+    const end = moment.tz(item.end, "Europe/Brussels").format("DD-MM-YYYY");
     return (
         <>
             {contextAuthenticatedUser === "False" ? (
