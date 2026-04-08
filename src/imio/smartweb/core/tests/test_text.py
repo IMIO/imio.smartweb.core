@@ -117,7 +117,12 @@ class TestText(ImioSmartwebTestCase):
         section.image_scale = "section_text_container"
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<div class="body-section figure-right figure-section_text_container "',
+            '<div class="body-section figure-right figure-section_text "',
             view(),
         )
+        self.assertIn("@@images/image-760-", view())
+        # scale-specific rendering should be asserted with top/bottom alignment
+        section.alignment = "top"
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn("figure-section_text_container", view())
         self.assertIn("@@images/image-1296-", view())
