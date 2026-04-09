@@ -145,10 +145,10 @@
         <div class="schedule"
              tal:condition="python:'schedule' in visible_blocks and not contact.is_empty_schedule()">
 
-          <h2 class="schedule"
+          <h2 class="schedule-title"
               tal:condition="not: show_main_title"
               i18n:translate="">Schedule</h2>
-          <h3 class="schedule"
+          <h3 class="schedule-title"
               tal:condition="show_main_title"
               i18n:translate="">Schedule</h3>
 
