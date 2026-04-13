@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.40 (unreleased)
+1.4.40 (2026-04-13)
 -------------------
 
 - Add possibility to set a custom scale for section text lead image
