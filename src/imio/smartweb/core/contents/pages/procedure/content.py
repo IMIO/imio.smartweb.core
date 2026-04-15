@@ -5,6 +5,7 @@ from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import Pages
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.supermodel import model
 from zope import schema
 from zope.interface import implementer
 from zope.interface import Invalid
@@ -13,8 +14,15 @@ from zope.interface import provider
 
 
 @provider(IFormFieldProvider)
-class IProcedure(IPages):
+class IProcedure(IPages, model.Schema):
     """ """
+
+    model.fieldset("layout", label=_("Layout"), fields=["text_align_container"])
+    text_align_container = schema.Bool(
+        title=_("Align title with text"),
+        required=False,
+        default=False,
+    )
 
     procedure_ts = schema.Choice(
         vocabulary="imio.smartweb.vocabulary.PublikProcedures",
