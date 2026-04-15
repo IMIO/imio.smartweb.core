@@ -145,6 +145,11 @@ def get_scale_url(context, request, fieldname, scale_name, orientation=""):
     scale_name = "_".join(filter(None, [orientation, scale_name]))
     if IDexterityContent.providedBy(context):
         # get scale url on an object
+        image_field = getattr(context, fieldname, None)
+        if image_field and getattr(image_field, "contentType", "") == "image/svg+xml":
+            # SVG images cannot be scaled by PIL — return the original file URL
+            modified_hash = hash_md5(context.ModificationDate())
+            return f"{context.absolute_url()}/@@images/{fieldname}?cache_key={modified_hash}"
         if not scale_name:
             # return the full image
             modified_hash = hash_md5(context.ModificationDate())

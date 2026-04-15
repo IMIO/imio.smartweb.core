@@ -121,3 +121,11 @@ class TestText(ImioSmartwebTestCase):
             view(),
         )
         self.assertIn("@@images/image-1296-", view())
+
+        # SVG images must not be scaled (PIL cannot process them)
+        section.image = NamedBlobImage(**make_named_image("plone.svg"))
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        rendered = view()
+        self.assertIn("<figure", rendered)
+        self.assertIn("@@images/image?cache_key=", rendered)
+        self.assertNotIn("@@images/image-", rendered)

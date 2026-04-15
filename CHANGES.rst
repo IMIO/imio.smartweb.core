@@ -5,7 +5,8 @@ Changelog
 1.4.41 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix a bug in section text when we have a lead image in svg, the image was not displayed because we were looking for a specific scale that is not generated for svg images.
+  [thomlamb]
 
 
 1.4.40 (2026-04-13)
