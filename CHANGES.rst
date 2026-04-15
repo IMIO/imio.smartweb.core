@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.41 (unreleased)
+1.4.41 (2026-04-15)
 -------------------
 
 - Fix a bug in section text when we have a lead image in svg, the image was not displayed because we were looking for a specific scale that is not generated for svg images.
