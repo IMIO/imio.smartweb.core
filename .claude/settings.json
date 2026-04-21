@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(python:*)",
+      "Bash(echo TZ=$TZ:*)",
+      "Bash(sort -k4 -n)",
+      "Bash(sort:*)",
+      "Bash(TZ=UTC bin/python3:*)",
+      "Bash(TZ=UTC bin/python:*)",
+      "Bash(wait 701357:*)",
+      "Bash(jobs:*)",
+      "Bash(TZ=UTC bin/test-coverage:*)",
+      "Bash(bin/python:*)",
+      "Bash(PYTHONPATH=/home/cboulanger/iasmartweb/buildout.smartweb/src/imio.smartweb.core/src /home/cboulanger/iasmartweb/buildout.smartweb/src/imio.smartweb.core/bin/python3.12:*)",
+      "Bash(xargs -I{} basename {})"
+    ]
+  }
+}
