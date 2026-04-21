@@ -1,6 +1,6 @@
 ---
 name: bandit-scan
-description: Use when the user asks to run a Bandit security scan on a Python package, audit a Python codebase for security issues, or review/triage Bandit findings. Runs Bandit with the package's bandit.yaml, triages findings by severity, proposes remediations, and verifies tests still pass.
+description: Use when the user asks to run a Bandit security scan on a Python package, audit a Python codebase for security issues, or review/triage Bandit findings. Triages findings by severity, proposes remediations, and verifies tests still pass.
 ---
 
 # Bandit security scan
@@ -23,15 +23,34 @@ bandit --version
 
 ## Step 2 — Locate the Bandit config and source root
 
-Find the Bandit config file:
+Bandit reads configuration from several sources. Probe them in this order:
 
 ```bash
-# From the project or package root
+# 1. Explicit YAML config files (passed via -c)
 ls bandit.yaml .bandit.yaml 2>/dev/null
+
+# 2. INI-style .bandit file (passed via --ini)
+ls .bandit 2>/dev/null
+
+# 3. setup.cfg with [bandit] section (auto-read by Bandit)
+grep -l '\[bandit\]' setup.cfg 2>/dev/null
+
+# 4. pyproject.toml with [tool.bandit] section (auto-read by Bandit)
+grep -l 'tool\.bandit' pyproject.toml 2>/dev/null
 ```
 
-If none is found, ask the user where the config lives (or whether to run without
-a config file, using Bandit defaults).
+**Config precedence and flags:**
+
+| Config file | CLI flag | Auto-discovered? |
+|---|---|---|
+| `bandit.yaml` / `.bandit.yaml` | `-c <file>` | No — must pass explicitly |
+| `.bandit` (INI format) | `--ini <file>` | No — must pass explicitly |
+| `setup.cfg` `[bandit]` | — | Yes — Bandit reads automatically |
+| `pyproject.toml` `[tool.bandit]` | — | Yes — Bandit reads automatically |
+| None found | — | Run with Bandit defaults |
+
+If multiple configs exist, tell the user which one(s) were found and which will be used.
+If none is found, ask the user whether to run with Bandit defaults or provide a config path.
 
 Determine the source root to scan. Common layouts:
 
@@ -43,10 +62,20 @@ unless asked — it pulls in vendored dependencies, build artifacts, and tests.
 
 ## Step 3 — Run Bandit
 
-Run from the directory containing `bandit.yaml`:
+Run from the project root. Choose the command based on what config was found in Step 2:
 
 ```bash
+# With an explicit YAML config (-c):
 bandit -r <source-root> -c bandit.yaml -f json -o /tmp/bandit-report.json
+
+# With an INI .bandit file (--ini):
+bandit -r <source-root> --ini .bandit -f json -o /tmp/bandit-report.json
+
+# With setup.cfg [bandit] or pyproject.toml [tool.bandit] (auto-read, no extra flag):
+bandit -r <source-root> -f json -o /tmp/bandit-report.json
+
+# With no config (Bandit defaults):
+bandit -r <source-root> -f json -o /tmp/bandit-report.json
 ```
 
 Then read `/tmp/bandit-report.json`. If Bandit exits non-zero for reasons other than
