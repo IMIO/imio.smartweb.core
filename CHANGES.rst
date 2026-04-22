@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.42 (unreleased)
+1.4.42 (2026-04-22)
 -------------------
 
 - SUP-52025 : Ensure we retrieve all imio.news.NewsFolder from entity
