@@ -15,6 +15,7 @@ from zope.annotation.interfaces import IAnnotations
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
 from zope.intid.interfaces import IIntIds
+from zope.schema.interfaces import IVocabularyFactory
 
 import json
 import requests_mock
@@ -148,3 +149,42 @@ class TestSectionEvents(ImioSmartwebTestCase):
         self.assertEqual(events_view.items[0][0]["category"], "Education")
         self.events.show_categories_or_topics = ""
         self.assertEqual(events_view.items[0][0]["category"], "")
+
+    def test_linking_rest_view_vocabulary_is_site_wide(self):
+        # Regression: a SectionEvents inside a minisite (INavigationRoot) must
+        # accept a linking_rest_view pointing to an EventsView located outside
+        # the minisite. With the navigation-root-scoped Catalog vocabulary
+        # that was used before, validation raised ConstraintNotSatisfied.
+        from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
+        from zope.interface import alsoProvides
+
+        minisite = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Folder",
+            id="minisite",
+        )
+        alsoProvides(minisite, IImioSmartwebMinisite)
+        page = api.content.create(
+            container=minisite,
+            type="imio.smartweb.PortalPage",
+            id="home",
+        )
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionEvents",
+            title="Section in minisite",
+        )
+
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.EventsViewsSite"
+        )
+        vocabulary = factory(section)
+        self.assertIn(api.content.get_uuid(self.rest_events_view), vocabulary)
+
+
+# <audit>
+#   <file>test_section_events.py</file>
+#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
+#   <deviations>None</deviations>
+#   <questions>None</questions>
+# </audit>

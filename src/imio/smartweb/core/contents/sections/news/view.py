@@ -23,7 +23,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
         entity_uid = data.get("items")[0].get("UID")
         url_to_get_news_folders = (
             f"{data.get('items')[0].get('@id')}"
-            f"/@search_newsfolder_for_entity?portal_type=imio.news.NewsFolder&metadata_fields=UID&entity_uid={entity_uid}"
+            f"/@search_newsfolder_for_entity?portal_type=imio.news.NewsFolder&metadata_fields=UID&entity_uid={entity_uid}&b_start=0&b_size=300"
         )
         data = get_json(url_to_get_news_folders)
         uids = [item["UID"] for item in data["items"]]

@@ -48,7 +48,7 @@ class ISectionNews(ISection):
     directives.widget(
         "linking_rest_view",
         ContentBrowserFieldWidget,
-        vocabulary="plone.app.vocabularies.Catalog",
+        vocabulary="imio.smartweb.vocabulary.NewsViewsSite",
         pattern_options={
             "selectableTypes": ["imio.smartweb.NewsView"],
             "favorites": [],
@@ -56,7 +56,7 @@ class ISectionNews(ISection):
     )
     linking_rest_view = RelationChoice(
         title=_("News view used to display news items details"),
-        vocabulary="plone.app.vocabularies.Catalog",
+        vocabulary="imio.smartweb.vocabulary.NewsViewsSite",
         required=True,
     )
 

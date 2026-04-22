@@ -22,6 +22,7 @@ from imio.smartweb.core.utils import get_wca_token
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.interfaces import ICollection
+from plone.app.vocabularies.catalog import StaticCatalogVocabulary
 from plone.app.vocabularies.types import ReallyUserFriendlyTypesVocabulary
 from plone.dexterity.interfaces import IDexterityContent
 from plone.memoize import ram
@@ -480,6 +481,26 @@ class NewsViewsVocabularyFactory(object):
 
 
 NewsViewsVocabulary = NewsViewsVocabularyFactory()
+
+
+class NewsViewsSiteVocabularyFactory(object):
+    # Site-wide lookup, no navigation-root path filter.
+    # Needed so a SectionNews inside a minisite (INavigationRoot) can
+    # reference a NewsView located outside the minisite.
+    def __call__(self, context=None):
+        return StaticCatalogVocabulary({"portal_type": "imio.smartweb.NewsView"})
+
+
+NewsViewsSiteVocabulary = NewsViewsSiteVocabularyFactory()
+
+
+class EventsViewsSiteVocabularyFactory(object):
+    # See NewsViewsSiteVocabularyFactory.
+    def __call__(self, context=None):
+        return StaticCatalogVocabulary({"portal_type": "imio.smartweb.EventsView"})
+
+
+EventsViewsSiteVocabulary = EventsViewsSiteVocabularyFactory()
 
 
 class CategoryAndTopicsVocabularyFactory:

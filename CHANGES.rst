@@ -5,7 +5,8 @@ Changelog
 1.4.42 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-52025 : Ensure we retrieve all imio.news.NewsFolder from entity
+  [boulch]
 
 
 1.4.41 (2026-04-15)
