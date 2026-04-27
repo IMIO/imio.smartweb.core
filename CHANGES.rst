@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.43 (unreleased)
+1.4.43 (2026-04-27)
 -------------------
 
 - WEB-4422: Add smartweb_url to POST response so IA.Citizen can redirect after content creation
