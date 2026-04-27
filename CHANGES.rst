@@ -5,7 +5,8 @@ Changelog
 1.4.43 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4422: Add smartweb_url to POST response so IA.Citizen can redirect after content creation
+  [boulch]
 
 
 1.4.42 (2026-04-22)

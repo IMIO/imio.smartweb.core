@@ -5,6 +5,8 @@ from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
 from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
+from plone import api
+from plone.i18n.normalizer import idnormalizer
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
@@ -33,6 +35,19 @@ class BaseRequestForwarder(Service):
         auth_source_url = f"{self.base_url}/{url}"
         response = self.forward_request(auth_source_url)
         response = self.add_smartweb_urls(response)
+        if self.request.method == "POST" and isinstance(response, dict):
+            response = self.enrich_response(response)
+        return response
+
+    def enrich_response(self, response):
+        uid = response.get("UID")
+        if not uid:
+            return response
+        lang = api.portal.get_current_language(context=self.context)
+        title = response.get(f"title_{lang}") or response.get("title", "")
+        slug = idnormalizer.normalize(title, locale=lang)
+        view_url = get_default_view_url(self.request_type)
+        response["smartweb_url"] = f"{view_url}/{slug}?u={uid}"
         return response
 
     def publishTraverse(self, request, name):
@@ -135,6 +150,9 @@ class DirectoryRequestForwarder(BaseRequestForwarder):
     client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
     base_url = DIRECTORY_URL
 
+    def enrich_response(self, response):
+        return super(DirectoryRequestForwarder, self).enrich_response(response)
+
 
 class EventsRequestForwarder(BaseRequestForwarder):
     request_type = "events"
@@ -142,9 +160,15 @@ class EventsRequestForwarder(BaseRequestForwarder):
     client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
     base_url = EVENTS_URL
 
+    def enrich_response(self, response):
+        return super(EventsRequestForwarder, self).enrich_response(response)
+
 
 class NewsRequestForwarder(BaseRequestForwarder):
     request_type = "news"
     client_id = os.environ.get("RESTAPI_NEWS_CLIENT_ID")
     client_secret = os.environ.get("RESTAPI_NEWS_CLIENT_SECRET")
     base_url = NEWS_URL
+
+    def enrich_response(self, response):
+        return super(NewsRequestForwarder, self).enrich_response(response)

@@ -728,3 +728,77 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(
             self.api_session.get("/@news_request_forwarder/foo/bar").text, ""
         )
+
+    @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
+    def test_enrich_response(self, mock_view_url, mock_request):
+        mock_view_url.return_value = "http://view-url"
+        self.request._auth = "Bearer kamoulox"
+
+        # POST with UID + localized title → smartweb_url uses slugified localized title
+        fake = FakeResponse(status_code=201, headers={})
+        fake.text = json.dumps(
+            {
+                "@id": "https://events.example.be/belleville/citoyens/abc123",
+                "UID": "abc123",
+                "id": "abc123",
+                "title": "My Event",
+                "title_en": "My English Event",
+            }
+        )
+        mock_request.return_value = fake
+        service = self.traverse(
+            "/plone/@events_request_forwarder/belleville/", method="POST"
+        )
+        response = service.reply()
+        self.assertEqual(
+            response["smartweb_url"], "http://view-url/my-english-event?u=abc123"
+        )
+
+        # localized title is null → falls back to title field
+        fake2 = FakeResponse(status_code=201, headers={})
+        fake2.text = json.dumps(
+            {
+                "@id": "https://events.example.be/belleville/citoyens/def456",
+                "UID": "def456",
+                "id": "def456",
+                "title": "Fallback Title",
+                "title_en": None,
+            }
+        )
+        mock_request.return_value = fake2
+        service = self.traverse(
+            "/plone/@events_request_forwarder/belleville/", method="POST"
+        )
+        response = service.reply()
+        self.assertEqual(
+            response["smartweb_url"], "http://view-url/fallback-title?u=def456"
+        )
+
+        # no UID in response → enrich_response returns early, no smartweb_url added
+        fake3 = FakeResponse(status_code=201, headers={})
+        fake3.text = json.dumps({"title": "No UID Response"})
+        mock_request.return_value = fake3
+        service = self.traverse(
+            "/plone/@events_request_forwarder/belleville/", method="POST"
+        )
+        response = service.reply()
+        self.assertNotIn("smartweb_url", response)
+
+        # GET → enrich_response not called; smartweb_url set by add_smartweb_urls using id
+        fake4 = FakeResponse(status_code=200, headers={})
+        fake4.text = json.dumps(
+            {
+                "@id": "https://events.example.be/belleville/citoyens/ghi789",
+                "UID": "ghi789",
+                "id": "my-event-id",
+                "title": "Some Event",
+                "title_en": "Some English Event",
+            }
+        )
+        mock_request.return_value = fake4
+        service = self.traverse("/plone/@events_request_forwarder/belleville/@search")
+        response = service.reply()
+        self.assertEqual(
+            response["smartweb_url"], "http://view-url/my-event-id?u=ghi789"
+        )
