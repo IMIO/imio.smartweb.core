@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.44 (unreleased)
+1.4.44 (2026-04-28)
 -------------------
 
 - SUP-52828 : Normalize naive start/end dates to Europe/Brussels timezone for event creation
