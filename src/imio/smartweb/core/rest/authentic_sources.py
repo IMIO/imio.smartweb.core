@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
 from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
@@ -10,6 +11,7 @@ from plone.i18n.normalizer import idnormalizer
 from plone.protect.interfaces import IDisableCSRFProtection
 from plone.restapi.deserializer import json_body
 from plone.restapi.services import Service
+from zoneinfo import ZoneInfo
 from zope.interface import alsoProvides
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
@@ -17,6 +19,8 @@ from zope.publisher.interfaces import IPublishTraverse
 import logging
 import os
 import requests
+
+_BRUSSELS_TZ = ZoneInfo("Europe/Brussels")
 
 logger = logging.getLogger("imio.smartweb.core")
 
@@ -40,6 +44,9 @@ class BaseRequestForwarder(Service):
             logger.info("======== FULL Response =========")
             logger.info(response)
         return response
+
+    def prepare_data(self, data):
+        return data
 
     def enrich_response(self, response):
         uid = response.get("UID")
@@ -88,7 +95,7 @@ class BaseRequestForwarder(Service):
         params = self.request.form
         if method == "GET":
             params = self.add_missing_metadatas(params)
-        data = json_body(self.request)
+        data = self.prepare_data(json_body(self.request))
 
         # Forward the request to the authentic source
         try:
@@ -157,6 +164,31 @@ class EventsRequestForwarder(BaseRequestForwarder):
     client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
     client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
     base_url = EVENTS_URL
+
+    _DATE_FORMATS = (
+        "%Y-%m-%dT%H:%M:%S",
+        "%Y-%m-%d %H:%M:%S",
+        "%Y-%m-%dT%H:%M",
+        "%Y-%m-%d %H:%M",
+        "%Y-%m-%d",
+    )
+
+    def _localize_to_brussels(self, value):
+        if not value or not isinstance(value, str):
+            return value
+        for fmt in self._DATE_FORMATS:
+            try:
+                dt = datetime.strptime(value, fmt)
+                return dt.replace(tzinfo=_BRUSSELS_TZ).isoformat()
+            except ValueError:
+                continue
+        return value
+
+    def prepare_data(self, data):
+        for field in ("start", "end"):
+            if data.get(field):
+                data[field] = self._localize_to_brussels(data[field])
+        return data
 
     def enrich_response(self, response):
         return super(EventsRequestForwarder, self).enrich_response(response)

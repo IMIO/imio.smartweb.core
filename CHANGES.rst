@@ -5,6 +5,9 @@ Changelog
 1.4.44 (unreleased)
 -------------------
 
+- SUP-52828 : Normalize naive start/end dates to Europe/Brussels timezone for event creation
+  [boulch]
+
 - WEB-4422: Refactoring, remove some useless method, adapt tests
   [boulch]
 
