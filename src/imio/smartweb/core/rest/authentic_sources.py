@@ -34,9 +34,11 @@ class BaseRequestForwarder(Service):
             url = url.replace("@search", "@events")
         auth_source_url = f"{self.base_url}/{url}"
         response = self.forward_request(auth_source_url)
-        response = self.add_smartweb_urls(response)
-        if self.request.method == "POST" and isinstance(response, dict):
+        if isinstance(response, dict):
             response = self.enrich_response(response)
+        if is_log_active():
+            logger.info("======== FULL Response =========")
+            logger.info(response)
         return response
 
     def enrich_response(self, response):
@@ -44,8 +46,11 @@ class BaseRequestForwarder(Service):
         if not uid:
             return response
         lang = api.portal.get_current_language(context=self.context)
-        title = response.get(f"title_{lang}") or response.get("title", "")
-        slug = idnormalizer.normalize(title, locale=lang)
+        title = response.get(f"title_{lang}") or response.get("title")
+        if title:
+            slug = idnormalizer.normalize(title, locale=lang)
+        else:
+            slug = response.get("id", "content")
         view_url = get_default_view_url(self.request_type)
         response["smartweb_url"] = f"{view_url}/{slug}?u={uid}"
         return response
@@ -86,9 +91,14 @@ class BaseRequestForwarder(Service):
         data = json_body(self.request)
 
         # Forward the request to the authentic source
-        auth_source_response = requests.request(
-            method, url, params=params, headers=headers, json=data
-        )
+        try:
+            auth_source_response = requests.request(
+                method, url, params=params, headers=headers, json=data, timeout=30
+            )
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Authentic source unreachable at {url}: {e}")
+            self.request.response.setStatus(503)
+            return ""
         response = self.request.response
         # Set the status code and headers from the authentic source server response
         response.setStatus(auth_source_response.status_code)
@@ -104,32 +114,20 @@ class BaseRequestForwarder(Service):
             # Empty response
             return ""
         if is_log_active():
-            logger.info("======== Response from AUTHENTIC SOURCE =========")
+            logger.info("======== Status code & header from AUTHENTIC SOURCE =========")
             logger.info(f"status code : {auth_source_response.status_code}")
             for key, value in auth_source_response.headers.items():
                 logger.info(f"header : {key} = {value}")
-            logger.info(f"response text : {auth_source_response.text}")
-        return auth_source_response.json()
-
-    def construct_url(self, view_url, item):
-        # we can construct a Smartweb-related URL for item
-        # TODO: handle other views & translations (use/refactor code in
-        # search endpoint)
-        item_uid = item["UID"]
-        item_id = item.get("id", "content")
-        item["smartweb_url"] = f"{view_url}/{item_id}?u={item_uid}"
-
-    def add_smartweb_urls(self, json_data):
-        if "items" not in json_data and "@id" not in json_data:
-            return json_data
-        default_view_url = get_default_view_url(self.request_type)
-        if "@id" in json_data and "UID" in json_data:
-            self.construct_url(default_view_url, json_data)
-            return json_data
-        for item in json_data.get("items", []):
-            if "@id" in item and "UID" in item:
-                self.construct_url(default_view_url, item)
-        return json_data
+        try:
+            return auth_source_response.json()
+        except ValueError:
+            logger.error(
+                f"Non-JSON response from authentic source {url} "
+                f"(status {auth_source_response.status_code}): "
+                f"{auth_source_response.text[:200]}"
+            )
+            self.request.response.setStatus(502)
+            return ""
 
     def add_missing_metadatas(self, params):
         if "fullobjects" in params:

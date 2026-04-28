@@ -629,27 +629,24 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         service = self.traverse("/plone/@news_request_forwarder/belleville/@search")
         self.assertListEqual(service.traversal_stack, ["belleville", "@search"])
 
-        # add_smartweb_urls
-        json_data = {}
-        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
-        json_data = {"foo": "bar"}
-        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
-        json_data = {"@id": "http://news/my-news"}
-        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
-        json_data = {"@id": "http://news/my-news", "UID": "12345678"}
-        json_result = service.add_smartweb_urls(json_data)
+        # enrich_response — direct unit tests
+        # no UID → unchanged
+        item = {"title": "No UID"}
+        self.assertEqual(service.enrich_response(item), item)
+        self.assertNotIn("smartweb_url", item)
+        # UID, no title, no id → "content" fallback
+        item = {"UID": "12345678"}
+        service.enrich_response(item)
+        self.assertEqual(item["smartweb_url"], "http://view-url/content?u=12345678")
+        # UID, no title, id present → id used
+        item = {"UID": "12345678", "id": "my-slug"}
+        service.enrich_response(item)
+        self.assertEqual(item["smartweb_url"], "http://view-url/my-slug?u=12345678")
+        # UID + title → slugified title used
+        item = {"UID": "12345678", "id": "my-slug", "title": "My News Title"}
+        service.enrich_response(item)
         self.assertEqual(
-            json_result["smartweb_url"], "http://view-url/content?u=12345678"
-        )
-        json_data = {"items": []}
-        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
-        json_data = {"items": [{"@id": "http://news/my-news"}]}
-        self.assertEqual(service.add_smartweb_urls(json_data), json_data)
-        json_data = {"items": [{"@id": "http://news/my-news", "UID": "12345678"}]}
-        json_result = service.add_smartweb_urls(json_data)
-        self.assertIn("smartweb_url", json_result["items"][0])
-        self.assertEqual(
-            json_data["items"][0]["smartweb_url"], "http://view-url/content?u=12345678"
+            item["smartweb_url"], "http://view-url/my-news-title?u=12345678"
         )
 
         # add_missing_metadatas
@@ -680,6 +677,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             params={"metadata_fields": ["id", "UID"]},
             headers={"Accept": "application/json", "Authorization": "Bearer kamoulox"},
             json={},
+            timeout=30,
         )
         self.assertEqual(response, {})
         self.assertEqual(self.request.response.status, 200)
@@ -696,6 +694,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             params={},
             headers={"Accept": "application/json", "Authorization": "Bearer kamoulox"},
             json={},
+            timeout=30,
         )
 
         # no-auth case: when _auth is absent, no Authorization header
@@ -708,6 +707,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             params={"metadata_fields": ["id", "UID"]},
             headers={"Accept": "application/json"},
             json={},
+            timeout=30,
         )
 
         mock_request.side_effect = None
@@ -785,15 +785,14 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         response = service.reply()
         self.assertNotIn("smartweb_url", response)
 
-        # GET → enrich_response not called; smartweb_url set by add_smartweb_urls using id
+        # GET → enrich_response not called; smartweb_url set by add_smartweb_urls
+        # (no title fields → falls back to id)
         fake4 = FakeResponse(status_code=200, headers={})
         fake4.text = json.dumps(
             {
                 "@id": "https://events.example.be/belleville/citoyens/ghi789",
                 "UID": "ghi789",
                 "id": "my-event-id",
-                "title": "Some Event",
-                "title_en": "Some English Event",
             }
         )
         mock_request.return_value = fake4

@@ -5,7 +5,8 @@ Changelog
 1.4.44 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4422: Refactoring, remove some useless method, adapt tests
+  [boulch]
 
 
 1.4.43 (2026-04-27)
