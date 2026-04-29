@@ -5,7 +5,8 @@ Changelog
 1.4.45 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4414: Fix ProcedureViewlet crashing when procedure_ts token is no longer in vocabulary
+  [remdub]
 
 
 1.4.44 (2026-04-28)

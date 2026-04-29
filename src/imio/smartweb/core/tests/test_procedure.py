@@ -224,6 +224,14 @@ class TestProcedureViewletMethods(ImioSmartwebTestCase):
         self.assertIsNotNone(term)
         self.assertIn("Acte de d\\u00e9c\\u00e8s", term.title)
 
+    @requests_mock.Mocker()
+    def test_get_selected_procedure_title_none_when_unknown_token(self, m):
+        url = f"{WCS_URL}formdefs/"
+        m.get(url, text=json.dumps(self.json_procedures_raw_mock))
+        self.procedure.procedure_ts = "https://nonexistent-procedure.be/unknown/"
+        viewlet = self._make_viewlet()
+        self.assertIsNone(viewlet.get_selected_procedure_title())
+
     # --- is_anonymous ---
 
     def test_is_anonymous_returns_false_when_authenticated(self):
