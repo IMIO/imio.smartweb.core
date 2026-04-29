@@ -13,7 +13,10 @@ class ProcedureViewlet(common.ViewletBase):
             IVocabularyFactory, "imio.smartweb.vocabulary.PublikProcedures"
         )
         vocabulary = factory()
-        term = vocabulary.getTerm(self.context.procedure_ts)
+        try:
+            term = vocabulary.getTerm(self.context.procedure_ts)
+        except LookupError:
+            return None
         return term
 
     @property
