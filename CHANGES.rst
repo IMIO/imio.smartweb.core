@@ -5,6 +5,9 @@ Changelog
 1.4.45 (unreleased)
 -------------------
 
+- Fix IndexError on EventsView/NewsView/DirectoryView when direct_access UUID points to a missing or unpublished item: return None instead of crashing the page render
+  [boulch]
+
 - WEB-4414: Fix ProcedureViewlet crashing when procedure_ts token is no longer in vocabulary
   [remdub]
 

@@ -74,8 +74,10 @@ class BaseRestView(BrowserView):
 
     @property
     def item(self):
-        item = self._item.get("items", [])[0] if self._item else None
-        return item
+        if not self._item:
+            return None
+        items = self._item.get("items", [])
+        return items[0] if items else None
 
     def _format_address(
         self, street=None, number=None, zipcode=None, city=None, country=None

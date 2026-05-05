@@ -131,6 +131,19 @@ class TestBaseRestView(ImioSmartwebTestCase):
         view = self._get_view()
         self.assertFalse(view.direct_access)
 
+    @requests_mock.Mocker()
+    def test_item_returns_none_when_remote_items_empty(self, m):
+        # Remote source returns no items (event removed/unpublished or
+        # invalid UUID): view.item must return None instead of raising
+        # IndexError.
+        uuid = "missing-uuid"
+        self.request.environ["QUERY_STRING"] = f"u={uuid}"
+        self.request.environ["HTTP_REFERER"] = ""
+        m.get(requests_mock.ANY, json={"items": [], "items_total": 0})
+        view = self._get_view()
+        self.assertTrue(view.direct_access)
+        self.assertIsNone(view.item)
+
 
 class TestSeoHiddenReactLinks(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
