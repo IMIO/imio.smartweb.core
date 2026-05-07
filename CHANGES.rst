@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.45 (unreleased)
+1.4.45 (2026-05-07)
 -------------------
 
 - WEB-4418: Filter search results by published state for contacts, events and news in smartweb-search webcomponent
