@@ -14,7 +14,7 @@ const EventsResult = (props) => {
         {
             method: "get",
             url: "",
-            baseURL: props.url + "/@search?&_core=events&b_size=100", //props.queryUrl*/,
+            baseURL: props.url + "/@search?&_core=events&b_size=100&review_state=published", //props.queryUrl*/,
             headers: {
                 Accept: "application/json",
             },

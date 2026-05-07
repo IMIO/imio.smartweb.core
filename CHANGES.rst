@@ -5,6 +5,9 @@ Changelog
 1.4.45 (unreleased)
 -------------------
 
+- WEB-4418: Filter search results by published state for contacts, events and news in smartweb-search webcomponent
+  [remdub]
+
 - Fix IndexError on EventsView/NewsView/DirectoryView when direct_access UUID points to a missing or unpublished item: return None instead of crashing the page render
   [boulch]
 

@@ -18,7 +18,7 @@ const ContactResult = (props) => {
             url: "",
             baseURL:
                 props.url +
-                "/@search?&_core=directory&b_size=100&metadata_fields=taxonomy_contact_category",
+                "/@search?&_core=directory&b_size=100&metadata_fields=taxonomy_contact_category&review_state=published",
             headers: {
                 Accept: "application/json",
             },
@@ -29,7 +29,7 @@ const ContactResult = (props) => {
         },
         [props]
     );
-    
+
     useEffect(() => {
         if (props.url) {
             axios
