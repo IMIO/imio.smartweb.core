@@ -141,11 +141,10 @@ module.exports = (env, argv) => {
             watchFiles: {
                 paths: ["./../**/*.pt"], // Also watch for .pt file change
             },
-            // De-comment this when new resources registry is out.
             // Python webresource module adds a integrity token so we need to write to disk so it can be recomputed
-            // devMiddleware: {
-            //    writeToDisk: true,
-            //},
+            devMiddleware: {
+               writeToDisk: true,
+            },
 
             // Proxy everything to the Plone Backend EXCEPT our bundle as
             // Webpack Dev Server will serve it.
