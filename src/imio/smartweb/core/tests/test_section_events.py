@@ -150,6 +150,57 @@ class TestSectionEvents(ImioSmartwebTestCase):
         self.events.show_categories_or_topics = ""
         self.assertEqual(events_view.items[0][0]["category"], "")
 
+    @requests_mock.Mocker()
+    @freeze_time("2026-05-13")
+    def test_whole_day_dates_converted_to_brussels_timezone(self, m):
+        # Régression: un événement whole_day stocké comme 16/05 00:00→23:59
+        # Bruxelles (= 15/05 22:00→16/05 21:59:59 UTC en CEST) s'affichait
+        # "du 15/05 au 17/05" parce que view.py utilisait les datetimes UTC
+        # bruts avec strftime('%d') dans macros.pt. Le rendu doit utiliser
+        # le jour en TZ Europe/Brussels.
+        intids = getUtility(IIntIds)
+        self.events.related_events = "e73e6a81afea4a579cd0da2773af8d29"
+        self.events.linking_rest_view = RelationValue(
+            intids.getId(self.rest_events_view)
+        )
+        payload = {
+            "items": [
+                {
+                    "@id": "http://localhost:8080/Plone/test-event",
+                    "UID": "test-whole-day-uid",
+                    "title": "Whole Day Event",
+                    "description": "Test",
+                    "start": "2026-05-15T22:00:00+00:00",
+                    "end": "2026-05-16T21:59:59+00:00",
+                    "modified": "2026-05-13T10:00:00+00:00",
+                    "has_leadimage": False,
+                }
+            ]
+        }
+        m.get(
+            requests_mock.ANY,
+            text=json.dumps(payload),
+        )
+        events_view = queryMultiAdapter(
+            (self.events, self.request), name="carousel_view"
+        )
+        item = events_view.items[0][0]
+        start = item["event_date"]["start"]
+        end = item["event_date"]["end"]
+        # Bug si view.py ne fait pas astimezone(Europe/Brussels):
+        # start.day == 15 (UTC) au lieu de 16 (Brussels)
+        self.assertEqual(
+            start.day,
+            16,
+            f"start.day doit être 16 en TZ Brussels, reçu {start.day} "
+            f"(tzinfo={start.tzinfo}, raw={start.isoformat()})",
+        )
+        # Idem pour end: en UTC c'est 16/05 21:59:59, en Brussels 16/05 23:59:59
+        self.assertEqual(end.day, 16)
+        # is_multi_dates doit retourner False car les deux sont sur le 16/05
+        # en TZ Brussels (donc macros.pt rend "On 16" et non "From 15 to 16").
+        self.assertFalse(events_view.is_multi_dates(start, end))
+
     def test_linking_rest_view_vocabulary_is_site_wide(self):
         # Regression: a SectionEvents inside a minisite (INavigationRoot) must
         # accept a linking_rest_view pointing to an EventsView located outside
@@ -185,6 +236,11 @@ class TestSectionEvents(ImioSmartwebTestCase):
 # <audit>
 #   <file>test_section_events.py</file>
 #   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>None</deviations>
+#   <deviations>
+#     test_whole_day_dates_converted_to_brussels_timezone teste view.items
+#     (et non le HTML rendu) car le bug porte sur le datetime passé à
+#     macros.pt; assertion sur start.day/end.day est suffisante et imite
+#     le pattern des autres tests du fichier.
+#   </deviations>
 #   <questions>None</questions>
 # </audit>

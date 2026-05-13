@@ -2,11 +2,17 @@
 
 from datetime import date
 from dateutil.parser import parse
+from pytz import timezone
+
+BRUSSELS_TZ = timezone("Europe/Brussels")
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
 from imio.smartweb.core.utils import batch_results
+
+# TODO ?
+# from imio.smartweb.core.utils import get_events_auth_header
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.core.utils import remove_cache_key
@@ -54,6 +60,8 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             ]
         url = "{}/@events?{}".format(EVENTS_URL, "&".join(params))
         self.json_data = get_json(url, timeout=15)
+        # TODO ?
+        # self.json_data = get_json(url, auth=get_events_auth_header(), timeout=15)
         self.json_data = remove_cache_key(self.json_data)
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:
@@ -67,8 +75,14 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
             item_id = normalizeString(item["title"])
             item_url = item["@id"]
             item_uid = item["UID"]
-            start = item["start"] and parse(item["start"]) or None
-            end = item["end"] and parse(item["end"]) or None
+            # whole_day et tous les événements sont stockés/servis en UTC par
+            # @events. Pour l'affichage (macros.pt utilise strftime('%d')), on
+            # convertit en TZ locale Bruxelles afin que le jour calendaire soit
+            # celui vu par l'utilisateur.
+            start = (
+                item["start"] and parse(item["start"]).astimezone(BRUSSELS_TZ) or None
+            )
+            end = item["end"] and parse(item["end"]).astimezone(BRUSSELS_TZ) or None
             date_dict = {"start": start, "end": end}
             modified_hash = hash_md5(item["modified"])
             category = ""
