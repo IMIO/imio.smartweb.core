@@ -12,7 +12,6 @@ from unittest.mock import patch
 
 import json
 
-
 _IA_MODULE = "imio.smartweb.core.browser.ia.ia"
 
 

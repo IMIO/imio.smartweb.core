@@ -20,7 +20,6 @@ from zope.lifecycleevent import modified
 import json
 import pytz
 
-
 SECTION_ITEMS_HASH_KEY = "sections-items-hash-key"
 
 

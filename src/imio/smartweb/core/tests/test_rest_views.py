@@ -21,7 +21,6 @@ from zope.component import queryMultiAdapter
 
 import requests_mock
 
-
 _NEWS_ENDPOINT_MODULE = "imio.smartweb.core.contents.rest.news.endpoint"
 _BASE_MODULE = "imio.smartweb.core.contents.rest.base"
 _DIR_VIEW_MODULE = "imio.smartweb.core.contents.rest.directory.view"

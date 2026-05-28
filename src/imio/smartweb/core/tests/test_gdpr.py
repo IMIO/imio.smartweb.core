@@ -9,7 +9,6 @@ from plone.app.testing import TEST_USER_ID
 from unittest.mock import MagicMock
 from unittest.mock import patch
 
-
 _GDPR_BASE_MODULE = "imio.gdpr.browser.views"
 
 

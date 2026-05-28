@@ -16,7 +16,6 @@ from zope.interface import Interface
 import base64
 import requests
 
-
 PROJECT_WORKFLOW_STATUS_TO_KEEP = [
     "Publié sans vote",
     "Publié",

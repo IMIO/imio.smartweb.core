@@ -5,7 +5,6 @@ from zope.annotation.interfaces import IAnnotations
 import json
 import os
 
-
 # "imio.smartweb.SectionContact",
 # "imio.smartweb.SectionEvents",
 # "imio.smartweb.SectionNews",

@@ -8,7 +8,6 @@ from plone.namedfile.interfaces import IImageScaleTraversable
 from zope.component import adapter
 from zope.interface import implementer
 
-
 UNCROPPABLE_FIELDS = ["banner", "background_image"]
 
 

@@ -46,7 +46,6 @@ import requests
 import requests_mock as requests_mock_module
 import unittest
 
-
 _VIEWS_MODULE = "imio.smartweb.core.contents.sections.external_content.views"
 
 

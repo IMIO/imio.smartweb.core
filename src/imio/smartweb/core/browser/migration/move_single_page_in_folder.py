@@ -6,7 +6,6 @@ from plone.protect.interfaces import IDisableCSRFProtection
 from Products.Five.browser import BrowserView
 from zope.interface import alsoProvides
 
-
 # /Plone/fr/vie-communale/services-communaux/urbanisme/publications/prix-architecture-et-urbanisme/prix-de-larchitecture-et-de-lurbanisme-1/laureats-des-prix-de-larchitecture-et-de-lurbanisme-2015/laureats-du-prix-de-lurbanisme-2015
 # ici, on a une page par défaut, sur un dossier presque du même nom
 # Bonne nouvelle, la page et le folder on la même leadimage
