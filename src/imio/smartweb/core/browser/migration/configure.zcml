@@ -29,6 +29,13 @@
 
   <browser:page
       for="*"
+      name="dump_site_catalog"
+      class=".dump_site_catalog.DumpSiteCatalogView"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+  <browser:page
+      for="*"
       name="reindex_quickaccess"
       class=".reindex_quickaccess.ReindexQuickaccessView"
       permission="cmf.ManagePortal"
