@@ -45,14 +45,12 @@ import logging
 import os
 import transaction
 
-
 logger = logging.getLogger(__name__)
 
 COMMIT_EVERY = 200
 
 
 class RecloneEmptyBlobsView(BrowserView):
-
     def _relpath_from_atid(self, atid):
         """`http://host/Plone/foo/bar` → `foo/bar` (sans l'id du portail)."""
         if not atid:

@@ -39,14 +39,12 @@ from zope.interface import alsoProvides
 import logging
 import transaction
 
-
 logger = logging.getLogger(__name__)
 
 COMMIT_EVERY = 500
 
 
 class ReindexQuickaccessView(BrowserView):
-
     def __call__(self):
         alsoProvides(self.request, IDisableCSRFProtection)
         reindexed = 0
