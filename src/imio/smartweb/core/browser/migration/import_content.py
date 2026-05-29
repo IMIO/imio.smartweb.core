@@ -5,6 +5,7 @@ from imio.smartweb.core.contents.pages.pages import IDefaultPages
 from imio.smartweb.core.interfaces import IImportInProgress
 from plone import api
 from plone.dexterity.interfaces import IDexterityFTI
+from plone.namedfile.file import NamedBlobImage
 from Products.CMFCore.utils import getToolByName
 from six.moves.urllib.parse import unquote
 from six.moves.urllib.parse import urlparse
@@ -110,6 +111,44 @@ class CustomImportContent(ImportContent):
             )
         return folder
 
+    def _copy_blob_from_canonical(self, obj, item):
+        """Si l'item est un clone d'Image (cf. _clone_blob_from émis par le pipeline
+        ETL cpskin-to-smartweb), copie le blob et le titre depuis l'Image canonique
+        retrouvée dans le catalog par UID. À utiliser dans global_obj_hook."""
+        canonical_uid = item.get("_clone_blob_from")
+        if not canonical_uid:
+            return
+        brains = api.content.find(UID=canonical_uid)
+        if not brains:
+            logger.warning(
+                "imio.smartweb.core : clone blob source not found for UID %s "
+                "(clone at %s) — l'image clonée n'aura pas de blob",
+                canonical_uid,
+                obj.absolute_url(),
+            )
+            return
+        source = brains[0].getObject()
+        source_image = getattr(source, "image", None)
+        if source_image is not None:
+            # NB: copy.deepcopy(NamedBlobImage) crée un nouveau Blob ZODB mais ne
+            # recopie pas les données binaires du fichier blob sous-jacent (Blob
+            # est un Persistent et son __deepcopy__ ne lit pas le payload) — le
+            # nouveau .blob est créé vide → PIL.UnidentifiedImageError au scaling.
+            # On reconstruit donc un NamedBlobImage à partir des octets lus,
+            # ce qui force l'écriture d'un nouveau blob avec le contenu réel.
+            obj.image = NamedBlobImage(
+                data=source_image.data,
+                filename=source_image.filename,
+                contentType=source_image.contentType,
+            )
+        if not getattr(obj, "title", None) and getattr(source, "title", None):
+            obj.title = source.title
+        logger.info(
+            "imio.smartweb.core : clone blob copied from UID %s into %s",
+            canonical_uid,
+            obj.absolute_url(),
+        )
+
     def global_obj_hook(self, obj, item):
         """Inspect the content item before serialization data."""
         logger.info("imio.smartweb.core : global_obj_hook")
@@ -119,6 +158,7 @@ class CustomImportContent(ImportContent):
         # ):
         #     # il faut regarder pourquoi l'image ne va faire que 1ko lors de l'importation
         #     import pdb;pdb.set_trace()
+        self._copy_blob_from_canonical(obj, item)
         if "cpskin.minisite.interfaces.IMinisiteRoot" in item.get(
             "_cpskin_interfaces", []
         ):
@@ -132,7 +172,15 @@ class CustomImportContent(ImportContent):
             "_smartweb_interfaces", []
         ):
             alsoProvides(obj, IDefaultPages)
-            obj.aq_parent.set_default_item(new_default_item=obj)
+            parent = obj.aq_parent
+            if hasattr(parent, "set_default_item"):
+                parent.set_default_item(new_default_item=obj)
+                if getattr(parent, "image", None) and not getattr(obj, "image", None):
+                    # Copy parent.image (folder's lead image) → obj.image (page's lead image) when the folder has one and the page doesn't.
+                    obj.image = parent.image
+                    logger.info(
+                        f"Copied folder banner to page image: ({obj.absolute_url()})"
+                    )
             logger.info(
                 f"Set INTERFACE 'cause I'm a default page : ({obj.absolute_url()}) "
             )

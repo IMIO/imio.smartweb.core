@@ -5,7 +5,8 @@ Changelog
 1.4.46 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix image blob cloning in migration import
+  [boulch]
 
 
 1.4.45 (2026-05-07)
