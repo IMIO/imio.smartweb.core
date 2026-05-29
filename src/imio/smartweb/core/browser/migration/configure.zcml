@@ -27,6 +27,15 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />      
 
+
+  <browser:page
+      for="*"
+      name="find_section_selections"
+      class=".find_section_selections.FindSectionSelectionsView"
+      template="find_section_selections.pt"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
   <browser:page
       for="*"
       name="dump_site_catalog"
@@ -34,6 +43,7 @@
       permission="cmf.ManagePortal"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
   <browser:page
       for="*"
       name="reindex_quickaccess"

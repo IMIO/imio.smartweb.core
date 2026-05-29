@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master">
+<body>
+<metal:content-core fill-slot="content-core">
+
+  <h1>Résultats — SectionSelections</h1>
+
+  <table class="table table-sm table-bordered">
+    <tbody>
+      <tr>
+        <th>Sections complètes (tous les items résolus)</th>
+        <td tal:content="python: len(view.completed)">0</td>
+      </tr>
+      <tr>
+        <th>Sections incomplètes (items manquants ou liste vide)</th>
+        <td tal:content="python: len(view.uncompleted)">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <tal:completed condition="view/completed">
+    <h2>Sections complètes</h2>
+    <ul>
+      <li tal:repeat="url view/completed">
+        <a tal:attributes="href url" tal:content="url">-</a>
+      </li>
+    </ul>
+  </tal:completed>
+
+  <tal:uncompleted condition="view/uncompleted">
+    <h2>Sections incomplètes</h2>
+    <p class="text-warning">
+      Ces sections contiennent des relations brisées ou une liste vide.
+    </p>
+    <ul>
+      <li tal:repeat="url view/uncompleted">
+        <a tal:attributes="href url" tal:content="url">-</a>
+      </li>
+    </ul>
+  </tal:uncompleted>
+
+</metal:content-core>
+</body>
+</html>

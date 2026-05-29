@@ -5,6 +5,12 @@ Changelog
 1.4.46 (unreleased)
 -------------------
 
+- Add view to report complete/incomplete SectionSelections after migration
+  [boulch]
+
+- Add dump_site_catalog view to export the site tree as streaming JSON
+  [boulch]
+
 - Add post-migration view to reindex related_quickaccess
   [boulch]
 
