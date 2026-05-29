@@ -5,6 +5,9 @@ Changelog
 1.4.46 (unreleased)
 -------------------
 
+- Add post-migration view to reindex related_quickaccess
+  [boulch]
+
 - Fix image blob cloning in migration import
   [boulch]
 
