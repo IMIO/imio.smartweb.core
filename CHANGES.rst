@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.46 (unreleased)
+1.4.46 (2026-05-29)
 -------------------
 
 - Fix : Preserve folder image when moving single page out of folder
