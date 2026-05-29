@@ -5,6 +5,9 @@ Changelog
 1.4.46 (unreleased)
 -------------------
 
+- Fix : Preserve folder image when moving single page out of folder
+  [boulch]
+
 - Add view to report complete/incomplete SectionSelections after migration
   [boulch]
 

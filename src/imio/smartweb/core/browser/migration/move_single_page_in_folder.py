@@ -43,6 +43,7 @@ class MoveSinglePageView(BrowserView):
                     if page_obj.id == obj.id:
                         # Temporarily rename the folder to avoid id collision during move
                         api.content.rename(obj=obj, new_id=obj.id + "-old")
+                    folder_image = getattr(obj, "image", None)
                     api.content.move(source=page_obj, target=parent)
                     try:
                         api.content.delete(obj=obj)
@@ -57,6 +58,8 @@ class MoveSinglePageView(BrowserView):
                         continue
                     # Re-fetch page_obj: after move+delete the old acquisition context is stale
                     page_obj = parent[page_obj.id]
+                    if folder_image and not getattr(page_obj, "image", None):
+                        page_obj.image = folder_image
                     if new_id != page_obj.id and new_id not in parent:
                         api.content.rename(obj=page_obj, new_id=new_id)
                     else:
