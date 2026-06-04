@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.47 (unreleased)
+1.4.47 (2026-06-04)
 -------------------
 
 - Add view to fix some (fr) urls after migration
