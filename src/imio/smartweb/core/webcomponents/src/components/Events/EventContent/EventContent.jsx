@@ -254,11 +254,11 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
             return (
                 <div className="r-content-date-du-au">
                     <div className="r-content-date-start">
-                        <span>Du&nbsp;</span>
+                        <DateLabel text="Du" />
                         <TimeDisplay time={start} />
                     </div>
                     <div className="r-content-date-end">
-                        <span>&nbsp;au&nbsp;</span>
+                        <DateLabel text="au" />
                         <TimeDisplay time={end} />
                     </div>
                     {!item.whole_day ? 
