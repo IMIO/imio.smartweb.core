@@ -5,7 +5,8 @@ Changelog
 1.4.47 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add view to fix some (fr) urls after migration
+  [boulch]
 
 
 1.4.46 (2026-05-29)

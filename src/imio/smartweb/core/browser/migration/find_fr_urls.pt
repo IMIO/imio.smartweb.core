@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master">
+<body>
+<metal:content-core fill-slot="content-core">
+
+  <h1>URLs contenant « /fr/ »</h1>
+
+  <p class="text-muted">
+    Types analysés :
+    <strong>imio.smartweb.SectionText</strong> (texte enrichi),
+    <strong>imio.smartweb.SectionHTML</strong> (champ HTML).
+    Attributs analysés : <strong>href</strong> et <strong>src</strong>.
+    Les URLs doivent contenir « /fr/ » et au moins un des mots-clés :
+    <strong>www.liege.be</strong>, <strong>Plone</strong>,
+    <strong>annuaire</strong>, <strong>preprod</strong>.
+    Correction : chaque URL devient un chemin absolu depuis la racine du site
+    (schéma, domaine et préfixe <code>/Plone</code> retirés), sans la partie
+    « /fr ».
+  </p>
+
+  <p class="alert alert-warning" tal:condition="python: not view.apply">
+    <strong>Mode prévisualisation (dry-run)</strong> — aucun contenu n'a été
+    modifié. Ajoutez <code>?apply=1</code> à l'URL de la vue pour appliquer
+    les corrections.
+  </p>
+  <p class="alert alert-danger" tal:condition="view/apply">
+    <strong>Mode application</strong> — les URLs corrigées ci-dessous ont été
+    écrites dans les contenus.
+  </p>
+
+  <table class="table table-sm table-bordered">
+    <tbody>
+      <tr>
+        <th>URLs trouvées</th>
+        <td tal:content="python: len(view.matches)">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <tal:no-matches condition="python: not view.matches">
+    <p class="alert alert-success">Aucune URL contenant « /fr/ » trouvée.</p>
+  </tal:no-matches>
+
+  <tal:has-matches condition="view/matches">
+    <table class="table table-sm table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>Objet</th>
+          <th>Type</th>
+          <th>URL trouvée</th>
+          <th>URL corrigée</th>
+          <th>Attribut</th>
+          <th>Mots-clés</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr tal:repeat="item view/matches">
+          <td>
+            <a tal:attributes="href item/object_url"
+               tal:content="item/object_url"
+               target="_blank">-</a>
+          </td>
+          <td tal:content="item/portal_type">-</td>
+          <td>
+            <a tal:attributes="href item/link_url"
+               tal:content="item/link_url"
+               target="_blank"
+               rel="noopener noreferrer">-</a>
+          </td>
+          <td tal:content="item/fixed_url">-</td>
+          <td tal:content="item/attribute">-</td>
+          <td tal:content="item/keywords">-</td>
+        </tr>
+      </tbody>
+    </table>
+  </tal:has-matches>
+
+</metal:content-core>
+</body>
+</html>
