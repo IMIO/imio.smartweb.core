@@ -21,11 +21,11 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
     _prev_menu_markup = (
         '<a aria-label="{back}" class="prev-nav"><span>{back}</span></a>'
     )
-    _subtree_markup_wrapper = '<ul role="menu" tabindex="-1">{out}{qa_out}</ul>'
-    _submenu_markup_wrapper = '<div class="has_subtree dropdown">{menu_action}<span class="nav-title"><a href="{url}">{title}</span></a>{sub}</div>'
+    _subtree_markup_wrapper = '<ul class="nav-submenu nav-submenu-depth-{depth}" role="menu" tabindex="-1">{out}{qa_out}</ul>'
+    _submenu_markup_wrapper = '<div class="has_subtree dropdown nav-dropdown-depth-{item_depth}">{menu_action}<span class="nav-title"><a href="{url}">{title}</span></a>{sub}</div>'
     _quickaccesses_markup_wrapper = '<li class="quick-access"><span class="quick-access-title">{title}</span><ul>{out}</ul></li>'
     _item_markup_template = (
-        '<li class="nav_{id}{has_sub_class} nav-item" role="presentation">'
+        '<li class="nav_{id}{has_sub_class} nav-item nav-item-depth-{item_depth}" role="presentation">'
         '<a href="{url}" class="state-{review_state} nav-link" role="menuitem"{aria_haspopup}>{title}</a>{opener}'  # noqa: E 501
         "{sub_wrapper}"
         "</li>"
@@ -51,6 +51,7 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
         return self._item_markup_template.format(**item)
 
     def render_item(self, item, path):
+        item_depth = len(item["path"].split("/")) - self.root_depth
         sub = self.build_tree(item["path"], first_run=False)
         if sub:
             item.update(
@@ -61,6 +62,7 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
                     "opener": self._opener_markup_template.format(**item),
                     "aria_haspopup": ' aria-haspopup="true"',
                     "has_sub_class": " has_subtree",
+                    "item_depth": item_depth,
                 }
             )
         else:
@@ -72,23 +74,21 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
                     "opener": "",
                     "aria_haspopup": "",
                     "has_sub_class": "",
+                    "item_depth": item_depth,
                 }
             )
 
         if not sub:
             return self._item_markup_template.format(**item)
 
-        level = len(item["path"].split("/")) - self.root_depth
+        level = item_depth
         back_str = translate(_("Back"), target_language=self.current_lang)
-        if level == 1:
-            # We add "Back" & "Close" buttons on the first dropdown menu level
+        if level >= 1:
+            # We add "Back" & "Close" buttons on every dropdown menu level
             close_str = translate(_("Close"), target_language=self.current_lang)
             item["menu_action"] = self._close_menu_markup.format(
                 back=back_str, close=close_str
             )
-        elif level > 1:
-            # We add a "Back" button on the next dropdown menu levels
-            item["menu_action"] = self._prev_menu_markup.format(back=back_str)
         item["sub_wrapper"] = self._submenu_markup_wrapper.format(**item)
         return self._item_markup_template.format(**item)
 
@@ -115,6 +115,7 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
                 "opener": "",
                 "aria_haspopup": "",
                 "has_sub_class": "",
+                "item_depth": max(1, len(brain.getPath().split("/")) - self.root_depth),
             }
             out += self.render_quickaccess(entry)
         return out
@@ -175,7 +176,8 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
                     ),
                     out=qa_menu,
                 )
-            out = self._subtree_markup_wrapper.format(out=out, qa_out=qa_out)
+            depth = len(path.split("/")) - self.root_depth
+            out = self._subtree_markup_wrapper.format(out=out, qa_out=qa_out, depth=depth)
         return out
 
     def render_globalnav(self):
