@@ -1,5 +1,5 @@
 <div id="subsite-navigation" class="pat-navigationmarker"
      tal:condition="view/available">
-  <ul tal:content="structure view/render_globalnav">
+  <ul class="nav-menu" tal:content="structure view/render_globalnav">
   </ul>
 </div>
