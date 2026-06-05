@@ -5,7 +5,8 @@ Changelog
 1.4.48 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4427 : Fix a bug when whole_day for only 1 day
+  [boulch]
 
 
 1.4.47 (2026-06-04)
