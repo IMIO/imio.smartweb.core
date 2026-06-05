@@ -54,6 +54,30 @@ class TestFaceted(ImioSmartwebTestCase):
         body_class = layout_view.bodyClass(template, view)
         self.assertNotIn("faceted-summary-view-with-images", body_class)
 
+    def test_faceted_query_uses_collection_item_count(self):
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+        for i in range(12):
+            api.content.create(
+                container=self.portal,
+                type="imio.smartweb.Page",
+                title=f"Page {i}",
+            )
+        # without a stored item_count, the Collection class default (30) applies
+        view = queryMultiAdapter((self.collection, self.request), name="faceted_query")
+        batch = view.query(batch=True)
+        self.assertEqual(batch.pagesize, 30)
+
+        # a stored item_count drives the faceted batch size
+        self.collection.item_count = 5
+        view = queryMultiAdapter((self.collection, self.request), name="faceted_query")
+        batch = view.query(batch=True)
+        self.assertEqual(batch.pagesize, 5)
+        self.assertEqual(len([brain for brain in batch]), 5)
+
+        # the overridden view still renders eea's query.pt template,
+        # paginated with item_count results per page
+        self.assertIn("Next 5 items", view())
+
     @freeze_time("2021-09-14 8:00:00")
     def test_map_popup(self):
         alsoProvides(self.request, IImioSmartwebCoreLayer)

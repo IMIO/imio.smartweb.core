@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from eea.facetednavigation.browser.app.query import FacetedQueryHandler
 from eea.facetednavigation.browser.app.view import FacetedContainerView
 from eea.facetednavigation.layout.interfaces import IFacetedLayout
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
@@ -7,6 +8,9 @@ from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.contenttypes.browser.folder import FolderView
+from Products.CMFPlone.PloneBatch import Batch
+from Products.CMFPlone.utils import safeToInt
+from types import GeneratorType
 from zope.component import queryAdapter
 from zope.i18n import translate
 from zope.interface import implementer
@@ -15,6 +19,21 @@ from zope.interface import implementer
 @implementer(IViewWithoutLeadImage)
 class SmartwebFacetedContainerView(FacetedContainerView):
     """Faceted view without lead image"""
+
+
+class SmartwebFacetedQueryHandler(FacetedQueryHandler):
+    """Faceted query that respects the collection's item_count batch size"""
+
+    def query(self, batch=True, sort=False, **kwargs):
+        item_count = safeToInt(getattr(self.context, "item_count", 0))
+        if not batch or not item_count:
+            return super().query(batch=batch, sort=sort, **kwargs)
+        brains = super().query(batch=False, sort=sort, **kwargs)
+        if isinstance(brains, GeneratorType):
+            brains = [brain for brain in brains]
+        b_start = safeToInt(self.request.form.get("b_start", kwargs.get("b_start", 0)))
+        orphans = item_count * 20 // 100
+        return Batch(brains, item_count, b_start, orphan=orphans)
 
 
 class FacetedView(FolderView):

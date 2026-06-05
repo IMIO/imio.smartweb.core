@@ -47,6 +47,16 @@
         permission="zope2.View"
         layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
         />
+
+    <!-- Override faceted query to batch with the collection's item_count -->
+    <browser:page
+        for="..interfaces.IFacetedNavigable"
+        name="faceted_query"
+        template="template/query.pt"
+        class="imio.smartweb.core.browser.faceted.views.SmartwebFacetedQueryHandler"
+        permission="zope2.View"
+        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+        />
   </configure>
 
   <browser:page

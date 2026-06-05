@@ -5,6 +5,9 @@ Changelog
 1.4.48 (unreleased)
 -------------------
 
+- WEB-4437 : Make faceted collections batch size respect collection's item_count field
+  [boulch]
+
 - Remove fixing image dimensions detection (width/height=-1) during (LIEGE) migration imports
   To be reimplemented for future migrations
   [boulch]
