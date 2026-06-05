@@ -3,7 +3,7 @@ import os
 
 log = logging.getLogger(__name__)
 
-if os.environ.get("PROJECT_ID", "") == "liege_smartweb":
+if os.environ.get("PROJECT_ID", "") == "during_migration_smartweb":
     from plone.namedfile.file import NamedBlobImage
     from plone.namedfile.file import MAX_INFO_BYTES
     from plone.namedfile.file import NamedBlobFile  # Import du parent
@@ -37,5 +37,5 @@ if os.environ.get("PROJECT_ID", "") == "liege_smartweb":
 
     # Application du patch
     NamedBlobImage._setData = patched_setData
-else:
-    log.info("Monkeypatch NamedBlobImage._setData NOT activated")
+# else:
+#     log.info("Monkeypatch NamedBlobImage._setData NOT activated")

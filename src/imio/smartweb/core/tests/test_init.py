@@ -40,23 +40,23 @@ class TestInitMonkeyPatch(unittest.TestCase):
         self._reload_with_project_id("other_project")
         self.assertIs(self._NamedBlobImage._setData, self._original_setdata)
 
-    def test_patch_applied_with_liege_smartweb(self):
-        """Patch SHOULD be applied when PROJECT_ID == 'liege_smartweb'"""
-        self._reload_with_project_id("liege_smartweb")
+    def test_patch_applied_with_during_migration_smartweb(self):
+        """Patch SHOULD be applied when PROJECT_ID == 'during_migration_smartweb'"""
+        self._reload_with_project_id("during_migration_smartweb")
         self.assertIsNot(self._NamedBlobImage._setData, self._original_setdata)
 
     # --- Log messages ---
-
-    def test_log_message_not_activated(self):
-        """Should log info message containing 'NOT activated' when patch is skipped"""
-        with patch.dict(os.environ, {"PROJECT_ID": ""}):
-            with self.assertLogs("imio.smartweb.core", level="INFO") as cm:
-                importlib.reload(init_module)
-        self.assertTrue(any("NOT activated" in msg for msg in cm.output))
+    # This log message is commented out
+    # def test_log_message_not_activated(self):
+    #     """Should log info message containing 'NOT activated' when patch is skipped"""
+    #     with patch.dict(os.environ, {"PROJECT_ID": ""}):
+    #         with self.assertLogs("imio.smartweb.core", level="INFO") as cm:
+    #             importlib.reload(init_module)
+    #     self.assertTrue(any("NOT activated" in msg for msg in cm.output))
 
     def test_log_message_activated_on_call(self):
         """patched_setData should log an info message when called"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         mock_self = MagicMock()
         mock_self.filename = "test.jpg"
@@ -75,7 +75,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_patched_setdata_calls_parent(self):
         """patched_setData should call NamedBlobFile._setData with (self, data)"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         mock_self = MagicMock()
         mock_self.filename = "test.png"
@@ -92,7 +92,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_patched_setdata_sets_width_and_height(self):
         """patched_setData should set _width and _height from getImageInfo"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         mock_self = MagicMock()
         mock_self.filename = "test.png"
@@ -109,7 +109,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_patched_setdata_sets_content_type(self):
         """patched_setData should set contentType when getImageInfo returns a non-empty type"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         mock_self = MagicMock()
         mock_self.filename = "test.png"
@@ -125,7 +125,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_patched_setdata_skips_content_type_when_empty(self):
         """patched_setData should NOT set contentType when getImageInfo returns an empty type"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         # Track whether contentType was assigned via a property
         class TrackedImage:
@@ -161,7 +161,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def _assert_refetch_behaviour(self, initial_mimetype, resolved_mimetype):
         """Helper: verify that -1 dimensions trigger a second getFirstBytes call."""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         first_bytes = b"x" * 10
         extra_bytes = b"extra"
@@ -197,7 +197,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_jpeg_valid_dimensions_no_refetch(self):
         """JPEG with valid dimensions should NOT trigger a second byte fetch"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         mock_self = MagicMock()
         mock_self.filename = "test.jpg"
@@ -215,7 +215,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_png_negative_dimensions_no_refetch(self):
         """PNG with -1 dimensions should NOT trigger a refetch (only JPEG/TIFF/SVG do)"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         mock_self = MagicMock()
         mock_self.filename = "test.png"
@@ -231,7 +231,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_refetch_uses_correct_getfirstbytes_args(self):
         """Second getFirstBytes call should pass (start, length) derived from MAX_INFO_BYTES"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         MAX_INFO_BYTES = init_module.MAX_INFO_BYTES
         first_bytes = b"x" * 10
@@ -255,7 +255,7 @@ class TestInitMonkeyPatch(unittest.TestCase):
 
     def test_refetch_passes_combined_bytes_to_getimageinfo(self):
         """Second getImageInfo call should receive concatenated firstbytes"""
-        self._reload_with_project_id("liege_smartweb")
+        self._reload_with_project_id("during_migration_smartweb")
 
         first_bytes = b"FIRST"
         extra_bytes = b"EXTRA"

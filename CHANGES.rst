@@ -5,6 +5,10 @@ Changelog
 1.4.48 (unreleased)
 -------------------
 
+- Remove fixing image dimensions detection (width/height=-1) during (LIEGE) migration imports
+  To be reimplemented for future migrations
+  [boulch]
+
 - WEB-4427 : Fix a bug when whole_day for only 1 day
   [boulch]
 
