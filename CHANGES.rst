@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.48 (unreleased)
+1.4.48 (2026-06-08)
 -------------------
 
 - WEB-4437 : Make faceted collections batch size respect collection's item_count field
