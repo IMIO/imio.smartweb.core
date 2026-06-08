@@ -744,9 +744,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
 
         # Non-GET methods still forward
         mock_request.return_value = FakeResponse(status_code=204)
-        service = self.traverse(
-            "/plone/@directory_request_forwarder/ok", method="POST"
-        )
+        service = self.traverse("/plone/@directory_request_forwarder/ok", method="POST")
         service.reply()
         mock_request.assert_called_once()
 
