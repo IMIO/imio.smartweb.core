@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.49 (unreleased)
+1.4.49 (2026-06-08)
 -------------------
 
 - feat(rest): add /ok health-check shortcut on @directory/events/news_request_forwarder
