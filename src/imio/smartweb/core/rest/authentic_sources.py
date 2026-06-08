@@ -32,6 +32,9 @@ class BaseRequestForwarder(Service):
         self.traversal_stack = []
 
     def reply(self):
+        if self.request.method == "GET" and self.traversal_stack == ["ok"]:
+            self.request.response.setStatus(200)
+            return {"status": "ok", "service": self.request_type}
         alsoProvides(self.request, IDisableCSRFProtection)
         url = "/".join(self.traversal_stack)
         if self.request_type == "events":

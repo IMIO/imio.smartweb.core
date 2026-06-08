@@ -730,6 +730,25 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
 
     @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
+    def test_request_forwarder_ok_shortcut(self, mock_request):
+        for endpoint, service_name in (
+            ("@directory_request_forwarder", "directory"),
+            ("@events_request_forwarder", "events"),
+            ("@news_request_forwarder", "news"),
+        ):
+            service = self.traverse(f"/plone/{endpoint}/ok")
+            response = service.reply()
+            self.assertEqual(response, {"status": "ok", "service": service_name})
+            self.assertEqual(self.request.response.status, 200)
+        mock_request.assert_not_called()
+
+        # Non-GET methods still forward
+        mock_request.return_value = FakeResponse(status_code=204)
+        service = self.traverse("/plone/@directory_request_forwarder/ok", method="POST")
+        service.reply()
+        mock_request.assert_called_once()
+
+    @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
     @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
     def test_enrich_response(self, mock_view_url, mock_request):
         mock_view_url.return_value = "http://view-url"

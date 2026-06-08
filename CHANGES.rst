@@ -5,7 +5,9 @@ Changelog
 1.4.49 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- feat(rest): add /ok health-check shortcut on @directory/events/news_request_forwarder
+  endpoints (returns local {"status": "ok"} without forwarding to authentic source)
+  [bsuttor]
 
 
 1.4.48 (2026-06-08)
