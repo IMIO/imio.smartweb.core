@@ -748,6 +748,21 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         service.reply()
         mock_request.assert_called_once()
 
+    def test_request_forwarder_ok_without_json_accept(self):
+        # passerelle's check_status sends `Accept: */*` (no application/json),
+        # so the endpoint must be registered for that media type too.
+        for endpoint, service_name in (
+            ("@directory_request_forwarder", "directory"),
+            ("@events_request_forwarder", "events"),
+            ("@news_request_forwarder", "news"),
+        ):
+            session = RelativeSession(self.portal_url)
+            session.headers.pop("Accept", None)
+            resp = session.get(f"/{endpoint}/ok")
+            self.assertEqual(resp.status_code, 200)
+            self.assertEqual(resp.json(), {"status": "ok", "service": service_name})
+            session.close()
+
     @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
     @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
     def test_enrich_response(self, mock_view_url, mock_request):

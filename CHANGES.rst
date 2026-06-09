@@ -5,7 +5,9 @@ Changelog
 1.4.50 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- fix(rest): make /ok health-check shortcut reachable with Accept: */*
+  (e.g. passerelle check_status that bypasses its JSON request wrapper)
+  [bsuttor]
 
 
 1.4.49 (2026-06-08)

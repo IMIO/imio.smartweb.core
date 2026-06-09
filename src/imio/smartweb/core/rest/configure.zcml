@@ -14,6 +14,15 @@
       />
 
   <plone:service
+      method="GET"
+      accept="*/*"
+      factory=".authentic_sources.DirectoryRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@directory_request_forwarder"
+      />
+
+  <plone:service
       method="POST"
       accept="application/json"
       factory=".authentic_sources.DirectoryRequestForwarder"
@@ -52,6 +61,15 @@
       />
 
   <plone:service
+      method="GET"
+      accept="*/*"
+      factory=".authentic_sources.EventsRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@events_request_forwarder"
+      />
+
+  <plone:service
       method="POST"
       accept="application/json"
       factory=".authentic_sources.EventsRequestForwarder"
@@ -83,6 +101,15 @@
   <plone:service
       method="GET"
       accept="application/json"
+      factory=".authentic_sources.NewsRequestForwarder"
+      for="*"
+      permission="zope2.View"
+      name="@news_request_forwarder"
+      />
+
+  <plone:service
+      method="GET"
+      accept="*/*"
       factory=".authentic_sources.NewsRequestForwarder"
       for="*"
       permission="zope2.View"
