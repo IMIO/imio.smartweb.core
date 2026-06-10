@@ -15,7 +15,9 @@
                                        context-authenticated-user view/context_authenticated_user;"></smartweb-annuaire>
   </div>
   <noscript tal:condition="view/direct_access">
-    <div class="seo-fallback" tal:define="contact view/contact">
+    <div class="seo-fallback"
+         tal:define="contact view/contact"
+         tal:condition="contact">
       <h1 tal:content="contact/name"></h1>
       <p tal:condition="contact/subtitle" tal:content="contact/subtitle"></p>
       <p tal:condition="contact/description" tal:content="contact/description"></p>

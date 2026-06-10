@@ -20,6 +20,8 @@ class DirectoryViewView(BaseRestView):
 
     @property
     def contact(self):
+        if self.item is None:
+            return None
         contact = self._formated_contact(self.item)
         return contact
 

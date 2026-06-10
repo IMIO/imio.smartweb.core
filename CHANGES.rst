@@ -5,7 +5,12 @@ Changelog
 1.4.51 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- fix(rest): avoid HTTP 500 on directory contact "view" pages when the remote
+  @search by UID returns no items (stale/deleted contact UID hit directly by a
+  crawler or shared link). ``DirectoryViewView.contact`` now returns ``None``
+  instead of raising ``AttributeError`` (masked as ``LocationError``), and the
+  SEO fallback block is only rendered when a contact is present.
+  [boulch]
 
 
 1.4.50 (2026-06-10)

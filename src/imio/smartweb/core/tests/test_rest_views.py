@@ -1042,3 +1042,13 @@ class TestDirectoryViewView(ImioSmartwebTestCase):
         view._item = {"items": [item_data]}
         result = view.contact
         self.assertEqual(result["name"], "My Contact")
+
+    def test_contact_property_returns_none_when_item_is_none(self):
+        # Direct access with a stale/invalid UUID: the remote @search returns
+        # no items, so view.item is None. view.contact must return None instead
+        # of raising AttributeError (which the template masks as a LocationError
+        # and surfaces as an HTTP 500).
+        view = self._get_view()
+        view._item = {"items": []}
+        self.assertIsNone(view.item)
+        self.assertIsNone(view.contact)
