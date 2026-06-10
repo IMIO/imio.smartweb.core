@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.50 (unreleased)
+1.4.50 (2026-06-10)
 -------------------
 
 - WEB-4442 : imio.smartweb.SectionCollection : Increase maximum number of batches to display to 20
