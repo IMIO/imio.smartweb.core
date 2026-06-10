@@ -49,7 +49,7 @@ class ISectionCollection(ISection):
         required=True,
         default=2,
         min=1,
-        max=12,
+        max=20,
     )
 
     link_text = schema.TextLine(

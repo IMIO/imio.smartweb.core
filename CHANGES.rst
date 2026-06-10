@@ -5,7 +5,8 @@ Changelog
 1.4.50 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4442 : imio.smartweb.SectionCollection : Increase maximum number of batches to display to 20
+  [boulch]
 
 
 1.4.49 (2026-06-08)
