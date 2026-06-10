@@ -39,6 +39,37 @@ class TestVocabularies(ImioSmartwebTestCase):
         term = vocabulary.getTerm("action.email")
         self.assertEqual(term.title, "Action - Email")
 
+    def test_control_panel_icons(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.ControlPanelIcons", 0)
+        api.portal.set_registry_record(
+            "smartweb.svg_icon_preview_rows",
+            [
+                {
+                    "icon_name": "zebra",
+                    "svg_file": "<svg xmlns='http://www.w3.org/2000/svg'></svg>",
+                    "icon_preview": "",
+                },
+                {
+                    "icon_name": "agenda",
+                    "svg_file": "<svg xmlns='http://www.w3.org/2000/svg'></svg>",
+                    "icon_preview": "",
+                },
+                {
+                    "icon_name": "ignored.empty.file",
+                    "svg_file": "",
+                    "icon_preview": "",
+                },
+                {
+                    "icon_name": "agenda",
+                    "svg_file": "<svg xmlns='http://www.w3.org/2000/svg'></svg>",
+                    "icon_preview": "",
+                },
+            ],
+        )
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.ControlPanelIcons")
+        self.assertEqual([term.value for term in vocabulary], ["agenda", "zebra"])
+        self.assertEqual(vocabulary.getTerm("agenda").title, "agenda")
+
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
         GUICHET = re.compile(

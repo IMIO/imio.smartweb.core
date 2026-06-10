@@ -140,6 +140,27 @@ def add_sendinblue_button_settings(context):
     registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")
 
 
+def add_svg_icon_preview_rows_setting(context):
+    registry = getUtility(IRegistry)
+    record_name = "smartweb.svg_icon_preview_rows"
+    rows = []
+    if record_name in registry.records:
+        rows = registry.records[record_name].value or []
+        del registry.records[record_name]
+
+    fields = getFieldNames(ISmartwebControlPanel)
+    fields.remove("svg_icon_preview_rows")
+    registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")
+    registry[record_name] = [
+        {
+            "icon_name": row.get("icon_name", ""),
+            "svg_file": row.get("svg_file", ""),
+            "icon_preview": row.get("icon_preview", ""),
+        }
+        for row in rows
+    ]
+
+
 def find_multiple_categories_directory_views(context):
     brains = api.content.find(portal_type="imio.smartweb.DirectoryView")
     for brain in brains:

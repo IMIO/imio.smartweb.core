@@ -53,6 +53,61 @@ class TestIcons(ImioSmartwebTestCase):
         # that changes the SVG content
         self.assertIn('<path d="M18 0H2V2H18V0ZM2 24H18V22H2V24ZM18', view)
 
+    def test_additional_link_icon_from_control_panel_rows(self):
+        api.portal.set_registry_record(
+            "smartweb.svg_icon_preview_rows",
+            [
+                {
+                    "icon_name": "custom.alert",
+                    "svg_file": (
+                        "<svg xmlns='http://www.w3.org/2000/svg' "
+                        "viewBox='0 0 10 10'><path d='M1 1h8v8H1z'/></svg>"
+                    ),
+                    "icon_preview": "",
+                }
+            ],
+        )
+        link = api.content.create(
+            container=self.section,
+            type="imio.smartweb.BlockLink",
+            id="custom-icon-link",
+        )
+        link.remoteUrl = "https://www.imio.be"
+        link.additional_svg_icon = "custom.alert"
+        view = queryMultiAdapter((self.page, self.request), name="full_view")()
+        self.assertIn('d="M1 1h8v8H1z"', view)
+
+        resolver = queryMultiAdapter(
+            (self.portal, self.request), name="smartwebiconresolver"
+        )
+        self.assertIn('d="M1 1h8v8H1z"', resolver.tag("custom.alert").decode())
+
+    def test_additional_link_icon_takes_precedence_over_default_icon(self):
+        api.portal.set_registry_record(
+            "smartweb.svg_icon_preview_rows",
+            [
+                {
+                    "icon_name": "custom.priority",
+                    "svg_file": (
+                        "<svg xmlns='http://www.w3.org/2000/svg' "
+                        "viewBox='0 0 10 10'><path d='M2 2h6v6H2z'/></svg>"
+                    ),
+                    "icon_preview": "",
+                }
+            ],
+        )
+        link = api.content.create(
+            container=self.section,
+            type="imio.smartweb.BlockLink",
+            id="priority-icon-link",
+        )
+        link.remoteUrl = "https://www.imio.be"
+        link.svg_icon = "view.directory"
+        link.additional_svg_icon = "custom.priority"
+        view = queryMultiAdapter((self.page, self.request), name="full_view")()
+        self.assertIn('d="M2 2h6v6H2z"', view)
+        self.assertNotIn('<path d="M18 0H2V2H18V0ZM2 24H18V22H2V24ZM18', view)
+
     def test_icons_override(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 64)
         portal_resources = getUtility(IResourceDirectory, name="persistent")

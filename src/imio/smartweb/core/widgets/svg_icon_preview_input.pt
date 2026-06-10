@@ -1,0 +1,154 @@
+<tal:domain xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            i18n:domain="imio.smartweb">
+<div class="smartweb-svg-icon-preview"
+     data-source-field="icon_name"
+     tal:attributes="data-resolver-url view/resolver_url">
+
+  <input type="hidden"
+         tal:attributes="id view/id;
+                         name view/name;
+                         value view/value;" />
+
+  <span class="smartweb-svg-icon-preview__image" aria-hidden="true"></span>
+  <span class="smartweb-svg-icon-preview__empty" i18n:translate="">No preview</span>
+</div>
+
+<script>
+//<![CDATA[
+(function () {
+  if (window.smartwebSVGIconPreviewInitialized) {
+    return;
+  }
+  window.smartwebSVGIconPreviewInitialized = true;
+
+  function sourceInput(preview) {
+    var row = preview.closest("tr");
+    var sourceField = preview.dataset.sourceField || "icon_name";
+    if (!row) {
+      return null;
+    }
+    return row.querySelector('input[name$=".widgets.' + sourceField + '"]');
+  }
+
+  function uploadedSVG(preview) {
+    var row = preview.closest("tr");
+    if (!row) {
+      return "";
+    }
+    var svgField = row.querySelector('textarea[name$=".widgets.svg_file"]');
+    return svgField && svgField.value ? svgField.value.trim() : "";
+  }
+
+  function updatePreview(preview) {
+    var input = sourceInput(preview);
+    var imageContainer = preview.querySelector(".smartweb-svg-icon-preview__image");
+    var emptyContainer = preview.querySelector(".smartweb-svg-icon-preview__empty");
+    var svgSource = uploadedSVG(preview);
+    var iconName = input && input.value ? input.value.trim() : "";
+
+    imageContainer.innerHTML = "";
+    if (!svgSource && !iconName) {
+      emptyContainer.hidden = false;
+      return;
+    }
+
+    var img = document.createElement("img");
+    img.src = svgSource
+      ? "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svgSource)
+      : preview.dataset.resolverUrl + "/" + encodeURIComponent(iconName);
+    img.alt = iconName || "Uploaded SVG";
+    img.loading = "lazy";
+    img.style.maxWidth = "3rem";
+    img.style.maxHeight = "3rem";
+    imageContainer.appendChild(img);
+    emptyContainer.hidden = true;
+  }
+
+  function updateAll(scope) {
+    var root = scope || document;
+    root.querySelectorAll(".smartweb-svg-icon-preview").forEach(updatePreview);
+  }
+
+  function updateUploadStatus(upload) {
+    var stored = upload.querySelector(".smartweb-svg-upload__stored");
+    var clearButton = upload.querySelector(".smartweb-svg-upload__clear");
+    var textArea = upload.querySelector("textarea");
+    var hasSVG = textArea && textArea.value.trim();
+    if (stored) {
+      stored.hidden = !hasSVG;
+    }
+    if (clearButton) {
+      clearButton.hidden = !hasSVG;
+    }
+  }
+
+  document.addEventListener("input", function (event) {
+    var input = event.target;
+    if (!input.matches('input[name$=".widgets.icon_name"]')) {
+      return;
+    }
+    var row = input.closest("tr");
+    if (row) {
+      updateAll(row);
+    }
+  });
+
+  document.addEventListener("change", function (event) {
+    var input = event.target;
+    if (!input.matches(".smartweb-svg-upload__input")) {
+      return;
+    }
+    var upload = input.closest(".smartweb-svg-upload");
+    var row = input.closest("tr");
+    var textArea = upload ? upload.querySelector("textarea") : null;
+    var file = input.files && input.files.length ? input.files[0] : null;
+    if (!textArea || !file) {
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function () {
+      textArea.value = reader.result || "";
+      updateUploadStatus(upload);
+      if (row) {
+        updateAll(row);
+      }
+    };
+    reader.readAsText(file);
+  });
+
+  document.addEventListener("click", function (event) {
+    var button = event.target.closest(".smartweb-svg-upload__clear");
+    if (!button) {
+      return;
+    }
+    var upload = button.closest(".smartweb-svg-upload");
+    var row = button.closest("tr");
+    var textArea = upload ? upload.querySelector("textarea") : null;
+    var fileInput = upload ? upload.querySelector(".smartweb-svg-upload__input") : null;
+    if (textArea) {
+      textArea.value = "";
+    }
+    if (fileInput) {
+      fileInput.value = "";
+    }
+    updateUploadStatus(upload);
+    if (row) {
+      updateAll(row);
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    updateAll(document);
+    document.querySelectorAll(".smartweb-svg-upload").forEach(updateUploadStatus);
+  });
+
+  document.addEventListener("click", function () {
+    window.setTimeout(function () {
+      updateAll(document);
+    }, 0);
+  });
+}());
+//]]>
+</script>
+</tal:domain>

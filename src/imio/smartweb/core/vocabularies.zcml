@@ -9,6 +9,12 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.ControlPanelIcons"
+      component=".vocabularies.ControlPanelIconsVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.PublikCampaigns"
       component=".vocabularies.RemoteCampaignsVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

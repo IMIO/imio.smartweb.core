@@ -1220,4 +1220,22 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Add SVG icon preview rows setting to registry"
+      description="Add missing smartweb.svg_icon_preview_rows registry record"
+      source="1080"
+      destination="1081"
+      handler=".upgrades.add_svg_icon_preview_rows_setting"
+      profile="imio.smartweb.core:default"
+      />
+
+  <!-- genericsetup:upgradeStep
+      title="Update SVG icon preview rows setting schema"
+      description="Add SVG upload storage to smartweb.svg_icon_preview_rows rows"
+      source="1081"
+      destination="1082"
+      handler=".upgrades.add_svg_icon_preview_rows_setting"
+      profile="imio.smartweb.core:default"
+      /-->
+
 </configure>
