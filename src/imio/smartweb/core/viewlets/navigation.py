@@ -177,7 +177,9 @@ class ImprovedGlobalSectionsViewlet(GlobalSectionsViewlet):
                     out=qa_menu,
                 )
             depth = len(path.split("/")) - self.root_depth
-            out = self._subtree_markup_wrapper.format(out=out, qa_out=qa_out, depth=depth)
+            out = self._subtree_markup_wrapper.format(
+                out=out, qa_out=qa_out, depth=depth
+            )
         return out
 
     def render_globalnav(self):
