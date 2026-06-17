@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.51 (unreleased)
+1.4.51 (2026-06-17)
 -------------------
 
 - Add post-migration view to move inline images out of SectionText rich text into a SectionGallery
