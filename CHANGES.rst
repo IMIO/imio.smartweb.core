@@ -5,6 +5,9 @@ Changelog
 1.4.51 (unreleased)
 -------------------
 
+- Add post-migration view to move inline images out of SectionText rich text into a SectionGallery
+  [boulch]
+
 - WEB-4434 : Add more class for improved sub-menu et move arian menu position
   [thomlamb]
 

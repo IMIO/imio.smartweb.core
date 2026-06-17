@@ -61,6 +61,7 @@
       permission="cmf.ManagePortal"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
   <browser:page
       for="*"
       name="reclone_empty_blobs"
@@ -68,4 +69,14 @@
       permission="cmf.ManagePortal"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
+  <browser:page
+      for="*"
+      name="migrate_sectiontext_images"
+      class=".migrate_sectiontext_images.MigrateSectionTextImagesView"
+      template="migrate_sectiontext_images.pt"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>
