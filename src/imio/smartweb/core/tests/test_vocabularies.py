@@ -110,7 +110,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         json_entities_raw_mock = get_json(
             "resources/json_directory_entities_raw_mock.json"
         )
-        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID".format(
+        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=3000&metadata_fields=UID".format(
             config.DIRECTORY_URL
         )
         m.get(url, text=json.dumps(json_entities_raw_mock))

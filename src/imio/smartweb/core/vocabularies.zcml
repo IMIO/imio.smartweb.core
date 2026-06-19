@@ -56,11 +56,11 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
-  <utility
+  <!-- MOVE TO IMIO.SMARTWEB.COMMON 1.2.55 utility
       name="imio.smartweb.vocabulary.RemoteDirectoryEntities"
       component=".vocabularies.RemoteDirectoryEntitiesVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"
-      />
+      /-->
 
   <utility
       name="imio.smartweb.vocabulary.RemoteContacts"

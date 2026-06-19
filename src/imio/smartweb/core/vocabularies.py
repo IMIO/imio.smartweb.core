@@ -315,12 +315,13 @@ def get_entities_vocabulary(portal_type, base_url):
     )
 
 
-class RemoteDirectoryEntitiesVocabularyFactory:
-    def __call__(self, context=None):
-        return get_entities_vocabulary("imio.directory.Entity", DIRECTORY_URL)
+# MOVE TO IMIO.SMARTWEB.COMMON 1.2.55
+# class RemoteDirectoryEntitiesVocabularyFactory:
+#     def __call__(self, context=None):
+#         return get_entities_vocabulary("imio.directory.Entity", DIRECTORY_URL)
 
 
-RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
+# RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
 
 
 class RemoteEventsEntitiesVocabularyFactory:

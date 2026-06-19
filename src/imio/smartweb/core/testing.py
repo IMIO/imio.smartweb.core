@@ -45,7 +45,7 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
             "resources/json_directory_entities_raw_mock.json"
         )
         m.get(
-            f"{config.DIRECTORY_URL}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID",
+            f"{config.DIRECTORY_URL}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=3000&metadata_fields=UID",
             text=json.dumps(json_directory_entities_raw_mock),
         )
         json_events_entities_raw_mock = get_json(

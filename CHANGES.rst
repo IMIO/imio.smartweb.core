@@ -5,7 +5,8 @@ Changelog
 1.4.52 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Move ``imio.smartweb.vocabulary.RemoteDirectoryEntities`` vocabulary to imio.smartweb.common (1.2.55)
+  [boulch]
 
 
 1.4.51 (2026-06-17)
