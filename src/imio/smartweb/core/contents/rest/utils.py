@@ -38,18 +38,12 @@ def get_auth_sources_response(
     if sources_name == "directory":
         url = DIRECTORY_URL
         portaltype = "imio.directory.Contact"
-        client_id_varname = "RESTAPI_DIRECTORY_CLIENT_ID"
-        client_secret_varname = "RESTAPI_DIRECTORY_CLIENT_SECRET"
     elif sources_name == "events":
         url = EVENTS_URL
         portaltype = "imio.events.Event"
-        client_id_varname = "RESTAPI_EVENTS_CLIENT_ID"
-        client_secret_varname = "RESTAPI_EVENTS_CLIENT_SECRET"
     elif sources_name == "news":
         url = NEWS_URL
         portaltype = "imio.news.NewsItem"
-        client_id_varname = "RESTAPI_NEWS_CLIENT_ID"
-        client_secret_varname = "RESTAPI_NEWS_CLIENT_SECRET"
 
     payload = {
         "query": [
@@ -76,8 +70,8 @@ def get_auth_sources_response(
         "b_start": 0,
         "b_size": 4000,
     }
-    client_id = os.environ.get(client_id_varname)
-    client_secret = os.environ.get(client_secret_varname)
+    client_id = os.environ.get("SSO_APPS_CLIENT_ID", "imio-apps-smartweb")
+    client_secret = os.environ.get("SSO_APPS_CLIENT_SECRET", "")
     auth = get_wca_token(client_id, client_secret)
     headers = {
         "Accept": "application/json",
