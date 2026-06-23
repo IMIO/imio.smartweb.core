@@ -79,7 +79,9 @@ def get_json(url, auth=None, timeout=5):
 
 
 def get_wca_token(client_id, client_secret):
-    username = os.environ.get("SSO_APPS_USER_USERNAME", "imio-apps-smartweb_belleville-ac")
+    username = os.environ.get(
+        "SSO_APPS_USER_USERNAME", "imio-apps-smartweb_belleville-ac"
+    )
     password = os.environ.get("SSO_APPS_USER_PASSWORD", "")
 
     payload = {
