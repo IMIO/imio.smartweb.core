@@ -5,6 +5,9 @@ Changelog
 1.4.52 (unreleased)
 -------------------
 
+- WEB-4448 : Get SSO-APPS credentials instead of authentic
+  [boulch, remdub]
+
 - Move ``imio.smartweb.vocabulary.RemoteDirectoryEntities`` vocabulary to imio.smartweb.common (1.2.55)
   [boulch]
 

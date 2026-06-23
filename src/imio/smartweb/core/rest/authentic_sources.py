@@ -17,7 +17,6 @@ from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
 import logging
-import os
 import requests
 
 _BRUSSELS_TZ = ZoneInfo("Europe/Brussels")
@@ -154,8 +153,6 @@ class BaseRequestForwarder(Service):
 
 class DirectoryRequestForwarder(BaseRequestForwarder):
     request_type = "directory"
-    client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
-    client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
     base_url = DIRECTORY_URL
 
     def enrich_response(self, response):
@@ -164,8 +161,6 @@ class DirectoryRequestForwarder(BaseRequestForwarder):
 
 class EventsRequestForwarder(BaseRequestForwarder):
     request_type = "events"
-    client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
-    client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
     base_url = EVENTS_URL
 
     _DATE_FORMATS = (
@@ -199,8 +194,6 @@ class EventsRequestForwarder(BaseRequestForwarder):
 
 class NewsRequestForwarder(BaseRequestForwarder):
     request_type = "news"
-    client_id = os.environ.get("RESTAPI_NEWS_CLIENT_ID")
-    client_secret = os.environ.get("RESTAPI_NEWS_CLIENT_SECRET")
     base_url = NEWS_URL
 
     def enrich_response(self, response):

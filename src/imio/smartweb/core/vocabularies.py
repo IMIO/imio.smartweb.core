@@ -562,8 +562,8 @@ FilteredCategoryAndTopicsVocabulary = FilteredCategoryAndTopicsVocabularyFactory
 
 class DirectoryCategoriesVocabularyFactory:
     def __call__(self, context=None):
-        client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
-        client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
+        client_id = os.environ.get("SSO_APPS_CLIENT_ID", "imio-apps-smartweb")
+        client_secret = os.environ.get("SSO_APPS_CLIENT_SECRET", "")
         auth = get_wca_token(client_id, client_secret)
         url = f"{DIRECTORY_URL}/@vocabularies/collective.taxonomy.contact_category?b_size=1000000"
         categories_json = get_json(url, auth=auth)
@@ -585,8 +585,8 @@ DirectoryCategoriesVocabulary = DirectoryCategoriesVocabularyFactory()
 class EventsTypesVocabularyFactory:
     @ram.cache(lambda *args: time() // (60 * 60))
     def __call__(self, context=None):
-        client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
-        client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
+        client_id = os.environ.get("SSO_APPS_CLIENT_ID", "imio-apps-smartweb")
+        client_secret = os.environ.get("SSO_APPS_CLIENT_SECRET", "")
         auth = get_wca_token(client_id, client_secret)
         url = f"{EVENTS_URL}/@vocabularies/imio.events.vocabulary.EventTypes"
         eventstypes_json = get_json(url, auth=auth)

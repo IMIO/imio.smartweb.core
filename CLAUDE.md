@@ -58,12 +58,12 @@ Content types that display remote data from sibling iMio apps:
 
 | Type | Authentic source | Env vars |
 |------|-----------------|----------|
-| `DirectoryView` | imio.directory | `DIRECTORY_URL`, `RESTAPI_DIRECTORY_CLIENT_ID/SECRET` |
-| `EventsView` | imio.events | `EVENTS_URL`, `RESTAPI_EVENTS_CLIENT_ID/SECRET` |
-| `NewsView` | imio.news | `NEWS_URL`, `RESTAPI_NEWS_CLIENT_ID/SECRET` |
+| `DirectoryView` | imio.directory | `DIRECTORY_URL` |
+| `EventsView` | imio.events | `EVENTS_URL` |
+| `NewsView` | imio.news | `NEWS_URL` |
 | `CampaignView` | WCS ideabox | (WCS config) |
 
-Request forwarders in `rest/authentic_sources.py` proxy HTTP to remote APIs with OAuth token auth.
+Request forwarders in `rest/authentic_sources.py` proxy HTTP to remote APIs. Auth uses a Bearer token forwarded from `request._auth`; SSO-APPS credentials (`SSO_APPS_CLIENT_ID` / `SSO_APPS_CLIENT_SECRET`) are used to obtain WCA tokens for vocabulary/metadata fetching (see `vocabularies.py`, `contents/rest/utils.py`).
 
 ### Behaviors (`behaviors/`)
 
