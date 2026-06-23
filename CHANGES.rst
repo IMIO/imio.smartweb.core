@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.52 (unreleased)
+1.4.52 (2026-06-23)
 -------------------
 
 - WEB-4448 : Get SSO-APPS credentials instead of authentic
