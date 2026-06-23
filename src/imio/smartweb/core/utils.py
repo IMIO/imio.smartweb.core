@@ -2,7 +2,6 @@
 
 from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
-from imio.smartweb.core.config import WCA_URL
 from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
 from plone import api
@@ -97,7 +96,11 @@ def get_wca_token(client_id, client_secret):
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
     }
-    response = requests.post(WCA_URL, headers=headers, data=payload)
+    sso_apps_url = os.environ.get(
+        "SSO_APPS_URL",
+        "https://keycloak.127.0.0.1.nip.io/realms/imio/protocol/openid-connect/token",
+    )
+    response = requests.post(sso_apps_url, headers=headers, data=payload)
     id_token = response.json().get("id_token")
     return "Bearer {0}".format(id_token)
 
