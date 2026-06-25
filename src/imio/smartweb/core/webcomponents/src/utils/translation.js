@@ -132,6 +132,12 @@ export default {
         de: "Tickets",
         nl: "Ticketverkoop",
     },
+    Sponsors: {
+        en: "Sponsors",
+        fr: "Sponsors",
+        de: "Sponsoren",
+        nl: "Sponsors",
+    },
     "Lien vers la vidéo": {
         en: "Link to video",
         fr: "Lien vers la vidéo",

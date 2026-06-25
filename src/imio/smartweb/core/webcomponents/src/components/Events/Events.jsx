@@ -35,6 +35,7 @@ export default function Events(props) {
                         language={props.currentLanguage}
                         showCategoriesOrTopics={props.showCategoriesOrTopics}
                         contextAuthenticatedUser={props.contextAuthenticatedUser}
+                        navRootUrl={props.navRootUrl}
                     />
                 </ScrollContext.Provider>
             </Provider>
@@ -287,6 +288,7 @@ function EventsView(props) {
                                     onChange={clickID}
                                     onlyPastEvents={props.onlyPastEvents}
                                     contextAuthenticatedUser={props.contextAuthenticatedUser}
+                                    navRootUrl={props.navRootUrl}
                                 />
                             </div>
                             {displayMap && (

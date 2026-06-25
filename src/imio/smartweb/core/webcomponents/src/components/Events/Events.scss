@@ -481,6 +481,37 @@ article > header {
     }
 }
 
+.r-content-sponsors {
+    margin-top: 1rem;
+
+    > span {
+        font-weight: 600;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+
+    .r-content-sponsors-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        align-items: center;
+    }
+
+    .r-content-sponsor {
+        display: block;
+
+        img {
+            max-height: 80px;
+            max-width: 150px;
+            object-fit: contain;
+        }
+
+        &:hover {
+            opacity: 0.7;
+        }
+    }
+}
+
 .r-content-title-cat {
     color: #8e8e8e;
     margin-right: 5px;
