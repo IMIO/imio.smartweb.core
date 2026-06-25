@@ -48,6 +48,11 @@ class BaseRestView(BrowserView):
         return api.user.is_anonymous()
 
     @property
+    def navroot_url(self):
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
+        return portal_state.navigation_root_url()
+
+    @property
     def view_path(self):
         url = self.context.absolute_url()
         parsed = urlsplit(url)
