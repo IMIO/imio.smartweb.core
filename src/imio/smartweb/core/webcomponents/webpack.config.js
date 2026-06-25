@@ -135,11 +135,17 @@ module.exports = (env, argv) => {
             maxAssetSize: 2000 * 1024, // 2 Mo max for asset
             maxEntrypointSize: 750 * 1024, // 750 Ko max for entrypoint, if need more, use code-splitting with
         },
+        watchOptions: {
+            ignored: /node_modules/,
+        },
         devServer: {
             port: 2000,
             hot: true,
             watchFiles: {
                 paths: ["./../**/*.pt"], // Also watch for .pt file change
+                options: {
+                    ignored: /node_modules/,
+                },
             },
             // Python webresource module adds a integrity token so we need to write to disk so it can be recomputed
             devMiddleware: {
