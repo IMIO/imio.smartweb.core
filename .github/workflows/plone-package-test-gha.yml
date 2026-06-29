@@ -25,7 +25,7 @@ jobs:
     runs-on: gha-runners-smartweb
     strategy:
       matrix:
-        python-version: ['3.10', '3.13']
+        python-version: ['3.12', '3.13']
     steps:
     - name: Checkout codebase
       uses: actions/checkout@v4
@@ -49,7 +49,8 @@ jobs:
     - name: Run check
       uses: IMIO/gha/plone-package-test-notify@v3.9.4
       with:
-        CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-3.10
+        CACHE_KEY: eggs-test-${{ hashFiles('base.cfg') }}-python-3.12
+        PYTHON_VERSION: 3.12
         TEST_COMMAND: TZ=UTC coverage run bin/test
         REQUIREMENTS_FILE: 'requirements-coverage.txt'
         MATTERMOST_WEBHOOK_URL: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}

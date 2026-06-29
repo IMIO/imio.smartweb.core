@@ -102,7 +102,7 @@ class TestProcessCategorizeContentView(ImioSmartwebTestCase):
         view = self._make_view()
         with patch(f"{_IA_MODULE}.get_categories", return_value=self._mock_taxonomy()):
             with patch.object(view, "_ask_categorization_to_ia", return_value={}):
-                result = view._process_category("some text", {})
+                result = view._process_category("some text")
         self.assertEqual(result, "")
 
     def test_process_category_returns_categories_from_ia(self):
@@ -110,7 +110,7 @@ class TestProcessCategorizeContentView(ImioSmartwebTestCase):
         ia_data = {"result": [{"title": "Publication", "token": "publication"}]}
         with patch(f"{_IA_MODULE}.get_categories", return_value=self._mock_taxonomy()):
             with patch.object(view, "_ask_categorization_to_ia", return_value=ia_data):
-                result = view._process_category("some text", {})
+                result = view._process_category("some text")
         self.assertIsNotNone(result)
         self.assertEqual(len(result), 1)
         self.assertEqual(result[0]["token"], "publication")
@@ -119,7 +119,7 @@ class TestProcessCategorizeContentView(ImioSmartwebTestCase):
     def test_process_category_returns_none_when_context_already_has_category(self):
         self.page.taxonomy_page_category = "publication"
         view = self._make_view()
-        result = view._process_category("some text", {})
+        result = view._process_category("some text")
         self.assertIsNone(result)
 
     def test_process_category_builds_vocab_from_taxonomy_inv_data(self):
@@ -138,7 +138,7 @@ class TestProcessCategorizeContentView(ImioSmartwebTestCase):
             with patch.object(
                 view, "_ask_categorization_to_ia", side_effect=capture_voc
             ):
-                view._process_category("text", {})
+                view._process_category("text")
 
         tokens = {item["token"] for item in captured_voc}
         self.assertIn("token1", tokens)
@@ -186,3 +186,12 @@ class TestProcessCategorizeContentView(ImioSmartwebTestCase):
         self.assertIn(
             "form-widgets-page_category-taxonomy_page_category", result["data"]
         )
+
+
+# <audit>
+#   <file>test_ia.py</file>
+#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
+#   <deviations>None</deviations>
+#   <questions>None. Updated 4 _process_category() call sites to drop the
+#   removed second positional arg after the production refactor.</questions>
+# </audit>

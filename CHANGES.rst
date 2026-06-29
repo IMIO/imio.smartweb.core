@@ -5,7 +5,9 @@ Changelog
 1.4.53 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- OIA-106 : Reuse IA categorization views/forms from imio.smartweb.common and
+  remove redundant code in ``browser/ia``.
+  [boulch]
 
 
 1.4.52 (2026-06-23)
