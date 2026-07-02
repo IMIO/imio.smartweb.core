@@ -720,7 +720,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                 {/* add sponsors */}
                 {item.event_sponsors && item.event_sponsors.length > 0 && (
                     <div className="r-content-sponsors">
-                        <span><Translate text="Sponsors" /></span>
+                        <span><Translate text="Organisateurs" /></span>
                         <div className="r-content-sponsors-list">
                             {item.event_sponsors.map((sponsor, i) => (
                                 <a key={i} href={navRootUrl + "/annuaire/" + removeAccents(sponsor.name).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase() + "?u=" + sponsor.uid} className="r-content-sponsor">
