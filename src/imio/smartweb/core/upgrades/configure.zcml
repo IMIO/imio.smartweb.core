@@ -1220,4 +1220,12 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      source="1080"
+      destination="1081"
+      title="Add 'language_selector_dropdown' control panel setting"
+      profile="imio.smartweb.core:default"
+      handler=".upgrades.reload_registry"
+      />
+
 </configure>

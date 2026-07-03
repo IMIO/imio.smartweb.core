@@ -1,0 +1,112 @@
+<tal:language tal:condition="view/available"
+              i18n:domain="imio.smartweb"
+              tal:define="
+                showFlags view/showFlags;
+                languages view/languages;
+                icons python:context.restrictedTraverse('@@iconresolver');
+              "
+>
+
+  <!-- Dropdown selector (Bootstrap 5), current language first -->
+  <div tal:condition="view/use_dropdown"
+       id="portal-languageselector"
+       class="dropdown"
+       tal:define="
+         current python:([lang for lang in languages if lang.get('selected')] or [None])[0];
+       "
+  >
+    <button type="button"
+            id="portal-languageselector-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            i18n:attributes="aria-label"
+            aria-label="Choose a language"
+            tal:attributes="
+              class python:'btn dropdown-toggle currentLanguage' + (current and ' language-' + current['code'] or '');
+            "
+    >
+      <tal:current condition="current"
+                   define="
+                     flag current/flag|nothing;
+                     name current/native|current/name;
+                     showflag python:showFlags and flag;
+                   "
+      >
+        <tal:flag condition="showflag">
+          <img tal:replace="structure python:icons.tag(flag, tag_class='plone-icon-flag')" />
+        </tal:flag>
+        <tal:nonflag condition="not: showflag"
+                     replace="name"
+        >language name</tal:nonflag>
+      </tal:current>
+    </button>
+
+    <ul class="dropdown-menu"
+        aria-labelledby="portal-languageselector-toggle"
+    >
+      <tal:language repeat="lang languages">
+        <li tal:condition="not: lang/selected"
+            tal:define="code lang/code;"
+        >
+          <a href=""
+             tal:define="
+               flag lang/flag|nothing;
+               name lang/native|lang/name;
+               showflag python:showFlags and flag;
+             "
+             tal:attributes="
+               href lang/url;
+               title name;
+               class string:dropdown-item language-${code};
+             "
+          >
+            <tal:flag condition="showflag">
+              <img tal:replace="structure python:icons.tag(flag, tag_class='plone-icon-flag')" />
+            </tal:flag>
+            <tal:nonflag condition="not: showflag"
+                         replace="name"
+            >language name</tal:nonflag>
+          </a>
+        </li>
+      </tal:language>
+    </ul>
+  </div>
+
+  <!-- Classic selector (languages side by side) -->
+  <ul tal:condition="not: view/use_dropdown"
+      id="portal-languageselector"
+  >
+    <tal:language repeat="lang languages">
+      <li tal:define="
+            code lang/code;
+            selected lang/selected;
+            codeclass string:language-${code};
+            current python: selected and 'currentLanguage ' or '';
+          "
+          tal:attributes="
+            class string:${current}${codeclass};
+          "
+      >
+        <a href=""
+           tal:define="
+             flag lang/flag|nothing;
+             name lang/native|lang/name;
+             showflag python:showFlags and flag;
+           "
+           tal:attributes="
+             href lang/url;
+             title name;
+           "
+        >
+          <tal:flag condition="showflag">
+            <img tal:replace="structure python:icons.tag(flag, tag_class='plone-icon-flag')" />
+          </tal:flag>
+          <tal:nonflag condition="not: showflag"
+                       replace="name"
+          >language name</tal:nonflag>
+        </a>
+      </li>
+    </tal:language>
+  </ul>
+
+</tal:language>

@@ -383,16 +383,14 @@
 
   <!-- Overrides to change viewlets managers -->
 
-  <configure package="plone.app.multilingual.browser">
-    <browser:viewlet
-        name="plone.app.multilingual.languageselector"
-        manager="imio.smartweb.core.viewlets.actions.IHeaderActionsViewletsManager"
-        layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
-        class=".selector.LanguageSelectorViewlet"
-        permission="zope2.View"
-        template="templates/languageselector.pt"
-        />
-  </configure>
+  <browser:viewlet
+      name="plone.app.multilingual.languageselector"
+      manager=".actions.IHeaderActionsViewletsManager"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      class=".selector.LanguageSelectorViewlet"
+      permission="zope2.View"
+      template="languageselector.pt"
+      />
 
   <browser:viewlet
       name="plone.searchbox"

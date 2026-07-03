@@ -177,6 +177,17 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    language_selector_dropdown = schema.Bool(
+        title=_("Display the language selector as a dropdown menu"),
+        description=_(
+            "If enabled, the language selector is displayed as a dropdown menu "
+            "with the current language first. If disabled, the languages are "
+            "listed side by side (classic selector)."
+        ),
+        default=False,
+        required=False,
+    )
+
 
 class SmartwebControlPanelForm(RegistryEditForm):
     schema = ISmartwebControlPanel
