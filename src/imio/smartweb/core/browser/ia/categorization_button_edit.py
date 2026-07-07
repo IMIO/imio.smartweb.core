@@ -6,8 +6,6 @@ from imio.smartweb.core.browser.forms import SmartwebCustomEditForm
 from plone.z3cform import layout
 from z3c.form.interfaces import HIDDEN_MODE
 
-FIELD_NAME = "categorization_ia_link"  # Internal id for dummy field
-
 
 class PageEditForm(SmartwebCustomEditForm, IACategorizeEditForm):
     """Vue edit custom, avec bouton 'Catégoriser' injecté en haut de 'categorization'."""
