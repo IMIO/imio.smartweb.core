@@ -5,6 +5,9 @@ Changelog
 1.4.53 (unreleased)
 -------------------
 
+- update to Plone 6.1.5 and buidlout 5-x versions
+  [bouch]
+
 - OIA-106 : Reuse IA categorization views/forms from imio.smartweb.common and
   remove redundant code in ``browser/ia``.
   [boulch]
