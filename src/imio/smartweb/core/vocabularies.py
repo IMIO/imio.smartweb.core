@@ -222,30 +222,6 @@ class SubsiteDisplayModeVocabularyFactory:
 SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()
 
 
-class ContactBlocksVocabularyFactory:
-    def __call__(self, context=None):
-        values = [
-            ("logo", _("Logo")),
-            ("leadimage", _("Lead Image")),
-            ("titles", _("Title and Subtitle")),
-            ("contact_informations", _("Contact informations")),
-            ("address", _("Address")),
-            ("itinerary", _("Itinerary")),
-            ("schedule", _("Schedule")),
-            ("map", _("Map")),
-            ("description", _("Description")),
-            ("gallery", _("Gallery")),
-        ]
-        terms = [
-            SimpleVocabulary.createTerm(value[0], value[0], value[1])
-            for value in values
-        ]
-        return SimpleVocabulary(terms)
-
-
-ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
-
-
 class PermissiveVocabulary(SimpleVocabulary):
     """Vocabulary that accepts any value — used during content import to bypass
     remote vocabulary validation when the remote service is unavailable or not

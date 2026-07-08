@@ -50,12 +50,6 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
-  <utility
-      name="imio.smartweb.vocabulary.ContactBlocks"
-      component=".vocabularies.ContactBlocksVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
-
   <!-- MOVE TO IMIO.SMARTWEB.COMMON 1.2.55 utility
       name="imio.smartweb.vocabulary.RemoteDirectoryEntities"
       component=".vocabularies.RemoteDirectoryEntitiesVocabulary"

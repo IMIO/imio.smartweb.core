@@ -5,6 +5,10 @@ Changelog
 1.4.54 (unreleased)
 -------------------
 
+- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
+  (usefull for linked contact in auth sources)
+  [boulch]
+
 - WEB-4422: Restore ``smartweb_url`` on each item of forwarded listing/search
   responses (regression since the request-forwarder refactoring).
   [boulch]
