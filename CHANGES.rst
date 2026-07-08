@@ -5,7 +5,9 @@ Changelog
 1.4.54 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4422: Restore ``smartweb_url`` on each item of forwarded listing/search
+  responses (regression since the request-forwarder refactoring).
+  [boulch]
 
 
 1.4.53 (2026-07-07)

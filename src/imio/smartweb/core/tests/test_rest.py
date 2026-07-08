@@ -804,8 +804,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         response = service.reply()
         self.assertNotIn("smartweb_url", response)
 
-        # GET → enrich_response not called; smartweb_url set by add_smartweb_urls
-        # (no title fields → falls back to id)
+        # GET single object → top-level enriched (no title fields → falls back to id)
         fake4 = FakeResponse(status_code=200, headers={})
         fake4.text = json.dumps(
             {
@@ -820,3 +819,38 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.assertEqual(
             response["smartweb_url"], "http://view-url/my-event-id?u=ghi789"
         )
+
+        # GET listing → each item with a UID gets its own smartweb_url
+        fake5 = FakeResponse(status_code=200, headers={})
+        fake5.text = json.dumps(
+            {
+                "items": [
+                    {
+                        "@id": "https://events.example.be/belleville/citoyens/item1",
+                        "UID": "uid1",
+                        "id": "first-event",
+                        "title": "First Event",
+                        "title_en": "First English Event",
+                    },
+                    {
+                        "@id": "https://events.example.be/belleville/citoyens/item2",
+                        "UID": "uid2",
+                        "id": "second-event",
+                    },
+                    {"@id": "https://events.example.be/belleville/citoyens/item3"},
+                ]
+            }
+        )
+        mock_request.return_value = fake5
+        service = self.traverse("/plone/@events_request_forwarder/belleville/@search")
+        response = service.reply()
+        self.assertEqual(
+            response["items"][0]["smartweb_url"],
+            "http://view-url/first-english-event?u=uid1",
+        )
+        self.assertEqual(
+            response["items"][1]["smartweb_url"],
+            "http://view-url/second-event?u=uid2",
+        )
+        # item without UID is left untouched
+        self.assertNotIn("smartweb_url", response["items"][2])

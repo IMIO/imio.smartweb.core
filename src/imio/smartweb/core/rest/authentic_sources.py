@@ -42,6 +42,9 @@ class BaseRequestForwarder(Service):
         response = self.forward_request(auth_source_url)
         if isinstance(response, dict):
             response = self.enrich_response(response)
+            for item in response.get("items", []):
+                if isinstance(item, dict):
+                    self.enrich_response(item)
         if is_log_active():
             logger.info("======== FULL Response =========")
             logger.info(response)
