@@ -854,3 +854,44 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         )
         # item without UID is left untouched
         self.assertNotIn("smartweb_url", response["items"][2])
+
+        # fullobjects listing: items carry no "UID" key, but their @id ends
+        # with the content UID (imio stores content with its UID as id), so
+        # smartweb_url is still built. The listing container @id (a query URL)
+        # and a human-readable entity id must NOT be enriched.
+        uid_hex = "cabd8ce824604529ad09d528459cc0a1"
+        fake6 = FakeResponse(status_code=200, headers={})
+        fake6.text = json.dumps(
+            {
+                "@id": "https://events.example.be/belleville/@events?portal_type=x",
+                "items": [
+                    {
+                        "@id": f"https://events.example.be/belleville/communal/{uid_hex}",
+                        "title": "My Event",
+                    },
+                    {"@id": "https://events.example.be/belleville/an-entity"},
+                ],
+            }
+        )
+        mock_request.return_value = fake6
+        service = self.traverse("/plone/@events_request_forwarder/belleville/@search")
+        response = service.reply()
+        # container (query @id) not enriched
+        self.assertNotIn("smartweb_url", response)
+        # content item: UID recovered from @id, slug from title
+        self.assertEqual(
+            response["items"][0]["smartweb_url"],
+            f"http://view-url/my-event?u={uid_hex}",
+        )
+        # non-UID @id segment (entity/folder) left untouched
+        self.assertNotIn("smartweb_url", response["items"][1])
+
+
+# <audit>
+#   <file>test_rest.py</file>
+#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
+#   <deviations>None</deviations>
+#   <questions>None. Extended test_enrich_response (which covers reply()'s
+#   enrichment) with the GET-listing regression case and the fullobjects case
+#   where items lack a UID key and the UID is recovered from the @id.</questions>
+# </audit>

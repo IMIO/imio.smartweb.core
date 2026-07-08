@@ -17,6 +17,7 @@ from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
 import logging
+import re
 import requests
 
 _BRUSSELS_TZ = ZoneInfo("Europe/Brussels")
@@ -53,8 +54,19 @@ class BaseRequestForwarder(Service):
     def prepare_data(self, data):
         return data
 
+    def _uid_from_id(self, atid):
+        # fullobjects listings may omit the UID metadata field. imio content is
+        # stored with its UID as id, so recover it from the last @id segment,
+        # but only when it looks like a Plone UID (32 hex chars). This avoids
+        # picking up a listing/query @id (e.g. ".../@events?portal_type=...")
+        # or a human-readable entity/folder id.
+        if not atid or not isinstance(atid, str):
+            return None
+        candidate = atid.rsplit("/", 1)[-1]
+        return candidate if re.fullmatch(r"[0-9a-f]{32}", candidate) else None
+
     def enrich_response(self, response):
-        uid = response.get("UID")
+        uid = response.get("UID") or self._uid_from_id(response.get("@id"))
         if not uid:
             return response
         lang = api.portal.get_current_language(context=self.context)
