@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
@@ -8,6 +9,10 @@ from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
 from zope.interface import implementer
 from zope.interface import Interface
+
+import logging
+
+logger = logging.getLogger("imio.smartweb.core")
 
 
 class BaseEventsEndpoint(BaseEndpoint):
@@ -102,6 +107,8 @@ class BaseEventsEndpoint(BaseEndpoint):
                 params.append(f"event_type={event_type}")
         params = self.construct_query_string(params)
         url = f"{EVENTS_URL}/{self.remote_endpoint}?{params}"
+        if is_log_active():
+            logger.info(f"Agenda query_url : {url}")
         return url
 
 
