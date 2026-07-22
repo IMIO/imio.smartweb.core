@@ -127,6 +127,7 @@ function AnnuaireView(props) {
     // coditional list render
     let listRender;
     let MapRender;
+    let DetailMapRender;
     if (contactArray && contactArray.length > 0) {
         listRender = (
             <ContactList
@@ -142,6 +143,14 @@ function AnnuaireView(props) {
                 clickId={clickId}
                 hoverId={hoverId}
                 items={contactArray}
+                queryUrl={props.queryUrl}
+            />
+        );
+        const activeContact = contactArray.filter((contact) => contact.UID === u);
+        DetailMapRender = (
+            <Map
+                headerHeight={style.height + headerHeight}
+                items={activeContact}
                 queryUrl={props.queryUrl}
             />
         );
@@ -287,7 +296,7 @@ function AnnuaireView(props) {
                                         height: "calc(100vh-" + style.height + headerHeight,
                                     }}
                                 >
-                                    {MapRender}
+                                    {DetailMapRender}
                                 </div>
                             )}
                         </div>

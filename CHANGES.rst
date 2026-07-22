@@ -12,6 +12,9 @@ Changelog
   and forwards the caller's Bearer token to the authentic source.
   [boulch]
 
+- SUP-53979: Fix contact map showing all markers on the contact detail view
+  [thomlamb]
+
 - Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
   (usefull for linked contact in auth sources)
   [boulch]
