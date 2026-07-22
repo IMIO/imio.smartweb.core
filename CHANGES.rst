@@ -5,6 +5,9 @@ Changelog
 1.4.54 (unreleased)
 -------------------
 
+- SUP-53979: Fix contact map showing all markers on the contact detail view
+  [thomlamb]
+
 - Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
   (usefull for linked contact in auth sources)
   [boulch]
