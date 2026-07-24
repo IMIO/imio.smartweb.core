@@ -9,6 +9,7 @@ from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import clear_cache
+from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
@@ -28,6 +29,9 @@ from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 from zope.intid.interfaces import IIntIds
 from zope.lifecycleevent import modified
+
+import json
+import requests_mock
 
 
 class TestSections(ImioSmartwebTestCase):
@@ -104,7 +108,13 @@ class TestSections(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("1 KB", view())
 
-    def test_video_section(self):
+    @requests_mock.Mocker()
+    def test_video_section(self, m):
+        youtube_oembed = get_json("resources/json_video_youtube_oembed_mock.json")
+        vimeo_oembed = get_json("resources/json_video_vimeo_oembed_mock.json")
+        m.get("https://www.youtube.com/oembed", text=json.dumps(youtube_oembed))
+        m.get("https://vimeo.com/api/oembed.json", text=json.dumps(vimeo_oembed))
+
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionVideo",
@@ -125,6 +135,14 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn("iframe", embedded_video)
         self.assertIn("https://player.vimeo.com/video/110990510", embedded_video)
         self.assertIn("(Vimeo video)", embedded_video)
+
+        # A removed / unavailable video (non-200 oembed) must degrade gracefully
+        # instead of raising (regression: WEB-3538 accessibility override).
+        # embeddify falls back to returning the plain url when no embed is built.
+        m.get("https://vimeo.com/api/oembed.json", status_code=404)
+        section.video_url = "https://vimeo.com/000000000"
+        view = queryMultiAdapter((section, self.request), name="view")
+        self.assertEqual(view.get_embed_video(), "https://vimeo.com/000000000")
 
     def test_external_content_section(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
@@ -624,3 +642,16 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn(f"{section_text.getURL()}/@@historyview", page_view)
         # One more history view link on SectionText
         self.assertEqual(page_view.count("@@historyview"), count_historyview_link + 1)
+
+
+# <audit>
+#   <file>test_sections.py</file>
+#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
+#   <deviations>
+#     Modified only test_video_section (kept one method per tested method, R5).
+#     Replaced live oembed network calls with requests_mock + resource fixtures
+#     (R1: mock external HTTP only). Mirrored the per-test @requests_mock.Mocker()
+#     + get_json fixture pattern from test_section_news.py (R6).
+#   </deviations>
+#   <questions>None</questions>
+# </audit>

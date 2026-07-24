@@ -5,6 +5,18 @@ Changelog
 1.4.54 (unreleased)
 -------------------
 
+- Fix "AttributeError" when embedding a removed/unavailable video: guard
+  against "None" oembed responses in the YouTube/Vimeo accessibility overrides
+  so the video section degrades gracefully instead of crashing.
+  [boulch]
+
+- WEB-4422: Make the events request-forwarder return the same listing as the
+  site: for events listings it delegates to the default events view
+  (``smartweb.default_events_view``), reusing its query (agenda cascade, event
+  types, metadata fields) and response processing, defaults to upcoming events,
+  and forwards the caller's Bearer token to the authentic source.
+  [boulch]
+
 - SUP-53979: Fix contact map showing all markers on the contact detail view
   [thomlamb]
 

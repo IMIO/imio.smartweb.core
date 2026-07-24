@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from datetime import datetime
+from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
@@ -12,6 +13,10 @@ from plone.restapi.search.handler import SearchHandler
 from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.services import Service
 from time import time
+
+import logging
+
+logger = logging.getLogger("imio.smartweb.core")
 
 
 def _cache_key(func, navigation_root):
@@ -50,6 +55,30 @@ def get_navigation_root(context):
                 return item
 
 
+def get_site_agenda_uids(context):
+    """Agenda UIDs of every EventsView in the context's navigation root.
+
+    This is the same agenda scope the unified search uses, so a request
+    forwarded "for the whole site" returns the same events as the site.
+    """
+    navigation_root = get_navigation_root(context)
+    if navigation_root is None:
+        if is_log_active():
+            logger.info("======== get_site_agenda_uids =========")
+            logger.info(
+                f"no navigation root for context {context!r}; empty agenda scope"
+            )
+        return []
+    events_views = get_events_views(navigation_root)
+    agenda_uids = [uid for uid in events_views.keys() if uid and uid != "default"]
+    if is_log_active():
+        logger.info("======== get_site_agenda_uids =========")
+        logger.info(f"navigation root : {navigation_root.absolute_url()}")
+        logger.info(f"EventsView agendas (uid -> url) : {events_views}")
+        logger.info(f"site agenda scope ({len(agenda_uids)}) : {agenda_uids}")
+    return agenda_uids
+
+
 def get_default_view_url(view_type):
     record = api.portal.get_registry_record(
         "smartweb.default_{0}_view".format(view_type), default=None
@@ -61,6 +90,32 @@ def get_default_view_url(view_type):
         if not obj:
             return ""
         return obj.absolute_url()
+
+
+def get_default_events_view():
+    """The site's default events view object (registry ``smartweb.default_events_view``).
+
+    Reusing this view lets the events forwarder build its request to the
+    authentic source exactly like the site does — same agenda cascade
+    (``selected_agenda`` + ``populating_agendas``), event types, metadata fields
+    and response processing. Returns None when no default events view is set.
+    """
+    record = api.portal.get_registry_record(
+        "smartweb.default_events_view", default=None
+    )
+    if not record:
+        if is_log_active():
+            logger.info("======== get_default_events_view =========")
+            logger.info("no smartweb.default_events_view configured")
+        return None
+    with api.env.adopt_user(username="admin"):
+        view = api.content.get(UID=record)
+    if is_log_active():
+        logger.info("======== get_default_events_view =========")
+        logger.info(f"default events view UID : {record}")
+        view_url = view.absolute_url() if view is not None else None
+        logger.info(f"default events view : {view_url}")
+    return view
 
 
 def get_views_mapping(navigation_root):
@@ -212,9 +267,7 @@ class ExtendedSearchHandler(SearchHandler):
                     "modified",
                 ],
                 "selected_agendas": {
-                    "query": [
-                        k for k in mapping["imio.events.Event"].keys() if k != "default"
-                    ],
+                    "query": get_site_agenda_uids(self.context),
                     "operator": "or",
                 },
                 "event_dates": {"query": datetime.now().date(), "range": "min"},

@@ -18,6 +18,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.namedfile.file import NamedBlobImage
 from plone.restapi.testing import RelativeSession
+from unittest.mock import MagicMock
 from unittest.mock import patch
 from urllib.parse import urlparse
 from urllib.parse import parse_qs
@@ -751,6 +752,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
     @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
     @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
     def test_enrich_response(self, mock_view_url, mock_request):
+        # POST responses go through the forward path (not the listing
+        # delegation), so enrich_response is exercised on the forwarded object.
         mock_view_url.return_value = "http://view-url"
         self.request._auth = "Bearer kamoulox"
 
@@ -804,94 +807,142 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         response = service.reply()
         self.assertNotIn("smartweb_url", response)
 
-        # GET single object → top-level enriched (no title fields → falls back to id)
-        fake4 = FakeResponse(status_code=200, headers={})
-        fake4.text = json.dumps(
-            {
-                "@id": "https://events.example.be/belleville/citoyens/ghi789",
-                "UID": "ghi789",
-                "id": "my-event-id",
-            }
-        )
-        mock_request.return_value = fake4
-        service = self.traverse("/plone/@events_request_forwarder/belleville/@search")
-        response = service.reply()
-        self.assertEqual(
-            response["smartweb_url"], "http://view-url/my-event-id?u=ghi789"
-        )
+    @patch("imio.smartweb.core.rest.authentic_sources.get_json")
+    @patch("imio.smartweb.core.rest.authentic_sources.EventsEndpoint")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_events_view")
+    def test_events_forwarder_delegates_to_default_view(
+        self, mock_view, mock_endpoint, mock_get_json
+    ):
+        default_view = MagicMock()
+        default_view.only_past_events = False
+        mock_view.return_value = default_view
+        mock_endpoint.return_value.query_url = "http://remote/@events?scoped"
+        mock_get_json.return_value = {"items": [], "items_total": 0}
 
-        # GET listing → each item with a UID gets its own smartweb_url
-        fake5 = FakeResponse(status_code=200, headers={})
-        fake5.text = json.dumps(
-            {
-                "items": [
-                    {
-                        "@id": "https://events.example.be/belleville/citoyens/item1",
-                        "UID": "uid1",
-                        "id": "first-event",
-                        "title": "First Event",
-                        "title_en": "First English Event",
-                    },
-                    {
-                        "@id": "https://events.example.be/belleville/citoyens/item2",
-                        "UID": "uid2",
-                        "id": "second-event",
-                    },
-                    {"@id": "https://events.example.be/belleville/citoyens/item3"},
-                ]
-            }
+        service = self.traverse("/plone/@events_request_forwarder/@events")
+        self.request._auth = "Bearer tok"
+        self.request.form["b_size"] = "2"
+        self.request.form["sort_on"] = "created"
+        self.request.form["sort_order"] = "descending"
+        self.request.form["fullobjects"] = "y"
+        service.reply()
+
+        # EventsEndpoint built from the site's default view with caller paging
+        args, kwargs = mock_endpoint.call_args
+        self.assertEqual(args[0], default_view)
+        self.assertEqual(kwargs.get("batch_size"), 2)
+        # its query_url is fetched raw (skips image conversion), Bearer forwarded
+        mock_get_json.assert_called_once_with(
+            "http://remote/@events?scoped", auth="Bearer tok", timeout=20
         )
-        mock_request.return_value = fake5
-        service = self.traverse("/plone/@events_request_forwarder/belleville/@search")
+        # upcoming-only date scope injected (only_past_events False → "min")
+        self.assertEqual(self.request.form["event_dates.range"], "min")
+        # control params owned by the view's query are stripped so they don't
+        # stack into conflicting duplicates (e.g. two "sort_on" → 500)
+        for key in ("sort_on", "sort_order", "fullobjects", "b_size"):
+            self.assertNotIn(key, self.request.form)
+
+    @patch("imio.smartweb.core.rest.authentic_sources.get_json")
+    @patch("imio.smartweb.core.rest.authentic_sources.EventsEndpoint")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_view_url")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_events_view")
+    def test_events_forwarder_enriches_delegated_items(
+        self, mock_view, mock_view_url, mock_endpoint, mock_get_json
+    ):
+        mock_view_url.return_value = "http://view-url"
+        mock_view.return_value = MagicMock()
+        mock_endpoint.return_value.query_url = "http://remote/@events?scoped"
+        uid_hex = "cabd8ce824604529ad09d528459cc0a1"
+        mock_get_json.return_value = {
+            "@id": "https://events.example.be/belleville/@events?portal_type=x",
+            "items": [
+                {
+                    "@id": "https://events.example.be/belleville/citoyens/item1",
+                    "UID": "uid1",
+                    "title": "First Event",
+                    "title_en": "First English Event",
+                },
+                {
+                    "@id": f"https://events.example.be/belleville/communal/{uid_hex}",
+                    "title": "My Event",
+                },
+                {"@id": "https://events.example.be/belleville/an-entity"},
+            ],
+            "items_total": 3,
+        }
+
+        service = self.traverse("/plone/@events_request_forwarder/@events")
         response = service.reply()
+
+        # container (query @id) is not enriched
+        self.assertNotIn("smartweb_url", response)
+        # item with an explicit UID → slug from the localized title
         self.assertEqual(
             response["items"][0]["smartweb_url"],
             "http://view-url/first-english-event?u=uid1",
         )
+        # no UID key → recovered from the 32-hex @id segment, slug from title
         self.assertEqual(
             response["items"][1]["smartweb_url"],
-            "http://view-url/second-event?u=uid2",
-        )
-        # item without UID is left untouched
-        self.assertNotIn("smartweb_url", response["items"][2])
-
-        # fullobjects listing: items carry no "UID" key, but their @id ends
-        # with the content UID (imio stores content with its UID as id), so
-        # smartweb_url is still built. The listing container @id (a query URL)
-        # and a human-readable entity id must NOT be enriched.
-        uid_hex = "cabd8ce824604529ad09d528459cc0a1"
-        fake6 = FakeResponse(status_code=200, headers={})
-        fake6.text = json.dumps(
-            {
-                "@id": "https://events.example.be/belleville/@events?portal_type=x",
-                "items": [
-                    {
-                        "@id": f"https://events.example.be/belleville/communal/{uid_hex}",
-                        "title": "My Event",
-                    },
-                    {"@id": "https://events.example.be/belleville/an-entity"},
-                ],
-            }
-        )
-        mock_request.return_value = fake6
-        service = self.traverse("/plone/@events_request_forwarder/belleville/@search")
-        response = service.reply()
-        # container (query @id) not enriched
-        self.assertNotIn("smartweb_url", response)
-        # content item: UID recovered from @id, slug from title
-        self.assertEqual(
-            response["items"][0]["smartweb_url"],
             f"http://view-url/my-event?u={uid_hex}",
         )
-        # non-UID @id segment (entity/folder) left untouched
-        self.assertNotIn("smartweb_url", response["items"][1])
+        # non-UID @id segment (entity/folder) is left untouched
+        self.assertNotIn("smartweb_url", response["items"][2])
 
+    @patch("imio.smartweb.core.rest.authentic_sources.get_json")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_events_view")
+    def test_events_forwarder_no_default_view_returns_empty(
+        self, mock_view, mock_get_json
+    ):
+        mock_view.return_value = None
 
-# <audit>
-#   <file>test_rest.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>None</deviations>
-#   <questions>None. Extended test_enrich_response (which covers reply()'s
-#   enrichment) with the GET-listing regression case and the fullobjects case
-#   where items lack a UID key and the UID is recovered from the @id.</questions>
-# </audit>
+        service = self.traverse("/plone/@events_request_forwarder/@events")
+        response = service.reply()
+
+        mock_get_json.assert_not_called()
+        self.assertEqual(response["items"], [])
+        self.assertEqual(response["items_total"], 0)
+
+    @patch("imio.smartweb.core.rest.authentic_sources.requests.request")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_events_view")
+    def test_events_forwarder_single_object_not_delegated(
+        self, mock_view, mock_request
+    ):
+        self.request._auth = "Bearer kamoulox"
+        fake = FakeResponse(status_code=200, headers={})
+        fake.text = json.dumps({"UID": "abc", "@id": "x"})
+        mock_request.return_value = fake
+
+        service = self.traverse(
+            "/plone/@events_request_forwarder/belleville/abc123def456abc123def456abc12345"
+        )
+        service.reply()
+
+        # non-listing events GET → forwarded as-is, no delegation to the view
+        mock_view.assert_not_called()
+        args, kwargs = mock_request.call_args
+        self.assertTrue(
+            args[1].endswith("/belleville/abc123def456abc123def456abc12345")
+        )
+
+    @patch("imio.smartweb.core.rest.authentic_sources.get_json")
+    @patch("imio.smartweb.core.rest.authentic_sources.EventsEndpoint")
+    @patch("imio.smartweb.core.rest.authentic_sources.get_default_events_view")
+    def test_events_forwarder_date_range(self, mock_view, mock_endpoint, mock_get_json):
+        mock_endpoint.return_value.query_url = "http://remote/@events?scoped"
+        mock_get_json.return_value = {"items": []}
+        view = MagicMock()
+        mock_view.return_value = view
+
+        # only_past_events → past range, paired with a pivot query date
+        view.only_past_events = True
+        service = self.traverse("/plone/@events_request_forwarder/@events")
+        service.reply()
+        self.assertEqual(self.request.form["event_dates.range"], "max")
+        self.assertIn("event_dates.query", self.request.form)
+
+        # a caller-provided range is respected
+        service = self.traverse("/plone/@events_request_forwarder/@events")
+        self.request.form["event_dates.range"] = "min"
+        service.reply()
+        self.assertEqual(self.request.form["event_dates.range"], "min")

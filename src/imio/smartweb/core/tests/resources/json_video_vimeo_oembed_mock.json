@@ -1,0 +1,9 @@
+{
+    "title": "SmartWeb test vimeo",
+    "type": "video",
+    "provider_name": "Vimeo",
+    "provider_url": "https://vimeo.com/",
+    "width": 800,
+    "height": 600,
+    "html": "<iframe src=\"https://player.vimeo.com/video/110990510\" width=\"800\" height=\"600\" frameborder=\"0\" allow=\"autoplay; fullscreen; picture-in-picture\" allowfullscreen title=\"SmartWeb test vimeo\"></iframe>"
+}
