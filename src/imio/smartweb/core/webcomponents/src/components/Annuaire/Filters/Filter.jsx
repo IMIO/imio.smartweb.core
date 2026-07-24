@@ -258,7 +258,13 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
-                                    options={iam && iam}
+                                    options={
+                                        iam &&
+                                        iam.map((o) => ({
+                                            ...o,
+                                            label: translate({ text: o.label }),
+                                        }))
+                                    }
                                     placeholder={translate({
                                         text: "Profil",
                                     })}
@@ -335,38 +341,40 @@ function Filters(props) {
             >
                 <div className="accordion-body-annuaire">
                     {taxonomyData?.length !== 1 ? (
-                    <span className="accordion-body-annuaire-title-full-screen">
-                        <Translator>
-                            {({ translate }) => <span>{translate({ text: "Catégories" })}</span>}
-                        </Translator>
-                    </span>) : ("")
-                    }
-
+                        <span className="accordion-body-annuaire-title-full-screen">
+                            <Translator>
+                                {({ translate }) => (
+                                    <span>{translate({ text: "Catégories" })}</span>
+                                )}
+                            </Translator>
+                        </span>
+                    ) : (
+                        ""
+                    )}
 
                     <div className="taxonomy-Filter">
                         {taxonomyData?.length === 1 ? (
-                        <TaxonomyFilter
-                            {...taxonomyData[0]}
-                            setCat={setCat}
-                            isActive={0 === activeComponent}
-                            onClick={() => handleClick(0)}
-                            onChange={onChangeHandlerSelect}
-                            unique={true}
-                        />
-                        ) : (
-                        taxonomyData?.map((donnees, i) => (
                             <TaxonomyFilter
-                            key={i}
-                            {...donnees}
-                            setCat={setCat}
-                            isActive={i === activeComponent}
-                            onClick={() => handleClick(i)}
-                            onChange={onChangeHandlerSelect}
-                            unique={false}
+                                {...taxonomyData[0]}
+                                setCat={setCat}
+                                isActive={0 === activeComponent}
+                                onClick={() => handleClick(0)}
+                                onChange={onChangeHandlerSelect}
+                                unique={true}
                             />
-                        ))
+                        ) : (
+                            taxonomyData?.map((donnees, i) => (
+                                <TaxonomyFilter
+                                    key={i}
+                                    {...donnees}
+                                    setCat={setCat}
+                                    isActive={i === activeComponent}
+                                    onClick={() => handleClick(i)}
+                                    onChange={onChangeHandlerSelect}
+                                    unique={false}
+                                />
+                            ))
                         )}
-
                     </div>
                     {/* <div className="r-filter  facilities-Filter"> */}
                     {/* <label>Catégories</label> */}

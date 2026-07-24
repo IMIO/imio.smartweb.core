@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useIsMobile from "../../../hooks/useIsMobile";
 import Highlighter from "react-highlight-words";
-import { Translate } from "react-translated";
+import { Translate, Translator } from "react-translated";
 import Spinner from "../Spinner";
 
 const WebResult = (props) => {
@@ -59,26 +59,33 @@ const WebResult = (props) => {
             {isLoading ? (
                 <Spinner />
             ) : (
-                <ul id="web-results-list" className="r-search-list" aria-label="Liste des résultats dans le contenu du site">
-                    {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
-                        <li key={i} className="r-search-item">
-                            <a href={item["@id"]}>
-                                <Highlighter
-                                    highlightClassName="r-search-highlighter"
-                                    searchWords={[props.urlParams.SearchableText]}
-                                    textToHighlight={item.title}
-                                />
-                            </a>
-                        </li>
-                    ))}
-                </ul>
+                <Translator>
+                    {({ translate }) => (
+                        <ul
+                            id="web-results-list"
+                            className="r-search-list"
+                            aria-label={translate({
+                                text: "Liste des résultats dans le contenu du site",
+                            })}
+                        >
+                            {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map(
+                                (item, i) => (
+                                    <li key={i} className="r-search-item">
+                                        <a href={item["@id"]}>
+                                            <Highlighter
+                                                highlightClassName="r-search-highlighter"
+                                                searchWords={[props.urlParams.SearchableText]}
+                                                textToHighlight={item.title}
+                                            />
+                                        </a>
+                                    </li>
+                                )
+                            )}
+                        </ul>
+                    )}
+                </Translator>
             )}
-            <div
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-                className="r-sr-only"
-            >
+            <div role="status" aria-live="polite" aria-atomic="true" className="r-sr-only">
                 {announcement}
             </div>
             {isMobile && resultArray.length > visibleCount && (

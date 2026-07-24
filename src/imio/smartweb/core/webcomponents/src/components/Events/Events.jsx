@@ -9,7 +9,7 @@ import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
 import "../Filters/MainFilter.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
-import { Provider, Translate } from "react-translated";
+import { Provider, Translate, Translator } from "react-translated";
 import translation from "../../utils/translation";
 import moment from "moment";
 import queryString from "query-string";
@@ -197,19 +197,30 @@ function EventsView(props) {
                     />
                     <div className="r-result-numbers-and-add-container">
                         {itemsNumber > 0 ? (
-                            <p
-                                role="status"
-                                aria-live="polite"
-                                className="r-results-numbers"
-                                aria-label={
-                                    itemsNumber > 1
-                                        ? `${itemsNumber} événements trouvés`
-                                        : `${itemsNumber} événement trouvé`
-                                }
-                            >
-                                <span aria-hidden="true">{itemsNumber}</span>
-                                <Translate text={itemsNumber > 1 ? "événements trouvés" : "événement trouvé"} />
-                            </p>
+                            <Translator>
+                                {({ translate }) => (
+                                    <p
+                                        role="status"
+                                        aria-live="polite"
+                                        className="r-results-numbers"
+                                        aria-label={`${itemsNumber}${translate({
+                                            text:
+                                                itemsNumber > 1
+                                                    ? "événements trouvés"
+                                                    : "événement trouvé",
+                                        })}`}
+                                    >
+                                        <span aria-hidden="true">{itemsNumber}</span>
+                                        <Translate
+                                            text={
+                                                itemsNumber > 1
+                                                    ? "événements trouvés"
+                                                    : "événement trouvé"
+                                            }
+                                        />
+                                    </p>
+                                )}
+                            </Translator>
                         ) : (
                             <p role="status" aria-live="polite" className="r-results-numbers">
                                 <Translate text="Aucun résultat" />

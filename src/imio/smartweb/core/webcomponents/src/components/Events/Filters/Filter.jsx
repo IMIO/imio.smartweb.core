@@ -11,7 +11,6 @@ import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
 import AccessibleClearIndicator from "../../../utils/AccessibleClearIndicator";
 
-
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
@@ -30,7 +29,6 @@ function Filters(props) {
         params: inputValues,
         paramsSerializer: { indexes: null },
     });
-
 
     // set fitlers data to state
     useEffect(() => {
@@ -57,7 +55,7 @@ function Filters(props) {
                 }));
             setTopicsFilter(optionsTopics);
             setCategoryFilter(optionsCategory);
-            setLocalsCategoryFilter(optionsLocalsCategory)
+            setLocalsCategoryFilter(optionsLocalsCategory);
         }
     }, [response]);
 
@@ -279,7 +277,11 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeGroupSelect}
-                                    options={localsCategoryFilter.length === 0 ?  categoryFilter && categoryFilter :groupedOptions}
+                                    options={
+                                        localsCategoryFilter.length === 0
+                                            ? categoryFilter && categoryFilter
+                                            : groupedOptions
+                                    }
                                     placeholder={translate({
                                         text: "Quoi",
                                     })}
@@ -333,7 +335,13 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
-                                    options={taxonomy_event_public && taxonomy_event_public}
+                                    options={
+                                        taxonomy_event_public &&
+                                        taxonomy_event_public.map((o) => ({
+                                            ...o,
+                                            label: translate({ text: o.label }),
+                                        }))
+                                    }
                                     placeholder={translate({
                                         text: "Public cible",
                                     })}
@@ -355,7 +363,13 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
-                                    options={iam && iam}
+                                    options={
+                                        iam &&
+                                        iam.map((o) => ({
+                                            ...o,
+                                            label: translate({ text: o.label }),
+                                        }))
+                                    }
                                     placeholder={translate({
                                         text: "Profil",
                                     })}

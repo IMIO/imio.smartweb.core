@@ -3,7 +3,7 @@ import axios from "axios";
 import useAxios from "../../../hooks/useAxios";
 import useIsMobile from "../../../hooks/useIsMobile";
 import Highlighter from "react-highlight-words";
-import { Translate } from "react-translated";
+import { Translate, Translator } from "react-translated";
 import Spinner from "../Spinner";
 
 const ContactResult = (props) => {
@@ -87,40 +87,53 @@ const ContactResult = (props) => {
             {isLoading ? (
                 <Spinner />
             ) : (
-                <ul
-                    id="contact-results-list"
-                    className="r-search-list"
-                    aria-label="Liste des résultats dans l'annuaire"
-                >
-                    {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
-                        <li key={i} className="r-search-item">
-                            <a href={item["_url"]}>
-                                <Highlighter
-                                    highlightClassName="r-search-highlighter"
-                                    searchWords={[props.urlParams.SearchableText]}
-                                    textToHighlight={item.title}
-                                />
-                            {item.taxonomy_contact_category?.length > 0 && (() => {
-                                const titles = item.taxonomy_contact_category.map(
-                                    (token) => vocabMap[token] || token
-                                );
-                                const leaves = titles
-                                    .filter(
-                                        (title) =>
-                                            !titles.some(
-                                                (other) =>
-                                                    other !== title && other.startsWith(title + " » ")
-                                            )
-                                    )
-                                    .map((title) => title.split(" » ").pop());
-                                return (
-                                    <span className="r-search-item-category">{leaves.join(", ")}</span>
-                                );
-                            })()}
-                            </a>
-                        </li>
-                    ))}
-                </ul>
+                <Translator>
+                    {({ translate }) => (
+                        <ul
+                            id="contact-results-list"
+                            className="r-search-list"
+                            aria-label={translate({ text: "Liste des résultats dans l'annuaire" })}
+                        >
+                            {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map(
+                                (item, i) => (
+                                    <li key={i} className="r-search-item">
+                                        <a href={item["_url"]}>
+                                            <Highlighter
+                                                highlightClassName="r-search-highlighter"
+                                                searchWords={[props.urlParams.SearchableText]}
+                                                textToHighlight={item.title}
+                                            />
+                                            {item.taxonomy_contact_category?.length > 0 &&
+                                                (() => {
+                                                    const titles =
+                                                        item.taxonomy_contact_category.map(
+                                                            (token) => vocabMap[token] || token
+                                                        );
+                                                    const leaves = titles
+                                                        .filter(
+                                                            (title) =>
+                                                                !titles.some(
+                                                                    (other) =>
+                                                                        other !== title &&
+                                                                        other.startsWith(
+                                                                            title + " » "
+                                                                        )
+                                                                )
+                                                        )
+                                                        .map((title) => title.split(" » ").pop());
+                                                    return (
+                                                        <span className="r-search-item-category">
+                                                            {leaves.join(", ")}
+                                                        </span>
+                                                    );
+                                                })()}
+                                        </a>
+                                    </li>
+                                )
+                            )}
+                        </ul>
+                    )}
+                </Translator>
             )}
             <div role="status" aria-live="polite" aria-atomic="true" className="r-sr-only">
                 {announcement}
@@ -133,7 +146,9 @@ const ContactResult = (props) => {
                     onClick={() => {
                         const next = visibleCount + 3;
                         setVisibleCount(next);
-                        setAnnouncement(`${Math.min(next, resultArray.length)} / ${resultArray.length}`);
+                        setAnnouncement(
+                            `${Math.min(next, resultArray.length)} / ${resultArray.length}`
+                        );
                     }}
                 >
                     <Translate text="Afficher plus" />

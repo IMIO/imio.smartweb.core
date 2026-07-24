@@ -64,10 +64,10 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     useEffect(() => {
         if (!item || !item.title) return;
         document.title = item.title;
-    
+
         const ogImageWidth = image?.width || "";
         const ogImageHeight = image?.height || "";
-    
+
         // Liste complète de toutes les balises possibles
         const allMetaProps = [
             { name: "description" },
@@ -81,7 +81,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
             { property: "og:image:width" },
             { property: "og:image:height" },
         ];
-    
+
         // Supprime les anciennes balises
         allMetaProps.forEach(({ name, property }) => {
             const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
@@ -90,25 +90,34 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                 document.head.removeChild(existing);
             }
         });
-    
+
         // Recrée les balises à jour
         const metaUpdates = [
-            { name: "description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
+            {
+                name: "description",
+                content: [item.subtitle, item.description].filter(Boolean).join(" - "),
+            },
             { property: "og:title", content: item.title },
-            { property: "og:description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
-            { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
+            {
+                property: "og:description",
+                content: [item.subtitle, item.description].filter(Boolean).join(" - "),
+            },
+            {
+                property: "og:url",
+                content: typeof window !== "undefined" ? window.location.href : "",
+            },
             { property: "og:type", content: "profile" },
         ];
-    
+
         if (item.image_affiche_scale) {
             metaUpdates.push({ property: "og:image", content: item.image_affiche_scale });
-    
+
             if (ogImageWidth && ogImageHeight) {
                 metaUpdates.push({ property: "og:image:width", content: ogImageWidth });
                 metaUpdates.push({ property: "og:image:height", content: ogImageHeight });
             }
         }
-    
+
         metaUpdates.forEach(({ name, property, content }) => {
             const tag = document.createElement("meta");
             if (name) tag.setAttribute("name", name);
@@ -173,8 +182,8 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         <div className="annuaire-content r-content">
             <Translator>
                 {({ translate }) => (
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         onClick={handleClick}
                         aria-label={translate({ text: "Retour à la liste" })}
                         title={translate({ text: "Retour à la liste" })}
@@ -186,27 +195,31 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
             </Translator>
 
             {contextAuthenticatedUser === "False" ? (
-                <a
-                    href={item["@id"]}
-                    target="_blank"
-                    title="Editer la fiche"
-                    className="edit-rest-elements edit-rest-elements-content"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        class="bi bi-pencil-square"
-                        viewBox="0 0 16 16"
-                    >
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                        <path
-                            fill-rule="evenodd"
-                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                        />
-                    </svg>
-                </a>
+                <Translator>
+                    {({ translate }) => (
+                        <a
+                            href={item["@id"]}
+                            target="_blank"
+                            title={translate({ text: "Editer la fiche" })}
+                            className="edit-rest-elements edit-rest-elements-content"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                class="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                            </svg>
+                        </a>
+                    )}
+                </Translator>
             ) : (
                 ""
             )}
@@ -275,70 +288,79 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                         )}
                         {/* schedule */}
                         {item.table_date && (
-                            <a
-                                href="javascript:void(0)"
-                                onClick={toggleSchedul}
-                                className="annuaire-schedul"
-                                role="button"
-                                aria-expanded="false"
-                                aria-label="Afficher l'horaire complet"
-                            >
-                                <div className="annuaire-schedul-icon">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="16"
-                                        height="16"
-                                        fill="currentColor"
-                                        className="bi bi-clock-fill"
-                                        viewBox="0 0 16 16"
+                            <Translator>
+                                {({ translate }) => (
+                                    <a
+                                        href="javascript:void(0)"
+                                        onClick={toggleSchedul}
+                                        className="annuaire-schedul"
+                                        role="button"
+                                        aria-expanded="false"
+                                        aria-label={translate({
+                                            text: "Afficher l'horaire complet",
+                                        })}
                                     >
-                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
-                                    </svg>
-                                </div>
-                                <div className="annuaire-schedul-content">
-                                    {isSchedulVisible ? (
-                                        <>
-                                            <span
-                                                className={
-                                                    item.schedule_for_today === "Fermé"
-                                                        ? "annuaire-day-close"
-                                                        : "annuaire-day-open"
-                                                }
-                                            >
-                                                <Translate text={item.schedule_for_today} />
-                                            </span>
+                                        <div className="annuaire-schedul-icon">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
-                                                width="10"
-                                                height="10"
+                                                width="16"
+                                                height="16"
                                                 fill="currentColor"
-                                                className="bi bi-caret-down-fill"
+                                                className="bi bi-clock-fill"
                                                 viewBox="0 0 16 16"
                                             >
-                                                <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
                                             </svg>
-                                        </>
-                                    ) : (
-                                        <div>
-                                            <ul>
-                                                {item.table_date.map((day, index) => {
-                                                    const dayOfWeek = Object.keys(day)[0];
-                                                    const status = day[dayOfWeek];
-
-                                                    return (
-                                                        <li key={index}>
-                                                            <strong>
-                                                                <Translate text={dayOfWeek} />:
-                                                            </strong>{" "}
-                                                            {status}
-                                                        </li>
-                                                    );
-                                                })}
-                                            </ul>
                                         </div>
-                                    )}
-                                </div>
-                            </a>
+                                        <div className="annuaire-schedul-content">
+                                            {isSchedulVisible ? (
+                                                <>
+                                                    <span
+                                                        className={
+                                                            item.schedule_for_today === "Fermé"
+                                                                ? "annuaire-day-close"
+                                                                : "annuaire-day-open"
+                                                        }
+                                                    >
+                                                        <Translate text={item.schedule_for_today} />
+                                                    </span>
+                                                    <svg
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        width="10"
+                                                        height="10"
+                                                        fill="currentColor"
+                                                        className="bi bi-caret-down-fill"
+                                                        viewBox="0 0 16 16"
+                                                    >
+                                                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
+                                                    </svg>
+                                                </>
+                                            ) : (
+                                                <div>
+                                                    <ul>
+                                                        {item.table_date.map((day, index) => {
+                                                            const dayOfWeek = Object.keys(day)[0];
+                                                            const status = day[dayOfWeek];
+
+                                                            return (
+                                                                <li key={index}>
+                                                                    <strong>
+                                                                        <Translate
+                                                                            text={dayOfWeek}
+                                                                        />
+                                                                        :
+                                                                    </strong>{" "}
+                                                                    {status}
+                                                                </li>
+                                                            );
+                                                        })}
+                                                    </ul>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </a>
+                                )}
+                            </Translator>
                         )}
 
                         {item.phones && item.phones.length > 0 ? (
@@ -399,7 +421,8 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                             ""
                         )}
 
-                        {item.urls && item.urls.filter((url) => url.type === "website").length > 0 ? (
+                        {item.urls &&
+                        item.urls.filter((url) => url.type === "website").length > 0 ? (
                             <div className="annuaire-website-link">
                                 <div className="annuaire-website-link-icon">
                                     <svg
@@ -638,7 +661,13 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                     <div className="r-content-gallery">
                         <div className="spotlight-group flexbin r-content-gallery">
                             {gallery.map((image, i) => (
-                                <a key={i} data-title={image.title} data-description={image.description} className="spotlight" href={image.image_full_scale}>
+                                <a
+                                    key={i}
+                                    data-title={image.title}
+                                    data-description={image.description}
+                                    className="spotlight"
+                                    href={image.image_full_scale}
+                                >
                                     <img src={image.image_preview_scale} alt="" />
                                 </a>
                             ))}

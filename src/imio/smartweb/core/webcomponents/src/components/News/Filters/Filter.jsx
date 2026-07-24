@@ -2,7 +2,7 @@ import React, { useEffect, useCallback, useRef, useState } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
-import { Translator, Translate} from "react-translated";
+import { Translator, Translate } from "react-translated";
 import queryString from "query-string";
 import { iam } from "./../../Filters/IamData";
 import { menuStyles } from "./../../Filters/SelectStyles";
@@ -46,7 +46,7 @@ function Filters(props) {
                 }));
             setTopicsFilter(optionsTopics);
             setTaxonomyFilter(optionsTaxonomy);
-            setLocalsCategoryFilter(optionsLocalsCategory)
+            setLocalsCategoryFilter(optionsLocalsCategory);
         }
     }, [response]);
 
@@ -124,7 +124,7 @@ function Filters(props) {
     let actTaxo =
         taxonomyFilter &&
         taxonomyFilter.filter((option) => option.value === props.activeFilter.category);
-    
+
     let actIam = iam && iam.filter((option) => option.value === props.activeFilter.topics);
 
     return (
@@ -204,7 +204,11 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeGroupSelect}
-                                    options={localsCategoryFilter.length === 0 ? taxonomyFilter &&  taxonomyFilter : groupedOptions}
+                                    options={
+                                        localsCategoryFilter.length === 0
+                                            ? taxonomyFilter && taxonomyFilter
+                                            : groupedOptions
+                                    }
                                     placeholder={translate({
                                         text: "Catégories",
                                     })}
@@ -226,7 +230,13 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
-                                    options={iam && iam}
+                                    options={
+                                        iam &&
+                                        iam.map((o) => ({
+                                            ...o,
+                                            label: translate({ text: o.label }),
+                                        }))
+                                    }
                                     placeholder={translate({
                                         text: "Profil",
                                     })}

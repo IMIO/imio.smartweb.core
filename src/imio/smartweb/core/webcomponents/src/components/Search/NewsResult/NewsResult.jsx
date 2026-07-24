@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useAxios from "../../../hooks/useAxios";
 import useIsMobile from "../../../hooks/useIsMobile";
 import Highlighter from "react-highlight-words";
-import { Translate } from "react-translated";
+import { Translate, Translator } from "react-translated";
 import Spinner from "../Spinner";
 
 const NewsResult = (props) => {
@@ -59,31 +59,44 @@ const NewsResult = (props) => {
             {isLoading ? (
                 <Spinner />
             ) : (
-                <ul id="news-results-list" className="r-search-list" aria-label="Liste des résultats pour les actualités">
-                    {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map((item, i) => (
-                        <li key={i} className="r-search-item">
-                            <a href={item["_url"]}>
-                                <div className="r-search-img">
-                                    {item.has_leadimage[0] ? (
-                                        <div
-                                            className="r-search-img"
-                                            style={{
-                                                backgroundImage: "url(" + item.image_url + ")",
-                                            }}
-                                        ></div>
-                                    ) : (
-                                        <div className="r-search-img no-search-item-img"></div>
-                                    )}
-                                </div>
-                                <Highlighter
-                                    highlightClassName="r-search-highlighter"
-                                    searchWords={[props.urlParams.SearchableText]}
-                                    textToHighlight={item.title}
-                                />
-                            </a>
-                        </li>
-                    ))}
-                </ul>
+                <Translator>
+                    {({ translate }) => (
+                        <ul
+                            id="news-results-list"
+                            className="r-search-list"
+                            aria-label={translate({
+                                text: "Liste des résultats pour les actualités",
+                            })}
+                        >
+                            {(isMobile ? resultArray.slice(0, visibleCount) : resultArray).map(
+                                (item, i) => (
+                                    <li key={i} className="r-search-item">
+                                        <a href={item["_url"]}>
+                                            <div className="r-search-img">
+                                                {item.has_leadimage[0] ? (
+                                                    <div
+                                                        className="r-search-img"
+                                                        style={{
+                                                            backgroundImage:
+                                                                "url(" + item.image_url + ")",
+                                                        }}
+                                                    ></div>
+                                                ) : (
+                                                    <div className="r-search-img no-search-item-img"></div>
+                                                )}
+                                            </div>
+                                            <Highlighter
+                                                highlightClassName="r-search-highlighter"
+                                                searchWords={[props.urlParams.SearchableText]}
+                                                textToHighlight={item.title}
+                                            />
+                                        </a>
+                                    </li>
+                                )
+                            )}
+                        </ul>
+                    )}
+                </Translator>
             )}
             <div role="status" aria-live="polite" aria-atomic="true" className="r-sr-only">
                 {announcement}
@@ -96,7 +109,9 @@ const NewsResult = (props) => {
                     onClick={() => {
                         const next = visibleCount + 3;
                         setVisibleCount(next);
-                        setAnnouncement(`${Math.min(next, resultArray.length)} / ${resultArray.length}`);
+                        setAnnouncement(
+                            `${Math.min(next, resultArray.length)} / ${resultArray.length}`
+                        );
                     }}
                 >
                     <Translate text="Afficher plus" />

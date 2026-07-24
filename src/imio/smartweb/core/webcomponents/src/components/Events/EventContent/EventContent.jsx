@@ -6,11 +6,17 @@ import moment from "moment-timezone";
 import ReactMarkdown from "react-markdown";
 import Spotlight from "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
-import { Translate,Translator } from "react-translated";
+import { Translate, Translator } from "react-translated";
 import queryString from "query-string";
 import removeAccents from "remove-accents";
 
-const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticatedUser, navRootUrl }) => {
+const ContactContent = ({
+    queryUrl,
+    onChange,
+    onlyPastEvents,
+    contextAuthenticatedUser,
+    navRootUrl,
+}) => {
     let navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
         UID: queryString.parse(useFilterQuery().toString())["u"],
@@ -90,10 +96,10 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
     useEffect(() => {
         if (!item || !item.title) return;
         document.title = item.title;
-    
+
         const ogImageWidth = image?.width || "";
         const ogImageHeight = image?.height || "";
-    
+
         // Liste complète de toutes les balises possibles
         const allMetaProps = [
             { name: "description" },
@@ -107,7 +113,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
             { property: "og:image:width" },
             { property: "og:image:height" },
         ];
-    
+
         // Supprime les anciennes balises
         allMetaProps.forEach(({ name, property }) => {
             const selector = name ? `meta[name="${name}"]` : `meta[property="${property}"]`;
@@ -116,25 +122,34 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                 document.head.removeChild(existing);
             }
         });
-    
+
         // Recrée les balises à jour
         const metaUpdates = [
-            { name: "description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
+            {
+                name: "description",
+                content: [item.subtitle, item.description].filter(Boolean).join(" - "),
+            },
             { property: "og:title", content: item.title },
-            { property: "og:description", content: [item.subtitle, item.description].filter(Boolean).join(" - ") },
-            { property: "og:url", content: typeof window !== "undefined" ? window.location.href : "" },
+            {
+                property: "og:description",
+                content: [item.subtitle, item.description].filter(Boolean).join(" - "),
+            },
+            {
+                property: "og:url",
+                content: typeof window !== "undefined" ? window.location.href : "",
+            },
             { property: "og:type", content: "event" },
         ];
-    
+
         if (item.image_affiche_scale) {
             metaUpdates.push({ property: "og:image", content: item.image_affiche_scale });
-    
+
             if (ogImageWidth && ogImageHeight) {
                 metaUpdates.push({ property: "og:image:width", content: ogImageWidth });
                 metaUpdates.push({ property: "og:image:height", content: ogImageHeight });
             }
         }
-    
+
         metaUpdates.forEach(({ name, property, content }) => {
             const tag = document.createElement("meta");
             if (name) tag.setAttribute("name", name);
@@ -188,7 +203,6 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
         .filter(Boolean)
         .join(" ");
 
-
     const openSchedul = () => {
         setSchedulVisibility(true);
     };
@@ -204,9 +218,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
         </span>
     );
 
-    const TimeDisplay = ({ time, className = "r-time" }) => (
-        <div className={className}>{time}</div>
-    );
+    const TimeDisplay = ({ time, className = "r-time" }) => <div className={className}>{time}</div>;
 
     const HoursDisplay = ({ startHours, endHours }) => (
         <>
@@ -233,7 +245,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                 </div>
             );
         }
-        
+
         return (
             <div className="r-content-date-one-day">
                 <div className="r-content-date-start">
@@ -262,26 +274,30 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                         <DateLabel text="au" />
                         <TimeDisplay time={end} />
                     </div>
-                    {!item.whole_day ? 
+                    {!item.whole_day ? (
                         <div className="r-content-date-start-hours">
-                        <HoursDisplay startHours={startHours} endHours={endHours} />
-                        </div> 
-                    : ""}
+                            <HoursDisplay startHours={startHours} endHours={endHours} />
+                        </div>
+                    ) : (
+                        ""
+                    )}
                 </div>
             );
         }
-        
+
         return (
             <div className="r-content-date-one-day">
                 <div className="r-content-date-start">
                     <DateLabel text="Le" />
                     <TimeDisplay time={start} />
                 </div>
-                    {!item.whole_day ? 
-                        <div className="r-content-date-start-hours">
+                {!item.whole_day ? (
+                    <div className="r-content-date-start-hours">
                         <HoursDisplay startHours={startHours} endHours={endHours} />
-                        </div> 
-                    : ""}
+                    </div>
+                ) : (
+                    ""
+                )}
             </div>
         );
     };
@@ -304,8 +320,8 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
         <div className="envent-content r-content">
             <Translator>
                 {({ translate }) => (
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         onClick={handleClick}
                         aria-label={translate({ text: "Retour à la liste" })}
                         title={translate({ text: "Retour à la liste" })}
@@ -317,27 +333,31 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
             </Translator>
 
             {contextAuthenticatedUser === "False" ? (
-                <a
-                    href={item["@id"]}
-                    target="_blank"
-                    title="Editer la fiche"
-                    className="edit-rest-elements edit-rest-elements-content"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        className="bi bi-pencil-square"
-                        viewBox="0 0 16 16"
-                    >
-                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                        <path
-                            fill-rule="evenodd"
-                            d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
-                        />
-                    </svg>
-                </a>
+                <Translator>
+                    {({ translate }) => (
+                        <a
+                            href={item["@id"]}
+                            target="_blank"
+                            title={translate({ text: "Editer la fiche" })}
+                            className="edit-rest-elements edit-rest-elements-content"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                fill="currentColor"
+                                className="bi bi-pencil-square"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"
+                                />
+                            </svg>
+                        </a>
+                    )}
+                </Translator>
             ) : (
                 ""
             )}
@@ -387,9 +407,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                 {!recurence && (
                                     <div className="r-content-news-info--date">
                                         {item.open_end ? (
-                                            <div>
-                                                {renderOpenEndDate()}
-                                            </div>
+                                            <div>{renderOpenEndDate()}</div>
                                         ) : (
                                             renderClosedEndDate()
                                         )}
@@ -403,15 +421,15 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                         aria-expanded="false"
                                     >
                                         <p>
-                                        {item.open_end ? (
-                                            <div className="r-content-news-recurrence-date">
-                                                {renderOpenEndDate()}
-                                            </div>
-                                        ) : (
-                                            renderClosedEndDate()
-                                        )}
+                                            {item.open_end ? (
+                                                <div className="r-content-news-recurrence-date">
+                                                    {renderOpenEndDate()}
+                                                </div>
+                                            ) : (
+                                                renderClosedEndDate()
+                                            )}
                                             <span className="recurence-schedul-more">
-                                            <Translate text="Prochaines dates" />
+                                                <Translate text="Prochaines dates" />
                                                 <i className="bi bi-arrow-down-short"></i>
                                             </span>
                                         </p>
@@ -426,7 +444,9 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                                 {futureDates.map((date, i) => {
                                                     return (
                                                         <li key={i}>
-                                                            {moment.tz(date, "Europe/Brussels").format("DD-MM-YYYY")}
+                                                            {moment
+                                                                .tz(date, "Europe/Brussels")
+                                                                .format("DD-MM-YYYY")}
                                                         </li>
                                                     );
                                                 })}
@@ -455,9 +475,7 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                                 <div className="r-content-news-info--itinirary">
                                     {item.street ? (
                                         <a href={itineraryLink} target="_blank">
-                                            <span>
-                                               {itineraryText}
-                                            </span>
+                                            <span>{itineraryText}</span>
                                         </a>
                                     ) : (
                                         ""
@@ -700,7 +718,13 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                     <div className="r-content-gallery">
                         <div className="spotlight-group flexbin r-content-gallery">
                             {gallery.map((image, i) => (
-                                <a key={i} data-title={image.title} data-description={image.description} className="spotlight" href={image.image_full_scale}>
+                                <a
+                                    key={i}
+                                    data-title={image.title}
+                                    data-description={image.description}
+                                    className="spotlight"
+                                    href={image.image_full_scale}
+                                >
                                     <img src={image.image_preview_scale} alt="" />
                                 </a>
                             ))}
@@ -720,12 +744,31 @@ const ContactContent = ({ queryUrl, onChange, onlyPastEvents, contextAuthenticat
                 {/* add sponsors */}
                 {item.event_sponsors && item.event_sponsors.length > 0 && (
                     <div className="r-content-sponsors">
-                        <span><Translate text="Organisateurs" /></span>
+                        <span>
+                            <Translate text="Organisateurs" />
+                        </span>
                         <div className="r-content-sponsors-list">
                             {item.event_sponsors.map((sponsor, i) => (
-                                <a key={i} href={navRootUrl + "/annuaire/" + removeAccents(sponsor.name).replace(/[^a-zA-Z ]/g, "").replace(/\s/g, "-").toLowerCase() + "?u=" + sponsor.uid} className="r-content-sponsor">
+                                <a
+                                    key={i}
+                                    href={
+                                        navRootUrl +
+                                        "/annuaire/" +
+                                        removeAccents(sponsor.name)
+                                            .replace(/[^a-zA-Z ]/g, "")
+                                            .replace(/\s/g, "-")
+                                            .toLowerCase() +
+                                        "?u=" +
+                                        sponsor.uid
+                                    }
+                                    className="r-content-sponsor"
+                                >
                                     {sponsor.logo ? (
-                                        <img src={sponsor.logo} alt={sponsor.name} title={sponsor.name} />
+                                        <img
+                                            src={sponsor.logo}
+                                            alt={sponsor.name}
+                                            title={sponsor.name}
+                                        />
                                     ) : (
                                         <span>{sponsor.name}</span>
                                     )}

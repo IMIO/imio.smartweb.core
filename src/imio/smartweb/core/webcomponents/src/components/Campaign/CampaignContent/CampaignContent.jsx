@@ -69,8 +69,8 @@ export default function CampaignContent({ queryUrl, onChange, displayRedThumbs }
         <div className="campaign-content r-content">
             <Translator>
                 {({ translate }) => (
-                    <button 
-                        type="button" 
+                    <button
+                        type="button"
                         onClick={handleClick}
                         aria-label={translate({ text: "Retour à la liste" })}
                         title={translate({ text: "Retour à la liste" })}
@@ -137,7 +137,9 @@ function ContentText({
         }
     }, [item]);
     return !item ? (
-        <div><Translate text="Aucun projet n'a été trouvé" /></div>
+        <div>
+            <Translate text="Aucun projet n'a été trouvé" />
+        </div>
     ) : (
         <>
             <article>
@@ -149,7 +151,10 @@ function ContentText({
                         <a href={urlVotePour} target="_blank" className="campaign-vote-pour">
                             <i className="bi bi-hand-thumbs-up-fill"></i>
                             <span className="campaign-vote-pour-count">({item.votes_pour})</span>
-                            <span className="campaign-vote-contre-text"> Je vote pour</span>
+                            <span className="campaign-vote-contre-text">
+                                {" "}
+                                <Translate text="Je vote pour" />
+                            </span>
                         </a>
                         {displayRedThumbs && (
                             <a
@@ -161,7 +166,10 @@ function ContentText({
                                 <span className="campaign-vote-contre-count">
                                     ({item.votes_contre})
                                 </span>
-                                <span className="campaign-vote-contre-text"> Je vote contre</span>
+                                <span className="campaign-vote-contre-text">
+                                    {" "}
+                                    <Translate text="Je vote contre" />
+                                </span>
                             </a>
                         )}
                     </div>
