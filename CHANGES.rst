@@ -5,6 +5,9 @@ Changelog
 1.4.54 (unreleased)
 -------------------
 
+- Add missing translations for React view
+  [thomlamb]
+
 - Fix "AttributeError" when embedding a removed/unavailable video: guard
   against "None" oembed responses in the YouTube/Vimeo accessibility overrides
   so the video section degrades gracefully instead of crashing.
