@@ -156,6 +156,7 @@ function CampaignView(props) {
     // coditional list render
     let listRender;
     let MapRender;
+    let DetailMapRender;
     if (itemsArray && itemsArray.length > 0) {
         listRender = (
             <CampaignList
@@ -171,6 +172,14 @@ function CampaignView(props) {
                 clickId={clickId}
                 hoverId={hoverId}
                 items={itemsArray}
+                queryUrl={props.queryUrl}
+            />
+        );
+        const activeEvents = itemsArray.filter((item) => item.id === u);
+        DetailMapRender = (
+            <Map
+                headerHeight={style.height + headerHeight}
+                items={activeEvents}
                 queryUrl={props.queryUrl}
             />
         );
@@ -314,7 +323,7 @@ function CampaignView(props) {
                                         height: "calc(100vh-" + style.height + headerHeight,
                                     }}
                                 >
-                                    {MapRender}
+                                    {DetailMapRender}
                                 </div>
                             )}
                         </div>

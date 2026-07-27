@@ -136,6 +136,7 @@ function EventsView(props) {
     // coditional list render
     let listRender;
     let MapRender;
+    let DetailMapRender;
     if (itemsArray && itemsArray.length > 0) {
         listRender = (
             <EventList
@@ -152,6 +153,14 @@ function EventsView(props) {
                 clickId={clickId}
                 hoverId={hoverId}
                 items={itemsArray}
+                queryUrl={props.queryUrl}
+            />
+        );
+        const activeEvent = itemsArray.filter((event) => event.UID === u);
+        DetailMapRender = (
+            <Map
+                headerHeight={style.height + headerHeight}
+                items={activeEvent}
                 queryUrl={props.queryUrl}
             />
         );
@@ -310,7 +319,7 @@ function EventsView(props) {
                                         height: "calc(100vh-" + style.height + headerHeight,
                                     }}
                                 >
-                                    {MapRender}
+                                    {DetailMapRender}
                                 </div>
                             )}
                         </div>
