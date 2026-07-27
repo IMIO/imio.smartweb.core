@@ -76,7 +76,7 @@ export default function CampaignContent({ queryUrl, onChange, displayRedThumbs }
                         title={translate({ text: "Retour à la liste" })}
                         className="r-back-button"
                     >
-                        <i class="bi bi-arrow-left-short"></i>
+                        <i className="bi bi-arrow-left-short"></i>
                     </button>
                 )}
             </Translator>
@@ -199,13 +199,13 @@ function ContentText({
                             <div className="campaign-info-container">
                                 {item.themes && (
                                     <div className="campaign-topics">
-                                        <i class="bi bi-tag"></i>
+                                        <i className="bi bi-tag"></i>
                                         <span>{item.themes}</span>
                                     </div>
                                 )}
                                 {item.zones && (
                                     <div className="campaign-zones">
-                                        <i class="bi bi-geo-alt"></i>
+                                        <i className="bi bi-geo-alt"></i>
                                         {item.zones}
                                     </div>
                                 )}

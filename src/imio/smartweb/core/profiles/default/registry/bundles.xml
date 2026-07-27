@@ -27,8 +27,11 @@
 
     <records prefix="plone.bundles/smartweb-webcomponents"
              interface="Products.CMFPlone.interfaces.IBundleRegistry">
+      <!-- jscompilation is intentionally not set here: the JS entry point is
+           loaded as an ES module (type="module") by the
+           imio.smartweb.webcomponents.js viewlet instead, since this
+           registry has no way to render a "type" attribute on <script>. -->
       <value key="enabled">True</value>
-      <value key="jscompilation">++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js</value>
       <value key="csscompilation">++plone++imio.smartweb.webcomponents/css/smartweb-webcomponents-compiled.css</value>
       <value key="depends">plone</value>
       <value key="load_async">False</value>

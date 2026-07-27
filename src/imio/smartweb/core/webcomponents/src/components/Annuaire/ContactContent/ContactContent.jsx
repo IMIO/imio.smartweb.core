@@ -189,7 +189,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                         title={translate({ text: "Retour à la liste" })}
                         className="r-back-button"
                     >
-                        <i class="bi bi-arrow-left-short"></i>
+                        <i clasName="bi bi-arrow-left-short"></i>
                     </button>
                 )}
             </Translator>

@@ -7,10 +7,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 npm run build       # Production build → build/js/smartweb-webcomponents-compiled.js
 npm run build-dev   # Dev build (source maps, no minification)
-npm run watch       # Dev server on port 2000 (proxies API to localhost:8080)
+npm run watch       # Vite dev server on port 2000 (proxies everything to localhost:8080 except its own module graph)
 npm run lint        # ESLint (zero warnings tolerance)
 npm run prettier    # Check formatting (4-space tabs, 100-char width, trailing comma es5)
 ```
+
+To actually see `npm run watch` changes reflected in Plone, run `make dev` from the buildout root
+(`buildout.smartweb/`) instead of `make start` — it starts the instance with `VITE_DEV_URL=http://localhost:2000`
+and this Vite dev server together. Plain `bin/instance`/`make start` never set `VITE_DEV_URL`, so they always
+serve the built prod bundle — see "Build output" below.
 
 ## Architecture
 
@@ -78,7 +83,24 @@ Text filter debounce: only triggers fetch when input length > 2 characters. Firs
 
 ### Build output
 
-Webpack 5 produces `build/js/smartweb-webcomponents-compiled.js` plus auto-split chunks. Dev server proxies `localhost:2000 → localhost:8080` (Plone). Performance budget: 2 MB assets / 750 KB entrypoint.
+Vite (library mode, ES module output) produces `build/js/smartweb-webcomponents-compiled.js` — a thin entry
+that imports lazy-loaded chunks (`build/js/chunks/*.js`, one per `@loadable/component`-wrapped widget) —
+plus `build/css/smartweb-webcomponents-compiled.css`. These two fixed filenames are the only ones referenced
+outside this package (`configure.zcml`, `profiles/default/registry/bundles.xml` in the parent
+`imio.smartweb.core` package); chunk filenames are free to change since the browser resolves them itself via
+relative ES module imports.
+
+Because Rollup only supports code-splitting for ES module output, the bundle is loaded as
+`<script type="module">`, not via Plone's resource registry (which has no way to render a `type` attribute).
+Instead, a viewlet in the parent package (`viewlets/webcomponents.py` + `webcomponents_js_header.pt`,
+manager `IHtmlHead`) injects the script tag directly:
+- **Production** (`VITE_DEV_URL` unset): `<script type="module" src=".../++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js">`.
+- **Development** (`VITE_DEV_URL=http://localhost:2000`): injects `@vite/client` + `src/index.jsx` directly
+  from the Vite dev server (`npm run watch`), giving real React Fast Refresh. The dev server also proxies
+  every other request to `localhost:8080` (Plone), so the site can be browsed through either origin.
+
+The CSS bundle still goes through Plone's normal resource registry (`csscompilation`), unaffected by the
+module/type constraint.
 
 ### CSS conventions
 

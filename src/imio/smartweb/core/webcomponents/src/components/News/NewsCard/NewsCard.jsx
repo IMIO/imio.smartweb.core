@@ -87,7 +87,7 @@ const NewsCard = ({ item, showCategoriesOrTopics }) => {
                         )}
                     </div>
                 </div>
-                <div className="r-item-arrow-more"><i class="bi bi-arrow-right-short"></i></div>
+                <div className="r-item-arrow-more"><i className="bi bi-arrow-right-short"></i></div>
             </div>
         </>
     );

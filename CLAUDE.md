@@ -145,7 +145,7 @@ Utilities in `tests/utils.py`: `get_json()`, `get_html()`, `get_sections_types()
 
 ## WebComponents
 
-React 18 + Webpack 5 app in `src/imio/smartweb/core/webcomponents/`. Single entry point (`src/index.jsx`) builds **5 custom HTML elements**:
+React 18 + Vite app in `src/imio/smartweb/core/webcomponents/`. Single entry point (`src/index.jsx`) builds **5 custom HTML elements**:
 
 | Element | Component | Purpose |
 |---------|-----------|---------|
@@ -157,6 +157,9 @@ React 18 + Webpack 5 app in `src/imio/smartweb/core/webcomponents/`. Single entr
 
 Each component follows the same structure: main component, Card, Content, List sub-components, and Filter.
 
-Output: `build/js/smartweb-webcomponents-compiled.js` + code-split chunks.
+Output: `build/js/smartweb-webcomponents-compiled.js` (ES module) + code-split chunks, loaded via
+`type="module"` by the `imio.smartweb.webcomponents.js` viewlet (`viewlets/webcomponents.py`), not through
+the resource registry (which can't render a `type` attribute). Set `VITE_DEV_URL=http://localhost:2000` to
+load the bundle from `npm run watch` (Vite dev server) instead of the built production bundle.
 
 Key deps: React Router DOM, React Bootstrap, Leaflet/React-Leaflet (maps), Axios, React-Select, React-DatePicker, date-fns.
