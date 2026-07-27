@@ -1,0 +1,23 @@
+<tal:block define="portal_state context/@@plone_portal_state;
+                    portal_url portal_state/portal_url">
+  <tal:dev condition="view/vite_dev_url">
+    <!-- @vitejs/plugin-react normally injects this preamble into index.html
+         itself before loading any component; since Plone serves its own
+         HTML (no Vite-generated index.html), it must be injected by hand
+         here, before @vite/client and the entry point. -->
+    <script type="module"
+            tal:content="structure string:import RefreshRuntime from '${view/vite_dev_url}/@react-refresh';
+RefreshRuntime.injectIntoGlobalHook(window);
+window.$$RefreshReg$$ = () => {};
+window.$$RefreshSig$$ = () => (type) => type;
+window.__vite_plugin_react_preamble_installed__ = true;"></script>
+    <script type="module"
+            tal:attributes="src string:${view/vite_dev_url}/@vite/client"></script>
+    <script type="module"
+            tal:attributes="src string:${view/vite_dev_url}/src/index.jsx"></script>
+  </tal:dev>
+  <tal:prod condition="not:view/vite_dev_url">
+    <script type="module"
+            tal:attributes="src string:${portal_url}/++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js"></script>
+  </tal:prod>
+</tal:block>

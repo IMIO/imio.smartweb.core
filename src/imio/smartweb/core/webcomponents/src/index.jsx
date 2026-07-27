@@ -17,7 +17,7 @@ ReactWebComponent.create(<News />, "smartweb-news", false);
 ReactWebComponent.create(<Events />, "smartweb-events", false);
 ReactWebComponent.create(<Search />, "smartweb-search", false);
 
-if (module.hot) {
+if (import.meta.hot) {
     // Accept hot module replacement (HMR) while live-reloading
-    module.hot.accept();
+    import.meta.hot.accept();
 }
