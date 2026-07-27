@@ -4,7 +4,7 @@ import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
 import moment from "moment-timezone";
 import ReactMarkdown from "react-markdown";
-import Spotlight from "spotlight.js";
+import "spotlight.js";
 import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate, Translator } from "react-translated";
 import queryString from "query-string";
@@ -327,7 +327,7 @@ const ContactContent = ({
                         title={translate({ text: "Retour à la liste" })}
                         className="r-back-button"
                     >
-                        <i class="bi bi-arrow-left-short"></i>
+                        <i className="bi bi-arrow-left-short"></i>
                     </button>
                 )}
             </Translator>
