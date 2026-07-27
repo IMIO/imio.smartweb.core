@@ -12,7 +12,7 @@ build: ## Build the production bundle
 	npm run build
 
 .PHONY: watch
-watch:  ## Start a Webpack dev server and watch for resources changes
+watch:  ## Start a Vite dev server and watch for resources changes
 	npm run watch
 
 .PHONY: lint

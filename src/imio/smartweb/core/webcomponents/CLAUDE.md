@@ -12,8 +12,10 @@ npm run lint        # ESLint (zero warnings tolerance)
 npm run prettier    # Check formatting (4-space tabs, 100-char width, trailing comma es5)
 ```
 
-To actually see `npm run watch` changes reflected in Plone, set `VITE_DEV_URL=http://localhost:2000` in the
-Zope environment before starting the instance — see "Build output" below.
+To actually see `npm run watch` changes reflected in Plone, run `make dev` from the buildout root
+(`buildout.smartweb/`) instead of `make start` — it starts the instance with `VITE_DEV_URL=http://localhost:2000`
+and this Vite dev server together. Plain `bin/instance`/`make start` never set `VITE_DEV_URL`, so they always
+serve the built prod bundle — see "Build output" below.
 
 ## Architecture
 
