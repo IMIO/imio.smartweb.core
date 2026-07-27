@@ -2,7 +2,13 @@ Changelog
 =========
 
 
-1.4.54 (unreleased)
+1.4.55 (unreleased)
+-------------------
+
+- Nothing changed yet.
+
+
+1.4.54 (2026-07-24)
 -------------------
 
 - Add missing translations for React view
