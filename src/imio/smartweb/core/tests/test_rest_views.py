@@ -225,6 +225,36 @@ class TestSeoHiddenReactLinks(ImioSmartwebTestCase):
         self.assertEqual(view.total, 42)
         self.assertEqual(len(view.get_data), 0)
 
+    @patch(
+        "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+        return_value={
+            "items": [
+                {
+                    "@type": "imio.directory.Contact",
+                    "title": "Alice",
+                    "UID": "u1",
+                    "modified": "2024-01-01T00:00:00Z",
+                    "description": "",
+                }
+            ],
+            "items_total": 1,
+        },
+    )
+    def test_seo_hidden_react_links_calls_endpoint_with_correct_arity(self, mock_call):
+        # Regression: get_endpoint_data() gained (batch_size, sort_on,
+        # sort_order) params. The seo_html view must call it with the right
+        # arity. The other seo tests mock get_endpoint_data itself, which hides
+        # an arity mismatch; here we mock only the external HTTP (__call__) so
+        # the REAL get_endpoint_data runs and a wrong-arity call would raise.
+        view = queryMultiAdapter((self.directory_view, self.request), name="seo_html")
+        view()  # must not raise TypeError
+        self.assertEqual(view.total, 1)
+        self.assertGreaterEqual(len(view.get_data), 1)
+        # seo_html must keep its own (larger) batch size, NOT the sitemap
+        # control-panel max_items cap (50) — otherwise SEO discovery of the
+        # long tail via /seo_html would be truncated.
+        self.assertEqual(view.b_size, view.DEFAULT_BATCH_SIZE)
+
     @patch("imio.smartweb.core.contents.rest.view.get_endpoint_data")
     @patch("imio.smartweb.core.contents.rest.view.format_sitemap_items")
     def test_seo_hidden_react_links_batching(self, mock_format, mock_endpoint):

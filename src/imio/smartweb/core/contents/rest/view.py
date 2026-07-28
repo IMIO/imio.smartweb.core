@@ -115,7 +115,10 @@ class SeoHiddenReactLinks(BrowserView):
         self.request.form["b_start"] = b_start
         self.request.form["b_size"] = b_size
 
-        data = get_endpoint_data(self.context, self.request)
+        # seo_html keeps its own (larger, paginated) b_size and the endpoint's
+        # default ordering — it is NOT capped by the sitemap control-panel
+        # max_items, so all items stay crawlable for SEO.
+        data = get_endpoint_data(self.context, self.request, b_size, None, None)
         self.items = format_sitemap_items(
             data.get("items", []), self.context.absolute_url()
         )

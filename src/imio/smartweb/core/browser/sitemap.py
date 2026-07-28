@@ -5,6 +5,7 @@ from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpointGet
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpointGet
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone import api
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.sitemap.sitemap import SiteMapView
 from plone.base.interfaces import IPloneSiteRoot
@@ -29,6 +30,46 @@ import time
 logger = logging.getLogger("imio.smartweb.core")
 
 
+AUTHENTIC_SOURCE_TYPES = [
+    "imio.smartweb.EventsView",
+    "imio.smartweb.NewsView",
+    "imio.smartweb.DirectoryView",
+]
+
+FILTER_SORT_BY_TYPE = {
+    "imio.smartweb.DirectoryView": {
+        "most_recent": ("created", "descending"),
+    },
+}
+
+
+def get_filter_sort(portal_type, filter_value):
+    """(sort_on, sort_order) override for a source; (None, None) = native."""
+    return FILTER_SORT_BY_TYPE.get(portal_type, {}).get(filter_value, (None, None))
+
+
+def get_sitemap_sources_config():
+    """{portal_type: {enabled, max_items, item_filter}} from the registry.
+
+    A missing record (None) means all three sources enabled, 50 items, native
+    ordering — preserving behavior on instances not yet migrated.
+    """
+    rows = api.portal.get_registry_record(
+        "smartweb.sitemap_authentic_sources", default=None
+    )
+    if rows is None:
+        rows = [
+            {
+                "source_type": t,
+                "enabled": True,
+                "max_items": 50,
+                "item_filter": "most_recent",
+            }
+            for t in AUTHENTIC_SOURCE_TYPES
+        ]
+    return {r["source_type"]: r for r in rows}
+
+
 FRIENDLY_TYPES = [
     "Collection",
     "Image",
@@ -44,14 +85,17 @@ FRIENDLY_TYPES = [
 ]
 
 
-def cache_key(method, obj, request):
-    """We cache data from authentic sources for the sitemap (.xml.gz) for 2 hours."""
+def cache_key(method, obj, request, batch_size, sort_on, sort_order):
+    """Cache authentic-source data for the sitemap for 2 hours."""
     b_start = request.form.get("b_start", "0")
-    return f"sitemap_{obj.UID()}_{b_start}_{int(time.time() // 7200)}"
+    return (
+        f"sitemap_{obj.UID()}_{b_start}_{batch_size}_{sort_on}_{sort_order}_"
+        f"{int(time.time() // 7200)}"
+    )
 
 
 @ram.cache(cache_key)
-def get_endpoint_data(obj, request):
+def get_endpoint_data(obj, request, batch_size, sort_on, sort_order):
     endpoint_mapping = {
         "imio.smartweb.DirectoryView": DirectoryEndpointGet,
         "imio.smartweb.EventsView": EventsEndpointGet,
@@ -60,15 +104,15 @@ def get_endpoint_data(obj, request):
     endpoint_class = endpoint_mapping.get(obj.portal_type)
     if not endpoint_class:
         return {}
-
     endpoint = endpoint_class()
-    if not request.form.get("b_size", 0):
-        batch_size = 1000 if obj.portal_type == "imio.smartweb.DirectoryView" else 365
-    else:
-        batch_size = int(request.form.get("b_size", 0))
     return (
         endpoint.reply_for_given_object(
-            obj, request, fullobjects=0, batch_size=batch_size
+            obj,
+            request,
+            fullobjects=0,
+            batch_size=batch_size,
+            sort_on=sort_on,
+            sort_order=sort_order,
         )
         or {}
     )
@@ -167,17 +211,25 @@ class CustomSiteMapView(SiteMapView):
             )
             yield {"loc": loc, "lastmod": modified[1]}
 
-        brains = catalog(
-            portal_type=[
-                "imio.smartweb.EventsView",
-                "imio.smartweb.NewsView",
-                "imio.smartweb.DirectoryView",
-            ]
-        )
-        for brain in brains:
-            obj = brain.getObject()
-            data = get_endpoint_data(obj, obj.REQUEST)
-            yield from format_sitemap_items(data.get("items", {}), obj.absolute_url())
+        config = get_sitemap_sources_config()
+        enabled_types = [t for t, c in config.items() if c.get("enabled")]
+        if enabled_types:
+            brains = catalog(portal_type=enabled_types)
+            for brain in brains:
+                obj = brain.getObject()
+                source_cfg = config[obj.portal_type]
+                sort_on, sort_order = get_filter_sort(
+                    obj.portal_type, source_cfg.get("item_filter")
+                )
+                data = get_endpoint_data(
+                    obj,
+                    obj.REQUEST,
+                    source_cfg.get("max_items"),
+                    sort_on,
+                    sort_order,
+                )
+                items = data.get("items", [])[: source_cfg.get("max_items")]
+                yield from format_sitemap_items(items, obj.absolute_url())
 
 
 @implementer(IImioSmartwebCoreLayer)
@@ -192,14 +244,26 @@ class CatalogSiteMap(BaseCatalogSiteMap):
             context, obj=context, query=query, strategy=strategy
         )
 
+        config = get_sitemap_sources_config()
         for child in base_folder_tree.get("children"):
             obj = child.get("item").getObject()
-            data = get_endpoint_data(obj, obj.REQUEST)
+            source_cfg = config.get(obj.portal_type)
+            if source_cfg is None or not source_cfg.get("enabled"):
+                continue
+            sort_on, sort_order = get_filter_sort(
+                obj.portal_type, source_cfg.get("item_filter")
+            )
+            data = get_endpoint_data(
+                obj,
+                obj.REQUEST,
+                source_cfg.get("max_items"),
+                sort_on,
+                sort_order,
+            )
             if not data:
                 continue
-            child["children"] = format_sitemap_items(
-                data.get("items", []), obj.absolute_url()
-            )
+            items = data.get("items", [])[: source_cfg.get("max_items")]
+            child["children"] = format_sitemap_items(items, obj.absolute_url())
 
         return base_folder_tree
 
