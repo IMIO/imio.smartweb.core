@@ -195,8 +195,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=topics&"
             "metadata_fields=has_leadimage&"
             "fullobjects=1&"
-            "sort_on=sortable_title&"
             "b_size=20&"
+            "sort_on=sortable_title&"
             "taxonomy_contact_category_for_filtering=token&"
             "topics=education&"
             "translated_in_en=1",
@@ -231,11 +231,11 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "metadata_fields=topics&"
                 "metadata_fields=has_leadimage&"
                 "fullobjects=1&"
-                "sort_on=sortable_title&"
                 "b_size=30&"
                 "taxonomy_contact_category.query=hlsm9bijb1&"
                 "taxonomy_contact_category.query=9kgcmrj4lu&"
                 "taxonomy_contact_category.operator=or&"
+                "sort_on=sortable_title&"
                 "taxonomy_contact_category_for_filtering=token&"
                 "topics=education&"
                 "translated_in_en=1",
@@ -429,10 +429,10 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=has_leadimage&"
             "metadata_fields=UID&"
             "metadata_fields=language&"
-            "sort_on=event_dates&"
             "fullobjects=0&"
             "b_size=20&"
             "event_type=event-driven&"
+            "sort_on=event_dates&"
             "translated_in_en=1".format(self.rest_events.selected_agenda),
         )
         m.get(url, text=json.dumps({}))
@@ -500,11 +500,11 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "metadata_fields=topics&"
                 "metadata_fields=has_leadimage&"
                 "metadata_fields=UID&"
-                "sort_on=effective&"
-                "sort_order=descending&"
                 "entity_uid=7c69f9a738ec497c819725c55888ee32&"
                 "fullobjects=1&"
                 "b_size=20&"
+                "sort_on=effective&"
+                "sort_order=descending&"
                 "translated_in_en=1".format(self.rest_news.selected_news_folder),
             )
             m.get(url, text=json.dumps({}))

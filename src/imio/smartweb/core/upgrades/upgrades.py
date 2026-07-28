@@ -316,3 +316,21 @@ def uninstall_sendinblue(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runAllImportStepsFromProfile("profile-collective.sendinblue:uninstall")
     logger.info("Sendinblue uninstalled successfully.")
+
+
+def add_sitemap_authentic_sources_registry(context):
+    """(Re)create the smartweb.sitemap_authentic_sources control-panel record.
+
+    The field type changed from a ``List(Choice)`` multiselect to a
+    ``List(DictRow)`` DataGridField. On a dev instance where an earlier run of
+    this step created the old-typed record, we delete it first to avoid a
+    persistent field-type conflict, then re-import the registry so the new
+    DataGridField is registered with its default rows.
+    """
+    registry = api.portal.get_tool("portal_registry")
+    if "smartweb.sitemap_authentic_sources" in registry:
+        del registry.records["smartweb.sitemap_authentic_sources"]
+        logger.info("Removed obsolete smartweb.sitemap_authentic_sources record.")
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")
+    logger.info("smartweb.sitemap_authentic_sources registry record ensured.")

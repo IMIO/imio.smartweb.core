@@ -5,6 +5,13 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Add a control-panel setting (Smartweb site admin) to configure, per authentic
+  source, whether it appears in the sitemap, how many
+  items are listed (max 50) and their ordering. Applies to both the HTML and XML
+  sitemaps. Defaults to all sources enabled at 50 items, so existing sites are
+  unaffected.
+  [boulch]
+
 - Answer 404 when a news or agenda item page points to a remote
   item that no longer exists at the authentic source. ``NewsViewView.news`` and
   ``EventsViewView.event`` formatted the item without checking that it had been
