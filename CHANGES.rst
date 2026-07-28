@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.55 (unreleased)
+1.4.55 (2026-07-28)
 -------------------
 
 - Migration : replace webpack by vite for React view
