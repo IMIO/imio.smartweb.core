@@ -5,7 +5,11 @@ Changelog
 1.4.55 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migration : replace webpack by vite for React view
+  [thomlamb]
+
+- Refactore React class
+  [thomlamb]
 
 
 1.4.54 (2026-07-24)
