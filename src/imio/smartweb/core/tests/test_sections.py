@@ -642,16 +642,3 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn(f"{section_text.getURL()}/@@historyview", page_view)
         # One more history view link on SectionText
         self.assertEqual(page_view.count("@@historyview"), count_historyview_link + 1)
-
-
-# <audit>
-#   <file>test_sections.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>
-#     Modified only test_video_section (kept one method per tested method, R5).
-#     Replaced live oembed network calls with requests_mock + resource fixtures
-#     (R1: mock external HTTP only). Mirrored the per-test @requests_mock.Mocker()
-#     + get_json fixture pattern from test_section_news.py (R6).
-#   </deviations>
-#   <questions>None</questions>
-# </audit>

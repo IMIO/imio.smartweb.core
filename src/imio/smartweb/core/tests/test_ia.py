@@ -186,12 +186,3 @@ class TestProcessCategorizeContentView(ImioSmartwebTestCase):
         self.assertIn(
             "form-widgets-page_category-taxonomy_page_category", result["data"]
         )
-
-
-# <audit>
-#   <file>test_ia.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>None</deviations>
-#   <questions>None. Updated 4 _process_category() call sites to drop the
-#   removed second positional arg after the production refactor.</questions>
-# </audit>

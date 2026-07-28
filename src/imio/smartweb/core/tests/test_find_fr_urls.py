@@ -201,11 +201,3 @@ class TestFindFrUrlsView(ImioSmartwebTestCase):
         self.assertEqual(second["keywords"], "Plone, preprod")
         # dry-run: nothing was modified
         self.assertIn("https://www.liege.be/fr/page", section.html)
-
-
-# <audit>
-#   <file>test_find_fr_urls.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>None</deviations>
-#   <questions>None</questions>
-# </audit>

@@ -231,16 +231,3 @@ class TestSectionEvents(ImioSmartwebTestCase):
         )
         vocabulary = factory(section)
         self.assertIn(api.content.get_uuid(self.rest_events_view), vocabulary)
-
-
-# <audit>
-#   <file>test_section_events.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>
-#     test_whole_day_dates_converted_to_brussels_timezone teste view.items
-#     (et non le HTML rendu) car le bug porte sur le datetime passé à
-#     macros.pt; assertion sur start.day/end.day est suffisante et imite
-#     le pattern des autres tests du fichier.
-#   </deviations>
-#   <questions>None</questions>
-# </audit>
