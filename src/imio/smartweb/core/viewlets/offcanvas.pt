@@ -30,6 +30,13 @@
       }
     });
 
+    offcanvas.addEventListener('shown.bs.offcanvas', function () {
+      const input = searchContainer.querySelector('#global-search');
+      if (input) {
+        input.focus();
+      }
+    });
+
     offcanvas.addEventListener('hidden.bs.offcanvas', function () {
       if (searchContent) {
         searchContainer.innerHTML = '';
