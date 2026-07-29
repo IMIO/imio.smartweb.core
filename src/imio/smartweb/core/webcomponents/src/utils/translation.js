@@ -350,16 +350,16 @@ export default {
         nl: "Op",
     },
     de: {
-        en: "of",
+        en: "from",
         fr: "de",
         de: "von",
         nl: "van",
     },
     à: {
-        en: "at",
+        en: "to",
         fr: "à",
-        de: "ab",
-        nl: "om",
+        de: "bis",
+        nl: "tot",
     },
     Du: {
         en: "From",
