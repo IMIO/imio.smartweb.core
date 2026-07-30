@@ -5,7 +5,11 @@ Changelog
 1.4.56 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEBBDC-2835: Add read-only phones/mails/urls datagrids to the contact section,
+  loaded from the related contacts with a dedicated button, with a per-row
+  checkbox column choosing which columns are displayed. Unchecking every column
+  hides the row.
+  [boulch]
 
 
 1.4.55 (2026-07-28)

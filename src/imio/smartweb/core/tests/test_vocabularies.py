@@ -98,6 +98,31 @@ class TestVocabularies(ImioSmartwebTestCase):
     def test_contact_blocks(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ContactBlocks", 10)
 
+    def test_contact_display_columns_vocabularies(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.PhoneDisplayColumns", 3)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.MailDisplayColumns", 3)
+        self.assertVocabularyLen("imio.smartweb.vocabulary.UrlDisplayColumns", 2)
+
+    def test_contact_display_columns_tokens(self):
+        # The tokens must match the remote row schema keys exactly: they are
+        # looked up against the directory JSON payload at render time.
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.PhoneDisplayColumns"
+        )
+        self.assertEqual(
+            [term.token for term in factory()], ["label", "type", "number"]
+        )
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.MailDisplayColumns"
+        )
+        self.assertEqual(
+            [term.token for term in factory()], ["label", "type", "mail_address"]
+        )
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.UrlDisplayColumns"
+        )
+        self.assertEqual([term.token for term in factory()], ["type", "url"])
+
     @requests_mock.Mocker()
     def test_empty_remote_directory_entities(self, m):
         m.get(
