@@ -5,7 +5,12 @@ Changelog
 1.4.56 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add a control-panel setting (Smartweb site admin) to configure, per authentic
+  source, whether it appears in the sitemap, how many
+  items are listed (max 50) and their ordering. Applies to both the HTML and XML
+  sitemaps. Defaults to all sources enabled at 50 items, so existing sites are
+  unaffected.
+  [boulch]
 
 
 1.4.55 (2026-07-28)
