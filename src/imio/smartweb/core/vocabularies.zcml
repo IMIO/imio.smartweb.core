@@ -212,22 +212,4 @@
       provides="zope.schema.interfaces.IVocabularyFactory"
       />
 
-  <utility
-      name="imio.smartweb.vocabulary.PhoneDisplayColumns"
-      component=".vocabularies.PhoneDisplayColumnsVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
-
-  <utility
-      name="imio.smartweb.vocabulary.MailDisplayColumns"
-      component=".vocabularies.MailDisplayColumnsVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
-
-  <utility
-      name="imio.smartweb.vocabulary.UrlDisplayColumns"
-      component=".vocabularies.UrlDisplayColumnsVocabulary"
-      provides="zope.schema.interfaces.IVocabularyFactory"
-      />
-
 </configure>
