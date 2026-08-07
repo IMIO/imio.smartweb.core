@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        meta_type="Dexterity FTI"
+        name="imio.smartweb.SectionExternalContent"
+        i18n:domain="imio.smartweb"
+>
+
+  <!-- Allow an Illiwap rss news feed to be displayed as a table or a
+       carousel, using the shared section templates -->
+  <property name="default_view">view</property>
+  <property name="default_view_fallback">False</property>
+  <property name="immediate_view">view</property>
+  <property name="view_methods">
+    <element value="view"/>
+    <element value="table_view"/>
+    <element value="carousel_view"/>
+  </property>
+
+</object>

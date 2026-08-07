@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from plone.memoize.ram import global_cache
 from zope.annotation.interfaces import IAnnotations
+from zope.component import queryUtility
+from zope.ramcache.interfaces.ram import IRAMCache
 
 import json
 import os
@@ -77,6 +80,7 @@ def get_html(html_filename):
             os.path.dirname(__file__),
             html_filename,
         ),
+        encoding="utf-8",
     ) as html_file:
         html_raw_mock = html_file.read()
         return html_raw_mock
@@ -85,6 +89,24 @@ def get_html(html_filename):
 def clear_cache(request):
     annotations = IAnnotations(request)
     del annotations["plone.memoize"]
+
+
+def clear_ram_cache(*functions):
+    """Drop the @ram.cache entries of the given functions.
+
+    @ram.cache storage lives across requests, so a value cached by one test
+    method is still there for the next one. plone.memoize.ram keys it on
+    "<module>.<name>" and uses the IRAMCache utility when one is registered,
+    its own module level cache otherwise : clear both.
+
+    Targeted on purpose : invalidating the whole cache reaches unrelated
+    tests that depend on their own cached values.
+    """
+    caches = [c for c in (queryUtility(IRAMCache), global_cache) if c is not None]
+    for function in functions:
+        key = f"{function.__module__}.{function.__name__}"
+        for cache in caches:
+            cache.invalidate(key)
 
 
 def make_named_image(filename="plone.png"):

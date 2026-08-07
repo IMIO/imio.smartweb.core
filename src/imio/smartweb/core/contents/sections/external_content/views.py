@@ -4,8 +4,24 @@ from embeddify import Embedder
 from embeddify import Plugin
 
 from imio.smartweb.core.interfaces import IOdwbViewUtils
+from imio.smartweb.core.contents.sections.external_content.illiwap import (
+    agenda_page_url,
+)
+from imio.smartweb.core.contents.sections.external_content.illiwap import get_events
+from imio.smartweb.core.contents.sections.external_content.illiwap import get_news
+from imio.smartweb.core.contents.sections.external_content.illiwap import (
+    ILLIWAP_NETLOC,
+)
+from imio.smartweb.core.contents.sections.external_content.illiwap import (
+    is_illiwap_agenda_url,
+)
+from imio.smartweb.core.contents.sections.external_content.illiwap import (
+    is_illiwap_rss_url,
+)
+from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.interfaces import IArcgisViewUtils
+from imio.smartweb.core.utils import batch_results
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from json.decoder import JSONDecodeError
 from plone import api
@@ -39,6 +55,7 @@ class ExternalContentView(SectionView):
             IdeluxWastePlugin(),
             InbwContainersAffluencePlugin(),
             OdwbWidgetPlugin(),
+            IlliwapPlugin(),
             UnknowServicePlugin(),
         ]
         extra_params = context.external_content_params
@@ -73,6 +90,7 @@ class ExternalContentView(SectionView):
                 "url": context.absolute_url(),
                 "extra_params": extra_params,
             },
+            "illiwapplugin": {"current_lang": current_lang},
             "unknowserviceplugin": {"width": width, "current_lang": current_lang},
         }
         embedder = Embedder(plugins=plugins, plugin_config=self.plugin_config)
@@ -363,6 +381,27 @@ class OdwbWidgetPlugin(BasePlugin):
         return self.config["extra_params"]
 
 
+class IlliwapPlugin(BasePlugin):
+    def __call__(self, parts, config={}):
+        if parts.netloc == ILLIWAP_NETLOC:
+            self.parts = parts
+            self.config = config
+            return self
+        return None
+
+    @property
+    def contents(self):
+        # An Illiwap feed is not embedded : it is rendered by IlliwapView
+        # through the table or the carousel display.
+        current_lang = self.config["current_lang"]
+        msg = _(
+            "Illiwap news feed detected. Use “Select view” to display it "
+            "as a table or as a carousel."
+        )
+        msg = translate(msg, target_language=current_lang)
+        return f'<p class="illiwap_hint">{msg}</p>'
+
+
 class UnknowServicePlugin(BasePlugin):
     def __call__(self, parts, config={}):
         self.parts = parts
@@ -375,6 +414,48 @@ class UnknowServicePlugin(BasePlugin):
         msg = _("Unknow service")
         msg = translate(msg, target_language=current_lang)
         return f'<p class="unknow_service">{msg}</p>'
+
+
+class IlliwapView(CarouselOrTableSectionView):
+    """Renders an Illiwap rss news feed with the shared table / carousel
+    templates, like the news section does with its authentic source.
+    """
+
+    def _translate(self, msg):
+        current_lang = api.portal.get_current_language()[:2]
+        return translate(msg, target_language=current_lang)
+
+    @property
+    def items(self):
+        url = self.context.external_content_url
+        nb_by_batch = self.context.nb_results_by_batch
+        limit = nb_by_batch * self.context.max_nb_batches
+        if is_illiwap_rss_url(url):
+            results = get_news(url, limit)
+        elif is_illiwap_agenda_url(url):
+            results = get_events(url, limit)
+        else:
+            self._issue = self._translate(
+                _(
+                    "This display is only available for an Illiwap news feed "
+                    "url (https://station.illiwap.com/rss/...) or agenda url."
+                )
+            )
+            return []
+        if results is None:
+            self._issue = self._translate(
+                _("Illiwap content is currently unavailable.")
+            )
+            return []
+        return batch_results(results, nb_by_batch)
+
+    def is_multi_dates(self, start, end):
+        """Required by the event_date macro"""
+        return start and end and start.date() != end.date()
+
+    @property
+    def see_all_url(self):
+        return agenda_page_url(self.context.external_content_url)
 
 
 @implementer(IArcgisViewUtils)

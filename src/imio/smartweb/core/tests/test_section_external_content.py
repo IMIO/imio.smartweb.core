@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from bs4 import BeautifulSoup
+from imio.smartweb.core.contents.sections.external_content import illiwap
 from imio.smartweb.core.contents.sections.external_content.views import ArcgisPlugin
 from imio.smartweb.core.contents.sections.external_content.views import ArcgisView
 from imio.smartweb.core.contents.sections.external_content.views import BasePlugin
@@ -32,6 +34,9 @@ from imio.smartweb.core.interfaces import IOdwbViewUtils
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import clear_ram_cache
+from imio.smartweb.core.tests.utils import get_html
+from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.viewlets.external_content import ArcgisHeaderViewlet
 from imio.smartweb.core.viewlets.external_content import OdwbWidgetHeaderViewlet
 from plone import api
@@ -43,10 +48,16 @@ from urllib.parse import urlparse
 from zope.component import queryMultiAdapter
 
 import requests
+import requests_mock
 import requests_mock as requests_mock_module
 import unittest
 
 _VIEWS_MODULE = "imio.smartweb.core.contents.sections.external_content.views"
+ILLIWAP_FEED_URL = "https://station.illiwap.com/rss/commune-de-test"
+ILLIWAP_AGENDA_URL = "https://station.illiwap.com/fr/public/commune-de-test/agenda/list"
+ILLIWAP_AGENDA_PAGE_URL = (
+    "https://station.illiwap.com/fr/public/commune-de-test/evenements/"
+)
 
 
 class TestSectionExternalContent(ImioSmartwebTestCase):
@@ -300,6 +311,18 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
         self.assertTrue(section_view.display_odwb_widget_viewlet())
         self.assertEqual(section_view.which_plugin(), "odwbwidgetplugin")
 
+    def test_illiwap_plugin(self):
+        sec = api.content.create(
+            container=self.page, type="imio.smartweb.SectionExternalContent", id="sec"
+        )
+        sec.external_content_url = ILLIWAP_FEED_URL
+        section_view = queryMultiAdapter((sec, self.request), name="view")
+        # an illiwap feed is not embedded : the default view only points the
+        # editor to the table / carousel display
+        self.assertIn("illiwap_hint", section_view.contents)
+        self.assertIn("Illiwap news feed detected", section_view.contents)
+        self.assertIsNone(section_view.which_plugin())
+
     def test_external_content_view_methods(self):
         sec = api.content.create(
             container=self.page, type="imio.smartweb.SectionExternalContent", id="sec"
@@ -317,6 +340,334 @@ class TestSectionExternalContent(ImioSmartwebTestCase):
         image_url = section_view.image()
         self.assertIn(sec.absolute_url(), image_url)
         self.assertIn("@@download/image", image_url)
+
+
+class TestSectionExternalContent_params(ImioSmartwebTestCase):
+    """external_content_params drives the illiwap display settings"""
+
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.page = api.content.create(
+            container=self.portal, type="imio.smartweb.Page", id="page"
+        )
+        self.section = api.content.create(
+            container=self.page, type="imio.smartweb.SectionExternalContent", id="sec"
+        )
+
+    def test_manage_display(self):
+        # only an illiwap feed has a display to choose from
+        self.section.external_content_url = "https://app.eaglebe.com/auth/start"
+        self.assertFalse(self.section.manage_display)
+        self.section.external_content_url = ILLIWAP_FEED_URL
+        self.assertTrue(self.section.manage_display)
+
+    def test_defaults(self):
+        self.assertEqual(self.section.params, {})
+        self.assertEqual(self.section.nb_results_by_batch, 3)
+        self.assertEqual(self.section.max_nb_batches, 3)
+        self.assertFalse(self.section.show_items_description)
+
+    def test_params_read_from_json(self):
+        self.section.external_content_params = (
+            '{"nb_results_by_batch": 4, "max_nb_batches": 2, '
+            '"show_items_description": true}'
+        )
+        self.assertEqual(self.section.nb_results_by_batch, 4)
+        self.assertEqual(self.section.max_nb_batches, 2)
+        self.assertTrue(self.section.show_items_description)
+
+    def test_params_of_another_plugin_are_ignored(self):
+        self.section.external_content_params = (
+            '{"portal_item_id": "27a432b0835149e6acd3ac39d0e4349c"}'
+        )
+        self.assertEqual(self.section.nb_results_by_batch, 3)
+        self.assertEqual(self.section.max_nb_batches, 3)
+
+    def test_params_are_clamped(self):
+        # the templates lay out at most 4 columns (12 // nb_results_by_batch)
+        self.section.external_content_params = '{"nb_results_by_batch": 99}'
+        self.assertEqual(self.section.nb_results_by_batch, 4)
+        self.section.external_content_params = '{"nb_results_by_batch": 0}'
+        self.assertEqual(self.section.nb_results_by_batch, 1)
+        self.section.external_content_params = '{"max_nb_batches": 99}'
+        self.assertEqual(self.section.max_nb_batches, 12)
+
+    def test_broken_params_fall_back_to_defaults(self):
+        self.section.external_content_params = "kamoulox"
+        self.assertEqual(self.section.params, {})
+        self.assertEqual(self.section.nb_results_by_batch, 3)
+
+        # valid json, but not a dictionary
+        self.section.external_content_params = '["a", "list"]'
+        self.assertEqual(self.section.params, {})
+
+        # valid dictionary, but not a number
+        self.section.external_content_params = '{"nb_results_by_batch": "trois"}'
+        self.assertEqual(self.section.nb_results_by_batch, 3)
+
+
+class TestIlliwapView(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        # _fetch_news is ram cached on a time bucket, not per request
+        clear_ram_cache(
+            illiwap._fetch_news,
+            illiwap._fetch_events,
+            illiwap._fetch_event_slugs,
+        )
+        self.feed = get_html("resources/illiwap_rss_mock.xml").encode("utf-8")
+        self.page = api.content.create(
+            container=self.portal, type="imio.smartweb.Page", id="page"
+        )
+        self.section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionExternalContent",
+            title="Actualités Illiwap",
+        )
+        self.section.external_content_url = ILLIWAP_FEED_URL
+
+    @requests_mock.Mocker()
+    def test_items_are_batched(self, m):
+        m.get(ILLIWAP_FEED_URL, content=self.feed)
+        view = queryMultiAdapter((self.section, self.request), name="table_view")
+        # 3 items by batch by default, the feed holds 4
+        self.assertEqual([len(batch) for batch in view.items], [3, 1])
+        self.assertEqual(
+            view.items[0][0]["title"], "Un coup de pouce pour réussir son permis"
+        )
+
+    @requests_mock.Mocker()
+    def test_items_honour_params(self, m):
+        m.get(ILLIWAP_FEED_URL, content=self.feed)
+        self.section.external_content_params = (
+            '{"nb_results_by_batch": 2, "max_nb_batches": 1}'
+        )
+        view = queryMultiAdapter((self.section, self.request), name="table_view")
+        self.assertEqual([len(batch) for batch in view.items], [2])
+
+    @requests_mock.Mocker()
+    def test_items_when_feed_is_unavailable(self, m):
+        m.get(ILLIWAP_FEED_URL, status_code=500)
+        view = queryMultiAdapter((self.section, self.request), name="table_view")
+        self.assertEqual(view.items, [])
+        self.assertIn("Illiwap content is currently unavailable", view.issue)
+
+    def test_items_when_url_is_not_illiwap(self):
+        self.section.external_content_url = "https://app.eaglebe.com/auth/start"
+        view = queryMultiAdapter((self.section, self.request), name="table_view")
+        self.assertEqual(view.items, [])
+        self.assertIn("Illiwap news feed", view.issue)
+
+    @requests_mock.Mocker()
+    def test_table_view_renders_the_news(self, m):
+        m.get(ILLIWAP_FEED_URL, content=self.feed)
+        self.section.external_content_params = '{"show_items_description": true}'
+        self.section.setLayout("table_view")
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        soup = BeautifulSoup(html)
+
+        titles = [tag.text.strip() for tag in soup.select("div.table_title span")]
+        self.assertIn("Un coup de pouce pour réussir son permis", titles)
+        self.assertEqual(len(titles), 4)
+
+        # news are read on illiwap
+        link = soup.select("div.table_display a.table_image")[0]
+        self.assertEqual(
+            link.get("href"),
+            "https://station.illiwap.com/fr/public/commune-de-test/actu/un-coup-de-pouce",
+        )
+        # the template only renders target="_blank" for a visitor, but the
+        # items do ask for it
+        view = queryMultiAdapter((self.section, self.request), name="table_view")
+        self.assertTrue(view.open_in_new_tab(view.items[0][0]))
+
+        # the thumbnail dug out of the description html is used
+        image = soup.select("div.table_display div.is-image")[0]
+        self.assertIn("photo.jpg", image.get("style"))
+
+        # the excerpt is shown once show_items_description is set
+        self.assertIn(
+            "Tu as entre 17 et 25 ans",
+            soup.select("div.table_description")[0].text,
+        )
+
+    @requests_mock.Mocker()
+    def test_carousel_view_renders_the_news(self, m):
+        m.get(ILLIWAP_FEED_URL, content=self.feed)
+        self.section.setLayout("carousel_view")
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        soup = BeautifulSoup(html)
+
+        titles = [tag.text.strip() for tag in soup.select("div.swiper_title h3")]
+        self.assertIn("Un coup de pouce pour réussir son permis", titles)
+        self.assertEqual(len(titles), 4)
+
+    @requests_mock.Mocker()
+    def test_visitor_links_open_in_a_new_tab(self, m):
+        """The templates only render target="_blank" for a visitor, never for
+        an editor : render through the view a visitor gets.
+        """
+        m.get(ILLIWAP_FEED_URL, content=self.feed)
+        self.section.setLayout("table_view")
+        html = queryMultiAdapter(
+            (self.section, self.request), name="full_view_item_without_edit"
+        )()
+        soup = BeautifulSoup(html)
+        links = soup.select("div.table_display a.table_image")
+        self.assertEqual(len(links), 4)
+        for link in links:
+            self.assertEqual(link.get("target"), "_blank")
+            self.assertTrue(link.get("href").startswith("https://station.illiwap.com/"))
+
+    @requests_mock.Mocker()
+    def test_editor_is_warned_when_feed_is_unavailable(self, m):
+        """No news is rendered, and the editor gets a translatable warning"""
+        m.get(ILLIWAP_FEED_URL, status_code=500)
+        self.section.setLayout("carousel_view")
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        soup = BeautifulSoup(html)
+        self.assertEqual(soup.select("div.swiper_title"), [])
+        self.assertIn(
+            "Illiwap content is currently unavailable",
+            soup.select("p.issue")[0].text,
+        )
+
+
+class TestIlliwapAgendaView(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        clear_ram_cache(
+            illiwap._fetch_news,
+            illiwap._fetch_events,
+            illiwap._fetch_event_slugs,
+        )
+        self.agenda = get_json("resources/json_illiwap_agenda_mock.json")
+        self.listing = get_html("resources/illiwap_agenda_listing_mock.html")
+        self.page = api.content.create(
+            container=self.portal, type="imio.smartweb.Page", id="page"
+        )
+        self.section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionExternalContent",
+            title="Agenda Illiwap",
+        )
+        self.section.external_content_url = ILLIWAP_AGENDA_PAGE_URL
+
+    def test_manage_display(self):
+        self.assertTrue(self.section.manage_display)
+
+    @requests_mock.Mocker()
+    def test_items_are_batched(self, m):
+        m.get(ILLIWAP_AGENDA_URL, json=self.agenda)
+        m.get(ILLIWAP_AGENDA_PAGE_URL, text=self.listing)
+        view = queryMultiAdapter((self.section, self.request), name="table_view")
+        # 3 by batch by default, the mock holds 3 usable events
+        self.assertEqual([len(batch) for batch in view.items], [3])
+
+    @requests_mock.Mocker()
+    def test_table_view_renders_the_events(self, m):
+        m.get(ILLIWAP_AGENDA_URL, json=self.agenda)
+        m.get(ILLIWAP_AGENDA_PAGE_URL, text=self.listing)
+        self.section.setLayout("table_view")
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        soup = BeautifulSoup(html)
+
+        titles = [tag.text.strip() for tag in soup.select("div.table_title span")]
+        self.assertEqual(
+            titles, ["Enigm'Ha", "Guinguette de Fairon", "Marathon de l'Ourthe 2026"]
+        )
+
+        # the category comes from the agenda, not from a smartweb vocabulary
+        categories = [
+            tag.text.strip() for tag in soup.select("div.table_category span")
+        ]
+        self.assertEqual(categories, ["Animation", "Autres", "Sport"])
+
+        # the thumbnail is the small media
+        image = soup.select("div.table_display div.is-image")[0]
+        self.assertIn("vignette_agenda_media_sm", image.get("style"))
+
+        # each card links to its own page on illiwap, with the real slug
+        # (illiwap suffixes duplicates, so it cannot be derived from the title)
+        hrefs = [a.get("href") for a in soup.select("div.table_display a.table_image")]
+        self.assertEqual(
+            hrefs,
+            [
+                f"{ILLIWAP_AGENDA_PAGE_URL}enigm-ha-1",
+                f"{ILLIWAP_AGENDA_PAGE_URL}guinguette-de-fairon-1",
+                f"{ILLIWAP_AGENDA_PAGE_URL}marathon-de-l-ourthe-2026",
+            ],
+        )
+
+    @requests_mock.Mocker()
+    def test_event_date_macro_is_fed(self, m):
+        """A multi day event renders a start and an end, a single day one does
+        not : that is what the shared event_date macro does with our datetimes.
+        """
+        m.get(ILLIWAP_AGENDA_URL, json=self.agenda)
+        m.get(ILLIWAP_AGENDA_PAGE_URL, text=self.listing)
+        self.section.setLayout("table_view")
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        soup = BeautifulSoup(html)
+
+        # Enigm'Ha runs from 05/07 to 23/08
+        multi = soup.select("div.table_display")[0]
+        self.assertEqual(multi.select("div.start_date span.day")[0].text, "05")
+        self.assertEqual(multi.select("div.start_date span.month")[0].text, "07")
+        self.assertEqual(multi.select("div.end_date span.day")[0].text, "23")
+        self.assertEqual(multi.select("div.end_date span.month")[0].text, "08")
+
+        # the Guinguette is a single day event
+        single = soup.select("div.table_display")[1]
+        self.assertEqual(single.select("div.start_date"), [])
+        self.assertEqual(single.select("div.day_date span.day")[0].text, "12")
+        self.assertEqual(single.select("div.day_date span.month")[0].text, "09")
+
+    @requests_mock.Mocker()
+    def test_see_all_link_is_opt_in(self, m):
+        m.get(ILLIWAP_AGENDA_URL, json=self.agenda)
+        m.get(ILLIWAP_AGENDA_PAGE_URL, text=self.listing)
+        self.section.setLayout("table_view")
+
+        # no link_text in the params, no link
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        self.assertEqual(BeautifulSoup(html).select("div.see_all"), [])
+
+        self.section.external_content_params = '{"link_text": "Voir tout l\'agenda"}'
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        link = BeautifulSoup(html).select("div.see_all a")[0]
+        self.assertEqual(link.text.strip(), "Voir tout l'agenda")
+        self.assertEqual(link.get("href"), ILLIWAP_AGENDA_PAGE_URL)
+
+    @requests_mock.Mocker()
+    def test_carousel_view_renders_the_events(self, m):
+        m.get(ILLIWAP_AGENDA_URL, json=self.agenda)
+        m.get(ILLIWAP_AGENDA_PAGE_URL, text=self.listing)
+        self.section.setLayout("carousel_view")
+        html = queryMultiAdapter((self.page, self.request), name="full_view")()
+        soup = BeautifulSoup(html)
+        titles = [tag.text.strip() for tag in soup.select("div.swiper_title h3")]
+        self.assertEqual(len(titles), 3)
+        self.assertEqual(len(soup.select("a.swiper_link")), 3)
+
+    @requests_mock.Mocker()
+    def test_editor_is_warned_when_agenda_is_unavailable(self, m):
+        m.get(ILLIWAP_AGENDA_URL, status_code=400)
+        view = queryMultiAdapter((self.section, self.request), name="table_view")
+        self.assertEqual(view.items, [])
+        self.assertIn("Illiwap content is currently unavailable", view.issue)
 
 
 class TestArcgisHeaderViewlet(ImioSmartwebTestCase):

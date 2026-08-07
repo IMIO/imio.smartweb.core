@@ -33,4 +33,15 @@
     <element value="imio.smartweb.topics"/>
   </property>
 
+  <!-- View information -->
+  <!-- table_view / carousel_view render an Illiwap rss news feed -->
+  <property name="default_view">view</property>
+  <property name="default_view_fallback">False</property>
+  <property name="immediate_view">view</property>
+  <property name="view_methods">
+    <element value="view"/>
+    <element value="table_view"/>
+    <element value="carousel_view"/>
+  </property>
+
 </object>

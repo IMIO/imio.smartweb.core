@@ -402,6 +402,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1081_to_1082"
+      title="Upgrade core from 1081 to 1082"
+      directory="profiles/1081_to_1082"
+      description="Add table and carousel views to SectionExternalContent (Illiwap rss feed)"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1235,6 +1243,16 @@
     <genericsetup:upgradeDepends
         title="Clear stale jscompilation for smartweb-webcomponents bundle (now loaded as an ES module by a viewlet)"
         import_profile="imio.smartweb.core.upgrades:upgrade_1080_to_1081"
+        />
+  </genericsetup:upgradeSteps>
+
+  <genericsetup:upgradeSteps
+      source="1081"
+      destination="1082"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add table and carousel views to SectionExternalContent (Illiwap rss feed)"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1081_to_1082"
         />
   </genericsetup:upgradeSteps>
 

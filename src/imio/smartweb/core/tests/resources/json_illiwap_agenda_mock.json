@@ -1,0 +1,72 @@
+[
+  {
+    "id": "1eed1fc6-e10b-4a09-9840-fb010aacd4fa",
+    "title": "Marathon de l'Ourthe 2026",
+    "start": "2026-09-27T08:00:00+02:00",
+    "end": "2026-09-27T18:00:00+02:00",
+    "allDay": false,
+    "backgroundColor": "#f66257",
+    "extendedProps": {
+      "description": "Départ et arrivée sur la place du village.",
+      "medias": [
+        {
+          "url": "https://station.illiwap.com/media/cache/resolve/vignette_agenda_media_lg/uploads/images/evenement/medias/marathon.png",
+          "url_vignette": "https://station.illiwap.com/media/cache/resolve/vignette_agenda_media_sm/uploads/images/evenement/medias/marathon.png"
+        }
+      ],
+      "categorieLibelle": "Sport",
+      "adresse": "Place du village, 4180 Hamoir",
+      "stationLibelle": "Commune de Hamoir"
+    }
+  },
+  {
+    "id": "2aad1fc6-e10b-4a09-9840-fb010aacd4fb",
+    "title": "Guinguette de Fairon",
+    "start": "2026-09-12T18:00:00+02:00",
+    "end": "2026-09-12T23:55:00+02:00",
+    "allDay": false,
+    "backgroundColor": "#f66257",
+    "extendedProps": {
+      "description": null,
+      "medias": null,
+      "categorieLibelle": "Autres",
+      "adresse": "Rue du Ruisseau (place du village), 4180 Fairon",
+      "stationLibelle": "Commune de Hamoir"
+    }
+  },
+  {
+    "id": "3bbd1fc6-e10b-4a09-9840-fb010aacd4fc",
+    "title": "Enigm'Ha",
+    "start": "2026-07-05T00:00:00+02:00",
+    "end": "2026-08-23T23:59:00+02:00",
+    "allDay": true,
+    "backgroundColor": "#a2c617",
+    "extendedProps": {
+      "description": "Un jeu de piste dans les rues du village.",
+      "medias": [
+        {
+          "url": "https://station.illiwap.com/media/cache/resolve/vignette_agenda_media_lg/uploads/images/evenement/medias/enigmha.png",
+          "url_vignette": "https://station.illiwap.com/media/cache/resolve/vignette_agenda_media_sm/uploads/images/evenement/medias/enigmha.png"
+        }
+      ],
+      "categorieLibelle": "Animation",
+      "adresse": "4180 Hamoir",
+      "stationLibelle": "Commune de Hamoir"
+    }
+  },
+  {
+    "id": "4ccd1fc6-e10b-4a09-9840-fb010aacd4fd",
+    "title": "Evenement sans date",
+    "start": null,
+    "end": null,
+    "allDay": false,
+    "backgroundColor": "#a2c617",
+    "extendedProps": {
+      "description": "Cet evenement doit etre ignore.",
+      "medias": null,
+      "categorieLibelle": "Autres",
+      "adresse": null,
+      "stationLibelle": "Commune de Hamoir"
+    }
+  }
+]

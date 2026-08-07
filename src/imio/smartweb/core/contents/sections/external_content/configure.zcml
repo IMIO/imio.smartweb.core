@@ -12,6 +12,39 @@
       />
 
   <browser:page
+      name="table_view"
+      for="imio.smartweb.core.contents.ISectionExternalContent"
+      class="imio.smartweb.core.contents.sections.external_content.views.IlliwapView"
+      template="../common_templates/table.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="Table view"
+      />
+
+  <browser:page
+      name="carousel_view"
+      for="imio.smartweb.core.contents.ISectionExternalContent"
+      class="imio.smartweb.core.contents.sections.external_content.views.IlliwapView"
+      template="../common_templates/carousel.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      menu="plone_displayviews"
+      title="Carousel view"
+      />
+
+  <!-- table.pt and carousel.pt look up context/@@macros/event_date to render
+       an event date, and that macros page is registered for the events
+       section only. Reuse the very same template here. -->
+  <browser:page
+      name="macros"
+      for="imio.smartweb.core.contents.ISectionExternalContent"
+      template="../events/macros.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
       name="view_arcgis"
       for="*"
       class="imio.smartweb.core.contents.sections.external_content.views.ArcgisView"
