@@ -32,6 +32,16 @@ class TestVocabularies(ImioSmartwebTestCase):
             "resources/json_no_contact_raw_mock.json"
         )
         self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&selected_entities=396907b3b1b04a97896b12cc792c77f8&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb"
+        # imio.smartweb.common's RemoteDirectoryEntitiesVocabularyFactory caches
+        # successful (non-empty) lookups for 300s in a `_cache` dict on the
+        # singleton utility (not request-scoped, so `clear_cache()`/
+        # `plone.memoize` invalidation doesn't touch it). Without resetting it
+        # here, a non-empty result cached by an earlier test can leak into
+        # whichever test runs next for the same (directory_url, language) key,
+        # regardless of what this test mocks.
+        getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.RemoteDirectoryEntities"
+        )._cache.clear()
 
     def test_icons(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 64)
