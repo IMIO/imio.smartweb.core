@@ -156,7 +156,7 @@
          data-bs-target=""
          tal:omit-tag="not: collapsible_section"
          tal:attributes="data-bs-target string:#body-section-${context/id}"
-         tal:content="context/title"
+         tal:content="structure context/@@inline_title"
     /></h2>
     <h2 tal:condition="python: can_edit_sections and hide_title"
         class="hidden-section-title hide-in-preview"><a
@@ -167,7 +167,7 @@
          data-bs-target=""
          tal:omit-tag="not: collapsible_section"
          tal:attributes="data-bs-target string:#body-section-${context/id}"
-         tal:content="context/title"
+         tal:content="structure context/@@inline_title"
     /></h2>
 
   </tal:def>

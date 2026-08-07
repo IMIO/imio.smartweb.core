@@ -1,6 +1,24 @@
 <tal:cond condition="python:not view.is_anonymous">
   <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.js"></script>
   <script type="text/javascript">
+/**
+  Inline title edition (see @@inline_title / @@savetitle)
+  contenteditable holds no form value, so feed the request from its text.
+*/
+document.addEventListener("htmx:configRequest", function(event) {
+    var el = event.detail.elt;
+    if (!el.classList || !el.classList.contains("inline-title")) return;
+    event.detail.parameters.newTitle = el.innerText.trim();
+    event.detail.parameters._authenticator = el.dataset.token;
+});
+document.addEventListener("keydown", function(event) {
+    // Enter validates instead of inserting a line break
+    if (event.key === "Enter" && event.target.classList.contains("inline-title")) {
+        event.preventDefault();
+        event.target.blur();
+    }
+});
+
 document.addEventListener("DOMContentLoaded", function() {
     /**
       Manage section size

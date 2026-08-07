@@ -305,7 +305,8 @@ class TestSections(ImioSmartwebTestCase):
         ]
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            view.count('<h2 class="section-title"><span class="inline-title"'),
+            len(section_types),
         )
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
@@ -336,7 +337,8 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            view.count('<h2 class="section-title"><span class="inline-title"'),
+            len(section_types),
         )
 
     def test_sections_titles(self):
@@ -384,7 +386,8 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            view.count('<h2 class="section-title"><span class="inline-title"'),
+            len(section_types),
         )
         # test hide_title
         for section_id in page.objectIds():
@@ -393,7 +396,9 @@ class TestSections(ImioSmartwebTestCase):
         # hide_title in login mode (add some specific css class)
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="hidden-section-title hide-in-preview">Title of my '),
+            view.count(
+                '<h2 class="hidden-section-title hide-in-preview"><span class="inline-title"'
+            ),
             self.NUMBER_OF_EMPTY_SECTIONS,
         )
         # hide_title in logout mode (no more <h2> / title)

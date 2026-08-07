@@ -18,7 +18,7 @@
 
 <metal:content-title fill-slot="content-title">
   <h1 tal:condition="context/title | nothing"
-      tal:content="context/title"
+      tal:content="structure context/@@inline_title"
       tal:attributes="class python: 'page-title text-align-container' if getattr(context, 'text_align_container', False) else 'page-title'">
   </h1>
 </metal:content-title>

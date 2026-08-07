@@ -1,0 +1,10 @@
+<span xmlns:tal="http://xml.zope.org/namespaces/tal"
+      class="inline-title"
+      contenteditable="true"
+      onclick="event.stopPropagation()"
+      hx-trigger="blur"
+      hx-swap="none"
+      tal:omit-tag="not: view/can_edit"
+      tal:attributes="hx-post string:${context/absolute_url}/@@savetitle;
+                      data-token context/@@authenticator/token"
+      tal:content="context/Title">Title</span>

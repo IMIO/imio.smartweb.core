@@ -42,6 +42,24 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <!-- Inline title edition (htmx) -->
+  <browser:page
+      name="inline_title"
+      for="*"
+      class=".inline_title.InlineTitleView"
+      template="templates/inline_title.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="savetitle"
+      for="*"
+      class=".inline_title.SaveTitleView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <browser:page
       name="smartwebiconresolver"
       for="*"
