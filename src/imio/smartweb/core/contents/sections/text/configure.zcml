@@ -5,7 +5,7 @@
   <browser:page
       name="view"
       for="imio.smartweb.core.contents.ISectionText"
-      class="imio.smartweb.core.contents.sections.text.views.TextView"
+      class="imio.smartweb.core.contents.sections.text.views.InlineEditView"
       template="view.pt"
       permission="zope2.View"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
@@ -34,4 +34,14 @@
       permission="cmf.ModifyPortalContent"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
+
+  <browser:page
+      for="*"
+      name="savetext"
+      attribute="save_text"
+      class="imio.smartweb.core.contents.sections.text.views.InlineEditView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>

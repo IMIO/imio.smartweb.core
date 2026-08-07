@@ -9,6 +9,28 @@
 
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
+  <script>
+      function handleDoubleClick(event, uid) {
+        // toggle the *containers*, never event.target: a dblclick lands on the
+        // deepest child (<p>, <b>, ...), not on the .text wrapper
+        document.getElementById("displayText_" + uid).style.display = "none";
+        document.getElementById("editForm_" + uid).style.display = "block";
+      }
+
+      // one delegated listener for the whole page, whatever the number of sections
+      if (!window.smartwebInlineTextEditInit) {
+        window.smartwebInlineTextEditInit = true;
+        document.addEventListener("htmx:afterRequest", function (event) {
+          var form = event.target.closest && event.target.closest("form.inline-text-edit");
+          if (!form || !event.detail.successful) {
+            return;
+          }
+          var uid = form.dataset.uid;
+          document.getElementById("editForm_" + uid).style.display = "none";
+          document.getElementById("displayText_" + uid).style.display = "";
+        });
+      }
+  </script>
   <metal:macro use-macro="context/@@sections_macros/section_edition" />
   <div tal:define="image context/image | nothing;
                   collapse_klass_container python: 'section-text-collapsed' if context.collapsible_section else '';"
@@ -26,8 +48,33 @@
           <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
         </figure>
       </tal:cond>
+      <!--hx-trigger="click[ctrlKey]"-->
       <div class="text"
-           tal:content="structure context/text/output | nothing" />
+           tal:define="can_edit view/can_edit | nothing"
+           tal:attributes="id string:displayText_${context/UID};
+                           ondblclick python: can_edit and 'handleDoubleClick(event, \'%s\')' % context.UID() or None"
+           tal:content="structure context/text/output | nothing"
+           />
+      <div class="text"
+           tal:condition="view/can_edit | nothing"
+           tal:attributes="id string:editForm_${context/UID}"
+           style="display:none;">
+          <form class="inline-text-edit"
+                hx-swap="innerHTML"
+                tal:attributes="hx-post string:${context/absolute_url}/@@savetext;
+                                hx-target string:#displayText_${context/UID};
+                                data-uid context/UID">
+              <textarea name="newText"
+                        class="pat-tinymce"
+                        rows="20"
+                        tal:attributes="id string:editableText_${context/UID};
+                                        data-pat-tinymce view/tinymce_options"
+                        tal:content="view/get_text"></textarea>
+              <button type="submit">Save</button>
+              <input name="_authenticator" type="hidden"
+                     tal:attributes="value context/@@authenticator/token">
+          </form>
+      </div>
     </div>
 </div>
 </metal:content-core>

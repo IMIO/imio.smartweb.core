@@ -88,7 +88,7 @@ class TestText(ImioSmartwebTestCase):
             view(),
         )
         self.assertNotIn("<figure", view())
-        self.assertNotIn("figcaption", view())
+        self.assertNotIn("<figcaption", view())
 
         section.image = NamedBlobImage(**make_named_image())
         view = getMultiAdapter((self.page, self.request), name="full_view")
@@ -97,7 +97,7 @@ class TestText(ImioSmartwebTestCase):
         )
         self.assertIn("<figure", view())
         self.assertIn("@@images/image-760-", view())
-        self.assertNotIn("figcaption", view())
+        self.assertNotIn("<figcaption", view())
 
         section.image_caption = "Kamoulox"
         view = getMultiAdapter((self.page, self.request), name="full_view")
