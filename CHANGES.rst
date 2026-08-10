@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.56 (unreleased)
+1.4.56 (2026-08-10)
 -------------------
 
 - Fix test isolation for RemoteDirectoryEntities vocabulary
