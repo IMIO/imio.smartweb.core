@@ -5,7 +5,17 @@ Changelog
 1.4.56 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix test isolation for RemoteDirectoryEntities vocabulary
+  [thomlamb]
+
+- WEB-4345: move message viewlet under main nav and improve style
+  [thomlamb]
+
+- WEB-4445: move focus to search field in search modale
+  [thomlamb]
+
+- SUP-52910 Update react translation
+  [thomlamb]
 
 
 1.4.55 (2026-07-28)
