@@ -5,7 +5,8 @@ Changelog
 1.4.57 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4154 : Add description on imio.smartweb.SectionText to warn that this title will not be displayed to the citizen
+  [boulch]
 
 
 1.4.56 (2026-08-10)

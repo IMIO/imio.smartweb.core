@@ -2,13 +2,24 @@
 
 from imio.smartweb.common.browser.forms import CustomAddForm
 from imio.smartweb.core.browser.forms import SmartwebCustomEditForm
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.dexterity.browser.add import DefaultAddView
 from plone.z3cform import layout
 from z3c.form.interfaces import HIDDEN_MODE
 from z3c.form.interfaces import INPUT_MODE
 
 
-class TextCustomAddForm(CustomAddForm):
+class TitleDescriptionMixin:
+    """Set a description on the title field coming from the ia titles behavior"""
+
+    def updateWidgets(self):
+        super().updateWidgets()
+        self.widgets["IIASmartTitle.title"].description = _(
+            "The title of the text section is required but will not be visible to citizens."
+        )
+
+
+class TextCustomAddForm(TitleDescriptionMixin, CustomAddForm):
     portal_type = "imio.smartweb.SectionText"
 
     def update(self):
@@ -29,7 +40,7 @@ class TextCustomAddView(DefaultAddView):
     form = TextCustomAddForm
 
 
-class TextCustomEditForm(SmartwebCustomEditForm):
+class TextCustomEditForm(TitleDescriptionMixin, SmartwebCustomEditForm):
     def update(self):
         super(TextCustomEditForm, self).update()
         # We hide hide_title field so no one can change the value for text
