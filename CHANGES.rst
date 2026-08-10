@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.57 (unreleased)
+1.4.57 (2026-08-10)
 -------------------
 
 - WEB-4463 : Allow adding imio.smartweb.SectionTimestampedPublications in imio.smartweb.Procedure
