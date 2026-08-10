@@ -5,6 +5,9 @@ Changelog
 1.4.57 (unreleased)
 -------------------
 
+- WEB-4463 : Allow adding imio.smartweb.SectionTimestampedPublications in imio.smartweb.Procedure
+  [boulch]
+
 - WEB-4154 : Add description on imio.smartweb.SectionText to warn that this title will not be displayed to the citizen
   [boulch]
 
