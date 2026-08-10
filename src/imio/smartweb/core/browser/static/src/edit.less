@@ -151,6 +151,20 @@ a.manage[class*="contenttype-imio-smartweb-"] {
   }
 }
 
+.delete-section-modal {
+  [name="form.buttons.Cancel"] {
+    display: none;
+  }
+
+  // delete_confirmation.pt renders its question as a h1.documentFirstHeading,
+  // sized for a full page. Inside a modal body it has to read as a heading of
+  // the modal, not of the site.
+  .documentFirstHeading {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+}
+
 .container.header-section.hide-in-preview {
   background-color: #f5f5f5;
   border: 0 solid #ddd;

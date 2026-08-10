@@ -28,6 +28,56 @@ document.addEventListener("DOMContentLoaded", function() {
             parent.className = new_parent_classes.trim();
         });
     });
+
+    /**
+      Delete section modal
+
+      htmx dispatches htmx:beforeSwap on the swap TARGET, so event.detail.elt is
+      that target and never the element that issued the request. The requesting
+      element is kept on event.detail.requestConfig.elt, where htmx puts it when
+      it fires htmx:configRequest.
+
+      Three things have to happen, and only for requests coming from inside a
+      delete modal:
+      - the modal is identified first, so that unrelated htmx requests elsewhere
+        on the page (the @@savesize form) are left completely alone;
+      - only a real "Delete" submission may swap. hx-boost also boosts the links
+        that plone.app.linkintegrity renders inside the confirmation, and the
+        z3c.form Cancel button; any 200 they return would otherwise remove a
+        section that still exists server side;
+      - the modal lives inside the section it deletes, so it has to be closed
+        before htmx removes that section from the DOM. Otherwise the Bootstrap
+        backdrop survives its own modal and leaves the page greyed out.
+    */
+    document.body.addEventListener("htmx:beforeSwap", function(event) {
+        var config = event.detail.requestConfig;
+        var requester = config && config.elt;
+        if (!requester || !requester.closest) return;
+        var modal = requester.closest(".delete-section-modal");
+        if (!modal) return;
+        var parameters = config.parameters || {};
+        var verb = String(config.verb || "").toLowerCase();
+        if (verb !== "post" || !("form.buttons.Delete" in parameters)) {
+            event.detail.shouldSwap = false;
+            return;
+        }
+        var instance = window.bootstrap && window.bootstrap.Modal.getInstance(modal);
+        if (instance) instance.hide();
+        /**
+          htmx fires htmx:afterSwap on the swapped node itself. With
+          hx-swap="delete" that node is already detached by then, so the event
+          never bubbles up to body and a delegated listener would never see it.
+          Listen on the node directly to refresh the ordering bookkeeping of
+          contents/pages/view.pt, which would otherwise still hold the id of the
+          deleted section and make the next drag & drop fail silently.
+        */
+        var target = event.detail.target;
+        if (target && target.addEventListener) {
+            target.addEventListener("htmx:afterSwap", function() {
+                if (typeof store_order === "function") store_order();
+            }, {once: true});
+        }
+    });
 });
   </script>
 </tal:cond>

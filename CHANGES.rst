@@ -5,7 +5,9 @@ Changelog
 1.4.56 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4462 : delete a section through an HTMX modal instead of the full
+  delete_confirmation page, and load HTMX on every section-bearing content type
+  [boulch]
 
 
 1.4.55 (2026-07-28)
