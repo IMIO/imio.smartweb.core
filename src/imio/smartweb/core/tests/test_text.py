@@ -163,9 +163,17 @@ class TestInlineEditView(ImioSmartwebTestCase):
         textarea = self.get_textarea()
         self.assertIn("pat-tinymce", textarea["class"])
         options = json.loads(textarea["data-pat-tinymce"])
-        # boxed editor (toolbar + height), not the chromeless "inline" mode
-        self.assertFalse(options["inline"])
-        self.assertEqual(options["tiny"]["height"], 500)
+        # chromeless "inline" mode: no permanent toolbar/menu/status bar,
+        # just a text cursor, and a small "quickbars" toolbar on selection
+        self.assertTrue(options["inline"])
+        self.assertFalse(options["tiny"]["toolbar"])
+        self.assertFalse(options["tiny"]["menubar"])
+        self.assertFalse(options["tiny"]["statusbar"])
+        self.assertIn("quickbars", options["tiny"]["plugins"])
+        self.assertIn("plonelink", options["tiny"]["quickbars_selection_toolbar"])
+        # no iframe in inline mode: don't inject the theme's content_css
+        # (meant for the boxed editor's iframe) into the page's own <head>
+        self.assertFalse(options["tiny"]["content_css"])
 
     def test_get_text(self):
         # TinyMCE reads the textarea when it starts, so the text has to be
@@ -178,7 +186,7 @@ class TestInlineEditView(ImioSmartwebTestCase):
         rendered = getMultiAdapter((self.page, self.request), name="full_view")()
         self.assertIn("<p>Hello</p>", rendered)
         self.assertNotIn("pat-tinymce", rendered)
-        self.assertNotIn("handleDoubleClick", rendered)
+        self.assertNotIn("inline-text-edit", rendered)
         login(self.portal, TEST_USER_NAME)
 
     def test_save_text(self):

@@ -10,25 +10,54 @@
 <metal:main fill-slot="content-core">
 <metal:content-core define-macro="content-core">
   <script tal:condition="view/can_edit | nothing">
-      function handleDoubleClick(event, uid) {
-        // toggle the *containers*, never event.target: a dblclick lands on the
-        // deepest child (<p>, <b>, ...), not on the .text wrapper
-        document.getElementById("displayText_" + uid).style.display = "none";
-        document.getElementById("editForm_" + uid).style.display = "block";
-      }
-
-      // one delegated listener for the whole page, whatever the number of sections
+      // one delegated hook for the whole page, whatever the number of sections.
+      // The editor is always mounted (like .inline-title) - there is no
+      // click-to-enter-edit-mode step, so that clicking the text is a native
+      // browser click on the real contenteditable element: the cursor lands
+      // exactly on the clicked character, for free.
       if (!window.smartwebInlineTextEditInit) {
         window.smartwebInlineTextEditInit = true;
-        document.addEventListener("htmx:afterRequest", function (event) {
-          var form = event.target.closest && event.target.closest("form.inline-text-edit");
-          if (!form || !event.detail.successful) {
-            return;
+
+        // TinyMCE loads asynchronously: until it creates its editable <div>,
+        // the raw textarea would show its literal HTML source as plain text,
+        // so we keep showing the server-rendered display div and reveal the
+        // editor only once TinyMCE actually took over.
+        (function waitForTinymce() {
+          if (window.tinymce) {
+            tinymce.on("AddEditor", function (e) {
+              var el = e.editor.getElement();
+              if (!el || el.id.indexOf("editableText_") !== 0) {
+                return;
+              }
+              var uid = el.id.replace(/^editableText_/, "").replace(/-editable$/, "");
+              var display = document.getElementById("displayText_" + uid);
+              var form = el.closest("form.inline-text-edit");
+              if (display) {
+                display.style.display = "none";
+              }
+              if (form) {
+                form.style.display = "";
+              }
+              el.classList.add("text");
+              // Auto-save on blur: use TinyMCE's own "blur" event (fires only
+              // once focus really leaves the whole editor, dialogs included)
+              // rather than the raw DOM blur event, which would also fire -
+              // and prematurely save - when a TinyMCE dialog (e.g. the link
+              // dialog) opens.
+              e.editor.on("blur", function () {
+                var textarea = document.getElementById("editableText_" + uid);
+                if (textarea) {
+                  textarea.value = e.editor.getContent();
+                }
+                if (form) {
+                  htmx.trigger(form, "save-text");
+                }
+              });
+            });
+          } else {
+            setTimeout(waitForTinymce, 200);
           }
-          var uid = form.dataset.uid;
-          document.getElementById("editForm_" + uid).style.display = "none";
-          document.getElementById("displayText_" + uid).style.display = "";
-        });
+        })();
       }
   </script>
   <metal:macro use-macro="context/@@sections_macros/section_edition" />
@@ -48,33 +77,27 @@
           <figcaption tal:condition="context/image_caption" tal:content="context/image_caption"></figcaption>
         </figure>
       </tal:cond>
-      <!--hx-trigger="click[ctrlKey]"-->
       <div class="text"
            tal:define="can_edit view/can_edit | nothing"
            tal:attributes="id string:displayText_${context/UID};
-                           ondblclick python: can_edit and 'handleDoubleClick(event, \'%s\')' % context.UID() or None"
+                           class python: 'text text-editable' if can_edit else 'text'"
            tal:content="structure context/text/output | nothing"
            />
-      <div class="text"
-           tal:condition="view/can_edit | nothing"
-           tal:attributes="id string:editForm_${context/UID}"
-           style="display:none;">
-          <form class="inline-text-edit"
-                hx-swap="innerHTML"
-                tal:attributes="hx-post string:${context/absolute_url}/@@savetext;
-                                hx-target string:#displayText_${context/UID};
-                                data-uid context/UID">
-              <textarea name="newText"
-                        class="pat-tinymce"
-                        rows="20"
-                        tal:attributes="id string:editableText_${context/UID};
-                                        data-pat-tinymce view/tinymce_options"
-                        tal:content="view/get_text"></textarea>
-              <button type="submit">Save</button>
-              <input name="_authenticator" type="hidden"
-                     tal:attributes="value context/@@authenticator/token">
-          </form>
-      </div>
+      <form tal:condition="view/can_edit | nothing"
+            class="inline-text-edit"
+            hx-swap="none"
+            hx-trigger="save-text"
+            style="display:none;"
+            tal:attributes="hx-post string:${context/absolute_url}/@@savetext">
+          <textarea name="newText"
+                    class="pat-tinymce"
+                    rows="20"
+                    tal:attributes="id string:editableText_${context/UID};
+                                    data-pat-tinymce view/tinymce_options"
+                    tal:content="view/get_text"></textarea>
+          <input name="_authenticator" type="hidden"
+                 tal:attributes="value context/@@authenticator/token">
+      </form>
     </div>
 </div>
 </metal:content-core>
