@@ -20,7 +20,7 @@
 
         <span tal:replace="structure view/locking_info" />
 
-        <div class="edit-section-container">
+        <div class="edit-section-container sortable-handle" draggable="true">
 
           <tal:if tal:condition="python: can_toggle_title_visibility and not collapsible_section">
             <tal:hide tal:condition="not: hide_title">

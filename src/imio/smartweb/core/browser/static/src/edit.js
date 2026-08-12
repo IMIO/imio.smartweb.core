@@ -108,3 +108,20 @@ document.addEventListener("DOMContentLoaded", function () {
   bootstrapSelect.addEventListener("change", toggleViewportOption);
   toggleViewportOption();
 });
+
+// Restrict section drag-and-drop (pat-sortable) to `.edit-section-container`:
+// some elements in the section content (links, images) are natively draggable
+// by the browser regardless of any ancestor's `draggable` attribute. Cancel
+// any dragstart that doesn't originate from the handle, in the capture phase,
+// before pat-sortable (or the browser's native behavior) gets to act on it.
+document.addEventListener(
+  "dragstart",
+  function (ev) {
+    var section = ev.target.closest(".sortable-section");
+    if (section && !ev.target.closest(".edit-section-container")) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+  },
+  true,
+);
