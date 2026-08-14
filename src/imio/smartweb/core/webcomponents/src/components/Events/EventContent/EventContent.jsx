@@ -405,13 +405,27 @@ const ContactContent = ({
                             </div>
                             <div ref={modalRef} className="dpinlb">
                                 {!recurence && (
-                                    <div className="r-content-news-info--date">
-                                        {item.open_end ? (
-                                            <div>{renderOpenEndDate()}</div>
-                                        ) : (
-                                            renderClosedEndDate()
+                                    <Translator>
+                                        {({ translate }) => (
+                                            <a
+                                                href={`${item["@id"]}/@@ics_view`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                title={translate({
+                                                    text: "Ajouter à mon agenda",
+                                                })}
+                                                className="r-content-news-info--date-link"
+                                            >
+                                                <div className="r-content-news-info--date">
+                                                    {item.open_end ? (
+                                                        <div>{renderOpenEndDate()}</div>
+                                                    ) : (
+                                                        renderClosedEndDate()
+                                                    )}
+                                                </div>
+                                            </a>
                                         )}
-                                    </div>
+                                    </Translator>
                                 )}
                                 {recurence && (
                                     <a
