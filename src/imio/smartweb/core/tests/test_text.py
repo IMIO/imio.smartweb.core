@@ -170,7 +170,21 @@ class TestInlineEditView(ImioSmartwebTestCase):
         self.assertFalse(options["tiny"]["menubar"])
         self.assertFalse(options["tiny"]["statusbar"])
         self.assertIn("quickbars", options["tiny"]["plugins"])
-        self.assertIn("plonelink", options["tiny"]["quickbars_selection_toolbar"])
+        self.assertIn("lists", options["tiny"]["plugins"])
+        toolbar = options["tiny"]["quickbars_selection_toolbar"]
+        self.assertIn("plonelink", toolbar)
+        self.assertIn("underline", toolbar)
+        # heading levels for content paragraphs: h3+ only, h1/h2 are
+        # reserved for the page/section titles themselves
+        self.assertIn("h3", toolbar)
+        self.assertIn("h4", toolbar)
+        self.assertIn("h5", toolbar)
+        self.assertNotIn("h1", toolbar)
+        self.assertNotIn("h2", toolbar)
+        self.assertIn("bullist", toolbar)
+        self.assertIn("numlist", toolbar)
+        # Omnia AI assistant (imio.omnia.tinymce), installed site-wide
+        self.assertIn("omnia", toolbar)
         # no iframe in inline mode: don't inject the theme's content_css
         # (meant for the boxed editor's iframe) into the page's own <head>
         self.assertFalse(options["tiny"]["content_css"])

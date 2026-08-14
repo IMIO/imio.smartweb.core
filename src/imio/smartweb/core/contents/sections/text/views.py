@@ -28,20 +28,34 @@ class InlineEditView(TextView):
     def tinymce_options(self):
         """Same pat-tinymce config as the standard Plone edit form, but
         chromeless: no toolbar/menu/status bar, just a text cursor. A small
-        "quickbars" toolbar (bold, italic, link) pops up above the selection
-        when some text is selected, instead of a permanently visible one.
+        "quickbars" toolbar pops up above the selection when some text is
+        selected, instead of a permanently visible one.
         """
         options = get_tinymce_options(
             aq_inner(self.context), IRichTextBehavior["text"], self.request
         )
         options["inline"] = True
         tiny = options.setdefault("tiny", {})
-        tiny["plugins"] = tiny.get("plugins", []) + ["quickbars"]
+        # "lists" powers bullist/numlist below; it's normally already part of
+        # Plone's default plugin list, but we add it explicitly (deduped)
+        # since we can't rely on that default staying unchanged.
+        plugins = tiny.get("plugins", []) + ["quickbars", "lists"]
+        tiny["plugins"] = list(dict.fromkeys(plugins))
         tiny["toolbar"] = False
         tiny["menubar"] = False
         tiny["statusbar"] = False
         tiny["quickbars_insert_toolbar"] = False
-        tiny["quickbars_selection_toolbar"] = "bold italic | plonelink unlink"
+        # h3/h4/h5: no h1/h2 here, the section's own title is already an
+        # <h2> (see sections/macros.pt, section_title macro) - letting
+        # editors pick h1/h2 in the body too would duplicate/confuse the
+        # heading outline. "omnia" is iMio's AI assistant TinyMCE plugin
+        # (imio.omnia.tinymce): it's installed site-wide and self-registers
+        # via the standard plone.custom_plugins/custom_buttons registry
+        # records, already merged into `tiny` above by get_tinymce_options().
+        tiny["quickbars_selection_toolbar"] = (
+            "bold italic underline | h3 h4 h5 | bullist numlist | "
+            "plonelink unlink | omnia"
+        )
         # `content_css` (theme stylesheets) is meant to be loaded inside the
         # boxed editor's iframe so the WYSIWYG matches the front-end. Inline
         # mode has no iframe: TinyMCE would inject those stylesheets straight
