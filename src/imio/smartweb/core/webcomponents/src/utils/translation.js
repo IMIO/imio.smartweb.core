@@ -499,6 +499,12 @@ export default {
         de: "Im Kalender suchen",
         nl: "Zoeken in de agenda",
     },
+    "Ajouter à mon agenda": {
+        en: "Add to my calendar",
+        fr: "Ajouter à mon agenda",
+        de: "Zu meinem Kalender hinzufügen",
+        nl: "Toevoegen aan mijn agenda",
+    },
     "Rechercher dans l'actualité": {
         en: "Search in the news",
         fr: "Rechercher dans l'actualité",

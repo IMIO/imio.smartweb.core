@@ -402,6 +402,12 @@ article > header {
         display: flex;
         flex-wrap: wrap;
     }
+    .r-content-news-info--date-link {
+        cursor: pointer;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
     .r-content-news-info-social {
         svg {
             width: 30px;
