@@ -118,7 +118,7 @@ class RemoteProceduresVocabularyFactory:
         orig = "ia.smartweb"
         query_full = sign_url(url, key, orig)
         try:
-            response = requests.get(query_full)
+            response = requests.get(query_full, timeout=10)
         except Exception:
             return SimpleVocabulary([])
 

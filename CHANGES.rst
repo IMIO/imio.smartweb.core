@@ -5,6 +5,11 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Add timeouts to HTTP calls that had none.
+  The Cirkwi view now degrades to a 504 in place of the widget instead of
+  failing the whole page.
+  [boulch]
+
 - Never write to the ZODB while rendering a remote section for an anonymous
   visitor: the modification date is only refreshed for authenticated users.
   [boulch]
