@@ -5,7 +5,10 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Cache the remote JSON of the events and news sections for 60 seconds
+  (``SECTION_JSON_CACHE_TIME``), so that repeated page views no longer trigger
+  a blocking HTTP request each. Failed and authenticated fetches are not cached.
+  [boulch]
 
 
 1.4.57 (2026-08-10)

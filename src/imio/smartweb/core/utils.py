@@ -7,10 +7,12 @@ from more_itertools import chunked
 from plone import api
 from plone.app.multilingual.interfaces import ILanguageRootFolder
 from plone.dexterity.interfaces import IDexterityContent
+from plone.memoize import ram
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
 from Products.CMFPlone.utils import base_hasattr
+from time import time
 from urllib.parse import urlparse, urlunparse
 from zope.component import getSiteManager
 from zope.component import getUtility
@@ -59,7 +61,24 @@ def concat_voca_title(title1, title2):
     return "{0} - {1}".format(title1, title2)
 
 
-def get_json(url, auth=None, timeout=5):
+class _NoJson(Exception):
+    """Signals a failed fetch. Raised so it is never stored in the cache."""
+
+
+def _get_json_cache_key(func, url, auth=None, timeout=5, cache_time=0):
+    """Cache key for get_json. Opt-in only: callers ask for it with cache_time.
+
+    Authenticated responses are never cached, to avoid serving one user's
+    data to another. The language is part of the key because get_json
+    derives the I18N_LANGUAGE cookie from it.
+    """
+    if not cache_time or auth is not None:
+        raise ram.DontCache
+    return (url, api.portal.get_current_language(), time() // cache_time)
+
+
+@ram.cache(_get_json_cache_key)
+def _fetch_json(url, auth=None, timeout=5, cache_time=0):
     language = api.portal.get_current_language()
     headers = {"Accept": "application/json", "Cookie": f"I18N_LANGUAGE={language}"}
     if auth is not None:
@@ -68,13 +87,19 @@ def get_json(url, auth=None, timeout=5):
         response = requests.get(url, headers=headers, timeout=timeout)
     except requests.exceptions.Timeout:
         logger.warning(f"Timeout raised for requests : {url}")
-        return None
+        raise _NoJson
     except Exception:
+        raise _NoJson
+    if response.status_code != 200 or not response.text:
+        raise _NoJson
+    return json.loads(response.text)
+
+
+def get_json(url, auth=None, timeout=5, cache_time=0):
+    try:
+        return _fetch_json(url, auth, timeout, cache_time)
+    except _NoJson:
         return None
-    if response.status_code != 200:
-        return None
-    if response.text:
-        return json.loads(response.text)
 
 
 def get_wca_token(client_id, client_secret):

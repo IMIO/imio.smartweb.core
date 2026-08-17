@@ -4,6 +4,7 @@ from datetime import date
 from dateutil.parser import parse
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import EVENTS_URL
+from imio.smartweb.core.config import SECTION_JSON_CACHE_TIME
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
 from imio.smartweb.core.utils import batch_results
@@ -59,7 +60,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "sort_on=event_dates",
             ]
         url = "{}/@events?{}".format(EVENTS_URL, "&".join(params))
-        self.json_data = get_json(url, timeout=15)
+        self.json_data = get_json(url, timeout=15, cache_time=SECTION_JSON_CACHE_TIME)
         # TODO ?
         # self.json_data = get_json(url, auth=get_events_auth_header(), timeout=15)
         self.json_data = remove_cache_key(self.json_data)

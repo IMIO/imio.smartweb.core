@@ -5,6 +5,7 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.utils import batch_results
+from imio.smartweb.core.utils import get_json as get_remote_json
 from imio.smartweb.core.utils import get_plausible_vars
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.utils import get_ts_api_url
@@ -15,11 +16,14 @@ from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.memoize.ram import choose_cache
 from plone.namedfile.file import NamedBlobImage
 from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
 from unittest.mock import patch
 from zope.component import getUtility
+
+import requests_mock
 
 
 class TestUtils(ImioSmartwebTestCase):
@@ -102,6 +106,34 @@ class TestUtils(ImioSmartwebTestCase):
             "http://nohost/plone/page/@@images/image/portrait_affiche?cache_key=78fd1bab198354b6877aed44e2ea0b4d",
         )
 
+    @requests_mock.Mocker()
+    def test_get_json_cache_time(self, m):
+        choose_cache("imio.smartweb.core.utils._fetch_json").ramcache.invalidateAll()
+        url = "http://localhost:8080/Plone/@fake"
+
+        # A failed fetch is never cached: the remote is retried next time.
+        m.get(url, status_code=503)
+        self.assertIsNone(get_remote_json(url, cache_time=60))
+        self.assertIsNone(get_remote_json(url, cache_time=60))
+        self.assertEqual(m.call_count, 2)
+
+        m.get(url, json={"items": []})
+
+        # Without cache_time, every call hits the remote.
+        get_remote_json(url)
+        get_remote_json(url)
+        self.assertEqual(m.call_count, 4)
+
+        # With cache_time, the second call is served from cache.
+        get_remote_json(url, cache_time=60)
+        get_remote_json(url, cache_time=60)
+        self.assertEqual(m.call_count, 5)
+
+        # Authenticated responses are never cached.
+        get_remote_json(url, auth="Bearer token", cache_time=60)
+        get_remote_json(url, auth="Bearer token", cache_time=60)
+        self.assertEqual(m.call_count, 7)
+
     def test_remove_cache_key(self):
         self.json_news = get_json("resources/json_news_raw_mock.json")
         self.assertIn("cache_key", self.json_news["@id"])
@@ -162,3 +194,15 @@ class TestUtils(ImioSmartwebTestCase):
         labels = registry.get("smartweb.procedure_button_text")
         self.assertIsNotNone(labels)
         self.assertGreater(len(labels), 0)
+
+
+# <audit>
+#   <file>test_utils.py</file>
+#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
+#   <deviations>
+#     R2: get_json is a plain HTTP helper with no user-facing action, so the
+#     test calls it directly instead of going through content creation. The
+#     observable outcome asserted is the number of remote requests.
+#   </deviations>
+#   <questions>None</questions>
+# </audit>

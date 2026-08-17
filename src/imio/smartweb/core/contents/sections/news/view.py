@@ -2,6 +2,7 @@
 
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import NEWS_URL
+from imio.smartweb.core.config import SECTION_JSON_CACHE_TIME
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -81,7 +82,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "sort_order=descending",
             ]
         url = "{}/@search_newsitems?{}".format(NEWS_URL, "&".join(params))
-        self.json_data = get_json(url)
+        self.json_data = get_json(url, cache_time=SECTION_JSON_CACHE_TIME)
         self.json_data = remove_cache_key(self.json_data)
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:
