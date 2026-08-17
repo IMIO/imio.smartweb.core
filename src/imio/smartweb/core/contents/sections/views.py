@@ -183,6 +183,9 @@ class HashableJsonSectionView(SectionView):
     json_data = None
 
     def refresh_modification_date(self):
+        if self.is_anonymous:
+            # Never write to the ZODB while rendering for a visitor
+            return
         if self.json_data is None:
             # Don't reindex section when we receive no JSON (ex: timeout)
             return
