@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb.core">
+
+  <record name="smartweb.enable_google_analytics"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="enable_google_analytics">
+    <value>True</value>
+  </record>
+
+  <record name="smartweb.analytics_title_fr"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_title_fr">
+    <value></value>
+  </record>
+
+  <record name="smartweb.analytics_title_nl"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_title_nl">
+    <value></value>
+  </record>
+
+  <record name="smartweb.analytics_title_de"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_title_de">
+    <value></value>
+  </record>
+
+  <record name="smartweb.analytics_title_en"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_title_en">
+    <value></value>
+  </record>
+
+  <record name="smartweb.analytics_description_fr"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_description_fr">
+    <value></value>
+  </record>
+
+  <record name="smartweb.analytics_description_nl"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_description_nl">
+    <value></value>
+  </record>
+
+  <record name="smartweb.analytics_description_de"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_description_de">
+    <value></value>
+  </record>
+
+  <record name="smartweb.analytics_description_en"
+          interface="imio.smartweb.core.browser.controlpanel_siteadmin.ISmartwebSiteAdminControlPanel"
+          field="analytics_description_en">
+    <value></value>
+  </record>
+
+</registry>

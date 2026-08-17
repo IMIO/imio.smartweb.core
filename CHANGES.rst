@@ -5,7 +5,11 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add ``enable_google_analytics`` and per-language ``analytics_title_*`` /
+  ``analytics_description_*`` settings to the "Smartweb Site admin Settings"
+  control panel, so each site can hide the Google Analytics category from
+  its cookies consent form and/or customize its title/description.
+  [thomlamb]
 
 
 1.4.57 (2026-08-10)

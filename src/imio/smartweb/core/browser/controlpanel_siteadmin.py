@@ -109,6 +109,71 @@ class ISmartwebSiteAdminControlPanel(Interface):
         required=False,
     )
 
+    enable_google_analytics = schema.Bool(
+        title=_("Enable Google Analytics"),
+        description=_(
+            "Uncheck to hide the Google Analytics category from the cookies "
+            "consent form and stop asking visitors for consent about it on "
+            "this site."
+        ),
+        required=False,
+        default=True,
+    )
+
+    analytics_title_fr = schema.TextLine(
+        title=_("Google Analytics category title (fr)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+    analytics_title_nl = schema.TextLine(
+        title=_("Google Analytics category title (nl)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+    analytics_title_de = schema.TextLine(
+        title=_("Google Analytics category title (de)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+    analytics_title_en = schema.TextLine(
+        title=_("Google Analytics category title (en)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+
+    widget("analytics_description_fr", klass="pat-tinymce")
+    analytics_description_fr = schema.Text(
+        title=_("Google Analytics category description (fr)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+    widget("analytics_description_nl", klass="pat-tinymce")
+    analytics_description_nl = schema.Text(
+        title=_("Google Analytics category description (nl)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+    widget("analytics_description_de", klass="pat-tinymce")
+    analytics_description_de = schema.Text(
+        title=_("Google Analytics category description (de)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+    widget("analytics_description_en", klass="pat-tinymce")
+    analytics_description_en = schema.Text(
+        title=_("Google Analytics category description (en)"),
+        description=_("Leave empty to use the default text"),
+        required=False,
+        default=u"",
+    )
+
 
 class SmartwebSiteAdminControlPanelForm(RegistryEditForm):
     schema = ISmartwebSiteAdminControlPanel
