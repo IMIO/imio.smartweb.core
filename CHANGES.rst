@@ -5,7 +5,9 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Never write to the ZODB while rendering a remote section for an anonymous
+  visitor: the modification date is only refreshed for authenticated users.
+  [boulch]
 
 
 1.4.57 (2026-08-10)
