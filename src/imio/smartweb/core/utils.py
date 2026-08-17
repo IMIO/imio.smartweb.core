@@ -100,7 +100,7 @@ def get_wca_token(client_id, client_secret):
         "SSO_APPS_URL",
         "https://keycloak.127.0.0.1.nip.io/realms/imio/protocol/openid-connect/token",
     )
-    response = requests.post(sso_apps_url, headers=headers, data=payload)
+    response = requests.post(sso_apps_url, headers=headers, data=payload, timeout=10)
     id_token = response.json().get("id_token")
     return "Bearer {0}".format(id_token)
 
