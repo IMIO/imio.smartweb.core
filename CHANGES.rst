@@ -5,6 +5,10 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Reserve the "Delete taxonomy" action of the taxonomy control panel to the
+  Manager role. Site Administrators can still add and edit taxonomies.
+  [boulch]
+
 - Add timeouts to HTTP calls that had none.
   The Cirkwi view now degrades to a 504 in place of the widget instead of
   failing the whole page.
