@@ -29,6 +29,11 @@ Changelog
   ``All events`` / ``All news``.
   [boulch]
 
+- Align the ``rel="prev"`` / ``rel="next"`` links of ``seo_html`` with the batch
+  the page actually lists: they fell back to a hardcoded ``b_size`` of 10, so
+  crawlers walked a 100-item page in 10-item steps.
+  [boulch]
+
 - Answer 404 when a news or agenda item page points to a remote
   item that no longer exists at the authentic source. ``NewsViewView.news`` and
   ``EventsViewView.event`` formatted the item without checking that it had been

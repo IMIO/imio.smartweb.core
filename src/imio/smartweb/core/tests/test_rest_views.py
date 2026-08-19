@@ -336,6 +336,34 @@ class TestSeoHiddenReactLinks(ImioSmartwebTestCase):
             "items": [
                 {
                     "@type": "imio.directory.Contact",
+                    "title": f"c{i}",
+                    "UID": f"u{i}",
+                    "modified": "2024-01-01T00:00:00Z",
+                    "description": "",
+                }
+                for i in range(100)
+            ],
+            "items_total": 250,
+        },
+    )
+    def test_seo_hidden_react_links_rel_next_matches_batch(self, mock_call):
+        # The rel=prev/next chain must use the batch the page actually listed.
+        # With a hardcoded default of 10, the first page (which lists 100 items)
+        # pointed to b_start=10&b_size=10 and bots re-crawled the same items.
+        view = queryMultiAdapter((self.directory_view, self.request), name="seo_html")
+        html = view()
+        self.assertIn(
+            f'rel="next" total="250" href="{self.directory_view.absolute_url()}'
+            f'/seo_html?b_start=100&amp;b_size=100"',
+            html,
+        )
+
+    @patch(
+        "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+        return_value={
+            "items": [
+                {
+                    "@type": "imio.directory.Contact",
                     "title": "Alice",
                     "UID": "u1",
                     "modified": "2024-01-01T00:00:00Z",
