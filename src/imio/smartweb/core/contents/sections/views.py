@@ -110,6 +110,44 @@ class SectionView(BrowserView):
         return json.dumps({"id": section_size, "title": size_txt})
 
     @property
+    def get_alignments(self):
+        voc = get_vocabulary("imio.smartweb.vocabulary.SectionAlignment")
+        alignments = [{"key": t.token, "value": _(t.title)} for t in voc]
+        return alignments
+
+    @property
+    def save_alignment(self):
+        select_name = f"select_alignment_{self.context.UID()}"
+        if not self.request.form.get(select_name):
+            return json.dumps({})
+        section_alignment = self.request.form.get(select_name)
+        context = aq_inner(self.context)
+        context.section_alignment = section_alignment
+        size_id = None
+        if section_alignment == "text" and context.bootstrap_css_class not in (
+            None,
+            "",
+            "col-sm-12",
+            "col-sm-6",
+        ):
+            # Only full width or half width make sense when aligned with the
+            # text sections container.
+            context.bootstrap_css_class = "col-sm-12"
+            size_id = "col-sm-12"
+        context.reindexObject()
+        reindexParent(context)
+        current_lang = api.portal.get_current_language()[:2]
+        alignment_txt = translate_vocabulary_term(
+            "imio.smartweb.vocabulary.SectionAlignment",
+            section_alignment,
+            current_lang,
+        )
+        result = {"id": section_alignment, "title": alignment_txt}
+        if size_id:
+            result["size_id"] = size_id
+        return json.dumps(result)
+
+    @property
     def issue(self):
         return self._issue
 

@@ -123,3 +123,101 @@ class TestSections(ImioSmartwebTestCase):
         contents = browser.contents
         div_section_container = '<div class="sortable-section sectiontext col-sm-12" data-id="section-text" style="">'
         self.assertIn(div_section_container, contents)
+
+    def test_alignment_elements_are_here(self):
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        section_text_uid = self.section_text.UID()
+        # test if elements are here and have the right id
+        self.assertIn(f'id="select_alignment_{section_text_uid}"', view())
+        self.assertIn(f'name="select_alignment_{section_text_uid}"', view())
+        self.assertIn('class="edit-section-link edit-section-alignment"', view())
+        self.assertIn("@@savealignment", view())
+
+    def test_options_in_select_alignment(self):
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        section_text_view = getMultiAdapter(
+            (self.section_text, self.request), name="view"
+        )
+        available_alignments = section_text_view.get_alignments
+        match = re.search(
+            r'<form class="edit-section-link edit-section-alignment".*?</form>',
+            view(),
+            re.DOTALL,
+        )
+        form_to_choose_alignment = match.group(0)
+        nb_occurrences = len(re.findall(r"<option", form_to_choose_alignment))
+        # no default/empty option: section_alignment is required with a default
+        self.assertEqual(len(available_alignments), nb_occurrences)
+        for alignment in available_alignments:
+            self.assertIn(f'value="{alignment["key"]}"', form_to_choose_alignment)
+            self.assertIn(f'title="{alignment["value"]}"', form_to_choose_alignment)
+
+    def test_change_section_alignment(self):
+        portal_api.get_current_language = mock.Mock(return_value="en")
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s"
+            % (
+                TEST_USER_NAME,
+                TEST_USER_PASSWORD,
+            ),
+        )
+        browser.open(f"{self.page.absolute_url()}/full_view/?language=fr")
+        contents = browser.contents
+        div_section_container = (
+            '<div class="sortable-section sectiontext" data-id="section-text" style="">'
+        )
+        self.assertIn(div_section_container, contents)
+
+        # Test save_alignment view directly via request
+        section_text_view = getMultiAdapter(
+            (self.section_text, self.request), name="view"
+        )
+        self.assertEqual(section_text_view.save_alignment, json.dumps({}))
+        select_name = f"select_alignment_{self.section_text.UID()}"
+        self.request.form[select_name] = "text"
+        self.request.form["_authenticator"] = createToken()
+        section_text_view = getMultiAdapter(
+            (self.section_text, self.request), name="view"
+        )
+        section_text_view.save_alignment
+        self.assertEqual(
+            section_text_view.save_alignment,
+            json.dumps(
+                {
+                    "id": "text",
+                    "title": "Align with text sections container (760px)",
+                }
+            ),
+        )
+        transaction.commit()
+
+        browser.open(f"{self.page.absolute_url()}/full_view/?language=fr")
+        contents = browser.contents
+        div_section_container = '<div class="sortable-section sectiontext container-se-text" data-id="section-text" style="">'
+        self.assertIn(div_section_container, contents)
+
+    def test_change_section_alignment_restricts_width(self):
+        # A section with a non full/half width, switched to "text" alignment,
+        # must automatically fall back to full width (col-sm-12).
+        self.section_text.bootstrap_css_class = "col-sm-3"
+        select_name = f"select_alignment_{self.section_text.UID()}"
+        self.request.form[select_name] = "text"
+        self.request.form["_authenticator"] = createToken()
+        section_text_view = getMultiAdapter(
+            (self.section_text, self.request), name="view"
+        )
+        result = json.loads(section_text_view.save_alignment)
+        self.assertEqual(result["id"], "text")
+        self.assertEqual(result["size_id"], "col-sm-12")
+        self.assertEqual(self.section_text.bootstrap_css_class, "col-sm-12")
+
+        # get_sizes still returns all 6 options: the size <select> must always
+        # contain every option in the markup so the toolbar's JS can restore
+        # them when switching back to "main" alignment (only their
+        # hidden/disabled state is toggled client-side, not the option list
+        # itself).
+        available_sizes = {size["key"] for size in section_text_view.get_sizes}
+        self.assertEqual(len(available_sizes), 6)

@@ -118,6 +118,7 @@ class PagesView(FolderView):
                     section_type.lower(),
                     obj.css_class or "",
                     obj.bootstrap_css_class or "",
+                    "container-se-text" if obj.section_alignment == "text" else "",
                     self.background_style(obj) and "with-background" or "",
                 ],
             )

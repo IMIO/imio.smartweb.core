@@ -24,6 +24,7 @@ class ISection(model.Schema):
             "collapsible_section",
             "background_image",
             "bootstrap_css_class",
+            "section_alignment",
             "css_class",
         ],
     )
@@ -58,6 +59,13 @@ class ISection(model.Schema):
         title=_("Section width"),
         required=False,
         vocabulary="imio.smartweb.vocabulary.BootstrapCSS",
+    )
+
+    section_alignment = schema.Choice(
+        title=_("Section alignment"),
+        required=True,
+        default="main",
+        vocabulary="imio.smartweb.vocabulary.SectionAlignment",
     )
 
     write_permission(css_class="cmf.ManagePortal")

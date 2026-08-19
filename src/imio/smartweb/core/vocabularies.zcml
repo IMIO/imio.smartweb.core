@@ -39,6 +39,12 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.SectionAlignment"
+      component=".vocabularies.SectionAlignmentVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.Orientation"
       component=".vocabularies.OrientationVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

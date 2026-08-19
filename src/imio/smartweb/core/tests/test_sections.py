@@ -625,10 +625,43 @@ class TestSections(ImioSmartwebTestCase):
         self.assertEqual(view.get_class(section), "sectiontext my-css")
         section.bootstrap_css_class = "col-sm-3"
         self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
+        section.section_alignment = "text"
+        self.assertEqual(
+            view.get_class(section), "sectiontext my-css col-sm-3 container-se-text"
+        )
         section.background_image = NamedBlobImage(**make_named_image())
         self.assertEqual(
-            view.get_class(section), "sectiontext my-css col-sm-3 with-background"
+            view.get_class(section),
+            "sectiontext my-css col-sm-3 container-se-text with-background",
         )
+
+    def test_section_alignment_field(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        self.assertEqual(section.section_alignment, "main")
+        section.section_alignment = "text"
+        self.assertEqual(section.section_alignment, "text")
+
+    def test_section_alignment_restricts_width_on_modify(self):
+        # Standard edit form path: bypasses save_size/save_alignment entirely,
+        # so the invariant is enforced by the modified_section subscriber.
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        section.section_alignment = "text"
+        section.bootstrap_css_class = "col-sm-4"
+        modified(section)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-12")
+
+        # Full/half width remain untouched.
+        section.bootstrap_css_class = "col-sm-6"
+        modified(section)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-6")
 
     def test_sections_history(self):
         api.content.transition(self.page, "publish")

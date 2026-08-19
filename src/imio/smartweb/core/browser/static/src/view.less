@@ -452,10 +452,42 @@ body.has-sticky-header {
 }
 
 .text-align-container {
+  width: 100%;
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 }
+
+  :root{
+    --text-max: 760px;
+    /* Largeur de la gouttière Bootstrap entre 2 colonnes (--bs-gutter-x vaut 1.5rem
+       par défaut sur .row). --gap et --accent2 n'étaient définis nulle part : une
+       calc()/valeur qui référence une variable CSS non définie est invalide, et une
+       déclaration invalide est intégralement ignorée par le navigateur (pas juste la
+       partie fautive) — d'où le fait que col-sm-6/4/3 gardaient les largeurs Bootstrap
+       par défaut (50%/33%/25% du conteneur) au lieu de la fraction fixe de 760px. */
+    --gap: 1.5rem;
+    --accent2: #ff00ff;
+  }
+
+  /* --- largeurs "alignées texte" : fraction FIXE de 760px, pas du conteneur --- */
+  .col-sm-12.container-se-text{ flex: 0 0 var(--text-max); max-width: var(--text-max); }
+  .col-sm-9.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 3) / 4 * 3); max-width: calc((var(--text-max) - var(--gap) * 3) / 4 * 3); }
+  .col-sm-8.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 2) / 3 * 2); max-width: calc((var(--text-max) - var(--gap) * 2) / 3 * 2); }
+  .col-sm-6.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap)) / 2); max-width: calc((var(--text-max) - var(--gap)) / 2); }
+  .col-sm-4.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 2) / 3); max-width: calc((var(--text-max) - var(--gap) * 2) / 3); }
+  .col-sm-3.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 3) / 4); max-width: calc((var(--text-max) - var(--gap) * 3) / 4); }
+
+  /* --- centrage du "run" de sections alignées, SANS wrapper :
+         on pousse la 1ère avec margin-left, la dernière avec margin-right.
+         La détection "1ère / dernière du groupe" se fait en CSS pur,
+         via + (sibling suivant direct) et :has(+ ...) (regard vers l'avant). --- */
+  .container-se-text{
+    margin-left:  max(0px, calc((100% - var(--text-max)) / 2));
+    margin-right: max(0px, calc((100% - var(--text-max)) / 2));
+  }
+  .container-se-text + .container-se-text{ margin-left: 0; }        /* pas la 1ère d'un groupe */
+  .container-se-text:has(+ .container-se-text){ margin-right: 0; }  /* pas la dernière d'un groupe */
 
 
 // announce the message type.

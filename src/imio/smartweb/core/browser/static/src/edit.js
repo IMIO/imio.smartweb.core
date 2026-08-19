@@ -125,3 +125,34 @@ document.addEventListener(
   },
   true,
 );
+
+// Restrict "Section width" to full/half width when "Section alignment" is
+// set to the text sections container (SectionView form).
+document.addEventListener("DOMContentLoaded", function () {
+  const alignSelect = document.getElementById(
+    "form-widgets-section_alignment",
+  );
+  const bootstrapSelect = document.getElementById(
+    "form-widgets-bootstrap_css_class",
+  );
+  if (!alignSelect || !bootstrapSelect) return;
+
+  const allowedSizes = ["col-sm-12", "col-sm-6"];
+
+  function toggleWidthOptions() {
+    const isTextAligned = alignSelect.value === "text";
+    Array.from(bootstrapSelect.options).forEach(function (option) {
+      if (!option.value) return; // garde l'option vide/no-value
+      const allowed =
+        !isTextAligned || allowedSizes.indexOf(option.value) !== -1;
+      option.hidden = !allowed;
+      option.disabled = !allowed;
+    });
+    if (isTextAligned && allowedSizes.indexOf(bootstrapSelect.value) === -1) {
+      bootstrapSelect.value = "col-sm-12";
+    }
+  }
+
+  alignSelect.addEventListener("change", toggleWidthOptions);
+  toggleWidthOptions();
+});

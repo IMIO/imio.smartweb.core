@@ -46,6 +46,63 @@ document.addEventListener("DOMContentLoaded", function() {
             parent.className = new_parent_classes.trim();
         });
     });
+
+    /**
+      Manage section alignment
+      When changing the select, toggle the "container-se-text" class on the parent
+      element (response.id is the vocabulary token "main"/"text", not a CSS class).
+      Also restrict the sibling section-size select to full/half width only
+      when aligned with the text sections container, and reflect a
+      server-forced size change (response.size_id) without reloading the page.
+      The size <select> always contains all width options in the markup
+      (rendered server-side) — only their hidden/disabled state changes here,
+      so switching back to "main" alignment can always restore them.
+    */
+    var allowedTextSizes = ["col-sm-12", "col-sm-6"];
+
+    function applyWidthConstraint(container, isTextAligned) {
+        var sizeSelect = container ? container.querySelector("form.edit-section-size select") : null;
+        if (!sizeSelect) return;
+        Array.from(sizeSelect.options).forEach(function(option) {
+            if (!option.value) return; // garde l'option vide "Width"
+            var allowed = !isTextAligned || allowedTextSizes.indexOf(option.value) !== -1;
+            option.hidden = !allowed;
+            option.disabled = !allowed;
+        });
+    }
+
+    document.querySelectorAll(".edit-section-container form.edit-section-alignment").forEach(function(form) {
+        var container = form.closest(".edit-section-container");
+        var alignmentSelect = form.querySelector("select");
+
+        // Apply the constraint once on page load, matching the section's
+        // current alignment.
+        applyWidthConstraint(container, alignmentSelect && alignmentSelect.value === "text");
+
+        form.addEventListener("htmx:afterRequest", function(event) {
+            var response = JSON.parse(event.detail.xhr.response);
+            if (!response.id) return;
+            var parent = form.closest('.sortable-section');
+            var lst_parent_classes = parent.className.split(" ").filter(function(klass) {
+                return klass !== "container-se-text";
+            });
+            if (response.id === "text") {
+                lst_parent_classes.push("container-se-text");
+            }
+
+            applyWidthConstraint(container, response.id === "text");
+            if (response.size_id) {
+                var sizeSelect = container ? container.querySelector("form.edit-section-size select") : null;
+                if (sizeSelect) sizeSelect.value = response.size_id;
+                lst_parent_classes = lst_parent_classes.filter(function(klass) {
+                    return !klass.startsWith("col-");
+                });
+                lst_parent_classes.push(response.size_id);
+            }
+
+            parent.className = lst_parent_classes.join(" ").trim();
+        });
+    });
 });
   </script>
 </tal:cond>

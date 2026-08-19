@@ -98,6 +98,22 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     def test_bootstrap_css(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 6)
+        # Always all 6 terms, regardless of context: the restriction to
+        # full/half width when a section is aligned with the text sections
+        # container is enforced in JS (both edit forms) and server-side
+        # (SectionView.save_alignment / subscriber._enforce_text_alignment_width),
+        # not by filtering the vocabulary itself (that would remove the other
+        # options from the rendered markup, leaving nothing for JS to restore
+        # when switching back to "main" alignment).
+        factory = getUtility(IVocabularyFactory, "imio.smartweb.vocabulary.BootstrapCSS")
+
+        class FakeSection:
+            section_alignment = "text"
+
+        self.assertEqual(len(factory(FakeSection())), 6)
+
+    def test_section_alignment(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.SectionAlignment", 2)
 
     def test_orientation(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Orientation", 3)
