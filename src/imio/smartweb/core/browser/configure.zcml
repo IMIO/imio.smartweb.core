@@ -237,4 +237,13 @@
       file="./static/src/pat-slugify-with-button.js"
       /-->
 
+  <!-- Deleting a taxonomy is reserved to Manager (see permissions.zcml) -->
+  <browser:page
+      name="taxonomy-settings"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".taxonomy_controlpanel.SmartwebTaxonomySettingsControlPanel"
+      permission="collective.taxonomy.ManageTaxonomies"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>
