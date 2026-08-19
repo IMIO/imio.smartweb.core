@@ -5,6 +5,10 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Reserve the "Delete taxonomy" action of the taxonomy control panel to the
+  Manager role. Site Administrators can still add and edit taxonomies.
+  [boulch]
+
 - Answer 404 when a news or agenda item page points to a remote
   item that no longer exists at the authentic source. ``NewsViewView.news`` and
   ``EventsViewView.event`` formatted the item without checking that it had been
