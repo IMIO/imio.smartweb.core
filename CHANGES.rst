@@ -9,6 +9,22 @@ Changelog
   Manager role. Site Administrators can still add and edit taxonomies.
   [boulch]
 
+- Answer 404 when a news or agenda item page points to a remote
+  item that no longer exists at the authentic source. ``NewsViewView.news`` and
+  ``EventsViewView.event`` formatted the item without checking that it had been
+  found, and the resulting AttributeError surfaced as a server error. Only
+  requests sent without a referer take that path, so the error was mostly
+  served to crawlers following a stale sitemap entry or an indexed URL.
+  ``direct_access`` is now memoized, so that testing the item before rendering
+  does not query the authentic source a second time.
+  [boulch]
+
+- Guard ``BaseRestView.direct_access`` for a view with no authentic source
+  (campaign view): it would raise UnboundLocalError while building the remote
+  URL. Latent so far, since only the directory, news and agenda templates read
+  that property; the item check added above made it reachable.
+  [boulch]
+
 - Add timeouts to HTTP calls that had none.
   The Cirkwi view now degrades to a 504 in place of the widget instead of
   failing the whole page.

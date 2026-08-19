@@ -13,14 +13,24 @@ from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.memoize.instance import memoize
 from Products.Five import BrowserView
 from urllib.parse import parse_qs
 from urllib.parse import urlsplit
+from zExceptions import NotFound
 from zope.interface import implementer
 
 
 @implementer(IViewWithoutLeadImage)
 class BaseRestView(BrowserView):
+    _item = None
+
+    def __call__(self):
+        """404 when the requested item no longer exists in the authentic source."""
+        if self.direct_access and self.item is None:
+            raise NotFound(self.request.get("ACTUAL_URL", ""))
+        return super().__call__()
+
     @property
     def batch_size(self):
         return self.context.nb_results
@@ -59,12 +69,14 @@ class BaseRestView(BrowserView):
         return url.replace(f"{parsed.scheme}://{parsed.netloc}", "")
 
     @property
+    @memoize
     def direct_access(self):
         query_string = self.request.get("QUERY_STRING", "")
         params = parse_qs(query_string)
         uuid = params.get("u", [None])[0]
         if uuid and self.request.HTTP_REFERER == "":
             endpoint = "@search"
+            url = None
             if IEventsView.providedBy(self.context):
                 endpoint = "@events"
                 url = EVENTS_URL
@@ -72,6 +84,9 @@ class BaseRestView(BrowserView):
                 url = DIRECTORY_URL
             if INewsView.providedBy(self.context):
                 url = NEWS_URL
+            if url is None:
+                # no authentic source for this view (ex: CampaignView)
+                return False
             url = f"{url}/{endpoint}?UID={uuid}&fullobjects=0"
             self._item = get_json(url)
             return True
