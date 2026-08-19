@@ -44,6 +44,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 new_parent_classes += " " + response.id;
             }
             parent.className = new_parent_classes.trim();
+            if (window.updateTextAlignmentLayout) window.updateTextAlignmentLayout();
         });
     });
 
@@ -101,6 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
 
             parent.className = lst_parent_classes.join(" ").trim();
+            if (window.updateTextAlignmentLayout) window.updateTextAlignmentLayout();
         });
     });
 });

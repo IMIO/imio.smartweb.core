@@ -59,6 +59,7 @@
               });
               store_order();
             };
+            if (window.updateTextAlignmentLayout) window.updateTextAlignmentLayout();
           };
         </script>
         <span class="pat-sortable row"

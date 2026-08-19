@@ -460,35 +460,49 @@ body.has-sticky-header {
 
   :root{
     --text-max: 760px;
-    /* Largeur de la gouttière Bootstrap entre 2 colonnes (--bs-gutter-x vaut 1.5rem
-       par défaut sur .row). --gap et --accent2 n'étaient définis nulle part : une
-       calc()/valeur qui référence une variable CSS non définie est invalide, et une
-       déclaration invalide est intégralement ignorée par le navigateur (pas juste la
-       partie fautive) — d'où le fait que col-sm-6/4/3 gardaient les largeurs Bootstrap
-       par défaut (50%/33%/25% du conteneur) au lieu de la fraction fixe de 760px. */
-    --gap: 1.5rem;
-    --accent2: #ff00ff;
   }
 
-  /* --- largeurs "alignées texte" : fraction FIXE de 760px, pas du conteneur --- */
-  .col-sm-12.container-se-text{ flex: 0 0 var(--text-max); max-width: var(--text-max); }
-  .col-sm-9.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 3) / 4 * 3); max-width: calc((var(--text-max) - var(--gap) * 3) / 4 * 3); }
-  .col-sm-8.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 2) / 3 * 2); max-width: calc((var(--text-max) - var(--gap) * 2) / 3 * 2); }
-  .col-sm-6.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap)) / 2); max-width: calc((var(--text-max) - var(--gap)) / 2); }
-  .col-sm-4.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 2) / 3); max-width: calc((var(--text-max) - var(--gap) * 2) / 3); }
-  .col-sm-3.container-se-text{ flex: 0 0 calc((var(--text-max) - var(--gap) * 3) / 4); max-width: calc((var(--text-max) - var(--gap) * 3) / 4); }
+  /* --- largeurs "alignées texte" : fraction FIXE de 760px (pas de la ligne)
+         — seules valeurs possibles une fois "aligné texte" (restriction de
+         largeur déjà en place). flex-shrink:1 + max-width:100% en secours
+         pour éviter un débordement sur viewport étroit (< 760px). --- */
+  .col-sm-12.container-se-text {
+    flex: 0 1 var(--text-max);
+    max-width: 100%;
+  }
+  .col-sm-6.container-se-text {
+    flex: 0 1 calc(var(--text-max) / 2);
+    max-width: 100%;
+  }
 
-  /* --- centrage du "run" de sections alignées, SANS wrapper :
-         on pousse la 1ère avec margin-left, la dernière avec margin-right.
-         La détection "1ère / dernière du groupe" se fait en CSS pur,
-         via + (sibling suivant direct) et :has(+ ...) (regard vers l'avant). --- */
-  .container-se-text{
-    margin-left:  max(0px, calc((100% - var(--text-max)) / 2));
+  /* --- centrage / callage à gauche : lequel des deux s'applique à une
+         section est décidé en JS (updateTextAlignmentLayout, view.js), car
+         "est-ce que je partage ma ligne visuelle avec une section
+         précédente ?" ne peut pas être déterminé par un sélecteur CSS pur
+         une fois que largeurs/alignements se mélangent sur la page. Une
+         ligne "pleine" (760px de contenu, seule ou en paire de 1/2) reçoit
+         les deux marges, symétriques — leur somme avec le contenu vaut
+         exactement 100% de la largeur réelle de la ligne, ce qui force
+         naturellement (sans élément inséré dans le DOM — ça casserait le
+         glisser-déposer, voir view.js) le retour à la ligne de la section
+         suivante. Une section 1/2 isolée ne reçoit que la marge gauche :
+         elle s'aligne sur le bord gauche de la colonne virtuelle sans être
+         centrée seule. --- */
+  .container-se-text.text-align-line-start {
+    margin-left: max(0px, calc((100% - var(--text-max)) / 2));
+  }
+  .container-se-text.text-align-line-end {
     margin-right: max(0px, calc((100% - var(--text-max)) / 2));
   }
-  .container-se-text + .container-se-text{ margin-left: 0; }        /* pas la 1ère d'un groupe */
-  .container-se-text:has(+ .container-se-text){ margin-right: 0; }  /* pas la dernière d'un groupe */
 
+
+  body {
+    background: #f8f8f8!important;
+  }
+
+  #main-container {
+    background: #fff;
+  }
 
 // announce the message type.
 #messagesviewlet .messagesviewlet-type,

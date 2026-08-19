@@ -1,4 +1,46 @@
 import "./view.less";
+
+// Compute, for every section aligned with the text sections container, its
+// position within a *virtual* 760px-wide column (see view.less for the
+// rationale: a "full" 760px line, alone or as a pair of 1/2, gets symmetric
+// margins that both center it and naturally force the next section to wrap
+// to a new flex line — no DOM manipulation is involved on purpose, since
+// inserting/wrapping elements inside the sortable sections container would
+// corrupt SortableJS's sibling-index-based drag-and-drop reordering).
+// Exposed on window (this file is bundled by webpack, hence its own module
+// scope) so it can be re-run from the separate, non-bundled inline <script>
+// tags in viewlets/htmx_js_header.pt (after a width/alignment change) and
+// contents/pages/view.pt (after a drag-and-drop reorder).
+window.updateTextAlignmentLayout = function updateTextAlignmentLayout() {
+  var sortableSections = document.querySelectorAll(
+    "span.pat-sortable[data-pat-sortable] > div.sortable-section",
+  );
+  var lineUnits = 0;
+  sortableSections.forEach(function (section) {
+    if (!section.classList.contains("container-se-text")) {
+      lineUnits = 0;
+      section.classList.remove(
+        "text-align-line-start",
+        "text-align-line-end",
+      );
+      return;
+    }
+    var units = section.classList.contains("col-sm-12") ? 2 : 1;
+    var isLineStart = lineUnits === 0;
+    lineUnits += units;
+    var isLineEnd = lineUnits >= 2;
+    section.classList.toggle("text-align-line-start", isLineStart);
+    section.classList.toggle("text-align-line-end", isLineEnd);
+    if (isLineEnd) {
+      lineUnits = 0;
+    }
+  });
+};
+
+document.addEventListener("DOMContentLoaded", function () {
+  window.updateTextAlignmentLayout();
+});
+
 jQuery(document).ready(function ($) {
   // Show full schedule table when clicking on today's schedule
   $(".opening_informations").click(function (e) {
