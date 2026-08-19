@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import date
 from imio.smartweb.core.browser.sitemap import format_sitemap_items
 from imio.smartweb.core.browser.sitemap import get_endpoint_data
 from imio.smartweb.core.config import DIRECTORY_URL
@@ -121,10 +120,9 @@ class SeoHiddenReactLinks(BrowserView):
         b_start = int(self.request.form.get("b_start", 0))
         b_size = int(self.request.form.get("b_size", self.DEFAULT_BATCH_SIZE))
 
-        if IEventsView.providedBy(self.context):
-            today = date.today().isoformat()
-            self.request.form["event_dates.range"] = "min"
-            self.request.form["event_dates.query"] = today
+        # The events date scope is not injected here: BaseEventsEndpoint
+        # falls back to the view's own scope (upcoming, or past when the view
+        # is configured for past events), which this copy got wrong.
 
         # Inject batching params
         self.request.form["b_start"] = b_start

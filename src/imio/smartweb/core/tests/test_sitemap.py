@@ -420,9 +420,7 @@ class TestPage(ImioSmartwebTestCase):
             }
 
         self.request.form["b_start"] = "42"
-        with patch(
-            "imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch
-        ):
+        with patch("imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch):
             items = get_source_items(
                 self.rest_directory, self.request, 200, "modified", "descending"
             )
@@ -445,9 +443,7 @@ class TestPage(ImioSmartwebTestCase):
         def fake_fetch(obj, request, batch_size, sort_on, sort_order):
             return pages.pop(0) if pages else None
 
-        with patch(
-            "imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch
-        ):
+        with patch("imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch):
             items = get_source_items(
                 self.rest_directory, self.request, 200, "modified", "descending"
             )

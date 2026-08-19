@@ -5,6 +5,14 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Scope the agenda to the dates the view shows in every consumer, not just in
+  the React front: ``BaseEventsEndpoint`` falls back to the view's own scope
+  (past when ``only_past_events`` is set, upcoming otherwise) when the caller
+  sends no ``event_dates`` filter. The sitemap sent none and listed every event
+  ever published, oldest first. ``seo_html``'s own copy of the rule, hardcoded
+  to upcoming events, is dropped.
+  [boulch]
+
 - Add a control-panel setting (Smartweb site admin) to configure, per authentic
   source, whether it appears in the sitemap and how many items are listed
   (max 1000). Applies to the HTML and XML sitemaps. Defaults: 50 for the agenda
