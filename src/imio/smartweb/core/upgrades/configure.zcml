@@ -1257,7 +1257,7 @@
   </genericsetup:upgradeSteps>
 
   <genericsetup:upgradeStep
-      title="Add/refresh smartweb.sitemap_authentic_sources sitemap config (enabled / max items / filter per source)"
+      title="Add/refresh smartweb.sitemap_authentic_sources sitemap config (enabled / max items per source)"
       description=""
       source="1082"
       destination="1083"

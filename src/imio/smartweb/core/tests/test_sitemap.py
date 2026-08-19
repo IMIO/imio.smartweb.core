@@ -255,21 +255,18 @@ class TestPage(ImioSmartwebTestCase):
         result = get_endpoint_data(obj, request, 50, None, None)
         assert result == {}
 
-    def test_get_filter_sort(self):
-        from imio.smartweb.core.browser.sitemap import get_filter_sort
+    def test_get_source_sort(self):
+        # The ordering is fixed per source, not configurable: the directory is
+        # forced to its most recently modified contacts, the agenda (upcoming
+        # events) and the news (most recent) keep their native endpoint ordering.
+        from imio.smartweb.core.browser.sitemap import get_source_sort
 
         self.assertEqual(
-            get_filter_sort("imio.smartweb.DirectoryView", "most_recent"),
-            ("created", "descending"),
+            get_source_sort("imio.smartweb.DirectoryView"),
+            ("modified", "descending"),
         )
-        self.assertEqual(
-            get_filter_sort("imio.smartweb.NewsView", "most_recent"),
-            (None, None),
-        )
-        self.assertEqual(
-            get_filter_sort("imio.smartweb.EventsView", "most_recent"),
-            (None, None),
-        )
+        self.assertEqual(get_source_sort("imio.smartweb.NewsView"), (None, None))
+        self.assertEqual(get_source_sort("imio.smartweb.EventsView"), (None, None))
 
     def test_get_sitemap_sources_config_fallback(self):
         from imio.smartweb.core.browser.sitemap import (
@@ -291,8 +288,13 @@ class TestPage(ImioSmartwebTestCase):
         )
         for cfg in config.values():
             self.assertTrue(cfg["enabled"])
-            self.assertEqual(cfg["max_items"], 50)
-            self.assertEqual(cfg["item_filter"], "most_recent")
+            self.assertNotIn("item_filter", cfg)
+        # The directory is a finite catalogue: it must not be capped like the
+        # agenda/news streams, or the same handful of contacts would stay in the
+        # sitemap forever and the rest would never be discovered.
+        self.assertEqual(config["imio.smartweb.EventsView"]["max_items"], 50)
+        self.assertEqual(config["imio.smartweb.NewsView"]["max_items"], 50)
+        self.assertEqual(config["imio.smartweb.DirectoryView"]["max_items"], 200)
 
     @patch(
         "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
@@ -311,19 +313,16 @@ class TestPage(ImioSmartwebTestCase):
                     "source_type": "imio.smartweb.EventsView",
                     "enabled": True,
                     "max_items": 50,
-                    "item_filter": "most_recent",
                 },
                 {
                     "source_type": "imio.smartweb.NewsView",
                     "enabled": True,
                     "max_items": 50,
-                    "item_filter": "most_recent",
                 },
                 {
                     "source_type": "imio.smartweb.DirectoryView",
                     "enabled": False,
                     "max_items": 50,
-                    "item_filter": "most_recent",
                 },
             ],
         )
@@ -357,19 +356,16 @@ class TestPage(ImioSmartwebTestCase):
                     "source_type": "imio.smartweb.EventsView",
                     "enabled": True,
                     "max_items": 50,
-                    "item_filter": "most_recent",
                 },
                 {
                     "source_type": "imio.smartweb.NewsView",
                     "enabled": True,
                     "max_items": 50,
-                    "item_filter": "most_recent",
                 },
                 {
                     "source_type": "imio.smartweb.DirectoryView",
                     "enabled": True,
                     "max_items": 2,
-                    "item_filter": "most_recent",
                 },
             ],
         )
@@ -403,8 +399,45 @@ class TestPage(ImioSmartwebTestCase):
         )
         for row in rows:
             self.assertTrue(row["enabled"])
-            self.assertEqual(row["max_items"], 50)
-            self.assertEqual(row["item_filter"], "most_recent")
+        self.assertEqual(by_type["imio.smartweb.EventsView"]["max_items"], 50)
+        self.assertEqual(by_type["imio.smartweb.NewsView"]["max_items"], 50)
+        self.assertEqual(by_type["imio.smartweb.DirectoryView"]["max_items"], 200)
+
+    def test_sitemap_default_caps_match_control_panel(self):
+        # sitemap.DEFAULT_MAX_ITEMS (used when the registry record is missing)
+        # must not drift from the control-panel defaults.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISmartwebSiteAdminControlPanel,
+        )
+        from imio.smartweb.core.browser.sitemap import DEFAULT_MAX_ITEMS
+
+        field_default = ISmartwebSiteAdminControlPanel["sitemap_authentic_sources"]
+        self.assertEqual(
+            {r["source_type"]: r["max_items"] for r in field_default.default},
+            DEFAULT_MAX_ITEMS,
+        )
+
+    def test_sitemap_max_items_ceiling(self):
+        # An admin must be able to cover a whole directory (a few hundred
+        # contacts), not be locked to the stream-sized cap.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISitemapSourceRowSchema,
+        )
+
+        self.assertEqual(ISitemapSourceRowSchema["max_items"].max, 1000)
+
+    def test_sitemap_row_schema_has_no_filter(self):
+        # The filter/ordering column was removed: each authentic source has one
+        # fixed ordering (see sitemap.SORT_BY_TYPE), so the grid only lets the
+        # admin include/exclude a source and cap its item count.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISitemapSourceRowSchema,
+        )
+
+        self.assertEqual(
+            sorted(ISitemapSourceRowSchema.names()),
+            ["enabled", "max_items", "source_type"],
+        )
 
     @patch(
         "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint."
@@ -421,17 +454,17 @@ class TestPage(ImioSmartwebTestCase):
         from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
         from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
 
-        # Directory: default alphabetical, overridable to created/descending.
+        # Directory: default alphabetical, overridable to modified/descending.
         ep = DirectoryEndpoint(self.rest_directory, self.request)
         self.assertIn("sort_on=sortable_title", ep.query_url)
         ep = DirectoryEndpoint(
             self.rest_directory,
             self.request,
-            sort_on="created",
+            sort_on="modified",
             sort_order="descending",
         )
         url = ep.query_url
-        self.assertIn("sort_on=created", url)
+        self.assertIn("sort_on=modified", url)
         self.assertIn("sort_order=descending", url)
         self.assertNotIn("sort_on=sortable_title", url)
 
@@ -506,13 +539,11 @@ class TestPage(ImioSmartwebTestCase):
                 "source_type": "imio.smartweb.EventsView",
                 "enabled": True,
                 "max_items": 50,
-                "item_filter": "most_recent",
             },
             {
                 "source_type": "imio.smartweb.NewsView",
                 "enabled": True,
                 "max_items": 50,
-                "item_filter": "most_recent",
             },
         ]
         result = form.applyChanges({"sitemap_authentic_sources": incomplete})

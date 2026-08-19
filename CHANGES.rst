@@ -6,10 +6,10 @@ Changelog
 -------------------
 
 - Add a control-panel setting (Smartweb site admin) to configure, per authentic
-  source, whether it appears in the sitemap, how many
-  items are listed (max 50) and their ordering. Applies to both the HTML and XML
-  sitemaps. Defaults to all sources enabled at 50 items, so existing sites are
-  unaffected.
+  source, whether it appears in the sitemap and how many items are listed
+  (max 1000). Applies to the HTML and XML sitemaps. Defaults: 50 for the agenda
+  and the news, 200 for the directory. The ordering is not configurable:
+  upcoming events, most recent news, most recently modified contacts.
   [boulch]
 
 - Answer 404 when a news or agenda item page points to a remote

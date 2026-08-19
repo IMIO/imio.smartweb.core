@@ -42,7 +42,21 @@ def max_length_constraint(value):
     return True
 
 
-MAX_SITEMAP_ITEMS = 50
+# Ceiling of the per-source cap. High enough for a whole directory (a
+# commune lists a few hundred contacts), while still bounding the remote query
+# and the sitemap size. Google's own limit is 50 000 URLs per sitemap.
+MAX_SITEMAP_ITEMS = 1000
+# Per-source defaults. Agenda and news are streams: the sitemap is there to
+# announce what is new, and a long tail of past items would only accumulate
+# entries pointing at items already gone from the authentic source. The
+# directory is a finite catalogue: capping it low would keep the same handful of
+# contacts in the sitemap forever and leave the rest permanently undiscovered.
+DEFAULT_SITEMAP_ITEMS = 50
+# 200 is what the remote directory serves within the sitemap fetch budget (see
+# sitemap.SITEMAP_FETCH_BUDGET). An admin whose authentic source answers faster
+# can raise it up to MAX_SITEMAP_ITEMS; beyond the budget the fetch simply
+# stops, and the rest of the catalogue stays crawlable through seo_html.
+DEFAULT_DIRECTORY_SITEMAP_ITEMS = 200
 
 SITEMAP_SOURCE_VOCABULARY = SimpleVocabulary(
     [
@@ -59,13 +73,9 @@ SITEMAP_SOURCE_VOCABULARY = SimpleVocabulary(
         SimpleTerm(
             "imio.smartweb.DirectoryView",
             "imio.smartweb.DirectoryView",
-            _("Annuaire — les plus récents"),
+            _("Annuaire — les derniers modifiés"),
         ),
     ]
-)
-
-SITEMAP_FILTER_VOCABULARY = SimpleVocabulary(
-    [SimpleTerm("most_recent", "most_recent", _("Default sort"))]
 )
 
 
@@ -170,13 +180,7 @@ class ISitemapSourceRowSchema(Interface):
         title=_("Maximum number of items"),
         min=1,
         max=MAX_SITEMAP_ITEMS,
-        default=MAX_SITEMAP_ITEMS,
-        required=True,
-    )
-    item_filter = schema.Choice(
-        title=_("Filter"),
-        vocabulary=SITEMAP_FILTER_VOCABULARY,
-        default="most_recent",
+        default=DEFAULT_SITEMAP_ITEMS,
         required=True,
     )
 
@@ -211,9 +215,11 @@ class ISmartwebSiteAdminControlPanel(Interface):
     sitemap_authentic_sources = schema.List(
         title=_("Sitemap: authentic sources configuration"),
         description=_(
-            "Per authentic source: include it in the sitemap, cap how many "
-            "remote items are listed, and choose the ordering. Disabling or "
-            "lowering the count reduces the sitemap size."
+            "Per authentic source: include it in the sitemap and cap how many "
+            "remote items are listed (max 1000). Disabling a source or lowering "
+            "the count reduces the sitemap size. The ordering is fixed per "
+            "source. Whatever the cap, the full list stays crawlable through "
+            "the seo_html page of each view."
         ),
         value_type=DictRow(
             title="SitemapSource",
@@ -223,20 +229,17 @@ class ISmartwebSiteAdminControlPanel(Interface):
             {
                 "source_type": "imio.smartweb.EventsView",
                 "enabled": True,
-                "max_items": 50,
-                "item_filter": "most_recent",
+                "max_items": DEFAULT_SITEMAP_ITEMS,
             },
             {
                 "source_type": "imio.smartweb.NewsView",
                 "enabled": True,
-                "max_items": 50,
-                "item_filter": "most_recent",
+                "max_items": DEFAULT_SITEMAP_ITEMS,
             },
             {
                 "source_type": "imio.smartweb.DirectoryView",
                 "enabled": True,
-                "max_items": 50,
-                "item_filter": "most_recent",
+                "max_items": DEFAULT_DIRECTORY_SITEMAP_ITEMS,
             },
         ],
         required=False,

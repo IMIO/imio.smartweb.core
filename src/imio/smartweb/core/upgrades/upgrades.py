@@ -324,8 +324,8 @@ def add_sitemap_authentic_sources_registry(context):
     The field type changed from a ``List(Choice)`` multiselect to a
     ``List(DictRow)`` DataGridField. On a dev instance where an earlier run of
     this step created the old-typed record, we delete it first to avoid a
-    persistent field-type conflict, then re-import the registry so the new
-    DataGridField is registered with its default rows.
+    persistent field-type conflict, then re-import the registry so the current
+    DataGridField is registered with its default rows (enabled / max items).
     """
     registry = api.portal.get_tool("portal_registry")
     if "smartweb.sitemap_authentic_sources" in registry:

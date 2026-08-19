@@ -36,35 +36,44 @@ AUTHENTIC_SOURCE_TYPES = [
     "imio.smartweb.DirectoryView",
 ]
 
-FILTER_SORT_BY_TYPE = {
-    "imio.smartweb.DirectoryView": {
-        "most_recent": ("created", "descending"),
-    },
+# Ordering used in the sitemap for each authentic source. It is fixed, not
+# configurable. Only the directory needs an override: its endpoint sorts
+# natively on sortable_title, while the sitemap lists its most recently modified
+# contacts. The agenda (upcoming events) and the news (most recent) already sort
+# that way natively, hence no entry — a missing entry means (None, None): no
+# override, keep the endpoint default.
+SORT_BY_TYPE = {
+    "imio.smartweb.DirectoryView": ("modified", "descending"),
 }
 
 
-def get_filter_sort(portal_type, filter_value):
+def get_source_sort(portal_type):
     """(sort_on, sort_order) override for a source; (None, None) = native."""
-    return FILTER_SORT_BY_TYPE.get(portal_type, {}).get(filter_value, (None, None))
+    return SORT_BY_TYPE.get(portal_type, (None, None))
+
+
+# Caps used when the registry record does not exist yet. Mirrors the
+# control-panel defaults (see controlpanel_siteadmin.DEFAULT_SITEMAP_ITEMS and
+# DEFAULT_DIRECTORY_SITEMAP_ITEMS); test_sitemap keeps the two in sync.
+DEFAULT_MAX_ITEMS = {
+    "imio.smartweb.EventsView": 50,
+    "imio.smartweb.NewsView": 50,
+    "imio.smartweb.DirectoryView": 200,
+}
 
 
 def get_sitemap_sources_config():
-    """{portal_type: {enabled, max_items, item_filter}} from the registry.
+    """{portal_type: {enabled, max_items}} from the registry.
 
-    A missing record (None) means all three sources enabled, 50 items, native
-    ordering — preserving behavior on instances not yet migrated.
+    A missing record (None) means all three sources enabled at their default
+    cap — preserving behavior on instances not yet migrated.
     """
     rows = api.portal.get_registry_record(
         "smartweb.sitemap_authentic_sources", default=None
     )
     if rows is None:
         rows = [
-            {
-                "source_type": t,
-                "enabled": True,
-                "max_items": 50,
-                "item_filter": "most_recent",
-            }
+            {"source_type": t, "enabled": True, "max_items": DEFAULT_MAX_ITEMS[t]}
             for t in AUTHENTIC_SOURCE_TYPES
         ]
     return {r["source_type"]: r for r in rows}
@@ -218,9 +227,7 @@ class CustomSiteMapView(SiteMapView):
             for brain in brains:
                 obj = brain.getObject()
                 source_cfg = config[obj.portal_type]
-                sort_on, sort_order = get_filter_sort(
-                    obj.portal_type, source_cfg.get("item_filter")
-                )
+                sort_on, sort_order = get_source_sort(obj.portal_type)
                 data = get_endpoint_data(
                     obj,
                     obj.REQUEST,
@@ -250,9 +257,7 @@ class CatalogSiteMap(BaseCatalogSiteMap):
             source_cfg = config.get(obj.portal_type)
             if source_cfg is None or not source_cfg.get("enabled"):
                 continue
-            sort_on, sort_order = get_filter_sort(
-                obj.portal_type, source_cfg.get("item_filter")
-            )
+            sort_on, sort_order = get_source_sort(obj.portal_type)
             data = get_endpoint_data(
                 obj,
                 obj.REQUEST,
