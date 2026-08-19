@@ -5,6 +5,12 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Guard ``BaseRestView.direct_access`` for a view with no authentic source
+  (campaign view): it would raise UnboundLocalError while building the remote
+  URL. Latent so far, since only the directory, news and agenda templates read
+  that property; the item check added above made it reachable.
+  [boulch]
+
 - Add timeouts to HTTP calls that had none.
   The Cirkwi view now degrades to a 504 in place of the widget instead of
   failing the whole page.
