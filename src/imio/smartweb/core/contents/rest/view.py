@@ -17,11 +17,20 @@ from plone.memoize.instance import memoize
 from Products.Five import BrowserView
 from urllib.parse import parse_qs
 from urllib.parse import urlsplit
+from zExceptions import NotFound
 from zope.interface import implementer
 
 
 @implementer(IViewWithoutLeadImage)
 class BaseRestView(BrowserView):
+    _item = None
+
+    def __call__(self):
+        """404 when the requested item no longer exists in the authentic source."""
+        if self.direct_access and self.item is None:
+            raise NotFound(self.request.get("ACTUAL_URL", ""))
+        return super().__call__()
+
     @property
     def batch_size(self):
         return self.context.nb_results
