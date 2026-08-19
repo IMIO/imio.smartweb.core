@@ -330,6 +330,36 @@ class TestSeoHiddenReactLinks(ImioSmartwebTestCase):
         # long tail via /seo_html would be truncated.
         self.assertEqual(view.b_size, view.DEFAULT_BATCH_SIZE)
 
+    @patch(
+        "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+        return_value={
+            "items": [
+                {
+                    "@type": "imio.directory.Contact",
+                    "title": "Alice",
+                    "UID": "u1",
+                    "modified": "2024-01-01T00:00:00Z",
+                    "description": "",
+                }
+            ],
+            "items_total": 1,
+        },
+    )
+    def test_seo_hidden_react_links_are_crawlable(self, mock_call):
+        # The links must be in the rendered page, not behind a <noscript> hidden
+        # by a JavaScript redirect: Googlebot executes JavaScript, so
+        # "window.location.href = <parent view>" made the whole crawlable
+        # fallback invisible — the one path that lets bots reach the items a
+        # capped sitemap leaves out.
+        view = queryMultiAdapter((self.directory_view, self.request), name="seo_html")
+        html = view()
+        self.assertNotIn("window.location", html)
+        self.assertNotIn("noscript", html)
+        self.assertIn(
+            f'href="{self.directory_view.absolute_url()}/alice?u=u1"',
+            html,
+        )
+
     @patch("imio.smartweb.core.contents.rest.view.get_endpoint_data")
     @patch("imio.smartweb.core.contents.rest.view.format_sitemap_items")
     def test_seo_hidden_react_links_batching(self, mock_format, mock_endpoint):

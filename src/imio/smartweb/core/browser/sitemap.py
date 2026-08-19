@@ -172,8 +172,15 @@ def get_source_items(obj, request, max_items, sort_on, sort_order):
     return items[:max_items]
 
 
-def format_sitemap_items(items, base_url):
-    """Format items for sitemap(.xml.gz)"""
+def format_sitemap_items(items, base_url, include_seo_entry=False):
+    """Format items for sitemap(.xml.gz)
+
+    ``include_seo_entry`` appends the seo_html entry point of the view. It
+    belongs to sitemap.xml only: seo_html is the crawlable fallback of a React
+    listing, not a page to send a visitor to. The HTML sitemap, which citizens
+    browse, links the view itself and the items — and seo_html does not
+    self-link either.
+    """
     formatted_items = []
     latest_lastmod = None
     item_type = ""
@@ -199,13 +206,15 @@ def format_sitemap_items(items, base_url):
         )
         if latest_lastmod is None or lastmod > latest_lastmod:
             latest_lastmod = lastmod
+    if not include_seo_entry:
+        return formatted_items
     seo_title = ""
     if item_type == "imio.news.NewsItem":
-        seo_title = _("News : SEO Links")
+        seo_title = _("All news")
     elif item_type == "imio.directory.Contact":
-        seo_title = _("Directory : SEO Links")
+        seo_title = _("All contacts")
     else:
-        seo_title = _("Agenda : SEO Links")
+        seo_title = _("All events")
     formatted_items.append(
         {
             "loc": f"{base_url}/seo_html",
@@ -280,7 +289,9 @@ class CustomSiteMapView(SiteMapView):
                     sort_on,
                     sort_order,
                 )
-                yield from format_sitemap_items(items, obj.absolute_url())
+                yield from format_sitemap_items(
+                    items, obj.absolute_url(), include_seo_entry=True
+                )
 
 
 @implementer(IImioSmartwebCoreLayer)

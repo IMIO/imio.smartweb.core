@@ -18,6 +18,17 @@ Changelog
   dropped the source from the sitemap altogether. Partial results are now kept.
   [boulch]
 
+- Make the ``seo_html`` fallback of the directory, agenda and news views
+  crawlable: its link list sat in a ``<noscript>`` under a
+  ``window.location.href`` redirect, so Googlebot only ever saw the redirect.
+  The redirect is gone, the list is rendered plainly and the page keeps its
+  ``X-Robots-Tag: noindex, follow``. Its entry point is declared in
+  ``sitemap.xml`` only, no longer in the HTML sitemap where a visitor clicking
+  it landed on the fallback instead of the React listing. The six
+  ``... : SEO Links`` msgids become one per source: ``All contacts`` /
+  ``All events`` / ``All news``.
+  [boulch]
+
 - Answer 404 when a news or agenda item page points to a remote
   item that no longer exists at the authentic source. ``NewsViewView.news`` and
   ``EventsViewView.event`` formatted the item without checking that it had been

@@ -151,11 +151,11 @@ class SeoHiddenReactLinks(BrowserView):
     def label(self):
         label = ""
         if IDirectoryView.providedBy(self.context):
-            label = _("Direcotry : SEO links")
+            label = _("All contacts")
         elif IEventsView.providedBy(self.context):
-            label = _("Agenda : SEO links")
+            label = _("All events")
         elif INewsView.providedBy(self.context):
-            label = _("News : SEO links")
+            label = _("All news")
         return label
 
     @property

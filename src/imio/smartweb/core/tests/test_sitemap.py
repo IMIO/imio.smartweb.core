@@ -246,7 +246,9 @@ class TestPage(ImioSmartwebTestCase):
                 for child in sitemap.siteMap().get("children")
                 if child.get("Title") == "directory view"
             ][0]
-            self.assertEqual(len(directory_entry.get("children")), 7)
+            # 6 contacts and nothing else: the seo_html entry point is for
+            # sitemap.xml, not for the sitemap citizens browse.
+            self.assertEqual(len(directory_entry.get("children")), 6)
 
     def test_bad_portal_type(self):
         obj = Mock()
@@ -381,9 +383,7 @@ class TestPage(ImioSmartwebTestCase):
                 for c in sitemap.siteMap().get("children")
                 if c.get("Title") == "directory view"
             ][0]
-            # format_sitemap_items appends one extra "seo_html" entry, so a
-            # 2-item cap yields 2 items + 1 seo entry = 3 children.
-            self.assertEqual(len(directory_entry.get("children")), 3)
+            self.assertEqual(len(directory_entry.get("children")), 2)
 
     def test_sitemap_sources_config_default(self):
         rows = api.portal.get_registry_record("smartweb.sitemap_authentic_sources")
@@ -452,6 +452,30 @@ class TestPage(ImioSmartwebTestCase):
                 self.rest_directory, self.request, 200, "modified", "descending"
             )
         self.assertEqual(len(items), 100)
+
+    def test_format_sitemap_items_seo_entry(self):
+        # The seo_html entry point belongs to sitemap.xml (bots), not to the
+        # HTML sitemap: a citizen clicking "All contacts" there would land on
+        # the crawlable fallback instead of the React listing.
+        from imio.smartweb.core.browser.sitemap import format_sitemap_items
+
+        items = [
+            {
+                "@type": "imio.directory.Contact",
+                "title": "Alice",
+                "UID": "u1",
+                "modified": "2024-01-01T00:00:00Z",
+            }
+        ]
+        base_url = self.rest_directory.absolute_url()
+
+        for_humans = format_sitemap_items(items, base_url)
+        self.assertEqual(len(for_humans), 1)
+        self.assertNotIn("seo_html", for_humans[0]["getURL"])
+
+        for_bots = format_sitemap_items(items, base_url, include_seo_entry=True)
+        self.assertEqual(len(for_bots), 2)
+        self.assertEqual(for_bots[-1]["loc"], f"{base_url}/seo_html")
 
     def test_sitemap_default_caps_match_control_panel(self):
         # sitemap.DEFAULT_MAX_ITEMS (used when the registry record is missing)
