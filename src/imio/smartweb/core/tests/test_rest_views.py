@@ -10,6 +10,7 @@ from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpointGet
 from imio.smartweb.core.contents.rest.news.endpoint import NewsFiltersEndpoint
 from imio.smartweb.core.contents.rest.news.endpoint import NewsFiltersEndpointGet
 from imio.smartweb.core.contents.rest.news.view import NewsViewView  # noqa: F401
+from imio.smartweb.core.contents.rest.view import BaseRestView
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -17,6 +18,7 @@ from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from unittest.mock import patch
+from zExceptions import NotFound
 from zope.component import queryMultiAdapter
 
 import requests_mock
@@ -142,6 +144,79 @@ class TestBaseRestView(ImioSmartwebTestCase):
         view = self._get_view()
         self.assertTrue(view.direct_access)
         self.assertIsNone(view.item)
+
+    @requests_mock.Mocker()
+    def test_call_raises_notfound_when_item_is_gone(self, m):
+        # Stale URL (sitemap entry, search engine, shared link) pointing to an
+        # item removed from the authentic source: answer 404, not 200 on an
+        # empty page.
+        self.request.environ["QUERY_STRING"] = "u=missing-uuid"
+        self.request.environ["HTTP_REFERER"] = ""
+        m.get(requests_mock.ANY, json={"items": [], "items_total": 0})
+        view = self._get_view()
+        with self.assertRaises(NotFound):
+            view()
+
+    @requests_mock.Mocker()
+    def test_call_renders_item_still_available(self, m):
+        uuid = "abc123def456"
+        self.request.environ["QUERY_STRING"] = f"u={uuid}"
+        self.request.environ["HTTP_REFERER"] = ""
+        m.get(
+            requests_mock.ANY,
+            json={
+                "items": [
+                    {
+                        "UID": uuid,
+                        "title": "Test Event",
+                        "start": "2024-06-15T09:00:00+00:00",
+                        "end": "2024-06-15T17:00:00+00:00",
+                    }
+                ],
+                "items_total": 1,
+            },
+        )
+        view = self._get_view()
+        self.assertIn("smartweb-events", view())
+
+    def test_call_renders_without_direct_access(self):
+        self.request.environ["QUERY_STRING"] = ""
+        view = self._get_view()
+        self.assertIn("smartweb-events", view())
+
+    def test_direct_access_without_authentic_source(self):
+        # A context bound to no authentic source (ex: CampaignView) must not
+        # raise UnboundLocalError while building the remote URL.
+        self.request.environ["QUERY_STRING"] = "u=abc123def456"
+        self.request.environ["HTTP_REFERER"] = ""
+        view = BaseRestView(self.portal, self.request)
+        self.assertFalse(view.direct_access)
+
+    @requests_mock.Mocker()
+    def test_call_fetches_remote_item_once(self, m):
+        # __call__ and the template both read view/direct_access: without
+        # memoization the authentic source is queried twice per render.
+        uuid = "abc123def456"
+        self.request.environ["QUERY_STRING"] = f"u={uuid}"
+        self.request.environ["HTTP_REFERER"] = ""
+        m.get(
+            requests_mock.ANY,
+            json={
+                "items": [
+                    {
+                        "UID": uuid,
+                        "title": "Test Event",
+                        "start": "2024-06-15T09:00:00+00:00",
+                        "end": "2024-06-15T17:00:00+00:00",
+                    }
+                ],
+                "items_total": 1,
+            },
+        )
+        view = self._get_view()
+        view()
+        item_calls = [r for r in m.request_history if f"UID={uuid}" in r.url]
+        self.assertEqual(len(item_calls), 1)
 
 
 class TestSeoHiddenReactLinks(ImioSmartwebTestCase):
@@ -377,6 +452,14 @@ class TestEventsViewView(ImioSmartwebTestCase):
         # propose_url is from registry - just check it doesn't raise
         self.assertIsNone(view.propose_url)
 
+    def test_event_property_returns_none_when_item_is_none(self):
+        # Same contract as DirectoryViewView.contact: no item, no formatting,
+        # no AttributeError masked as an HTTP 500 by the template.
+        view = self._get_view()
+        view._item = {"items": []}
+        self.assertIsNone(view.item)
+        self.assertIsNone(view.event)
+
 
 class TestNewsViewView(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
@@ -460,6 +543,14 @@ class TestNewsViewView(ImioSmartwebTestCase):
         self.assertEqual(view.show_categories_or_topics, "topic")
         # propose_url from registry - just check it doesn't raise
         self.assertIsNone(view.propose_url)
+
+    def test_news_property_returns_none_when_item_is_none(self):
+        # Same contract as DirectoryViewView.contact: no item, no formatting,
+        # no AttributeError masked as an HTTP 500 by the template.
+        view = self._get_view()
+        view._item = {"items": []}
+        self.assertIsNone(view.item)
+        self.assertIsNone(view.news)
 
 
 class TestBaseNewsEndpoint(ImioSmartwebTestCase):
@@ -1052,3 +1143,11 @@ class TestDirectoryViewView(ImioSmartwebTestCase):
         view._item = {"items": []}
         self.assertIsNone(view.item)
         self.assertIsNone(view.contact)
+
+
+# <audit>
+#   <file>test_rest_views.py</file>
+#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
+#   <deviations>None</deviations>
+#   <questions>None</questions>
+# </audit>

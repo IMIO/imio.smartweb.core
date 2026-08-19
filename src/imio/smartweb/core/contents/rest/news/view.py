@@ -25,8 +25,9 @@ class NewsViewView(BaseRestView):
 
     @property
     def news(self):
-        news = self._formated_news(self.item)
-        return news
+        if self.item is None:
+            return None
+        return self._formated_news(self.item)
 
     def _formated_news(self, data):
         current_lang = api.portal.get_current_language()[:2]
@@ -49,8 +50,6 @@ class NewsViewView(BaseRestView):
             # Fallback sur l'image originale
             image_url = image_info["download"]
 
-        if not data:
-            return None
         # Construction du JSON simplifié
         prefix_email = _("Email")
         prefix_description = _("Description")

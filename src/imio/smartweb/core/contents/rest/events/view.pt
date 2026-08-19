@@ -20,7 +20,7 @@
                                        context-authenticated-user view/context_authenticated_user;"></smartweb-events>
     </div>
     <noscript tal:condition="view/direct_access">
-      <div class="seo-fallback" tal:define="event view/event">
+      <div class="seo-fallback" tal:define="event view/event" tal:condition="event">
         <h1 tal:content="event/name"></h1>
         <strong tal:condition="event/period_text" tal:content="event/period_text"></strong>
         <p tal:condition="event/description" tal:content="event/description"></p>

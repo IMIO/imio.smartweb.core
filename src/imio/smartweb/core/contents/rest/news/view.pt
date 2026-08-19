@@ -17,7 +17,7 @@
                                          context-authenticated-user view/context_authenticated_user;"></smartweb-news>
       </div>
       <noscript tal:condition="view/direct_access">
-        <div class="seo-fallback" tal:define="news view/news">
+        <div class="seo-fallback" tal:define="news view/news" tal:condition="news">
           <h1 tal:content="news/name"></h1>
           <p tal:condition="news/description" tal:content="news/description"></p>
           <p tal:condition="news/text" tal:content="structure news/text/data"></p>      
