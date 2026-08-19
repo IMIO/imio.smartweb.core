@@ -403,6 +403,56 @@ class TestPage(ImioSmartwebTestCase):
         self.assertEqual(by_type["imio.smartweb.NewsView"]["max_items"], 50)
         self.assertEqual(by_type["imio.smartweb.DirectoryView"]["max_items"], 200)
 
+    def test_get_source_items_fetches_in_chunks(self):
+        # A single big b_size request does not come back within the endpoint's
+        # 20 s timeout, so the items are fetched page by page and capped.
+        from imio.smartweb.core.browser.sitemap import get_source_items
+        from imio.smartweb.core.browser.sitemap import SITEMAP_FETCH_CHUNK
+
+        calls = []
+
+        def fake_fetch(obj, request, batch_size, sort_on, sort_order):
+            b_start = int(request.form.get("b_start", 0))
+            calls.append((b_start, batch_size))
+            return {
+                "items": [{"title": f"c{i}"} for i in range(batch_size)],
+                "items_total": 250,
+            }
+
+        self.request.form["b_start"] = "42"
+        with patch(
+            "imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch
+        ):
+            items = get_source_items(
+                self.rest_directory, self.request, 200, "modified", "descending"
+            )
+        self.assertEqual(len(items), 200)
+        self.assertEqual(
+            calls,
+            [(0, SITEMAP_FETCH_CHUNK), (SITEMAP_FETCH_CHUNK, SITEMAP_FETCH_CHUNK)],
+        )
+        # the caller's own b_start must not be clobbered
+        self.assertEqual(self.request.form["b_start"], "42")
+
+    def test_get_source_items_keeps_what_it_got_on_failure(self):
+        # get_json() returns None on timeout, so a failing page used to wipe the
+        # whole source out of the sitemap. Keep the pages that did come back.
+        from imio.smartweb.core.browser.sitemap import get_source_items
+
+        page = {"items": [{"title": f"c{i}"} for i in range(100)], "items_total": 250}
+        pages = [page]
+
+        def fake_fetch(obj, request, batch_size, sort_on, sort_order):
+            return pages.pop(0) if pages else None
+
+        with patch(
+            "imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch
+        ):
+            items = get_source_items(
+                self.rest_directory, self.request, 200, "modified", "descending"
+            )
+        self.assertEqual(len(items), 100)
+
     def test_sitemap_default_caps_match_control_panel(self):
         # sitemap.DEFAULT_MAX_ITEMS (used when the registry record is missing)
         # must not drift from the control-panel defaults.

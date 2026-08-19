@@ -12,6 +12,12 @@ Changelog
   upcoming events, most recent news, most recently modified contacts.
   [boulch]
 
+- Fetch the remote items of a sitemap source page by page (100 at a time) with
+  a time budget, instead of one request for the whole cap: a large ``@search``
+  exceeded the endpoint's 20 s timeout, and ``get_json`` returning ``None``
+  dropped the source from the sitemap altogether. Partial results are now kept.
+  [boulch]
+
 - Answer 404 when a news or agenda item page points to a remote
   item that no longer exists at the authentic source. ``NewsViewView.news`` and
   ``EventsViewView.event`` formatted the item without checking that it had been

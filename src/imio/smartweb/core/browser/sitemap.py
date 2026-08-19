@@ -127,6 +127,51 @@ def get_endpoint_data(obj, request, batch_size, sort_on, sort_order):
     )
 
 
+# A single remote @search for a big b_size does not come back in time: the call
+# has a 20 s timeout (get_json in contents/rest/base.py) and returns None when
+# it expires, which used to drop the WHOLE source from the sitemap. Fetch in
+# bounded pages instead, keep what came back, and stop once the time budget is
+# spent. Partial is fine here: the items are sorted newest-first, and the full
+# list stays reachable through the paginated seo_html page of each view.
+SITEMAP_FETCH_CHUNK = 100
+SITEMAP_FETCH_BUDGET = 10  # seconds spent fetching one source
+
+
+def get_source_items(obj, request, max_items, sort_on, sort_order):
+    """Up to max_items remote items for a source, fetched page by page."""
+    if not max_items:
+        max_items = DEFAULT_MAX_ITEMS.get(obj.portal_type, SITEMAP_FETCH_CHUNK)
+    items = []
+    original_b_start = request.form.get("b_start")
+    deadline = time.monotonic() + SITEMAP_FETCH_BUDGET
+    try:
+        while len(items) < max_items:
+            request.form["b_start"] = len(items)
+            chunk_size = min(SITEMAP_FETCH_CHUNK, max_items - len(items))
+            data = get_endpoint_data(obj, request, chunk_size, sort_on, sort_order)
+            chunk = (data or {}).get("items") or []
+            items.extend(chunk)
+            if len(chunk) < chunk_size:
+                # Last page, or a call that failed/timed out: keep what we have.
+                break
+            if len(items) >= (data.get("items_total") or 0):
+                break
+            if time.monotonic() > deadline:
+                logger.warning(
+                    "Sitemap: fetch budget spent for %s, listing %s items out of %s",
+                    obj.absolute_url(),
+                    len(items),
+                    data.get("items_total"),
+                )
+                break
+    finally:
+        if original_b_start is None:
+            request.form.pop("b_start", None)
+        else:
+            request.form["b_start"] = original_b_start
+    return items[:max_items]
+
+
 def format_sitemap_items(items, base_url):
     """Format items for sitemap(.xml.gz)"""
     formatted_items = []
@@ -228,14 +273,13 @@ class CustomSiteMapView(SiteMapView):
                 obj = brain.getObject()
                 source_cfg = config[obj.portal_type]
                 sort_on, sort_order = get_source_sort(obj.portal_type)
-                data = get_endpoint_data(
+                items = get_source_items(
                     obj,
                     obj.REQUEST,
                     source_cfg.get("max_items"),
                     sort_on,
                     sort_order,
                 )
-                items = data.get("items", [])[: source_cfg.get("max_items")]
                 yield from format_sitemap_items(items, obj.absolute_url())
 
 
@@ -258,16 +302,15 @@ class CatalogSiteMap(BaseCatalogSiteMap):
             if source_cfg is None or not source_cfg.get("enabled"):
                 continue
             sort_on, sort_order = get_source_sort(obj.portal_type)
-            data = get_endpoint_data(
+            items = get_source_items(
                 obj,
                 obj.REQUEST,
                 source_cfg.get("max_items"),
                 sort_on,
                 sort_order,
             )
-            if not data:
+            if not items:
                 continue
-            items = data.get("items", [])[: source_cfg.get("max_items")]
             child["children"] = format_sitemap_items(items, obj.absolute_url())
 
         return base_folder_tree
