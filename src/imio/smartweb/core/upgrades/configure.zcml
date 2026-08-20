@@ -418,6 +418,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1084_to_1085"
+      title="Upgrade core from 1084 to 1085"
+      directory="profiles/1084_to_1085"
+      description="Add save_and_publish behavior to the content types that can be private/published"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1282,5 +1290,15 @@
       handler=".upgrades.add_sitemap_authentic_sources_registry"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1084"
+      destination="1085"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add the 'Save and publish' behavior to the content types that can be private/published"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1084_to_1085"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

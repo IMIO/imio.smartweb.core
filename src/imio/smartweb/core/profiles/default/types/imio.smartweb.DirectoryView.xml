@@ -39,6 +39,7 @@
     <element value="plone.categorization"/>
     <element value="collective.autopublishing.behavior.IAutoPublishing"/>
     <element value="solr.fields" />
+    <element value="imio.smartweb.save_and_publish"/>
   </property>
 
 </object>

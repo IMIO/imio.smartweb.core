@@ -5,6 +5,10 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- WEB-4461 : Activate the ``imio.smartweb.save_and_publish`` behavior (defined in
+  ``imio.smartweb.common``)
+  [boulch]
+
 - Scope the agenda to the dates the view shows in every consumer, not just in
   the React front: ``BaseEventsEndpoint`` falls back to the view's own scope
   (past when ``only_past_events`` is set, upcoming otherwise) when the caller
