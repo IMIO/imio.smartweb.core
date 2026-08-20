@@ -300,6 +300,94 @@ class TestSeoHiddenReactLinks(ImioSmartwebTestCase):
         self.assertEqual(view.total, 42)
         self.assertEqual(len(view.get_data), 0)
 
+    @patch(
+        "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+        return_value={
+            "items": [
+                {
+                    "@type": "imio.directory.Contact",
+                    "title": "Alice",
+                    "UID": "u1",
+                    "modified": "2024-01-01T00:00:00Z",
+                    "description": "",
+                }
+            ],
+            "items_total": 1,
+        },
+    )
+    def test_seo_hidden_react_links_calls_endpoint_with_correct_arity(self, mock_call):
+        # Regression: get_endpoint_data() gained (batch_size, sort_on,
+        # sort_order) params. The seo_html view must call it with the right
+        # arity. The other seo tests mock get_endpoint_data itself, which hides
+        # an arity mismatch; here we mock only the external HTTP (__call__) so
+        # the REAL get_endpoint_data runs and a wrong-arity call would raise.
+        view = queryMultiAdapter((self.directory_view, self.request), name="seo_html")
+        view()  # must not raise TypeError
+        self.assertEqual(view.total, 1)
+        self.assertGreaterEqual(len(view.get_data), 1)
+        # seo_html must keep its own (larger) batch size, NOT the sitemap
+        # control-panel max_items cap (50) — otherwise SEO discovery of the
+        # long tail via /seo_html would be truncated.
+        self.assertEqual(view.b_size, view.DEFAULT_BATCH_SIZE)
+
+    @patch(
+        "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+        return_value={
+            "items": [
+                {
+                    "@type": "imio.directory.Contact",
+                    "title": f"c{i}",
+                    "UID": f"u{i}",
+                    "modified": "2024-01-01T00:00:00Z",
+                    "description": "",
+                }
+                for i in range(100)
+            ],
+            "items_total": 250,
+        },
+    )
+    def test_seo_hidden_react_links_rel_next_matches_batch(self, mock_call):
+        # The rel=prev/next chain must use the batch the page actually listed.
+        # With a hardcoded default of 10, the first page (which lists 100 items)
+        # pointed to b_start=10&b_size=10 and bots re-crawled the same items.
+        view = queryMultiAdapter((self.directory_view, self.request), name="seo_html")
+        html = view()
+        self.assertIn(
+            f'rel="next" total="250" href="{self.directory_view.absolute_url()}'
+            f'/seo_html?b_start=100&amp;b_size=100"',
+            html,
+        )
+
+    @patch(
+        "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+        return_value={
+            "items": [
+                {
+                    "@type": "imio.directory.Contact",
+                    "title": "Alice",
+                    "UID": "u1",
+                    "modified": "2024-01-01T00:00:00Z",
+                    "description": "",
+                }
+            ],
+            "items_total": 1,
+        },
+    )
+    def test_seo_hidden_react_links_are_crawlable(self, mock_call):
+        # The links must be in the rendered page, not behind a <noscript> hidden
+        # by a JavaScript redirect: Googlebot executes JavaScript, so
+        # "window.location.href = <parent view>" made the whole crawlable
+        # fallback invisible — the one path that lets bots reach the items a
+        # capped sitemap leaves out.
+        view = queryMultiAdapter((self.directory_view, self.request), name="seo_html")
+        html = view()
+        self.assertNotIn("window.location", html)
+        self.assertNotIn("noscript", html)
+        self.assertIn(
+            f'href="{self.directory_view.absolute_url()}/alice?u=u1"',
+            html,
+        )
+
     @patch("imio.smartweb.core.contents.rest.view.get_endpoint_data")
     @patch("imio.smartweb.core.contents.rest.view.format_sitemap_items")
     def test_seo_hidden_react_links_batching(self, mock_format, mock_endpoint):
