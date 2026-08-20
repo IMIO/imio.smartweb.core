@@ -7,7 +7,6 @@
 
   <!-- Enabled behaviors -->
   <property name="behaviors" purge="false">
-    <element value="solr.fields" />
     <element value="imio.smartweb.save_and_publish"/>
   </property>
 

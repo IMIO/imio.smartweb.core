@@ -9,6 +9,7 @@
   <property name="behaviors" purge="false">
     <element value="imio.smartweb.new_tab" />
     <element value="plone.imagecropping" />
+    <element value="imio.smartweb.save_and_publish"/>
   </property>
 
 </object>
