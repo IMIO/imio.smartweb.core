@@ -1274,4 +1274,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Add/refresh smartweb.sitemap_authentic_sources sitemap config (enabled / max items per source)"
+      description=""
+      source="1083"
+      destination="1084"
+      handler=".upgrades.add_sitemap_authentic_sources_registry"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

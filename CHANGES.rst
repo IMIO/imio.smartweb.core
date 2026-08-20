@@ -5,6 +5,43 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Scope the agenda to the dates the view shows in every consumer, not just in
+  the React front: ``BaseEventsEndpoint`` falls back to the view's own scope
+  (past when ``only_past_events`` is set, upcoming otherwise) when the caller
+  sends no ``event_dates`` filter. The sitemap sent none and listed every event
+  ever published, oldest first. ``seo_html``'s own copy of the rule, hardcoded
+  to upcoming events, is dropped.
+  [boulch]
+
+- Add a control-panel setting (Smartweb site admin) to configure, per authentic
+  source, whether it appears in the sitemap and how many items are listed
+  (max 1000). Applies to the HTML and XML sitemaps. Defaults: 50 for the agenda
+  and the news, 200 for the directory. The ordering is not configurable:
+  upcoming events, most recent news, most recently modified contacts.
+  [boulch]
+
+- Fetch the remote items of a sitemap source page by page (100 at a time) with
+  a time budget, instead of one request for the whole cap: a large ``@search``
+  exceeded the endpoint's 20 s timeout, and ``get_json`` returning ``None``
+  dropped the source from the sitemap altogether. Partial results are now kept.
+  [boulch]
+
+- Make the ``seo_html`` fallback of the directory, agenda and news views
+  crawlable: its link list sat in a ``<noscript>`` under a
+  ``window.location.href`` redirect, so Googlebot only ever saw the redirect.
+  The redirect is gone, the list is rendered plainly and the page keeps its
+  ``X-Robots-Tag: noindex, follow``. Its entry point is declared in
+  ``sitemap.xml`` only, no longer in the HTML sitemap where a visitor clicking
+  it landed on the fallback instead of the React listing. The six
+  ``... : SEO Links`` msgids become one per source: ``All contacts`` /
+  ``All events`` / ``All news``.
+  [boulch]
+
+- Align the ``rel="prev"`` / ``rel="next"`` links of ``seo_html`` with the batch
+  the page actually lists: they fell back to a hardcoded ``b_size`` of 10, so
+  crawlers walked a 100-item page in 10-item steps.
+  [boulch]
+
 - Reserve the "Delete taxonomy" action of the taxonomy control panel to the
   Manager role. Site Administrators can still add and edit taxonomies.
   [boulch]

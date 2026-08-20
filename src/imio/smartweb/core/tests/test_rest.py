@@ -195,8 +195,8 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=topics&"
             "metadata_fields=has_leadimage&"
             "fullobjects=1&"
-            "sort_on=sortable_title&"
             "b_size=20&"
+            "sort_on=sortable_title&"
             "taxonomy_contact_category_for_filtering=token&"
             "topics=education&"
             "translated_in_en=1",
@@ -231,11 +231,11 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "metadata_fields=topics&"
                 "metadata_fields=has_leadimage&"
                 "fullobjects=1&"
-                "sort_on=sortable_title&"
                 "b_size=30&"
                 "taxonomy_contact_category.query=hlsm9bijb1&"
                 "taxonomy_contact_category.query=9kgcmrj4lu&"
                 "taxonomy_contact_category.operator=or&"
+                "sort_on=sortable_title&"
                 "taxonomy_contact_category_for_filtering=token&"
                 "topics=education&"
                 "translated_in_en=1",
@@ -367,6 +367,30 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             response_directory = parse_qs(response_urlparsed.query)
             self.assertEqual(patch_directory, response_directory)
 
+    @freeze_time("2021-11-15")
+    def test_events_date_scope_defaults_to_the_view(self):
+        # No React front here (sitemap, seo_html, forwarders), so the endpoint
+        # falls back to the view's own scope. Without it the remote returns
+        # every event ever published, including the past ones.
+        self.rest_events.selected_agenda = "64f4cbee9a394a018a951f6d94452914"
+        self.rest_events.only_past_events = True
+        url = EventsEndpoint(self.rest_events, self.request).query_url
+        self.assertIn("event_dates.range=max", url)
+        self.assertIn("event_dates.query=2021-11-15", url)
+
+    @freeze_time("2021-11-15")
+    def test_events_date_scope_left_to_the_caller(self):
+        # The React front sends its own range (a user-picked period, or "past
+        # events"): the default must not stack on top of it, or the remote gets
+        # two conflicting event_dates.range params.
+        self.rest_events.selected_agenda = "64f4cbee9a394a018a951f6d94452914"
+        self.request.form["event_dates.range"] = "max"
+        self.request.form["event_dates.query"] = "2021-12-24"
+        url = EventsEndpoint(self.rest_events, self.request).query_url
+        self.assertEqual(url.count("event_dates.range="), 1)
+        self.assertIn("event_dates.range=max", url)
+        self.assertIn("event_dates.query=2021-12-24", url)
+
     @requests_mock.Mocker()
     @freeze_time("2021-11-15")
     def test_call_events(self, m):
@@ -429,10 +453,14 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "metadata_fields=has_leadimage&"
             "metadata_fields=UID&"
             "metadata_fields=language&"
-            "sort_on=event_dates&"
             "fullobjects=0&"
             "b_size=20&"
             "event_type=event-driven&"
+            # the view's own date scope, injected by BaseEventsEndpoint when
+            # the caller (here: no React front) sends no event_dates filter
+            "event_dates.range=min&"
+            "event_dates.query=2021-11-15&"
+            "sort_on=event_dates&"
             "translated_in_en=1".format(self.rest_events.selected_agenda),
         )
         m.get(url, text=json.dumps({}))
@@ -500,11 +528,11 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "metadata_fields=topics&"
                 "metadata_fields=has_leadimage&"
                 "metadata_fields=UID&"
-                "sort_on=effective&"
-                "sort_order=descending&"
                 "entity_uid=7c69f9a738ec497c819725c55888ee32&"
                 "fullobjects=1&"
                 "b_size=20&"
+                "sort_on=effective&"
+                "sort_order=descending&"
                 "translated_in_en=1".format(self.rest_news.selected_news_folder),
             )
             m.get(url, text=json.dumps({}))

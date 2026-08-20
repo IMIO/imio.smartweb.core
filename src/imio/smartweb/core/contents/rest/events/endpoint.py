@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from datetime import date
 from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
@@ -16,10 +17,23 @@ logger = logging.getLogger("imio.smartweb.core")
 
 
 class BaseEventsEndpoint(BaseEndpoint):
-    def __init__(self, context, request, fullobjects=0, batch_size=0):
+    def __init__(
+        self,
+        context,
+        request,
+        fullobjects=0,
+        batch_size=0,
+        sort_on=None,
+        sort_order=None,
+    ):
         self.fullobjects = fullobjects
         super(BaseEventsEndpoint, self).__init__(
-            context, request, fullobjects=fullobjects, batch_size=batch_size
+            context,
+            request,
+            fullobjects=fullobjects,
+            batch_size=batch_size,
+            sort_on=sort_on,
+            sort_order=sort_order,
         )
 
     def __call__(self):
@@ -95,7 +109,6 @@ class BaseEventsEndpoint(BaseEndpoint):
             "metadata_fields=has_leadimage",
             "metadata_fields=UID",
             "metadata_fields=language",
-            "sort_on=event_dates",
             "fullobjects={}".format(self.fullobjects),
         ]
         if self.batch_size == 0:
@@ -105,6 +118,18 @@ class BaseEventsEndpoint(BaseEndpoint):
         if self.context.selected_event_types is not None:
             for event_type in self.context.selected_event_types:
                 params.append(f"event_type={event_type}")
+        # The date scope is normally sent by the React front (Events.jsx).
+        # For every other caller (sitemap, seo_html, forwarders) fall back to
+        # the view's own scope: without it the remote returns every event ever
+        # published, oldest first. Guard on the key, not the value —
+        # construct_query_string() re-injects every form param and only dedupes
+        # identical pairs, so a differing value would be sent twice.
+        if "event_dates.range" not in self.request.form:
+            only_past = getattr(self.context, "only_past_events", False)
+            params.append("event_dates.range={}".format("max" if only_past else "min"))
+            # the event_dates index needs the paired pivot date
+            params.append("event_dates.query={}".format(date.today().isoformat()))
+        params += self.sort_params("event_dates")
         params = self.construct_query_string(params)
         url = f"{EVENTS_URL}/{self.remote_endpoint}?{params}"
         if is_log_active():
@@ -128,9 +153,22 @@ class EventsEndpointGet(BaseService):
     def reply(self):
         return EventsEndpoint(self.context, self.request)()
 
-    def reply_for_given_object(self, obj, request, fullobjects=0, batch_size=0):
+    def reply_for_given_object(
+        self,
+        obj,
+        request,
+        fullobjects=0,
+        batch_size=0,
+        sort_on=None,
+        sort_order=None,
+    ):
         return EventsEndpoint(
-            obj, request, fullobjects=fullobjects, batch_size=batch_size
+            obj,
+            request,
+            fullobjects=fullobjects,
+            batch_size=batch_size,
+            sort_on=sort_on,
+            sort_order=sort_order,
         )()
 
 
