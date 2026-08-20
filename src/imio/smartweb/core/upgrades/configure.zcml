@@ -410,6 +410,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1082_to_1083"
+      title="Upgrade core from 1082 to 1083"
+      directory="profiles/1082_to_1083"
+      description="Reserve taxonomy deletion to Manager"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1256,11 +1264,21 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1082"
+      destination="1083"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Reserve taxonomy deletion to Manager"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1082_to_1083"
+        />
+  </genericsetup:upgradeSteps>
+
   <genericsetup:upgradeStep
       title="Add/refresh smartweb.sitemap_authentic_sources sitemap config (enabled / max items per source)"
       description=""
-      source="1082"
-      destination="1083"
+      source="1083"
+      destination="1084"
       handler=".upgrades.add_sitemap_authentic_sources_registry"
       profile="imio.smartweb.core:default"
       />

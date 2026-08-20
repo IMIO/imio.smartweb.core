@@ -80,4 +80,10 @@
     description=""
     />
 
+  <permission
+    id="imio.smartweb.core.DeleteTaxonomy"
+    title="imio.smartweb.core: Delete taxonomy"
+    description=""
+    />
+
 </configure>
