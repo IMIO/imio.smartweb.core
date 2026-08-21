@@ -496,16 +496,61 @@ body.has-sticky-header {
   .container-se-text.text-align-line-end {
     margin-right: max(0px, calc((100% - var(--text-max)) / 2));
   }
+  /* Une section 1/2 "texte" sans partenaire pour compléter une ligne
+     pleine : marge droite de 50% (une simple proportion, sans lien avec
+     --text-max) — combinée à la marge gauche ci-dessus et à sa largeur
+     fixe, complète toujours exactement 100% de la largeur réelle de la
+     ligne, quelle que soit cette largeur. Empêche donc toute section
+     suivante (alignée "page" ou "texte" sans lien de paire) de partager
+     sa ligne, sans changer son propre rendu (callée à gauche). */
+  .container-se-text.text-align-isolated-half {
+    margin-right: 50%;
   }
 
+  .row > {
+    .sectionmap{
+      &.container-se-text,
+      .container.section-container{
+        padding-left: 0;
+        padding-right: 0;
+      }
+      &.text-align-line-start {
+        padding-right:.5rem
+      }
+      &.text-align-line-end {
+        padding-left:.5rem
+      }
+    }
+  }    
+}
 
-  body {
-    background: #f8f8f8!important;
-  }
+.sortable-section.container-se-text {
+  margin-bottom: 1.5rem;
+}
 
-  #main-container {
-    background: #fff;
-  }
+#content > div#content-core figure:first-of-type {
+  margin-top: 0;
+}
+
+  // body {
+  //   background: #f8f8f8!important;
+  // }
+
+  // #main-container {
+  //   background: #fff;
+  // }
+
+//   body::after {
+// 	content: "";
+// 	background: aqua;
+// 	position: absolute;
+// 	width: 760px;
+// 	left: 50%;
+// 	height: 9000px;
+// 	top: 0;
+// 	z-index: -1;
+// 	transform: translateX(-50%);
+// }
 
 // announce the message type.
 #messagesviewlet .messagesviewlet-type,

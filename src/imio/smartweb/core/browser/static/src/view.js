@@ -19,32 +19,58 @@ window.updateTextAlignmentLayout = function updateTextAlignmentLayout() {
   // children of .row instead. Select on the class alone so this works
   // regardless of login/permission state.
   var sortableSections = document.querySelectorAll("div.sortable-section");
-  var lineUnits = 0;
+  // Sections aligned with the text sections container are accumulated here
+  // as they're walked in DOM order, then finalized (flushPending) as soon
+  // as a non-text-aligned section is met, the 2-unit virtual line capacity
+  // is exceeded, or the end of the list is reached — this is needed to
+  // decide, only once a group is complete, whether it fills a full 760px
+  // line (a solo 1/1, or a genuine pair of 1/2) or ends up as a lone,
+  // unpaired half-width section.
+  var pending = [];
+  var pendingUnits = 0;
+
+  function flushPending() {
+    if (pending.length === 0) return;
+    var isFull = pendingUnits >= 2;
+    pending.forEach(function (section, index) {
+      var isLast = index === pending.length - 1;
+      section.classList.toggle("text-align-line-start", index === 0);
+      section.classList.toggle("text-align-line-end", isFull && isLast);
+      // A lone half-width section (no partner to complete a full 760px
+      // line) gets pushed all the way to the right too — margin-right:50%
+      // always exactly completes the line's actual width regardless of
+      // that width (see view.less) — so nothing else (another "main"- or
+      // "text"-aligned section) can share its line.
+      section.classList.toggle("text-align-isolated-half", !isFull && isLast);
+    });
+    pending = [];
+    pendingUnits = 0;
+  }
+
   sortableSections.forEach(function (section) {
     if (!section.classList.contains("container-se-text")) {
-      lineUnits = 0;
+      flushPending();
       section.classList.remove(
         "text-align-line-start",
         "text-align-line-end",
+        "text-align-isolated-half",
       );
       return;
     }
     var units = section.classList.contains("col-sm-12") ? 2 : 1;
-    if (lineUnits + units > 2) {
+    if (pendingUnits + units > 2) {
       // Doesn't fit on the current virtual line (e.g. a lone half-width
-      // section followed by a full-width one): start a fresh line instead
-      // of wrongly treating this section as a continuation.
-      lineUnits = 0;
+      // section followed by a full-width one): finalize the pending group
+      // first instead of wrongly treating this section as a continuation.
+      flushPending();
     }
-    var isLineStart = lineUnits === 0;
-    lineUnits += units;
-    var isLineEnd = lineUnits >= 2;
-    section.classList.toggle("text-align-line-start", isLineStart);
-    section.classList.toggle("text-align-line-end", isLineEnd);
-    if (isLineEnd) {
-      lineUnits = 0;
+    pending.push(section);
+    pendingUnits += units;
+    if (pendingUnits >= 2) {
+      flushPending();
     }
   });
+  flushPending();
 };
 
 document.addEventListener("DOMContentLoaded", function () {
