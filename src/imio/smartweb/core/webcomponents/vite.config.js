@@ -42,7 +42,29 @@ module.exports = defineConfig(({ mode, command }) => ({
         ),
     },
     resolve: {
-        alias: [{ find: /^leaflet$/, replacement: "leaflet/dist/leaflet" }],
+        alias: [
+            { find: /^leaflet$/, replacement: "leaflet/dist/leaflet" },
+            // moment's package.json declares a legacy "jsnext:main":
+            // "./dist/moment.js", which Vite's resolver prefers over "main"
+            // for bare `import moment from "moment"` (used by every
+            // widget). But the locale files (node_modules/moment/locale/
+            // fr.js, etc., pulled in by the side-effect imports in
+            // index.jsx) reach moment's core via a plain relative
+            // `require("../moment")`, which ignores package.json entirely
+            // and resolves to the sibling "./moment.js" instead. Those are
+            // two different files on disk, so two independent module
+            // instances with two independent locale registries: fr/nl/de
+            // get registered on "./moment.js", while every widget calling
+            // `moment.locale(...)`/`.fromNow()` runs against "./dist/
+            // moment.js", which never saw the registration — so dates
+            // silently render in English regardless of the locale imports.
+            // Forcing the bare specifier to the exact same file the
+            // relative `require` already uses removes the ambiguity.
+            {
+                find: /^moment$/,
+                replacement: path.resolve(__dirname, "node_modules/moment/moment.js"),
+            },
+        ],
     },
     build: {
         outDir: "build",

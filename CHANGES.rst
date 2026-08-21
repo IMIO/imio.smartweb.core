@@ -5,6 +5,9 @@ Changelog
 1.4.58 (unreleased)
 -------------------
 
+- Fix moment.js locale (fr/nl/de) never applying to relative dates
+  [thomlamb]
+
 - WEB-4461 : Activate the ``imio.smartweb.save_and_publish`` behavior (defined in
   ``imio.smartweb.common``)
   [boulch]
