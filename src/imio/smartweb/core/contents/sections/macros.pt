@@ -94,12 +94,13 @@
             </form>
           </tal:size>
 
-          <tal:alignment>
+          <tal:alignment define="alignment_labels python:{'main': 'Page', 'text': 'Texte'}"
+                         tal:condition="python:context.portal_type != 'imio.smartweb.SectionText'">
             <form class="edit-section-link edit-section-alignment"
                   hx-trigger="change"
                   hx-swap="none"
                   tal:attributes="hx-post string:${context/absolute_url}/@@savealignment">
-              <i class="bi bi-align-center"></i>
+              <i class="bi bi-distribute-horizontal"></i>
               <select class="form-select select_section_alignment"
                       tal:attributes="name string:select_alignment_${context/UID};
                                       id string:select_alignment_${context/UID}">
@@ -107,7 +108,7 @@
                         tal:attributes="value alignment/key;
                                         title alignment/value;
                                         selected python:alignment['key'] == (context.section_alignment or 'main')"
-                        tal:content="alignment/value">
+                        tal:content="python:alignment_labels.get(alignment['key'], alignment['value'])">
                 </option>
               </select>
             </form>

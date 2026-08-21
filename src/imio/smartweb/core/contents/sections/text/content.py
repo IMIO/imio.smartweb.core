@@ -17,6 +17,11 @@ class ISectionText(ISection):
     # We only want title from behavior (imio.smartweb.common ia)
     directives.omitted("title")
 
+    # A text section aligning itself "with the text sections container"
+    # doesn't make sense (it already is one) — this option isn't relevant
+    # for this section type.
+    directives.omitted("section_alignment")
+
     directives.order_before(alignment="IVersionable.changeNote")
     alignment = schema.Choice(
         title=_("Image alignment"),

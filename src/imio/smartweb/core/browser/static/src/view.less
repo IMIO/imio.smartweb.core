@@ -466,6 +466,8 @@ body.has-sticky-header {
          — seules valeurs possibles une fois "aligné texte" (restriction de
          largeur déjà en place). flex-shrink:1 + max-width:100% en secours
          pour éviter un débordement sur viewport étroit (< 760px). --- */
+  @media screen and (min-width:760px) {
+    
   .col-sm-12.container-se-text {
     flex: 0 1 var(--text-max);
     max-width: 100%;
@@ -493,6 +495,7 @@ body.has-sticky-header {
   }
   .container-se-text.text-align-line-end {
     margin-right: max(0px, calc((100% - var(--text-max)) / 2));
+  }
   }
 
 

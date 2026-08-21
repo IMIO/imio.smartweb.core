@@ -620,9 +620,10 @@ class TestSections(ImioSmartwebTestCase):
             title="Section text",
         )
         view = queryMultiAdapter((self.page, self.request), name="full_view")
-        self.assertEqual(view.get_class(section), "sectiontext")
+        # bootstrap_css_class defaults to "col-sm-12" (full width)
+        self.assertEqual(view.get_class(section), "sectiontext col-sm-12")
         section.css_class = "my-css"
-        self.assertEqual(view.get_class(section), "sectiontext my-css")
+        self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-12")
         section.bootstrap_css_class = "col-sm-3"
         self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
         section.section_alignment = "text"

@@ -12,9 +12,13 @@ import "./view.less";
 // tags in viewlets/htmx_js_header.pt (after a width/alignment change) and
 // contents/pages/view.pt (after a drag-and-drop reorder).
 window.updateTextAlignmentLayout = function updateTextAlignmentLayout() {
-  var sortableSections = document.querySelectorAll(
-    "span.pat-sortable[data-pat-sortable] > div.sortable-section",
-  );
+  // NOTE: the "span.pat-sortable[data-pat-sortable]" wrapper is only
+  // rendered for users with edit rights (contents/pages/view.pt sets
+  // tal:omit-tag="not: can_reorder" on it) — for anonymous/non-editor
+  // visitors it's entirely absent and .sortable-section divs are direct
+  // children of .row instead. Select on the class alone so this works
+  // regardless of login/permission state.
+  var sortableSections = document.querySelectorAll("div.sortable-section");
   var lineUnits = 0;
   sortableSections.forEach(function (section) {
     if (!section.classList.contains("container-se-text")) {
@@ -26,6 +30,12 @@ window.updateTextAlignmentLayout = function updateTextAlignmentLayout() {
       return;
     }
     var units = section.classList.contains("col-sm-12") ? 2 : 1;
+    if (lineUnits + units > 2) {
+      // Doesn't fit on the current virtual line (e.g. a lone half-width
+      // section followed by a full-width one): start a fresh line instead
+      // of wrongly treating this section as a continuation.
+      lineUnits = 0;
+    }
     var isLineStart = lineUnits === 0;
     lineUnits += units;
     var isLineEnd = lineUnits >= 2;

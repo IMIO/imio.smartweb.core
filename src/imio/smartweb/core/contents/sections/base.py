@@ -57,7 +57,8 @@ class ISection(model.Schema):
 
     bootstrap_css_class = schema.Choice(
         title=_("Section width"),
-        required=False,
+        required=True,
+        default="col-sm-12",
         vocabulary="imio.smartweb.vocabulary.BootstrapCSS",
     )
 
