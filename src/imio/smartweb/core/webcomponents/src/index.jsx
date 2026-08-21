@@ -6,7 +6,9 @@ import News from "./components/News";
 import Events from "./components/Events";
 import Search from "./components/Search";
 import "./index.scss";
-
+import "moment/locale/fr";
+import "moment/locale/nl";
+import "moment/locale/de";
 /*
   Register exposed web components here
   Note: if your webcomponent depends on external css, disable shadow root
