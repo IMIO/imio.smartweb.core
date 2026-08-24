@@ -105,7 +105,9 @@ class TestVocabularies(ImioSmartwebTestCase):
         # not by filtering the vocabulary itself (that would remove the other
         # options from the rendered markup, leaving nothing for JS to restore
         # when switching back to "main" alignment).
-        factory = getUtility(IVocabularyFactory, "imio.smartweb.vocabulary.BootstrapCSS")
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.BootstrapCSS"
+        )
 
         class FakeSection:
             section_alignment = "text"

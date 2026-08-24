@@ -127,9 +127,7 @@ class TestSections(ImioSmartwebTestCase):
         browser.open(f"{self.page.absolute_url()}/full_view/?language=fr")
         contents = browser.contents
         # bootstrap_css_class defaults to "col-sm-12" (full width)
-        div_section_container = (
-            '<div class="sortable-section sectiontext col-sm-12" data-id="section-text" style="">'
-        )
+        div_section_container = '<div class="sortable-section sectiontext col-sm-12" data-id="section-text" style="">'
         self.assertIn(div_section_container, contents)
 
         # Test save_size view directly via request
@@ -208,9 +206,7 @@ class TestSections(ImioSmartwebTestCase):
         browser.open(f"{self.page.absolute_url()}/full_view/?language=fr")
         contents = browser.contents
         # bootstrap_css_class defaults to "col-sm-12" (full width)
-        div_section_container = (
-            '<div class="sortable-section sectionhtml col-sm-12" data-id="section-html" style="">'
-        )
+        div_section_container = '<div class="sortable-section sectionhtml col-sm-12" data-id="section-html" style="">'
         self.assertIn(div_section_container, contents)
 
         # Test save_alignment view directly via request
