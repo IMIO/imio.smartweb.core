@@ -19,6 +19,16 @@ window.updateTextAlignmentLayout = function updateTextAlignmentLayout() {
   // children of .row instead. Select on the class alone so this works
   // regardless of login/permission state.
   var sortableSections = document.querySelectorAll("div.sortable-section");
+
+  // Clear any correction applied by a previous run before recomputing
+  // anything below (see the geometry-correction pass at the end of this
+  // function) — otherwise a stale correction could interfere with the
+  // fresh measurements taken this time.
+  sortableSections.forEach(function (section) {
+    section.style.marginLeft = "";
+    section.style.transform = "";
+  });
+
   // Sections aligned with the text sections container are accumulated here
   // as they're walked in DOM order, then finalized (flushPending) as soon
   // as a non-text-aligned section is met, the 2-unit virtual line capacity
@@ -71,10 +81,60 @@ window.updateTextAlignmentLayout = function updateTextAlignmentLayout() {
     }
   });
   flushPending();
+
+  // A section starting a fresh virtual line (text-align-line-start) can
+  // still end up sharing its actual flex line with an immediately
+  // preceding "main"-aligned section: a fixed margin-left (see view.less)
+  // cannot guarantee a wrap against an arbitrary, unknown predecessor
+  // width — the margin-based trick used elsewhere in this function only
+  // works because it controls BOTH ends of a self-contained group of
+  // text-aligned sections, which isn't the case here. Only measuring the
+  // real rendered layout can detect and fix this, without changing the
+  // section's own configured width (760px / half of it).
+  document
+    .querySelectorAll(".container-se-text.text-align-line-start")
+    .forEach(function (section) {
+      var prev = section.previousElementSibling;
+      if (!prev || prev.classList.contains("container-se-text")) return;
+      var prevRect = prev.getBoundingClientRect();
+      var sectionRect = section.getBoundingClientRect();
+      if (sectionRect.top !== prevRect.top) return; // already on its own line
+
+      var row = section.parentElement;
+      var rowRect = row.getBoundingClientRect();
+      // Compute the *minimal* extra push needed to overflow past the
+      // row's right edge (a 1px buffer), forcing a wrap — NOT an
+      // oversized margin spanning the whole row's width, which would
+      // inflate this section's layout footprint way beyond the row and
+      // break the surrounding layout.
+      var overflowNeeded = rowRect.right - sectionRect.right + 1;
+      if (overflowNeeded <= 0) return; // shouldn't happen given the check above, but guard anyway
+
+      var currentMarginLeft = parseFloat(getComputedStyle(section).marginLeft) || 0;
+      section.style.marginLeft = currentMarginLeft + overflowNeeded + "px";
+      var wrappedRect = section.getBoundingClientRect();
+      if (wrappedRect.top === prevRect.top) {
+        // Safety net: still didn't wrap — bail out rather than leave an
+        // inconsistent margin in place.
+        section.style.marginLeft = "";
+        return;
+      }
+
+      // Now alone on its own line: cancel the visual effect of that extra
+      // push with a transform — purely visual, it doesn't affect the
+      // layout/wrap calculation, so it can't undo the wrap it just
+      // forced — so the section still renders flush with the left edge
+      // of the virtual 760px column, exactly like every other isolated
+      // section.
+      var targetLeft = rowRect.left + Math.max(0, (rowRect.width - 760) / 2);
+      section.style.transform =
+        "translateX(" + (targetLeft - wrappedRect.left) + "px)";
+    });
 };
 
 document.addEventListener("DOMContentLoaded", function () {
   window.updateTextAlignmentLayout();
+  window.addEventListener("resize", window.updateTextAlignmentLayout);
 });
 
 jQuery(document).ready(function ($) {
