@@ -524,6 +524,24 @@ body.has-sticky-header {
   }    
 }
 
+  @media screen and (min-width:992px) {
+    .container-se-text {
+        left: initial!important;
+        transform: translateX(0)!important;
+        &.col-sm-12 {
+          .swiper-wrapper {
+            max-width: var(--text-max);
+          }
+        }
+        &.col-sm-6 {
+          .swiper-wrapper {
+            max-width: calc(var(--text-max) / 2);
+          }
+        }
+    }
+  }
+
+
 .sortable-section.container-se-text {
   margin-bottom: 1.5rem;
 }
