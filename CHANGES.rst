@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.58 (unreleased)
+1.4.58 (2026-08-24)
 -------------------
 
 - Fix moment.js locale (fr/nl/de) never applying to relative dates
