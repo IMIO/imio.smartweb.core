@@ -17,12 +17,15 @@ window.__vite_plugin_react_preamble_installed__ = true;"></script>
             tal:attributes="src string:${view/vite_dev_url}/src/index.jsx"></script>
   </tal:dev>
   <tal:prod condition="not:view/vite_dev_url">
-    <!-- The ?v= query string busts the strongCaching (24h, no ETag) cache
-         rule applied to ++plone++ resources -- see
-         WebComponentsViewlet.bundle_version -- so each release is fetched
-         fresh instead of risking a stale entry pointing at chunk/CSS files
-         a later deploy has already deleted. -->
+    <!-- entry_script_path is resolved from Vite's build manifest and
+         includes a content hash, e.g. "js/smartweb-webcomponents-
+         compiled-BCauhw1_.js". This busts the strongCaching (24h, no
+         ETag) cache rule applied to ++plone++ resources on every content
+         change, and (unlike a fixed filename with an ad-hoc "?v="
+         query string) it's guaranteed to match the exact URL that
+         lazy-loaded widget chunks use internally to import shared code
+         back from this entry point (see WebComponentsViewlet). -->
     <script type="module"
-            tal:attributes="src string:${portal_url}/++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js?v=${view/bundle_version}"></script>
+            tal:attributes="src string:${portal_url}/++plone++imio.smartweb.webcomponents/${view/entry_script_path}"></script>
   </tal:prod>
 </tal:block>

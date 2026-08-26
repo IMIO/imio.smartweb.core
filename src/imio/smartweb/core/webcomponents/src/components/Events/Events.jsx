@@ -42,6 +42,7 @@ export default function Events(props) {
         </BrowserRouter>
     );
 }
+console.log("Events.jsx is loaded");
 function EventsView(props) {
     const { u, ...parsed } = Object.assign(
         {
