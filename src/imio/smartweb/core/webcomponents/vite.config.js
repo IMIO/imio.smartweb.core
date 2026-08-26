@@ -78,6 +78,21 @@ module.exports = defineConfig(({ mode, command }) => ({
         // lazy-loaded widget chunk keeps its own CSS, only injected when
         // that widget actually mounts (mirrors the old webpack behaviour).
         cssCodeSplit: true,
+        // Every lazy-loaded widget chunk imports shared symbols (React's
+        // jsx runtime, moment, ...) back from the entry chunk via a
+        // relative, Rollup-generated URL (e.g. "../smartweb-webcomponents-
+        // compiled-<hash>.js"). The entry's own filename must therefore be
+        // the single source of truth for that URL everywhere it's
+        // referenced -- both here and in the <script> tag that loads it
+        // (see viewlets/webcomponents.py, which resolves it from the
+        // manifest below). Appending an ad-hoc cache-busting token to only
+        // the <script> tag's URL (e.g. "?v=...") would make the browser
+        // treat that as a *different* module than the one chunks import,
+        // fetching and re-executing the entry's top-level code twice and
+        // throwing "already defined as a custom element". Content-hashing
+        // the entry filename itself keeps both references in sync AND
+        // busts the cache on every content change, same as the chunks.
+        manifest: true,
         rollupOptions: {
             // Named as an object so the entry chunk (and its associated
             // eager CSS asset) both get a stable, predictable `[name]`
@@ -88,7 +103,7 @@ module.exports = defineConfig(({ mode, command }) => ({
             },
             output: {
                 format: "es",
-                entryFileNames: "js/[name].js",
+                entryFileNames: "js/[name]-[hash].js",
                 chunkFileNames: "js/chunks/[name]-[hash].js",
                 assetFileNames: (assetInfo) => {
                     if (assetInfo.names?.some((name) => name.endsWith(".css"))) {
