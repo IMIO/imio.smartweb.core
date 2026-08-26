@@ -17,7 +17,12 @@ window.__vite_plugin_react_preamble_installed__ = true;"></script>
             tal:attributes="src string:${view/vite_dev_url}/src/index.jsx"></script>
   </tal:dev>
   <tal:prod condition="not:view/vite_dev_url">
+    <!-- The ?v= query string busts the strongCaching (24h, no ETag) cache
+         rule applied to ++plone++ resources -- see
+         WebComponentsViewlet.bundle_version -- so each release is fetched
+         fresh instead of risking a stale entry pointing at chunk/CSS files
+         a later deploy has already deleted. -->
     <script type="module"
-            tal:attributes="src string:${portal_url}/++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js"></script>
+            tal:attributes="src string:${portal_url}/++plone++imio.smartweb.webcomponents/js/smartweb-webcomponents-compiled.js?v=${view/bundle_version}"></script>
   </tal:prod>
 </tal:block>
