@@ -1,0 +1,23 @@
+{
+  "@id": "http://localhost:8080/Plone/belleville/agenda-global",
+  "@type": "imio.events.Agenda",
+  "UID": "e73e6a81afea4a579cd0da2773af8d29",
+  "title": "Agenda global",
+  "review_state": "published",
+  "populating_agendas": [
+    {
+      "@id": "http://localhost:8080/Plone/belleville/communal",
+      "@type": "imio.events.Agenda",
+      "UID": "7067db6012454155b8508f69b9b36fa7",
+      "review_state": "published",
+      "title": "Agenda communal"
+    },
+    {
+      "@id": "http://localhost:8080/Plone/belleville/cpas",
+      "@type": "imio.events.Agenda",
+      "UID": "19c7a4e86f9b46be9ef93a038752a727",
+      "review_state": "published",
+      "title": "CPAS"
+    }
+  ]
+}

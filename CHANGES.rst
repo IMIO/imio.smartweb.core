@@ -5,7 +5,42 @@ Changelog
 1.4.59 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Make the source of a SectionEvents / SectionNews explicit: filling
+  ``specific_related_*`` used to silently override the selected agenda / news
+  folder, with nothing in the form saying so. A required ``events_source`` /
+  ``news_source`` radio now drives the choice, an invariant validates the field
+  that matters, and ``edit.js`` hides the rest. Upgrade step 1086 stamps
+  existing sections with the source they were using.
+  [boulch]
+
+- Scope the container source to its linking view: the agenda / news folder is
+  limited to the view's own plus the ones feeding it through
+  ``populating_agendas`` / ``populating_newsfolders``, since anything outside
+  gave items whose detail page came back empty. The ``<select>`` cascades on the
+  linking view through the new ``@@scoped-agendas`` / ``@@scoped-newsfolders``
+  views, and the invariant refuses what that client-side restriction cannot
+  guarantee.
+  [boulch]
+
+- Take the linking view out of the hand-picked source entirely: items come from
+  the whole entity, and both they and the "see all" link go to the control
+  panel's ``default_events_view`` / ``default_news_view``, which must therefore
+  be set or the section is refused. ``BaseNewsEndpoint`` /
+  ``BaseEventsEndpoint`` now retry a detail request carrying a ``UID`` unscoped,
+  since that view has no reason to be subscribed to the item's container.
+  [boulch]
+
+- Cache and batch the ``specific_related_*`` pickers: ``RemoteAgendas``,
+  ``RemoteNewsFolders``, ``EventsFromEntity`` and ``NewsItemsFromEntity`` had no
+  cache, so every keystroke refetched the whole entity and got every match back.
+  They now share ``RemoteContacts``' one-minute ``@ram.cache``, and
+  ``SmartwebVocabularyView`` honours the ``batch`` parameter it used to bypass.
+  Both item queries are also paged (200 at a time, 12 s each, following the
+  ``items_total`` the first page returns) instead of one unbounded request with
+  5 s to bring back the whole entity: past that, ``get_json`` returned None and
+  the editor got an empty picker. A failed page now keeps what the previous ones
+  returned. Word filtering unchanged.
+  [boulch]
 
 
 1.4.58 (2026-08-24)

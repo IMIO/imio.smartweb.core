@@ -1301,4 +1301,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Make the events/news source explicit on existing SectionEvents and SectionNews"
+      description=""
+      source="1085"
+      destination="1086"
+      handler=".upgrades.set_sections_source_from_specific_items"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

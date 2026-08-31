@@ -69,6 +69,30 @@
       />
 
   <utility
+      name="imio.smartweb.vocabulary.SectionEventsSource"
+      component=".vocabularies.SectionEventsSourceVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.SectionNewsSource"
+      component=".vocabularies.SectionNewsSourceVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.ScopedAgendas"
+      component=".vocabularies.ScopedAgendasVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
+      name="imio.smartweb.vocabulary.ScopedNewsFolders"
+      component=".vocabularies.ScopedNewsFoldersVocabulary"
+      provides="zope.schema.interfaces.IVocabularyFactory"
+      />
+
+  <utility
       name="imio.smartweb.vocabulary.RemoteAgendas"
       component=".vocabularies.RemoteAgendasVocabulary"
       provides="zope.schema.interfaces.IVocabularyFactory"

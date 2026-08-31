@@ -334,3 +334,53 @@ def add_sitemap_authentic_sources_registry(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")
     logger.info("smartweb.sitemap_authentic_sources registry record ensured.")
+
+
+def set_sections_source_from_specific_items(context):
+    """Make the events/news source explicit on existing sections.
+
+    SectionEvents and SectionNews used to switch behaviour implicitly: filling
+    ``specific_related_events`` / ``specific_related_newsitems`` silently
+    overrode the selected agenda / news folder. The source is now an explicit
+    field, so content predating it must be stamped with the source it was
+    actually using -- otherwise it reads the field default and hand-picked
+    sections would fall back to their (unused) container.
+
+    Stamping is unconditional: Dexterity returns the schema default for an
+    unset field as much as for a deliberately chosen one, so a guard could not
+    tell them apart. Both branches are logged with their counts so that an
+    editor's choice made between the deploy and this step stays traceable.
+    """
+    sections = (
+        (
+            "imio.smartweb.SectionEvents",
+            "events_source",
+            "specific_related_events",
+            "agenda",
+        ),
+        (
+            "imio.smartweb.SectionNews",
+            "news_source",
+            "specific_related_newsitems",
+            "newsfolder",
+        ),
+    )
+    for portal_type, source_field, specific_field, container_source in sections:
+        brains = api.content.find(portal_type=portal_type)
+        selection_paths = []
+        container_count = 0
+        for brain in brains:
+            obj = brain.getObject()
+            if getattr(obj, specific_field, None):
+                setattr(obj, source_field, "selection")
+                selection_paths.append(brain.getPath())
+            else:
+                setattr(obj, source_field, container_source)
+                container_count += 1
+        logger.info(
+            f"{len(brains)} {portal_type} stamped with their source: "
+            f"{len(selection_paths)} as 'selection', "
+            f"{container_count} as '{container_source}'."
+        )
+        for path in selection_paths:
+            logger.info(f"{portal_type} {path}: {source_field} = 'selection'")

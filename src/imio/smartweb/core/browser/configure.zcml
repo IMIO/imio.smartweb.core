@@ -228,4 +228,20 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="scoped-agendas"
+      for="*"
+      class=".scoped_containers.ScopedAgendasView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="scoped-newsfolders"
+      for="*"
+      class=".scoped_containers.ScopedNewsFoldersView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>

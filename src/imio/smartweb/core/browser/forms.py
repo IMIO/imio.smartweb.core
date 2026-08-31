@@ -42,7 +42,7 @@ class SectionBaseCustomEditForm(CustomEditForm):
         return self._interface(self.context, None)
 
     def _clean_specific_related_events(self, obj):
-        """WEB-4338: Clean missing (outdated) events/news/publications in field : self._field_name."""
+        """WEB-4338: Clean missing (outdated) values in ``self._field_name``."""
         values = list(getattr(obj, self._field_name, None) or [])
         if not values:
             return
@@ -50,11 +50,16 @@ class SectionBaseCustomEditForm(CustomEditForm):
         field = self.fields[self._field_name].field
         vt = field.value_type
         vocab = getVocabularyRegistry().get(self.context, vt.vocabularyName)
-        kept = []
+        if len(vocab) == 0:
+            # An empty vocabulary means "cannot tell" (the remote being down,
+            # no news folder in the entity, ...), never "every stored value is
+            # invalid". Keep everything rather than silently wiping a
+            # hand-picked selection because the edit form happened to open
+            # while the authentic source could not be queried.
+            return
         for uid in values:
             try:
                 vocab.getTerm(uid)
-                kept.append(uid)
             except LookupError:
                 getattr(obj, self._field_name, None).remove(uid)
 

@@ -11,7 +11,11 @@ from imio.smartweb.core.interfaces import IImportInProgress
 from imio.smartweb.core.interfaces import ISmartwebIcon
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
+from imio.smartweb.core.utils import get_agenda_scope
 from imio.smartweb.core.utils import get_categories
+from imio.smartweb.core.utils import get_linking_events_view
+from imio.smartweb.core.utils import get_linking_rest_view
+from imio.smartweb.core.utils import get_newsfolder_scope
 from imio.smartweb.core.utils import get_iadeliberation_url_from_registry
 from imio.smartweb.core.utils import get_ts_api_url
 from imio.smartweb.core.utils import get_value_from_registry
@@ -222,6 +226,32 @@ class SubsiteDisplayModeVocabularyFactory:
 SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()
 
 
+class SectionEventsSourceVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("agenda", _("All the events of an agenda")),
+            ("selection", _("Only the events I choose myself")),
+        ]
+        terms = [SimpleTerm(value=v[0], token=v[0], title=v[1]) for v in values]
+        return SimpleVocabulary(terms)
+
+
+SectionEventsSourceVocabulary = SectionEventsSourceVocabularyFactory()
+
+
+class SectionNewsSourceVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("newsfolder", _("All the news items of a news folder")),
+            ("selection", _("Only the news items I choose myself")),
+        ]
+        terms = [SimpleTerm(value=v[0], token=v[0], title=v[1]) for v in values]
+        return SimpleVocabulary(terms)
+
+
+SectionNewsSourceVocabulary = SectionNewsSourceVocabularyFactory()
+
+
 class PermissiveVocabulary(SimpleVocabulary):
     """Vocabulary that accepts any value — used during content import to bypass
     remote vocabulary validation when the remote service is unavailable or not
@@ -320,7 +350,14 @@ def content_container_vocabulary(entity_uid, portal_type, base_url):
     """Gets containers of events / news"""
     url = "{}/@search?UID={}".format(base_url, entity_uid)
     entity_json = get_json(url)
-    entity_url = entity_json.get("items")[0].get("@id")
+    # An unreachable authentic source, or an entity uid that resolves to
+    # nothing, used to raise here (AttributeError on None, IndexError on an
+    # empty listing) and surface as a server error on the edit form. Degrade
+    # like the containers listing below already does.
+    items = (entity_json or {}).get("items") or []
+    if not items:
+        return SimpleVocabulary([])
+    entity_url = items[0].get("@id")
     params = [
         "portal_type={}".format(portal_type),
         "sort_on=sortable_title",
@@ -340,25 +377,124 @@ def content_container_vocabulary(entity_uid, portal_type, base_url):
 
 
 class RemoteAgendasVocabularyFactory:
-    def __call__(self, context=None):
+
+    # Two remote requests, and this is on the hot path: every keystroke in the
+    # events picker rebuilds it (browser/vocabulary.py). Same one-minute window
+    # as RemoteContacts -- an agenda added in the authentic source shows up
+    # within the minute.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         entity_uid = api.portal.get_registry_record("smartweb.events_entity_uid")
         return content_container_vocabulary(
             entity_uid, "imio.events.Agenda", EVENTS_URL
         )
+
+    def __call__(self, context=None):
+        return self._fetch(context)
 
 
 RemoteAgendasVocabulary = RemoteAgendasVocabularyFactory()
 
 
 class RemoteNewsFoldersVocabularyFactory:
-    def __call__(self, context=None):
+
+    # See RemoteAgendasVocabularyFactory for the caching rationale.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
         return content_container_vocabulary(
             entity_uid, "imio.news.NewsFolder", NEWS_URL
         )
 
+    def __call__(self, context=None):
+        return self._fetch(context)
+
 
 RemoteNewsFoldersVocabulary = RemoteNewsFoldersVocabularyFactory()
+
+
+def paginated_search_items(base_url, endpoint, params, page_size=200, timeout=12):
+    """Every item of a remote ``@search``, fetched one page at a time.
+
+    A single unbounded request has to survive the whole payload within
+    ``get_json``'s timeout; past it ``get_json`` returns None and the caller
+    builds an empty vocabulary, so a slow authentic source shows the editor an
+    empty picker. Paging keeps each request small and, when one fails, keeps
+    what the previous ones returned -- the same trade the sitemap sources make.
+
+    ``items_total`` comes free with the first page, so no separate count query
+    is needed to know when to stop.
+    """
+    items = []
+    b_start = 0
+    while True:
+        page_params = params + [f"b_start={b_start}", f"b_size={page_size}"]
+        url = "{}/{}?{}".format(base_url, endpoint, "&".join(page_params))
+        data = get_json(url, None, timeout)
+        if data is None:
+            # keep what we have: a partial picker beats an empty one
+            break
+        page = data.get("items") or []
+        items.extend(page)
+        b_start += len(page)
+        if not page or b_start >= data.get("items_total", len(items)):
+            break
+    return items
+
+
+class ScopedAgendasVocabularyFactory:
+    """Agendas the section's linking view is able to display.
+
+    An EventsView shows one ``selected_agenda``, and the authentic source makes
+    that agenda also serve the events of the agendas populating it. Restricting
+    the choice to that scope is what prevents a section from listing events
+    whose detail page would come back empty.
+    """
+
+    def __call__(self, context=None):
+        if IImportInProgress.providedBy(getRequest()):
+            # collective.exportimport strips every relation field from the item
+            # it deserializes and restores relations only at the end of the
+            # import, so linking_rest_view is unresolvable while related_events
+            # is being validated. Scoping would then reject every agenda and
+            # plone.restapi would drop the whole section.
+            return PermissiveVocabulary([])
+        events_view = get_linking_events_view(context)
+        scope = get_agenda_scope(getattr(events_view, "selected_agenda", None))
+        terms = [SimpleTerm(value=uid, token=uid, title=title) for uid, title in scope]
+        # Keep a stored-but-out-of-scope value selectable, so the edit form of a
+        # misconfigured section still renders. The invariant refuses to save it.
+        stored = getattr(context, "related_events", None)
+        if stored and stored not in [term.value for term in terms]:
+            terms.append(SimpleTerm(value=stored, token=stored, title=stored))
+        return SimpleVocabulary(terms)
+
+
+ScopedAgendasVocabulary = ScopedAgendasVocabularyFactory()
+
+
+class ScopedNewsFoldersVocabularyFactory:
+    """News folders the section's linking view is able to display.
+
+    The mirror of ``ScopedAgendasVocabularyFactory``.
+    """
+
+    def __call__(self, context=None):
+        if IImportInProgress.providedBy(getRequest()):
+            # See ScopedAgendasVocabularyFactory.
+            return PermissiveVocabulary([])
+        news_view = get_linking_rest_view(context, "imio.smartweb.NewsView")
+        scope = get_newsfolder_scope(getattr(news_view, "selected_news_folder", None))
+        terms = [SimpleTerm(value=uid, token=uid, title=title) for uid, title in scope]
+        # Keep a stored-but-out-of-scope value selectable, so the edit form of a
+        # misconfigured section still renders. The invariant refuses to save it.
+        stored = getattr(context, "related_news", None)
+        if stored and stored not in [term.value for term in terms]:
+            terms.append(SimpleTerm(value=stored, token=stored, title=stored))
+        return SimpleVocabulary(terms)
+
+
+ScopedNewsFoldersVocabulary = ScopedNewsFoldersVocabularyFactory()
 
 
 class AlignmentVocabularyFactory:
@@ -582,7 +718,19 @@ EventsTypesVocabulary = EventsTypesVocabularyFactory()
 
 
 class EventsFromEntityVocabularyFactory:
-    def __call__(self, context=None):
+    """Every published upcoming event of the site's entity.
+
+    Deliberately NOT scoped to the section's linking view, unlike
+    ``ScopedAgendasVocabulary``: hand-picking an event is how an editor puts one
+    forward, whatever agenda it sits in. The section links such an event to the
+    site's default events view instead (see ``SectionEvents`` view).
+    """
+
+    # The whole entity in one unbounded query, rebuilt on every keystroke of
+    # the picker before browser/vocabulary.py filters it in Python. Cached for a
+    # minute, like RemoteContacts, which is what keeps that affordable.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         remote_agendas_vocabulary = get_vocabulary(
             "imio.smartweb.vocabulary.RemoteAgendas"
         )
@@ -604,26 +752,31 @@ class EventsFromEntityVocabularyFactory:
             "metadata_fields=UID",
             f"event_dates.query={today}",
             "event_dates.range=min",
-            "b_size=1000000",
         ]
         # Keep default @search endpoint. Don't use @events endpoint.
-        url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
-        json_events = get_json(url)
-        if json_events is None or len(json_events.get("items", [])) == 0:
-            return SimpleVocabulary([])
+        items = paginated_search_items(EVENTS_URL, "@search", params)
         return SimpleVocabulary(
-            [
-                SimpleTerm(value=elem["UID"], title=elem["breadcrumb"])
-                for elem in json_events.get("items")
-            ]
+            [SimpleTerm(value=elem["UID"], title=elem["breadcrumb"]) for elem in items]
         )
+
+    def __call__(self, context=None):
+        return self._fetch(context)
 
 
 EventsFromEntityVocabulary = EventsFromEntityVocabularyFactory()
 
 
 class NewsItemsFromEntityVocabularyFactory:
-    def __call__(self, context=None):
+    """Every published news item of the site's entity.
+
+    The mirror of ``EventsFromEntityVocabularyFactory``: deliberately unscoped,
+    because hand-picking a news item is how an editor puts one forward whatever
+    folder it sits in.
+    """
+
+    # See EventsFromEntityVocabularyFactory for the caching rationale.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         remote_newsfolders_vocabulary = get_vocabulary(
             "imio.smartweb.vocabulary.RemoteNewsFolders"
         )
@@ -641,18 +794,14 @@ class NewsItemsFromEntityVocabularyFactory:
             "metadata_fields=has_leadimage",
             "metadata_fields=breadcrumb",
             "metadata_fields=UID",
-            "b_size=1000000",
         ]
-        url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
-        json_newsitems = get_json(url)
-        if json_newsitems is None or len(json_newsitems.get("items", [])) == 0:
-            return SimpleVocabulary([])
+        items = paginated_search_items(NEWS_URL, "@search", params)
         return SimpleVocabulary(
-            [
-                SimpleTerm(value=elem["UID"], title=elem["breadcrumb"])
-                for elem in json_newsitems.get("items")
-            ]
+            [SimpleTerm(value=elem["UID"], title=elem["breadcrumb"]) for elem in items]
         )
+
+    def __call__(self, context=None):
+        return self._fetch(context)
 
 
 NewsItemsFromEntityVocabulary = NewsItemsFromEntityVocabularyFactory()

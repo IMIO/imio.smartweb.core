@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from imio.smartweb.core import config
+from imio.smartweb.core.tests.utils import clear_ram_cache
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.contenttypes.testing import PLONE_APP_CONTENTTYPES_FIXTURE
@@ -36,6 +37,12 @@ class ImioSmartwebCoreLayer(PloneSandboxLayer):
 
         self.loadZCML(package=plone.restapi)
         self.loadZCML(package=imio.smartweb.core, name="testing.zcml")
+
+    def testSetUp(self):
+        # The remote vocabularies are memoized in the *global* RAM cache for a
+        # minute, which would otherwise leak between tests: one test's mocked
+        # answer served to the next, and which one wins depending on run order.
+        clear_ram_cache()
 
     @requests_mock.Mocker()
     def setUpPloneSite(self, portal, m):

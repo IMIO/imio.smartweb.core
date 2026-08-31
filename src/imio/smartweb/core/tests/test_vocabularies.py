@@ -3,12 +3,23 @@
 from freezegun import freeze_time
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core import config
+from imio.smartweb.core.vocabularies import paginated_search_items
+from imio.smartweb.core.interfaces import IImportInProgress
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
+from imio.smartweb.core.tests.utils import mock_agenda_scope
+from imio.smartweb.core.tests.utils import mock_newsfolder_scope
 from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from unittest.mock import patch
+from z3c.relationfield import RelationValue
 from zope.component import getUtility
+from zope.globalrequest import getRequest
+from zope.interface import alsoProvides
+from zope.interface import noLongerProvides
+from zope.intid.interfaces import IIntIds
 from zope.schema.interfaces import IVocabularyFactory
 
 import json
@@ -17,6 +28,83 @@ import requests
 import requests_mock
 
 GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
+
+
+class TestPaginatedSearchItems(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+
+    def _page(self, start, count, total):
+        return json.dumps(
+            {
+                "items": [
+                    {"UID": f"uid-{i}", "breadcrumb": f"Item {i}"}
+                    for i in range(start, start + count)
+                ],
+                "items_total": total,
+            }
+        )
+
+    @requests_mock.Mocker()
+    def test_follows_items_total_across_pages(self, m):
+        # items_total comes free with the first page, so no separate count query
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            text=self._page(0, 200, 250),
+            complete_qs=True,
+        )
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=200&b_size=200",
+            text=self._page(200, 50, 250),
+            complete_qs=True,
+        )
+        items = paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"])
+        self.assertEqual(len(items), 250)
+        self.assertEqual(items[0]["UID"], "uid-0")
+        self.assertEqual(items[-1]["UID"], "uid-249")
+
+    @requests_mock.Mocker()
+    def test_keeps_partial_results_when_a_page_fails(self, m):
+        # a slow authentic source used to yield an empty picker: one unbounded
+        # request timed out, get_json returned None and the vocabulary was empty
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            text=self._page(0, 200, 500),
+            complete_qs=True,
+        )
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=200&b_size=200",
+            status_code=503,
+            complete_qs=True,
+        )
+        items = paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"])
+        self.assertEqual(len(items), 200)
+
+    @requests_mock.Mocker()
+    def test_stops_on_a_single_short_page(self, m):
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            text=self._page(0, 3, 3),
+            complete_qs=True,
+        )
+        self.assertEqual(
+            len(paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"])),
+            3,
+        )
+
+    @requests_mock.Mocker()
+    def test_returns_nothing_when_the_first_page_fails(self, m):
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            status_code=503,
+            complete_qs=True,
+        )
+        self.assertEqual(
+            paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"]), []
+        )
 
 
 class TestVocabularies(ImioSmartwebTestCase):
@@ -105,6 +193,12 @@ class TestVocabularies(ImioSmartwebTestCase):
     def test_subsite_display_mode(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SubsiteDisplayMode", 3)
 
+    def test_section_events_source(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.SectionEventsSource", 2)
+
+    def test_section_news_source(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.SectionNewsSource", 2)
+
     def test_contact_blocks(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ContactBlocks", 10)
 
@@ -147,6 +241,27 @@ class TestVocabularies(ImioSmartwebTestCase):
             vocabulary.getTerm("64f4cbee9a394a018a951f6d94452914").title,
             "Agenda administration de Belleville",
         )
+
+    @requests_mock.Mocker()
+    def test_remote_agendas_when_the_entity_lookup_fails(self, m):
+        # get_json() answers None on a timeout or a non-200, and the entity
+        # lookup used to be dereferenced without checking: an unreachable
+        # authentic source surfaced as an AttributeError on the edit form
+        # instead of an empty dropdown.
+        m.get(
+            f"{config.EVENTS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee31",
+            status_code=503,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteAgendas", 0)
+
+    @requests_mock.Mocker()
+    def test_remote_news_folders_when_the_entity_is_not_found(self, m):
+        # an entity uid resolving to nothing used to raise IndexError
+        m.get(
+            f"{config.NEWS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee32",
+            text=json.dumps({"items": [], "items_total": 0}),
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteNewsFolders", 0)
 
     @requests_mock.Mocker()
     def test_remote_news_empty_entity(self, m):
@@ -277,7 +392,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         json_agendas_raw_mock = get_json("resources/json_events_agendas_raw_mock.json")
         url = f"{config.EVENTS_URL}/imio-events-entity/@search?portal_type=imio.events.Agenda&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
         m.get(url, text=json.dumps(json_agendas_raw_mock))
-        url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&b_size=1000000"
+        url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min"
         json_rest_events = get_json("resources/json_rest_events_with_breadcrumbs.json")
         m.get(url, text=json.dumps(json_rest_events))
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.EventsFromEntity")
@@ -296,7 +411,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         )
         url = f"{config.NEWS_URL}/imio-news-entity/@search?portal_type=imio.news.NewsFolder&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
         m.get(url, text=json.dumps(json_newsfolders_raw_mock))
-        url = f"{config.NEWS_URL}/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&selected_news_folders=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&b_size=1000000"
+        url = f"{config.NEWS_URL}/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&selected_news_folders=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID"
         json_rest_news = get_json("resources/json_rest_news.json")
         m.get(url, text=json.dumps(json_rest_news))
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.NewsItemsFromEntity")
@@ -384,3 +499,107 @@ class TestVocabularies(ImioSmartwebTestCase):
             vocab.getTerm(uid).title,
             "Autorisation de déroger temporairement aux normes de bruit - Fête de la Musique 2023",
         )
+
+    @requests_mock.Mocker()
+    def test_scoped_agendas(self, m):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        agenda_uid = "aaaa0000aaaa0000aaaa0000aaaa0001"
+        mock_agenda_scope(
+            m,
+            agenda_uid,
+            populating=[("7067db6012454155b8508f69b9b36fa7", "Agenda communal")],
+        )
+        events_view = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            title="Vue agenda",
+        )
+        events_view.selected_agenda = agenda_uid
+        page = api.content.create(
+            container=self.portal, type="imio.smartweb.PortalPage", id="p"
+        )
+        section = api.content.create(
+            container=page, type="imio.smartweb.SectionEvents", title="S"
+        )
+        intids = getUtility(IIntIds)
+        section.linking_rest_view = RelationValue(intids.getId(events_view))
+
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedAgendas"
+        )
+        terms = factory(section)
+        self.assertEqual(
+            [t.value for t in terms],
+            [agenda_uid, "7067db6012454155b8508f69b9b36fa7"],
+        )
+
+        # a stored value outside the scope must still be offered, otherwise the
+        # edit form of a misconfigured section cannot even be rendered
+        section.related_events = "ffff0000ffff0000ffff0000ffff0000"
+        terms = factory(section)
+        self.assertIn("ffff0000ffff0000ffff0000ffff0000", [t.value for t in terms])
+
+    def test_scoped_agendas_without_linking_view(self):
+        # on ++add++ the context is the container: no view, no agendas
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedAgendas"
+        )
+        self.assertEqual(len(factory(self.portal)), 0)
+
+    @requests_mock.Mocker()
+    def test_scoped_newsfolders(self, m):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        folder_uid = "dddd0000dddd0000dddd0000dddd0010"
+        mock_newsfolder_scope(m, folder_uid, populating=[("cpas-folder", "CPAS")])
+        news_view = api.content.create(
+            container=self.portal, type="imio.smartweb.NewsView", title="Vue actus"
+        )
+        news_view.selected_news_folder = folder_uid
+        page = api.content.create(
+            container=self.portal, type="imio.smartweb.PortalPage", id="pnf"
+        )
+        section = api.content.create(
+            container=page, type="imio.smartweb.SectionNews", title="S"
+        )
+        intids = getUtility(IIntIds)
+        section.linking_rest_view = RelationValue(intids.getId(news_view))
+
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedNewsFolders"
+        )
+        self.assertEqual(
+            [t.value for t in factory(section)], [folder_uid, "cpas-folder"]
+        )
+
+        # a stored value outside the scope must stay selectable, otherwise the
+        # edit form of a misconfigured section cannot even be rendered
+        section.related_news = "ffff0000ffff0000ffff0000ffff0000"
+        self.assertIn(
+            "ffff0000ffff0000ffff0000ffff0000", [t.value for t in factory(section)]
+        )
+
+    def test_scoped_newsfolders_without_linking_view(self):
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedNewsFolders"
+        )
+        self.assertEqual(len(factory(self.portal)), 0)
+
+    def test_scoped_vocabularies_accept_anything_during_an_import(self):
+        # collective.exportimport strips every relation field from the item it
+        # deserializes and restores relations only at the end of the import, so
+        # linking_rest_view is unresolvable while related_events / related_news
+        # are being validated. Scoping them would reject every value and
+        # plone.restapi would drop the whole section.
+        request = getRequest()
+        alsoProvides(request, IImportInProgress)
+        self.addCleanup(noLongerProvides, request, IImportInProgress)
+        for name in (
+            "imio.smartweb.vocabulary.ScopedAgendas",
+            "imio.smartweb.vocabulary.ScopedNewsFolders",
+        ):
+            factory = getUtility(IVocabularyFactory, name)
+            vocabulary = factory(self.portal)
+            self.assertIn("any-imported-uid", vocabulary)
+            self.assertEqual(
+                vocabulary.getTerm("any-imported-uid").value, "any-imported-uid"
+            )

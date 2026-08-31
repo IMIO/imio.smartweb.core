@@ -4,6 +4,7 @@ from datetime import date
 from dateutil.parser import parse
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import EVENTS_URL
+from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
 from imio.smartweb.core.utils import batch_results
@@ -27,12 +28,14 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
     def items(self):
         today = date.today().isoformat()
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
-        selected_item = f"selected_agendas={self.context.related_events}"
         specific_related_events = self.context.specific_related_events
-        if specific_related_events:
+        use_selection = self.use_selection
+        if use_selection:
             selected_item = "&".join(
                 [f"UID={event_uid}" for event_uid in specific_related_events]
             )
+        else:
+            selected_item = f"selected_agendas={self.context.related_events}"
         modified_hash = hash_md5(str(self.context.modification_date))
         params = [
             selected_item,
@@ -54,7 +57,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
             params.append("translated_in_{}=1".format(current_lang))
-        if not specific_related_events:
+        if not use_selection:
             params += [
                 "sort_on=event_dates",
             ]
@@ -66,7 +69,7 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:
             return []
-        linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
+        linking_view_url = self.item_view_url
         image_scale = self.image_scale
         orientation = self.context.orientation
         items = self.json_data.get("items")[:max_items]
@@ -114,15 +117,55 @@ class EventsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "image": f"{item_url}/@@images/image/{orientation}_{image_scale}?cache_key={modified_hash}",
             }
             results.append(dict_item)
-        if specific_related_events:
+        if use_selection:
             results = sorted(
                 results, key=lambda x: specific_related_events.index(x["uid"])
             )
         return batch_results(results, self.context.nb_results_by_batch)
 
     @property
+    def use_selection(self):
+        """Whether this section lists hand-picked items rather than an agenda.
+
+        ``events_source`` is what decides, not the mere presence of values in
+        ``specific_related_events``: both fields keep their value when the
+        editor switches source, so switching back must restore the agenda.
+        """
+        return self.context.events_source == "selection" and bool(
+            self.context.specific_related_events
+        )
+
+    @property
+    def linking_view_url(self):
+        """The view this section's agenda belongs to, "" when unset.
+
+        ``linking_rest_view`` is optional now (a hand-picked section has no use
+        for one), so it can legitimately be None.
+        """
+        rest_view = getattr(self.context.linking_rest_view, "to_object", None)
+        return rest_view is not None and rest_view.absolute_url() or ""
+
+    @property
+    def item_view_url(self):
+        """Where the items of this section link to.
+
+        A hand-picked event comes from anywhere in the entity, so
+        ``linking_rest_view`` plays no part: it links to the site's default
+        events view, and ``BaseEventsEndpoint`` retries an unscoped lookup by
+        UID so the detail page resolves even when that view shows another
+        agenda, another event type or another date range. The invariant refuses
+        to save such a section while the control panel has no default events
+        view, so "" here means it was emptied after.
+        """
+        if self.use_selection:
+            return get_default_view_url("events")
+        return self.linking_view_url
+
+    @property
     def see_all_url(self):
-        return self.context.linking_rest_view.to_object.absolute_url()
+        # a hand-picked section has no linking view: its "see all" belongs to
+        # the same default view its items link to
+        return self.item_view_url
 
     def is_multi_dates(self, start, end):
         return start and end and start.date() != end.date()
