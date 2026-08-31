@@ -227,6 +227,27 @@ class TestVocabularies(ImioSmartwebTestCase):
         )
 
     @requests_mock.Mocker()
+    def test_remote_agendas_when_the_entity_lookup_fails(self, m):
+        # get_json() answers None on a timeout or a non-200, and the entity
+        # lookup used to be dereferenced without checking: an unreachable
+        # authentic source surfaced as an AttributeError on the edit form
+        # instead of an empty dropdown.
+        m.get(
+            f"{config.EVENTS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee31",
+            status_code=503,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteAgendas", 0)
+
+    @requests_mock.Mocker()
+    def test_remote_news_folders_when_the_entity_is_not_found(self, m):
+        # an entity uid resolving to nothing used to raise IndexError
+        m.get(
+            f"{config.NEWS_URL}/@search?UID=7c69f9a738ec497c819725c55888ee32",
+            text=json.dumps({"items": [], "items_total": 0}),
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteNewsFolders", 0)
+
+    @requests_mock.Mocker()
     def test_remote_news_empty_entity(self, m):
         # mock "control panel" to set entity
         url = "http://localhost:8080/Plone/@search?metadata_fields=UID&portal_type=imio.news.Entity"

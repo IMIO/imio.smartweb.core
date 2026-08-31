@@ -5,6 +5,14 @@ Changelog
 1.4.59 (unreleased)
 -------------------
 
+
+- Guard the entity lookup of ``content_container_vocabulary``: an unreachable
+  authentic source, or an entity uid resolving to nothing, dereferenced a
+  ``None`` (AttributeError) or an empty listing (IndexError) and surfaced as a
+  server error on the edit form of a NewsView / EventsView, instead of the empty
+  dropdown its second request already degraded to.
+  [boulch]
+
 - Cache and batch the ``specific_related_*`` pickers: ``RemoteAgendas``,
   ``RemoteNewsFolders``, ``EventsFromEntity`` and ``NewsItemsFromEntity`` had no
   cache, so every keystroke refetched the whole entity and got every match back.

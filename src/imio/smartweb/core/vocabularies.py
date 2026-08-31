@@ -320,7 +320,14 @@ def content_container_vocabulary(entity_uid, portal_type, base_url):
     """Gets containers of events / news"""
     url = "{}/@search?UID={}".format(base_url, entity_uid)
     entity_json = get_json(url)
-    entity_url = entity_json.get("items")[0].get("@id")
+    # An unreachable authentic source, or an entity uid that resolves to
+    # nothing, used to raise here (AttributeError on None, IndexError on an
+    # empty listing) and surface as a server error on the edit form. Degrade
+    # like the containers listing below already does.
+    items = (entity_json or {}).get("items") or []
+    if not items:
+        return SimpleVocabulary([])
+    entity_url = items[0].get("@id")
     params = [
         "portal_type={}".format(portal_type),
         "sort_on=sortable_title",
