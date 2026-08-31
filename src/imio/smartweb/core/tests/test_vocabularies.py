@@ -3,6 +3,7 @@
 from freezegun import freeze_time
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core import config
+from imio.smartweb.core.vocabularies import paginated_search_items
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
@@ -17,6 +18,83 @@ import requests
 import requests_mock
 
 GUICHET_URL = "https://demo.guichet-citoyen.be/api/formdefs/"
+
+
+class TestPaginatedSearchItems(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+
+    def _page(self, start, count, total):
+        return json.dumps(
+            {
+                "items": [
+                    {"UID": f"uid-{i}", "breadcrumb": f"Item {i}"}
+                    for i in range(start, start + count)
+                ],
+                "items_total": total,
+            }
+        )
+
+    @requests_mock.Mocker()
+    def test_follows_items_total_across_pages(self, m):
+        # items_total comes free with the first page, so no separate count query
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            text=self._page(0, 200, 250),
+            complete_qs=True,
+        )
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=200&b_size=200",
+            text=self._page(200, 50, 250),
+            complete_qs=True,
+        )
+        items = paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"])
+        self.assertEqual(len(items), 250)
+        self.assertEqual(items[0]["UID"], "uid-0")
+        self.assertEqual(items[-1]["UID"], "uid-249")
+
+    @requests_mock.Mocker()
+    def test_keeps_partial_results_when_a_page_fails(self, m):
+        # a slow authentic source used to yield an empty picker: one unbounded
+        # request timed out, get_json returned None and the vocabulary was empty
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            text=self._page(0, 200, 500),
+            complete_qs=True,
+        )
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=200&b_size=200",
+            status_code=503,
+            complete_qs=True,
+        )
+        items = paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"])
+        self.assertEqual(len(items), 200)
+
+    @requests_mock.Mocker()
+    def test_stops_on_a_single_short_page(self, m):
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            text=self._page(0, 3, 3),
+            complete_qs=True,
+        )
+        self.assertEqual(
+            len(paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"])),
+            3,
+        )
+
+    @requests_mock.Mocker()
+    def test_returns_nothing_when_the_first_page_fails(self, m):
+        m.get(
+            f"{config.NEWS_URL}/@search?portal_type=x&b_start=0&b_size=200",
+            status_code=503,
+            complete_qs=True,
+        )
+        self.assertEqual(
+            paginated_search_items(config.NEWS_URL, "@search", ["portal_type=x"]), []
+        )
 
 
 class TestVocabularies(ImioSmartwebTestCase):
@@ -277,7 +355,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         json_agendas_raw_mock = get_json("resources/json_events_agendas_raw_mock.json")
         url = f"{config.EVENTS_URL}/imio-events-entity/@search?portal_type=imio.events.Agenda&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
         m.get(url, text=json.dumps(json_agendas_raw_mock))
-        url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min&b_size=1000000"
+        url = f"{config.EVENTS_URL}/@search?selected_agendas=64f4cbee9a394a018a951f6d94452914&selected_agendas=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.events.Event&metadata_fields=category_title&metadata_fields=topics&metadata_fields=start&metadata_fields=end&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&event_dates.query=2021-11-15&event_dates.range=min"
         json_rest_events = get_json("resources/json_rest_events_with_breadcrumbs.json")
         m.get(url, text=json.dumps(json_rest_events))
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.EventsFromEntity")
@@ -296,7 +374,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         )
         url = f"{config.NEWS_URL}/imio-news-entity/@search?portal_type=imio.news.NewsFolder&sort_on=sortable_title&b_size=1000000&metadata_fields=UID"
         m.get(url, text=json.dumps(json_newsfolders_raw_mock))
-        url = f"{config.NEWS_URL}/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&selected_news_folders=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID&b_size=1000000"
+        url = f"{config.NEWS_URL}/@search?selected_news_folders=64f4cbee9a394a018a951f6d94452914&selected_news_folders=96d3e3299dc74386943e12c4f4fd0b8a&portal_type=imio.news.NewsItem&metadata_fields=category_title&metadata_fields=topics&metadata_fields=has_leadimage&metadata_fields=breadcrumb&metadata_fields=UID"
         json_rest_news = get_json("resources/json_rest_news.json")
         m.get(url, text=json.dumps(json_rest_news))
         vocabulary = get_vocabulary("imio.smartweb.vocabulary.NewsItemsFromEntity")

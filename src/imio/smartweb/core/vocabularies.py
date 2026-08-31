@@ -340,25 +340,69 @@ def content_container_vocabulary(entity_uid, portal_type, base_url):
 
 
 class RemoteAgendasVocabularyFactory:
-    def __call__(self, context=None):
+
+    # Two remote requests, and this is on the hot path: every keystroke in the
+    # events picker rebuilds it (browser/vocabulary.py). Same one-minute window
+    # as RemoteContacts -- an agenda added in the authentic source shows up
+    # within the minute.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         entity_uid = api.portal.get_registry_record("smartweb.events_entity_uid")
         return content_container_vocabulary(
             entity_uid, "imio.events.Agenda", EVENTS_URL
         )
+
+    def __call__(self, context=None):
+        return self._fetch(context)
 
 
 RemoteAgendasVocabulary = RemoteAgendasVocabularyFactory()
 
 
 class RemoteNewsFoldersVocabularyFactory:
-    def __call__(self, context=None):
+
+    # See RemoteAgendasVocabularyFactory for the caching rationale.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
         return content_container_vocabulary(
             entity_uid, "imio.news.NewsFolder", NEWS_URL
         )
 
+    def __call__(self, context=None):
+        return self._fetch(context)
+
 
 RemoteNewsFoldersVocabulary = RemoteNewsFoldersVocabularyFactory()
+
+
+def paginated_search_items(base_url, endpoint, params, page_size=200, timeout=12):
+    """Every item of a remote ``@search``, fetched one page at a time.
+
+    A single unbounded request has to survive the whole payload within
+    ``get_json``'s timeout; past it ``get_json`` returns None and the caller
+    builds an empty vocabulary, so a slow authentic source shows the editor an
+    empty picker. Paging keeps each request small and, when one fails, keeps
+    what the previous ones returned -- the same trade the sitemap sources make.
+
+    ``items_total`` comes free with the first page, so no separate count query
+    is needed to know when to stop.
+    """
+    items = []
+    b_start = 0
+    while True:
+        page_params = params + [f"b_start={b_start}", f"b_size={page_size}"]
+        url = "{}/{}?{}".format(base_url, endpoint, "&".join(page_params))
+        data = get_json(url, None, timeout)
+        if data is None:
+            # keep what we have: a partial picker beats an empty one
+            break
+        page = data.get("items") or []
+        items.extend(page)
+        b_start += len(page)
+        if not page or b_start >= data.get("items_total", len(items)):
+            break
+    return items
 
 
 class AlignmentVocabularyFactory:
@@ -582,7 +626,19 @@ EventsTypesVocabulary = EventsTypesVocabularyFactory()
 
 
 class EventsFromEntityVocabularyFactory:
-    def __call__(self, context=None):
+    """Every published upcoming event of the site's entity.
+
+    Deliberately NOT scoped to the section's linking view, unlike
+    ``ScopedAgendasVocabulary``: hand-picking an event is how an editor puts one
+    forward, whatever agenda it sits in. The section links such an event to the
+    site's default events view instead (see ``SectionEvents`` view).
+    """
+
+    # The whole entity in one unbounded query, rebuilt on every keystroke of
+    # the picker before browser/vocabulary.py filters it in Python. Cached for a
+    # minute, like RemoteContacts, which is what keeps that affordable.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         remote_agendas_vocabulary = get_vocabulary(
             "imio.smartweb.vocabulary.RemoteAgendas"
         )
@@ -618,12 +674,24 @@ class EventsFromEntityVocabularyFactory:
             ]
         )
 
+    def __call__(self, context=None):
+        return self._fetch(context)
+
 
 EventsFromEntityVocabulary = EventsFromEntityVocabularyFactory()
 
 
 class NewsItemsFromEntityVocabularyFactory:
-    def __call__(self, context=None):
+    """Every published news item of the site's entity.
+
+    The mirror of ``EventsFromEntityVocabularyFactory``: deliberately unscoped,
+    because hand-picking a news item is how an editor puts one forward whatever
+    folder it sits in.
+    """
+
+    # See EventsFromEntityVocabularyFactory for the caching rationale.
+    @ram.cache(lambda *args: time() // (60))
+    def _fetch(self, context=None):
         remote_newsfolders_vocabulary = get_vocabulary(
             "imio.smartweb.vocabulary.RemoteNewsFolders"
         )
@@ -641,18 +709,14 @@ class NewsItemsFromEntityVocabularyFactory:
             "metadata_fields=has_leadimage",
             "metadata_fields=breadcrumb",
             "metadata_fields=UID",
-            "b_size=1000000",
         ]
-        url = "{}/@search?{}".format(NEWS_URL, "&".join(params))
-        json_newsitems = get_json(url)
-        if json_newsitems is None or len(json_newsitems.get("items", [])) == 0:
-            return SimpleVocabulary([])
+        items = paginated_search_items(NEWS_URL, "@search", params)
         return SimpleVocabulary(
-            [
-                SimpleTerm(value=elem["UID"], title=elem["breadcrumb"])
-                for elem in json_newsitems.get("items")
-            ]
+            [SimpleTerm(value=elem["UID"], title=elem["breadcrumb"]) for elem in items]
         )
+
+    def __call__(self, context=None):
+        return self._fetch(context)
 
 
 NewsItemsFromEntityVocabulary = NewsItemsFromEntityVocabularyFactory()
