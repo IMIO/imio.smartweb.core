@@ -11,6 +11,24 @@ from zope.i18n import translate
 from zope.interface import implementer
 
 
+def carries_fields(data, *names):
+    """Whether the data being validated actually carries these fields.
+
+    ``plone.z3cform`` validates a schema's invariants once per fieldset group,
+    and each pass only carries the fields of its own group -- anything else
+    falls back to the context, so a pass triggered by the "layout" fieldset
+    would judge the stored object instead of what the editor just submitted.
+
+    ``_Data_data___`` is ``z3c.form.validator.Data``'s raw submission dict.
+    Anything that is not such a wrapper (a plain object in a unit test) is
+    validated as-is.
+    """
+    raw = getattr(data, "_Data_data___", None)
+    if raw is None:
+        return True
+    return all(name in raw for name in names)
+
+
 class ISection(model.Schema):
     """Shared base marker interface and schema for Sections"""
 

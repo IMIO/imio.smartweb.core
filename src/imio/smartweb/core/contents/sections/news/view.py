@@ -2,6 +2,7 @@
 
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.config import NEWS_URL
+from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
 from imio.smartweb.core.contents.sections.views import CarouselOrTableSectionView
 from imio.smartweb.core.contents.sections.views import HashableJsonSectionView
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -34,27 +35,29 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
     def items(self):
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
         max_items = self.context.nb_results_by_batch * self.context.max_nb_batches
-        # Fallback if news folder is breaked (removed from auth source)
-        uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
-        selected_item = f"selected_news_folders={self.context.related_news}"
-        if self.context.related_news not in uids:
-            item = next(
-                (k for k, v in data.items() if "administration" in v.lower()),
-                uids[0] if uids else None,
-            )
-            selected_item = f"selected_news_folders={item}" if item else ""
-            current_lang = api.portal.get_current_language()[:2]
-            self._issue = translate(
-                _(
-                    "Warning: Deleted news folder. We get random news folder for this section"
-                ),
-                target_language=current_lang,
-            )
         specific_related_newsitems = self.context.specific_related_newsitems
-        if specific_related_newsitems:
+        use_selection = self.use_selection
+        if use_selection:
             selected_item = "&".join(
                 [f"UID={newsitem_uid}" for newsitem_uid in specific_related_newsitems]
             )
+        else:
+            # Fallback if news folder is breaked (removed from auth source)
+            uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
+            selected_item = f"selected_news_folders={self.context.related_news}"
+            if self.context.related_news not in uids:
+                item = next(
+                    (k for k, v in data.items() if "administration" in v.lower()),
+                    uids[0] if uids else None,
+                )
+                selected_item = f"selected_news_folders={item}" if item else ""
+                current_lang = api.portal.get_current_language()[:2]
+                self._issue = translate(
+                    _(
+                        "Warning: Deleted news folder. We get random news folder for this section"
+                    ),
+                    target_language=current_lang,
+                )
         modified_hash = hash_md5(str(self.context.modification_date))
         params = [
             selected_item,
@@ -75,7 +78,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":
             params.append("translated_in_{}=1".format(current_lang))
-        if not specific_related_newsitems:
+        if not use_selection:
             params += [
                 "sort_on=effective",
                 "sort_order=descending",
@@ -86,7 +89,7 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
         self.refresh_modification_date()
         if self.json_data is None or len(self.json_data.get("items", [])) == 0:
             return []
-        linking_view_url = self.context.linking_rest_view.to_object.absolute_url()
+        linking_view_url = self.item_view_url
         image_scale = self.image_scale
         orientation = self.context.orientation
         items = self.json_data.get("items")[:max_items]
@@ -117,11 +120,48 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
                 "image": f"{item_url}/@@images/image/{orientation}_{image_scale}?cache_key={modified_hash}",
             }
             results.append(dict_item)
-        if specific_related_newsitems:
+        if use_selection:
             results = sorted(
                 results, key=lambda x: specific_related_newsitems.index(x["uid"])
             )
         return batch_results(results, self.context.nb_results_by_batch)
+
+    @property
+    def use_selection(self):
+        """Whether this section lists hand-picked items rather than a folder.
+
+        ``news_source`` is what decides, not the mere presence of values in
+        ``specific_related_newsitems``: both fields keep their value when the
+        editor switches source, so switching back must restore the folder.
+        """
+        return self.context.news_source == "selection" and bool(
+            self.context.specific_related_newsitems
+        )
+
+    @property
+    def linking_view_url(self):
+        """The view this section's folder belongs to, "" when unset.
+
+        ``linking_rest_view`` is optional now (a hand-picked section has no use
+        for one), so it can legitimately be None.
+        """
+        rest_view = getattr(self.context.linking_rest_view, "to_object", None)
+        return rest_view is not None and rest_view.absolute_url() or ""
+
+    @property
+    def item_view_url(self):
+        """Where the items of this section link to.
+
+        A hand-picked item comes from anywhere in the entity, so
+        ``linking_rest_view`` plays no part: it links to the site's default news
+        view, and ``BaseNewsEndpoint`` retries an unscoped lookup by UID so the
+        detail page resolves even when that view is not subscribed to the item's
+        folder. The invariant refuses to save such a section while the control
+        panel has no default news view, so "" here means it was emptied after.
+        """
+        if self.use_selection:
+            return get_default_view_url("news")
+        return self.linking_view_url
 
     @property
     def issue(self):
@@ -129,7 +169,9 @@ class NewsView(CarouselOrTableSectionView, HashableJsonSectionView):
 
     @property
     def see_all_url(self):
-        return self.context.linking_rest_view.to_object.absolute_url()
+        # a hand-picked section has no linking view: its "see all" belongs to
+        # the same default view its items link to
+        return self.item_view_url
 
     @property
     def display_container_title(self):

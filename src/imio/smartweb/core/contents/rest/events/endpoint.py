@@ -5,6 +5,7 @@ from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.base import BaseService
+from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
 from plone.restapi.interfaces import IExpandableElement
 from zope.component import adapter
@@ -38,6 +39,19 @@ class BaseEventsEndpoint(BaseEndpoint):
 
     def __call__(self):
         results = super(BaseEventsEndpoint, self).__call__() or {}
+        if (
+            self.remote_endpoint != "@search-filters"
+            and not (results or {}).get("items")
+            and self.request.form.get("UID")
+        ):
+            # A hand-picked event is put forward whatever agenda it sits in, and
+            # a SectionEvents using that source links it to the site's default
+            # events view -- which has no reason to be subscribed to the event's
+            # agenda, nor to show its event type or its date range. The scoped
+            # query above then returns nothing and the detail page comes back
+            # empty. A UID identifies one event on its own, so retry unscoped
+            # rather than serve nothing.
+            results = get_json(self.query_url_by_uid, timeout=20) or {}
         if not results or not results.get("items"):
             return results
         orientation = self.context.orientation
@@ -57,8 +71,21 @@ class BaseEventsEndpoint(BaseEndpoint):
 
     @property
     def query_url(self):
-        params = [
-            "selected_agendas={}".format(self.context.selected_agenda),
+        return self._query_url()
+
+    @property
+    def query_url_by_uid(self):
+        """The same query without agenda, event type or date scope.
+
+        See ``__call__``.
+        """
+        return self._query_url(scoped=False)
+
+    def _query_url(self, scoped=True):
+        params = []
+        if scoped:
+            params.append("selected_agendas={}".format(self.context.selected_agenda))
+        params += [
             "metadata_fields=title_nl",
             "metadata_fields=title_en",
             "metadata_fields=title_de",
@@ -115,7 +142,7 @@ class BaseEventsEndpoint(BaseEndpoint):
             params.append("b_size={}".format(self.context.nb_results))
         else:
             params.append("b_size={}".format(self.batch_size))
-        if self.context.selected_event_types is not None:
+        if scoped and self.context.selected_event_types is not None:
             for event_type in self.context.selected_event_types:
                 params.append(f"event_type={event_type}")
         # The date scope is normally sent by the React front (Events.jsx).
@@ -124,7 +151,7 @@ class BaseEventsEndpoint(BaseEndpoint):
         # published, oldest first. Guard on the key, not the value —
         # construct_query_string() re-injects every form param and only dedupes
         # identical pairs, so a differing value would be sent twice.
-        if "event_dates.range" not in self.request.form:
+        if scoped and "event_dates.range" not in self.request.form:
             only_past = getattr(self.context, "only_past_events", False)
             params.append("event_dates.range={}".format("max" if only_past else "min"))
             # the event_dates index needs the paired pivot date

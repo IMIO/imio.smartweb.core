@@ -4,6 +4,8 @@ from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.directory.view import (  # noqa: F401
     DirectoryViewView,
 )
+from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
+from imio.smartweb.core.contents.rest.events.endpoint import EventsFiltersEndpoint
 from imio.smartweb.core.contents.rest.events.view import EventsViewView  # noqa: F401
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpointGet
@@ -24,6 +26,7 @@ from zope.component import queryMultiAdapter
 import requests_mock
 
 _NEWS_ENDPOINT_MODULE = "imio.smartweb.core.contents.rest.news.endpoint"
+_EVENTS_ENDPOINT_MODULE = "imio.smartweb.core.contents.rest.events.endpoint"
 _BASE_MODULE = "imio.smartweb.core.contents.rest.base"
 _DIR_VIEW_MODULE = "imio.smartweb.core.contents.rest.directory.view"
 
@@ -737,6 +740,48 @@ class TestBaseNewsEndpoint(ImioSmartwebTestCase):
         call_kwargs = mock_convert.call_args_list[0][1]
         self.assertEqual(call_kwargs.get("orientation"), "portrait")
 
+    def test_call_retries_unscoped_when_a_uid_request_finds_nothing(self):
+        # A hand-picked news item is put forward whatever folder it sits in, so
+        # a SectionNews using that source links it to the site's default news
+        # view -- which has no reason to be subscribed to the item's folder. The
+        # scoped query then finds nothing. A UID identifies one item on its own,
+        # so the empty answer must be retried unscoped, not served as-is.
+        self.request.form["UID"] = "the-item-uid"
+        self.addCleanup(self.request.form.pop, "UID", None)
+        endpoint = self._make_endpoint()
+        item = self._make_item()
+        with patch.object(BaseEndpoint, "__call__", return_value={"items": []}):
+            with patch.object(
+                endpoint, "_query_url", return_value="http://unscoped"
+            ) as mock_url:
+                with patch(
+                    f"{_NEWS_ENDPOINT_MODULE}.get_json",
+                    return_value={"items": [item]},
+                ) as mock_get_json:
+                    result = endpoint()
+        mock_url.assert_called_once_with(scoped=False)
+        self.assertEqual(mock_get_json.call_args[0][0], "http://unscoped")
+        self.assertEqual(result["items"], [item])
+
+    def test_call_does_not_retry_when_the_request_carries_no_uid(self):
+        endpoint = self._make_endpoint()
+        with patch.object(BaseEndpoint, "__call__", return_value={"items": []}):
+            with patch(f"{_NEWS_ENDPOINT_MODULE}.get_json") as mock_get_json:
+                result = endpoint()
+        mock_get_json.assert_not_called()
+        self.assertEqual(result, {"items": []})
+
+    def test_call_does_not_retry_on_the_filters_endpoint(self):
+        # @search-filters answers with facets, not "items": an empty "items" is
+        # its normal shape and must not trigger a second request.
+        self.request.form["UID"] = "the-item-uid"
+        self.addCleanup(self.request.form.pop, "UID", None)
+        endpoint = NewsFiltersEndpoint(self.news_view, self.request)
+        with patch.object(BaseEndpoint, "__call__", return_value={"facets": []}):
+            with patch(f"{_NEWS_ENDPOINT_MODULE}.get_json") as mock_get_json:
+                endpoint()
+        mock_get_json.assert_not_called()
+
     def test_call_returns_items_in_result(self):
         endpoint = self._make_endpoint()
         items = [self._make_item()]
@@ -745,6 +790,77 @@ class TestBaseNewsEndpoint(ImioSmartwebTestCase):
                 result = endpoint()
         self.assertIn("items", result)
         self.assertEqual(len(result["items"]), 1)
+
+
+class TestBaseEventsEndpoint(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.events_view = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            title="Events view",
+        )
+        self.events_view.selected_agenda = "the-agenda-uid"
+        self.events_view.selected_event_types = ["concert"]
+
+    def test_call_retries_unscoped_when_a_uid_request_finds_nothing(self):
+        # A hand-picked event is put forward whatever agenda it sits in, so a
+        # SectionEvents using that source links it to the site's default events
+        # view -- which has no reason to be subscribed to the event's agenda,
+        # nor to show its event type or its date range. A UID identifies one
+        # event on its own, so the empty answer must be retried unscoped.
+        self.request.form["UID"] = "the-event-uid"
+        self.addCleanup(self.request.form.pop, "UID", None)
+        endpoint = EventsEndpoint(self.events_view, self.request)
+        item = {
+            "@id": "http://localhost:8080/Plone/events/event1",
+            "modified": "2025-01-01T00:00:00+00:00",
+        }
+        with patch.object(BaseEndpoint, "__call__", return_value={"items": []}):
+            with patch.object(
+                endpoint, "_query_url", return_value="http://unscoped"
+            ) as mock_url:
+                with patch(
+                    f"{_EVENTS_ENDPOINT_MODULE}.get_json",
+                    return_value={"items": [item]},
+                ) as mock_get_json:
+                    result = endpoint()
+        mock_url.assert_called_once_with(scoped=False)
+        self.assertEqual(mock_get_json.call_args[0][0], "http://unscoped")
+        self.assertEqual(result["items"], [item])
+
+    def test_call_does_not_retry_when_the_request_carries_no_uid(self):
+        endpoint = EventsEndpoint(self.events_view, self.request)
+        with patch.object(BaseEndpoint, "__call__", return_value={"items": []}):
+            with patch(f"{_EVENTS_ENDPOINT_MODULE}.get_json") as mock_get_json:
+                endpoint()
+        mock_get_json.assert_not_called()
+
+    def test_call_does_not_retry_on_the_filters_endpoint(self):
+        self.request.form["UID"] = "the-event-uid"
+        self.addCleanup(self.request.form.pop, "UID", None)
+        endpoint = EventsFiltersEndpoint(self.events_view, self.request)
+        with patch.object(BaseEndpoint, "__call__", return_value={"facets": []}):
+            with patch(f"{_EVENTS_ENDPOINT_MODULE}.get_json") as mock_get_json:
+                endpoint()
+        mock_get_json.assert_not_called()
+
+    def test_query_url_by_uid_drops_agenda_event_type_and_date_scope(self):
+        # all three would exclude a hand-picked event sitting elsewhere, of
+        # another type, or already past
+        endpoint = EventsEndpoint(self.events_view, self.request)
+        scoped = endpoint.query_url
+        self.assertIn("selected_agendas=the-agenda-uid", scoped)
+        self.assertIn("event_type=concert", scoped)
+        self.assertIn("event_dates.range=", scoped)
+        by_uid = endpoint.query_url_by_uid
+        self.assertNotIn("selected_agendas=", by_uid)
+        self.assertNotIn("event_type=concert", by_uid)
+        self.assertNotIn("event_dates.range=", by_uid)
 
 
 class TestGetNewsFoldersUidsAndTitle(ImioSmartwebTestCase):
@@ -836,7 +952,7 @@ class TestNewsEndpointQueryUrl(ImioSmartwebTestCase):
     def tearDown(self):
         self.request.form.pop("batch_size", None)
 
-    def _get_query_url(self, selected=None, batch_size=0):
+    def _get_query_url(self, selected=None, batch_size=0, by_uid=False):
         if selected is not None:
             self.news_view.selected_news_folder = selected
         endpoint = NewsEndpoint(self.news_view, self.request, batch_size=batch_size)
@@ -849,7 +965,7 @@ class TestNewsEndpointQueryUrl(ImioSmartwebTestCase):
                     "_get_news_folders_uids_and_title_from_entity",
                     return_value=(self.uids, self.data),
                 ):
-                    return endpoint.query_url
+                    return endpoint.query_url_by_uid if by_uid else endpoint.query_url
 
     def test_uses_selected_folder_when_in_uids(self):
         url = self._get_query_url(selected="folder-uid-cpas")
@@ -904,6 +1020,13 @@ class TestNewsEndpointQueryUrl(ImioSmartwebTestCase):
     def test_query_url_contains_entity_uid(self):
         url = self._get_query_url(selected=self.uids[0])
         self.assertIn("entity-uid-123", url)
+
+    def test_query_url_by_uid_drops_the_news_folder_scope(self):
+        # what makes a hand-picked item resolvable outside its view's folders
+        self.assertIn("selected_news_folders=", self._get_query_url(selected="f-1"))
+        self.assertNotIn(
+            "selected_news_folders=", self._get_query_url(selected="f-1", by_uid=True)
+        )
 
 
 class TestNewsEndpointGetService(ImioSmartwebTestCase):

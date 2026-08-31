@@ -11,7 +11,11 @@ from imio.smartweb.core.interfaces import IImportInProgress
 from imio.smartweb.core.interfaces import ISmartwebIcon
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import concat_voca_title
+from imio.smartweb.core.utils import get_agenda_scope
 from imio.smartweb.core.utils import get_categories
+from imio.smartweb.core.utils import get_linking_events_view
+from imio.smartweb.core.utils import get_linking_rest_view
+from imio.smartweb.core.utils import get_newsfolder_scope
 from imio.smartweb.core.utils import get_iadeliberation_url_from_registry
 from imio.smartweb.core.utils import get_ts_api_url
 from imio.smartweb.core.utils import get_value_from_registry
@@ -222,6 +226,32 @@ class SubsiteDisplayModeVocabularyFactory:
 SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()
 
 
+class SectionEventsSourceVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("agenda", _("All the events of an agenda")),
+            ("selection", _("Only the events I choose myself")),
+        ]
+        terms = [SimpleTerm(value=v[0], token=v[0], title=v[1]) for v in values]
+        return SimpleVocabulary(terms)
+
+
+SectionEventsSourceVocabulary = SectionEventsSourceVocabularyFactory()
+
+
+class SectionNewsSourceVocabularyFactory:
+    def __call__(self, context=None):
+        values = [
+            ("newsfolder", _("All the news items of a news folder")),
+            ("selection", _("Only the news items I choose myself")),
+        ]
+        terms = [SimpleTerm(value=v[0], token=v[0], title=v[1]) for v in values]
+        return SimpleVocabulary(terms)
+
+
+SectionNewsSourceVocabulary = SectionNewsSourceVocabularyFactory()
+
+
 class PermissiveVocabulary(SimpleVocabulary):
     """Vocabulary that accepts any value — used during content import to bypass
     remote vocabulary validation when the remote service is unavailable or not
@@ -410,6 +440,61 @@ def paginated_search_items(base_url, endpoint, params, page_size=200, timeout=12
         if not page or b_start >= data.get("items_total", len(items)):
             break
     return items
+
+
+class ScopedAgendasVocabularyFactory:
+    """Agendas the section's linking view is able to display.
+
+    An EventsView shows one ``selected_agenda``, and the authentic source makes
+    that agenda also serve the events of the agendas populating it. Restricting
+    the choice to that scope is what prevents a section from listing events
+    whose detail page would come back empty.
+    """
+
+    def __call__(self, context=None):
+        if IImportInProgress.providedBy(getRequest()):
+            # collective.exportimport strips every relation field from the item
+            # it deserializes and restores relations only at the end of the
+            # import, so linking_rest_view is unresolvable while related_events
+            # is being validated. Scoping would then reject every agenda and
+            # plone.restapi would drop the whole section.
+            return PermissiveVocabulary([])
+        events_view = get_linking_events_view(context)
+        scope = get_agenda_scope(getattr(events_view, "selected_agenda", None))
+        terms = [SimpleTerm(value=uid, token=uid, title=title) for uid, title in scope]
+        # Keep a stored-but-out-of-scope value selectable, so the edit form of a
+        # misconfigured section still renders. The invariant refuses to save it.
+        stored = getattr(context, "related_events", None)
+        if stored and stored not in [term.value for term in terms]:
+            terms.append(SimpleTerm(value=stored, token=stored, title=stored))
+        return SimpleVocabulary(terms)
+
+
+ScopedAgendasVocabulary = ScopedAgendasVocabularyFactory()
+
+
+class ScopedNewsFoldersVocabularyFactory:
+    """News folders the section's linking view is able to display.
+
+    The mirror of ``ScopedAgendasVocabularyFactory``.
+    """
+
+    def __call__(self, context=None):
+        if IImportInProgress.providedBy(getRequest()):
+            # See ScopedAgendasVocabularyFactory.
+            return PermissiveVocabulary([])
+        news_view = get_linking_rest_view(context, "imio.smartweb.NewsView")
+        scope = get_newsfolder_scope(getattr(news_view, "selected_news_folder", None))
+        terms = [SimpleTerm(value=uid, token=uid, title=title) for uid, title in scope]
+        # Keep a stored-but-out-of-scope value selectable, so the edit form of a
+        # misconfigured section still renders. The invariant refuses to save it.
+        stored = getattr(context, "related_news", None)
+        if stored and stored not in [term.value for term in terms]:
+            terms.append(SimpleTerm(value=stored, token=stored, title=stored))
+        return SimpleVocabulary(terms)
+
+
+ScopedNewsFoldersVocabulary = ScopedNewsFoldersVocabularyFactory()
 
 
 class AlignmentVocabularyFactory:
@@ -667,18 +752,11 @@ class EventsFromEntityVocabularyFactory:
             "metadata_fields=UID",
             f"event_dates.query={today}",
             "event_dates.range=min",
-            "b_size=1000000",
         ]
         # Keep default @search endpoint. Don't use @events endpoint.
-        url = "{}/@search?{}".format(EVENTS_URL, "&".join(params))
-        json_events = get_json(url)
-        if json_events is None or len(json_events.get("items", [])) == 0:
-            return SimpleVocabulary([])
+        items = paginated_search_items(EVENTS_URL, "@search", params)
         return SimpleVocabulary(
-            [
-                SimpleTerm(value=elem["UID"], title=elem["breadcrumb"])
-                for elem in json_events.get("items")
-            ]
+            [SimpleTerm(value=elem["UID"], title=elem["breadcrumb"]) for elem in items]
         )
 
     def __call__(self, context=None):

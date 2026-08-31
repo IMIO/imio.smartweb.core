@@ -15,6 +15,18 @@ from zope.interface import Interface
 class BaseNewsEndpoint(BaseEndpoint):
     def __call__(self):
         results = super(BaseNewsEndpoint, self).__call__() or {}
+        if (
+            self.remote_endpoint != "@search-filters"
+            and not results.get("items")
+            and self.request.form.get("UID")
+        ):
+            # A hand-picked news item is put forward whatever folder it sits in,
+            # and a SectionNews using that source links it to the site's default
+            # news view -- which has no reason to be subscribed to the item's
+            # folder. The scoped query above then returns nothing and the detail
+            # page comes back empty. A UID identifies one item on its own, so
+            # retry without the folder scope rather than serve nothing.
+            results = get_json(self.query_url_by_uid, timeout=20) or {}
         if not results.get("items"):
             return results
         orientation = self.context.orientation
@@ -48,23 +60,33 @@ class BaseNewsEndpoint(BaseEndpoint):
 
     @property
     def query_url(self):
+        return self._query_url()
+
+    @property
+    def query_url_by_uid(self):
+        """The same query without the news folder scope. See ``__call__``."""
+        return self._query_url(scoped=False)
+
+    def _query_url(self, scoped=True):
         # Temporary use fullobjects=1 to get inner news contents
         # This should does the job !?
         # https://github.com/IMIO/imio.news.core/commit/fe63e9945c2880abdf2d74374e8bbc2e86b7b6a3#diff-6a114600617a2e65a563a363d1825914a8d9afe1608812eb0e2373b3cec93e1fR16
         entity_uid = api.portal.get_registry_record("smartweb.news_entity_uid")
-        # Fallback if news folder is breaked (removed from auth source)
-        uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
-        selected_item = self.context.selected_news_folder
-        if selected_item not in uids:
-            item = next(
-                (k for k, v in data.items() if "administration" in v.lower()),
-                uids[0] if uids else None,
-            )
-            selected_item = item if item else None
-            if not selected_item:
-                selected_item = uids[0]
-        params = [
-            "selected_news_folders={}".format(selected_item),
+        params = []
+        if scoped:
+            # Fallback if news folder is breaked (removed from auth source)
+            uids, data = self._get_news_folders_uids_and_title_from_entity(entity_uid)
+            selected_item = self.context.selected_news_folder
+            if selected_item not in uids:
+                item = next(
+                    (k for k, v in data.items() if "administration" in v.lower()),
+                    uids[0] if uids else None,
+                )
+                selected_item = item if item else None
+                if not selected_item:
+                    selected_item = uids[0]
+            params.append("selected_news_folders={}".format(selected_item))
+        params += [
             "portal_type=imio.news.NewsItem",
             "metadata_fields=category",
             "metadata_fields=local_category",

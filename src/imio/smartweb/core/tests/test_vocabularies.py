@@ -4,12 +4,22 @@ from freezegun import freeze_time
 from imio.smartweb.common.utils import get_vocabulary
 from imio.smartweb.core import config
 from imio.smartweb.core.vocabularies import paginated_search_items
+from imio.smartweb.core.interfaces import IImportInProgress
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
+from imio.smartweb.core.tests.utils import mock_agenda_scope
+from imio.smartweb.core.tests.utils import mock_newsfolder_scope
 from plone import api
+from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from unittest.mock import patch
+from z3c.relationfield import RelationValue
 from zope.component import getUtility
+from zope.globalrequest import getRequest
+from zope.interface import alsoProvides
+from zope.interface import noLongerProvides
+from zope.intid.interfaces import IIntIds
 from zope.schema.interfaces import IVocabularyFactory
 
 import json
@@ -182,6 +192,12 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     def test_subsite_display_mode(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.SubsiteDisplayMode", 3)
+
+    def test_section_events_source(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.SectionEventsSource", 2)
+
+    def test_section_news_source(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.SectionNewsSource", 2)
 
     def test_contact_blocks(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.ContactBlocks", 10)
@@ -483,3 +499,107 @@ class TestVocabularies(ImioSmartwebTestCase):
             vocab.getTerm(uid).title,
             "Autorisation de déroger temporairement aux normes de bruit - Fête de la Musique 2023",
         )
+
+    @requests_mock.Mocker()
+    def test_scoped_agendas(self, m):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        agenda_uid = "aaaa0000aaaa0000aaaa0000aaaa0001"
+        mock_agenda_scope(
+            m,
+            agenda_uid,
+            populating=[("7067db6012454155b8508f69b9b36fa7", "Agenda communal")],
+        )
+        events_view = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            title="Vue agenda",
+        )
+        events_view.selected_agenda = agenda_uid
+        page = api.content.create(
+            container=self.portal, type="imio.smartweb.PortalPage", id="p"
+        )
+        section = api.content.create(
+            container=page, type="imio.smartweb.SectionEvents", title="S"
+        )
+        intids = getUtility(IIntIds)
+        section.linking_rest_view = RelationValue(intids.getId(events_view))
+
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedAgendas"
+        )
+        terms = factory(section)
+        self.assertEqual(
+            [t.value for t in terms],
+            [agenda_uid, "7067db6012454155b8508f69b9b36fa7"],
+        )
+
+        # a stored value outside the scope must still be offered, otherwise the
+        # edit form of a misconfigured section cannot even be rendered
+        section.related_events = "ffff0000ffff0000ffff0000ffff0000"
+        terms = factory(section)
+        self.assertIn("ffff0000ffff0000ffff0000ffff0000", [t.value for t in terms])
+
+    def test_scoped_agendas_without_linking_view(self):
+        # on ++add++ the context is the container: no view, no agendas
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedAgendas"
+        )
+        self.assertEqual(len(factory(self.portal)), 0)
+
+    @requests_mock.Mocker()
+    def test_scoped_newsfolders(self, m):
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        folder_uid = "dddd0000dddd0000dddd0000dddd0010"
+        mock_newsfolder_scope(m, folder_uid, populating=[("cpas-folder", "CPAS")])
+        news_view = api.content.create(
+            container=self.portal, type="imio.smartweb.NewsView", title="Vue actus"
+        )
+        news_view.selected_news_folder = folder_uid
+        page = api.content.create(
+            container=self.portal, type="imio.smartweb.PortalPage", id="pnf"
+        )
+        section = api.content.create(
+            container=page, type="imio.smartweb.SectionNews", title="S"
+        )
+        intids = getUtility(IIntIds)
+        section.linking_rest_view = RelationValue(intids.getId(news_view))
+
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedNewsFolders"
+        )
+        self.assertEqual(
+            [t.value for t in factory(section)], [folder_uid, "cpas-folder"]
+        )
+
+        # a stored value outside the scope must stay selectable, otherwise the
+        # edit form of a misconfigured section cannot even be rendered
+        section.related_news = "ffff0000ffff0000ffff0000ffff0000"
+        self.assertIn(
+            "ffff0000ffff0000ffff0000ffff0000", [t.value for t in factory(section)]
+        )
+
+    def test_scoped_newsfolders_without_linking_view(self):
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.ScopedNewsFolders"
+        )
+        self.assertEqual(len(factory(self.portal)), 0)
+
+    def test_scoped_vocabularies_accept_anything_during_an_import(self):
+        # collective.exportimport strips every relation field from the item it
+        # deserializes and restores relations only at the end of the import, so
+        # linking_rest_view is unresolvable while related_events / related_news
+        # are being validated. Scoping them would reject every value and
+        # plone.restapi would drop the whole section.
+        request = getRequest()
+        alsoProvides(request, IImportInProgress)
+        self.addCleanup(noLongerProvides, request, IImportInProgress)
+        for name in (
+            "imio.smartweb.vocabulary.ScopedAgendas",
+            "imio.smartweb.vocabulary.ScopedNewsFolders",
+        ):
+            factory = getUtility(IVocabularyFactory, name)
+            vocabulary = factory(self.portal)
+            self.assertIn("any-imported-uid", vocabulary)
+            self.assertEqual(
+                vocabulary.getTerm("any-imported-uid").value, "any-imported-uid"
+            )

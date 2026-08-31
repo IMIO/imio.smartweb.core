@@ -1,0 +1,13 @@
+{
+  "items": [
+    {
+      "@id": "http://localhost:8080/Plone/belleville/agenda-global",
+      "@type": "imio.events.Agenda",
+      "UID": "e73e6a81afea4a579cd0da2773af8d29",
+      "description": "",
+      "review_state": "published",
+      "title": "Agenda global"
+    }
+  ],
+  "items_total": 1
+}

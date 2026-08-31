@@ -1,10 +1,19 @@
 # -*- coding: utf-8 -*-
 
 from freezegun import freeze_time
+from imio.smartweb.core import config
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import make_named_image
+from imio.smartweb.core.tests.utils import mock_agenda_scope
+from imio.smartweb.core.tests.utils import mock_newsfolder_scope
 from imio.smartweb.core.utils import batch_results
+from imio.smartweb.core.utils import get_agenda_scope
+from imio.smartweb.core.utils import get_agenda_scope_uids
+from imio.smartweb.core.utils import get_linking_events_view
+from imio.smartweb.core.utils import get_linking_rest_view
+from imio.smartweb.core.utils import get_newsfolder_scope
+from imio.smartweb.core.utils import get_newsfolder_scope_uids
 from imio.smartweb.core.utils import get_plausible_vars
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.utils import get_ts_api_url
@@ -20,6 +29,9 @@ from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
 from unittest.mock import patch
 from zope.component import getUtility
+
+import json
+import requests_mock
 
 
 class TestUtils(ImioSmartwebTestCase):
@@ -162,3 +174,277 @@ class TestUtils(ImioSmartwebTestCase):
         labels = registry.get("smartweb.procedure_button_text")
         self.assertIsNotNone(labels)
         self.assertGreater(len(labels), 0)
+
+    @requests_mock.Mocker()
+    def test_get_agenda_scope(self, m):
+        agenda_uid = "e73e6a81afea4a579cd0da2773af8d29"
+        m.get(
+            f"{config.EVENTS_URL}/@search?UID={agenda_uid}&metadata_fields=UID",
+            text=json.dumps(get_json("resources/json_agenda_search_by_uid.json")),
+        )
+        m.get(
+            "http://localhost:8080/Plone/belleville/agenda-global",
+            text=json.dumps(
+                get_json("resources/json_agenda_with_populating_agendas.json")
+            ),
+        )
+        self.assertEqual(
+            get_agenda_scope(agenda_uid),
+            [
+                ("e73e6a81afea4a579cd0da2773af8d29", "Agenda global"),
+                ("7067db6012454155b8508f69b9b36fa7", "Agenda communal"),
+                ("19c7a4e86f9b46be9ef93a038752a727", "CPAS"),
+            ],
+        )
+
+    def test_get_agenda_scope_without_agenda(self):
+        self.assertEqual(get_agenda_scope(None), [])
+        self.assertEqual(get_agenda_scope(""), [])
+
+    @requests_mock.Mocker()
+    def test_get_agenda_scope_with_an_unknown_agenda(self, m):
+        agenda_uid = "cccc0000cccc0000cccc0000cccc0002"
+        m.get(
+            f"{config.EVENTS_URL}/@search?UID={agenda_uid}&metadata_fields=UID",
+            text=json.dumps({"items": [], "items_total": 0}),
+        )
+        self.assertEqual(get_agenda_scope(agenda_uid), [])
+
+    @requests_mock.Mocker()
+    def test_get_agenda_scope_when_remote_is_down(self, m):
+        agenda_uid = "cccc0000cccc0000cccc0000cccc0003"
+        m.get(
+            f"{config.EVENTS_URL}/@search?UID={agenda_uid}&metadata_fields=UID",
+            status_code=500,
+        )
+        self.assertEqual(get_agenda_scope(agenda_uid), [])
+
+    @requests_mock.Mocker()
+    def test_get_agenda_scope_when_the_agenda_itself_is_unreachable(self, m):
+        # the catalog knows the agenda but the object GET fails: return no scope
+        # rather than a half-built one.
+        agenda_uid = "cccc0000cccc0000cccc0000cccc0004"
+        m.get(
+            f"{config.EVENTS_URL}/@search?UID={agenda_uid}&metadata_fields=UID",
+            text=json.dumps(
+                {
+                    "items": [
+                        {"@id": "http://localhost:8080/Plone/nope", "UID": agenda_uid}
+                    ]
+                }
+            ),
+        )
+        m.get("http://localhost:8080/Plone/nope", status_code=500)
+        self.assertEqual(get_agenda_scope(agenda_uid), [])
+
+    @requests_mock.Mocker()
+    def test_get_agenda_scope_is_cached(self, m):
+        # this runs on every render of the events section edit form; without the
+        # cache each one would hit the authentic source twice.
+        agenda_uid = "cccc0000cccc0000cccc0000cccc0001"
+        listing = m.get(
+            f"{config.EVENTS_URL}/@search?UID={agenda_uid}&metadata_fields=UID",
+            text=json.dumps(
+                {"items": [{"@id": "http://localhost:8080/Plone/a", "UID": agenda_uid}]}
+            ),
+        )
+        agenda = m.get(
+            "http://localhost:8080/Plone/a",
+            text=json.dumps(
+                {"UID": agenda_uid, "title": "G", "populating_agendas": []}
+            ),
+        )
+        get_agenda_scope(agenda_uid)
+        get_agenda_scope(agenda_uid)
+        self.assertEqual(listing.call_count, 1)
+        self.assertEqual(agenda.call_count, 1)
+
+    @requests_mock.Mocker()
+    def test_get_agenda_scope_failure_is_not_cached(self, m):
+        # a five-minute cache over a failed lookup would turn one blip into an
+        # empty agenda dropdown for every editor, and the callers' "scope and"
+        # guard leaves them no error message to explain it. Only a successful
+        # scope is remembered.
+        agenda_uid = "cccc0000cccc0000cccc0000cccc0005"
+        listing = m.get(
+            f"{config.EVENTS_URL}/@search?UID={agenda_uid}&metadata_fields=UID",
+            [
+                {"status_code": 503},
+                {
+                    "text": json.dumps(
+                        {
+                            "items": [
+                                {
+                                    "@id": "http://localhost:8080/Plone/b",
+                                    "UID": agenda_uid,
+                                }
+                            ]
+                        }
+                    )
+                },
+            ],
+        )
+        m.get(
+            "http://localhost:8080/Plone/b",
+            text=json.dumps(
+                {"UID": agenda_uid, "title": "G", "populating_agendas": []}
+            ),
+        )
+
+        self.assertEqual(get_agenda_scope(agenda_uid), [])
+        # same agenda, same cache window: the remote is queried again and the
+        # scope comes back as soon as the remote does
+        self.assertEqual(get_agenda_scope(agenda_uid), [(agenda_uid, "G")])
+        self.assertEqual(listing.call_count, 2)
+
+    @requests_mock.Mocker()
+    def test_get_agenda_scope_uids(self, m):
+        # the single source of truth for the rule shared by the ISectionEvents
+        # invariant and the @@sections-out-of-scope report
+        agenda_uid = "cccc0000cccc0000cccc0000cccc0006"
+        mock_agenda_scope(m, agenda_uid, populating=[("cpas-uid", "CPAS")])
+        self.assertEqual(get_agenda_scope_uids(agenda_uid), [agenda_uid, "cpas-uid"])
+
+    def test_get_agenda_scope_uids_without_agenda(self):
+        # "cannot tell", which every caller guards with "scope and"
+        self.assertEqual(get_agenda_scope_uids(None), [])
+
+    def test_get_linking_events_view_prefers_the_submitted_value(self):
+        from plone.app.testing import setRoles
+        from plone.app.testing import TEST_USER_ID
+        from z3c.relationfield import RelationValue
+        from zope.component import getUtility
+        from zope.intid.interfaces import IIntIds
+
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        saved_view = api.content.create(
+            container=self.portal, type="imio.smartweb.EventsView", title="Enregistree"
+        )
+        submitted_view = api.content.create(
+            container=self.portal, type="imio.smartweb.EventsView", title="Soumise"
+        )
+        page = api.content.create(
+            container=self.portal, type="imio.smartweb.PortalPage", id="lv"
+        )
+        section = api.content.create(
+            container=page, type="imio.smartweb.SectionEvents", title="S"
+        )
+        intids = getUtility(IIntIds)
+        section.linking_rest_view = RelationValue(intids.getId(saved_view))
+
+        # nothing submitted: the stored relation wins
+        self.assertEqual(get_linking_events_view(section), saved_view)
+
+        # the AJAX widget sends this key
+        self.request.form["linking_rest_view"] = submitted_view.UID()
+        self.assertEqual(get_linking_events_view(section), submitted_view)
+        del self.request.form["linking_rest_view"]
+
+        # the form POST sends this one, possibly as a list and ";"-separated
+        self.request.form["form.widgets.linking_rest_view"] = [
+            submitted_view.UID() + ";"
+        ]
+        self.assertEqual(get_linking_events_view(section), submitted_view)
+        del self.request.form["form.widgets.linking_rest_view"]
+
+    def test_get_linking_events_view_without_anything(self):
+        # ++add++ before the editor picked a view
+        self.assertIsNone(get_linking_events_view(self.portal))
+
+    @requests_mock.Mocker()
+    def test_get_newsfolder_scope(self, m):
+        folder_uid = "dddd0000dddd0000dddd0000dddd0001"
+        m.get(
+            f"{config.NEWS_URL}/@search?UID={folder_uid}&metadata_fields=UID",
+            text=json.dumps(
+                {
+                    "items": [
+                        {
+                            "@id": "http://localhost:8080/Plone/newsfolders/global",
+                            "UID": folder_uid,
+                        }
+                    ]
+                }
+            ),
+        )
+        m.get(
+            "http://localhost:8080/Plone/newsfolders/global",
+            text=json.dumps(
+                {
+                    "UID": folder_uid,
+                    "title": "Actualites globales",
+                    "populating_newsfolders": [
+                        {"UID": "cpas-folder", "title": "CPAS"},
+                        {"UID": "biblio-folder", "title": "Bibliotheque"},
+                    ],
+                }
+            ),
+        )
+        self.assertEqual(
+            get_newsfolder_scope(folder_uid),
+            [
+                (folder_uid, "Actualites globales"),
+                ("cpas-folder", "CPAS"),
+                ("biblio-folder", "Bibliotheque"),
+            ],
+        )
+        self.assertEqual(
+            get_newsfolder_scope_uids(folder_uid),
+            [folder_uid, "cpas-folder", "biblio-folder"],
+        )
+
+    def test_get_newsfolder_scope_without_folder(self):
+        self.assertEqual(get_newsfolder_scope(None), [])
+        self.assertEqual(get_newsfolder_scope(""), [])
+
+    @requests_mock.Mocker()
+    def test_get_newsfolder_scope_when_remote_is_down(self, m):
+        folder_uid = "dddd0000dddd0000dddd0000dddd0002"
+        m.get(
+            f"{config.NEWS_URL}/@search?UID={folder_uid}&metadata_fields=UID",
+            status_code=500,
+        )
+        self.assertEqual(get_newsfolder_scope(folder_uid), [])
+
+    @requests_mock.Mocker()
+    def test_get_newsfolder_scope_does_not_cache_a_failure(self, m):
+        # a one-second blip must not blank the folder dropdown for five minutes
+        folder_uid = "dddd0000dddd0000dddd0000dddd0003"
+        matcher = m.get(
+            f"{config.NEWS_URL}/@search?UID={folder_uid}&metadata_fields=UID",
+            status_code=503,
+        )
+        get_newsfolder_scope(folder_uid)
+        get_newsfolder_scope(folder_uid)
+        self.assertEqual(matcher.call_count, 2)
+
+    @requests_mock.Mocker()
+    def test_get_newsfolder_scope_is_cached_on_success(self, m):
+        folder_uid = "dddd0000dddd0000dddd0000dddd0004"
+        mock_newsfolder_scope(m, folder_uid)
+        get_newsfolder_scope(folder_uid)
+        get_newsfolder_scope(folder_uid)
+        # requests_mock lower-cases the URL before recording it (unless
+        # case_sensitive=True), so the query string on request_history reads
+        # "metadata_fields=uid", not "...=UID".
+        listing = [
+            r for r in m.request_history if "metadata_fields=uid" in (r.query or "")
+        ]
+        self.assertEqual(len(listing), 1)
+
+    def test_get_linking_rest_view_refuses_a_foreign_portal_type(self):
+        # the scoping premise is that the linked object carries the container
+        # field; anything else must resolve to None rather than a scopeless pass
+        page = api.content.create(
+            container=self.portal, type="imio.smartweb.PortalPage", id="lrv"
+        )
+        self.request.form["linking_rest_view"] = page.UID()
+        try:
+            self.assertIsNone(
+                get_linking_rest_view(self.portal, "imio.smartweb.NewsView")
+            )
+            self.assertIsNone(
+                get_linking_rest_view(self.portal, "imio.smartweb.EventsView")
+            )
+        finally:
+            del self.request.form["linking_rest_view"]
