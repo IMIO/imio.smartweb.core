@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='utf-8'?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" orderSignificant="false" profileType="hierarchicalTokenTerms" language="fr">
+  <vocabName>
+    <langstring language="fr">Types de règlements</langstring>
+  </vocabName>
+  <vocabIdentifier>reglements</vocabIdentifier>
+  <term>
+    <termIdentifier>8ly7x1obbc</termIdentifier>
+    <caption>
+      <langstring language="fr">Commerce</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>w31k48442h</termIdentifier>
+    <caption>
+      <langstring language="fr">Environnement</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>cc82v8yhd1</termIdentifier>
+    <caption>
+      <langstring language="fr">Gestion financière</langstring>
+    </caption>
+    <term>
+      <termIdentifier>nx3eqati8d</termIdentifier>
+      <caption>
+        <langstring language="fr">Taxes et redevances de prestations</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>t5jqpy59c6</termIdentifier>
+      <caption>
+        <langstring language="fr">Taxes de remboursement</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>92ixahbp37</termIdentifier>
+      <caption>
+        <langstring language="fr">Taxes et redevances d'hygiène publique</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>fc8mi8jmvc</termIdentifier>
+      <caption>
+        <langstring language="fr">Taxes et redevances commerciales et industrielles</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>b95iu72mtw</termIdentifier>
+      <caption>
+        <langstring language="fr">Redevances sur l'occupation du domaine public</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>jhixku2g7x</termIdentifier>
+      <caption>
+        <langstring language="fr">Taxes et redevances sur le patrimoine</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>svaj719cdm</termIdentifier>
+      <caption>
+        <langstring language="fr">Taxes diverses</langstring>
+      </caption>
+    </term>
+    <term>
+      <termIdentifier>mp4d3c9msm</termIdentifier>
+      <caption>
+        <langstring language="fr">Taxes additionnelles</langstring>
+      </caption>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>sw118s9cca</termIdentifier>
+    <caption>
+      <langstring language="fr">Police administrative</langstring>
+    </caption>
+  </term>
+</vdex>

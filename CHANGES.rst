@@ -5,7 +5,11 @@ Changelog
 1.4.59 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add a one shot ``@@migrate_page_category`` view moving the ``page_category``
+  sub terms of the Liège site to the ``avisenquetes`` / ``reglements``
+  taxonomies, and falling back on the parent root term for ``page_category``.
+  Sub terms without equivalent are left untouched.
+  [boulch]
 
 
 1.4.58 (2026-08-24)
