@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.59 (unreleased)
+1.4.59 (2026-09-02)
 -------------------
 
 - Add a one shot ``@@migrate_page_category`` view moving the ``page_category``
