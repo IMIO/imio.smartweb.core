@@ -11,6 +11,12 @@ Changelog
   Sub terms without equivalent are left untouched.
   [boulch]
 
+- WEB-4472: fix missing arrow in back annuaire button
+  [thomlamb] 
+
+- Add ?v=<version package> to react url to prevent bad caching
+  [thomlamb] 
+
 
 1.4.58 (2026-08-24)
 -------------------
