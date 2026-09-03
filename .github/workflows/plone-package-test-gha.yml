@@ -10,6 +10,7 @@ jobs:
   full-test:
     uses: IMIO/gha-workflows/.github/workflows/package-full-test.yml@v1
     secrets:
+      gh_token: ${{ secrets.TOKEN_GITHUB_RO }}
       mattermost_webhook_url: ${{ secrets.SMARTWEB_MATTERMOST_WEBHOOK_URL }}
     with:
       check_path: |
