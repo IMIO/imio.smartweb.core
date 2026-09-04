@@ -5,14 +5,19 @@ from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
+from plone.app.textfield.value import RichTextValue
+from plone.app.testing import login
+from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
 from plone.namedfile.file import NamedBlobImage
+from plone.protect.authenticator import createToken
 from plone.testing.zope import Browser
 from zope.component import getMultiAdapter
 
+import json
 import transaction
 
 
@@ -88,7 +93,7 @@ class TestText(ImioSmartwebTestCase):
             view(),
         )
         self.assertNotIn("<figure", view())
-        self.assertNotIn("figcaption", view())
+        self.assertNotIn("<figcaption", view())
 
         section.image = NamedBlobImage(**make_named_image())
         view = getMultiAdapter((self.page, self.request), name="full_view")
@@ -97,7 +102,7 @@ class TestText(ImioSmartwebTestCase):
         )
         self.assertIn("<figure", view())
         self.assertIn("@@images/image-760-", view())
-        self.assertNotIn("figcaption", view())
+        self.assertNotIn("<figcaption", view())
 
         section.image_caption = "Kamoulox"
         view = getMultiAdapter((self.page, self.request), name="full_view")
@@ -129,3 +134,88 @@ class TestText(ImioSmartwebTestCase):
         self.assertIn("<figure", rendered)
         self.assertIn("@@images/image?cache_key=", rendered)
         self.assertNotIn("@@images/image-", rendered)
+
+
+class TestInlineEditView(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        self.section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Title of my text",
+        )
+        self.section.text = RichTextValue("<p>Hello</p>", "text/html", "text/html")
+
+    def get_textarea(self):
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        return BeautifulSoup(view(), "lxml").find("textarea", {"name": "newText"})
+
+    def test_tinymce_options(self):
+        textarea = self.get_textarea()
+        self.assertIn("pat-tinymce", textarea["class"])
+        options = json.loads(textarea["data-pat-tinymce"])
+        # chromeless "inline" mode: no permanent toolbar/menu/status bar,
+        # just a text cursor, and a small "quickbars" toolbar on selection
+        self.assertTrue(options["inline"])
+        self.assertFalse(options["tiny"]["toolbar"])
+        self.assertFalse(options["tiny"]["menubar"])
+        self.assertFalse(options["tiny"]["statusbar"])
+        self.assertIn("quickbars", options["tiny"]["plugins"])
+        self.assertIn("lists", options["tiny"]["plugins"])
+        toolbar = options["tiny"]["quickbars_selection_toolbar"]
+        self.assertIn("plonelink", toolbar)
+        self.assertIn("underline", toolbar)
+        # heading levels for content paragraphs: h3+ only, h1/h2 are
+        # reserved for the page/section titles themselves
+        self.assertIn("h3", toolbar)
+        self.assertIn("h4", toolbar)
+        self.assertIn("h5", toolbar)
+        self.assertNotIn("h1", toolbar)
+        self.assertNotIn("h2", toolbar)
+        self.assertIn("bullist", toolbar)
+        self.assertIn("numlist", toolbar)
+        # Omnia AI assistant (imio.omnia.tinymce), installed site-wide
+        self.assertIn("omnia", toolbar)
+        # no iframe in inline mode: don't inject the theme's content_css
+        # (meant for the boxed editor's iframe) into the page's own <head>
+        self.assertFalse(options["tiny"]["content_css"])
+
+    def test_get_text(self):
+        # TinyMCE reads the textarea when it starts, so the text has to be
+        # rendered server side: an htmx swap would come too late
+        self.assertEqual(self.get_textarea().text, "<p>Hello</p>")
+
+    def test_can_edit(self):
+        api.content.transition(self.page, "publish")
+        logout()
+        rendered = getMultiAdapter((self.page, self.request), name="full_view")()
+        self.assertIn("<p>Hello</p>", rendered)
+        self.assertNotIn("pat-tinymce", rendered)
+        self.assertNotIn("inline-text-edit", rendered)
+        login(self.portal, TEST_USER_NAME)
+
+    def test_save_text(self):
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s" % (TEST_USER_NAME, TEST_USER_PASSWORD),
+        )
+        browser.post(
+            "{}/@@savetext".format(self.section.absolute_url()),
+            "newText=%3Cp%3ENew+text%3C%2Fp%3E&_authenticator={}".format(createToken()),
+            "application/x-www-form-urlencoded",
+        )
+        transaction.begin()
+        # the response feeds the displayed div, so it is the rendered output
+        self.assertEqual(browser.contents, "<p>New text</p>")
+        self.assertEqual(self.section.text.raw, "<p>New text</p>")

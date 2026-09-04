@@ -305,7 +305,8 @@ class TestSections(ImioSmartwebTestCase):
         ]
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            view.count('<h2 class="section-title"><span class="inline-title"'),
+            len(section_types),
         )
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
@@ -336,7 +337,8 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            view.count('<h2 class="section-title"><span class="inline-title"'),
+            len(section_types),
         )
 
     def test_sections_titles(self):
@@ -384,7 +386,8 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            view.count('<h2 class="section-title"><span class="inline-title"'),
+            len(section_types),
         )
         # test hide_title
         for section_id in page.objectIds():
@@ -393,7 +396,9 @@ class TestSections(ImioSmartwebTestCase):
         # hide_title in login mode (add some specific css class)
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="hidden-section-title hide-in-preview">Title of my '),
+            view.count(
+                '<h2 class="hidden-section-title hide-in-preview"><span class="inline-title"'
+            ),
             self.NUMBER_OF_EMPTY_SECTIONS,
         )
         # hide_title in logout mode (no more <h2> / title)
@@ -615,15 +620,49 @@ class TestSections(ImioSmartwebTestCase):
             title="Section text",
         )
         view = queryMultiAdapter((self.page, self.request), name="full_view")
-        self.assertEqual(view.get_class(section), "sectiontext")
+        # bootstrap_css_class defaults to "col-sm-12" (full width)
+        self.assertEqual(view.get_class(section), "sectiontext col-sm-12")
         section.css_class = "my-css"
-        self.assertEqual(view.get_class(section), "sectiontext my-css")
+        self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-12")
         section.bootstrap_css_class = "col-sm-3"
         self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
+        section.section_alignment = "text"
+        self.assertEqual(
+            view.get_class(section), "sectiontext my-css col-sm-3 container-se-text"
+        )
         section.background_image = NamedBlobImage(**make_named_image())
         self.assertEqual(
-            view.get_class(section), "sectiontext my-css col-sm-3 with-background"
+            view.get_class(section),
+            "sectiontext my-css col-sm-3 container-se-text with-background",
         )
+
+    def test_section_alignment_field(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        self.assertEqual(section.section_alignment, "main")
+        section.section_alignment = "text"
+        self.assertEqual(section.section_alignment, "text")
+
+    def test_section_alignment_restricts_width_on_modify(self):
+        # Standard edit form path: bypasses save_size/save_alignment entirely,
+        # so the invariant is enforced by the modified_section subscriber.
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        section.section_alignment = "text"
+        section.bootstrap_css_class = "col-sm-4"
+        modified(section)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-12")
+
+        # Full/half width remain untouched.
+        section.bootstrap_css_class = "col-sm-6"
+        modified(section)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-6")
 
     def test_sections_history(self):
         api.content.transition(self.page, "publish")

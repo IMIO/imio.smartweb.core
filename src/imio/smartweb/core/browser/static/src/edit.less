@@ -6,8 +6,18 @@
   content: "\e833";
 }
 
-.pat-sortable > :hover {
+.pat-sortable .edit-section-container:hover {
   cursor: move;
+}
+
+.text-editable {
+  cursor: text;
+}
+
+.inline-text-edit {
+  .mce-content-body[contenteditable="true"] {
+    border:none;
+  }
 }
 
 .pat-sortable {
@@ -15,7 +25,7 @@
   display: block;
 
   .sortable-section {
-    &:hover {
+    .edit-section-container:hover {
        outline: dashed 2px #9fb7ff;
     }
   }
@@ -131,7 +141,8 @@ a.manage[class*="contenttype-imio-smartweb-"] {
   font-size: 14px;
 }
 
-.edit-section-container .select_section_size {
+.edit-section-container .select_section_size,
+.edit-section-container .select_section_alignment {
   background-color: transparent;
   border: none;
   padding-bottom: 2px;

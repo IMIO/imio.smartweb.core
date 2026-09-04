@@ -176,6 +176,15 @@ CategoriesDisplayVocabulary = CategoriesDisplayVocabularyFactory()
 
 class BootstrapCSSVocabularyFactory:
     def __call__(self, context=None):
+        # NOTE: always return all 6 terms, regardless of `section_alignment`.
+        # The restriction to full/half width when aligned with the text
+        # sections container is enforced client-side (both edit.js and the
+        # htmx toolbar JS toggle hidden/disabled on the existing <option>
+        # elements) and server-side (SectionView.save_alignment /
+        # subscriber._enforce_text_alignment_width). Filtering the vocabulary
+        # itself would remove the other options from the rendered markup
+        # entirely, so JS would have nothing to restore when switching back
+        # to "main" alignment.
         bootstrap_css = [
             ("col-sm-3", _("Quarter of width")),
             ("col-sm-4", _("Third of width")),
@@ -189,6 +198,21 @@ class BootstrapCSSVocabularyFactory:
 
 
 BootstrapCSSVocabulary = BootstrapCSSVocabularyFactory()
+
+
+class SectionAlignmentVocabularyFactory:
+    def __call__(self, context=None):
+        section_alignment = [
+            ("main", _("Align with main container")),
+            ("text", _("Align with text sections container (760px)")),
+        ]
+        terms = [
+            SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in section_alignment
+        ]
+        return SimpleVocabulary(terms)
+
+
+SectionAlignmentVocabulary = SectionAlignmentVocabularyFactory()
 
 
 class OrientationVocabularyFactory:

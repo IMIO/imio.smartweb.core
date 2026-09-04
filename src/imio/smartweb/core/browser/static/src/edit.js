@@ -108,3 +108,51 @@ document.addEventListener("DOMContentLoaded", function () {
   bootstrapSelect.addEventListener("change", toggleViewportOption);
   toggleViewportOption();
 });
+
+// Restrict section drag-and-drop (pat-sortable) to `.edit-section-container`:
+// some elements in the section content (links, images) are natively draggable
+// by the browser regardless of any ancestor's `draggable` attribute. Cancel
+// any dragstart that doesn't originate from the handle, in the capture phase,
+// before pat-sortable (or the browser's native behavior) gets to act on it.
+document.addEventListener(
+  "dragstart",
+  function (ev) {
+    var section = ev.target.closest(".sortable-section");
+    if (section && !ev.target.closest(".edit-section-container")) {
+      ev.preventDefault();
+      ev.stopPropagation();
+    }
+  },
+  true,
+);
+
+// Restrict "Section width" to full/half width when "Section alignment" is
+// set to the text sections container (SectionView form).
+document.addEventListener("DOMContentLoaded", function () {
+  const alignSelect = document.getElementById(
+    "form-widgets-section_alignment",
+  );
+  const bootstrapSelect = document.getElementById(
+    "form-widgets-bootstrap_css_class",
+  );
+  if (!alignSelect || !bootstrapSelect) return;
+
+  const allowedSizes = ["col-sm-12", "col-sm-6"];
+
+  function toggleWidthOptions() {
+    const isTextAligned = alignSelect.value === "text";
+    Array.from(bootstrapSelect.options).forEach(function (option) {
+      if (!option.value) return; // garde l'option vide/no-value
+      const allowed =
+        !isTextAligned || allowedSizes.indexOf(option.value) !== -1;
+      option.hidden = !allowed;
+      option.disabled = !allowed;
+    });
+    if (isTextAligned && allowedSizes.indexOf(bootstrapSelect.value) === -1) {
+      bootstrapSelect.value = "col-sm-12";
+    }
+  }
+
+  alignSelect.addEventListener("change", toggleWidthOptions);
+  toggleWidthOptions();
+});

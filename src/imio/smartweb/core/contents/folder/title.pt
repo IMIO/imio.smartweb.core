@@ -1,0 +1,3 @@
+<h1 xmlns:tal="http://xml.zope.org/namespaces/tal"
+    tal:condition="context/Title"
+    tal:content="structure context/@@inline_title">Title</h1>

@@ -90,6 +90,24 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="*"
+      name="getalignments"
+      attribute="get_alignments"
+      class="imio.smartweb.core.contents.sections.views.SectionView"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      for="*"
+      name="savealignment"
+      attribute="save_alignment"
+      class="imio.smartweb.core.contents.sections.views.SectionView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <subscriber
       for="imio.smartweb.core.contents.ISection
            zope.lifecycleevent.interfaces.IObjectAddedEvent"

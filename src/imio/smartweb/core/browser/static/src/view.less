@@ -452,11 +452,123 @@ body.has-sticky-header {
 }
 
 .text-align-container {
+  width: 100%;
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
 }
 
+  :root{
+    --text-max: 760px;
+  }
+
+  /* --- largeurs "alignées texte" : fraction FIXE de 760px (pas de la ligne)
+         — seules valeurs possibles une fois "aligné texte" (restriction de
+         largeur déjà en place). flex-shrink:1 + max-width:100% en secours
+         pour éviter un débordement sur viewport étroit (< 760px). --- */
+  @media screen and (min-width:760px) {
+    
+  .col-sm-12.container-se-text {
+    flex: 0 1 var(--text-max);
+    max-width: 100%;
+  }
+  .col-sm-6.container-se-text {
+    flex: 0 1 calc(var(--text-max) / 2);
+    max-width: 100%;
+  }
+
+  /* --- centrage / callage à gauche : lequel des deux s'applique à une
+         section est décidé en JS (updateTextAlignmentLayout, view.js), car
+         "est-ce que je partage ma ligne visuelle avec une section
+         précédente ?" ne peut pas être déterminé par un sélecteur CSS pur
+         une fois que largeurs/alignements se mélangent sur la page. Une
+         ligne "pleine" (760px de contenu, seule ou en paire de 1/2) reçoit
+         les deux marges, symétriques — leur somme avec le contenu vaut
+         exactement 100% de la largeur réelle de la ligne, ce qui force
+         naturellement (sans élément inséré dans le DOM — ça casserait le
+         glisser-déposer, voir view.js) le retour à la ligne de la section
+         suivante. Une section 1/2 isolée ne reçoit que la marge gauche :
+         elle s'aligne sur le bord gauche de la colonne virtuelle sans être
+         centrée seule. --- */
+  .container-se-text.text-align-line-start {
+    margin-left: max(0px, calc((100% - var(--text-max)) / 2));
+  }
+  .container-se-text.text-align-line-end {
+    margin-right: max(0px, calc((100% - var(--text-max)) / 2));
+  }
+  /* Une section 1/2 "texte" sans partenaire pour compléter une ligne
+     pleine : marge droite de 50% (une simple proportion, sans lien avec
+     --text-max) — combinée à la marge gauche ci-dessus et à sa largeur
+     fixe, complète toujours exactement 100% de la largeur réelle de la
+     ligne, quelle que soit cette largeur. Empêche donc toute section
+     suivante (alignée "page" ou "texte" sans lien de paire) de partager
+     sa ligne, sans changer son propre rendu (callée à gauche). */
+  .container-se-text.text-align-isolated-half {
+    margin-right: 50%;
+  }
+
+  .row > {
+    .sectionmap{
+      &.container-se-text,
+      .container.section-container{
+        padding-left: 0;
+        padding-right: 0;
+      }
+      &.text-align-line-start {
+        padding-right:.5rem
+      }
+      &.text-align-line-end {
+        padding-left:.5rem
+      }
+    }
+  }    
+}
+
+  @media screen and (min-width:992px) {
+    .container-se-text {
+        left: initial!important;
+        transform: translateX(0)!important;
+        &.col-sm-12 {
+          .swiper-wrapper {
+            max-width: var(--text-max);
+          }
+        }
+        &.col-sm-6 {
+          .swiper-wrapper {
+            max-width: calc(var(--text-max) / 2);
+          }
+        }
+    }
+  }
+
+
+.sortable-section.container-se-text {
+  margin-bottom: 1.5rem;
+}
+
+#content > div#content-core figure:first-of-type {
+  margin-top: 0;
+}
+
+  // body {
+  //   background: #f8f8f8!important;
+  // }
+
+  // #main-container {
+  //   background: #fff;
+  // }
+
+//   body::after {
+// 	content: "";
+// 	background: aqua;
+// 	position: absolute;
+// 	width: 760px;
+// 	left: 50%;
+// 	height: 9000px;
+// 	top: 0;
+// 	z-index: -1;
+// 	transform: translateX(-50%);
+// }
 
 // announce the message type.
 #messagesviewlet .messagesviewlet-type,
