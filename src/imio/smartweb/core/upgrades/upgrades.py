@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.setuphandlers import CAMPAIGNVIEW_PORTAL_TYPE
 from imio.smartweb.core.utils import (
     populate_procedure_button_text as utils_populate_procedure_button_text,
 )
@@ -334,3 +335,25 @@ def add_sitemap_authentic_sources_registry(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")
     logger.info("smartweb.sitemap_authentic_sources registry record ensured.")
+
+
+def add_campaignview_to_displayed_types(context):
+    """Let CampaignView show up in the navigation menu on ideabox sites.
+
+    The ideabox profile creates the FTI and allows it inside a Folder, but
+    navigation tabs are filtered on plone.displayed_types, from which the type
+    was missing. Sites without ideabox are left alone: the setting is validated
+    against the existing portal_types.
+    """
+    portal_types = api.portal.get_tool("portal_types")
+    if CAMPAIGNVIEW_PORTAL_TYPE not in portal_types:
+        logger.info(f"Ideabox is not installed, {CAMPAIGNVIEW_PORTAL_TYPE} not shown")
+        return
+    displayed_types = api.portal.get_registry_record("plone.displayed_types")
+    if CAMPAIGNVIEW_PORTAL_TYPE in displayed_types:
+        return
+    api.portal.set_registry_record(
+        "plone.displayed_types",
+        tuple(displayed_types) + (CAMPAIGNVIEW_PORTAL_TYPE,),
+    )
+    logger.info(f"Added {CAMPAIGNVIEW_PORTAL_TYPE} to plone.displayed_types")

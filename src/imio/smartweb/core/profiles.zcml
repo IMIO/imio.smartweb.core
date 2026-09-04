@@ -27,7 +27,7 @@
       directory="profiles/ideabox_uninstall"
       description="Uninstall ideabox."
       provides="Products.GenericSetup.interfaces.EXTENSION"
-      post_handler=".setuphandlers.post_install"
+      post_handler=".setuphandlers.ideabox_uninstall"
       />
 
   <genericsetup:registerProfile

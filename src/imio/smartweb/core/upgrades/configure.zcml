@@ -1301,4 +1301,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Show imio.smartweb.CampaignView in navigation on ideabox sites"
+      description="Add imio.smartweb.CampaignView to plone.displayed_types"
+      source="1085"
+      destination="1086"
+      handler=".upgrades.add_campaignview_to_displayed_types"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>

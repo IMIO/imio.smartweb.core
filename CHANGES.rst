@@ -5,7 +5,10 @@ Changelog
 1.4.60 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4484 : Show ``imio.smartweb.CampaignView`` in the navigation menu: the ideabox
+  profile now adds it to ``plone.displayed_types`` (removed again by
+  ``ideabox_uninstall``), with an upgrade step for existing ideabox sites.
+  [boulch]
 
 
 1.4.59 (2026-09-02)
