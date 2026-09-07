@@ -3,6 +3,7 @@
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.upgrades.upgrades import add_campaignview_to_displayed_types
+from imio.smartweb.core.upgrades.upgrades import migrate_section_default_width
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
@@ -47,3 +48,33 @@ class TestUpgrades(ImioSmartwebTestCase):
             "imio.smartweb.CampaignView",
             api.portal.get_registry_record("plone.displayed_types"),
         )
+
+    def test_migrate_section_default_width(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            id="page",
+        )
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        section.bootstrap_css_class = None
+        migrate_section_default_width(self.portal)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-12")
+
+    def test_migrate_section_default_width_is_idempotent(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            id="page",
+        )
+        section = api.content.create(
+            container=page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        section.bootstrap_css_class = "col-sm-6"
+        migrate_section_default_width(self.portal)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-6")

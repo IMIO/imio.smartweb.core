@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.setuphandlers import CAMPAIGNVIEW_PORTAL_TYPE
 from imio.smartweb.core.utils import (
     populate_procedure_button_text as utils_populate_procedure_button_text,
@@ -234,6 +235,18 @@ def migrate_old_sizes_from_section_text(context):
             logger.info(
                 f"Migrated deprecated scale from {old_scale} to {new_scale} for {obj.absolute_url()}"
             )
+
+
+def migrate_section_default_width(context):
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(object_provides=ISection.__identifier__)
+        for brain in brains:
+            obj = brain.getObject()
+            if not obj.bootstrap_css_class:
+                obj.bootstrap_css_class = "col-sm-12"
+                logger.info(
+                    f"Set default section width (col-sm-12) for {obj.absolute_url()}"
+                )
 
 
 def update_control_panel_combo_api_url(context):

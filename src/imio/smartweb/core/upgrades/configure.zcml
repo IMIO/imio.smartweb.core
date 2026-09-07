@@ -1310,4 +1310,13 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Set default section width (col-sm-12) on sections created before required width was introduced"
+      description=""
+      source="1086"
+      destination="1087"
+      handler=".upgrades.migrate_section_default_width"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
