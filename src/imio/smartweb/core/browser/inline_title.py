@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
-from plone import api
+from imio.smartweb.core.utils import can_edit_content
 from Products.Five import BrowserView
 
 
@@ -17,9 +17,7 @@ class InlineTitleView(BrowserView):
         return super().__call__().strip()
 
     def can_edit(self):
-        return api.user.has_permission(
-            "Modify portal content", obj=aq_inner(self.context)
-        )
+        return can_edit_content(aq_inner(self.context))
 
 
 class SaveTitleView(BrowserView):
@@ -27,6 +25,10 @@ class SaveTitleView(BrowserView):
 
     def __call__(self):
         context = aq_inner(self.context)
+        if not can_edit_content(context):
+            # Locked by another editor since the page was rendered: ignore
+            # the write, return the title unchanged.
+            return context.Title()
         new_title = self.request.form.get("newTitle", "").strip()
         if new_title and new_title != context.Title():
             context.setTitle(new_title)

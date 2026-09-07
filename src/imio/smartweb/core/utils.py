@@ -7,6 +7,7 @@ from more_itertools import chunked
 from plone import api
 from plone.app.multilingual.interfaces import ILanguageRootFolder
 from plone.dexterity.interfaces import IDexterityContent
+from plone.locking.interfaces import ILockable
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
@@ -120,6 +121,27 @@ def safe_html(html):
 
 def batch_results(iterable, batch_size):
     return list(chunked(iterable, batch_size, strict=False))
+
+
+def can_edit_content(context):
+    """True if the current user may modify `context` right now: they must
+    have the "Modify portal content" permission, AND the object must not be
+    locked (plone.locking) by another user.
+
+    Used to gate the htmx/inline-edit affordances (title, section text body)
+    which write straight to the ZODB with no intermediate edit form of their
+    own, so - unlike the standard @@edit form - they never get a chance to
+    show the usual "locked by X" warning and let the editor decide: without
+    this check, a second editor could silently overwrite whatever the lock
+    owner is doing.
+    """
+    if not api.user.has_permission("Modify portal content", obj=context):
+        return False
+    lockable = ILockable(context, None)
+    if lockable is None:
+        # plone.locking behavior not enabled on this content type
+        return True
+    return lockable.can_safely_unlock()
 
 
 def reindexParent(obj, event=None):

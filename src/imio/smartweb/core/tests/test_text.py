@@ -12,6 +12,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.locking.interfaces import ILockable
 from plone.namedfile.file import NamedBlobImage
 from plone.protect.authenticator import createToken
 from plone.testing.zope import Browser
@@ -219,3 +220,33 @@ class TestInlineEditView(ImioSmartwebTestCase):
         # the response feeds the displayed div, so it is the rendered output
         self.assertEqual(browser.contents, "<p>New text</p>")
         self.assertEqual(self.section.text.raw, "<p>New text</p>")
+
+    def test_can_edit_false_when_locked_by_other(self):
+        # Someone else has this exact section open in the standard edit
+        # form (plone.locking) - the chromeless inline TinyMCE editor must
+        # not be mounted, same as for a user without edit permission.
+        ILockable(self.section).lock()
+        login(self.portal, "test")
+        rendered = getMultiAdapter((self.page, self.request), name="full_view")()
+        self.assertIn("<p>Hello</p>", rendered)
+        self.assertNotIn("pat-tinymce", rendered)
+        self.assertNotIn("inline-text-edit", rendered)
+        login(self.portal, TEST_USER_NAME)
+
+    def test_can_edit_true_for_lock_owner(self):
+        # The editor holding the lock can keep editing normally.
+        ILockable(self.section).lock()
+        view = getMultiAdapter((self.section, self.request), name="view")
+        self.assertTrue(view.can_edit())
+
+    def test_save_text_refused_when_locked_by_other(self):
+        ILockable(self.section).lock()
+        login(self.portal, "test")
+        self.request.form["newText"] = "<p>Hacked</p>"
+        self.request.form["_authenticator"] = createToken()
+        view = getMultiAdapter((self.section, self.request), name="view")
+        result = view.save_text()
+        # unchanged: the write was silently ignored
+        self.assertEqual(result, "<p>Hello</p>")
+        self.assertEqual(self.section.text.raw, "<p>Hello</p>")
+        login(self.portal, TEST_USER_NAME)

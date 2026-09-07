@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
+from imio.smartweb.core.utils import can_edit_content
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.contents.sections.views import SectionView
 from plone.app.contenttypes.behaviors.richtext import IRichTextBehavior
 from plone.app.textfield.value import RichTextValue
 from plone.app.z3cform.widgets.richtext import get_tinymce_options
-from plone import api
 
 import json
 
@@ -21,9 +21,7 @@ class TextView(SectionView):
 
 class InlineEditView(TextView):
     def can_edit(self):
-        return api.user.has_permission(
-            "Modify portal content", obj=aq_inner(self.context)
-        )
+        return can_edit_content(aq_inner(self.context))
 
     def tinymce_options(self):
         """Same pat-tinymce config as the standard Plone edit form, but
@@ -71,6 +69,10 @@ class InlineEditView(TextView):
 
     def save_text(self):
         context = aq_inner(self.context)
+        if not can_edit_content(context):
+            # Section locked by another editor since the page was rendered:
+            # ignore the write, return the text unchanged.
+            return context.text.output if context.text else ""
         new_text = self.request.form.get("newText", "")
         context.text = RichTextValue(new_text, "text/html", "text/html")
         context.reindexObject()

@@ -9,6 +9,7 @@ from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.app.testing import TEST_USER_NAME
 from plone.app.testing import TEST_USER_PASSWORD
+from plone.locking.interfaces import ILockable
 from plone.protect.authenticator import createToken
 from plone.testing.zope import Browser
 from zope.component import getMultiAdapter
@@ -70,6 +71,22 @@ class TestInlineTitleView(InlineTitleTestCase):
         self.assertIn('<h1 class="page-title"><span class="inline-title"', page_view)
         self.assertIn('<h2 class="section-title"><span class="inline-title"', page_view)
 
+    def test_title_is_plain_text_when_locked_by_other(self):
+        # Someone else has this exact object open in the standard edit form
+        # (plone.locking) - the contenteditable must not be mounted, same
+        # as for a user without edit permission.
+        ILockable(self.section).lock()
+        login(self.portal, "test")
+        rendered = getMultiAdapter((self.section, self.request), name="inline_title")()
+        self.assertEqual(rendered, self.section.Title())
+        login(self.portal, TEST_USER_NAME)
+
+    def test_title_is_editable_for_lock_owner(self):
+        # The editor holding the lock can keep editing normally.
+        ILockable(self.section).lock()
+        rendered = getMultiAdapter((self.section, self.request), name="inline_title")()
+        self.assertIn('contenteditable="true"', rendered)
+
     def test_title_is_plain_text_for_anonymous(self):
         api.content.transition(self.folder, "publish")
         api.content.transition(self.page, "publish")
@@ -123,6 +140,18 @@ class TestSaveTitleView(InlineTitleTestCase):
         # an empty title is ignored: a content never loses its title
         self.post_title(browser, self.section, "+++")
         self.assertEqual(self.section.Title(), "Trimmed title")
+
+    def test_save_title_refused_when_locked_by_other(self):
+        ILockable(self.section).lock()
+        login(self.portal, "test")
+        self.request.form["newTitle"] = "Hacked title"
+        self.request.form["_authenticator"] = createToken()
+        view = getMultiAdapter((self.section, self.request), name="savetitle")
+        result = view()
+        # unchanged: the write was silently ignored
+        self.assertEqual(result, "My section")
+        self.assertEqual(self.section.Title(), "My section")
+        login(self.portal, TEST_USER_NAME)
 
     def test_anonymous_can_not_save_title(self):
         transaction.commit()
