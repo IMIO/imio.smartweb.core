@@ -13,6 +13,7 @@ import removeAccents from "remove-accents";
 const ContactContent = ({
     queryUrl,
     onChange,
+    onItemLoad,
     onlyPastEvents,
     contextAuthenticatedUser,
     navRootUrl,
@@ -51,6 +52,7 @@ const ContactContent = ({
     useEffect(() => {
         if (response !== null) {
             setitem(response.items[0]);
+            onItemLoad && onItemLoad(response.items[0]);
             // set recurrence
             if (response.items.length > 1) {
                 response.items.map((item, i) => {

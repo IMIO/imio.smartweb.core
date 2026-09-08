@@ -56,6 +56,7 @@ function EventsView(props) {
     const [itemsArray, setItemsArray] = useState(null);
     const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
+    const [detailItem, setDetailItem] = useState(null);
     const [hoverId, setHoverId] = useState(null);
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
@@ -157,19 +158,20 @@ function EventsView(props) {
                 queryUrl={props.queryUrl}
             />
         );
-        const activeEvent = itemsArray.filter((event) => event.UID === u);
-        DetailMapRender = (
-            <Map
-                headerHeight={style.height + headerHeight}
-                items={activeEvent}
-                queryUrl={props.queryUrl}
-            />
-        );
     } else if (!isLoading) {
         listRender = (
             <p role="status" aria-live="polite">
                 <Translate text="Aucun événement n'a été trouvé" />
             </p>
+        );
+    }
+    if (detailItem && detailItem.UID === u) {
+        DetailMapRender = (
+            <Map
+                headerHeight={style.height + headerHeight}
+                items={[detailItem]}
+                queryUrl={props.queryUrl}
+            />
         );
     }
     const divLoader = (
@@ -307,6 +309,7 @@ function EventsView(props) {
                                 <EventContent
                                     queryUrl={props.queryUrl}
                                     onChange={clickID}
+                                    onItemLoad={setDetailItem}
                                     onlyPastEvents={props.onlyPastEvents}
                                     contextAuthenticatedUser={props.contextAuthenticatedUser}
                                     navRootUrl={props.navRootUrl}

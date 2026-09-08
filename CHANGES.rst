@@ -5,6 +5,11 @@ Changelog
 1.4.60 (unreleased)
 -------------------
 
+- SUP-55141 : Agenda detail map : center it on the event instead of Brussels when the event
+  page is reached directly. Needs ``imio.events.core`` >= 1.2.57, which stops blanking
+  ``geolocation`` on a UID query
+  [boulch]
+
 - WEB-4484 : Show ``imio.smartweb.CampaignView`` in the navigation menu: the ideabox
   profile now adds it to ``plone.displayed_types`` (removed again by
   ``ideabox_uninstall``), with an upgrade step for existing ideabox sites.
