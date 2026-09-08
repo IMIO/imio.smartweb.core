@@ -553,3 +553,41 @@ body.has-sticky-header {
   align-items: center;
   justify-content: center;
 }
+
+// Bootstrap dropdown markup for the Plone language selector, rendered
+// server-side (see viewlets/languageselector.pt): the <ul id="portal-languageselector">
+// is the .dropdown-menu, so only reset the list styles it inherits and size the
+// toggle button to match the other header actions.
+#portal-languageselector-dropdown {
+  #portal-languageselector {
+    display: none;
+    &.dropdown-menu.show {
+      display: block;
+    }
+  }
+  .btn.dropdown-toggle {
+    background: none;
+    border: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    text-transform: uppercase;
+  }
+
+  ul.dropdown-menu {
+    list-style: none;
+    margin: 0;
+    min-width: auto;
+    padding: 0.25rem 0;
+
+    li {
+      margin: 0;
+    }
+
+    a.dropdown-item {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
+}
