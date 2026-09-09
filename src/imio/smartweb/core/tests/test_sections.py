@@ -305,7 +305,10 @@ class TestSections(ImioSmartwebTestCase):
         ]
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title"><span class="inline-title"'),
+            # inline edition is disabled for now (can_edit_content() in
+            # utils.py), so an editor sees the same plain-text title as an
+            # anonymous visitor - no <span class="inline-title"> wrapper.
+            view.count('<h2 class="section-title">Title of my '),
             len(section_types),
         )
         logout()
@@ -337,7 +340,10 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title"><span class="inline-title"'),
+            # inline edition is disabled for now (can_edit_content() in
+            # utils.py), so an editor sees the same plain-text title as an
+            # anonymous visitor - no <span class="inline-title"> wrapper.
+            view.count('<h2 class="section-title">Title of my '),
             len(section_types),
         )
 
@@ -386,7 +392,10 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title"><span class="inline-title"'),
+            # inline edition is disabled for now (can_edit_content() in
+            # utils.py), so an editor sees the same plain-text title as an
+            # anonymous visitor - no <span class="inline-title"> wrapper.
+            view.count('<h2 class="section-title">Title of my '),
             len(section_types),
         )
         # test hide_title
@@ -396,9 +405,8 @@ class TestSections(ImioSmartwebTestCase):
         # hide_title in login mode (add some specific css class)
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count(
-                '<h2 class="hidden-section-title hide-in-preview"><span class="inline-title"'
-            ),
+            # inline edition disabled for now, see comment above
+            view.count('<h2 class="hidden-section-title hide-in-preview">Title of my '),
             self.NUMBER_OF_EMPTY_SECTIONS,
         )
         # hide_title in logout mode (no more <h2> / title)

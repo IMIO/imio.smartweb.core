@@ -15,6 +15,12 @@ from plone.testing.zope import Browser
 from zope.component import getMultiAdapter
 
 import transaction
+import unittest
+
+INLINE_EDIT_DISABLED_REASON = (
+    "inline edition is disabled for now (can_edit_content() short-circuits to"
+    " False, see utils.py) - un-skip once it's re-enabled"
+)
 
 
 class InlineTitleTestCase(ImioSmartwebTestCase):
@@ -54,6 +60,7 @@ class InlineTitleTestCase(ImioSmartwebTestCase):
 
 class TestInlineTitleView(InlineTitleTestCase):
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_title_is_editable_for_editors(self):
         for obj in (self.folder, self.page, self.section):
             rendered = getMultiAdapter((obj, self.request), name="inline_title")()
@@ -88,6 +95,7 @@ class TestInlineTitleView(InlineTitleTestCase):
         self.assertEqual(rendered, self.section.Title())
         login(self.portal, TEST_USER_NAME)
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_title_is_editable_for_lock_owner(self):
         # The editor holding the lock can keep editing normally.
         ILockable(self.section).lock()
@@ -127,6 +135,7 @@ class TestSaveTitleView(InlineTitleTestCase):
         transaction.begin()
         return browser.contents
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_save_title(self):
         transaction.commit()
         browser = self.get_browser()
@@ -151,6 +160,7 @@ class TestSaveTitleView(InlineTitleTestCase):
         # blur/save also releases the lock focus had acquired
         self.assertFalse(ILockable(self.section).locked())
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_lock_on_focus_then_save_releases_it(self):
         # simulates the real front-end sequence: focus locks the object,
         # then blur saves and releases the lock.

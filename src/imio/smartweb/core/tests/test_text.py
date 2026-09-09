@@ -20,6 +20,12 @@ from zope.component import getMultiAdapter
 
 import json
 import transaction
+import unittest
+
+INLINE_EDIT_DISABLED_REASON = (
+    "inline edition is disabled for now (can_edit_content() short-circuits to"
+    " False, see utils.py) - un-skip once it's re-enabled"
+)
 
 
 class TestText(ImioSmartwebTestCase):
@@ -160,6 +166,7 @@ class TestInlineEditView(ImioSmartwebTestCase):
         view = getMultiAdapter((self.page, self.request), name="full_view")
         return BeautifulSoup(view(), "lxml").find("textarea", {"name": "newText"})
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_tinymce_options(self):
         textarea = self.get_textarea()
         self.assertIn("pat-tinymce", textarea["class"])
@@ -190,6 +197,7 @@ class TestInlineEditView(ImioSmartwebTestCase):
         # (meant for the boxed editor's iframe) into the page's own <head>
         self.assertFalse(options["tiny"]["content_css"])
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_get_text(self):
         # TinyMCE reads the textarea when it starts, so the text has to be
         # rendered server side: an htmx swap would come too late
@@ -204,6 +212,7 @@ class TestInlineEditView(ImioSmartwebTestCase):
         self.assertNotIn("inline-text-edit", rendered)
         login(self.portal, TEST_USER_NAME)
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_lock_url_attribute(self):
         # so the front-end JS can lock the section (plone.locking) as soon
         # as TinyMCE gains focus, before the first @@savetext on blur
@@ -216,6 +225,7 @@ class TestInlineEditView(ImioSmartwebTestCase):
             ),
         )
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_save_text(self):
         transaction.commit()
         browser = Browser(self.layer["app"])
@@ -235,6 +245,7 @@ class TestInlineEditView(ImioSmartwebTestCase):
         # blur/save also releases the lock focus had acquired
         self.assertFalse(ILockable(self.section).locked())
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_lock_on_focus_then_save_releases_it(self):
         # simulates the real front-end sequence: TinyMCE "focus" locks the
         # section, then "blur" saves and releases the lock.
@@ -294,6 +305,7 @@ class TestInlineEditView(ImioSmartwebTestCase):
         self.assertNotIn("inline-text-edit", rendered)
         login(self.portal, TEST_USER_NAME)
 
+    @unittest.skip(INLINE_EDIT_DISABLED_REASON)
     def test_can_edit_true_for_lock_owner(self):
         # The editor holding the lock can keep editing normally.
         ILockable(self.section).lock()

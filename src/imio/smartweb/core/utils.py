@@ -135,13 +135,16 @@ def can_edit_content(context):
     this check, a second editor could silently overwrite whatever the lock
     owner is doing.
     """
-    if not api.user.has_permission("Modify portal content", obj=context):
-        return False
-    lockable = ILockable(context, None)
-    if lockable is None:
-        # plone.locking behavior not enabled on this content type
-        return True
-    return lockable.can_safely_unlock()
+    # Inline edition (title + section text body) is disabled for now - not
+    # ready for production yet. Uncomment the block below to re-enable it.
+    return False
+    # if not api.user.has_permission("Modify portal content", obj=context):
+    #     return False
+    # lockable = ILockable(context, None)
+    # if lockable is None:
+    #     # plone.locking behavior not enabled on this content type
+    #     return True
+    # return lockable.can_safely_unlock()
 
 
 def release_lock(context):
