@@ -46,6 +46,7 @@ function AnnuaireView(props) {
     const [contactArray, setcontactArray] = useState(null);
     const [contactNumber, setcontactNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
+    const [detailItem, setDetailItem] = useState(null);
     const [hoverId, setHoverId] = useState(null);
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
@@ -146,19 +147,20 @@ function AnnuaireView(props) {
                 queryUrl={props.queryUrl}
             />
         );
-        const activeContact = contactArray.filter((contact) => contact.UID === u);
-        DetailMapRender = (
-            <Map
-                headerHeight={style.height + headerHeight}
-                items={activeContact}
-                queryUrl={props.queryUrl}
-            />
-        );
     } else if (!isLoading) {
         listRender = (
             <p role="status" aria-live="polite">
                 <Translate text="Aucun contact n'a été trouvé" />
             </p>
+        );
+    }
+    if (detailItem && detailItem.UID === u) {
+        DetailMapRender = (
+            <Map
+                headerHeight={style.height + headerHeight}
+                items={[detailItem]}
+                queryUrl={props.queryUrl}
+            />
         );
     }
 
@@ -296,6 +298,7 @@ function AnnuaireView(props) {
                                 <ContactContent
                                     queryUrl={props.queryUrl}
                                     onChange={clickID}
+                                    onItemLoad={setDetailItem}
                                     contextAuthenticatedUser={props.contextAuthenticatedUser}
                                 />
                             </div>

@@ -8,7 +8,7 @@ import "../../../../node_modules/flexbin/flexbin.css";
 import { Translate, Translator } from "react-translated";
 import queryString from "query-string";
 
-const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
+const ContactContent = ({ queryUrl, onChange, onItemLoad, contextAuthenticatedUser }) => {
     const navigate = useNavigate();
     const { u, ...parsed } = Object.assign({
         UID: queryString.parse(useFilterQuery().toString())["u"],
@@ -42,6 +42,7 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
     useEffect(() => {
         if (response !== null) {
             setitem(response.items[0]);
+            onItemLoad && onItemLoad(response.items[0]);
         }
         window.scrollTo({
             top: 0,

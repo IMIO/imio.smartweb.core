@@ -5,6 +5,10 @@ Changelog
 1.4.60 (unreleased)
 -------------------
 
+- SUP-55141 : Directory detail map : same fix for the annuaire. No authentic source change
+  needed there, ``imio.directory`` keeps the coordinates on a UID query
+  [boulch]
+
 - SUP-55141 : Agenda detail map : center it on the event instead of Brussels when the event
   page is reached directly. Needs ``imio.events.core`` >= 1.2.57, which stops blanking
   ``geolocation`` on a UID query
