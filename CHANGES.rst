@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.60 (unreleased)
+1.4.60 (2026-09-09)
 -------------------
 
 - CITIBDC-659: Override languageselector.pt to add bootstrap class for dropdown menu
