@@ -60,6 +60,13 @@ class TestInlineTitleView(InlineTitleTestCase):
             self.assertIn('<span class="inline-title"', rendered)
             self.assertIn('contenteditable="true"', rendered)
             self.assertIn("{}/@@savetitle".format(obj.absolute_url()), rendered)
+            # so the front-end JS can lock the object (plone.locking) as
+            # soon as the title gains focus, before the first @@savetitle
+            # on blur
+            self.assertIn(
+                "{}/@@plone_lock_operations/create_lock".format(obj.absolute_url()),
+                rendered,
+            )
             self.assertIn(obj.Title(), rendered)
 
         # and it is really plugged into the headings the editor sees
@@ -140,6 +147,31 @@ class TestSaveTitleView(InlineTitleTestCase):
         # an empty title is ignored: a content never loses its title
         self.post_title(browser, self.section, "+++")
         self.assertEqual(self.section.Title(), "Trimmed title")
+
+        # blur/save also releases the lock focus had acquired
+        self.assertFalse(ILockable(self.section).locked())
+
+    def test_lock_on_focus_then_save_releases_it(self):
+        # simulates the real front-end sequence: focus locks the object,
+        # then blur saves and releases the lock.
+        transaction.commit()
+        browser = self.get_browser()
+
+        browser.post(
+            "{}/@@plone_lock_operations/create_lock".format(
+                self.section.absolute_url()
+            ),
+            "redirect:boolean=false",
+            "application/x-www-form-urlencoded",
+        )
+        transaction.begin()
+        self.assertTrue(ILockable(self.section).locked())
+        self.assertTrue(ILockable(self.section).can_safely_unlock())
+
+        response = self.post_title(browser, self.section, "Renamed+section")
+        self.assertEqual(response, "Renamed section")
+        self.assertEqual(self.section.Title(), "Renamed section")
+        self.assertFalse(ILockable(self.section).locked())
 
     def test_save_title_refused_when_locked_by_other(self):
         ILockable(self.section).lock()

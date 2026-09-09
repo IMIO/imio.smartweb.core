@@ -18,6 +18,24 @@ document.addEventListener("keydown", function(event) {
         event.target.blur();
     }
 });
+/**
+  Lock the object (plone.locking) as soon as inline edition of its title
+  starts, so a second editor is blocked (@@savetitle checks can_edit_content)
+  and sees the standard "Locked by X" banner, instead of only locking when
+  the classic @@edit form happens to be open elsewhere. "focusin" bubbles
+  (unlike the raw "focus" event), so a single delegated listener is enough.
+  Fire-and-forget: @@plone_lock_operations is CSRF-exempt (plone.protect
+  safe_views) and create_lock() is a no-op if already locked by this user.
+*/
+document.addEventListener("focusin", function(event) {
+    var el = event.target;
+    if (!el.classList || !el.classList.contains("inline-title")) return;
+    if (!el.dataset.lockUrl) return;
+    fetch(el.dataset.lockUrl + "?redirect:boolean=false", {
+        method: "POST",
+        credentials: "same-origin",
+    });
+});
 
 document.addEventListener("DOMContentLoaded", function() {
     /**

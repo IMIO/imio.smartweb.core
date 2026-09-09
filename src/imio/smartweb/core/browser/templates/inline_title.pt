@@ -6,5 +6,6 @@
       hx-swap="none"
       tal:omit-tag="not: view/can_edit"
       tal:attributes="hx-post string:${context/absolute_url}/@@savetitle;
-                      data-token context/@@authenticator/token"
+                      data-token context/@@authenticator/token;
+                      data-lock-url string:${context/absolute_url}/@@plone_lock_operations/create_lock"
       tal:content="context/Title">Title</span>

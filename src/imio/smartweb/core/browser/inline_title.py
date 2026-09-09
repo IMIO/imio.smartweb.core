@@ -2,6 +2,7 @@
 
 from Acquisition import aq_inner
 from imio.smartweb.core.utils import can_edit_content
+from imio.smartweb.core.utils import release_lock
 from Products.Five import BrowserView
 
 
@@ -33,4 +34,5 @@ class SaveTitleView(BrowserView):
         if new_title and new_title != context.Title():
             context.setTitle(new_title)
             context.reindexObject(idxs=["Title", "sortable_title", "SearchableText"])
+        release_lock(context)
         return context.Title()

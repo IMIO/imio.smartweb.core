@@ -144,6 +144,23 @@ def can_edit_content(context):
     return lockable.can_safely_unlock()
 
 
+def release_lock(context):
+    """Release the current user's own edit lock on `context`, if any.
+
+    Called right after an inline-edit write (@@savetitle, @@savetext) so the
+    section becomes editable by someone else again as soon as this editor
+    blurs the field, instead of waiting out plone.locking's timeout.
+
+    Must only be called after `can_edit_content()` already confirmed the
+    lock (if any) belongs to the current user - `ILockable.unlock()` does
+    not check ownership itself, it would happily steal anyone's stealable
+    lock.
+    """
+    lockable = ILockable(context, None)
+    if lockable is not None:
+        lockable.unlock()
+
+
 def reindexParent(obj, event=None):
     parent = aq_parent(obj)
     if parent is not None:

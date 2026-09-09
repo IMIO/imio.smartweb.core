@@ -3,6 +3,7 @@
 from Acquisition import aq_inner
 from imio.smartweb.core.utils import can_edit_content
 from imio.smartweb.core.utils import get_scale_url
+from imio.smartweb.core.utils import release_lock
 from imio.smartweb.core.contents.sections.views import SectionView
 from plone.app.contenttypes.behaviors.richtext import IRichTextBehavior
 from plone.app.textfield.value import RichTextValue
@@ -76,4 +77,5 @@ class InlineEditView(TextView):
         new_text = self.request.form.get("newText", "")
         context.text = RichTextValue(new_text, "text/html", "text/html")
         context.reindexObject()
+        release_lock(context)
         return context.text.output

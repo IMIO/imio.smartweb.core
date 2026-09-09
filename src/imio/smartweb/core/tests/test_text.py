@@ -204,6 +204,18 @@ class TestInlineEditView(ImioSmartwebTestCase):
         self.assertNotIn("inline-text-edit", rendered)
         login(self.portal, TEST_USER_NAME)
 
+    def test_lock_url_attribute(self):
+        # so the front-end JS can lock the section (plone.locking) as soon
+        # as TinyMCE gains focus, before the first @@savetext on blur
+        view = getMultiAdapter((self.page, self.request), name="full_view")
+        form = BeautifulSoup(view(), "lxml").find("form", {"class": "inline-text-edit"})
+        self.assertEqual(
+            form["data-lock-url"],
+            "{}/@@plone_lock_operations/create_lock".format(
+                self.section.absolute_url()
+            ),
+        )
+
     def test_save_text(self):
         transaction.commit()
         browser = Browser(self.layer["app"])
@@ -220,6 +232,55 @@ class TestInlineEditView(ImioSmartwebTestCase):
         # the response feeds the displayed div, so it is the rendered output
         self.assertEqual(browser.contents, "<p>New text</p>")
         self.assertEqual(self.section.text.raw, "<p>New text</p>")
+        # blur/save also releases the lock focus had acquired
+        self.assertFalse(ILockable(self.section).locked())
+
+    def test_lock_on_focus_then_save_releases_it(self):
+        # simulates the real front-end sequence: TinyMCE "focus" locks the
+        # section, then "blur" saves and releases the lock.
+        transaction.commit()
+        browser = Browser(self.layer["app"])
+        browser.addHeader(
+            "Authorization",
+            "Basic %s:%s" % (TEST_USER_NAME, TEST_USER_PASSWORD),
+        )
+        browser.post(
+            "{}/@@plone_lock_operations/create_lock".format(
+                self.section.absolute_url()
+            ),
+            "redirect:boolean=false",
+            "application/x-www-form-urlencoded",
+        )
+        transaction.begin()
+        self.assertTrue(ILockable(self.section).locked())
+        self.assertTrue(ILockable(self.section).can_safely_unlock())
+
+        browser.post(
+            "{}/@@savetext".format(self.section.absolute_url()),
+            "newText=%3Cp%3ENew+text%3C%2Fp%3E&_authenticator={}".format(createToken()),
+            "application/x-www-form-urlencoded",
+        )
+        transaction.begin()
+        self.assertEqual(self.section.text.raw, "<p>New text</p>")
+        self.assertFalse(ILockable(self.section).locked())
+
+    def test_lock_status_banner_shown_to_other_editor(self):
+        # once someone else's inline edition has really locked the section
+        # (plone.locking), the standard "#plone-lock-status" banner
+        # (SectionView.locking_info, already wired in section_edition)
+        # must show up for a second editor.
+        ILockable(self.section).lock()
+        login(self.portal, "test")
+        rendered = getMultiAdapter((self.page, self.request), name="full_view")()
+        soup = BeautifulSoup(rendered, "lxml")
+        # the page's own (unlocked) #plone-lock-status from the standard
+        # plone.lockinfo viewlet is also on the page, hence find_all: we
+        # only care that the section's own banner (rendered inline, via
+        # SectionView.locking_info) is among them and shows "Locked".
+        banners = soup.find_all(id="plone-lock-status")
+        self.assertTrue(banners)
+        self.assertTrue(any("Locked" in banner.get_text() for banner in banners))
+        login(self.portal, TEST_USER_NAME)
 
     def test_can_edit_false_when_locked_by_other(self):
         # Someone else has this exact section open in the standard edit

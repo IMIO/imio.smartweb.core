@@ -39,6 +39,20 @@
                 form.style.display = "";
               }
               el.classList.add("text");
+              // Lock the object (plone.locking) as soon as edition starts,
+              // so a second editor is blocked (@@savetext checks
+              // can_edit_content) and sees the standard "Locked by X"
+              // banner. Fire-and-forget: @@plone_lock_operations is
+              // CSRF-exempt (plone.protect safe_views) and create_lock() is
+              // a no-op if already locked by this user.
+              e.editor.on("focus", function () {
+                if (form && form.dataset.lockUrl) {
+                  fetch(form.dataset.lockUrl + "?redirect:boolean=false", {
+                    method: "POST",
+                    credentials: "same-origin",
+                  });
+                }
+              });
               // Auto-save on blur: use TinyMCE's own "blur" event (fires only
               // once focus really leaves the whole editor, dialogs included)
               // rather than the raw DOM blur event, which would also fire -
@@ -88,7 +102,8 @@
             hx-swap="none"
             hx-trigger="save-text"
             style="display:none;"
-            tal:attributes="hx-post string:${context/absolute_url}/@@savetext">
+            tal:attributes="hx-post string:${context/absolute_url}/@@savetext;
+                            data-lock-url string:${context/absolute_url}/@@plone_lock_operations/create_lock">
           <textarea name="newText"
                     class="pat-tinymce"
                     rows="20"
