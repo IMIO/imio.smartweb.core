@@ -5,6 +5,21 @@ Changelog
 1.4.60 (unreleased)
 -------------------
 
+- CITIBDC-659: Override languageselector.pt to add bootstrap class for dropdown menu
+  [thomlamb]
+
+- Fix section-text container max with
+  [thomlamb]
+
+- Add upgrade step to set col-sm-12 default class
+  [thomlamb]
+
+- WEB-4469: Add new feature to align section with text.
+  [thomlamb]
+
+- WIP: WEB-4044: Add feature poc to inline edit text.
+  [thomlamb]
+
 - SUP-55141 : Directory detail map : same fix for the annuaire. No authentic source change
   needed there, ``imio.directory`` keeps the coordinates on a UID query
   [boulch]
