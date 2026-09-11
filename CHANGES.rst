@@ -5,7 +5,8 @@ Changelog
 1.4.61 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add important to margin for align text section to prevent bad custom theme
+  [thomlamb]
 
 
 1.4.60 (2026-09-09)
