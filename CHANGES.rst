@@ -5,7 +5,9 @@ Changelog
 1.4.61 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- SUP-55591 : News video embed : resolve the Vimeo embed URL through the oEmbed API instead of guessing
+  it from the URL shape, so live events and unlisted videos are embedded correctly
+  [boulch, remdub]
 
 
 1.4.60 (2026-09-09)
