@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.61 (unreleased)
+1.4.61 (2026-09-14)
 -------------------
 
 - Add a one shot ``@@align_section_to_text`` view setting ``text_align_container``
