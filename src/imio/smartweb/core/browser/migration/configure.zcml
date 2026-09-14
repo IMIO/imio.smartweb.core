@@ -88,4 +88,13 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      for="*"
+      name="align_section_to_text"
+      class=".align_section_to_text.AlignSectionToTextView"
+      template="align_section_to_text.pt"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>

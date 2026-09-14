@@ -5,6 +5,12 @@ Changelog
 1.4.61 (unreleased)
 -------------------
 
+- Add a one shot ``@@align_section_to_text`` view setting ``text_align_container``
+  on every ``imio.smartweb.Page`` and ``imio.smartweb.Procedure``, and aligning all
+  their sections on the text container (``imio.smartweb.SectionText`` excluded, it
+  has its own alignment field).
+  [boulch]
+
 - SUP-55591 : News video embed : resolve the Vimeo embed URL through the oEmbed API instead of guessing
   it from the URL shape, so live events and unlisted videos are embedded correctly
   [boulch, remdub]
