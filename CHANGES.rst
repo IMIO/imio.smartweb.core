@@ -5,6 +5,10 @@ Changelog
 1.4.61 (unreleased)
 -------------------
 
+- SUP-55591 : News video embed : resolve the Vimeo embed URL through the oEmbed API instead of guessing
+  it from the URL shape, so live events and unlisted videos are embedded correctly
+  [boulch, remdub]
+
 - Add important to margin for align text section to prevent bad custom theme
   [thomlamb]
 

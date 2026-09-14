@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { LanguageContext } from "../News.jsx";
 import useAxios from "../../../hooks/useAxios";
 import useFilterQuery from "../../../hooks/useFilterQuery";
+import useVideoEmbed from "../../../hooks/useVideoEmbed";
 import moment from "moment";
 import ReactMarkdown from "react-markdown";
 import "spotlight.js";
@@ -55,18 +56,8 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
         onChange(null);
     }
 
-    // Function to generate iframe URL
-    const getIframeSrc = (url) => {
-        if (url.includes("youtube.com") || url.includes("youtu.be")) {
-            const urlParams = new URLSearchParams(new URL(url).search);
-            const videoId = urlParams.get("v") || url.split("/").pop();
-            return `https://www.youtube.com/embed/${videoId}`;
-        } else if (url.includes("vimeo.com")) {
-            const videoId = url.split("/").pop();
-            return `https://player.vimeo.com/video/${videoId}`;
-        }
-        return null;
-    };
+    // URL d'embed de la vidéo (résolue via l'oEmbed du fournisseur pour Vimeo)
+    const { src: videoEmbedSrc } = useVideoEmbed(item.video_url);
 
     moment.locale(useContext(LanguageContext));
     const created = moment(item.effective).startOf("minute").fromNow();
@@ -373,13 +364,15 @@ const ContactContent = ({ queryUrl, onChange, contextAuthenticatedUser }) => {
                 >
                     {/* add files to download */}
                 </div>
-                {item.video_url ? (
+                {videoEmbedSrc ? (
                     <div className="r-content-news-info--video">
                         <iframe
-                            src={getIframeSrc(item.video_url)}
+                            src={videoEmbedSrc}
+                            title={item.title}
                             width="100%"
                             height="100%"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            referrerPolicy="strict-origin-when-cross-origin"
                             allowFullScreen
                         ></iframe>
                     </div>
