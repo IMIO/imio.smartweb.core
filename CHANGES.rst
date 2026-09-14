@@ -9,6 +9,9 @@ Changelog
   it from the URL shape, so live events and unlisted videos are embedded correctly
   [boulch, remdub]
 
+- Add important to margin for align text section to prevent bad custom theme
+  [thomlamb]
+
 
 1.4.60 (2026-09-09)
 -------------------
