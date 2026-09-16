@@ -5,7 +5,16 @@ Changelog
 1.4.62 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- WEB-4495 : Override ``IFacetedCatalog`` with ``SmartwebFacetedCatalog`` so a taxonomy created
+  through the web no longer breaks faceted search. Such an index is absent from the
+  shared Solr schema, and eea.facetednavigation adds it to ``facet.field`` without
+  checking, which makes Solr answer 400 and the visitor see an empty result list.
+  Only queries Solr actually answers are affected - a taxonomy criterion on its own
+  falls back to the portal catalog and is left untouched - so in practice this is the
+  taxonomy combined with a text search. For those, the criterion is removed from the
+  Solr query and applied on the results instead (capped at 5000 documents), with its
+  facet counts rebuilt from the catalog metadata column collective.taxonomy maintains.
+  [boulch]
 
 
 1.4.61 (2026-09-14)
