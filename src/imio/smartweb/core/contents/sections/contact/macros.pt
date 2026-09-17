@@ -51,8 +51,17 @@
                tal:content="subtitle"></div>
         </div>
 
+        <tal:informations tal:condition="python:'contact_informations' in visible_blocks">
+        <!-- The defines MUST live on a nested element: TAL evaluates `define`
+             BEFORE `condition` on the same element, so keeping them on
+             <tal:informations> would consult the grids even when the block is
+             unchecked. -->
+        <tal:def tal:define="phone_entries python:contact.displayed_rows('phones');
+                             mail_entries python:contact.displayed_rows('mails');
+                             url_entries python:contact.displayed_rows('urls');
+                             vat_number python:contact.vat_number">
         <div class="contact_informations"
-             tal:condition="python:'contact_informations' in visible_blocks">
+             tal:condition="python:phone_entries or mail_entries or url_entries or vat_number">
 
           <h2 class="informations"
               tal:condition="not: show_main_title"
@@ -61,34 +70,70 @@
               tal:condition="show_main_title"
               i18n:translate="">Contact</h3>
 
-          <span tal:replace="python:contact.vat_number"></span>
+          <span tal:condition="vat_number" tal:replace="vat_number"></span>
           <ul class="contact_informations_genral"
-              tal:define="phones python:contact.phones;
-                          mails python:contact.mails">
-            <li class="phones"
-                tal:repeat="phone phones"
-                tal:attributes="class python:phone.get('type') or ''">
-              <span tal:replace="python:phone.get('label') or ''"></span>
-              <a tal:attributes="href python:'tel:{}'.format(phone.get('number'))"
-                 tal:content="python:'{}'.format(phone.get('number'))" />
-            </li>
-            <li class="mails"
-                tal:repeat="mail mails"
-                tal:attributes="class python:mail.get('type') or ''">
-              <span tal:replace="python:'{}'.format(mail.get('label') or '')"></span>
-              <a tal:attributes="href  python:'mailto:{}'.format(mail.get('mail_address'))"
-                 tal:content="python:'{}'.format(mail.get('mail_address'))" />
-            </li>
+              tal:condition="python:phone_entries or mail_entries">
+            <tal:phone tal:repeat="entry phone_entries">
+              <li tal:define="phone entry/data; columns entry/columns"
+                  tal:attributes="class python:phone.get('type') or ''">
+                <span tal:condition="python:'label' in columns"
+                      tal:replace="python:phone.get('label') or ''"></span>
+                <span tal:condition="python:'type' in columns"
+                      tal:replace="python:contact.translated_type('phones', phone.get('type'))"></span>
+                <a tal:condition="python:'number' in columns"
+                   tal:attributes="href python:'tel:{}'.format(phone.get('number'))"
+                   tal:content="python:'{}'.format(phone.get('number'))" />
+              </li>
+            </tal:phone>
+            <tal:mail tal:repeat="entry mail_entries">
+              <li tal:define="mail entry/data; columns entry/columns"
+                  tal:attributes="class python:mail.get('type') or ''">
+                <span tal:condition="python:'label' in columns"
+                      tal:replace="python:mail.get('label') or ''"></span>
+                <span tal:condition="python:'type' in columns"
+                      tal:replace="python:contact.translated_type('mails', mail.get('type'))"></span>
+                <a tal:condition="python:'mail_address' in columns"
+                   tal:attributes="href python:'mailto:{}'.format(mail.get('mail_address'))"
+                   tal:content="python:'{}'.format(mail.get('mail_address'))" />
+              </li>
+            </tal:mail>
           </ul>
           <ul class="contact_informations_social"
-              tal:define="urls python:contact.get_urls"
-              tal:condition="urls">
-            <li class="urls"
-                tal:repeat="url urls"
-                tal:attributes="class python:url.get('type') or ''">
-              <a tal:attributes="href python:url.get('url');
-                                 title python:contact.get_translated_url_type(url.get('type'))"
-                target="_blank">
+              tal:condition="url_entries">
+            <tal:url tal:repeat="entry url_entries">
+              <li tal:define="url entry/data; columns entry/columns"
+                  tal:attributes="class python:url.get('type') or ''">
+                <a tal:condition="python:'url' in columns"
+                   tal:attributes="href python:url.get('url');
+                                   title python:contact.get_translated_url_type(url.get('type')) if ('type' in columns and url.get('type')) else nothing"
+                   target="_blank">
+                    <tal:icon tal:condition="python:'type' in columns">
+                      <tal:condition tal:condition="python:url.get('type') == 'facebook'">
+                          <i class="bi bi-facebook"></i>
+                      </tal:condition>
+                      <tal:condition tal:condition="python:url.get('type') == 'twitter'">
+                          <i class="bi bi-twitter"></i>
+                      </tal:condition>
+                      <tal:condition tal:condition="python:url.get('type') == 'instagram'">
+                          <i class="bi bi-instagram"></i>
+                      </tal:condition>
+                      <tal:condition tal:condition="python:url.get('type') == 'youtube'">
+                        <i class="bi bi-youtube"></i>
+                      </tal:condition>
+                      <tal:condition tal:condition="python:url.get('type') == 'pinterest'">
+                          <i class="bi bi-pinterest"></i>
+                      </tal:condition>
+                      <tal:condition tal:condition="python:url.get('type') == 'linkedin'">
+                          <i class="bi bi-linkedin"></i>
+                      </tal:condition>
+                    </tal:icon>
+                    <span tal:attributes="class python:'sr-only' if url.get('type') != 'website' else ''"
+                          tal:content="python:url.get('url')"/>
+                </a>
+                <!-- Type checked, Url unchecked: the editor still asked for
+                     the icon, but there is no href to link, so render the
+                     icon on its own, not wrapped in an <a>. -->
+                <tal:icon_only tal:condition="python:'type' in columns and 'url' not in columns">
                   <tal:condition tal:condition="python:url.get('type') == 'facebook'">
                       <i class="bi bi-facebook"></i>
                   </tal:condition>
@@ -107,13 +152,13 @@
                   <tal:condition tal:condition="python:url.get('type') == 'linkedin'">
                       <i class="bi bi-linkedin"></i>
                   </tal:condition>
-
-                  <span tal:attributes="class python:'sr-only' if url.get('type') != 'website' else ''"
-                        tal:content="python:url.get('url')"/>
-              </a>
-            </li>
+                </tal:icon_only>
+              </li>
+            </tal:url>
           </ul>
         </div>
+        </tal:def>
+        </tal:informations>
         <div class="address"
              tal:define="address python:contact.formatted_address()"
              tal:condition="address">
