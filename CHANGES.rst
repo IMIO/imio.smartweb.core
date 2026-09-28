@@ -5,7 +5,11 @@ Changelog
 1.4.62 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add the ``@@text_align_container_false`` view. Use this view one time only.
+  It sets ``text_align_container`` to ``False`` on all ``imio.smartweb.Page``
+  and ``imio.smartweb.Procedure`` items. It does not change the sections.
+  Remove previous one shot align_section_to_text view.
+  [boulch]
 
 
 1.4.61 (2026-09-14)

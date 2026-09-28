@@ -6,7 +6,7 @@
 <body>
 <metal:content-core fill-slot="content-core">
 
-  <h1>Alignement des sections sur le conteneur de texte</h1>
+  <h1>Désactivation du « titre aligné sur le texte » des pages</h1>
 
   <p tal:condition="not: view/apply" class="text-info">
     <strong>Simulation.</strong> Rien n'a été modifié. Pour appliquer réellement
@@ -19,10 +19,9 @@
   <p>
     Portée : les <code>imio.smartweb.Page</code> et les
     <code>imio.smartweb.Procedure</code> (ni PortalPage, ni Footer, ni
-    HeroBanner). Chaque page passe en « titre aligné sur le texte »
-    (<code>text_align_container</code>) et chacune de ses sections passe en
-    alignement <code>text</code>, hors <code>imio.smartweb.SectionText</code>
-    qui possède son propre champ d'alignement.
+    HeroBanner). Chaque page passe <code>text_align_container</code> à
+    <code>False</code>. Seule cette propriété est modifiée : les sections ne
+    sont pas touchées.
   </p>
 
   <table class="table table-sm table-bordered">
@@ -32,16 +31,8 @@
         <td tal:content="python: len(view.pages_to_change)">0</td>
       </tr>
       <tr>
-        <th>Pages déjà alignées sur le texte</th>
+        <th>Pages déjà à False</th>
         <td tal:content="python: len(view.pages_already_ok)">0</td>
-      </tr>
-      <tr>
-        <th>Sections à modifier</th>
-        <td tal:content="python: len(view.to_change)">0</td>
-      </tr>
-      <tr>
-        <th>Sections déjà alignées sur le texte</th>
-        <td tal:content="python: len(view.already_ok)">0</td>
       </tr>
       <tr tal:condition="view/stale">
         <th>Entrées de catalogue obsolètes (ignorées)</th>
@@ -69,35 +60,6 @@
       </tbody>
     </table>
   </tal:pages_to_change>
-
-  <tal:to_change condition="view/to_change">
-    <h2>Détail des sections concernées</h2>
-    <table class="table table-sm table-striped">
-      <thead>
-        <tr>
-          <th>Page</th>
-          <th>Section</th>
-          <th>Type</th>
-          <th>Alignement actuel</th>
-          <th>Largeur actuelle</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr tal:repeat="row view/to_change">
-          <td tal:content="row/page">-</td>
-          <td tal:content="row/title">-</td>
-          <td tal:content="row/type">-</td>
-          <td tal:content="row/old_alignment">-</td>
-          <td tal:content="row/old_width">-</td>
-        </tr>
-      </tbody>
-    </table>
-    <p class="text-muted">
-      Les sections dont la largeur n'est ni <code>col-sm-12</code> ni
-      <code>col-sm-6</code> repassent en <code>col-sm-12</code>, comme le fait
-      déjà le formulaire d'édition.
-    </p>
-  </tal:to_change>
 
   <tal:stale condition="view/stale">
     <h2 class="text-warning">Entrées de catalogue obsolètes</h2>

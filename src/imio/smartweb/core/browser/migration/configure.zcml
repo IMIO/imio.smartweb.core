@@ -90,9 +90,9 @@
 
   <browser:page
       for="*"
-      name="align_section_to_text"
-      class=".align_section_to_text.AlignSectionToTextView"
-      template="align_section_to_text.pt"
+      name="text_align_container_false"
+      class=".text_align_container_false.TextAlignContainerFalseView"
+      template="text_align_container_false.pt"
       permission="cmf.ManagePortal"
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
