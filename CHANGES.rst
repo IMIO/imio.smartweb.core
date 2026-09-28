@@ -2,6 +2,14 @@ Changelog
 =========
 
 
+1.4.63 (unreleased)
+-------------------
+
+- Add ``@markdown`` REST service on pages (``IPages``) : returns the page and
+  its text sections as Markdown (``Accept: text/markdown``).
+  [boulch]
+
+
 1.4.62 (2026-09-28)
 -------------------
 
