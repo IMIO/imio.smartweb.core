@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.62 (unreleased)
+1.4.62 (2026-09-28)
 -------------------
 
 - Add the ``@@text_align_container_false`` view. Use this view one time only.
