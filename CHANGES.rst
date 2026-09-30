@@ -5,12 +5,12 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4498 : Add an edit icon on each image of a gallery section. The icon is a link
+  to the edit form of the image. Only editors see it.
+  [boulch]
+
 - WEB-4494: Fix auto scroll conflict in react view
   [thomlamb]
-
-- Add ``@markdown`` REST service on pages (``IPages``) : returns the page and
-  its text sections as Markdown (``Accept: text/markdown``).
-  [boulch]
 
 
 1.4.62 (2026-09-28)
