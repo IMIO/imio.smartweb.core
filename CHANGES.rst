@@ -5,6 +5,9 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4494: Fix auto scroll conflict in react view
+  [thomlamb]
+
 - Add ``@markdown`` REST service on pages (``IPages``) : returns the page and
   its text sections as Markdown (``Accept: text/markdown``).
   [boulch]
