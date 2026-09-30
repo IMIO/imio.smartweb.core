@@ -92,7 +92,7 @@ function AnnuaireView(props) {
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
         setBatchStart(() => 0);
-        setFilters(value);
+        setFilters({ ...value, b_start: 0 });
         window.scrollTo(0, 0);
     };
 
@@ -134,6 +134,7 @@ function AnnuaireView(props) {
             <ContactList
                 onChange={clickID}
                 contactArray={contactArray}
+                isMore={isMore}
                 onHover={hoverID}
                 contextAuthenticatedUser={props.contextAuthenticatedUser}
             />

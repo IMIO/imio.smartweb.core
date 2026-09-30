@@ -58,15 +58,34 @@ function Filters(props) {
         }
     }, [response]);
 
-    const onChangeHandler = useCallback(({ target: { name, value } }) => {
-        if (value.length > 2) {
-            setSearchValue(value);
-            props.onChangeSearch(value);
-        } else {
-            setSearchValue(null);
-            props.onChangeSearch(null);
-        }
-    });
+    const [searchText, setSearchText] = useState(props.activeFilter.SearchableText || "");
+    const searchDebounceRef = useRef(null);
+
+    const commitSearchValue = useCallback(
+        (value) => {
+            if (value.length > 2) {
+                setSearchValue(value);
+                props.onChangeSearch(value);
+            } else {
+                setSearchValue(null);
+                props.onChangeSearch(null);
+            }
+        },
+        [props.onChangeSearch]
+    );
+
+    useEffect(() => {
+        return () => searchDebounceRef.current && clearTimeout(searchDebounceRef.current);
+    }, []);
+
+    const onChangeHandler = useCallback(
+        ({ target: { value } }) => {
+            setSearchText(value);
+            if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = setTimeout(() => commitSearchValue(value), 400);
+        },
+        [commitSearchValue]
+    );
 
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
@@ -97,8 +116,12 @@ function Filters(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        if (searchDebounceRef.current) {
+            clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = null;
+        }
         props.onChange(inputValues);
-        props.onChangeSearch(searchValue);
+        commitSearchValue(searchText);
     }
     // set default input value
     let actTopi =
@@ -118,7 +141,7 @@ function Filters(props) {
                                         className="input-custom-class"
                                         name="SearchableText"
                                         type="text"
-                                        value={inputValues.SearchableText}
+                                        value={searchText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
                                             text: "Recherche",

@@ -71,17 +71,33 @@ function Filters(props) {
         },
     ];
 
-    const onChangeHandler = useCallback(({ target: { name, value } }) => {
+    const [searchText, setSearchText] = useState(props.activeFilter.SearchableText || "");
+    const searchDebounceRef = useRef(null);
+
+    const commitSearchValue = useCallback((value) => {
         if (value.length > 2) {
-            setInputValues((state) => ({ ...state, [name]: value }), []);
+            setInputValues((state) => ({ ...state, SearchableText: value }));
         } else {
             setInputValues((prevState) => {
-                const state = { ...prevState };
-                const { [name]: remove, ...rest } = state;
+                if (!("SearchableText" in prevState)) return prevState;
+                const { SearchableText: remove, ...rest } = prevState;
                 return rest;
             });
         }
-    });
+    }, []);
+
+    useEffect(() => {
+        return () => searchDebounceRef.current && clearTimeout(searchDebounceRef.current);
+    }, []);
+
+    const onChangeHandler = useCallback(
+        ({ target: { value } }) => {
+            setSearchText(value);
+            if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = setTimeout(() => commitSearchValue(value), 400);
+        },
+        [commitSearchValue]
+    );
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
         if (value) {
@@ -134,7 +150,19 @@ function Filters(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.onChange(inputValues);
+        if (searchDebounceRef.current) {
+            clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = null;
+        }
+        const nextValues =
+            searchText.length > 2
+                ? { ...inputValues, SearchableText: searchText }
+                : (() => {
+                      const { SearchableText: remove, ...rest } = inputValues;
+                      return rest;
+                  })();
+        setInputValues(nextValues);
+        props.onChange(nextValues);
     }
     // set default input value
     let actTopi =
@@ -191,7 +219,7 @@ function Filters(props) {
                                         id="event-search"
                                         name="SearchableText"
                                         type="search"
-                                        value={inputValues.SearchableText}
+                                        value={searchText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
                                             text: "Recherche",

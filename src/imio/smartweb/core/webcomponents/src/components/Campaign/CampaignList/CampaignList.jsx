@@ -6,6 +6,7 @@ import { ScrollContext } from "../../../hooks/ScrollContext";
 const CampaignList = ({
     itemsArray,
     onChange,
+    isMore,
     onHover,
     showCategoriesOrTopics,
     contextAuthenticatedUser,
@@ -23,8 +24,10 @@ const CampaignList = ({
     }
 
     useEffect(() => {
-        window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
-    }, [itemsArray]);
+        if (isMore) {
+            window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
+        }
+    }, [itemsArray, isMore]);
 
     return (
         <React.Fragment>

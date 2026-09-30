@@ -6,6 +6,7 @@ import { ScrollContext } from "../../../hooks/ScrollContext";
 const ContactList = ({
     itemsArray,
     onChange,
+    isMore,
     onHover,
     showCategoriesOrTopics,
     contextAuthenticatedUser,
@@ -22,8 +23,10 @@ const ContactList = ({
     }
 
     useEffect(() => {
-        window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
-    }, [itemsArray]);
+        if (isMore) {
+            window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
+        }
+    }, [itemsArray, isMore]);
 
     useEffect(() => {
         // Liste complète de toutes les balises possibles
