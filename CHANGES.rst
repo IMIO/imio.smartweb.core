@@ -5,6 +5,11 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- OIA-33 : Add an AI button to the gallery section toolbar. The button uses Omnia to
+  write a description for each image that has no description. A green check
+  mark shows when all the images have a description.
+  [boulch]
+
 - Add ``@markdown`` REST service on pages (``IPages``) : returns the page and
   its text sections as Markdown (``Accept: text/markdown``).
   [boulch]

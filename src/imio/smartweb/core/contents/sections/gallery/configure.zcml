@@ -11,4 +11,12 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <browser:page
+      name="generate_images_description"
+      for="imio.smartweb.core.contents.ISectionGallery"
+      class="imio.smartweb.core.contents.sections.gallery.views.GenerateImagesDescriptionView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>
