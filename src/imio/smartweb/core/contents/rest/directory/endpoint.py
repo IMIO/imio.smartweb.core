@@ -43,6 +43,7 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             "portal_type=imio.directory.Contact",
             "metadata_fields=facilities",
             "metadata_fields=taxonomy_contact_category",
+            "metadata_fields=local_category",
             "metadata_fields=topics",
             "metadata_fields=has_leadimage",
             "fullobjects={}".format(self.fullobjects),

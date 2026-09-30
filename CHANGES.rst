@@ -5,6 +5,9 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4449 : Get the local category of directory contacts and prepare to display them in REACT view.
+  [boulch]
+
 - WEB-4494: Fix auto scroll conflict in react view
   [thomlamb]
 
