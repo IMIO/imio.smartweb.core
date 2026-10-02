@@ -6,7 +6,6 @@ const useAxios = (params) => {
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(true);
     const [isMore, setIsMore] = useState(false);
-    const controller = new AbortController();
 
     const fetchData = async (params) => {
         setIsLoading(true);
@@ -36,7 +35,6 @@ const useAxios = (params) => {
                         .request({
                             ...params,
                             url,
-                            signal: controller.signal,
                         })
                         .then((res) => ({
                             identifier,
@@ -67,10 +65,21 @@ const useAxios = (params) => {
         }
     };
 
+    // Key the fetch on the actual request content rather than object identity: callers
+    // that rebuild an equivalent params object on every render (e.g. two state updates
+    // batched from the same user action) would otherwise trigger a redundant fetch/abort.
+    const paramsKey = JSON.stringify({
+        params: params.params,
+        baseURL: params.baseURL,
+        url: params.url,
+        load: params.load,
+    });
+
     useEffect(() => {
+        const controller = new AbortController();
         fetchData({ ...params, signal: controller.signal });
         return () => controller.abort();
-    }, [params.params]);
+    }, [paramsKey]);
 
     return { response, error, isLoading, isMore };
 };

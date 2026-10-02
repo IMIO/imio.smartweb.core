@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useCallback, useState, useMemo } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
@@ -16,19 +16,24 @@ function Filters(props) {
     const [searchValue, setSearchValue] = useState(null);
     const [topicsFilter, setTopicsFilter] = useState([]);
     const [zonesFilter, setZonesFilter] = useState([]);
-    // Get data
-    const { response, error, isLoading } = useAxios({
-        method: "get",
-        url: [
-            { url: props.queryZonesUrl, identifier: "zones" },
-            { url: props.queryTopicsUrl, identifier: "topics" },
-        ],
-        headers: {
-            Accept: "application/json",
-        },
-        params: inputValues,
-        paramsSerializer: { indexes: null },
-    });
+    // Get data — zones/topics never depend on the current search/filter state server-side,
+    // so this must stay on fixed params instead of `inputValues` to avoid refetching on every keystroke.
+    const facetsConfig = useMemo(
+        () => ({
+            method: "get",
+            url: [
+                { url: props.queryZonesUrl, identifier: "zones" },
+                { url: props.queryTopicsUrl, identifier: "topics" },
+            ],
+            headers: {
+                Accept: "application/json",
+            },
+            params: { b_start: 0 },
+            paramsSerializer: { indexes: null },
+        }),
+        [props.queryZonesUrl, props.queryTopicsUrl]
+    );
+    const { response, error, isLoading } = useAxios(facetsConfig);
 
     // set fitlers data to state
     useEffect(() => {
