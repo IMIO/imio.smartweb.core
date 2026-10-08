@@ -5,6 +5,9 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- Add a ``imio.smartweb.eguichet_message`` behavior on ``Message`` (+ upgrade step).
+  [boulch]
+
 - SUP-55256 : Request forwarders (directory, events, news): send `@vocabularies` requests to the
   entity of the site. Local categories vocabularies now return values.
   [boulch]

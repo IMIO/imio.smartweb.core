@@ -49,6 +49,20 @@ class TestUpgrades(ImioSmartwebTestCase):
             api.portal.get_registry_record("plone.displayed_types"),
         )
 
+    def test_upgrade_1087_to_1088(self):
+        fti = api.portal.get_tool("portal_types")["Message"]
+        fti.behaviors = tuple(
+            b for b in fti.behaviors if b != "imio.smartweb.eguichet_message"
+        )
+        portal_setup = api.portal.get_tool("portal_setup")
+        portal_setup.runAllImportStepsFromProfile(
+            "profile-imio.smartweb.core.upgrades:upgrade_1087_to_1088"
+        )
+        self.assertIn("imio.smartweb.eguichet_message", fti.behaviors)
+        self.assertIn(
+            "collective.behavior.talcondition.behavior.ITALCondition", fti.behaviors
+        )
+
     def test_migrate_section_default_width(self):
         page = api.content.create(
             container=self.portal,
