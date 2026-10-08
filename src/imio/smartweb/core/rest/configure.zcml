@@ -3,6 +3,16 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
 
+  <!-- Messages (collective.messagesviewlet) -->
+  <plone:service
+      method="GET"
+      accept="application/json"
+      factory=".messages.MessagesGet"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope2.View"
+      name="@messages"
+      />
+
   <!-- Directory  -->
   <plone:service
       method="GET"

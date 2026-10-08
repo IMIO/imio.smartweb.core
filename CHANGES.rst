@@ -5,6 +5,11 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- Add the ``@messages`` endpoint. It gives the activated messages at the site root
+  that have no roles and no TAL condition.
+  ``@messages`` gives only the messages with ``eguichet_display_message`` checked.
+  [boulch]
+
 - Add a ``imio.smartweb.eguichet_message`` behavior on ``Message`` (+ upgrade step).
   [boulch]
 
