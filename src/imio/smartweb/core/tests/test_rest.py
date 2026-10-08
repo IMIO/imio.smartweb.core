@@ -974,3 +974,56 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
         self.request.form["event_dates.range"] = "min"
         service.reply()
         self.assertEqual(self.request.form["event_dates.range"], "min")
+
+    def test_request_forwarder_vocabularies_scoped_to_entity(self):
+        forwarders = [
+            ("@directory_request_forwarder", "directory", config.DIRECTORY_URL),
+            ("@events_request_forwarder", "events", config.EVENTS_URL),
+            ("@news_request_forwarder", "news", config.NEWS_URL),
+        ]
+        for service_name, request_type, base_url in forwarders:
+            with self.subTest(request_type), requests_mock.Mocker() as m:
+                entity_uid = api.portal.get_registry_record(
+                    f"smartweb.{request_type}_entity_uid"
+                )
+                m.get(
+                    f"{base_url}/@search?UID={entity_uid}",
+                    json={"items": [{"@id": f"{base_url}/belleville"}]},
+                )
+                vocabulary_url = f"{base_url}/belleville/@vocabularies/my.vocabulary"
+                items = [{"title": "Sport", "token": "Sport"}]
+                m.get(vocabulary_url, json={"items": items, "items_total": 1})
+
+                service = self.traverse(
+                    f"/plone/{service_name}/@vocabularies/my.vocabulary"
+                )
+                response = service.reply()
+
+                # local categories only exist on an entity: the forwarder
+                # targets the site's entity instead of the authentic source root
+                self.assertTrue(m.last_request.url.startswith(vocabulary_url))
+                self.assertEqual(response["items"], items)
+
+    def test_request_forwarder_vocabularies_entity_not_found(self):
+        forwarders = [
+            ("@directory_request_forwarder", "directory", config.DIRECTORY_URL),
+            ("@events_request_forwarder", "events", config.EVENTS_URL),
+            ("@news_request_forwarder", "news", config.NEWS_URL),
+        ]
+        for service_name, request_type, base_url in forwarders:
+            with self.subTest(request_type), requests_mock.Mocker() as m:
+                entity_uid = api.portal.get_registry_record(
+                    f"smartweb.{request_type}_entity_uid"
+                )
+                m.get(f"{base_url}/@search?UID={entity_uid}", json={"items": []})
+                vocabulary_url = f"{base_url}/@vocabularies/my.vocabulary"
+                m.get(vocabulary_url, json={"items": [], "items_total": 0})
+
+                service = self.traverse(
+                    f"/plone/{service_name}/@vocabularies/my.vocabulary"
+                )
+                service.reply()
+
+                # entity unknown to the authentic source → forwarded as-is to
+                # its root
+                self.assertTrue(m.last_request.url.startswith(vocabulary_url))

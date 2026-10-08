@@ -51,10 +51,26 @@ class BaseRequestForwarder(Service):
             logger.info(response)
         return response
 
+    def get_entity_url(self):
+        entity_uid = api.portal.get_registry_record(
+            f"smartweb.{self.request_type}_entity_uid", default=None
+        )
+        if not entity_uid:
+            return None
+        data = get_json(f"{self.base_url}/@search?UID={entity_uid}") or {}
+        items = data.get("items") or []
+        return items[0].get("@id") if items else None
+
     def get_auth_source_url(self):
         url = "/".join(self.traversal_stack)
         if self.request_type == "events":
             url = url.replace("@search", "@events")
+        if self.traversal_stack[:1] == ["@vocabularies"]:
+            # context-dependent vocabularies (e.g. local categories) are empty
+            # on the remote site root: resolve them on the site's entity
+            entity_url = self.get_entity_url()
+            if entity_url:
+                return f"{entity_url}/{url}"
         return f"{self.base_url}/{url}"
 
     def prepare_data(self, data):

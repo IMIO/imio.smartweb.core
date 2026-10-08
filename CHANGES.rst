@@ -5,6 +5,10 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- SUP-55256 : Request forwarders (directory, events, news): send `@vocabularies` requests to the
+  entity of the site. Local categories vocabularies now return values.
+  [boulch]
+
 - WEB-4498 : Add an edit icon on each image of a gallery section. The icon is a link
   to the edit form of the image. Only editors see it.
   [boulch]
