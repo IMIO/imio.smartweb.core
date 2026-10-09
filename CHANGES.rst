@@ -5,6 +5,9 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- CITIBDC-602 : Add eguichet notifications credentials to the Smartweb control panel (+ upgrade step).
+  [boulch]
+
 - CITIBDC-602 : Add the ``@eguichet-api-settings`` endpoint. It gives ``url_ts``, the w.c.s. API url
   and the e-guichet API credentials to Managers and SSO technical users.
   Authentic sources use it to post e-guichet notifications.

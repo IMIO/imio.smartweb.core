@@ -5,7 +5,6 @@ from imio.smartweb.core.utils import get_value_from_registry
 from plone import api
 from plone.restapi.services import Service
 
-import os
 
 # Role that pas.plugins.kimug gives to users authenticated with a SSO token.
 KIMUG_AUTHENTICATED_ROLE = "Kimug Authenticated Users"
@@ -26,6 +25,6 @@ class EguichetApiSettingsGet(Service):
         return {
             "url_ts": get_value_from_registry("smartweb.url_ts"),
             "wcs_api_url": get_ts_api_url("wcs"),
-            "username": os.environ.get("RESTAPI_USER_USERNAME", ""),
-            "password": os.environ.get("RESTAPI_USER_PASSWORD", ""),
+            "username": get_value_from_registry("smartweb.user_eguichet_notif"),
+            "password": get_value_from_registry("smartweb.password_eguichet_notif"),
         }

@@ -9,12 +9,7 @@ from plone.app.testing import SITE_OWNER_NAME
 from plone.app.testing import SITE_OWNER_PASSWORD
 from plone.app.testing import TEST_USER_ID
 from plone.restapi.testing import RelativeSession
-from unittest import mock
-
-import os
 import transaction
-
-ENVIRON = {"RESTAPI_USER_USERNAME": "sw-user", "RESTAPI_USER_PASSWORD": "sw-pwd"}
 
 
 class TestEguichetApiSettingsGet(ImioSmartwebTestCase):
@@ -31,6 +26,8 @@ class TestEguichetApiSettingsGet(ImioSmartwebTestCase):
         )
         api.user.create(email="sso@imio.be", username="sso", password="secret-pwd")
         api.user.grant_roles(username="sso", roles=[KIMUG_AUTHENTICATED_ROLE])
+        api.portal.set_registry_record("smartweb.user_eguichet_notif", "sw-user")
+        api.portal.set_registry_record("smartweb.password_eguichet_notif", "sw-pwd")
         transaction.commit()
         self.api_session = RelativeSession(self.portal.absolute_url())
         self.api_session.headers.update({"Accept": "application/json"})
@@ -41,7 +38,6 @@ class TestEguichetApiSettingsGet(ImioSmartwebTestCase):
         api.user.delete(username="sso")
         transaction.commit()
 
-    @mock.patch.dict(os.environ, ENVIRON)
     def test_reply(self):
         # Anonymous and simple members can not read the settings
         response = self.api_session.get("@eguichet-api-settings")
