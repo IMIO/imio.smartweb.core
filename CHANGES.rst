@@ -5,6 +5,11 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- CITIBDC-602 : Add the ``@eguichet-api-settings`` endpoint. It gives ``url_ts``, the w.c.s. API url
+  and the e-guichet API credentials to Managers and SSO technical users.
+  Authentic sources use it to post e-guichet notifications.
+  [boulch]
+
 - Add the ``@messages`` endpoint. It gives the activated messages at the site root
   that have no roles and no TAL condition.
   ``@messages`` gives only the messages with ``eguichet_display_message`` checked.

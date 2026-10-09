@@ -13,6 +13,16 @@
       name="@messages"
       />
 
+  <!-- E-guichet API settings, for authentic sources (role check in the service) -->
+  <plone:service
+      method="GET"
+      accept="application/json"
+      factory=".eguichet.EguichetApiSettingsGet"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      permission="zope2.View"
+      name="@eguichet-api-settings"
+      />
+
   <!-- Directory  -->
   <plone:service
       method="GET"
