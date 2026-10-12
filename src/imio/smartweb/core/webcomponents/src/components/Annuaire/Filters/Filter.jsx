@@ -104,17 +104,33 @@ function Filters(props) {
     }, [processedData]);
 
     // set values from search input
-    const onChangeHandler = useCallback(({ target: { name, value } }) => {
+    const [searchText, setSearchText] = useState(props.activeFilter.SearchableText || "");
+    const searchDebounceRef = useRef(null);
+
+    const commitSearchValue = useCallback((value) => {
         if (value.length > 2) {
-            setInputValues((state) => ({ ...state, [name]: value }), []);
+            setInputValues((state) => ({ ...state, SearchableText: value }));
         } else {
             setInputValues((prevState) => {
-                const state = { ...prevState };
-                const { [name]: remove, ...rest } = state;
+                if (!("SearchableText" in prevState)) return prevState;
+                const { SearchableText: remove, ...rest } = prevState;
                 return rest;
             });
         }
-    });
+    }, []);
+
+    useEffect(() => {
+        return () => searchDebounceRef.current && clearTimeout(searchDebounceRef.current);
+    }, []);
+
+    const onChangeHandler = useCallback(
+        ({ target: { value } }) => {
+            setSearchText(value);
+            if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = setTimeout(() => commitSearchValue(value), 400);
+        },
+        [commitSearchValue]
+    );
 
     // set values from select
     const onChangeHandlerSelect = useCallback((value, action) => {
@@ -146,7 +162,19 @@ function Filters(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.onChange(inputValues);
+        if (searchDebounceRef.current) {
+            clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = null;
+        }
+        const nextValues =
+            searchText.length > 2
+                ? { ...inputValues, SearchableText: searchText }
+                : (() => {
+                      const { SearchableText: remove, ...rest } = inputValues;
+                      return rest;
+                  })();
+        setInputValues(nextValues);
+        props.onChange(nextValues);
     }
     // set default input value
     let actTopi =
@@ -201,7 +229,7 @@ function Filters(props) {
                                         id="annuaire-search"
                                         name="SearchableText"
                                         type="search"
-                                        value={inputValues.SearchableText}
+                                        value={searchText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
                                             text: "Recherche",
@@ -258,7 +286,13 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
-                                    options={iam && iam}
+                                    options={
+                                        iam &&
+                                        iam.map((o) => ({
+                                            ...o,
+                                            label: translate({ text: o.label }),
+                                        }))
+                                    }
                                     placeholder={translate({
                                         text: "Profil",
                                     })}
@@ -335,38 +369,40 @@ function Filters(props) {
             >
                 <div className="accordion-body-annuaire">
                     {taxonomyData?.length !== 1 ? (
-                    <span className="accordion-body-annuaire-title-full-screen">
-                        <Translator>
-                            {({ translate }) => <span>{translate({ text: "Catégories" })}</span>}
-                        </Translator>
-                    </span>) : ("")
-                    }
-
+                        <span className="accordion-body-annuaire-title-full-screen">
+                            <Translator>
+                                {({ translate }) => (
+                                    <span>{translate({ text: "Catégories" })}</span>
+                                )}
+                            </Translator>
+                        </span>
+                    ) : (
+                        ""
+                    )}
 
                     <div className="taxonomy-Filter">
                         {taxonomyData?.length === 1 ? (
-                        <TaxonomyFilter
-                            {...taxonomyData[0]}
-                            setCat={setCat}
-                            isActive={0 === activeComponent}
-                            onClick={() => handleClick(0)}
-                            onChange={onChangeHandlerSelect}
-                            unique={true}
-                        />
-                        ) : (
-                        taxonomyData?.map((donnees, i) => (
                             <TaxonomyFilter
-                            key={i}
-                            {...donnees}
-                            setCat={setCat}
-                            isActive={i === activeComponent}
-                            onClick={() => handleClick(i)}
-                            onChange={onChangeHandlerSelect}
-                            unique={false}
+                                {...taxonomyData[0]}
+                                setCat={setCat}
+                                isActive={0 === activeComponent}
+                                onClick={() => handleClick(0)}
+                                onChange={onChangeHandlerSelect}
+                                unique={true}
                             />
-                        ))
+                        ) : (
+                            taxonomyData?.map((donnees, i) => (
+                                <TaxonomyFilter
+                                    key={i}
+                                    {...donnees}
+                                    setCat={setCat}
+                                    isActive={i === activeComponent}
+                                    onClick={() => handleClick(i)}
+                                    onChange={onChangeHandlerSelect}
+                                    unique={false}
+                                />
+                            ))
                         )}
-
                     </div>
                     {/* <div className="r-filter  facilities-Filter"> */}
                     {/* <label>Catégories</label> */}

@@ -4,7 +4,7 @@
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
-from plone.app.testing import setRoles, TEST_USER_ID
+from plone.app.testing import applyProfile, setRoles, TEST_USER_ID
 from Products.CMFPlone.utils import get_installer
 
 
@@ -51,3 +51,25 @@ class TestUninstall(ImioSmartwebTestCase):
         from plone.browserlayer import utils
 
         self.assertNotIn(IImioSmartwebCoreLayer, utils.registered_layers())
+
+
+class TestIdeaboxUninstall(ImioSmartwebTestCase):
+    """The ideabox profile appends CampaignView to the site wide
+    plone.displayed_types, so uninstalling has to take it out again."""
+
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+    def test_campaignview_removed_from_displayed_types(self):
+        self.assertIn(
+            "imio.smartweb.CampaignView",
+            api.portal.get_registry_record("plone.displayed_types"),
+        )
+        applyProfile(self.portal, "imio.smartweb.core:ideabox_uninstall")
+        self.assertNotIn(
+            "imio.smartweb.CampaignView",
+            api.portal.get_registry_record("plone.displayed_types"),
+        )

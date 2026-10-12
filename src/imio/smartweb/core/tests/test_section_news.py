@@ -220,11 +220,3 @@ class TestSectionNews(ImioSmartwebTestCase):
         )
         vocabulary = factory(section)
         self.assertIn(api.content.get_uuid(self.rest_news_view), vocabulary)
-
-
-# <audit>
-#   <file>test_section_news.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>None</deviations>
-#   <questions>None</questions>
-# </audit>

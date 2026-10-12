@@ -101,7 +101,7 @@ class CampaignEndpoint(BaseTsEndpoint):
             return
         headers = {"Accept": "image/*"}
         headers["Authorization"] = get_ideabox_basic_auth_header()
-        response = requests.get(image_url, headers=headers)
+        response = requests.get(image_url, headers=headers, timeout=10)
         return response
 
     @property

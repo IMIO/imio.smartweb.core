@@ -28,6 +28,7 @@
     <element value="imio.smartweb.SectionPostit" />
     <element value="imio.smartweb.SectionSelections" />
     <element value="imio.smartweb.SectionText" />
+    <element value="imio.smartweb.SectionTimestampedPublications" />
     <element value="imio.smartweb.SectionVideo" />
   </property>
   <!-- Schema, class and security -->
@@ -52,6 +53,7 @@
     <element value="plone.categorization"/>
     <element value="collective.autopublishing.behavior.IAutoPublishing"/>
     <element value="solr.fields" />
+    <element value="imio.smartweb.save_and_publish"/>
   </property>
 
   <!-- View information -->

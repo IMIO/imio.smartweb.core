@@ -2,6 +2,8 @@
 
 from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
+from imio.smartweb.core.contents.sections.base import ISection
+from imio.smartweb.core.setuphandlers import CAMPAIGNVIEW_PORTAL_TYPE
 from imio.smartweb.core.utils import (
     populate_procedure_button_text as utils_populate_procedure_button_text,
 )
@@ -256,6 +258,18 @@ def migrate_old_sizes_from_section_text(context):
             )
 
 
+def migrate_section_default_width(context):
+    with api.env.adopt_user(username="admin"):
+        brains = api.content.find(object_provides=ISection.__identifier__)
+        for brain in brains:
+            obj = brain.getObject()
+            if not obj.bootstrap_css_class:
+                obj.bootstrap_css_class = "col-sm-12"
+                logger.info(
+                    f"Set default section width (col-sm-12) for {obj.absolute_url()}"
+                )
+
+
 def update_control_panel_combo_api_url(context):
     url_ts = ""
     try:
@@ -337,3 +351,43 @@ def uninstall_sendinblue(context):
     portal_setup = api.portal.get_tool("portal_setup")
     portal_setup.runAllImportStepsFromProfile("profile-collective.sendinblue:uninstall")
     logger.info("Sendinblue uninstalled successfully.")
+
+
+def add_sitemap_authentic_sources_registry(context):
+    """(Re)create the smartweb.sitemap_authentic_sources control-panel record.
+
+    The field type changed from a ``List(Choice)`` multiselect to a
+    ``List(DictRow)`` DataGridField. On a dev instance where an earlier run of
+    this step created the old-typed record, we delete it first to avoid a
+    persistent field-type conflict, then re-import the registry so the current
+    DataGridField is registered with its default rows (enabled / max items).
+    """
+    registry = api.portal.get_tool("portal_registry")
+    if "smartweb.sitemap_authentic_sources" in registry:
+        del registry.records["smartweb.sitemap_authentic_sources"]
+        logger.info("Removed obsolete smartweb.sitemap_authentic_sources record.")
+    portal_setup = api.portal.get_tool("portal_setup")
+    portal_setup.runImportStepFromProfile(PROFILEID, "plone.app.registry")
+    logger.info("smartweb.sitemap_authentic_sources registry record ensured.")
+
+
+def add_campaignview_to_displayed_types(context):
+    """Let CampaignView show up in the navigation menu on ideabox sites.
+
+    The ideabox profile creates the FTI and allows it inside a Folder, but
+    navigation tabs are filtered on plone.displayed_types, from which the type
+    was missing. Sites without ideabox are left alone: the setting is validated
+    against the existing portal_types.
+    """
+    portal_types = api.portal.get_tool("portal_types")
+    if CAMPAIGNVIEW_PORTAL_TYPE not in portal_types:
+        logger.info(f"Ideabox is not installed, {CAMPAIGNVIEW_PORTAL_TYPE} not shown")
+        return
+    displayed_types = api.portal.get_registry_record("plone.displayed_types")
+    if CAMPAIGNVIEW_PORTAL_TYPE in displayed_types:
+        return
+    api.portal.set_registry_record(
+        "plone.displayed_types",
+        tuple(displayed_types) + (CAMPAIGNVIEW_PORTAL_TYPE,),
+    )
+    logger.info(f"Added {CAMPAIGNVIEW_PORTAL_TYPE} to plone.displayed_types")

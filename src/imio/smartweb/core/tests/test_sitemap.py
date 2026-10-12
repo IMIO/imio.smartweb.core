@@ -179,38 +179,58 @@ class TestPage(ImioSmartwebTestCase):
         ),
     )
     def test_site_map_for_user_display(self, mock_news):
-        sitemap = CatalogSiteMap(self.portal, self.request)
-        # 3 authentic sources
-        self.assertEqual(len(sitemap.siteMap().get("children")), 3)
-        self.assertNotIn(
-            "Folder",
-            [child.get("Title") for child in sitemap.siteMap().get("children")],
-        )
+        # Keep the "empty source" assertions hermetic: without mocking, the
+        # remote calls would reach a live DIRECTORY_URL/EVENTS_URL/NEWS_URL
+        # instance if one happens to run (e.g. a dev server on :8080), which
+        # returns a truthy response and adds a spurious seo entry, breaking
+        # "0 children". Mock external HTTP only (plone-testing R1).
+        with (
+            patch(
+                "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+                return_value={},
+            ),
+            patch(
+                "imio.smartweb.core.contents.rest.events.endpoint.BaseEventsEndpoint.__call__",
+                return_value={},
+            ),
+            patch(
+                "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint.__call__",
+                return_value={},
+            ),
+        ):
+            sitemap = CatalogSiteMap(self.portal, self.request)
+            # 3 authentic sources
+            self.assertEqual(len(sitemap.siteMap().get("children")), 3)
+            self.assertNotIn(
+                "Folder",
+                [child.get("Title") for child in sitemap.siteMap().get("children")],
+            )
 
-        # Publish folder and page (private content don't appear in sitemap)
-        api.content.transition(self.folder, "publish")
-        api.content.transition(self.page, "publish")
-        sitemap = CatalogSiteMap(self.portal, self.request)
-        self.assertEqual(len(sitemap.siteMap().get("children")), 4)
-        self.assertIn(
-            "Folder",
-            [child.get("Title") for child in sitemap.siteMap().get("children")],
-        )
-        folder_entry = [
-            child
-            for child in sitemap.siteMap().get("children")
-            if child.get("Title") == "Folder"
-        ][0]
-        self.assertIn(
-            "Page 1", [child.get("Title") for child in folder_entry.get("children")]
-        )
+            # Publish folder and page (private content don't appear in sitemap)
+            api.content.transition(self.folder, "publish")
+            api.content.transition(self.page, "publish")
+            sitemap = CatalogSiteMap(self.portal, self.request)
+            self.assertEqual(len(sitemap.siteMap().get("children")), 4)
+            self.assertIn(
+                "Folder",
+                [child.get("Title") for child in sitemap.siteMap().get("children")],
+            )
+            folder_entry = [
+                child
+                for child in sitemap.siteMap().get("children")
+                if child.get("Title") == "Folder"
+            ][0]
+            self.assertIn(
+                "Page 1",
+                [child.get("Title") for child in folder_entry.get("children")],
+            )
 
-        directory_entry = [
-            child
-            for child in sitemap.siteMap().get("children")
-            if child.get("Title") == "directory view"
-        ][0]
-        self.assertEqual(len(directory_entry.get("children")), 0)
+            directory_entry = [
+                child
+                for child in sitemap.siteMap().get("children")
+                if child.get("Title") == "directory view"
+            ][0]
+            self.assertEqual(len(directory_entry.get("children")), 0)
 
         cache = choose_cache("imio.smartweb.core.browser.sitemap.get_endpoint_data")
         cache.ramcache.invalidateAll()
@@ -226,14 +246,378 @@ class TestPage(ImioSmartwebTestCase):
                 for child in sitemap.siteMap().get("children")
                 if child.get("Title") == "directory view"
             ][0]
-            self.assertEqual(len(directory_entry.get("children")), 7)
+            # 6 contacts and nothing else: the seo_html entry point is for
+            # sitemap.xml, not for the sitemap citizens browse.
+            self.assertEqual(len(directory_entry.get("children")), 6)
 
     def test_bad_portal_type(self):
         obj = Mock()
         obj.portal_type = None
         request = Mock()
-        result = get_endpoint_data(obj, request)
+        result = get_endpoint_data(obj, request, 50, None, None)
         assert result == {}
+
+    def test_get_source_sort(self):
+        # The ordering is fixed per source, not configurable: the directory is
+        # forced to its most recently modified contacts, the agenda (upcoming
+        # events) and the news (most recent) keep their native endpoint ordering.
+        from imio.smartweb.core.browser.sitemap import get_source_sort
+
+        self.assertEqual(
+            get_source_sort("imio.smartweb.DirectoryView"),
+            ("modified", "descending"),
+        )
+        self.assertEqual(get_source_sort("imio.smartweb.NewsView"), (None, None))
+        self.assertEqual(get_source_sort("imio.smartweb.EventsView"), (None, None))
+
+    def test_get_sitemap_sources_config_fallback(self):
+        from imio.smartweb.core.browser.sitemap import (
+            get_sitemap_sources_config,
+        )
+
+        with patch(
+            "imio.smartweb.core.browser.sitemap.api.portal.get_registry_record",
+            return_value=None,
+        ):
+            config = get_sitemap_sources_config()
+        self.assertEqual(
+            set(config),
+            {
+                "imio.smartweb.EventsView",
+                "imio.smartweb.NewsView",
+                "imio.smartweb.DirectoryView",
+            },
+        )
+        for cfg in config.values():
+            self.assertTrue(cfg["enabled"])
+            self.assertNotIn("item_filter", cfg)
+        # The directory is a finite catalogue: it must not be capped like the
+        # agenda/news streams, or the same handful of contacts would stay in the
+        # sitemap forever and the rest would never be discovered.
+        self.assertEqual(config["imio.smartweb.EventsView"]["max_items"], 50)
+        self.assertEqual(config["imio.smartweb.NewsView"]["max_items"], 50)
+        self.assertEqual(config["imio.smartweb.DirectoryView"]["max_items"], 200)
+
+    @patch(
+        "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
+        return_value=(
+            ["64f4cbee9a394a018a951f6d94452914"],
+            {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+        ),
+    )
+    def test_site_map_html_respects_enabled(self, mock_news):
+        # Disable Directory -> its remote items are not expanded even when the
+        # endpoint returns contacts.
+        api.portal.set_registry_record(
+            "smartweb.sitemap_authentic_sources",
+            [
+                {
+                    "source_type": "imio.smartweb.EventsView",
+                    "enabled": True,
+                    "max_items": 50,
+                },
+                {
+                    "source_type": "imio.smartweb.NewsView",
+                    "enabled": True,
+                    "max_items": 50,
+                },
+                {
+                    "source_type": "imio.smartweb.DirectoryView",
+                    "enabled": False,
+                    "max_items": 50,
+                },
+            ],
+        )
+        cache = choose_cache("imio.smartweb.core.browser.sitemap.get_endpoint_data")
+        cache.ramcache.invalidateAll()
+        with patch(
+            "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+            return_value=self.json_rest_directory,
+        ):
+            sitemap = CatalogSiteMap(self.portal, self.request)
+            directory_entry = [
+                c
+                for c in sitemap.siteMap().get("children")
+                if c.get("Title") == "directory view"
+            ][0]
+            self.assertEqual(len(directory_entry.get("children")), 0)
+
+    @patch(
+        "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
+        return_value=(
+            ["64f4cbee9a394a018a951f6d94452914"],
+            {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+        ),
+    )
+    def test_site_map_html_caps_max_items(self, mock_news):
+        # Directory endpoint returns several contacts; max_items=2 caps to 2.
+        api.portal.set_registry_record(
+            "smartweb.sitemap_authentic_sources",
+            [
+                {
+                    "source_type": "imio.smartweb.EventsView",
+                    "enabled": True,
+                    "max_items": 50,
+                },
+                {
+                    "source_type": "imio.smartweb.NewsView",
+                    "enabled": True,
+                    "max_items": 50,
+                },
+                {
+                    "source_type": "imio.smartweb.DirectoryView",
+                    "enabled": True,
+                    "max_items": 2,
+                },
+            ],
+        )
+        cache = choose_cache("imio.smartweb.core.browser.sitemap.get_endpoint_data")
+        cache.ramcache.invalidateAll()
+        with patch(
+            "imio.smartweb.core.contents.rest.directory.endpoint.BaseDirectoryEndpoint.__call__",
+            return_value=self.json_rest_directory,
+        ):
+            sitemap = CatalogSiteMap(self.portal, self.request)
+            directory_entry = [
+                c
+                for c in sitemap.siteMap().get("children")
+                if c.get("Title") == "directory view"
+            ][0]
+            self.assertEqual(len(directory_entry.get("children")), 2)
+
+    def test_sitemap_sources_config_default(self):
+        rows = api.portal.get_registry_record("smartweb.sitemap_authentic_sources")
+        self.assertEqual(len(rows), 3)
+        by_type = {r["source_type"]: r for r in rows}
+        self.assertEqual(
+            set(by_type),
+            {
+                "imio.smartweb.EventsView",
+                "imio.smartweb.NewsView",
+                "imio.smartweb.DirectoryView",
+            },
+        )
+        for row in rows:
+            self.assertTrue(row["enabled"])
+        self.assertEqual(by_type["imio.smartweb.EventsView"]["max_items"], 50)
+        self.assertEqual(by_type["imio.smartweb.NewsView"]["max_items"], 50)
+        self.assertEqual(by_type["imio.smartweb.DirectoryView"]["max_items"], 200)
+
+    def test_get_source_items_fetches_in_chunks(self):
+        # A single big b_size request does not come back within the endpoint's
+        # 20 s timeout, so the items are fetched page by page and capped.
+        from imio.smartweb.core.browser.sitemap import get_source_items
+        from imio.smartweb.core.browser.sitemap import SITEMAP_FETCH_CHUNK
+
+        calls = []
+
+        def fake_fetch(obj, request, batch_size, sort_on, sort_order):
+            b_start = int(request.form.get("b_start", 0))
+            calls.append((b_start, batch_size))
+            return {
+                "items": [{"title": f"c{i}"} for i in range(batch_size)],
+                "items_total": 250,
+            }
+
+        self.request.form["b_start"] = "42"
+        with patch("imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch):
+            items = get_source_items(
+                self.rest_directory, self.request, 200, "modified", "descending"
+            )
+        self.assertEqual(len(items), 200)
+        self.assertEqual(
+            calls,
+            [(0, SITEMAP_FETCH_CHUNK), (SITEMAP_FETCH_CHUNK, SITEMAP_FETCH_CHUNK)],
+        )
+        # the caller's own b_start must not be clobbered
+        self.assertEqual(self.request.form["b_start"], "42")
+
+    def test_get_source_items_keeps_what_it_got_on_failure(self):
+        # get_json() returns None on timeout, so a failing page used to wipe the
+        # whole source out of the sitemap. Keep the pages that did come back.
+        from imio.smartweb.core.browser.sitemap import get_source_items
+
+        page = {"items": [{"title": f"c{i}"} for i in range(100)], "items_total": 250}
+        pages = [page]
+
+        def fake_fetch(obj, request, batch_size, sort_on, sort_order):
+            return pages.pop(0) if pages else None
+
+        with patch("imio.smartweb.core.browser.sitemap.get_endpoint_data", fake_fetch):
+            items = get_source_items(
+                self.rest_directory, self.request, 200, "modified", "descending"
+            )
+        self.assertEqual(len(items), 100)
+
+    def test_format_sitemap_items_seo_entry(self):
+        # The seo_html entry point belongs to sitemap.xml (bots), not to the
+        # HTML sitemap: a citizen clicking "All contacts" there would land on
+        # the crawlable fallback instead of the React listing.
+        from imio.smartweb.core.browser.sitemap import format_sitemap_items
+
+        items = [
+            {
+                "@type": "imio.directory.Contact",
+                "title": "Alice",
+                "UID": "u1",
+                "modified": "2024-01-01T00:00:00Z",
+            }
+        ]
+        base_url = self.rest_directory.absolute_url()
+
+        for_humans = format_sitemap_items(items, base_url)
+        self.assertEqual(len(for_humans), 1)
+        self.assertNotIn("seo_html", for_humans[0]["getURL"])
+
+        for_bots = format_sitemap_items(items, base_url, include_seo_entry=True)
+        self.assertEqual(len(for_bots), 2)
+        self.assertEqual(for_bots[-1]["loc"], f"{base_url}/seo_html")
+
+    def test_sitemap_default_caps_match_control_panel(self):
+        # sitemap.DEFAULT_MAX_ITEMS (used when the registry record is missing)
+        # must not drift from the control-panel defaults.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISmartwebSiteAdminControlPanel,
+        )
+        from imio.smartweb.core.browser.sitemap import DEFAULT_MAX_ITEMS
+
+        field_default = ISmartwebSiteAdminControlPanel["sitemap_authentic_sources"]
+        self.assertEqual(
+            {r["source_type"]: r["max_items"] for r in field_default.default},
+            DEFAULT_MAX_ITEMS,
+        )
+
+    def test_sitemap_max_items_ceiling(self):
+        # An admin must be able to cover a whole directory (a few hundred
+        # contacts), not be locked to the stream-sized cap.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISitemapSourceRowSchema,
+        )
+
+        self.assertEqual(ISitemapSourceRowSchema["max_items"].max, 1000)
+
+    def test_sitemap_row_schema_has_no_filter(self):
+        # The filter/ordering column was removed: each authentic source has one
+        # fixed ordering (see sitemap.SORT_BY_TYPE), so the grid only lets the
+        # admin include/exclude a source and cap its item count.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISitemapSourceRowSchema,
+        )
+
+        self.assertEqual(
+            sorted(ISitemapSourceRowSchema.names()),
+            ["enabled", "max_items", "source_type"],
+        )
+
+    @patch(
+        "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint."
+        "_get_news_folders_uids_and_title_from_entity",
+        return_value=(
+            ["64f4cbee9a394a018a951f6d94452914"],
+            {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+        ),
+    )
+    def test_endpoint_sort_override(self, mock_news):
+        from imio.smartweb.core.contents.rest.directory.endpoint import (
+            DirectoryEndpoint,
+        )
+        from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
+        from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
+
+        # Directory: default alphabetical, overridable to modified/descending.
+        ep = DirectoryEndpoint(self.rest_directory, self.request)
+        self.assertIn("sort_on=sortable_title", ep.query_url)
+        ep = DirectoryEndpoint(
+            self.rest_directory,
+            self.request,
+            sort_on="modified",
+            sort_order="descending",
+        )
+        url = ep.query_url
+        self.assertIn("sort_on=modified", url)
+        self.assertIn("sort_order=descending", url)
+        self.assertNotIn("sort_on=sortable_title", url)
+
+        # Events: native event_dates preserved when no override.
+        ep = EventsEndpoint(self.rest_agenda, self.request)
+        self.assertIn("sort_on=event_dates", ep.query_url)
+
+        # News: native effective/descending preserved when no override.
+        ep = NewsEndpoint(self.rest_news, self.request)
+        self.assertIn("sort_on=effective", ep.query_url)
+        self.assertIn("sort_order=descending", ep.query_url)
+
+    def test_sitemap_source_type_is_not_display_mode(self):
+        # Regression: source_type was declared mode="display". A display-mode
+        # column is not submitted, so DictRow validation rejected every row on
+        # save ("Le système n'a pas pu traiter la valeur fournie" / "Champ
+        # obligatoire"). It must stay a real (input) widget so its per-row
+        # value is posted and survives extraction.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISitemapSourceRowSchema,
+        )
+        from plone.autoform.interfaces import MODES_KEY
+
+        modes = ISitemapSourceRowSchema.queryTaggedValue(MODES_KEY, [])
+        display_fields = [name for _, name, mode in modes if mode == "display"]
+        self.assertNotIn("source_type", display_fields)
+
+    def test_frozen_label_widget_renders_full_token(self):
+        # The Source column widget renders a read-only label (the term title)
+        # plus a hidden input carrying the FULL token, whether the DataGrid
+        # feeds it a raw token string or a list of tokens. Regression:
+        # self.value[0] on a string rendered a single character ("i") as both
+        # label and submitted value.
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            FrozenLabelFieldWidget,
+        )
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            ISitemapSourceRowSchema,
+        )
+        from z3c.form.testing import TestRequest
+
+        field = ISitemapSourceRowSchema["source_type"].bind(self.portal)
+
+        # Raw token string (what the DataGrid object widget actually feeds).
+        widget = FrozenLabelFieldWidget(field, TestRequest())
+        widget.update()
+        widget.value = "imio.smartweb.NewsView"
+        html = widget.render()
+        self.assertIn('value="imio.smartweb.NewsView"', html)
+        self.assertNotIn('value="i"', html)
+        self.assertIn("Actualités", html)
+
+        # List of tokens (what a stand-alone SelectWidget holds).
+        widget = FrozenLabelFieldWidget(field, TestRequest())
+        widget.update()
+        widget.value = ["imio.smartweb.EventsView"]
+        html = widget.render()
+        self.assertIn('value="imio.smartweb.EventsView"', html)
+        self.assertIn("Agenda", html)
+
+    def test_sitemap_config_guard_rejects_incomplete_source_set(self):
+        # The applyChanges guard must reject a grid that does not list each
+        # authentic source exactly once (protects against an edited/duplicated
+        # source_type now that the column is an editable Choice).
+        from imio.smartweb.core.browser.controlpanel_siteadmin import (
+            SmartwebSiteAdminControlPanelForm,
+        )
+
+        form = SmartwebSiteAdminControlPanelForm(self.portal, self.request)
+        incomplete = [
+            {
+                "source_type": "imio.smartweb.EventsView",
+                "enabled": True,
+                "max_items": 50,
+            },
+            {
+                "source_type": "imio.smartweb.NewsView",
+                "enabled": True,
+                "max_items": 50,
+            },
+        ]
+        result = form.applyChanges({"sitemap_authentic_sources": incomplete})
+        self.assertFalse(result)
 
     def uncompress(self, sitemapdata):
         sio = BytesIO(sitemapdata)

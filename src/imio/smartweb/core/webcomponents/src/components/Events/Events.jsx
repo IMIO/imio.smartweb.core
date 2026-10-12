@@ -9,7 +9,7 @@ import useAxios from "../../hooks/useAxios";
 import "./Events.scss";
 import "../Filters/MainFilter.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
-import { Provider, Translate } from "react-translated";
+import { Provider, Translate, Translator } from "react-translated";
 import translation from "../../utils/translation";
 import moment from "moment";
 import queryString from "query-string";
@@ -35,12 +35,14 @@ export default function Events(props) {
                         language={props.currentLanguage}
                         showCategoriesOrTopics={props.showCategoriesOrTopics}
                         contextAuthenticatedUser={props.contextAuthenticatedUser}
+                        navRootUrl={props.navRootUrl}
                     />
                 </ScrollContext.Provider>
             </Provider>
         </BrowserRouter>
     );
 }
+console.log("Events.jsx is loaded");
 function EventsView(props) {
     const { u, ...parsed } = Object.assign(
         {
@@ -54,6 +56,7 @@ function EventsView(props) {
     const [itemsArray, setItemsArray] = useState(null);
     const [itemsNumber, setItemsNumber] = useState([]);
     const [clickId, setClickId] = useState(null);
+    const [detailItem, setDetailItem] = useState(null);
     const [hoverId, setHoverId] = useState(null);
     const [filters, setFilters] = useState(parsed);
     const [batchStart, setBatchStart] = useState(0);
@@ -100,7 +103,7 @@ function EventsView(props) {
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
         setBatchStart(() => 0);
-        setFilters(value);
+        setFilters({ ...value, b_start: 0 });
         window.scrollTo(0, 0);
     };
 
@@ -135,11 +138,13 @@ function EventsView(props) {
     // coditional list render
     let listRender;
     let MapRender;
+    let DetailMapRender;
     if (itemsArray && itemsArray.length > 0) {
         listRender = (
             <EventList
                 onChange={clickID}
                 itemsArray={itemsArray}
+                isMore={isMore}
                 onHover={hoverID}
                 showCategoriesOrTopics={props.showCategoriesOrTopics}
                 contextAuthenticatedUser={props.contextAuthenticatedUser}
@@ -159,6 +164,15 @@ function EventsView(props) {
             <p role="status" aria-live="polite">
                 <Translate text="Aucun événement n'a été trouvé" />
             </p>
+        );
+    }
+    if (detailItem && detailItem.UID === u) {
+        DetailMapRender = (
+            <Map
+                headerHeight={style.height + headerHeight}
+                items={[detailItem]}
+                queryUrl={props.queryUrl}
+            />
         );
     }
     const divLoader = (
@@ -196,19 +210,30 @@ function EventsView(props) {
                     />
                     <div className="r-result-numbers-and-add-container">
                         {itemsNumber > 0 ? (
-                            <p
-                                role="status"
-                                aria-live="polite"
-                                className="r-results-numbers"
-                                aria-label={
-                                    itemsNumber > 1
-                                        ? `${itemsNumber} événements trouvés`
-                                        : `${itemsNumber} événement trouvé`
-                                }
-                            >
-                                <span aria-hidden="true">{itemsNumber}</span>
-                                <Translate text={itemsNumber > 1 ? "événements trouvés" : "événement trouvé"} />
-                            </p>
+                            <Translator>
+                                {({ translate }) => (
+                                    <p
+                                        role="status"
+                                        aria-live="polite"
+                                        className="r-results-numbers"
+                                        aria-label={`${itemsNumber}${translate({
+                                            text:
+                                                itemsNumber > 1
+                                                    ? "événements trouvés"
+                                                    : "événement trouvé",
+                                        })}`}
+                                    >
+                                        <span aria-hidden="true">{itemsNumber}</span>
+                                        <Translate
+                                            text={
+                                                itemsNumber > 1
+                                                    ? "événements trouvés"
+                                                    : "événement trouvé"
+                                            }
+                                        />
+                                    </p>
+                                )}
+                            </Translator>
                         ) : (
                             <p role="status" aria-live="polite" className="r-results-numbers">
                                 <Translate text="Aucun résultat" />
@@ -285,8 +310,10 @@ function EventsView(props) {
                                 <EventContent
                                     queryUrl={props.queryUrl}
                                     onChange={clickID}
+                                    onItemLoad={setDetailItem}
                                     onlyPastEvents={props.onlyPastEvents}
                                     contextAuthenticatedUser={props.contextAuthenticatedUser}
+                                    navRootUrl={props.navRootUrl}
                                 />
                             </div>
                             {displayMap && (
@@ -297,7 +324,7 @@ function EventsView(props) {
                                         height: "calc(100vh-" + style.height + headerHeight,
                                     }}
                                 >
-                                    {MapRender}
+                                    {DetailMapRender}
                                 </div>
                             )}
                         </div>

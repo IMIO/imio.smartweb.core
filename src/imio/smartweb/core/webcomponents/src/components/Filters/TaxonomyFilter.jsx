@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import Select from "react-select";
+import { Translator } from "react-translated";
 import "./TaxonomyFilter.scss";
 
-function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick, unique}) {
+function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick, unique }) {
     // Regroupement des états liés
     const [selectValues, setSelectValues] = useState({
         first: null,
@@ -133,79 +134,91 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
     }, [sub, firstLevelOptions]);
 
     return (
-        <div onClick={onClick}>
-            <div
-                className={
-                    visibility.secondLevel
-                        ? "dropDownFilter dropDownFilter-active"
-                        : "dropDownFilter"
-                }
-            >
-                <a
-                    className="sub0"
-                    style={unique ? { display: "none" } : {}}
-                    href="#"
-                    value={title}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        handleLinkClick();
-                        handleApply(token, title);
-                    }}
-                >
-                    {title}
-                </a>
-
-                {options.firstLevel && (
+        <Translator>
+            {({ translate }) => (
+                <div onClick={onClick}>
                     <div
                         className={
                             visibility.secondLevel
-                                ? "sub1 dropDownFilter-visible"
-                                : "sub1 dropDownFilter-invisble"
+                                ? "dropDownFilter dropDownFilter-active"
+                                : "dropDownFilter"
                         }
-                        {...(!visibility.secondLevel && { inert: "" })}
                     >
-                        <Select
-                            name="taxonomy_contact_category_for_filtering"
-                            className={`select-custom-class library-facilities react-select-container ${
-                                selectValues.second && selectValues.second !== "Catégories"
-                                    ? "select-has-value"
-                                    : ""
-                            }`}
-                            classNamePrefix="react-select-custom-multi"
-                            onChange={onChangeSub1}
-                            options={options.firstLevel}
-                            value={selectValues.second}
-                            placeholder={selectValues.second ? selectValues.second : "Catégories"}
-                        />
-                    </div>
-                )}
+                        <a
+                            className="sub0"
+                            style={unique ? { display: "none" } : {}}
+                            href="#"
+                            value={title}
+                            onClick={(e) => {
+                                e.preventDefault();
+                                handleLinkClick();
+                                handleApply(token, title);
+                            }}
+                        >
+                            {title}
+                        </a>
 
-                {options.secondLevel && (
-                    <div
-                        className={
-                            visibility.thirdLevel
-                                ? "sub2 dropDownFilter-visible"
-                                : "sub2 dropDownFilter-invisble"
-                        }
-                        {...(!visibility.thirdLevel && { inert: "" })}
-                    >
-                        <Select
-                            name="taxonomy_contact_category_for_filtering"
-                            className={`react-custom-multi-select-container library-facilities ${
-                                selectValues.third && selectValues.third !== "Catégories"
-                                    ? "select-has-value"
-                                    : ""
-                            }`}
-                            classNamePrefix="react-select-custom-multi"
-                            onChange={onChangeSub2}
-                            options={options.secondLevel}
-                            value={selectValues.third}
-                            placeholder={selectValues.third ? selectValues.third : "Catégories"}
-                        />
+                        {options.firstLevel && (
+                            <div
+                                className={
+                                    visibility.secondLevel
+                                        ? "sub1 dropDownFilter-visible"
+                                        : "sub1 dropDownFilter-invisble"
+                                }
+                                {...(!visibility.secondLevel && { inert: "" })}
+                            >
+                                <Select
+                                    name="taxonomy_contact_category_for_filtering"
+                                    className={`select-custom-class library-facilities react-select-container ${
+                                        selectValues.second && selectValues.second !== "Catégories"
+                                            ? "select-has-value"
+                                            : ""
+                                    }`}
+                                    classNamePrefix="react-select-custom-multi"
+                                    onChange={onChangeSub1}
+                                    options={options.firstLevel}
+                                    value={selectValues.second}
+                                    placeholder={
+                                        selectValues.second
+                                            ? selectValues.second
+                                            : translate({ text: "Catégories" })
+                                    }
+                                />
+                            </div>
+                        )}
+
+                        {options.secondLevel && (
+                            <div
+                                className={
+                                    visibility.thirdLevel
+                                        ? "sub2 dropDownFilter-visible"
+                                        : "sub2 dropDownFilter-invisble"
+                                }
+                                {...(!visibility.thirdLevel && { inert: "" })}
+                            >
+                                <Select
+                                    name="taxonomy_contact_category_for_filtering"
+                                    className={`react-custom-multi-select-container library-facilities ${
+                                        selectValues.third && selectValues.third !== "Catégories"
+                                            ? "select-has-value"
+                                            : ""
+                                    }`}
+                                    classNamePrefix="react-select-custom-multi"
+                                    onChange={onChangeSub2}
+                                    options={options.secondLevel}
+                                    value={selectValues.third}
+                                    placeholder={
+                                        selectValues.third
+                                            ? selectValues.third
+                                            : translate({ text: "Catégories" })
+                                    }
+                                />
+                            </div>
+                        )}
                     </div>
-                )}
-            </div>
-        </div>
+                </div>
+            )}
+        </Translator>
     );
 }
 

@@ -1,0 +1,28 @@
+<tal:language tal:condition="view/available"
+              i18n:domain="imio.smartweb">
+  <div class="dropdown"
+       id="portal-languageselector-dropdown"
+       tal:define="languages view/languages;
+                    current python: [lang for lang in languages if lang['selected']];
+                    current python: current[0] if current else None;">
+    <button type="button"
+            class="btn dropdown-toggle"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            tal:content="python: current['code'].upper() if current else ''">FR</button>
+    <ul class="dropdown-menu"
+        id="portal-languageselector">
+      <tal:language repeat="lang languages">
+        <li tal:condition="not: lang/selected"
+            tal:define="code lang/code;"
+            tal:attributes="class string:language-${code};">
+          <a href=""
+             class="dropdown-item"
+             tal:define="name lang/native|lang/name;"
+             tal:attributes="href lang/url; title name;"
+             tal:content="python: lang['code'].upper()">FR</a>
+        </li>
+      </tal:language>
+    </ul>
+  </div>
+</tal:language>

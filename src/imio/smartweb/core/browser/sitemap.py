@@ -5,6 +5,7 @@ from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpointGet
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpointGet
 from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.locales import SmartwebMessageFactory as _
+from plone import api
 from plone.app.layout.navigation.navtree import buildFolderTree
 from plone.app.layout.sitemap.sitemap import SiteMapView
 from plone.base.interfaces import IPloneSiteRoot
@@ -29,6 +30,55 @@ import time
 logger = logging.getLogger("imio.smartweb.core")
 
 
+AUTHENTIC_SOURCE_TYPES = [
+    "imio.smartweb.EventsView",
+    "imio.smartweb.NewsView",
+    "imio.smartweb.DirectoryView",
+]
+
+# Ordering used in the sitemap for each authentic source. It is fixed, not
+# configurable. Only the directory needs an override: its endpoint sorts
+# natively on sortable_title, while the sitemap lists its most recently modified
+# contacts. The agenda (upcoming events) and the news (most recent) already sort
+# that way natively, hence no entry — a missing entry means (None, None): no
+# override, keep the endpoint default.
+SORT_BY_TYPE = {
+    "imio.smartweb.DirectoryView": ("modified", "descending"),
+}
+
+
+def get_source_sort(portal_type):
+    """(sort_on, sort_order) override for a source; (None, None) = native."""
+    return SORT_BY_TYPE.get(portal_type, (None, None))
+
+
+# Caps used when the registry record does not exist yet. Mirrors the
+# control-panel defaults (see controlpanel_siteadmin.DEFAULT_SITEMAP_ITEMS and
+# DEFAULT_DIRECTORY_SITEMAP_ITEMS); test_sitemap keeps the two in sync.
+DEFAULT_MAX_ITEMS = {
+    "imio.smartweb.EventsView": 50,
+    "imio.smartweb.NewsView": 50,
+    "imio.smartweb.DirectoryView": 200,
+}
+
+
+def get_sitemap_sources_config():
+    """{portal_type: {enabled, max_items}} from the registry.
+
+    A missing record (None) means all three sources enabled at their default
+    cap — preserving behavior on instances not yet migrated.
+    """
+    rows = api.portal.get_registry_record(
+        "smartweb.sitemap_authentic_sources", default=None
+    )
+    if rows is None:
+        rows = [
+            {"source_type": t, "enabled": True, "max_items": DEFAULT_MAX_ITEMS[t]}
+            for t in AUTHENTIC_SOURCE_TYPES
+        ]
+    return {r["source_type"]: r for r in rows}
+
+
 FRIENDLY_TYPES = [
     "Collection",
     "Image",
@@ -44,14 +94,17 @@ FRIENDLY_TYPES = [
 ]
 
 
-def cache_key(method, obj, request):
-    """We cache data from authentic sources for the sitemap (.xml.gz) for 2 hours."""
+def cache_key(method, obj, request, batch_size, sort_on, sort_order):
+    """Cache authentic-source data for the sitemap for 2 hours."""
     b_start = request.form.get("b_start", "0")
-    return f"sitemap_{obj.UID()}_{b_start}_{int(time.time() // 7200)}"
+    return (
+        f"sitemap_{obj.UID()}_{b_start}_{batch_size}_{sort_on}_{sort_order}_"
+        f"{int(time.time() // 7200)}"
+    )
 
 
 @ram.cache(cache_key)
-def get_endpoint_data(obj, request):
+def get_endpoint_data(obj, request, batch_size, sort_on, sort_order):
     endpoint_mapping = {
         "imio.smartweb.DirectoryView": DirectoryEndpointGet,
         "imio.smartweb.EventsView": EventsEndpointGet,
@@ -60,22 +113,74 @@ def get_endpoint_data(obj, request):
     endpoint_class = endpoint_mapping.get(obj.portal_type)
     if not endpoint_class:
         return {}
-
     endpoint = endpoint_class()
-    if not request.form.get("b_size", 0):
-        batch_size = 1000 if obj.portal_type == "imio.smartweb.DirectoryView" else 365
-    else:
-        batch_size = int(request.form.get("b_size", 0))
     return (
         endpoint.reply_for_given_object(
-            obj, request, fullobjects=0, batch_size=batch_size
+            obj,
+            request,
+            fullobjects=0,
+            batch_size=batch_size,
+            sort_on=sort_on,
+            sort_order=sort_order,
         )
         or {}
     )
 
 
-def format_sitemap_items(items, base_url):
-    """Format items for sitemap(.xml.gz)"""
+# A single remote @search for a big b_size does not come back in time: the call
+# has a 20 s timeout (get_json in contents/rest/base.py) and returns None when
+# it expires, which used to drop the WHOLE source from the sitemap. Fetch in
+# bounded pages instead, keep what came back, and stop once the time budget is
+# spent. Partial is fine here: the items are sorted newest-first, and the full
+# list stays reachable through the paginated seo_html page of each view.
+SITEMAP_FETCH_CHUNK = 100
+SITEMAP_FETCH_BUDGET = 10  # seconds spent fetching one source
+
+
+def get_source_items(obj, request, max_items, sort_on, sort_order):
+    """Up to max_items remote items for a source, fetched page by page."""
+    if not max_items:
+        max_items = DEFAULT_MAX_ITEMS.get(obj.portal_type, SITEMAP_FETCH_CHUNK)
+    items = []
+    original_b_start = request.form.get("b_start")
+    deadline = time.monotonic() + SITEMAP_FETCH_BUDGET
+    try:
+        while len(items) < max_items:
+            request.form["b_start"] = len(items)
+            chunk_size = min(SITEMAP_FETCH_CHUNK, max_items - len(items))
+            data = get_endpoint_data(obj, request, chunk_size, sort_on, sort_order)
+            chunk = (data or {}).get("items") or []
+            items.extend(chunk)
+            if len(chunk) < chunk_size:
+                # Last page, or a call that failed/timed out: keep what we have.
+                break
+            if len(items) >= (data.get("items_total") or 0):
+                break
+            if time.monotonic() > deadline:
+                logger.warning(
+                    "Sitemap: fetch budget spent for %s, listing %s items out of %s",
+                    obj.absolute_url(),
+                    len(items),
+                    data.get("items_total"),
+                )
+                break
+    finally:
+        if original_b_start is None:
+            request.form.pop("b_start", None)
+        else:
+            request.form["b_start"] = original_b_start
+    return items[:max_items]
+
+
+def format_sitemap_items(items, base_url, include_seo_entry=False):
+    """Format items for sitemap(.xml.gz)
+
+    ``include_seo_entry`` appends the seo_html entry point of the view. It
+    belongs to sitemap.xml only: seo_html is the crawlable fallback of a React
+    listing, not a page to send a visitor to. The HTML sitemap, which citizens
+    browse, links the view itself and the items — and seo_html does not
+    self-link either.
+    """
     formatted_items = []
     latest_lastmod = None
     item_type = ""
@@ -101,13 +206,15 @@ def format_sitemap_items(items, base_url):
         )
         if latest_lastmod is None or lastmod > latest_lastmod:
             latest_lastmod = lastmod
+    if not include_seo_entry:
+        return formatted_items
     seo_title = ""
     if item_type == "imio.news.NewsItem":
-        seo_title = _("News : SEO Links")
+        seo_title = _("All news")
     elif item_type == "imio.directory.Contact":
-        seo_title = _("Directory : SEO Links")
+        seo_title = _("All contacts")
     else:
-        seo_title = _("Agenda : SEO Links")
+        seo_title = _("All events")
     formatted_items.append(
         {
             "loc": f"{base_url}/seo_html",
@@ -167,17 +274,24 @@ class CustomSiteMapView(SiteMapView):
             )
             yield {"loc": loc, "lastmod": modified[1]}
 
-        brains = catalog(
-            portal_type=[
-                "imio.smartweb.EventsView",
-                "imio.smartweb.NewsView",
-                "imio.smartweb.DirectoryView",
-            ]
-        )
-        for brain in brains:
-            obj = brain.getObject()
-            data = get_endpoint_data(obj, obj.REQUEST)
-            yield from format_sitemap_items(data.get("items", {}), obj.absolute_url())
+        config = get_sitemap_sources_config()
+        enabled_types = [t for t, c in config.items() if c.get("enabled")]
+        if enabled_types:
+            brains = catalog(portal_type=enabled_types)
+            for brain in brains:
+                obj = brain.getObject()
+                source_cfg = config[obj.portal_type]
+                sort_on, sort_order = get_source_sort(obj.portal_type)
+                items = get_source_items(
+                    obj,
+                    obj.REQUEST,
+                    source_cfg.get("max_items"),
+                    sort_on,
+                    sort_order,
+                )
+                yield from format_sitemap_items(
+                    items, obj.absolute_url(), include_seo_entry=True
+                )
 
 
 @implementer(IImioSmartwebCoreLayer)
@@ -192,14 +306,23 @@ class CatalogSiteMap(BaseCatalogSiteMap):
             context, obj=context, query=query, strategy=strategy
         )
 
+        config = get_sitemap_sources_config()
         for child in base_folder_tree.get("children"):
             obj = child.get("item").getObject()
-            data = get_endpoint_data(obj, obj.REQUEST)
-            if not data:
+            source_cfg = config.get(obj.portal_type)
+            if source_cfg is None or not source_cfg.get("enabled"):
                 continue
-            child["children"] = format_sitemap_items(
-                data.get("items", []), obj.absolute_url()
+            sort_on, sort_order = get_source_sort(obj.portal_type)
+            items = get_source_items(
+                obj,
+                obj.REQUEST,
+                source_cfg.get("max_items"),
+                sort_on,
+                sort_order,
             )
+            if not items:
+                continue
+            child["children"] = format_sitemap_items(items, obj.absolute_url())
 
         return base_folder_tree
 

@@ -18,8 +18,15 @@ class SeoViewlet(HeaderViewlet):
 
     def render(self):
         request = self.request
-        b_start = int(request.get("b_start", 0))
-        b_size = int(request.get("b_size", 10))
+        # Fall back to the batch the view actually listed, not a hardcoded 10:
+        # the rel=prev/next chain has to match the page itself (and the <a>
+        # pagination of results.pt), otherwise bots walk the list in 10-item
+        # steps and re-crawl the same items over and over.
+        view_b_size = getattr(self.view, "b_size", None) or getattr(
+            self.view, "DEFAULT_BATCH_SIZE", 100
+        )
+        b_start = int(request.get("b_start", getattr(self.view, "b_start", 0)))
+        b_size = int(request.get("b_size", view_b_size))
         total = self.view.total if hasattr(self.view, "total") else 0
 
         base_url = self.context.absolute_url()

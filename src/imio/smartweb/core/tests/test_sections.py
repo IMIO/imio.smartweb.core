@@ -9,6 +9,7 @@ from imio.smartweb.core.interfaces import IImioSmartwebCoreLayer
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import clear_cache
+from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.tests.utils import make_named_image
 from imio.smartweb.core.tests.utils import get_sections_types
 from plone import api
@@ -28,6 +29,9 @@ from zope.component import queryMultiAdapter
 from zope.interface import alsoProvides
 from zope.intid.interfaces import IIntIds
 from zope.lifecycleevent import modified
+
+import json
+import requests_mock
 
 
 class TestSections(ImioSmartwebTestCase):
@@ -104,7 +108,13 @@ class TestSections(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn("1 KB", view())
 
-    def test_video_section(self):
+    @requests_mock.Mocker()
+    def test_video_section(self, m):
+        youtube_oembed = get_json("resources/json_video_youtube_oembed_mock.json")
+        vimeo_oembed = get_json("resources/json_video_vimeo_oembed_mock.json")
+        m.get("https://www.youtube.com/oembed", text=json.dumps(youtube_oembed))
+        m.get("https://vimeo.com/api/oembed.json", text=json.dumps(vimeo_oembed))
+
         section = api.content.create(
             container=self.page,
             type="imio.smartweb.SectionVideo",
@@ -125,6 +135,14 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn("iframe", embedded_video)
         self.assertIn("https://player.vimeo.com/video/110990510", embedded_video)
         self.assertIn("(Vimeo video)", embedded_video)
+
+        # A removed / unavailable video (non-200 oembed) must degrade gracefully
+        # instead of raising (regression: WEB-3538 accessibility override).
+        # embeddify falls back to returning the plain url when no embed is built.
+        m.get("https://vimeo.com/api/oembed.json", status_code=404)
+        section.video_url = "https://vimeo.com/000000000"
+        view = queryMultiAdapter((section, self.request), name="view")
+        self.assertEqual(view.get_embed_video(), "https://vimeo.com/000000000")
 
     def test_external_content_section(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
@@ -287,7 +305,11 @@ class TestSections(ImioSmartwebTestCase):
         ]
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            # inline edition is disabled for now (can_edit_content() in
+            # utils.py), so an editor sees the same plain-text title as an
+            # anonymous visitor - no <span class="inline-title"> wrapper.
+            view.count('<h2 class="section-title">Title of my '),
+            len(section_types),
         )
         logout()
         view = queryMultiAdapter((page, self.request), name="full_view")()
@@ -318,7 +340,11 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            # inline edition is disabled for now (can_edit_content() in
+            # utils.py), so an editor sees the same plain-text title as an
+            # anonymous visitor - no <span class="inline-title"> wrapper.
+            view.count('<h2 class="section-title">Title of my '),
+            len(section_types),
         )
 
     def test_sections_titles(self):
@@ -366,7 +392,11 @@ class TestSections(ImioSmartwebTestCase):
 
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
-            view.count('<h2 class="section-title">Title of my '), len(section_types)
+            # inline edition is disabled for now (can_edit_content() in
+            # utils.py), so an editor sees the same plain-text title as an
+            # anonymous visitor - no <span class="inline-title"> wrapper.
+            view.count('<h2 class="section-title">Title of my '),
+            len(section_types),
         )
         # test hide_title
         for section_id in page.objectIds():
@@ -375,6 +405,7 @@ class TestSections(ImioSmartwebTestCase):
         # hide_title in login mode (add some specific css class)
         view = queryMultiAdapter((page, self.request), name="full_view")()
         self.assertEqual(
+            # inline edition disabled for now, see comment above
             view.count('<h2 class="hidden-section-title hide-in-preview">Title of my '),
             self.NUMBER_OF_EMPTY_SECTIONS,
         )
@@ -597,15 +628,49 @@ class TestSections(ImioSmartwebTestCase):
             title="Section text",
         )
         view = queryMultiAdapter((self.page, self.request), name="full_view")
-        self.assertEqual(view.get_class(section), "sectiontext")
+        # bootstrap_css_class defaults to "col-sm-12" (full width)
+        self.assertEqual(view.get_class(section), "sectiontext col-sm-12")
         section.css_class = "my-css"
-        self.assertEqual(view.get_class(section), "sectiontext my-css")
+        self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-12")
         section.bootstrap_css_class = "col-sm-3"
         self.assertEqual(view.get_class(section), "sectiontext my-css col-sm-3")
+        section.section_alignment = "text"
+        self.assertEqual(
+            view.get_class(section), "sectiontext my-css col-sm-3 container-se-text"
+        )
         section.background_image = NamedBlobImage(**make_named_image())
         self.assertEqual(
-            view.get_class(section), "sectiontext my-css col-sm-3 with-background"
+            view.get_class(section),
+            "sectiontext my-css col-sm-3 container-se-text with-background",
         )
+
+    def test_section_alignment_field(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        self.assertEqual(section.section_alignment, "main")
+        section.section_alignment = "text"
+        self.assertEqual(section.section_alignment, "text")
+
+    def test_section_alignment_restricts_width_on_modify(self):
+        # Standard edit form path: bypasses save_size/save_alignment entirely,
+        # so the invariant is enforced by the modified_section subscriber.
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        section.section_alignment = "text"
+        section.bootstrap_css_class = "col-sm-4"
+        modified(section)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-12")
+
+        # Full/half width remain untouched.
+        section.bootstrap_css_class = "col-sm-6"
+        modified(section)
+        self.assertEqual(section.bootstrap_css_class, "col-sm-6")
 
     def test_sections_history(self):
         api.content.transition(self.page, "publish")

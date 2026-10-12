@@ -7,6 +7,7 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
+from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from time import sleep
@@ -107,6 +108,25 @@ class TestSectionEvents(ImioSmartwebTestCase):
         hash_3 = annotations.get(SECTION_ITEMS_HASH_KEY)
         self.assertEqual(hash_2, hash_3)
         self.assertEqual(next_modification, last_modification)
+
+    @requests_mock.Mocker()
+    def test_events_not_modified_for_anonymous(self, m):
+        intids = getUtility(IIntIds)
+        self.events.related_events = "e73e6a81afea4a579cd0da2773af8d29"
+        self.events.linking_rest_view = RelationValue(
+            intids.getId(self.rest_events_view)
+        )
+        m.get("http://localhost:8080/Plone/@events", text=json.dumps(self.json_events))
+        annotations = IAnnotations(self.events)
+        first_modification = self.portalpage.ModificationDate()
+
+        logout()
+        events_view = queryMultiAdapter(
+            (self.events, self.request), name="carousel_view"
+        )
+        self.assertEqual(len(events_view.items[0]), 2)
+        self.assertIsNone(annotations.get(SECTION_ITEMS_HASH_KEY))
+        self.assertEqual(self.portalpage.ModificationDate(), first_modification)
 
     @requests_mock.Mocker()
     def test_orientation(self, m):
@@ -231,16 +251,3 @@ class TestSectionEvents(ImioSmartwebTestCase):
         )
         vocabulary = factory(section)
         self.assertIn(api.content.get_uuid(self.rest_events_view), vocabulary)
-
-
-# <audit>
-#   <file>test_section_events.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>
-#     test_whole_day_dates_converted_to_brussels_timezone teste view.items
-#     (et non le HTML rendu) car le bug porte sur le datetime passé à
-#     macros.pt; assertion sur start.day/end.day est suffisante et imite
-#     le pattern des autres tests du fichier.
-#   </deviations>
-#   <questions>None</questions>
-# </audit>

@@ -6,4 +6,14 @@
   <records interface="imio.smartweb.core.browser.controlpanel.ISmartwebControlPanel"
            prefix="smartweb" />
 
+  <!-- Navigation tabs are filtered on portal_type, so the type has to be
+       listed here to show up in the menu (see profiles/default/registry/plone.xml). -->
+  <record name="plone.displayed_types"
+          interface="Products.CMFPlone.interfaces.controlpanel.INavigationSchema"
+          field="displayed_types">
+    <value purge="false">
+      <element>imio.smartweb.CampaignView</element>
+    </value>
+  </record>
+
 </registry>

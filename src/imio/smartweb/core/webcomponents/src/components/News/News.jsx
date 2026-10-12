@@ -8,7 +8,7 @@ import useAxios from "../../hooks/useAxios";
 import "./News.scss";
 import "../Filters/MainFilter.scss";
 import useFilterQuery from "../../hooks/useFilterQuery";
-import { Provider, Translate } from "react-translated";
+import { Provider, Translate, Translator } from "react-translated";
 import translation from "../../utils/translation";
 import queryString from "query-string";
 
@@ -86,7 +86,7 @@ const NewsView = (props) => {
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
         setBatchStart((batchStart) => 0);
-        setFilters(value);
+        setFilters({ ...value, b_start: 0 });
     };
 
     // set batch
@@ -111,6 +111,7 @@ const NewsView = (props) => {
             <NewsList
                 onChange={clickID}
                 itemsArray={itemsArray}
+                isMore={isMore}
                 showCategoriesOrTopics={props.showCategoriesOrTopics}
                 contextAuthenticatedUser={props.contextAuthenticatedUser}
             />
@@ -156,19 +157,32 @@ const NewsView = (props) => {
                                         />
                                         <div className="r-result-numbers-and-add-container">
                                             {itemsNumber > 0 ? (
-                                                <p
-                                                    role="status"
-                                                    aria-live="polite"
-                                                    className="r-results-numbers"
-                                                    aria-label={
-                                                        itemsNumber > 1
-                                                            ? `${itemsNumber} actualités trouvées`
-                                                            : `${itemsNumber} actualité trouvée`
-                                                    }
-                                                >
-                                                    <span aria-hidden="true">{itemsNumber}</span>
-                                                    <Translate text={itemsNumber > 1 ? "Actualités trouvées" : "Actualité trouvée"} />
-                                                </p>
+                                                <Translator>
+                                                    {({ translate }) => (
+                                                        <p
+                                                            role="status"
+                                                            aria-live="polite"
+                                                            className="r-results-numbers"
+                                                            aria-label={`${itemsNumber}${translate({
+                                                                text:
+                                                                    itemsNumber > 1
+                                                                        ? "Actualités trouvées"
+                                                                        : "Actualité trouvée",
+                                                            })}`}
+                                                        >
+                                                            <span aria-hidden="true">
+                                                                {itemsNumber}
+                                                            </span>
+                                                            <Translate
+                                                                text={
+                                                                    itemsNumber > 1
+                                                                        ? "Actualités trouvées"
+                                                                        : "Actualité trouvée"
+                                                                }
+                                                            />
+                                                        </p>
+                                                    )}
+                                                </Translator>
                                             ) : (
                                                 <p
                                                     role="status"

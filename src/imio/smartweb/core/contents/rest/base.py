@@ -15,12 +15,21 @@ class BaseEndpoint(object):
     language = "fr"
     remote_endpoint = ""
 
-    def __init__(self, context, request, fullobjects=1, batch_size=0):
-
+    def __init__(
+        self,
+        context,
+        request,
+        fullobjects=1,
+        batch_size=0,
+        sort_on=None,
+        sort_order=None,
+    ):
         self.context = context
         self.request = request
         self.fullobjects = fullobjects
         self.batch_size = batch_size
+        self.sort_on = sort_on
+        self.sort_order = sort_order
 
     def __call__(self):
         results = get_json(self.query_url, timeout=20)
@@ -29,6 +38,15 @@ class BaseEndpoint(object):
     @property
     def query_url(self):
         raise NotImplementedError
+
+    def sort_params(self, default_sort_on, default_sort_order=None):
+        """Build sort_on/sort_order query params, honoring an override."""
+        sort_on = self.sort_on or default_sort_on
+        sort_order = self.sort_order or default_sort_order
+        params = ["sort_on={}".format(sort_on)]
+        if sort_order:
+            params.append("sort_order={}".format(sort_order))
+        return params
 
     def convert_cached_image_scales(
         self,

@@ -3,11 +3,13 @@
 from bs4 import BeautifulSoup
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.dexterity.content import ASSIGNABLE_CACHE_KEY
+from unittest.mock import patch
 from z3c.relationfield import RelationValue
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -84,6 +86,27 @@ class TestNavigation(ImioSmartwebTestCase):
         self.assertEqual(len(viewlet.navtree["/plone/folder"]), 0)
         self.assertNotIn("subfolder", viewlet.render_globalnav())
         self.assertNotIn("subpage", viewlet.render_globalnav())
+
+    @patch("imio.smartweb.core.subscribers.get_basic_auth_json")
+    @patch("imio.smartweb.core.subscribers.get_value_from_registry")
+    def test_campaignview_in_navigation(
+        self, m_get_value_from_registry, m_get_basic_auth_json
+    ):
+        m_get_value_from_registry.return_value = (
+            "https://staging3-formulaires.guichet-citoyen.be/api"
+        )
+        m_get_basic_auth_json.return_value = get_json(
+            "resources/json_ideabox_campaign.json"
+        )
+        api.content.create(
+            container=self.folder,
+            type="imio.smartweb.CampaignView",
+            id="campaign",
+            linked_campaign="2",
+        )
+        viewlet = ImprovedGlobalSectionsViewlet(self.portal, self.request, None, None)
+        viewlet.update()
+        self.assertIn("Sprint iMio Fall 2024", viewlet.render_globalnav())
 
     def test_quick_accesses(self):
         api.portal.set_registry_record("plone.navigation_depth", 4)

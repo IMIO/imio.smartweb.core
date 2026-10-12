@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<registry
+    xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+    i18n:domain="imio.smartweb.core">
+
+  <!-- The webcomponents JS bundle is now loaded as an ES module
+       (type="module") by the imio.smartweb.webcomponents.js viewlet
+       instead of through the resource registry, which has no way to
+       render a "type" attribute on <script>. Clear the stale
+       jscompilation value left over from before this change. -->
+  <records prefix="plone.bundles/smartweb-webcomponents"
+           interface="Products.CMFPlone.interfaces.IBundleRegistry">
+    <value key="jscompilation"></value>
+  </records>
+
+</registry>

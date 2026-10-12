@@ -11,7 +11,6 @@ import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
 import AccessibleClearIndicator from "../../../utils/AccessibleClearIndicator";
 
-
 function Filters(props) {
     let navigate = useNavigate();
     const [inputValues, setInputValues] = useState(props.activeFilter);
@@ -30,7 +29,6 @@ function Filters(props) {
         params: inputValues,
         paramsSerializer: { indexes: null },
     });
-
 
     // set fitlers data to state
     useEffect(() => {
@@ -57,7 +55,7 @@ function Filters(props) {
                 }));
             setTopicsFilter(optionsTopics);
             setCategoryFilter(optionsCategory);
-            setLocalsCategoryFilter(optionsLocalsCategory)
+            setLocalsCategoryFilter(optionsLocalsCategory);
         }
     }, [response]);
 
@@ -73,17 +71,33 @@ function Filters(props) {
         },
     ];
 
-    const onChangeHandler = useCallback(({ target: { name, value } }) => {
+    const [searchText, setSearchText] = useState(props.activeFilter.SearchableText || "");
+    const searchDebounceRef = useRef(null);
+
+    const commitSearchValue = useCallback((value) => {
         if (value.length > 2) {
-            setInputValues((state) => ({ ...state, [name]: value }), []);
+            setInputValues((state) => ({ ...state, SearchableText: value }));
         } else {
             setInputValues((prevState) => {
-                const state = { ...prevState };
-                const { [name]: remove, ...rest } = state;
+                if (!("SearchableText" in prevState)) return prevState;
+                const { SearchableText: remove, ...rest } = prevState;
                 return rest;
             });
         }
-    });
+    }, []);
+
+    useEffect(() => {
+        return () => searchDebounceRef.current && clearTimeout(searchDebounceRef.current);
+    }, []);
+
+    const onChangeHandler = useCallback(
+        ({ target: { value } }) => {
+            setSearchText(value);
+            if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = setTimeout(() => commitSearchValue(value), 400);
+        },
+        [commitSearchValue]
+    );
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
         if (value) {
@@ -136,7 +150,19 @@ function Filters(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        props.onChange(inputValues);
+        if (searchDebounceRef.current) {
+            clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = null;
+        }
+        const nextValues =
+            searchText.length > 2
+                ? { ...inputValues, SearchableText: searchText }
+                : (() => {
+                      const { SearchableText: remove, ...rest } = inputValues;
+                      return rest;
+                  })();
+        setInputValues(nextValues);
+        props.onChange(nextValues);
     }
     // set default input value
     let actTopi =
@@ -193,7 +219,7 @@ function Filters(props) {
                                         id="event-search"
                                         name="SearchableText"
                                         type="search"
-                                        value={inputValues.SearchableText}
+                                        value={searchText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
                                             text: "Recherche",
@@ -279,7 +305,11 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeGroupSelect}
-                                    options={localsCategoryFilter.length === 0 ?  categoryFilter && categoryFilter :groupedOptions}
+                                    options={
+                                        localsCategoryFilter.length === 0
+                                            ? categoryFilter && categoryFilter
+                                            : groupedOptions
+                                    }
                                     placeholder={translate({
                                         text: "Quoi",
                                     })}
@@ -333,7 +363,13 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
-                                    options={taxonomy_event_public && taxonomy_event_public}
+                                    options={
+                                        taxonomy_event_public &&
+                                        taxonomy_event_public.map((o) => ({
+                                            ...o,
+                                            label: translate({ text: o.label }),
+                                        }))
+                                    }
                                     placeholder={translate({
                                         text: "Public cible",
                                     })}
@@ -355,7 +391,13 @@ function Filters(props) {
                                     isClearable
                                     components={{ ClearIndicator: AccessibleClearIndicator }}
                                     onChange={onChangeHandlerSelect}
-                                    options={iam && iam}
+                                    options={
+                                        iam &&
+                                        iam.map((o) => ({
+                                            ...o,
+                                            label: translate({ text: o.label }),
+                                        }))
+                                    }
                                     placeholder={translate({
                                         text: "Profil",
                                     })}

@@ -32,6 +32,16 @@ class TestVocabularies(ImioSmartwebTestCase):
             "resources/json_no_contact_raw_mock.json"
         )
         self.contact_search_url = "http://localhost:8080/Plone/@search?portal_type=imio.directory.Contact&selected_entities=396907b3b1b04a97896b12cc792c77f8&sort_on=breadcrumb&b_size=1000000&metadata_fields=UID&metadata_fields=breadcrumb"
+        # imio.smartweb.common's RemoteDirectoryEntitiesVocabularyFactory caches
+        # successful (non-empty) lookups for 300s in a `_cache` dict on the
+        # singleton utility (not request-scoped, so `clear_cache()`/
+        # `plone.memoize` invalidation doesn't touch it). Without resetting it
+        # here, a non-empty result cached by an earlier test can leak into
+        # whichever test runs next for the same (directory_url, language) key,
+        # regardless of what this test mocks.
+        getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.RemoteDirectoryEntities"
+        )._cache.clear()
 
     def test_icons(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Icons", 64)
@@ -119,6 +129,24 @@ class TestVocabularies(ImioSmartwebTestCase):
 
     def test_bootstrap_css(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.BootstrapCSS", 6)
+        # Always all 6 terms, regardless of context: the restriction to
+        # full/half width when a section is aligned with the text sections
+        # container is enforced in JS (both edit forms) and server-side
+        # (SectionView.save_alignment / subscriber._enforce_text_alignment_width),
+        # not by filtering the vocabulary itself (that would remove the other
+        # options from the rendered markup, leaving nothing for JS to restore
+        # when switching back to "main" alignment).
+        factory = getUtility(
+            IVocabularyFactory, "imio.smartweb.vocabulary.BootstrapCSS"
+        )
+
+        class FakeSection:
+            section_alignment = "text"
+
+        self.assertEqual(len(factory(FakeSection())), 6)
+
+    def test_section_alignment(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.SectionAlignment", 2)
 
     def test_orientation(self):
         self.assertVocabularyLen("imio.smartweb.vocabulary.Orientation", 3)
@@ -141,7 +169,7 @@ class TestVocabularies(ImioSmartwebTestCase):
         json_entities_raw_mock = get_json(
             "resources/json_directory_entities_raw_mock.json"
         )
-        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=1000000&metadata_fields=UID".format(
+        url = "{}/@search?portal_type=imio.directory.Entity&sort_on=sortable_title&b_size=3000&metadata_fields=UID".format(
             config.DIRECTORY_URL
         )
         m.get(url, text=json.dumps(json_entities_raw_mock))

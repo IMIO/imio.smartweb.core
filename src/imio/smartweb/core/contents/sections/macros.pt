@@ -20,7 +20,7 @@
 
         <span tal:replace="structure view/locking_info" />
 
-        <div class="edit-section-container">
+        <div class="edit-section-container sortable-handle" draggable="true">
 
           <tal:if tal:condition="python: can_toggle_title_visibility and not collapsible_section">
             <tal:hide tal:condition="not: hide_title">
@@ -94,6 +94,26 @@
             </form>
           </tal:size>
 
+          <tal:alignment define="alignment_labels python:{'main': 'Page', 'text': 'Texte'}"
+                         tal:condition="python:context.portal_type != 'imio.smartweb.SectionText'">
+            <form class="edit-section-link edit-section-alignment"
+                  hx-trigger="change"
+                  hx-swap="none"
+                  tal:attributes="hx-post string:${context/absolute_url}/@@savealignment">
+              <i class="bi bi-distribute-horizontal"></i>
+              <select class="form-select select_section_alignment"
+                      tal:attributes="name string:select_alignment_${context/UID};
+                                      id string:select_alignment_${context/UID}">
+                <option tal:repeat="alignment view/get_alignments"
+                        tal:attributes="value alignment/key;
+                                        title alignment/value;
+                                        selected python:alignment['key'] == (context.section_alignment or 'main')"
+                        tal:content="python:alignment_labels.get(alignment['key'], alignment['value'])">
+                </option>
+              </select>
+            </form>
+          </tal:alignment>
+
           <tal:if tal:condition="python:context.portal_type in ['imio.smartweb.SectionNews', 'imio.smartweb.SectionEvents']">
             <a class="edit-section-link edit-section-refresh"
                tal:attributes="href string:${context/absolute_url}/refresh_modification_date;
@@ -156,7 +176,7 @@
          data-bs-target=""
          tal:omit-tag="not: collapsible_section"
          tal:attributes="data-bs-target string:#body-section-${context/id}"
-         tal:content="context/title"
+         tal:content="structure context/@@inline_title"
     /></h2>
     <h2 tal:condition="python: can_edit_sections and hide_title"
         class="hidden-section-title hide-in-preview"><a
@@ -167,7 +187,7 @@
          data-bs-target=""
          tal:omit-tag="not: collapsible_section"
          tal:attributes="data-bs-target string:#body-section-${context/id}"
-         tal:content="context/title"
+         tal:content="structure context/@@inline_title"
     /></h2>
 
   </tal:def>

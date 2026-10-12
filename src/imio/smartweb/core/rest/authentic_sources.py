@@ -5,7 +5,10 @@ from imio.smartweb.common.utils import is_log_active
 from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.config import EVENTS_URL
 from imio.smartweb.core.config import NEWS_URL
+from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
+from imio.smartweb.core.contents.rest.search.endpoint import get_default_events_view
 from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
+from imio.smartweb.core.utils import get_json
 from plone import api
 from plone.i18n.normalizer import idnormalizer
 from plone.protect.interfaces import IDisableCSRFProtection
@@ -17,7 +20,7 @@ from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
 import logging
-import os
+import re
 import requests
 
 _BRUSSELS_TZ = ZoneInfo("Europe/Brussels")
@@ -36,23 +39,56 @@ class BaseRequestForwarder(Service):
             self.request.response.setStatus(200)
             return {"status": "ok", "service": self.request_type}
         alsoProvides(self.request, IDisableCSRFProtection)
-        url = "/".join(self.traversal_stack)
-        if self.request_type == "events":
-            url = url.replace("@search", "@events")
-        auth_source_url = f"{self.base_url}/{url}"
+        auth_source_url = self.get_auth_source_url()
         response = self.forward_request(auth_source_url)
         if isinstance(response, dict):
             response = self.enrich_response(response)
+            for item in response.get("items", []):
+                if isinstance(item, dict):
+                    self.enrich_response(item)
         if is_log_active():
             logger.info("======== FULL Response =========")
             logger.info(response)
         return response
 
+    def get_entity_url(self):
+        entity_uid = api.portal.get_registry_record(
+            f"smartweb.{self.request_type}_entity_uid", default=None
+        )
+        if not entity_uid:
+            return None
+        data = get_json(f"{self.base_url}/@search?UID={entity_uid}") or {}
+        items = data.get("items") or []
+        return items[0].get("@id") if items else None
+
+    def get_auth_source_url(self):
+        url = "/".join(self.traversal_stack)
+        if self.request_type == "events":
+            url = url.replace("@search", "@events")
+        if self.traversal_stack[:1] == ["@vocabularies"]:
+            # context-dependent vocabularies (e.g. local categories) are empty
+            # on the remote site root: resolve them on the site's entity
+            entity_url = self.get_entity_url()
+            if entity_url:
+                return f"{entity_url}/{url}"
+        return f"{self.base_url}/{url}"
+
     def prepare_data(self, data):
         return data
 
+    def _uid_from_id(self, atid):
+        # fullobjects listings may omit the UID metadata field. imio content is
+        # stored with its UID as id, so recover it from the last @id segment,
+        # but only when it looks like a Plone UID (32 hex chars). This avoids
+        # picking up a listing/query @id (e.g. ".../@events?portal_type=...")
+        # or a human-readable entity/folder id.
+        if not atid or not isinstance(atid, str):
+            return None
+        candidate = atid.rsplit("/", 1)[-1]
+        return candidate if re.fullmatch(r"[0-9a-f]{32}", candidate) else None
+
     def enrich_response(self, response):
-        uid = response.get("UID")
+        uid = response.get("UID") or self._uid_from_id(response.get("@id"))
         if not uid:
             return response
         lang = api.portal.get_current_language(context=self.context)
@@ -154,8 +190,6 @@ class BaseRequestForwarder(Service):
 
 class DirectoryRequestForwarder(BaseRequestForwarder):
     request_type = "directory"
-    client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
-    client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
     base_url = DIRECTORY_URL
 
     def enrich_response(self, response):
@@ -164,8 +198,6 @@ class DirectoryRequestForwarder(BaseRequestForwarder):
 
 class EventsRequestForwarder(BaseRequestForwarder):
     request_type = "events"
-    client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
-    client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
     base_url = EVENTS_URL
 
     _DATE_FORMATS = (
@@ -196,11 +228,93 @@ class EventsRequestForwarder(BaseRequestForwarder):
     def enrich_response(self, response):
         return super(EventsRequestForwarder, self).enrich_response(response)
 
+    def _is_listing(self):
+        return "@search" in self.traversal_stack or "@events" in self.traversal_stack
+
+    def get_auth_source_url(self):
+        if self.request.method == "GET" and self._is_listing():
+            # match the site: scope by selected_agendas against the remote root,
+            # not by the traversed path (which would defeat the populating cascade)
+            return f"{self.base_url}/@events"
+        return super().get_auth_source_url()
+
+    def reply(self):
+        if self.request.method == "GET" and self._is_listing():
+            # Reuse the site's own events view machinery so the forwarded
+            # listing matches what the site returns: same agenda cascade, event
+            # types, metadata fields and response processing (EventsEndpoint),
+            # merged with the caller's own filters (category, paging, dates).
+            default_view = get_default_events_view()
+            if default_view is None:
+                if is_log_active():
+                    logger.info("======== events forwarder site scope =========")
+                    logger.info(
+                        "no default events view configured; short-circuiting "
+                        "with an empty events listing"
+                    )
+                self.request.response.setStatus(200)
+                return {
+                    "@id": self.get_auth_source_url(),
+                    "items": [],
+                    "items_total": 0,
+                }
+            b_size = self.request.form.get("b_size", 0)
+            batch_size = int(b_size) if b_size else 0
+            # mirror the view's date scope (upcoming vs past) unless the caller
+            # asked for a specific range — the view relies on its React front to
+            # send event_dates.range, which the forwarder's callers don't.
+            if "event_dates.range" not in self.request.form:
+                self.request.form["event_dates.range"] = (
+                    "max" if default_view.only_past_events else "min"
+                )
+                # the event_dates index needs the paired pivot date, otherwise
+                # the remote errors ("missing a 'query' key") — the site's React
+                # front always sends both.
+                self.request.form["event_dates.query"] = (
+                    datetime.now().date().isoformat()
+                )
+            # The view's query_url owns these; drop the caller's copies so they
+            # don't stack into conflicting duplicates (e.g. two "sort_on" →
+            # parsed as a list → the remote catalog query fails with a 500).
+            # Paging is already carried through batch_size.
+            for key in ("sort_on", "sort_order", "fullobjects", "b_size"):
+                self.request.form.pop(key, None)
+            # Reuse the view's query (agenda cascade, event types, metadata
+            # fields) but fetch it directly instead of going through
+            # EventsEndpoint.__call__, which would convert the ``image`` into
+            # scale URLs. Fetching raw keeps the full ``image`` object the
+            # caller (Téléservices) expects.
+            endpoint = EventsEndpoint(
+                default_view, self.request, fullobjects=0, batch_size=batch_size
+            )
+            url = endpoint.query_url
+            auth = getattr(self.request, "_auth", "") or ""
+            auth = auth if auth.startswith("Bearer ") else None
+            if is_log_active():
+                logger.info("======== events forwarder site scope =========")
+                logger.info(
+                    "delegating events listing to default events view "
+                    f"{default_view.absolute_url()} (batch_size={batch_size}, "
+                    f"event_dates.range={self.request.form['event_dates.range']}, "
+                    f"auth forwarded={bool(auth)})"
+                )
+            response = get_json(url, auth=auth, timeout=20) or {}
+            if isinstance(response, dict):
+                response = self.enrich_response(response)
+                for item in response.get("items", []):
+                    if isinstance(item, dict):
+                        self.enrich_response(item)
+            if is_log_active():
+                logger.info("======== FULL Response (delegated) =========")
+                if isinstance(response, dict):
+                    logger.info(f"items_total : {response.get('items_total')}")
+                logger.info(response)
+            return response
+        return super().reply()
+
 
 class NewsRequestForwarder(BaseRequestForwarder):
     request_type = "news"
-    client_id = os.environ.get("RESTAPI_NEWS_CLIENT_ID")
-    client_secret = os.environ.get("RESTAPI_NEWS_CLIENT_SECRET")
     base_url = NEWS_URL
 
     def enrich_response(self, response):

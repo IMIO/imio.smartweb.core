@@ -42,6 +42,24 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <!-- Inline title edition (htmx) -->
+  <browser:page
+      name="inline_title"
+      for="*"
+      class=".inline_title.InlineTitleView"
+      template="templates/inline_title.pt"
+      permission="zope2.View"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
+  <browser:page
+      name="savetitle"
+      for="*"
+      class=".inline_title.SaveTitleView"
+      permission="cmf.ModifyPortalContent"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <browser:page
       name="smartwebiconresolver"
       for="*"
@@ -218,5 +236,14 @@
       name="pat-slugify-with-button.js"
       file="./static/src/pat-slugify-with-button.js"
       /-->
+
+  <!-- Deleting a taxonomy is reserved to Manager (see permissions.zcml) -->
+  <browser:page
+      name="taxonomy-settings"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".taxonomy_controlpanel.SmartwebTaxonomySettingsControlPanel"
+      permission="collective.taxonomy.ManageTaxonomies"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
 
 </configure>

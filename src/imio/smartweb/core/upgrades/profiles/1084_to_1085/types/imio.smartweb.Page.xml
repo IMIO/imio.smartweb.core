@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        meta_type="Dexterity FTI"
+        name="imio.smartweb.Page"
+        i18n:domain="imio.smartweb"
+>
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="imio.smartweb.save_and_publish"/>
+  </property>
+
+</object>

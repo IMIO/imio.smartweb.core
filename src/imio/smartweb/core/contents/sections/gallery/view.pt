@@ -26,6 +26,10 @@
       <!-- fix some css for usage in Plone  -->
       <style type="text/css">
        #spotlight .header { padding-right: 120px; }
+       .flexbin > a.section_gallery_item_edit {
+         flex-grow: 0; height: auto; align-self: flex-start; z-index: 1;
+         margin-left: -2.5rem; padding: 0.25rem 0.5rem; background: #fff;
+       }
       </style>
 
       <div tal:define="portal context/@@plone_portal_state/portal;
@@ -41,6 +45,13 @@
             <img tal:attributes="src python:view.get_scale_url(item, thumb_scale);
                                  alt python:view.alt_label(item);
                                  title item/title" />
+          </a>
+          <a class="section_gallery_item_edit"
+             tal:condition="can_edit_sections"
+             tal:attributes="href string:${item/absolute_url}/edit"
+             title="Edit"
+             i18n:attributes="title">
+            <i class="bi bi-pencil"></i>
           </a>
         </tal:images>
       </div>

@@ -140,7 +140,7 @@ class RemoteProceduresVocabularyFactory:
         orig = "ia.smartweb"
         query_full = sign_url(url, key, orig)
         try:
-            response = requests.get(query_full)
+            response = requests.get(query_full, timeout=10)
         except Exception:
             return SimpleVocabulary([])
 
@@ -198,6 +198,15 @@ CategoriesDisplayVocabulary = CategoriesDisplayVocabularyFactory()
 
 class BootstrapCSSVocabularyFactory:
     def __call__(self, context=None):
+        # NOTE: always return all 6 terms, regardless of `section_alignment`.
+        # The restriction to full/half width when aligned with the text
+        # sections container is enforced client-side (both edit.js and the
+        # htmx toolbar JS toggle hidden/disabled on the existing <option>
+        # elements) and server-side (SectionView.save_alignment /
+        # subscriber._enforce_text_alignment_width). Filtering the vocabulary
+        # itself would remove the other options from the rendered markup
+        # entirely, so JS would have nothing to restore when switching back
+        # to "main" alignment.
         bootstrap_css = [
             ("col-sm-3", _("Quarter of width")),
             ("col-sm-4", _("Third of width")),
@@ -211,6 +220,21 @@ class BootstrapCSSVocabularyFactory:
 
 
 BootstrapCSSVocabulary = BootstrapCSSVocabularyFactory()
+
+
+class SectionAlignmentVocabularyFactory:
+    def __call__(self, context=None):
+        section_alignment = [
+            ("main", _("Align with main container")),
+            ("text", _("Align with text sections container (760px)")),
+        ]
+        terms = [
+            SimpleTerm(value=t[0], token=t[0], title=t[1]) for t in section_alignment
+        ]
+        return SimpleVocabulary(terms)
+
+
+SectionAlignmentVocabulary = SectionAlignmentVocabularyFactory()
 
 
 class OrientationVocabularyFactory:
@@ -242,30 +266,6 @@ class SubsiteDisplayModeVocabularyFactory:
 
 
 SubsiteDisplayModeVocabulary = SubsiteDisplayModeVocabularyFactory()
-
-
-class ContactBlocksVocabularyFactory:
-    def __call__(self, context=None):
-        values = [
-            ("logo", _("Logo")),
-            ("leadimage", _("Lead Image")),
-            ("titles", _("Title and Subtitle")),
-            ("contact_informations", _("Contact informations")),
-            ("address", _("Address")),
-            ("itinerary", _("Itinerary")),
-            ("schedule", _("Schedule")),
-            ("map", _("Map")),
-            ("description", _("Description")),
-            ("gallery", _("Gallery")),
-        ]
-        terms = [
-            SimpleVocabulary.createTerm(value[0], value[0], value[1])
-            for value in values
-        ]
-        return SimpleVocabulary(terms)
-
-
-ContactBlocksVocabulary = ContactBlocksVocabularyFactory()
 
 
 class PermissiveVocabulary(SimpleVocabulary):
@@ -337,12 +337,13 @@ def get_entities_vocabulary(portal_type, base_url):
     )
 
 
-class RemoteDirectoryEntitiesVocabularyFactory:
-    def __call__(self, context=None):
-        return get_entities_vocabulary("imio.directory.Entity", DIRECTORY_URL)
+# MOVE TO IMIO.SMARTWEB.COMMON 1.2.55
+# class RemoteDirectoryEntitiesVocabularyFactory:
+#     def __call__(self, context=None):
+#         return get_entities_vocabulary("imio.directory.Entity", DIRECTORY_URL)
 
 
-RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
+# RemoteDirectoryEntitiesVocabulary = RemoteDirectoryEntitiesVocabularyFactory()
 
 
 class RemoteEventsEntitiesVocabularyFactory:
@@ -583,8 +584,8 @@ FilteredCategoryAndTopicsVocabulary = FilteredCategoryAndTopicsVocabularyFactory
 
 class DirectoryCategoriesVocabularyFactory:
     def __call__(self, context=None):
-        client_id = os.environ.get("RESTAPI_DIRECTORY_CLIENT_ID")
-        client_secret = os.environ.get("RESTAPI_DIRECTORY_CLIENT_SECRET")
+        client_id = os.environ.get("SSO_APPS_CLIENT_ID", "imio-apps-smartweb")
+        client_secret = os.environ.get("SSO_APPS_CLIENT_SECRET", "")
         auth = get_wca_token(client_id, client_secret)
         url = f"{DIRECTORY_URL}/@vocabularies/collective.taxonomy.contact_category?b_size=1000000"
         categories_json = get_json(url, auth=auth)
@@ -606,8 +607,8 @@ DirectoryCategoriesVocabulary = DirectoryCategoriesVocabularyFactory()
 class EventsTypesVocabularyFactory:
     @ram.cache(lambda *args: time() // (60 * 60))
     def __call__(self, context=None):
-        client_id = os.environ.get("RESTAPI_EVENTS_CLIENT_ID")
-        client_secret = os.environ.get("RESTAPI_EVENTS_CLIENT_SECRET")
+        client_id = os.environ.get("SSO_APPS_CLIENT_ID", "imio-apps-smartweb")
+        client_secret = os.environ.get("SSO_APPS_CLIENT_SECRET", "")
         auth = get_wca_token(client_id, client_secret)
         url = f"{EVENTS_URL}/@vocabularies/imio.events.vocabulary.EventTypes"
         eventstypes_json = get_json(url, auth=auth)

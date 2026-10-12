@@ -33,8 +33,9 @@ class EventsViewView(BaseRestView):
 
     @property
     def event(self):
-        event = self._formated_event(self.item)
-        return event
+        if self.item is None:
+            return None
+        return self._formated_event(self.item)
 
     def _formated_event(self, data):
         current_lang = api.portal.get_current_language()[:2]
@@ -92,8 +93,6 @@ class EventsViewView(BaseRestView):
             # Fallback sur l'image originale
             image_url = image_info["download"]
 
-        if not data:
-            return None
         # Construction du JSON simplifié
         prefix_address = _("Address")
         prefix_email = _("Email")

@@ -3,10 +3,12 @@
 from imio.smartweb.core import config
 from imio.smartweb.core.contents.rest.search.endpoint import _cache_key
 from imio.smartweb.core.contents.rest.search.endpoint import ExtendedSearchHandler
+from imio.smartweb.core.contents.rest.search.endpoint import get_default_events_view
 from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
 from imio.smartweb.core.contents.rest.search.endpoint import get_events_views
 from imio.smartweb.core.contents.rest.search.endpoint import get_navigation_root
 from imio.smartweb.core.contents.rest.search.endpoint import get_news_views
+from imio.smartweb.core.contents.rest.search.endpoint import get_site_agenda_uids
 from imio.smartweb.core.contents.rest.search.endpoint import get_views_mapping
 from imio.smartweb.core.contents.rest.search.endpoint import SearchGet
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
@@ -99,6 +101,48 @@ class TestSearchEndpointHelpers(ImioSmartwebTestCase):
         self.assertIn("default", mapping["imio.news.NewsItem"])
         self.assertIn("default", mapping["imio.events.Event"])
         self.assertIn("default", mapping["imio.directory.Contact"])
+
+    def test_get_site_agenda_uids_filters_default_and_empty(self):
+        with patch(
+            "imio.smartweb.core.contents.rest.search.endpoint.get_events_views",
+            return_value={
+                "agenda-1": "http://view/1",
+                "": "http://view/empty",
+                "default": "http://view/default",
+                "agenda-2": "http://view/2",
+            },
+        ):
+            result = get_site_agenda_uids(self.portal)
+        self.assertEqual(set(result), {"agenda-1", "agenda-2"})
+
+    def test_get_site_agenda_uids_no_navigation_root(self):
+        with patch(
+            "imio.smartweb.core.contents.rest.search.endpoint.get_navigation_root",
+            return_value=None,
+        ):
+            self.assertEqual(get_site_agenda_uids(self.portal), [])
+
+    def test_get_default_events_view_not_set(self):
+        self.assertIsNone(get_default_events_view())
+
+    def test_get_default_events_view_not_found(self):
+        with patch(
+            "imio.smartweb.core.contents.rest.search.endpoint.api.portal.get_registry_record",
+            return_value="00000000000000000000000000000099",
+        ):
+            self.assertIsNone(get_default_events_view())
+
+    def test_get_default_events_view_with_valid_view(self):
+        events_view = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            id="default-events-view",
+        )
+        with patch(
+            "imio.smartweb.core.contents.rest.search.endpoint.api.portal.get_registry_record",
+            return_value=IUUID(events_view),
+        ):
+            self.assertEqual(get_default_events_view(), events_view)
 
 
 class TestExtendedSearchHandler(ImioSmartwebTestCase):

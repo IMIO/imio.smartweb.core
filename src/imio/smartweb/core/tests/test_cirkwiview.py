@@ -16,6 +16,7 @@ from zope.component import queryMultiAdapter
 from zope.component import queryUtility
 
 
+import requests
 import requests_mock
 
 CIRKWI_API_GOOD_WIDGET_URL = "https://www.modulesbox.com/fr/api/module/12345"
@@ -131,3 +132,16 @@ class TestCirkwiView(ImioSmartwebTestCase):
         cirkwiview.text = RichTextValue("<p>My rich text</p>", "text/html", "text/html")
         view = queryMultiAdapter((cirkwiview, self.request), name="view")
         self.assertIn("<p>My rich text</p>", view())
+
+    @requests_mock.Mocker()
+    def test_cirkwi_view_unreachable(self, m):
+        cirkwiview = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.CirkwiView",
+            id="cirkwiview",
+        )
+        cirkwiview.cirkwi_widget_id = "12345"
+        m.get(CIRKWI_API_GOOD_WIDGET_URL, exc=requests.exceptions.ConnectTimeout)
+        view = queryMultiAdapter((cirkwiview, self.request), name="view")
+        # The page still renders, with the gateway timeout in place of the widget.
+        self.assertIn('<div class="cirkwi_contents">504</div>', view())

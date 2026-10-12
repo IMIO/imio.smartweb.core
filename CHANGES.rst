@@ -2,10 +2,287 @@ Changelog
 =========
 
 
-1.4.51 (unreleased)
+1.4.63 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add the ``@messages`` endpoint. It gives the activated messages at the site root
+  that have no roles and no TAL condition.
+  ``@messages`` gives only the messages with ``eguichet_display_message`` checked.
+  [boulch]
+
+- Add a ``imio.smartweb.eguichet_message`` behavior on ``Message`` (+ upgrade step).
+  [boulch]
+
+- SUP-55256 : Request forwarders (directory, events, news): send `@vocabularies` requests to the
+  entity of the site. Local categories vocabularies now return values.
+  [boulch]
+
+- WEB-4498 : Add an edit icon on each image of a gallery section. The icon is a link
+  to the edit form of the image. Only editors see it.
+  [boulch]
+
+- WEB-4494: Fix auto scroll conflict in react view
+  [thomlamb]
+
+
+1.4.62 (2026-09-28)
+-------------------
+
+- Add the ``@@text_align_container_false`` view. Use this view one time only.
+  It sets ``text_align_container`` to ``False`` on all ``imio.smartweb.Page``
+  and ``imio.smartweb.Procedure`` items. It does not change the sections.
+  Remove previous one shot align_section_to_text view.
+  [boulch]
+
+
+1.4.61 (2026-09-14)
+-------------------
+
+- Add a one shot ``@@align_section_to_text`` view setting ``text_align_container``
+  on every ``imio.smartweb.Page`` and ``imio.smartweb.Procedure``, and aligning all
+  their sections on the text container (``imio.smartweb.SectionText`` excluded, it
+  has its own alignment field).
+  [boulch]
+
+- SUP-55591 : News video embed : resolve the Vimeo embed URL through the oEmbed API instead of guessing
+  it from the URL shape, so live events and unlisted videos are embedded correctly
+  [boulch, remdub]
+
+- Add important to margin for align text section to prevent bad custom theme
+  [thomlamb]
+
+
+1.4.60 (2026-09-09)
+-------------------
+
+- CITIBDC-659: Override languageselector.pt to add bootstrap class for dropdown menu
+  [thomlamb]
+
+- Fix section-text container max with
+  [thomlamb]
+
+- Add upgrade step to set col-sm-12 default class
+  [thomlamb]
+
+- WEB-4469: Add new feature to align section with text.
+  [thomlamb]
+
+- WIP: WEB-4044: Add feature poc to inline edit text.
+  [thomlamb]
+
+- SUP-55141 : Directory detail map : same fix for the annuaire. No authentic source change
+  needed there, ``imio.directory`` keeps the coordinates on a UID query
+  [boulch]
+
+- SUP-55141 : Agenda detail map : center it on the event instead of Brussels when the event
+  page is reached directly. Needs ``imio.events.core`` >= 1.2.57, which stops blanking
+  ``geolocation`` on a UID query
+  [boulch]
+
+- WEB-4484 : Show ``imio.smartweb.CampaignView`` in the navigation menu: the ideabox
+  profile now adds it to ``plone.displayed_types`` (removed again by
+  ``ideabox_uninstall``), with an upgrade step for existing ideabox sites.
+  [boulch]
+
+
+1.4.59 (2026-09-02)
+-------------------
+
+- Add a one shot ``@@migrate_page_category`` view moving the ``page_category``
+  sub terms of the Liège site to the ``avisenquetes`` / ``reglements``
+  taxonomies, and falling back on the parent root term for ``page_category``.
+  Sub terms without equivalent are left untouched.
+  [boulch]
+
+- WEB-4472: fix missing arrow in back annuaire button
+  [thomlamb] 
+
+- Add ?v=<version package> to react url to prevent bad caching
+  [thomlamb] 
+
+
+1.4.58 (2026-08-24)
+-------------------
+
+- Fix moment.js locale (fr/nl/de) never applying to relative dates
+  [thomlamb]
+
+- WEB-4461 : Activate the ``imio.smartweb.save_and_publish`` behavior (defined in
+  ``imio.smartweb.common``)
+  [boulch]
+
+- Scope the agenda to the dates the view shows in every consumer, not just in
+  the React front: ``BaseEventsEndpoint`` falls back to the view's own scope
+  (past when ``only_past_events`` is set, upcoming otherwise) when the caller
+  sends no ``event_dates`` filter. The sitemap sent none and listed every event
+  ever published, oldest first. ``seo_html``'s own copy of the rule, hardcoded
+  to upcoming events, is dropped.
+  [boulch]
+
+- Add a control-panel setting (Smartweb site admin) to configure, per authentic
+  source, whether it appears in the sitemap and how many items are listed
+  (max 1000). Applies to the HTML and XML sitemaps. Defaults: 50 for the agenda
+  and the news, 200 for the directory. The ordering is not configurable:
+  upcoming events, most recent news, most recently modified contacts.
+  [boulch]
+
+- Fetch the remote items of a sitemap source page by page (100 at a time) with
+  a time budget, instead of one request for the whole cap: a large ``@search``
+  exceeded the endpoint's 20 s timeout, and ``get_json`` returning ``None``
+  dropped the source from the sitemap altogether. Partial results are now kept.
+  [boulch]
+
+- Make the ``seo_html`` fallback of the directory, agenda and news views
+  crawlable: its link list sat in a ``<noscript>`` under a
+  ``window.location.href`` redirect, so Googlebot only ever saw the redirect.
+  The redirect is gone, the list is rendered plainly and the page keeps its
+  ``X-Robots-Tag: noindex, follow``. Its entry point is declared in
+  ``sitemap.xml`` only, no longer in the HTML sitemap where a visitor clicking
+  it landed on the fallback instead of the React listing. The six
+  ``... : SEO Links`` msgids become one per source: ``All contacts`` /
+  ``All events`` / ``All news``.
+  [boulch]
+
+- Align the ``rel="prev"`` / ``rel="next"`` links of ``seo_html`` with the batch
+  the page actually lists: they fell back to a hardcoded ``b_size`` of 10, so
+  crawlers walked a 100-item page in 10-item steps.
+  [boulch]
+
+- Reserve the "Delete taxonomy" action of the taxonomy control panel to the
+  Manager role. Site Administrators can still add and edit taxonomies.
+  [boulch]
+
+- Answer 404 when a news or agenda item page points to a remote
+  item that no longer exists at the authentic source. ``NewsViewView.news`` and
+  ``EventsViewView.event`` formatted the item without checking that it had been
+  found, and the resulting AttributeError surfaced as a server error. Only
+  requests sent without a referer take that path, so the error was mostly
+  served to crawlers following a stale sitemap entry or an indexed URL.
+  ``direct_access`` is now memoized, so that testing the item before rendering
+  does not query the authentic source a second time.
+  [boulch]
+
+- Guard ``BaseRestView.direct_access`` for a view with no authentic source
+  (campaign view): it would raise UnboundLocalError while building the remote
+  URL. Latent so far, since only the directory, news and agenda templates read
+  that property; the item check added above made it reachable.
+  [boulch]
+
+- Add timeouts to HTTP calls that had none.
+  The Cirkwi view now degrades to a 504 in place of the widget instead of
+  failing the whole page.
+  [boulch]
+
+- Never write to the ZODB while rendering a remote section for an anonymous
+  visitor: the modification date is only refreshed for authenticated users.
+  [boulch]
+
+
+1.4.57 (2026-08-10)
+-------------------
+
+- WEB-4463 : Allow adding imio.smartweb.SectionTimestampedPublications in imio.smartweb.Procedure
+  [boulch]
+
+- WEB-4154 : Add description on imio.smartweb.SectionText to warn that this title will not be displayed to the citizen
+  [boulch]
+
+
+1.4.56 (2026-08-10)
+-------------------
+
+- Fix test isolation for RemoteDirectoryEntities vocabulary
+  [thomlamb]
+
+- WEB-4345: move message viewlet under main nav and improve style
+  [thomlamb]
+
+- WEB-4445: move focus to search field in search modale
+  [thomlamb]
+
+- SUP-52910 Update react translation
+  [thomlamb]
+
+
+1.4.55 (2026-07-28)
+-------------------
+
+- Migration : replace webpack by vite for React view
+  [thomlamb]
+
+- Refactore React class
+  [thomlamb]
+
+
+1.4.54 (2026-07-24)
+-------------------
+
+- Add missing translations for React view
+  [thomlamb]
+
+- Fix "AttributeError" when embedding a removed/unavailable video: guard
+  against "None" oembed responses in the YouTube/Vimeo accessibility overrides
+  so the video section degrades gracefully instead of crashing.
+  [boulch]
+
+- WEB-4422: Make the events request-forwarder return the same listing as the
+  site: for events listings it delegates to the default events view
+  (``smartweb.default_events_view``), reusing its query (agenda cascade, event
+  types, metadata fields) and response processing, defaults to upcoming events,
+  and forwards the caller's Bearer token to the authentic source.
+  [boulch]
+
+- SUP-53979: Fix contact map showing all markers on the contact detail view
+  [thomlamb]
+
+- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
+  (usefull for linked contact in auth sources)
+  [boulch]
+
+- WEB-4422: Restore ``smartweb_url`` on each item of forwarded listing/search
+  responses (regression since the request-forwarder refactoring).
+  [boulch]
+
+
+1.4.53 (2026-07-07)
+-------------------
+
+- update to Plone 6.1.5 and buidlout 5-x versions
+  [bouch]
+
+- OIA-106 : Reuse IA categorization views/forms from imio.smartweb.common and
+  remove redundant code in ``browser/ia``.
+  [boulch]
+
+- Changer Event content title  for sponsors and partners
+  [thomlamb]
+
+
+1.4.52 (2026-06-23)
+-------------------
+
+- WEB-4448 : Get SSO-APPS credentials instead of authentic
+  [boulch, remdub]
+
+- Move ``imio.smartweb.vocabulary.RemoteDirectoryEntities`` vocabulary to imio.smartweb.common (1.2.55)
+  [boulch]
+
+
+1.4.51 (2026-06-17)
+-------------------
+
+- Add post-migration view to move inline images out of SectionText rich text into a SectionGallery
+  [boulch]
+
+- WEB-4434 : Add more class for improved sub-menu et move arian menu position
+  [thomlamb]
+
+- fix(rest): avoid HTTP 500 on directory contact "view" pages when the remote
+  @search by UID returns no items (stale/deleted contact UID hit directly by a
+  crawler or shared link). ``DirectoryViewView.contact`` now returns ``None``
+  instead of raising ``AttributeError`` (masked as ``LocationError``), and the
+  SEO fallback block is only rendered when a contact is present.
+  [boulch]
 
 
 1.4.50 (2026-06-10)

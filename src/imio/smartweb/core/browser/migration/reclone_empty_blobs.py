@@ -121,7 +121,7 @@ class RecloneEmptyBlobsView(BrowserView):
             data = fh.read()
         return data, img.get("filename"), img.get("content-type"), size
 
-    def __call__(self):
+    def __call__(self):  # NOQA
         alsoProvides(self.request, IDisableCSRFProtection)
         jsonfile = self.request.form.get("jsonfile")
         blob_home = self.request.form.get("blob_home") or ""

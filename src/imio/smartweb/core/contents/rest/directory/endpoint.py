@@ -46,7 +46,6 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             "metadata_fields=topics",
             "metadata_fields=has_leadimage",
             "fullobjects={}".format(self.fullobjects),
-            "sort_on=sortable_title",
         ]
         if self.batch_size == 0:
             params.append("b_size={}".format(self.context.nb_results))
@@ -56,6 +55,7 @@ class BaseDirectoryEndpoint(BaseEndpoint):
             for category in self.context.selected_categories:
                 params.append(f"taxonomy_contact_category.query={category}")
             params.append("taxonomy_contact_category.operator=or")
+        params += self.sort_params("sortable_title")
         params = self.construct_query_string(params)
         url = f"{DIRECTORY_URL}/{self.remote_endpoint}?{params}"
         return url
@@ -77,9 +77,22 @@ class DirectoryEndpointGet(BaseService):
     def reply(self):
         return DirectoryEndpoint(self.context, self.request)()
 
-    def reply_for_given_object(self, obj, request, fullobjects=1, batch_size=0):
+    def reply_for_given_object(
+        self,
+        obj,
+        request,
+        fullobjects=1,
+        batch_size=0,
+        sort_on=None,
+        sort_order=None,
+    ):
         return DirectoryEndpoint(
-            obj, request, fullobjects=fullobjects, batch_size=batch_size
+            obj,
+            request,
+            fullobjects=fullobjects,
+            batch_size=batch_size,
+            sort_on=sort_on,
+            sort_order=sort_order,
         )()
 
 

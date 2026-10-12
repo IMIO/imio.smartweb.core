@@ -8,10 +8,6 @@ import json
 
 class ProcessCategorizeContentView(BaseProcessCategorizeContentView):
 
-    def __call__(self):
-        self._get_all_text()
-        return super(ProcessCategorizeContentView, self).__call__()
-
     def _get_all_text(self):
         all_text = ""
         if IPages.providedBy(self.context):
@@ -27,25 +23,27 @@ class ProcessCategorizeContentView(BaseProcessCategorizeContentView):
         return all_text.strip()
 
     def _process_specific(self, all_text, results):
-        """Must be impleted"""
-        ia_categories = self._process_category(all_text, results)
-        results["form-widgets-page_category-taxonomy_page_category"] = ia_categories
+        """Add the IA-suggested page category to the results."""
+        results["form-widgets-page_category-taxonomy_page_category"] = (
+            self._process_category(all_text)
+        )
         return results
 
-    def _process_category(self, all_text, results):
-        # If agent doesn't register prevsouly a categorization so IA can bring categorization
-        # ++add++ context is Plone and hasn't got taxonomy_page_category property
-        if getattr(self.context, "taxonomy_page_category", None) is None:
-            categories_taxo = get_categories()
-            categories_voca = categories_taxo.makeVocabulary(self.current_lang).inv_data
-            categories_voc = [
-                {"title": v, "token": k} for k, v in categories_voca.items()
-            ]
-            data = self._ask_categorization_to_ia(all_text, categories_voc)
-            if not data:
-                return ""
-            ia_categories = [
-                {"title": r.get("title"), "token": r.get("token")}
-                for r in data.get("result")
-            ]
-            return ia_categories
+    def _process_category(self, all_text):
+        # Only let the IA suggest a category when none has been set yet.
+        # In ++add++ the context is the container (a Plone folder) which has no
+        # taxonomy_page_category attribute, so the IA always runs in that case.
+        if getattr(self.context, "taxonomy_page_category", None) is not None:
+            return None
+
+        categories = get_categories().makeVocabulary(self.current_lang).inv_data
+        categories_voc = [
+            {"title": title, "token": token} for token, title in categories.items()
+        ]
+        data = self._ask_categorization_to_ia(all_text, categories_voc)
+        if not data:
+            return ""
+        return [
+            {"title": r.get("title"), "token": r.get("token")}
+            for r in data.get("result")
+        ]

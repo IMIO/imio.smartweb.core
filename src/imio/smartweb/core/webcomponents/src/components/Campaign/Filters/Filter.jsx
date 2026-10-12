@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback, useState } from "react";
+import React, { useEffect, useRef, useCallback, useState, useMemo } from "react";
 import Select from "react-select";
 import { useNavigate } from "react-router-dom";
 import useAxios from "../../../hooks/useAxios";
@@ -16,19 +16,24 @@ function Filters(props) {
     const [searchValue, setSearchValue] = useState(null);
     const [topicsFilter, setTopicsFilter] = useState([]);
     const [zonesFilter, setZonesFilter] = useState([]);
-    // Get data
-    const { response, error, isLoading } = useAxios({
-        method: "get",
-        url: [
-            { url: props.queryZonesUrl, identifier: "zones" },
-            { url: props.queryTopicsUrl, identifier: "topics" },
-        ],
-        headers: {
-            Accept: "application/json",
-        },
-        params: inputValues,
-        paramsSerializer: { indexes: null },
-    });
+    // Get data — zones/topics never depend on the current search/filter state server-side,
+    // so this must stay on fixed params instead of `inputValues` to avoid refetching on every keystroke.
+    const facetsConfig = useMemo(
+        () => ({
+            method: "get",
+            url: [
+                { url: props.queryZonesUrl, identifier: "zones" },
+                { url: props.queryTopicsUrl, identifier: "topics" },
+            ],
+            headers: {
+                Accept: "application/json",
+            },
+            params: { b_start: 0 },
+            paramsSerializer: { indexes: null },
+        }),
+        [props.queryZonesUrl, props.queryTopicsUrl]
+    );
+    const { response, error, isLoading } = useAxios(facetsConfig);
 
     // set fitlers data to state
     useEffect(() => {
@@ -58,15 +63,34 @@ function Filters(props) {
         }
     }, [response]);
 
-    const onChangeHandler = useCallback(({ target: { name, value } }) => {
-        if (value.length > 2) {
-            setSearchValue(value);
-            props.onChangeSearch(value);
-        } else {
-            setSearchValue(null);
-            props.onChangeSearch(null);
-        }
-    });
+    const [searchText, setSearchText] = useState(props.activeFilter.SearchableText || "");
+    const searchDebounceRef = useRef(null);
+
+    const commitSearchValue = useCallback(
+        (value) => {
+            if (value.length > 2) {
+                setSearchValue(value);
+                props.onChangeSearch(value);
+            } else {
+                setSearchValue(null);
+                props.onChangeSearch(null);
+            }
+        },
+        [props.onChangeSearch]
+    );
+
+    useEffect(() => {
+        return () => searchDebounceRef.current && clearTimeout(searchDebounceRef.current);
+    }, []);
+
+    const onChangeHandler = useCallback(
+        ({ target: { value } }) => {
+            setSearchText(value);
+            if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = setTimeout(() => commitSearchValue(value), 400);
+        },
+        [commitSearchValue]
+    );
 
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;
@@ -97,8 +121,12 @@ function Filters(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        if (searchDebounceRef.current) {
+            clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = null;
+        }
         props.onChange(inputValues);
-        props.onChangeSearch(searchValue);
+        commitSearchValue(searchText);
     }
     // set default input value
     let actTopi =
@@ -118,7 +146,7 @@ function Filters(props) {
                                         className="input-custom-class"
                                         name="SearchableText"
                                         type="text"
-                                        value={inputValues.SearchableText}
+                                        value={searchText}
                                         onChange={onChangeHandler}
                                         placeholder={translate({
                                             text: "Recherche",

@@ -32,6 +32,8 @@ class SmartwebYoutube(YouTube):
     def do_request(self, parts, config):
         if self.test(parts):
             res = super(SmartwebYoutube, self).do_request(parts, config)
+            if res is None:
+                return
             title = res.get("title", "")
             current_lang = api.portal.get_current_language()[:2]
             additional_accessibility_info = translate(
@@ -49,6 +51,8 @@ class SmartwebVimeo(Vimeo):
     def do_request(self, parts, config):
         if self.test(parts):
             res = super(SmartwebVimeo, self).do_request(parts, config)
+            if res is None:
+                return
             title = res.get("title", "")
             current_lang = api.portal.get_current_language()[:2]
             additional_accessibility_info = translate(

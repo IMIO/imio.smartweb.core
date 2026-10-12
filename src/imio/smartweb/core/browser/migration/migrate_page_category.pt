@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master">
+<body>
+<metal:content-core fill-slot="content-core">
+
+  <h1>Migration des catégories de page vers les taxonomies avis / règlements</h1>
+
+  <tal:errors condition="view/errors">
+    <h2 class="text-danger">Prérequis non remplis — rien n'a été fait</h2>
+    <ul>
+      <li tal:repeat="error view/errors" tal:content="error">-</li>
+    </ul>
+    <p>
+      Créez les deux taxonomies et activez leurs comportements sur le type de
+      contenu <code>imio.smartweb.Page</code>, puis relancez cette vue.
+    </p>
+  </tal:errors>
+
+  <tal:results condition="not: view/errors">
+
+    <p tal:condition="not: view/apply" class="text-info">
+      <strong>Simulation.</strong> Rien n'a été modifié. Pour appliquer réellement
+      la migration, rejouez cette vue avec <code>?apply=1</code>.
+    </p>
+    <p tal:condition="view/apply" class="text-success">
+      <strong>Migration appliquée.</strong>
+    </p>
+
+    <table class="table table-sm table-bordered">
+      <tbody>
+        <tr>
+          <th>Pages migrées</th>
+          <td tal:content="python: len(view.migrated)">0</td>
+        </tr>
+        <tr>
+          <th>Pages dont le terme cible était déjà rempli (conservé)</th>
+          <td tal:content="python: len(view.kept)">0</td>
+        </tr>
+        <tr tal:condition="view/not_enabled">
+          <th>Pages non traitées — taxonomie non activée</th>
+          <td tal:content="python: len(view.not_enabled)">0</td>
+        </tr>
+        <tr tal:condition="view/stale">
+          <th>Entrées de catalogue périmées (ignorées)</th>
+          <td tal:content="python: len(view.stale)">0</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <tal:not_enabled condition="view/not_enabled">
+      <h2>Pages non traitées — taxonomie non activée</h2>
+      <p class="text-warning">
+        Ces pages portent bien un terme à migrer, mais la taxonomie cible n'est
+        activée ni sur le type de contenu <code>imio.smartweb.Page</code>
+        (behaviors de la FTI), ni sur la page elle-même (formulaire
+        « Taxonomies choices »). Le terme n'a donc pas été écrit : activez la
+        taxonomie, puis relancez.
+      </p>
+      <table class="table table-sm table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>Ancien terme</th>
+            <th>Champ cible</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="item view/not_enabled">
+            <td><a tal:attributes="href item/path" tal:content="item/title">-</a></td>
+            <td tal:content="item/old_term">-</td>
+            <td tal:content="item/field">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </tal:not_enabled>
+
+    <tal:stale condition="view/stale">
+      <h2>Entrées de catalogue périmées</h2>
+      <p class="text-warning">
+        Ces chemins sont indexés dans <code>portal_catalog</code> mais l'objet
+        correspondant n'existe plus. Ils ont été ignorés. Pour nettoyer :
+        <code>portal_catalog.uncatalog_object(chemin)</code>, ou une
+        réindexation complète du catalogue.
+      </p>
+      <ul>
+        <li tal:repeat="path view/stale" tal:content="path">-</li>
+      </ul>
+    </tal:stale>
+
+    <tal:migrated condition="view/migrated">
+      <h2>Pages migrées</h2>
+      <table class="table table-sm table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>Ancien terme</th>
+            <th>Nouveau champ</th>
+            <th>Nouveau terme</th>
+            <th>page_category ramené à</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="item view/migrated">
+            <td><a tal:attributes="href item/path" tal:content="item/title">-</a></td>
+            <td tal:content="item/old_term">-</td>
+            <td tal:content="item/field">-</td>
+            <td tal:content="item/new_term">-</td>
+            <td tal:content="item/root_term">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </tal:migrated>
+
+    <tal:kept condition="view/kept">
+      <h2>Pages dont le terme cible était déjà rempli</h2>
+      <p class="text-warning">
+        Un terme avait déjà été saisi dans la taxonomie cible : il est conservé
+        tel quel. Seul <code>page_category</code> est ramené au terme parent.
+      </p>
+      <table class="table table-sm table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>Ancien terme</th>
+            <th>Terme qui aurait été écrit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="item view/kept">
+            <td><a tal:attributes="href item/path" tal:content="item/title">-</a></td>
+            <td tal:content="item/old_term">-</td>
+            <td tal:content="item/new_term">-</td>
+          </tr>
+        </tbody>
+      </table>
+    </tal:kept>
+
+  </tal:results>
+
+</metal:content-core>
+</body>
+</html>

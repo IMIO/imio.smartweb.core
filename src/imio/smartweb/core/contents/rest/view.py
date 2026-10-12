@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from datetime import date
 from imio.smartweb.core.browser.sitemap import format_sitemap_items
 from imio.smartweb.core.browser.sitemap import get_endpoint_data
 from imio.smartweb.core.config import DIRECTORY_URL
@@ -13,14 +12,24 @@ from imio.smartweb.core.interfaces import IViewWithoutLeadImage
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.memoize.instance import memoize
 from Products.Five import BrowserView
 from urllib.parse import parse_qs
 from urllib.parse import urlsplit
+from zExceptions import NotFound
 from zope.interface import implementer
 
 
 @implementer(IViewWithoutLeadImage)
 class BaseRestView(BrowserView):
+    _item = None
+
+    def __call__(self):
+        """404 when the requested item no longer exists in the authentic source."""
+        if self.direct_access and self.item is None:
+            raise NotFound(self.request.get("ACTUAL_URL", ""))
+        return super().__call__()
+
     @property
     def batch_size(self):
         return self.context.nb_results
@@ -48,18 +57,25 @@ class BaseRestView(BrowserView):
         return api.user.is_anonymous()
 
     @property
+    def navroot_url(self):
+        portal_state = self.context.restrictedTraverse("@@plone_portal_state")
+        return portal_state.navigation_root_url()
+
+    @property
     def view_path(self):
         url = self.context.absolute_url()
         parsed = urlsplit(url)
         return url.replace(f"{parsed.scheme}://{parsed.netloc}", "")
 
     @property
+    @memoize
     def direct_access(self):
         query_string = self.request.get("QUERY_STRING", "")
         params = parse_qs(query_string)
         uuid = params.get("u", [None])[0]
         if uuid and self.request.HTTP_REFERER == "":
             endpoint = "@search"
+            url = None
             if IEventsView.providedBy(self.context):
                 endpoint = "@events"
                 url = EVENTS_URL
@@ -67,6 +83,9 @@ class BaseRestView(BrowserView):
                 url = DIRECTORY_URL
             if INewsView.providedBy(self.context):
                 url = NEWS_URL
+            if url is None:
+                # no authentic source for this view (ex: CampaignView)
+                return False
             url = f"{url}/{endpoint}?UID={uuid}&fullobjects=0"
             self._item = get_json(url)
             return True
@@ -101,16 +120,18 @@ class SeoHiddenReactLinks(BrowserView):
         b_start = int(self.request.form.get("b_start", 0))
         b_size = int(self.request.form.get("b_size", self.DEFAULT_BATCH_SIZE))
 
-        if IEventsView.providedBy(self.context):
-            today = date.today().isoformat()
-            self.request.form["event_dates.range"] = "min"
-            self.request.form["event_dates.query"] = today
+        # The events date scope is not injected here: BaseEventsEndpoint
+        # falls back to the view's own scope (upcoming, or past when the view
+        # is configured for past events), which this copy got wrong.
 
         # Inject batching params
         self.request.form["b_start"] = b_start
         self.request.form["b_size"] = b_size
 
-        data = get_endpoint_data(self.context, self.request)
+        # seo_html keeps its own (larger, paginated) b_size and the endpoint's
+        # default ordering — it is NOT capped by the sitemap control-panel
+        # max_items, so all items stay crawlable for SEO.
+        data = get_endpoint_data(self.context, self.request, b_size, None, None)
         self.items = format_sitemap_items(
             data.get("items", []), self.context.absolute_url()
         )
@@ -128,11 +149,11 @@ class SeoHiddenReactLinks(BrowserView):
     def label(self):
         label = ""
         if IDirectoryView.providedBy(self.context):
-            label = _("Direcotry : SEO links")
+            label = _("All contacts")
         elif IEventsView.providedBy(self.context):
-            label = _("Agenda : SEO links")
+            label = _("All events")
         elif INewsView.providedBy(self.context):
-            label = _("News : SEO links")
+            label = _("All news")
         return label
 
     @property

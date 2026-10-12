@@ -2,12 +2,12 @@
 
 from Acquisition import aq_parent
 from collective.taxonomy.interfaces import ITaxonomy
-from imio.smartweb.core.config import WCA_URL
 from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
 from plone import api
 from plone.app.multilingual.interfaces import ILanguageRootFolder
 from plone.dexterity.interfaces import IDexterityContent
+from plone.locking.interfaces import ILockable
 from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.defaultpage import get_default_page
 from Products.CMFPlone.interfaces.siteroot import IPloneSiteRoot
@@ -79,8 +79,10 @@ def get_json(url, auth=None, timeout=5):
 
 
 def get_wca_token(client_id, client_secret):
-    username = os.environ.get("RESTAPI_USER_USERNAME")
-    password = os.environ.get("RESTAPI_USER_PASSWORD")
+    username = os.environ.get(
+        "SSO_APPS_USER_USERNAME", "imio-apps-smartweb_belleville-ac"
+    )
+    password = os.environ.get("SSO_APPS_USER_PASSWORD", "")
 
     payload = {
         "grant_type": "password",
@@ -95,7 +97,11 @@ def get_wca_token(client_id, client_secret):
     headers = {
         "Content-Type": "application/x-www-form-urlencoded",
     }
-    response = requests.post(WCA_URL, headers=headers, data=payload)
+    sso_apps_url = os.environ.get(
+        "SSO_APPS_URL",
+        "https://keycloak.127.0.0.1.nip.io/realms/imio/protocol/openid-connect/token",
+    )
+    response = requests.post(sso_apps_url, headers=headers, data=payload, timeout=10)
     id_token = response.json().get("id_token")
     return "Bearer {0}".format(id_token)
 
@@ -115,6 +121,47 @@ def safe_html(html):
 
 def batch_results(iterable, batch_size):
     return list(chunked(iterable, batch_size, strict=False))
+
+
+def can_edit_content(context):
+    """True if the current user may modify `context` right now: they must
+    have the "Modify portal content" permission, AND the object must not be
+    locked (plone.locking) by another user.
+
+    Used to gate the htmx/inline-edit affordances (title, section text body)
+    which write straight to the ZODB with no intermediate edit form of their
+    own, so - unlike the standard @@edit form - they never get a chance to
+    show the usual "locked by X" warning and let the editor decide: without
+    this check, a second editor could silently overwrite whatever the lock
+    owner is doing.
+    """
+    # Inline edition (title + section text body) is disabled for now - not
+    # ready for production yet. Uncomment the block below to re-enable it.
+    return False
+    # if not api.user.has_permission("Modify portal content", obj=context):
+    #     return False
+    # lockable = ILockable(context, None)
+    # if lockable is None:
+    #     # plone.locking behavior not enabled on this content type
+    #     return True
+    # return lockable.can_safely_unlock()
+
+
+def release_lock(context):
+    """Release the current user's own edit lock on `context`, if any.
+
+    Called right after an inline-edit write (@@savetitle, @@savetext) so the
+    section becomes editable by someone else again as soon as this editor
+    blurs the field, instead of waiting out plone.locking's timeout.
+
+    Must only be called after `can_edit_content()` already confirmed the
+    lock (if any) belongs to the current user - `ILockable.unlock()` does
+    not check ownership itself, it would happily steal anyone's stealable
+    lock.
+    """
+    lockable = ILockable(context, None)
+    if lockable is not None:
+        lockable.unlock()
 
 
 def reindexParent(obj, event=None):

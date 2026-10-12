@@ -310,11 +310,3 @@ class TestDumpSiteCatalog(ImioSmartwebTestCase):
         bad_node = [c for c in data[0]["children"] if c.get("title") == "<error>"]
         self.assertEqual(len(bad_node), 1)
         self.assertIn("kaboom", bad_node[0]["error"])
-
-
-# <audit>
-#   <file>test_dump_site_catalog.py</file>
-#   <requirements_applied>R1, R2, R3, R5</requirements_applied>
-#   <deviations>None</deviations>
-#   <questions>None</questions>
-# </audit>

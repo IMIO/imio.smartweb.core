@@ -441,6 +441,14 @@ body.has-sticky-header {
   padding-top: var(--header-height, 80px) !important;
 }
 
+.sectiontext.col-sm-12 {
+  .section-title {
+    display: block;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 //se-text
 .figure-section_text_viewport figure {
   width: 100vw;
@@ -452,7 +460,149 @@ body.has-sticky-header {
 }
 
 .text-align-container {
+  width: 100%;
   max-width: 760px;
   margin-left: auto;
   margin-right: auto;
+}
+
+  :root{
+    --text-max: 760px;
+  }
+
+  /* --- largeurs "alignées texte" : fraction FIXE de 760px (pas de la ligne)
+         — seules valeurs possibles une fois "aligné texte" (restriction de
+         largeur déjà en place). flex-shrink:1 + max-width:100% en secours
+         pour éviter un débordement sur viewport étroit (< 760px). --- */
+  @media screen and (min-width:760px) {
+    
+  .col-sm-12.container-se-text {
+    flex: 0 1 var(--text-max);
+    max-width: 100%;
+  }
+  .col-sm-6.container-se-text {
+    flex: 0 1 calc(var(--text-max) / 2);
+    max-width: calc(var(--text-max) / 2);
+  }
+
+  .container-se-text.text-align-line-start {
+    margin-left: max(0px, calc((100% - var(--text-max)) / 2)) !important;
+  }
+  
+  .container-se-text.text-align-line-end {
+    margin-right: max(0px, calc((100% - var(--text-max)) / 2)) !important;
+  }
+
+  .container-se-text.text-align-isolated-half {
+    margin-right: 50% !important;
+  }
+
+  .row > {
+    .sectionmap{
+      &.container-se-text,
+      .container.section-container{
+        padding-left: 0;
+        padding-right: 0;
+      }
+      &.text-align-line-start {
+        padding-right:.5rem
+      }
+      &.text-align-line-end {
+        padding-left:.5rem
+      }
+    }
+  }    
+}
+
+  @media screen and (min-width:992px) {
+    .container-se-text {
+        left: initial!important;
+        transform: translateX(0)!important;
+        &.col-sm-12 {
+          .swiper-wrapper {
+            max-width: var(--text-max);
+          }
+        }
+        &.col-sm-6 {
+          .swiper-wrapper {
+            max-width: calc(var(--text-max) / 2);
+          }
+        }
+    }
+  }
+
+
+.sortable-section.container-se-text {
+  margin-bottom: 1.5rem;
+}
+
+#content > div#content-core figure:first-of-type {
+  margin-top: 0;
+}
+
+// announce the message type.
+#messagesviewlet .messagesviewlet-type,
+#localmessagesviewlet .messagesviewlet-type {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+// Fix vertical centering of the "x" close button glyph:
+#messagesviewlet .close-button::after,
+#localmessagesviewlet .close-button::after {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+// Bootstrap dropdown markup for the Plone language selector, rendered
+// server-side (see viewlets/languageselector.pt): the <ul id="portal-languageselector">
+// is the .dropdown-menu, so only reset the list styles it inherits and size the
+// toggle button to match the other header actions.
+#portal-languageselector-dropdown {
+  #portal-languageselector {
+    display: none;
+    &.dropdown-menu.show {
+      display: block;
+    }
+  }
+  .btn.dropdown-toggle {
+    display: flex;
+    background: none;
+    border: 0;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 0.25rem 0.5rem;
+    text-transform: uppercase;
+    &::after {
+        content: "\F282";
+        font-family: Bootstrap-icons;
+        border: none;
+        position: relative;
+    }
+  }
+
+  ul.dropdown-menu {
+    list-style: none;
+    margin: 0;
+    min-width: auto;
+    padding: 0.25rem 0;
+
+    li {
+      margin: 0;
+    }
+
+    a.dropdown-item {
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+  }
 }

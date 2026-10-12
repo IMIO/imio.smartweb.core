@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/main_template/macros/master">
+<body>
+<metal:content-core fill-slot="content-core">
+
+  <h1>Migration des images des SectionText vers des galeries</h1>
+
+  <p class="text-muted">
+    Détecte les images inline (<code>&lt;img&gt;</code>) dans le texte enrichi
+    des <strong>imio.smartweb.SectionText</strong>, les déplace dans une
+    <strong>imio.smartweb.SectionGallery</strong> créée juste après la section,
+    et retire les <code>&lt;img&gt;</code> migrés du texte.
+  </p>
+
+  <tal:dry condition="not:view/apply">
+    <p class="alert alert-warning">
+      Mode <strong>dry-run</strong> : aucune modification effectuée.
+      <a tal:attributes="href string:${context/absolute_url}/migrate_sectiontext_images?apply=1">
+        Appliquer les modifications (?apply=1)
+      </a>
+    </p>
+  </tal:dry>
+
+  <tal:applied condition="view/apply">
+    <p class="alert alert-success">Modifications appliquées.</p>
+  </tal:applied>
+
+  <table class="table table-sm table-bordered" tal:define="s view/summary">
+    <tbody>
+      <tr>
+        <th>SectionText concernées</th>
+        <td tal:content="s/sections">0</td>
+      </tr>
+      <tr>
+        <th>Galeries créées</th>
+        <td tal:content="s/galleries">0</td>
+      </tr>
+      <tr tal:repeat="status python:sorted(s['statuses'].items())">
+        <th tal:content="python:status[0]">status</th>
+        <td tal:content="python:status[1]">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <tal:none condition="not:view/results">
+    <p class="alert alert-info">Aucune SectionText avec image inline trouvée.</p>
+  </tal:none>
+
+  <tal:has condition="view/results">
+    <div tal:repeat="entry view/results" class="mb-4">
+      <h3>
+        <a tal:attributes="href entry/section_url"
+           tal:content="entry/section_path"
+           target="_blank">section</a>
+      </h3>
+      <p>
+        Galerie : <strong tal:content="entry/gallery_title">titre</strong>
+        <tal:c condition="entry/gallery_created"> (créée)</tal:c>
+        <tal:n condition="entry/position_note">
+          — <em tal:content="entry/position_note">note</em>
+        </tal:n>
+        <tal:e condition="entry/error">
+          — <strong class="text-danger" tal:content="entry/error">erreur</strong>
+        </tal:e>
+      </p>
+      <table class="table table-sm table-bordered table-striped">
+        <thead class="thead-dark">
+          <tr>
+            <th>Type</th>
+            <th>Source</th>
+            <th>Statut</th>
+            <th>Raison</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="img entry/images">
+            <td tal:content="img/kind">kind</td>
+            <td tal:content="img/src">src</td>
+            <td tal:content="img/status">status</td>
+            <td tal:content="img/reason">reason</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </tal:has>
+
+</metal:content-core>
+</body>
+</html>

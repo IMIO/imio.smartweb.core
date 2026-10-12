@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='utf-8'?>
+<vdex xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.imsglobal.org/xsd/imsvdex_v1p0 imsvdex_v1p0.xsd http://www.imsglobal.org/xsd/imsmd_rootv1p2p1 imsmd_rootv1p2p1.xsd" orderSignificant="false" profileType="hierarchicalTokenTerms" language="fr">
+  <vocabName>
+    <langstring language="fr">Types d'avis et enquêtes</langstring>
+  </vocabName>
+  <vocabIdentifier>avisenquetes</vocabIdentifier>
+  <term>
+    <termIdentifier>t17si8m055</termIdentifier>
+    <caption>
+      <langstring language="fr">Avis d'annonce de projet</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>koadb9cb3p</termIdentifier>
+    <caption>
+      <langstring language="fr">Informations sur l'étude d'incidences</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>ja003xenra</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis de détention d'explosifs</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>xdf5xbnf5x</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis d'environnement</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>gahpxyfdbl</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis d'urbanisation</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>b8x771g41d</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis d'urbanisme</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>uylqc6415e</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis groupés</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>yr5hvc2e42</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis intégrés</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>0wl3gd1vmf</termIdentifier>
+    <caption>
+      <langstring language="fr">Permis unique</langstring>
+    </caption>
+  </term>
+  <term>
+    <termIdentifier>w2yt44q4ly</termIdentifier>
+    <caption>
+      <langstring language="fr">Réunions d'informations publiques</langstring>
+    </caption>
+  </term>
+</vdex>
