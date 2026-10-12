@@ -36,6 +36,10 @@ class TestEguichetApiSettingsGet(ImioSmartwebTestCase):
         self.api_session.close()
         api.user.delete(username="member")
         api.user.delete(username="sso")
+        registry = api.portal.get_tool("portal_registry")
+        registry["smartweb.default_events_view"] = None
+        if "agenda" in self.portal.objectIds():
+            api.content.delete(obj=self.portal["agenda"])
         transaction.commit()
 
     def test_reply(self):
@@ -51,6 +55,8 @@ class TestEguichetApiSettingsGet(ImioSmartwebTestCase):
             "wcs_api_url": "https://demo-formulaires.guichet-citoyen.be/api",
             "username": "sw-user",
             "password": "sw-pwd",
+            # no default events view in the registry
+            "events_view_url": "",
         }
         # SSO technical users and Managers can read the settings
         self.api_session.auth = ("sso", "secret-pwd")
@@ -61,3 +67,16 @@ class TestEguichetApiSettingsGet(ImioSmartwebTestCase):
         response = self.api_session.get("@eguichet-api-settings")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.json(), expected)
+
+        # default events view in the registry: its url is given
+        events_view = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.EventsView",
+            title="Agenda",
+        )
+        api.portal.set_registry_record(
+            "smartweb.default_events_view", events_view.UID()
+        )
+        transaction.commit()
+        response = self.api_session.get("@eguichet-api-settings")
+        self.assertEqual(response.json()["events_view_url"], events_view.absolute_url())

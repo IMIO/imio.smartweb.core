@@ -5,6 +5,10 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- CITIBDC-602 : ``@eguichet-api-settings`` also gives ``events_view_url``, the url of the
+  default events view. The agenda uses it to link the e-guichet notification to the event on the Smartweb site.
+  [boulch]
+
 - CITIBDC-602 : Add eguichet notifications credentials to the Smartweb control panel (+ upgrade step).
   [boulch]
 

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.contents.rest.search.endpoint import get_default_view_url
 from imio.smartweb.core.utils import get_ts_api_url
 from imio.smartweb.core.utils import get_value_from_registry
 from plone import api
@@ -22,9 +23,13 @@ class EguichetApiSettingsGet(Service):
         if not roles & ALLOWED_ROLES:
             self.request.response.setStatus(401)
             return {"error": {"type": "Unauthorized", "message": "Access denied"}}
-        return {
+        datas = {
             "url_ts": get_value_from_registry("smartweb.url_ts"),
             "wcs_api_url": get_ts_api_url("wcs"),
             "username": get_value_from_registry("smartweb.user_eguichet_notif"),
             "password": get_value_from_registry("smartweb.password_eguichet_notif"),
+            # Url of the default events view (registry smartweb.default_events_view)
+            # to build the event links: <events_view_url>/<slug of event title>?u=<event UID>
+            "events_view_url": get_default_view_url("events"),
         }
+        return datas
