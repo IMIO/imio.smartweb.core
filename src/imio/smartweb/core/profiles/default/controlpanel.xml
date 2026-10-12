@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<object name="portal_controlpanel">
+<object name="portal_controlpanel"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
   <configlet
       title="Smartweb Settings"
       action_id="smartweb-controlpanel"
@@ -23,4 +24,17 @@
       visible="True">
     <permission>imio.smartweb.core: Manage site admin control panel</permission>
   </configlet>  
+
+  <configlet
+      i18n:domain="imio.smartweb"
+      title="Undo transactions"
+      action_id="undo-transactions"
+      appId="undo-transactions"
+      category="Products"
+      condition_expr=""
+      icon_expr=""
+      url_expr="string:${portal_url}/@@undo-transactions"
+      visible="True">
+    <permission>Manage portal</permission>
+  </configlet>
 </object>

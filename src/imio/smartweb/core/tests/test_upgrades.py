@@ -63,6 +63,20 @@ class TestUpgrades(ImioSmartwebTestCase):
             "collective.behavior.talcondition.behavior.ITALCondition", fti.behaviors
         )
 
+    def test_upgrade_1088_to_1089(self):
+        controlpanel = api.portal.get_tool("portal_controlpanel")
+        controlpanel.unregisterConfiglet("undo-transactions")
+        self.assertNotIn(
+            "undo-transactions", [a.getId() for a in controlpanel.listActions()]
+        )
+        portal_setup = api.portal.get_tool("portal_setup")
+        portal_setup.runImportStepFromProfile(
+            "profile-imio.smartweb.core:default", "controlpanel"
+        )
+        self.assertIn(
+            "undo-transactions", [a.getId() for a in controlpanel.listActions()]
+        )
+
     def test_migrate_section_default_width(self):
         page = api.content.create(
             container=self.portal,
