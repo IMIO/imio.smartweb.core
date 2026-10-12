@@ -1337,4 +1337,15 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeSteps
+      source="1088"
+      destination="1089"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add the 'Undo transactions' configlet"
+        import_profile="imio.smartweb.core:default"
+        import_steps="controlpanel"
+        />
+  </genericsetup:upgradeSteps>
+
 </configure>

@@ -76,6 +76,16 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <!-- Zope only allows undo from Control_Panel/Database (Zope root Managers) -->
+  <browser:page
+      name="undo-transactions"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".undo.UndoTransactionsView"
+      template="templates/undo_transactions.pt"
+      permission="cmf.ManagePortal"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <browser:page
       name="siteadmin-smartweb-controlpanel"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"

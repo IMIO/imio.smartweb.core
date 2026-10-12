@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xml:lang="en" lang="en"
+      metal:use-macro="context/prefs_main_template/macros/master"
+      i18n:domain="imio.smartweb">
+
+<body>
+
+<metal:main fill-slot="prefs_configlet_main">
+
+  <header>
+    <h1 class="documentFirstHeading" i18n:translate="">Undo transactions</h1>
+    <div class="documentDescription" i18n:translate="">
+      Undo changes made to the database. A transaction can only be undone if
+      the objects it modified have not been changed since.
+    </div>
+  </header>
+
+  <div id="content-core">
+
+    <div class="alert alert-warning" role="alert" i18n:translate="">
+      Undoing a transaction does not update the Solr index: the affected
+      contents may need to be reindexed afterwards.
+    </div>
+
+    <div class="alert alert-info" role="status"
+         tal:condition="not:view/supports_undo"
+         i18n:translate="">
+      This database does not support undo.
+    </div>
+
+    <div class="alert alert-warning" role="alert"
+         tal:condition="python:view.supports_undo() and view.range_not_found()"
+         i18n:translate="">
+      The selected transaction is no longer in the list. Please select it again.
+    </div>
+
+    <nav class="mb-3" tal:condition="view/supports_undo">
+      <span i18n:translate="">Transactions per page</span>
+      <tal:sizes repeat="page_size view/page_sizes">
+        <a tal:attributes="href page_size/url;
+                           class python:'btn btn-sm btn-primary' if page_size['current'] else 'btn btn-sm btn-outline-secondary';
+                           aria-current python:'true' if page_size['current'] else None"
+           tal:content="page_size/size">20</a>
+      </tal:sizes>
+    </nav>
+
+    <form method="post"
+          tal:condition="view/supports_undo"
+          tal:attributes="action string:${context/absolute_url}/@@undo-transactions"
+          tal:define="transactions view/transactions;
+                      previous_url view/previous_url;
+                      next_url python:view.next_url(transactions)">
+
+      <span tal:replace="structure context/@@authenticator/authenticator" />
+      <input type="hidden" name="b_size" tal:attributes="value view/b_size" />
+
+      <p tal:condition="not:transactions" i18n:translate="">
+        There are no transactions that can be undone.
+      </p>
+
+      <table class="table table-striped pat-checklist" tal:condition="transactions">
+        <thead>
+          <tr>
+            <th>
+              <input type="checkbox"
+                     class="form-check-input toggle-all"
+                     title="Select all"
+                     aria-label="Select all"
+                     i18n:attributes="title; aria-label" />
+            </th>
+            <th i18n:translate="">Date</th>
+            <th i18n:translate="">User</th>
+            <th i18n:translate="">Description</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="txn transactions">
+            <td>
+              <input type="checkbox"
+                     class="form-check-input"
+                     name="transaction_ids:list"
+                     tal:attributes="value txn/id;
+                                     id string:transaction-${repeat/txn/index};
+                                     checked python:'checked' if txn['checked'] else None" />
+            </td>
+            <td>
+              <label tal:attributes="for string:transaction-${repeat/txn/index}"
+                     tal:content="python:txn['time'].strftime('%Y-%m-%d %H:%M:%S')" />
+            </td>
+            <td tal:content="txn/user_name" />
+            <td tal:content="txn/description" />
+            <td tal:define="range_url python:view.select_range_url(repeat['txn'].index)">
+              <a tal:condition="range_url"
+                 tal:attributes="href range_url"
+                 title="Select this transaction and all newer transactions (above it)"
+                 i18n:attributes="title"
+                 i18n:translate="">Select this and newer</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <nav class="mb-3" tal:condition="python:previous_url or next_url">
+        <a class="btn btn-secondary"
+           tal:condition="previous_url"
+           tal:attributes="href previous_url"
+           i18n:translate="">Newer transactions</a>
+        <a class="btn btn-secondary"
+           tal:condition="next_url"
+           tal:attributes="href next_url"
+           i18n:translate="">Older transactions</a>
+      </nav>
+
+      <div class="formControls" tal:condition="transactions">
+        <button type="submit"
+                class="btn btn-danger"
+                name="form.buttons.undo"
+                i18n:translate="">Undo selected transactions</button>
+      </div>
+    </form>
+
+  </div>
+
+</metal:main>
+
+</body>
+</html>

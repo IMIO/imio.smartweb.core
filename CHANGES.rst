@@ -5,6 +5,10 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- Add an ``@@undo-transactions`` view (Site Setup configlet, + upgrade step) so that
+  Plone Managers can undo ZODB transactions without a Zope root account.
+  [remdub]
+
 - Add the ``@messages`` endpoint. It gives the activated messages at the site root
   that have no roles and no TAL condition.
   ``@messages`` gives only the messages with ``eguichet_display_message`` checked.
