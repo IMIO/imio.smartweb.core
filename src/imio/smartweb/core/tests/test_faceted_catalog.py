@@ -106,6 +106,23 @@ class TestCatalog(ImioSmartwebTestCase):
         self.assertTrue(matches_solr_requirements({"use_solr": True}, required))
         # nothing required: everything goes to Solr
         self.assertTrue(matches_solr_requirements({"anything": 1}, []))
+        # a navigation tree path always falls back, even when Solr is forced
+        navtree = {"query": "/plone/folder", "navtree": 1, "navtree_start": 1}
+        self.assertFalse(
+            matches_solr_requirements(
+                {"SearchableText": "taxe", "path": navtree}, required
+            )
+        )
+        self.assertFalse(
+            matches_solr_requirements({"use_solr": True, "path": navtree}, required)
+        )
+        # a plain path does not
+        self.assertTrue(
+            matches_solr_requirements(
+                {"SearchableText": "taxe", "path": {"query": "/plone/folder"}},
+                required,
+            )
+        )
 
     def test_uses_solr(self):
         # Solr is inactive in the test environment, so nothing is dispatched to

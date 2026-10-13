@@ -59,8 +59,12 @@ def matches_solr_requirements(query, required):
     """Whether `query` carries what collective.solr demands to take the query.
 
     Pure counterpart of the dispatch decision in
-    collective/solr/dispatcher.py:75-84.
+    collective/solr/dispatcher.py:73-84. A navigation tree path (the
+    "Navigation path" criterion of a Collection) always falls back to the
+    portal catalog, even when `use_solr` forces Solr.
     """
+    if "path" in query and "navtree" in query["path"]:
+        return False
     if query.get("use_solr", False):
         return True
     if not required:
@@ -188,6 +192,14 @@ class SmartwebFacetedCatalog(FacetedCatalog):
     Only queries Solr actually answers are touched: a taxonomy criterion on its
     own falls back to the portal catalog, which handles it natively, and is left
     strictly alone. See ``uses_solr``.
+
+    Limit: this method sees the query of the faceted widgets only. eea adds the
+    query of a Collection later (eea/facetednavigation/search/catalog.py:68-81).
+    When the Collection query sends the search to the portal catalog (for
+    example with a navigation tree path), this method does not know it. It then
+    filters the taxonomy in memory, but the portal catalog could do it. The
+    result is correct, but slower, and limited to MAX_LOCAL_FILTER_RESULTS
+    documents.
     """
 
     def __call__(self, context, **query):

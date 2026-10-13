@@ -16,6 +16,12 @@ Changelog
   facet counts rebuilt from the catalog metadata column collective.taxonomy maintains.
   [boulch, remdub]
 
+- WEB-4495 : Do not remove an unknown taxonomy from a query that contains a
+  navigation tree path (for example the "Navigation path" criterion of a
+  Collection). collective.solr always sends such a query to the portal catalog,
+  and the portal catalog applies the taxonomy correctly.
+  [boulch]
+
 - Add the ``@messages`` endpoint. It gives the activated messages at the site root
   that have no roles and no TAL condition.
   ``@messages`` gives only the messages with ``eguichet_display_message`` checked.
