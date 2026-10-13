@@ -14,6 +14,19 @@
       factory=".layout.SmartwebFacetedLayout"
       />
 
+  <!-- Unconfigure default faceted catalog and define ours, which keeps Solr
+       from choking on taxonomies created TTW -->
+  <unconfigure package="eea.facetednavigation.search">
+    <utility factory=".catalog.FacetedCatalog" />
+  </unconfigure>
+
+  <utility factory=".catalog.SmartwebFacetedCatalog" />
+
+  <subscriber
+      for="eea.facetednavigation.interfaces.IQueryWillBeExecutedEvent"
+      handler=".catalog.strip_unindexed_taxonomies"
+      />
+
   <!-- Make display menu always available on collections
        See https://github.com/eea/eea.facetednavigation/issues/228 -->
   <adapter

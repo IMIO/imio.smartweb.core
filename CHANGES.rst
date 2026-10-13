@@ -5,6 +5,31 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4495 : Override ``IFacetedCatalog`` with ``SmartwebFacetedCatalog`` so a taxonomy created
+  through the web no longer breaks faceted search. Such an index is absent from the
+  shared Solr schema, and eea.facetednavigation adds it to ``facet.field`` without
+  checking, which makes Solr answer 400 and the visitor see an empty result list.
+  Only queries Solr actually answers are affected - a taxonomy criterion on its own
+  falls back to the portal catalog and is left untouched - so in practice this is the
+  taxonomy combined with a text search. For those, the criterion is removed from the
+  Solr query and applied on the results instead (capped at 5000 documents), with its
+  facet counts rebuilt from the catalog metadata column collective.taxonomy maintains.
+  [boulch, remdub]
+
+- WEB-4495 : Apply the dict form of a taxonomy criterion correctly when the
+  taxonomy is filtered in memory. The eea checkbox and multiselect widgets send
+  ``{"query": [...], "operator": ...}``. Before this change, no result matched this
+  form, and the page was empty. The filter now also obeys the operator: "and" keeps
+  only the results that have all the selected values. "and" is the default
+  operator of these widgets.
+  [boulch]
+
+- WEB-4495 : Do not remove an unknown taxonomy from a query that contains a
+  navigation tree path (for example the "Navigation path" criterion of a
+  Collection). collective.solr always sends such a query to the portal catalog,
+  and the portal catalog applies the taxonomy correctly.
+  [boulch]
+
 - Add the ``@messages`` endpoint. It gives the activated messages at the site root
   that have no roles and no TAL condition.
   ``@messages`` gives only the messages with ``eguichet_display_message`` checked.
