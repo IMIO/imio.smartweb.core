@@ -143,20 +143,48 @@ def as_tuple(value):
     return tuple(value)
 
 
+def criterion_terms(value):
+    """Wanted values and operator of a criterion.
+
+    A criterion is a plain value, or a dict with the form
+    ``{"query": ..., "operator": ...}``. The eea checkbox and multiselect
+    widgets send the dict form, and "and" is their default operator
+    (eea/facetednavigation/widgets/checkbox/widget.py:64 and 99-101).
+    When the operator is missing, we use "or", as the KeywordIndex does.
+    """
+    if isinstance(value, dict):
+        return set(as_tuple(value.get("query"))), value.get("operator", "or")
+    return set(as_tuple(value)), "or"
+
+
+def matches_criterion(wanted, operator, values):
+    """Whether `values` match `wanted`, as a KeywordIndex does.
+
+    With "and", `values` must contain all the wanted values. With "or",
+    `values` must contain one wanted value or more.
+    """
+    if operator == "and":
+        return wanted <= values
+    return bool(wanted & values)
+
+
 def filter_and_count(brains, values_by_uid, criteria):
     """Apply `criteria` to `brains`, and count values over the unfiltered set.
 
     Counting before filtering is what a facet is meant to show: how many results
     each value would yield.
     """
-    wanted = {name: set(as_tuple(value)) for name, value in criteria.items()}
+    terms = {name: criterion_terms(value) for name, value in criteria.items()}
     counts = {name: Counter() for name in criteria}
     filtered = []
     for brain in brains:
         values = values_by_uid.get(brain["UID"], {})
         for name in criteria:
             counts[name].update(values.get(name, ()))
-        if all(wanted[name] & set(values.get(name, ())) for name in criteria):
+        if all(
+            matches_criterion(*terms[name], set(values.get(name, ())))
+            for name in criteria
+        ):
             filtered.append(brain)
     return filtered, counts
 

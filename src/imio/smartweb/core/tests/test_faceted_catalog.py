@@ -2,9 +2,11 @@
 
 from eea.facetednavigation.interfaces import IFacetedCatalog
 from imio.smartweb.core.faceted.catalog import as_tuple
+from imio.smartweb.core.faceted.catalog import criterion_terms
 from imio.smartweb.core.faceted.catalog import filter_and_count
 from imio.smartweb.core.faceted.catalog import FilteredResults
 from imio.smartweb.core.faceted.catalog import MAX_LOCAL_FILTER_RESULTS
+from imio.smartweb.core.faceted.catalog import matches_criterion
 from imio.smartweb.core.faceted.catalog import matches_solr_requirements
 from imio.smartweb.core.faceted.catalog import SmartwebFacetedCatalog
 from imio.smartweb.core.faceted.catalog import solr_schema
@@ -167,6 +169,26 @@ class TestCatalog(ImioSmartwebTestCase):
         self.assertEqual(as_tuple(None), ())
         self.assertEqual(as_tuple(""), ())
 
+    def test_criterion_terms(self):
+        self.assertEqual(criterion_terms("taxes"), ({"taxes"}, "or"))
+        self.assertEqual(
+            criterion_terms(["taxes", "urbanisme"])[0], {"taxes", "urbanisme"}
+        )
+        # the dict form of the eea checkbox and multiselect widgets
+        self.assertEqual(
+            criterion_terms({"query": ["taxes"], "operator": "and"}),
+            ({"taxes"}, "and"),
+        )
+        # one checked box gives a string, not a list
+        self.assertEqual(criterion_terms({"query": "taxes"}), ({"taxes"}, "or"))
+
+    def test_matches_criterion(self):
+        values = {"taxes", "urbanisme"}
+        self.assertTrue(matches_criterion({"taxes", "voirie"}, "or", values))
+        self.assertFalse(matches_criterion({"voirie"}, "or", values))
+        self.assertTrue(matches_criterion({"taxes", "urbanisme"}, "and", values))
+        self.assertFalse(matches_criterion({"taxes", "voirie"}, "and", values))
+
     def test_filter_and_count(self):
         brains = [{"UID": "uid1"}, {"UID": "uid2"}, {"UID": "uid3"}]
         values = {
@@ -187,6 +209,20 @@ class TestCatalog(ImioSmartwebTestCase):
             brains + [{"UID": "uid4"}], values, {"taxonomy_reglements": "taxes"}
         )
         self.assertEqual([b["UID"] for b in filtered], ["uid1", "uid2"])
+
+        # the dict form of the eea checkbox widget, with its operator
+        query = {"query": ["taxes", "urbanisme"], "operator": "or"}
+        filtered, counts = filter_and_count(
+            brains, values, {"taxonomy_reglements": query}
+        )
+        self.assertEqual([b["UID"] for b in filtered], ["uid1", "uid2", "uid3"])
+        query["operator"] = "and"
+        filtered, counts = filter_and_count(
+            brains, values, {"taxonomy_reglements": query}
+        )
+        self.assertEqual([b["UID"] for b in filtered], ["uid2"])
+        # the operator changes the filter, not the counts
+        self.assertEqual(counts["taxonomy_reglements"], {"taxes": 2, "urbanisme": 2})
 
     def test_filtered_results(self):
         results = FilteredResults([{"UID": "uid1"}], {"facet_fields": {"a": {"b": 1}}})

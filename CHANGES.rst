@@ -16,6 +16,14 @@ Changelog
   facet counts rebuilt from the catalog metadata column collective.taxonomy maintains.
   [boulch, remdub]
 
+- WEB-4495 : Apply the dict form of a taxonomy criterion correctly when the
+  taxonomy is filtered in memory. The eea checkbox and multiselect widgets send
+  ``{"query": [...], "operator": ...}``. Before this change, no result matched this
+  form, and the page was empty. The filter now also obeys the operator: "and" keeps
+  only the results that have all the selected values. "and" is the default
+  operator of these widgets.
+  [boulch]
+
 - WEB-4495 : Do not remove an unknown taxonomy from a query that contains a
   navigation tree path (for example the "Navigation path" criterion of a
   Collection). collective.solr always sends such a query to the portal catalog,
