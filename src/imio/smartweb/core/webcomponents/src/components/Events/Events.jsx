@@ -103,7 +103,7 @@ function EventsView(props) {
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
         setBatchStart(() => 0);
-        setFilters(value);
+        setFilters({ ...value, b_start: 0 });
         window.scrollTo(0, 0);
     };
 
@@ -144,6 +144,7 @@ function EventsView(props) {
             <EventList
                 onChange={clickID}
                 itemsArray={itemsArray}
+                isMore={isMore}
                 onHover={hoverID}
                 showCategoriesOrTopics={props.showCategoriesOrTopics}
                 contextAuthenticatedUser={props.contextAuthenticatedUser}

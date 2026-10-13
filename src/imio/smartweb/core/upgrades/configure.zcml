@@ -426,6 +426,14 @@
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 
+  <genericsetup:registerProfile
+      name="upgrade_1087_to_1088"
+      title="Upgrade core from 1087 to 1088"
+      directory="profiles/1087_to_1088"
+      description="Add eguichet_message behavior to Message content type"
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+
   <genericsetup:upgradeStep
       title="Configure first official release"
       description="Run needed profiles steps and reindex catalog"
@@ -1318,5 +1326,15 @@
       handler=".upgrades.migrate_section_default_width"
       profile="imio.smartweb.core:default"
       />
+
+  <genericsetup:upgradeSteps
+      source="1087"
+      destination="1088"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeDepends
+        title="Add the 'E-guichet message' behavior to the Message content type"
+        import_profile="imio.smartweb.core.upgrades:upgrade_1087_to_1088"
+        />
+  </genericsetup:upgradeSteps>
 
 </configure>

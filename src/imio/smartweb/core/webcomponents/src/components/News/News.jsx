@@ -86,7 +86,7 @@ const NewsView = (props) => {
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
         setBatchStart((batchStart) => 0);
-        setFilters(value);
+        setFilters({ ...value, b_start: 0 });
     };
 
     // set batch
@@ -111,6 +111,7 @@ const NewsView = (props) => {
             <NewsList
                 onChange={clickID}
                 itemsArray={itemsArray}
+                isMore={isMore}
                 showCategoriesOrTopics={props.showCategoriesOrTopics}
                 contextAuthenticatedUser={props.contextAuthenticatedUser}
             />

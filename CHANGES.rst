@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.62 (unreleased)
+1.4.63 (unreleased)
 -------------------
 
 - WEB-4495 : Override ``IFacetedCatalog`` with ``SmartwebFacetedCatalog`` so a taxonomy created
@@ -14,6 +14,35 @@ Changelog
   taxonomy combined with a text search. For those, the criterion is removed from the
   Solr query and applied on the results instead (capped at 5000 documents), with its
   facet counts rebuilt from the catalog metadata column collective.taxonomy maintains.
+  [boulch, remdub]
+
+- Add the ``@messages`` endpoint. It gives the activated messages at the site root
+  that have no roles and no TAL condition.
+  ``@messages`` gives only the messages with ``eguichet_display_message`` checked.
+  [boulch]
+
+- Add a ``imio.smartweb.eguichet_message`` behavior on ``Message`` (+ upgrade step).
+  [boulch]
+
+- SUP-55256 : Request forwarders (directory, events, news): send `@vocabularies` requests to the
+  entity of the site. Local categories vocabularies now return values.
+  [boulch]
+
+- WEB-4498 : Add an edit icon on each image of a gallery section. The icon is a link
+  to the edit form of the image. Only editors see it.
+  [boulch]
+
+- WEB-4494: Fix auto scroll conflict in react view
+  [thomlamb]
+
+
+1.4.62 (2026-09-28)
+-------------------
+
+- Add the ``@@text_align_container_false`` view. Use this view one time only.
+  It sets ``text_align_container`` to ``False`` on all ``imio.smartweb.Page``
+  and ``imio.smartweb.Procedure`` items. It does not change the sections.
+  Remove previous one shot align_section_to_text view.
   [boulch]
 
 

@@ -4,7 +4,13 @@ import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
 import { Translator } from "react-translated";
-const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics, contextAuthenticatedUser }) => {
+const NewsList = ({
+    itemsArray,
+    onChange,
+    isMore,
+    showCategoriesOrTopics,
+    contextAuthenticatedUser,
+}) => {
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
 
     function handleClick(event) {
@@ -13,8 +19,10 @@ const NewsList = ({ itemsArray, onChange, showCategoriesOrTopics, contextAuthent
     }
 
     useEffect(() => {
-        window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
-    }, [itemsArray]);
+        if (isMore) {
+            window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
+        }
+    }, [itemsArray, isMore]);
 
     useEffect(() => {
         // Liste complète de toutes les balises possibles

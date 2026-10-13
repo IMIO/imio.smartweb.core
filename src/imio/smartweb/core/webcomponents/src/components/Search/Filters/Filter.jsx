@@ -63,32 +63,37 @@ function Filters(props) {
         apiCall();
     }, []);
 
-    const HandlerText = (e) => {
-        setSearchValues({ SearchableText: e.target.value });
-        if (e.target.value) {
-            setInputValues((state) => ({ ...state, SearchableText: e.target.value }), []);
+    const searchDebounceRef = useRef(null);
+
+    const commitSearchText = useCallback((value) => {
+        if (value) {
+            setInputValues((state) => ({ ...state, SearchableText: value }));
         } else {
             setInputValues((prevState) => {
-                const state = { ...prevState };
-                const { SearchableText: remove, ...rest } = state;
+                if (!("SearchableText" in prevState)) return prevState;
+                const { SearchableText: remove, ...rest } = prevState;
                 return rest;
             });
         }
+    }, []);
+
+    useEffect(() => {
+        return () => searchDebounceRef.current && clearTimeout(searchDebounceRef.current);
+    }, []);
+
+    const HandlerText = (e) => {
+        const value = e.target.value;
+        setSearchValues({ SearchableText: value });
+        if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
+        searchDebounceRef.current = setTimeout(() => commitSearchText(value), 400);
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (searchValues.SearchableText) {
-            setInputValues(
-                (state) => ({ ...state, SearchableText: searchValues.SearchableText }),
-                []
-            );
-        } else {
-            setInputValues((prevState) => {
-                const state = { ...prevState };
-                const { SearchableText: remove, ...rest } = state;
-                return rest;
-            });
+        if (searchDebounceRef.current) {
+            clearTimeout(searchDebounceRef.current);
+            searchDebounceRef.current = null;
         }
+        commitSearchText(searchValues.SearchableText);
     };
     const onChangeHandlerSelect = useCallback((value, action) => {
         const inputName = action.name;

@@ -4,6 +4,7 @@ from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import make_named_image
 from plone import api
+from plone.app.testing import logout
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobImage
@@ -71,3 +72,25 @@ class TestSectionGallery(ImioSmartwebTestCase):
         self.assertEqual(view.alt_label(image2), "Kamoulox")
         self.assertEqual(view.alt_label(image3), "Hello Plone, what's up ?!")
         self.assertEqual(view.alt_label(image4), "Hello Plone !")
+
+    def test_image_edit_link(self):
+        gallery_section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionGallery",
+            title="Gallery section",
+        )
+        image = api.content.create(
+            container=gallery_section,
+            type="Image",
+            title="Image",
+        )
+        image.image = NamedBlobImage(**make_named_image("plone.png"))
+        api.content.transition(self.page, "publish")
+        edit_link = f'href="{image.absolute_url()}/edit"'
+
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertIn(edit_link, view())
+
+        logout()
+        view = queryMultiAdapter((self.page, self.request), name="full_view")
+        self.assertNotIn(edit_link, view())

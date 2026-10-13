@@ -3,7 +3,7 @@ import ContactCard from "../ContactCard/ContactCard";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
-const ContactList = ({ contactArray, onChange, onHover, contextAuthenticatedUser }) => {
+const ContactList = ({ contactArray, onChange, isMore, onHover, contextAuthenticatedUser }) => {
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
 
     function handleClick(event) {
@@ -16,8 +16,10 @@ const ContactList = ({ contactArray, onChange, onHover, contextAuthenticatedUser
     }
 
     useEffect(() => {
-        window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
-    }, [contactArray]);
+        if (isMore) {
+            window.scrollTo({ top: scrollPos, left: 0, behavior: "instant" });
+        }
+    }, [contactArray, isMore]);
 
     useEffect(() => {
         // Liste complète de toutes les balises possibles

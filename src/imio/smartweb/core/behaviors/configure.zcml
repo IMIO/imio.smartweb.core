@@ -68,4 +68,11 @@
       provides=".new_tab.INewTab"
       />
 
+  <plone:behavior
+      name="imio.smartweb.eguichet_message"
+      title="E-guichet message"
+      description="Add a field to choose whether this message must be displayed in the e-guichet (@messages endpoint)."
+      provides=".eguichet_message.IEguichetMessage"
+      />
+
 </configure>

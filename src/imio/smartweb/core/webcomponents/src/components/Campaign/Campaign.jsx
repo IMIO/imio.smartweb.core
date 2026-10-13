@@ -114,7 +114,7 @@ function CampaignView(props) {
     const filtersChange = (value) => {
         setLoadMoreLaunch(false);
         setBatchStart(() => 0);
-        setFilters(value);
+        setFilters({ ...value, b_start: 0 });
         window.scrollTo(0, 0);
     };
 
@@ -162,6 +162,7 @@ function CampaignView(props) {
             <CampaignList
                 onChange={clickID}
                 itemsArray={itemsArray}
+                isMore={isMore}
                 onHover={hoverID}
                 displayRedThumbs={displayRedThumbs}
             />

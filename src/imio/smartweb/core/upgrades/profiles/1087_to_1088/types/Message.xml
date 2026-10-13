@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+        meta_type="Dexterity FTI"
+        name="Message"
+        i18n:domain="collective.messagesviewlet"
+>
+
+  <!-- Enabled behaviors -->
+  <property name="behaviors" purge="false">
+    <element value="imio.smartweb.eguichet_message"/>
+  </property>
+
+</object>
