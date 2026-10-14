@@ -172,9 +172,7 @@ class SectionView(BrowserView):
 
     def attached_file_link_text(self, item):
         attached_file = (
-            item.get("publication_attached_file")
-            if isinstance(item, dict)
-            else None
+            item.get("publication_attached_file") if isinstance(item, dict) else None
         )
         if not attached_file:
             return ""
