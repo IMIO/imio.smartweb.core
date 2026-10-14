@@ -370,3 +370,11 @@ def add_campaignview_to_displayed_types(context):
         tuple(displayed_types) + (CAMPAIGNVIEW_PORTAL_TYPE,),
     )
     logger.info(f"Added {CAMPAIGNVIEW_PORTAL_TYPE} to plone.displayed_types")
+
+
+def add_eguichet_notif_settings(context):
+    fields = getFieldNames(ISmartwebControlPanel)
+    fields.remove("user_eguichet_notif")
+    fields.remove("password_eguichet_notif")
+    registry = getUtility(IRegistry)
+    registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")

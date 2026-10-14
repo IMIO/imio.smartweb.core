@@ -1337,4 +1337,13 @@
         />
   </genericsetup:upgradeSteps>
 
+  <genericsetup:upgradeStep
+      title="Add e-guichet notifications user and password to registry"
+      description=""
+      source="1088"
+      destination="1089"
+      handler=".upgrades.add_eguichet_notif_settings"
+      profile="imio.smartweb.core:default"
+      />
+
 </configure>
