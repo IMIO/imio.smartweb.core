@@ -51,7 +51,8 @@
                       tal:attributes="href item/url;
                                       class python:'swiper_link {}'.format(item.get('container_id', '') or '').strip();
                                       title python:view.a_tag_item_title(item);
-                                      target python:'_blank' if (open_in_new_tab and not can_edit_sections) else ''">
+                                      target python:'_blank' if (open_in_new_tab and not can_edit_sections) else '';
+                                      rel python:'noopener' if (open_in_new_tab and not can_edit_sections) else ''">
                     <div class="swiper-image"
                          tal:condition="python: item_has_image and show_lead_image"
                          tal:attributes="style string:background-image:url(${item/image});

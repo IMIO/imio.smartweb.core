@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from imio.smartweb.core.contents import IPublication
+from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
@@ -92,6 +93,21 @@ class TestIADeliberations(ImioSmartwebTestCase):
         # check that deleting the object works too
         api.content.delete(obj=obj)
         self.assertNotIn("publication", parent.objectIds())
+
+    def test_attached_file_link_text(self):
+        # WEB-4340 : accessible text/title for the downloadable PDF link
+        # (title + file type + human readable size + "opens in new tab")
+        view = SectionView(self.files_section, self.request)
+        item = {
+            "title": self.json_publication_raw_mock.get("title"),
+            "publication_attached_file": self.json_publication_raw_mock.get("file"),
+        }
+        self.assertEqual(
+            view.attached_file_link_text(item),
+            "Ordonnance concernant des mesures spécifiques en cas de grand froid. "
+            "(PDF – 117.2 KB – New tab)",
+        )
+        self.assertEqual(view.attached_file_link_text({"title": "No file"}), "")
 
     # Fix tests : timestamped publication are now a section, not an item in a file section
     #

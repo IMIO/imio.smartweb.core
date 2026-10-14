@@ -61,7 +61,8 @@
                       <a tal:attributes="class python:'table_image no-image' if no_icon_no_image else 'table_image';
                                          title python:view.a_tag_item_title(item);
                                          href python:view.retrieve_item_url(item);
-                                         target python:'_blank' if (open_in_new_tab and not can_edit_sections) else '';">
+                                         target python:'_blank' if (open_in_new_tab and not can_edit_sections) else '';
+                                         rel python:'noopener' if (open_in_new_tab and not can_edit_sections) else '';">
                         <tal:if tal:condition="show_lead_image">
                             <div class="image d-block is-icon w-100"
                                  tal:condition="item_has_icon">
@@ -120,12 +121,14 @@
                              tal:content="item/item_infos"/>
                       </a>
                   <!-- publication : attached file-->
-                    <a 
+                    <a
                     class="publication_attached_file"
                     tal:condition="item/publication_attached_file | nothing"
-                    tal:attributes="href item/publication_attached_file/download"
-                        tal:content="item/publication_attached_file/filename"
-                        target="_blank" ></a>
+                    tal:attributes="href item/publication_attached_file/download;
+                                     title python:view.attached_file_link_text(item)"
+                        tal:content="python:view.attached_file_link_text(item)"
+                        target="_blank"
+                        rel="noopener"></a>
 
                   </div>
               </li>
