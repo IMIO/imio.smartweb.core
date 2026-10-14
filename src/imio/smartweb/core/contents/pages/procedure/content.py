@@ -36,7 +36,7 @@ class IProcedure(IPages, model.Schema):
     button_ts_label = schema.Choice(
         vocabulary="imio.smartweb.vocabulary.ProcedureButtonLabels",
         title=_("Button label"),
-        description=_("Set button label to redirect to e-guichet"),
+        description=_("Set the label of the button that opens the procedure"),
         required=False,
         default=None,
     )

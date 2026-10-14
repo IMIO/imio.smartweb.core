@@ -17,6 +17,10 @@ Changelog
   Authentic sources use it to post e-guichet notifications.
   [boulch]
 
+- WEB-4508 : Show the ``button_ts_label`` label on the procedure button also when the
+  procedure uses ``procedure_url``.
+  [boulch]
+
 - WEB-4495 : Override ``IFacetedCatalog`` with ``SmartwebFacetedCatalog`` so a taxonomy created
   through the web no longer breaks faceted search. Such an index is absent from the
   shared Solr schema, and eea.facetednavigation adds it to ``facet.field`` without
