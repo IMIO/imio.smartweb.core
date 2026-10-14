@@ -3,6 +3,7 @@
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.upgrades.upgrades import add_campaignview_to_displayed_types
+from imio.smartweb.core.upgrades.upgrades import add_eguichet_notif_settings
 from imio.smartweb.core.upgrades.upgrades import migrate_section_default_width
 from plone import api
 from plone.app.testing import setRoles
@@ -92,3 +93,18 @@ class TestUpgrades(ImioSmartwebTestCase):
         section.bootstrap_css_class = "col-sm-6"
         migrate_section_default_width(self.portal)
         self.assertEqual(section.bootstrap_css_class, "col-sm-6")
+
+    def test_add_eguichet_notif_settings(self):
+        registry = api.portal.get_tool("portal_registry")
+        for name in ("user_eguichet_notif", "password_eguichet_notif"):
+            del registry.records[f"smartweb.{name}"]
+        url_ts = api.portal.get_registry_record("smartweb.url_ts")
+        add_eguichet_notif_settings(self.portal)
+        self.assertIsNone(
+            api.portal.get_registry_record("smartweb.user_eguichet_notif")
+        )
+        self.assertIsNone(
+            api.portal.get_registry_record("smartweb.password_eguichet_notif")
+        )
+        # other records are not changed
+        self.assertEqual(api.portal.get_registry_record("smartweb.url_ts"), url_ts)
