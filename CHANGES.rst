@@ -5,6 +5,12 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-3961 : Add an accessible label to the logo link of the portal, of the minisites
+  and of the subsites: "Back to <title> homepage". The label is translated.
+  An inline SVG logo also gets ``role="img"``, an ``aria-label`` and a ``<title>``.
+  Requires imio.smartweb.locales with the "Back to ${title} homepage" translation.
+  [boulch]
+
 - WEB-4495 : Add the labels of taxonomy terms to ``SearchableText``, for all content types.
   A text search now finds an object with the label of its category.
   When a term is renamed, the objects that use it are reindexed.

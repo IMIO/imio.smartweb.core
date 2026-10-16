@@ -3,7 +3,8 @@
    tal:define="href view/navigation_root_url;
                title view/navigation_root_title"
    tal:attributes="href href;
-                   title title;
+                   title view/home_label;
+                   aria-label view/home_label;
                    class python: 'minisite_logo' if view.is_in_minisite else ''">
 
   <tal:if tal:condition="view/show_logo">
@@ -11,7 +12,7 @@
         <img src="logo.png" alt=""
              tal:condition="not: view/is_svg"
              tal:attributes="alt view/logo_title;
-                             title view/logo_title;
+                             title view/home_label;
                              src view/img_src" />
         <span tal:condition="view/is_svg"
               tal:replace="structure view/svg_data" />
@@ -23,7 +24,7 @@
       <img src="logo.png" alt=""
            tal:condition="not: view/is_svg"
            tal:attributes="alt view/logo_title;
-                           title view/logo_title;
+                           title view/home_label;
                            src view/img_src" />
       <span tal:condition="view/is_svg"
             tal:replace="structure view/svg_data" />

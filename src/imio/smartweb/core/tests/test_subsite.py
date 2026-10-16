@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from bs4 import BeautifulSoup
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
@@ -124,7 +125,9 @@ class TestSubsite(ImioSmartwebTestCase):
             IViewlet,
             name="imio.smartweb.subsite_logo",
         )
-        self.assertIn("Folder", viewlet())
+        link = BeautifulSoup(viewlet()).find("a")
+        self.assertEqual(link.get("aria-label"), "Back to Folder homepage")
+        self.assertEqual(link.get("title"), "Back to Folder homepage")
         self.folder.logo_display_mode = "logo"
         self.assertFalse(viewlet.show_title())
         self.assertFalse(viewlet.show_logo())

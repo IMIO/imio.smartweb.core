@@ -3,6 +3,8 @@
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.contents.pages.portal_page.content import IPortalPage
+from imio.smartweb.locales import SmartwebMessageFactory as _
+from lxml import etree
 from plone import api
 from plone.app.layout.viewlets.common import LogoViewlet as baseLogoViewlet
 from plone.formwidget.namedfile.converter import b64decode_file
@@ -11,11 +13,37 @@ from plone.registry.interfaces import IRegistry
 from Products.CMFPlone.interfaces import ISiteSchema
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.component import getUtility
+from zope.i18n import translate
+
+SVG_NS = "http://www.w3.org/2000/svg"
 
 
 def is_svg(filename):
     content_type = get_contenttype(filename=filename)
     return content_type == "image/svg+xml"
+
+
+def home_label(request, title):
+    return translate(
+        _("Back to ${title} homepage", mapping={"title": title}), context=request
+    )
+
+
+def label_svg(svg_data, label):
+    """Give an inline SVG logo an accessible name: role, aria-label and <title>"""
+    parser = etree.XMLParser(resolve_entities=False, no_network=True)
+    try:
+        root = etree.fromstring(svg_data, parser)
+    except etree.XMLSyntaxError:
+        return svg_data
+    root.set("role", "img")
+    root.set("aria-label", label)
+    for old_title in root.findall(f"{{{SVG_NS}}}title"):
+        root.remove(old_title)
+    title = etree.Element(f"{{{SVG_NS}}}title")
+    title.text = label
+    root.insert(0, title)
+    return etree.tostring(root)
 
 
 class LogoViewlet(baseLogoViewlet):
@@ -43,11 +71,12 @@ class LogoViewlet(baseLogoViewlet):
             if getattr(settings, "site_logo", False):
                 logo_field = settings.site_logo
                 filename, data = b64decode_file(logo_field)
+        self.home_label = home_label(self.request, self.logo_title)
         if not self.show_logo or not logo_field:
             return
         if is_svg(filename):
             self.is_svg = True
-            self.svg_data = data
+            self.svg_data = label_svg(data, self.home_label)
 
     def update_minisite(self):
         minisite = self.root

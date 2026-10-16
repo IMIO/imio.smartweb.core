@@ -2,6 +2,7 @@
 
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
 from imio.smartweb.core.utils import get_scale_url
+from imio.smartweb.core.viewlets.logo import home_label
 from imio.smartweb.core.viewlets.navigation import ImprovedGlobalSectionsViewlet
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.app.layout.viewlets import common
@@ -119,3 +120,6 @@ class SubsiteLogoViewlet(BaseSubsiteViewlet):
     def get_logo_scale_url(self):
         request = self.request
         return get_scale_url(self.subsite_root, request, "logo", "preview")
+
+    def home_label(self):
+        return home_label(self.request, self.subsite_root.title)

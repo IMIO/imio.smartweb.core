@@ -1,9 +1,9 @@
 
 <div id="subsite-logo" tal:condition="view/available">
-    <a tal:attributes="href string:${view/subsite_root/absolute_url}; aria-label string:${view/subsite_root/title} – Retour à l’accueil">
+    <a tal:attributes="href string:${view/subsite_root/absolute_url}; title view/home_label; aria-label view/home_label">
         <img alt="" aria-hidden="true" focusable="false" tal:condition="view/show_logo"
              tal:attributes="src view/get_logo_scale_url;
-                             title view/subsite_root/title" />
+                             title view/home_label" />
         <div class="subsite-title"
              tal:condition="view/show_title"
              tal:content="view/subsite_root/title"></div>

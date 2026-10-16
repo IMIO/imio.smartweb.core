@@ -319,7 +319,10 @@ class TestMinisite(ImioSmartwebTestCase):
         viewlet.update()
         self.assertTrue(viewlet.show_logo)
         self.assertTrue(viewlet.is_svg)
-        self.assertIn(b"<svg", viewlet.svg_data)
+        soup = BeautifulSoup(viewlet.render())
+        svg = soup.find("svg")
+        self.assertEqual(svg.get("aria-label"), "Back to Folder homepage")
+        self.assertEqual(svg.find("title").text, "Back to Folder homepage")
         self.folder.logo = NamedBlobImage(**make_named_image("plone.png"))
         viewlet = LogoViewlet(self.folder, self.request, None, None)
         viewlet.update()
@@ -332,6 +335,9 @@ class TestMinisite(ImioSmartwebTestCase):
         soup = BeautifulSoup(html)
         img = soup.find("img")
         self.assertIn("http://nohost/plone/folder/@@images/logo-400", img.get("src"))
+        link = soup.find("a", id="portal-logo")
+        self.assertEqual(link.get("aria-label"), "Back to Folder homepage")
+        self.assertEqual(link.get("title"), "Back to Folder homepage")
 
         # Title should remain the same on sub-contents
         subfolder = api.content.create(
