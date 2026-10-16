@@ -61,6 +61,11 @@ class DirectoryViewView(BaseRestView):
         if data.get("taxonomy_contact_category"):
             category = data["taxonomy_contact_category"][0].get("title")
 
+        # Catégorie spécifique
+        local_category = data.get("local_category")
+        if isinstance(local_category, dict):
+            local_category = local_category.get("title")
+
         # Type
         contact_type = data.get("type", {}).get("title")
 
@@ -85,6 +90,7 @@ class DirectoryViewView(BaseRestView):
         prefix_email = _("Email")
         prefix_description = _("Description")
         prefix_category = _("Contact category")
+        prefix_local_category = _("Specific category")
         prefix_type = _("Contact type")
         contact = {
             "name": name,
@@ -97,6 +103,9 @@ class DirectoryViewView(BaseRestView):
             ),
             "url": url,
             "category": f"{prefix_category}: {category}" if category else None,
+            "local_category": (
+                f"{prefix_local_category}: {local_category}" if local_category else None
+            ),
             "geolocation": (latitude, longitude) if geo else None,
             "contact_type": f"{prefix_type}: {contact_type}" if contact_type else None,
             "image_url": image_url if image_url else None,

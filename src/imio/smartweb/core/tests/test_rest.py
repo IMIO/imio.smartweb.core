@@ -5,6 +5,7 @@ from freezegun import freeze_time
 from imio.smartweb.core import config
 from imio.smartweb.core.contents.rest.base import BaseEndpoint
 from imio.smartweb.core.contents.rest.directory.endpoint import DirectoryEndpoint
+from imio.smartweb.core.contents.rest.directory.endpoint import DirectoryFiltersEndpoint
 from imio.smartweb.core.contents.rest.events.endpoint import EventsEndpoint
 from imio.smartweb.core.contents.rest.news.endpoint import NewsEndpoint
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_ACCEPTANCE_TESTING
@@ -192,6 +193,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
             "portal_type=imio.directory.Contact&"
             "metadata_fields=facilities&"
             "metadata_fields=taxonomy_contact_category&"
+            "metadata_fields=local_category&"
             "metadata_fields=topics&"
             "metadata_fields=has_leadimage&"
             "fullobjects=1&"
@@ -228,6 +230,7 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "portal_type=imio.directory.Contact&"
                 "metadata_fields=facilities&"
                 "metadata_fields=taxonomy_contact_category&"
+                "metadata_fields=local_category&"
                 "metadata_fields=topics&"
                 "metadata_fields=has_leadimage&"
                 "fullobjects=1&"
@@ -240,6 +243,22 @@ class SectionsFunctionalTest(ImioSmartwebTestCase):
                 "topics=education&"
                 "translated_in_en=1",
             )
+
+    @requests_mock.Mocker()
+    def test_call_directory_filters(self, m):
+        rest_directory = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.DirectoryView",
+            title="My directory view",
+        )
+        endpoint = DirectoryFiltersEndpoint(rest_directory, TestRequest())
+        url = endpoint.query_url
+        self.assertTrue(url.startswith("http://localhost:8080/Plone/@search-filters?"))
+        self.assertIn("metadata_fields=local_category", url)
+
+        local_category = [{"token": "Piscines", "title": "Piscines"}]
+        m.get(url, text=json.dumps({"local_category": local_category}))
+        self.assertEqual(endpoint()["local_category"], local_category)
 
     def test_render_rest_auth_sources(self):
         """og:tags on rest view"""

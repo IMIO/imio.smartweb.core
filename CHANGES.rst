@@ -8,6 +8,10 @@ Changelog
 - SUP-56752 : Fix the react translation of "à" before a time ("Le ... à ...") : use "um" / "om" / "at"
   instead of "bis" / "tot" / "to", which only apply to a "de ... à ..." range.
   [thomlamb]
+- WEB-4449 : Request ``local_category`` from the directory. Before this change, the directory
+  ``@results-filters`` endpoint did not return local categories, and the local
+  category filter of the React directory view stayed empty.
+  [boulch]
 
 - WEB-4508 : Show the ``button_ts_label`` label on the procedure button also when the
   procedure uses ``procedure_url``.
@@ -56,6 +60,14 @@ Changelog
 
 - WEB-4494: Fix auto scroll conflict in react view
   [thomlamb]
+- Support PeerTube videos in ``imio.smartweb.SectionVideo`` and
+  ``imio.smartweb.SectionSlide``. PeerTube being federated, the embeddify plugin
+  matches on the url path (``/w/<id>`` or ``/videos/watch/<id>``, https only)
+  and derives the oEmbed endpoint from the host. Both sections now share a
+  single embedder built by
+  ``imio.smartweb.core.contents.sections.embedder.get_video_embedder``, so slides
+  gain the same accessibility suffix on the iframe title as video sections.
+  [boulch]
 
 
 1.4.62 (2026-09-28)
