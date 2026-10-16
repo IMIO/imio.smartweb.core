@@ -3,6 +3,7 @@ import ContactCard from "../ContactCard/ContactCard";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
+import { restoreInitialTitle } from "../../../utils/pageTitle";
 const ContactList = ({ contactArray, onChange, isMore, onHover, contextAuthenticatedUser }) => {
     const { scrollPos, updateScrollPos } = useContext(ScrollContext);
 
@@ -22,6 +23,8 @@ const ContactList = ({ contactArray, onChange, isMore, onHover, contextAuthentic
     }, [contactArray, isMore]);
 
     useEffect(() => {
+        restoreInitialTitle();
+
         // Liste complète de toutes les balises possibles
         const allMetaProps = [
             { name: "description" },

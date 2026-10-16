@@ -5,6 +5,10 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4510 : React views (annuaire, agenda, news) : restore the page title in the browser tab
+  when the visitor comes back from an item to the list, instead of keeping the item title.
+  [thomlamb]
+
 - WEB-4501 : Make the annuaire category pills (``taxonomy-Filter``) more discreet and fluid :
   smaller font, and on smartphone a single swipeable row (menus are made ``fixed`` there so
   the row does not clip them).
