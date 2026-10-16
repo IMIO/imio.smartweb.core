@@ -5,6 +5,10 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4495 : Fix the faceted text search with a filter on a taxonomy created through the web.
+  When no value was selected, Solr answered 400 and the faceted showed no results.
+  [boulch]
+
 - WEB-4510 : React views (annuaire, agenda, news) : restore the page title in the browser tab
   when the visitor comes back from an item to the list, instead of keeping the item title.
   [thomlamb]

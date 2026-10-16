@@ -93,7 +93,13 @@ def uses_solr(query):
 
 
 def unindexed_taxonomies(query, schema, taxonomy_names):
-    """Taxonomy criteria of `query` that are missing from the Solr schema.
+    """Taxonomies of `query` that are missing from the Solr schema.
+
+    Each one maps to the value it is filtered on, or to None when it is only a
+    facet. eea asks a facet for every select or checkbox widget, a value chosen
+    or not (eea/facetednavigation/widgets/widget.py:300 and
+    eea/facetednavigation/browser/app/query.py:93-98), so a taxonomy widget
+    left on "all" still puts its index in ``facet.field``.
 
     Solr answers 400 ("undefined field") as soon as such an index is used as a
     facet, and eea turns that into an empty batch, so the visitor gets no
@@ -101,9 +107,10 @@ def unindexed_taxonomies(query, schema, taxonomy_names):
     """
     if not schema:
         return {}
+    names = set(query).union(query.get("facet.field") or [])
     return {
-        name: value
-        for name, value in query.items()
+        name: query.get(name)
+        for name in names
         if name in taxonomy_names and schema.get(name) is None
     }
 
@@ -172,9 +179,11 @@ def filter_and_count(brains, values_by_uid, criteria):
     """Apply `criteria` to `brains`, and count values over the unfiltered set.
 
     Counting before filtering is what a facet is meant to show: how many results
-    each value would yield.
+    each value would yield. A criterion without a value is only a facet: it is
+    counted, and filters nothing.
     """
     terms = {name: criterion_terms(value) for name, value in criteria.items()}
+    filters = {name: term for name, term in terms.items() if term[0]}
     counts = {name: Counter() for name in criteria}
     filtered = []
     for brain in brains:
@@ -182,8 +191,8 @@ def filter_and_count(brains, values_by_uid, criteria):
         for name in criteria:
             counts[name].update(values.get(name, ()))
         if all(
-            matches_criterion(*terms[name], set(values.get(name, ())))
-            for name in criteria
+            matches_criterion(*filters[name], set(values.get(name, ())))
+            for name in filters
         ):
             filtered.append(brain)
     return filtered, counts
@@ -215,7 +224,9 @@ class SmartwebFacetedCatalog(FacetedCatalog):
 
     Such criteria are therefore removed from the Solr query and applied here on
     the results instead, with their facet counts rebuilt from the catalog
-    metadata column collective.taxonomy maintains.
+    metadata column collective.taxonomy maintains. This includes a taxonomy
+    widget with no value chosen: it filters nothing, but it still needs its
+    counts.
 
     Only queries Solr actually answers are touched: a taxonomy criterion on its
     own falls back to the portal catalog, which handles it natively, and is left
