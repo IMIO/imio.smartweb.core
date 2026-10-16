@@ -4,6 +4,21 @@ import Select from "react-select";
 import { Translator } from "react-translated";
 import "./TaxonomyFilter.scss";
 
+const MOBILE_QUERY = "(max-width: 630px)";
+const MENU_CLASS = "react-select-custom-multi__menu";
+
+// Same behaviour as the local category pill : the menu grows with its longest option
+const selectStyles = {
+    menu: (base) => ({ ...base, width: "max-content", minWidth: "100%", maxWidth: 300 }),
+};
+
+// On mobile the pills are a horizontal swipe strip (overflow-x: auto) which would clip an
+// absolute menu : the menu is made fixed, so it must close as soon as the strip (or the page)
+// scrolls. react-select only registers its scroll listener on mount, hence this prop is always
+// set and the media query is checked on each scroll.
+const closeMenuOnStripScroll = (event) =>
+    window.matchMedia(MOBILE_QUERY).matches && !event.target.closest?.(`.${MENU_CLASS}`);
+
 function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick, unique }) {
     // Regroupement des états liés
     const [selectValues, setSelectValues] = useState({
@@ -21,6 +36,17 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
         firstLevel: null,
         secondLevel: null,
     });
+
+    const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches);
+
+    useEffect(() => {
+        const mediaQuery = window.matchMedia(MOBILE_QUERY);
+        const onMediaChange = (e) => setIsMobile(e.matches);
+        mediaQuery.addEventListener("change", onMediaChange);
+        return () => mediaQuery.removeEventListener("change", onMediaChange);
+    }, []);
+
+    const menuPosition = isMobile ? "fixed" : "absolute";
 
     // Mémoisation des options du premier niveau
     const firstLevelOptions = useMemo(() => {
@@ -175,6 +201,9 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                                             : ""
                                     }`}
                                     classNamePrefix="react-select-custom-multi"
+                                    styles={selectStyles}
+                                    menuPosition={menuPosition}
+                                    closeMenuOnScroll={closeMenuOnStripScroll}
                                     onChange={onChangeSub1}
                                     options={options.firstLevel}
                                     value={selectValues.second}
@@ -204,6 +233,9 @@ function TaxonomyFilter({ onChange, sub, title, token, isActive, setCat, onClick
                                             : ""
                                     }`}
                                     classNamePrefix="react-select-custom-multi"
+                                    styles={selectStyles}
+                                    menuPosition={menuPosition}
+                                    closeMenuOnScroll={closeMenuOnStripScroll}
                                     onChange={onChangeSub2}
                                     options={options.secondLevel}
                                     value={selectValues.third}

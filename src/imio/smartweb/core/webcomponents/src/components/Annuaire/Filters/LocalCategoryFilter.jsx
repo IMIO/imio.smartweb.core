@@ -31,9 +31,10 @@ const styles = {
         // same height as the neighbouring category pills (.dropDownFilter)
         height: 36,
         minHeight: 36,
+        fontSize: "0.75rem",
         cursor: "pointer",
         border: "solid 1px #cfcfcf",
-        borderRadius: 10,
+        borderRadius: 15,
         boxShadow: state.isFocused ? "0 0 0 1px #2684ff" : "none",
         borderColor: state.isFocused ? "#2684ff" : "#cfcfcf",
     }),

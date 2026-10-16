@@ -5,6 +5,11 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4501 : Make the annuaire category pills (``taxonomy-Filter``) more discreet and fluid :
+  smaller font, and on smartphone a single swipeable row (menus are made ``fixed`` there so
+  the row does not clip them).
+  [thomlamb]
+
 - SUP-56752 : Fix the react translation of "à" before a time ("Le ... à ...") : use "um" / "om" / "at"
   instead of "bis" / "tot" / "to", which only apply to a "de ... à ..." range.
   [thomlamb]
