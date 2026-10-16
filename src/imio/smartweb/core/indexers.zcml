@@ -46,5 +46,23 @@
       factory=".indexers.concat_category_topics_indexer"
       />
 
+  <!-- Unconfigure default indexable object wrapper and define ours, which adds
+       the labels of taxonomy terms to SearchableText -->
+  <unconfigure package="Products.CMFPlone">
+    <adapter
+        factory="plone.indexer.wrapper.IndexableObjectWrapper"
+        provides="plone.indexer.interfaces.IIndexableObject"
+        for="Products.CMFCore.interfaces.ICatalogAware
+             plone.base.interfaces.IPloneCatalogTool"
+        />
+  </unconfigure>
+
+  <adapter
+      factory=".indexers.SmartwebIndexableObjectWrapper"
+      provides="plone.indexer.interfaces.IIndexableObject"
+      for="Products.CMFCore.interfaces.ICatalogAware
+           plone.base.interfaces.IPloneCatalogTool"
+      />
+
 
 </configure>

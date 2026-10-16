@@ -5,6 +5,11 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4495 : Add the labels of taxonomy terms to ``SearchableText``, for all content types.
+  A text search now finds an object with the label of its category.
+  When a term is renamed, the objects that use it are reindexed.
+  [boulch]
+
 - WEB-4495 : Fix the faceted text search with a filter on a taxonomy created through the web.
   When no value was selected, Solr answered 400 and the faceted showed no results.
   [boulch]
@@ -73,15 +78,6 @@ Changelog
 
 - WEB-4494: Fix auto scroll conflict in react view
   [thomlamb]
-- Support PeerTube videos in ``imio.smartweb.SectionVideo`` and
-  ``imio.smartweb.SectionSlide``. PeerTube being federated, the embeddify plugin
-  matches on the url path (``/w/<id>`` or ``/videos/watch/<id>``, https only)
-  and derives the oEmbed endpoint from the host. Both sections now share a
-  single embedder built by
-  ``imio.smartweb.core.contents.sections.embedder.get_video_embedder``, so slides
-  gain the same accessibility suffix on the iframe title as video sections.
-  [boulch]
-
 
 1.4.62 (2026-09-28)
 -------------------

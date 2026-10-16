@@ -3,10 +3,12 @@
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.upgrades.upgrades import add_campaignview_to_displayed_types
+from imio.smartweb.core.upgrades.upgrades import index_taxonomy_labels
 from imio.smartweb.core.upgrades.upgrades import migrate_section_default_width
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from Products.CMFCore.indexing import processQueue
 
 
 class TestUpgrades(ImioSmartwebTestCase):
@@ -92,3 +94,22 @@ class TestUpgrades(ImioSmartwebTestCase):
         section.bootstrap_css_class = "col-sm-6"
         migrate_section_default_width(self.portal)
         self.assertEqual(section.bootstrap_css_class, "col-sm-6")
+
+    def test_index_taxonomy_labels(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="My page",
+            language="fr",
+        )
+        page.taxonomy_page_category = ["emploi"]
+        page.reindexObject()
+        processQueue()
+        # an object indexed before the labels were added to SearchableText
+        catalog = api.portal.get_tool("portal_catalog")
+        catalog._catalog.getIndex("SearchableText").unindex_object(
+            catalog.getrid("/".join(page.getPhysicalPath()))
+        )
+        self.assertEqual(len(api.content.find(SearchableText="Emploi")), 0)
+        index_taxonomy_labels(self.portal)
+        self.assertEqual(len(api.content.find(SearchableText="Emploi")), 1)

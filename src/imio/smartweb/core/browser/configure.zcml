@@ -246,4 +246,13 @@
       layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
       />
 
+  <!-- Saving the terms of a taxonomy reindexes the objects whose labels change -->
+  <browser:page
+      name="taxonomy-import"
+      for="Products.CMFCore.interfaces.ISiteRoot"
+      class=".taxonomy_controlpanel.SmartwebImportJson"
+      permission="collective.taxonomy.ManageTaxonomies"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
 </configure>
