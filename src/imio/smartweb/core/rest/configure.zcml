@@ -3,6 +3,16 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     xmlns:plone="http://namespaces.plone.org/plone">
 
+  <!-- Patching a taxonomy reindexes the objects whose labels change -->
+  <plone:service
+      method="PATCH"
+      factory=".taxonomy.SmartwebTaxonomyPatch"
+      for="plone.base.interfaces.IPloneSiteRoot"
+      permission="cmf.ManagePortal"
+      name="@taxonomy"
+      layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
+      />
+
   <!-- Messages (collective.messagesviewlet) -->
   <plone:service
       method="GET"

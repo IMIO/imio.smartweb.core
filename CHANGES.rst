@@ -5,6 +5,11 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- WEB-4495 : Add the labels of taxonomy terms to ``SearchableText``, for all content types.
+  A text search now finds an object with the label of its category.
+  When a term is renamed, the objects that use it are reindexed.
+  [boulch]
+
 - WEB-4495 : Fix the faceted text search with a filter on a taxonomy created through the web.
   When no value was selected, Solr answered 400 and the faceted showed no results.
   [boulch]

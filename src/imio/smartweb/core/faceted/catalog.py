@@ -3,13 +3,11 @@
 from collections import Counter
 from collective.solr.interfaces import ISearch
 from collective.solr.utils import isActive
-from collective.taxonomy.interfaces import ITaxonomy
 from eea.facetednavigation.interfaces import IFacetedCatalog
 from eea.facetednavigation.search.catalog import FacetedCatalog
+from imio.smartweb.core.utils import taxonomy_fields
 from plone import api
-from plone.behavior.interfaces import IBehavior
 from zope.component import queryUtility
-from zope.component.hooks import getSite
 from zope.interface import implementer
 
 import logging
@@ -23,24 +21,8 @@ MAX_LOCAL_FILTER_RESULTS = 5000
 
 
 def taxonomy_index_names():
-    """Catalog index name of every collective.taxonomy taxonomy.
-
-    Names are rebuilt the way collective.taxonomy builds them itself (see
-    collective/taxonomy/collectionfilter.py), so a taxonomy created through the
-    web is covered without a hardcoded list that would drift.
-    """
-    site = getSite()
-    if site is None:
-        return set()
-    sm = site.getSiteManager()
-    names = set()
-    for _name, utility in sm.getUtilitiesFor(ITaxonomy):
-        behavior = sm.queryUtility(IBehavior, name=utility.getGeneratedName())
-        if behavior is None:
-            continue
-        prefix = getattr(behavior, "field_prefix", "") or ""
-        names.add("{0}{1}".format(prefix, utility.getShortName()))
-    return names
+    """Catalog index name of every collective.taxonomy taxonomy"""
+    return {field_name for field_name, _utility in taxonomy_fields()}
 
 
 def solr_schema():

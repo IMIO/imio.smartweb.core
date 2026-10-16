@@ -1,16 +1,25 @@
 # -*- coding: utf-8 -*-
 
+from collective.taxonomy.interfaces import ITaxonomy
 from freezegun import freeze_time
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import clear_ram_cache
 from imio.smartweb.core.tests.utils import make_named_image
+from imio.smartweb.core.tests.utils import rename_term
+from imio.smartweb.core.utils import all_term_labels
 from imio.smartweb.core.utils import batch_results
+from imio.smartweb.core.utils import changed_terms
 from imio.smartweb.core.utils import get_plausible_vars
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.utils import get_ts_api_url
 from imio.smartweb.core.utils import is_valid_url
 from imio.smartweb.core.utils import populate_procedure_button_text
+from imio.smartweb.core.utils import reindex_searchable_text
+from imio.smartweb.core.utils import reindexing_changed_terms
 from imio.smartweb.core.utils import remove_cache_key
+from imio.smartweb.core.utils import taxonomy_fields
+from imio.smartweb.core.utils import term_labels
 from imio.smartweb.core.tests.utils import get_json
 from plone import api
 from plone.app.testing import setRoles
@@ -18,6 +27,7 @@ from plone.app.testing import TEST_USER_ID
 from plone.namedfile.file import NamedBlobImage
 from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
+from Products.CMFCore.indexing import processQueue
 from unittest.mock import patch
 from zope.component import getUtility
 
@@ -162,3 +172,75 @@ class TestUtils(ImioSmartwebTestCase):
         labels = registry.get("smartweb.procedure_button_text")
         self.assertIsNotNone(labels)
         self.assertGreater(len(labels), 0)
+
+
+class TestTaxonomyUtils(ImioSmartwebTestCase):
+    """Taxonomy helpers of utils.py"""
+
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.utility = getUtility(ITaxonomy, name="collective.taxonomy.page_category")
+        self.page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="My page",
+            language="fr",
+        )
+        self.page.taxonomy_page_category = ["emploi"]
+        self.page.reindexObject()
+        # index now, not at the first search, which comes after a renaming
+        processQueue()
+
+    def tearDown(self):
+        clear_ram_cache()
+
+    def find(self, text):
+        return [b.getObject() for b in api.content.find(SearchableText=text)]
+
+    def test_taxonomy_fields(self):
+        fields = dict(taxonomy_fields())
+        self.assertEqual(fields["taxonomy_page_category"], self.utility)
+        self.assertIn("taxonomy_procedure_category", fields)
+
+    def test_term_labels(self):
+        labels = term_labels(self.utility, "fr")
+        self.assertEqual(labels["emploi"], "Emploi")
+        self.assertEqual(term_labels(self.utility, "nl")["emploi"], "Werk")
+        # a language the taxonomy does not have falls back on another one
+        self.assertIn("emploi", term_labels(self.utility, "xx"))
+        # the stored data gives the new label at once, in the same transaction
+        rename_term("emploi", "Emploi et formation")
+        self.assertEqual(
+            term_labels(self.utility, "fr")["emploi"], "Emploi et formation"
+        )
+
+    def test_all_term_labels(self):
+        labels = all_term_labels()
+        self.assertEqual(labels["taxonomy_page_category"]["fr"]["emploi"], "Emploi")
+        self.assertEqual(labels["taxonomy_page_category"]["en"]["emploi"], "Job")
+
+    def test_changed_terms(self):
+        before = {"taxonomy_a": {"fr": {"x": "X", "y": "Y", "z": "Z"}}}
+        after = {"taxonomy_a": {"fr": {"x": "X", "y": "Y2"}}}
+        # renamed and removed terms change, the others do not
+        self.assertEqual(changed_terms(before, after), {"taxonomy_a": {"y", "z"}})
+        self.assertEqual(changed_terms(before, before), {})
+        # a change in one language is enough
+        after = {"taxonomy_a": {"fr": before["taxonomy_a"]["fr"], "nl": {"x": "X"}}}
+        self.assertEqual(changed_terms(before, after), {"taxonomy_a": {"x"}})
+
+    def test_reindex_searchable_text(self):
+        rename_term("emploi", "Recrutement")
+        self.assertEqual(self.find("Recrutement"), [])
+        reindex_searchable_text("taxonomy_page_category", {"emploi"})
+        self.assertEqual(self.find("Recrutement"), [self.page])
+
+    def test_reindexing_changed_terms(self):
+        with reindexing_changed_terms():
+            rename_term("emploi", "Recrutement")
+        self.assertEqual(self.find("Recrutement"), [self.page])
+        self.assertEqual(self.find("Emploi"), [])
