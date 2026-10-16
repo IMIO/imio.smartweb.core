@@ -361,6 +361,12 @@ export default {
         de: "bis",
         nl: "tot",
     },
+    "à (heure)": {
+        en: "at",
+        fr: "à",
+        de: "um",
+        nl: "om",
+    },
     Du: {
         en: "From",
         fr: "Du",

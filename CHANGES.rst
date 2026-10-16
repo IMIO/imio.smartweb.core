@@ -5,6 +5,10 @@ Changelog
 1.4.63 (unreleased)
 -------------------
 
+- SUP-56752 : Fix the react translation of "à" before a time ("Le ... à ...") : use "um" / "om" / "at"
+  instead of "bis" / "tot" / "to", which only apply to a "de ... à ..." range.
+  [thomlamb]
+
 - WEB-4508 : Show the ``button_ts_label`` label on the procedure button also when the
   procedure uses ``procedure_url``.
   [boulch]
