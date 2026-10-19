@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.63 (unreleased)
+1.4.63 (2026-10-19)
 -------------------
 
 - WEB-4495 : Add the labels of taxonomy terms to ``SearchableText``, for all content types.
