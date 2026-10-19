@@ -1,0 +1,12 @@
+{
+    "type": "video",
+    "version": "1.0",
+    "title": "SmartWeb test peertube",
+    "provider_name": "PeerTube",
+    "provider_url": "https://framatube.org",
+    "author_name": "A propos de PeerTube",
+    "author_url": "https://framatube.org/video-channels/joinpeertube",
+    "width": 560,
+    "height": 315,
+    "html": "<iframe width=\"560\" height=\"315\" sandbox=\"allow-same-origin allow-scripts allow-popups allow-forms\" title=\"SmartWeb test peertube\" src=\"https://framatube.org/videos/embed/kkGMgK9ZtnKfYAgnEtQxbv\" style=\"border: none\" allow=\"fullscreen\"></iframe>"
+}

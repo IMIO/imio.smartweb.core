@@ -23,7 +23,7 @@ class ISectionVideo(ISection):
 
     video_url = schema.URI(
         title=_("Video url"),
-        description=_("Video url from youtube, vimeo"),
+        description=_("Video url from youtube, vimeo, peertube"),
         required=True,
     )
 

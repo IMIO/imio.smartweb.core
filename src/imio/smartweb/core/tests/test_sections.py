@@ -144,6 +144,64 @@ class TestSections(ImioSmartwebTestCase):
         view = queryMultiAdapter((section, self.request), name="view")
         self.assertEqual(view.get_embed_video(), "https://vimeo.com/000000000")
 
+        # PeerTube is federated: any host can serve videos, so the plugin
+        # matches on the url path instead of on a known domain.
+        peertube_oembed = get_json("resources/json_video_peertube_oembed_mock.json")
+        m.get("https://framatube.org/services/oembed", text=json.dumps(peertube_oembed))
+        for url in (
+            "https://framatube.org/w/kkGMgK9ZtnKfYAgnEtQxbv",
+            "https://framatube.org/videos/watch/9c9de5e8-0a1e-484a-b099-e80766180a6d",
+        ):
+            section.video_url = url
+            view = queryMultiAdapter((section, self.request), name="view")
+            embedded_video = view.get_embed_video()
+            self.assertIn("iframe", embedded_video)
+            self.assertIn(
+                "https://framatube.org/videos/embed/kkGMgK9ZtnKfYAgnEtQxbv",
+                embedded_video,
+            )
+            self.assertIn("(Peertube video)", embedded_video)
+
+        # A matching path on a host that is not a PeerTube instance degrades
+        # to the plain url.
+        m.get("https://www.example.org/services/oembed", status_code=404)
+        section.video_url = "https://www.example.org/w/not-a-peertube"
+        view = queryMultiAdapter((section, self.request), name="view")
+        self.assertEqual(
+            view.get_embed_video(), "https://www.example.org/w/not-a-peertube"
+        )
+
+        # Only https urls are probed : a http url is never requested at all
+        # (requests_mock would raise NoMockAddress if it was).
+        section.video_url = "http://framatube.org/w/kkGMgK9ZtnKfYAgnEtQxbv"
+        view = queryMultiAdapter((section, self.request), name="view")
+        self.assertEqual(
+            view.get_embed_video(), "http://framatube.org/w/kkGMgK9ZtnKfYAgnEtQxbv"
+        )
+
+    @requests_mock.Mocker()
+    def test_slide_section_video(self, m):
+        peertube_oembed = get_json("resources/json_video_peertube_oembed_mock.json")
+        m.get("https://framatube.org/services/oembed", text=json.dumps(peertube_oembed))
+        settings_view = queryMultiAdapter(
+            (self.portal, self.request), name="herobanner_settings"
+        )
+        settings_view.add_herobanner()
+        herobanner = getattr(self.portal, "herobanner")
+        slide = api.content.create(
+            container=herobanner,
+            type="imio.smartweb.SectionSlide",
+            title="Section slide",
+        )
+        slide.video_url = "https://framatube.org/w/kkGMgK9ZtnKfYAgnEtQxbv"
+        view = queryMultiAdapter((slide, self.request), name="view")
+        embedded_video = view.get_embed_video()
+        self.assertIn("iframe", embedded_video)
+        self.assertIn(
+            "https://framatube.org/videos/embed/kkGMgK9ZtnKfYAgnEtQxbv", embedded_video
+        )
+        self.assertIn("(Peertube video)", embedded_video)
+
     def test_external_content_section(self):
         setRoles(self.portal, TEST_USER_ID, ["Contributor"])
         with self.assertRaises(Unauthorized):

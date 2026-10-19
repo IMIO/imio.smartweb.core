@@ -49,7 +49,7 @@ class ISectionSlide(ISection):
     )
 
     video_url = schema.URI(
-        title=_("Youtube video URL"),
+        title=_("Video URL from youtube, vimeo, peertube"),
         description=_("Alternatively as a picture"),
         required=False,
     )
