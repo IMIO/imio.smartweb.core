@@ -1,0 +1,64 @@
+{
+  "@id": "http://localhost:8080/Plone/@search",
+  "items": [
+    {
+      "@id": "http://localhost:8080/Plone/2dc381f0fb584381b8e4a19c84f53b35",
+      "@type": "imio.directory.Contact",
+      "UID": "2dc381f0fb584381b8e4a19c84f53b35",
+      "title": "Administration communale",
+      "subtitle": null,
+      "description": "",
+      "modified": "2026-07-29T08:00:00+00:00",
+      "type": {"token": "organization", "title": "Organization"},
+      "vat_number": null,
+      "street": "Rue de la Paix",
+      "number": "1",
+      "complement": null,
+      "zipcode": "4000",
+      "city": "Liege",
+      "country": {"token": "be", "title": "Belgique"},
+      "geolocation": {"latitude": 50.4, "longitude": 4.7},
+      "logo": null,
+      "image": null,
+      "is_geolocated": true,
+      "phones": [
+        {"label": "Secretariat", "type": "work", "number": "+3287123456"},
+        {"label": "Direction", "type": "cell", "number": "+32475010203"}
+      ],
+      "mails": [
+        {"label": "Accueil", "type": "work", "mail_address": "info@example.be"}
+      ],
+      "urls": [
+        {"type": "website", "url": "https://example.be"},
+        {"type": "facebook", "url": "https://facebook.com/example"}
+      ]
+    },
+    {
+      "@id": "http://localhost:8080/Plone/af7bd1f547034b24a2e0da16c0ba0358",
+      "@type": "imio.directory.Contact",
+      "UID": "af7bd1f547034b24a2e0da16c0ba0358",
+      "title": "CPAS",
+      "subtitle": null,
+      "description": "",
+      "modified": "2026-07-29T08:00:00+00:00",
+      "type": {"token": "organization", "title": "Organization"},
+      "vat_number": null,
+      "street": "Rue du Centre",
+      "number": "2",
+      "complement": null,
+      "zipcode": "4000",
+      "city": "Liege",
+      "country": {"token": "be", "title": "Belgique"},
+      "geolocation": {"latitude": 50.5, "longitude": 4.8},
+      "logo": null,
+      "image": null,
+      "is_geolocated": true,
+      "phones": [
+        {"label": "Accueil", "type": "work", "number": "+3287654321"}
+      ],
+      "mails": [],
+      "urls": []
+    }
+  ],
+  "items_total": 2
+}

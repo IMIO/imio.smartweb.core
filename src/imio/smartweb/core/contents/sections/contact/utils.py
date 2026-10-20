@@ -1,5 +1,13 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.contact.directory import build_display_rows  # noqa: F401
+from imio.smartweb.common.contact.directory import displayed_rows as _displayed_rows
+from imio.smartweb.common.contact.directory import get_remote_contacts  # noqa: F401
+from imio.smartweb.common.contact.directory import row_key  # noqa: F401
+from imio.smartweb.common.contact.directory import translated_type_label
+from imio.smartweb.common.contact.directory import (
+    visible_columns_map as _visible_columns_map,
+)
 from imio.smartweb.common.contact_utils import ContactProperties as ContactSchedule
 from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import rich_description
@@ -11,6 +19,10 @@ from plone import api
 from zope.i18n import translate
 
 import json
+
+# build_display_rows, get_remote_contacts and row_key are re-exported rather
+# than used here: they moved to imio.smartweb.common but callers (the section
+# forms and the tests) still import them from this module.
 
 
 class ContactProperties(ContactSchedule):
@@ -138,6 +150,22 @@ class ContactProperties(ContactSchedule):
         if not (street or entity or country):
             return None
         return {"street": street, "entity": entity, "country": country}
+
+    def translated_type(self, kind, token):
+        """Human label of a remote `type` token. See translated_type_label."""
+        return translated_type_label(kind, token)
+
+    def visible_columns_map(self, kind):
+        """See imio.smartweb.common.contact.directory.visible_columns_map."""
+        return _visible_columns_map(self.context, kind)
+
+    def displayed_rows(self, kind):
+        """See imio.smartweb.common.contact.directory.displayed_rows.
+
+        `self.contact` is the LIVE directory payload; the stored `*_display`
+        data columns are residue on this side and are never read here.
+        """
+        return _displayed_rows(self.contact, self.context, kind)
 
     @property
     def get_urls(self):
