@@ -214,6 +214,33 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
 
     @requests_mock.Mocker()
+    def test_remote_contacts_follow_the_directory_generation(self, m):
+        # the directory gives a new generation when a contact changes:
+        # the new contacts are in the vocabulary at once
+        generation_url = f"{config.DIRECTORY_URL}/@search_generation?selected_entities=396907b3b1b04a97896b12cc792c77f8"
+        m.get(generation_url, json={"generation": 1001})
+        m.get(
+            f"{self.contact_search_url}&cache_key=1001",
+            json=self.json_empty_contacts_raw_mock,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
+
+        # same generation: the contacts come from the cache
+        m.get(
+            f"{self.contact_search_url}&cache_key=1001",
+            json=self.json_contacts_raw_mock,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
+
+        # new contact in the directory
+        m.get(generation_url, json={"generation": 1002})
+        m.get(
+            f"{self.contact_search_url}&cache_key=1002",
+            json=self.json_contacts_raw_mock,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 2)
+
+    @requests_mock.Mocker()
     def test_empty_remote_contacts(self, m):
         m.get(
             self.contact_search_url, text=json.dumps(self.json_empty_contacts_raw_mock)
