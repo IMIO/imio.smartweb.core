@@ -170,6 +170,79 @@ a.manage[class*="contenttype-imio-smartweb-"] {
   margin: 1rem auto;
 }
 
+// additional icons (uploaded in control panel) : same display as icons bank
+// (icons bank styles live in the theme, scoped to .kssattr-fieldset-icons)
+.kssattr-fieldset-additional_icons {
+  div#formfield-form-widgets-additional_svg_icon {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1%;
+
+    .form-text {
+      width: 100%;
+    }
+
+    .option {
+      position: relative;
+      flex-basis: 15%;
+      padding: 0.75rem;
+      text-align: center;
+
+      label {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 14px;
+      }
+    }
+
+    .plone-icon {
+      width: auto;
+      height: 2.5rem;
+    }
+  }
+
+  .plone-icon {
+    margin: 0.5rem;
+  }
+
+  span.option {
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+    position: relative;
+    display: block;
+
+    &:hover {
+      background: #f9f9f9;
+    }
+  }
+
+  .form-check-input {
+    position: absolute;
+    inset: 0;
+    width: inherit;
+    border-radius: 0 !important;
+    margin: 0;
+    height: 100%;
+    background: transparent;
+    background-image: none !important;
+    cursor: pointer;
+    transition: all 0.25s ease;
+
+    &:hover {
+      border: 1px solid #333;
+    }
+
+    &:checked {
+      background-color: transparent;
+    }
+
+    &:checked:hover {
+      border: 1px solid #222831;
+    }
+  }
+}
+
 .portaltype-imio-smartweb-page, .portaltype-imio-smartweb-procedure {
   #btn-workflow, #btn-properties{
     display: none;

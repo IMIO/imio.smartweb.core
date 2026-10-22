@@ -8,34 +8,45 @@ jQuery(document).ready(function ($) {
     e.preventDefault();
   });
 
-  // Uncheck checked icon
-  $("#formfield-form-widgets-svg_icon input").click(function (e) {
-    var $elm_clicked = $(this);
-    if ($(this).attr("checked")) {
-      $(this).prop("checked", false);
-      $(this).removeAttr("checked");
-      $(this).css("box-shadow", "none");
-      $(this).css("border-color", "#DEE2ED");
-    } else {
-      $("#formfield-form-widgets-svg_icon input").each(function (index, elm) {
-        if ($elm_clicked[0] === elm) {
-          $(this).prop("checked", true);
-          $(this).attr("checked", "checked");
-          $(this).css("border-color", "#007a99");
-          $(this).css("box-shadow", "0 0 0 0.25rem rgb(0 122 153 / 25%)");
-        } else {
-          $(this).prop("checked", false);
-          $(this).removeAttr("checked");
-          $(this).css("box-shadow", "none");
-          $(this).css("border-color", "#DEE2ED");
-        }
-      });
-    }
-  });
-
   // Move statistics action menu entry as the first element in personaltools menu
   var $stat_link = $("li:has(a[href*='@@stats'])");
   $("#collapse-personaltools li:eq(0)").after($stat_link);
+});
+
+// Icons radio widgets (icons bank & additional icons) : allow to uncheck checked icon
+document.addEventListener("DOMContentLoaded", function () {
+  const iconFields = [
+    "formfield-form-widgets-svg_icon",
+    "formfield-form-widgets-additional_svg_icon",
+  ];
+
+  function setChecked(input, checked) {
+    input.checked = checked;
+    if (checked) {
+      input.setAttribute("checked", "checked");
+      input.style.borderColor = "#007a99";
+      input.style.boxShadow = "0 0 0 0.25rem rgb(0 122 153 / 25%)";
+    } else {
+      input.removeAttribute("checked");
+      input.style.borderColor = "#DEE2ED";
+      input.style.boxShadow = "none";
+    }
+  }
+
+  iconFields.forEach(function (fieldId) {
+    const field = document.getElementById(fieldId);
+    if (!field) return;
+    const inputs = field.querySelectorAll("input[type='radio']");
+    inputs.forEach(function (input) {
+      input.addEventListener("click", function () {
+        // "checked" attribute reflects the state before this click
+        const wasChecked = input.hasAttribute("checked");
+        inputs.forEach(function (other) {
+          setChecked(other, other === input && !wasChecked);
+        });
+      });
+    });
+  });
 });
 
 jQuery(window).on("load", function (e) {

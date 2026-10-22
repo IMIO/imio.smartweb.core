@@ -32,6 +32,19 @@ class IBlockLink(ILink):
         required=False,
     )
 
+    model.fieldset(
+        "additional_icons", label=_("Additional icons"), fields=["additional_svg_icon"]
+    )
+    directives.widget("additional_svg_icon", IconsRadioWidget)
+    additional_svg_icon = schema.Choice(
+        title=_("Additional link illustration icon"),
+        description=_(
+            "Only used in table view (takes precedence over image and over traditional icons)"
+        ),
+        source="imio.smartweb.vocabulary.ControlPanelIcons",
+        required=False,
+    )
+
 
 @implementer(IBlockLink)
 class BlockLink(Container):

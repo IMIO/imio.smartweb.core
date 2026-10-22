@@ -1,0 +1,29 @@
+<tal:domain xmlns:tal="http://xml.zope.org/namespaces/tal"
+            xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+            i18n:domain="imio.smartweb">
+<div class="smartweb-svg-upload"
+     tal:attributes="data-has-svg python:'true' if view.value else 'false'">
+
+  <textarea hidden=""
+            tal:attributes="id view/id;
+                            name view/name;"
+            tal:content="view/value"></textarea>
+
+  <input type="file"
+         accept=".svg,image/svg+xml"
+         class="form-control smartweb-svg-upload__input" />
+
+  <button type="button"
+          class="btn btn-sm btn-outline-secondary smartweb-svg-upload__clear"
+          tal:attributes="hidden python:None if view.value else 'hidden'"
+          i18n:translate="">
+    Clear
+  </button>
+
+  <span class="smartweb-svg-upload__stored"
+        tal:attributes="hidden python:None if view.value else 'hidden'"
+        i18n:translate="">
+    SVG uploaded
+  </span>
+</div>
+</tal:domain>

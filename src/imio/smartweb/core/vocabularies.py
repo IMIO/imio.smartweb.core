@@ -80,6 +80,28 @@ class IconsVocabularyFactory:
 IconsVocabulary = IconsVocabularyFactory()
 
 
+class ControlPanelIconsVocabularyFactory:
+    def __call__(self, context=None):
+        rows = getUtility(IRegistry).get("smartweb.svg_icon_preview_rows", []) or []
+        icons = []
+        seen = set()
+        for row in rows:
+            icon_name = (row.get("icon_name") or "").strip()
+            svg_file = (row.get("svg_file") or "").strip()
+            if not icon_name or not svg_file or icon_name in seen:
+                continue
+            seen.add(icon_name)
+            icons.append(icon_name)
+        terms = [
+            SimpleTerm(value=icon_name, token=icon_name, title=icon_name)
+            for icon_name in sorted(icons)
+        ]
+        return SimpleVocabulary(terms)
+
+
+ControlPanelIconsVocabulary = ControlPanelIconsVocabularyFactory()
+
+
 class RemoteCampaignsVocabularyFactory:
     def __call__(self, context=None):
         # combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
