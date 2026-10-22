@@ -9,6 +9,8 @@
   <include package=".portal_page" />
   <include package=".procedure" />
 
+  <adapter factory=".caching.PagesLastModified" />
+
   <browser:page
       name="full_view"
       for="imio.smartweb.core.contents.IPages"

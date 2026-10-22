@@ -5,7 +5,26 @@ Changelog
 1.4.64 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Contact sections : a new contact of the directory is in the list of contacts of the edit
+  form at once, not after 60 seconds. Before it gets the contacts, the vocabulary asks the
+  directory for their generation (``@search_generation``). It keeps the contacts in its cache
+  until the generation changes. If the directory does not give the generation, the vocabulary
+  keeps the contacts 60 seconds, as before.
+  [boulch]
+
+- Pages with a news section : the ``Last-Modified`` header and the ETag now use the date
+  of the most recent news in the authentic source.
+  Varnish and browsers then get the new news, also when only anonymous visitors see the page.
+  [boulch]
+
+- Translate the default procedure button label (``Complete this procedure online``) again:
+  it was no longer extracted since WEB-4508.
+  [boulch]
+
+- Pages with contact sections : ask the directory for the contacts of the entity of the
+  site (``selected_entities``) and always in the same order, so the directory can cache
+  the results (requires imio.directory.core with the RAM cache of ``@search``).
+  [boulch]
 
 
 1.4.63 (2026-10-19)

@@ -21,6 +21,9 @@ from zope.component import queryUtility
 from zope.interface import alsoProvides
 from zope.lifecycleevent import modified
 
+import json
+import requests_mock
+
 
 class TestPage(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
@@ -178,6 +181,36 @@ class TestPage(ImioSmartwebTestCase):
         bundles = getattr(self.request, "enabled_bundles", [])
         self.assertEqual(len(bundles), 1)
         self.assertListEqual(bundles, ["spotlight"])
+
+    @requests_mock.Mocker()
+    def test_get_page_contacts(self, m):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="Page",
+        )
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionContact",
+            title="Contact",
+            related_contacts=["bbbb", "aaaa"],
+        )
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionContact",
+            title="Other contact",
+            related_contacts=["cccc", "aaaa"],
+        )
+        m.get(requests_mock.ANY, text=json.dumps({"items": [{"UID": "x"}]}))
+        view = getMultiAdapter((page, self.request), name="full_view")
+        self.assertEqual(view.get_page_contacts(), {"items": [{"UID": "x"}]})
+        # one request for all the contacts of the page, always in the same
+        # order, for the entity of the site: the directory caches the results
+        query = m.last_request.qs
+        self.assertEqual(query["uid"], ["aaaa", "bbbb", "cccc"])
+        self.assertEqual(
+            query["selected_entities"], ["396907b3b1b04a97896b12cc792c77f8"]
+        )
 
     def test_modification_date(self):
         page = api.content.create(
