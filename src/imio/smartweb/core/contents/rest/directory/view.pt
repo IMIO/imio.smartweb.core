@@ -39,6 +39,7 @@
         </span>
       </p>
       <p tal:condition="contact/category" tal:content="contact/category"></p>
+      <p tal:condition="contact/local_category" tal:content="contact/local_category"></p>
       <p tal:content="contact/contact_type"></p>
       <img tal:condition="contact/image_url" tal:attributes="src contact/image_url; alt contact/name" />
     </div>

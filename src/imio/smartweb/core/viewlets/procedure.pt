@@ -4,6 +4,7 @@
      i18n:domain="imio.smartweb">
   <a target="_blank"
      tal:attributes="href url"
+     tal:content="view/get_button_label"
      i18n:translate="">Complete this procedure online</a>
 </div>
 <div class="procedure"

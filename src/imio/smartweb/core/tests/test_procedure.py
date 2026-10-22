@@ -182,6 +182,30 @@ class TestProcedure(ImioSmartwebTestCase):
         )
         self.assertIn("Acte de d\\u00e9c\\u00e8s", viewlet[0]())
 
+    def test_procedure_viewlet_url_button_label(self):
+        populate_procedure_button_text()
+        procedure = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Procedure",
+            id="procedure",
+            procedure_url="http://another_e_guichet.be/procedure1",
+        )
+        view = PagesView(procedure, self.request)
+        manager = queryMultiAdapter(
+            (procedure, self.request, view),
+            IViewletManager,
+            "plone.abovecontentbody",
+        )
+        manager.update()
+        viewlet = [
+            v for v in manager.viewlets if v.__name__ == "imio.smartweb.procedure"
+        ][0]
+        self.assertIn("Complete this procedure online", viewlet())
+        procedure.button_ts_label = "label-2"
+        html = viewlet()
+        self.assertIn(">Apply</a>", html)
+        self.assertNotIn("Complete this procedure online", html)
+
 
 class TestProcedureViewletMethods(ImioSmartwebTestCase):
     layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING

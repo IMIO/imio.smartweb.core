@@ -3,6 +3,7 @@ import EventCard from "../EventCard/EventCard";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
+import { restoreInitialTitle } from "../../../utils/pageTitle";
 const ContactList = ({
     itemsArray,
     onChange,
@@ -29,6 +30,8 @@ const ContactList = ({
     }, [itemsArray, isMore]);
 
     useEffect(() => {
+        restoreInitialTitle();
+
         // Liste complète de toutes les balises possibles
         const allMetaProps = [
             { name: "description" },

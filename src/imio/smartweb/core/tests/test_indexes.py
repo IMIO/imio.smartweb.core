@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.core.indexers import taxonomy_labels
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from imio.smartweb.core.tests.utils import get_sections_types
@@ -281,3 +282,73 @@ class TestIndexes(ImioSmartwebTestCase):
 
         brains1 = api.content.find(category_and_topics="emploi", context=self.portal)
         self.assertEqual(brains1[0].Title, "vocabulary test page")
+
+    def test_taxonomy_labels(self):
+        self.page.language = "fr"
+        self.assertEqual(taxonomy_labels(self.page), "")
+        self.page.taxonomy_page_category = ["avis_et_enquete", "emploi"]
+        self.assertEqual(taxonomy_labels(self.page), "Avis et enquête Emploi")
+        # an identifier the taxonomy does not know gives no label
+        self.page.taxonomy_page_category = ["unknown"]
+        self.assertEqual(taxonomy_labels(self.page), "")
+        # the label follows the language of the object
+        self.page.taxonomy_page_category = ["emploi"]
+        self.page.language = "nl"
+        self.assertEqual(taxonomy_labels(self.page), "Werk")
+
+
+class TestSmartwebIndexableObjectWrapper(ImioSmartwebTestCase):
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.request = self.layer["request"]
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="My page",
+            language="fr",
+        )
+
+    def find(self, text):
+        return [b.getObject() for b in api.content.find(SearchableText=text)]
+
+    def test___getattr__(self):
+        self.assertEqual(self.find("Emploi"), [])
+        self.page.taxonomy_page_category = ["emploi"]
+        self.page.reindexObject()
+        self.assertEqual(self.find("Emploi"), [self.page])
+        # other text of the object is still indexed
+        self.assertEqual(self.find("My page"), [self.page])
+
+        # a value removed from the object takes its label away
+        self.page.taxonomy_page_category = []
+        self.page.reindexObject()
+        self.assertEqual(self.find("Emploi"), [])
+
+        # ... except when the label also comes from another field
+        self.page.taxonomy_page_category = ["emploi"]
+        self.page.description = "Offre d'emploi"
+        self.page.reindexObject()
+        self.page.taxonomy_page_category = []
+        self.page.reindexObject()
+        self.assertEqual(self.find("Emploi"), [self.page])
+
+    def test___getattr___on_other_types(self):
+        """A taxonomy created through the web can be set on any type, and each
+        type has its own SearchableText indexer"""
+        fti = api.portal.get_tool("portal_types")["imio.smartweb.SectionText"]
+        fti.manage_changeProperties(
+            behaviors=fti.behaviors + ("collective.taxonomy.generated.page_category",)
+        )
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="My section",
+        )
+        section.text = RichTextValue("<p>Corps du texte</p>", "text/html", "text/html")
+        section.taxonomy_page_category = ["emploi"]
+        section.reindexObject()
+        self.assertEqual(self.find("Emploi"), [section])
+        self.assertEqual(self.find("Corps"), [section])

@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy.interfaces import ITaxonomy
+from plone.memoize.ram import choose_cache
 from zope.annotation.interfaces import IAnnotations
+from zope.component import getUtility
 
 import json
 import os
@@ -85,6 +89,23 @@ def get_html(html_filename):
 def clear_cache(request):
     annotations = IAnnotations(request)
     del annotations["plone.memoize"]
+
+
+def rename_term(identifier, label, language="fr", name="page_category"):
+    """Rename a top level term of a taxonomy, as the taxonomy editor does"""
+    utility = getUtility(ITaxonomy, name="collective.taxonomy.{}".format(name))
+    items = [
+        (PATH_SEPARATOR + label if term == identifier else path, term)
+        for path, term in utility.data[language].items()
+    ]
+    utility.update(language, items, True)
+
+
+def clear_ram_cache():
+    """ITaxonomy.inverted_data is cached on the commit time of the data, which
+    the test transaction does not change: a renamed term would leak into the
+    next tests"""
+    choose_cache("collective.taxonomy.utility.inverted_data").ramcache.invalidateAll()
 
 
 def make_named_image(filename="plone.png"):

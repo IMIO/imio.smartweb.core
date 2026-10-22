@@ -575,12 +575,12 @@ class TestSections(ImioSmartwebTestCase):
         )
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<a class="table_image no-image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="">',
+            '<a class="table_image no-image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="" rel="">',
             view(),
         )
         link.image = NamedBlobImage(**make_named_image())
         self.assertIn(
-            '<a class="table_image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="">',
+            '<a class="table_image" title="My link" href="http://nohost/plone/page/section-links/my-link" target="" rel="">',
             view(),
         )
         INewTab(link).open_in_new_tab = True
@@ -592,7 +592,7 @@ class TestSections(ImioSmartwebTestCase):
         clear_cache(self.request)
         view = getMultiAdapter((self.page, self.request), name="full_view")
         self.assertIn(
-            '<a class="table_image" title="My link (New tab)" href="http://nohost/plone/page/section-links/my-link" target="_blank">',
+            '<a class="table_image" title="My link (New tab)" href="http://nohost/plone/page/section-links/my-link" target="_blank" rel="noopener">',
             view(),
         )
         link.remoteUrl = "http://www.perdu.com"

@@ -8,6 +8,7 @@ from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.core.utils import reindexParent
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.base.utils import human_readable_size
 from plone.locking.browser.info import LockInfoViewlet
 from plone.protect.interfaces import IDisableCSRFProtection
 from Products.Five.browser import BrowserView
@@ -168,6 +169,20 @@ class SectionView(BrowserView):
             new_tab_txt = translate(_("New tab"), target_language=current_lang)
             return f"{title} ({new_tab_txt})"
         return title
+
+    def attached_file_link_text(self, item):
+        attached_file = (
+            item.get("publication_attached_file") if isinstance(item, dict) else None
+        )
+        if not attached_file:
+            return ""
+        title = item.get("title") if isinstance(item, dict) else ""
+        content_type = attached_file.get("content-type") or ""
+        file_type = content_type.split("/")[-1].upper() if content_type else ""
+        size = human_readable_size(attached_file.get("size"))
+        current_lang = api.portal.get_current_language()[:2]
+        new_tab_txt = translate(_("New tab"), target_language=current_lang)
+        return f"{title} ({file_type} – {size} – {new_tab_txt})"
 
 
 class CarouselOrTableSectionView(SectionView):

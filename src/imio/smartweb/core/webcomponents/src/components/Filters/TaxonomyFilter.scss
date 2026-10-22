@@ -4,10 +4,34 @@
     gap: 10px;
     flex-wrap: wrap;
     transition: all 0.3s ease-in-out;
+
+    // Mobile : a single swipeable row, like the airbnb categories
+    @media screen and (max-width: 630px) {
+        flex-wrap: nowrap;
+        max-width: 100%;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scroll-snap-type: x proximity;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        // room for the active pill outline, which overflow would otherwise clip
+        padding: 2px;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        > * {
+            flex: 0 0 auto;
+            scroll-snap-align: start;
+        }
+    }
 }
 
 .dropDownFilter {
     display: flex;
+    min-height: 36px;
+    font-size: 0.75rem;
     justify-content: center;
     align-items: center;
     // gap: 0 5px;
@@ -15,7 +39,7 @@
     transition: opacity 3s ease-in-out;
 
     border: solid 1px #cfcfcf;
-    border-radius: 10px;
+    border-radius: 20px;
     outline: 1px solid transparent;
 
     &-active {
@@ -31,7 +55,9 @@
 
     .sub0 {
         text-decoration: none;
-        padding: 5px 10px;
+        padding: 5px 12px;
+        color: #333;
+        white-space: nowrap;
     }
 
     .sub1 {
@@ -68,10 +94,6 @@
         // max-width: 150px;
         height: auto;
         opacity: 1;
-    }
-    @media screen and (max-width: 630px) {
-        align-items: flex-start;
-        flex-direction: column;
     }
 }
 .select-has-value {

@@ -2,8 +2,69 @@ Changelog
 =========
 
 
-1.4.63 (unreleased)
+1.4.64 (unreleased)
 -------------------
+
+- Nothing changed yet.
+
+
+1.4.63 (2026-10-19)
+-------------------
+
+- WEB-4495 : Add the labels of taxonomy terms to ``SearchableText``, for all content types.
+  A text search now finds an object with the label of its category.
+  When a term is renamed, the objects that use it are reindexed.
+  [boulch]
+
+- WEB-4495 : Fix the faceted text search with a filter on a taxonomy created through the web.
+  When no value was selected, Solr answered 400 and the faceted showed no results.
+  [boulch]
+
+- WEB-4510 : React views (annuaire, agenda, news) : restore the page title in the browser tab
+  when the visitor comes back from an item to the list, instead of keeping the item title.
+  [thomlamb]
+
+- WEB-4501 : Make the annuaire category pills (``taxonomy-Filter``) more discreet and fluid :
+  smaller font, and on smartphone a single swipeable row (menus are made ``fixed`` there so
+  the row does not clip them).
+  [thomlamb]
+
+- SUP-56752 : Fix the react translation of "à" before a time ("Le ... à ...") : use "um" / "om" / "at"
+  instead of "bis" / "tot" / "to", which only apply to a "de ... à ..." range.
+  [thomlamb]
+- WEB-4449 : Request ``local_category`` from the directory. Before this change, the directory
+  ``@results-filters`` endpoint did not return local categories, and the local
+  category filter of the React directory view stayed empty.
+  [boulch]
+
+- WEB-4508 : Show the ``button_ts_label`` label on the procedure button also when the
+  procedure uses ``procedure_url``.
+  [boulch]
+
+- WEB-4495 : Override ``IFacetedCatalog`` with ``SmartwebFacetedCatalog`` so a taxonomy created
+  through the web no longer breaks faceted search. Such an index is absent from the
+  shared Solr schema, and eea.facetednavigation adds it to ``facet.field`` without
+  checking, which makes Solr answer 400 and the visitor see an empty result list.
+  Only queries Solr actually answers are affected - a taxonomy criterion on its own
+  falls back to the portal catalog and is left untouched - so in practice this is the
+  taxonomy combined with a text search. For those, the criterion is removed from the
+  Solr query and applied on the results instead (capped at 5000 documents), with its
+  facet counts rebuilt from the catalog metadata column collective.taxonomy maintains.
+  [boulch, remdub]
+
+- WEB-4495 : Apply the dict form of a taxonomy criterion correctly when the
+  taxonomy is filtered in memory. The eea checkbox and multiselect widgets send
+  ``{"query": [...], "operator": ...}``. Before this change, no result matched this
+  form, and the page was empty. The filter now also obeys the operator: "and" keeps
+  only the results that have all the selected values. "and" is the default
+  operator of these widgets.
+  [boulch]
+
+- WEB-4495 : Do not remove an unknown taxonomy from a query that contains a
+  navigation tree path (for example the "Navigation path" criterion of a
+  Collection). collective.solr always sends such a query to the portal catalog,
+  and the portal catalog applies the taxonomy correctly.
+  [boulch]
 
 - Add the ``@messages`` endpoint. It gives the activated messages at the site root
   that have no roles and no TAL condition.
@@ -23,7 +84,6 @@ Changelog
 
 - WEB-4494: Fix auto scroll conflict in react view
   [thomlamb]
-
 
 1.4.62 (2026-09-28)
 -------------------

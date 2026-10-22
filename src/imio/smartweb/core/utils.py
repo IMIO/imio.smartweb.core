@@ -1,11 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_parent
+from collective.taxonomy import LEGACY_PATH_SEPARATOR
+from collective.taxonomy import PATH_SEPARATOR
+from collective.taxonomy import PRETTY_PATH_SEPARATOR
 from collective.taxonomy.interfaces import ITaxonomy
+from contextlib import contextmanager
 from imio.smartweb.core.contents import IFolder
 from more_itertools import chunked
 from plone import api
 from plone.app.multilingual.interfaces import ILanguageRootFolder
+from plone.behavior.interfaces import IBehavior
 from plone.dexterity.interfaces import IDexterityContent
 from plone.locking.interfaces import ILockable
 from plone.registry.interfaces import IRegistry
@@ -16,6 +21,7 @@ from urllib.parse import urlparse, urlunparse
 from zope.component import getSiteManager
 from zope.component import getUtility
 from zope.component import queryMultiAdapter
+from zope.component.hooks import getSite
 
 import base64
 import hashlib
@@ -365,3 +371,111 @@ def populate_procedure_button_text():
             "label_en": "Apply",
         },
     ]
+
+
+def taxonomy_fields():
+    """Field name and utility of every collective.taxonomy taxonomy.
+
+    The field name is also the name of the catalog index. Names are rebuilt the
+    way collective.taxonomy builds them itself (see
+    collective/taxonomy/collectionfilter.py), so a taxonomy created through the
+    web is covered without a hardcoded list that would drift.
+    """
+    site = getSite()
+    if site is None:
+        return []
+    sm = site.getSiteManager()
+    fields = []
+    for _name, utility in sm.getUtilitiesFor(ITaxonomy):
+        behavior = sm.queryUtility(IBehavior, name=utility.getGeneratedName())
+        if behavior is None:
+            continue
+        prefix = getattr(behavior, "field_prefix", "") or ""
+        fields.append(("{0}{1}".format(prefix, utility.getShortName()), utility))
+    return fields
+
+
+def term_labels(utility, language):
+    """Label of each term of a taxonomy in `language`, by term identifier.
+
+    The label of a child term includes its parents, as
+    ``ITaxonomy.translate`` gives it ("Parent » Child"). We read the stored
+    data and not ``translate``: ``translate`` uses ``inverted_data``, which is
+    cached on the commit time of the data. In the transaction that renames a
+    term, ``translate`` still gives the old label.
+    """
+    if language not in utility.data:
+        # as ITaxonomy.translate does, fall back on another language
+        language = utility.default_language
+        if language not in utility.data:
+            language = next(iter(utility.data), None)
+    tree = utility.data.get(language)
+    if tree is None:
+        return {}
+    version = utility.version.get(language) if utility.version is not None else 2
+    separator = PATH_SEPARATOR if version == 2 else LEGACY_PATH_SEPARATOR
+    return {
+        identifier: path[1:].replace(separator, PRETTY_PATH_SEPARATOR)
+        for path, identifier in tree.items()
+    }
+
+
+def all_term_labels():
+    """Labels of all terms of all taxonomies, in all languages"""
+    return {
+        field_name: {
+            language: term_labels(utility, language) for language in utility.data
+        }
+        for field_name, utility in taxonomy_fields()
+    }
+
+
+def changed_terms(before, after):
+    """Identifiers of the terms whose label changed, by taxonomy field name.
+
+    `before` and `after` come from ``all_term_labels``. A renamed term, a term
+    whose parent was renamed and a removed term all change their label.
+    """
+    changed = {}
+    for field_name in set(before) | set(after):
+        old = before.get(field_name, {})
+        new = after.get(field_name, {})
+        identifiers = set()
+        for language in set(old) | set(new):
+            old_labels = old.get(language, {})
+            new_labels = new.get(language, {})
+            identifiers.update(
+                identifier
+                for identifier in set(old_labels) | set(new_labels)
+                if old_labels.get(identifier) != new_labels.get(identifier)
+            )
+        if identifiers:
+            changed[field_name] = identifiers
+    return changed
+
+
+def reindex_searchable_text(field_name, identifiers):
+    """Reindex SearchableText of the objects that have one of `identifiers`.
+
+    The SearchableText of an object contains the labels of its taxonomy terms
+    (see indexers.SmartwebIndexableObjectWrapper). When a label changes, the
+    objects must be reindexed to get the new label.
+    """
+    catalog = api.portal.get_tool("portal_catalog")
+    brains = catalog.unrestrictedSearchResults(**{field_name: list(identifiers)})
+    for brain in brains:
+        brain._unrestrictedGetObject().reindexObject(idxs=["SearchableText"])
+    logger.info(
+        "Reindexed SearchableText of %s objects for taxonomy %s",
+        len(brains),
+        field_name,
+    )
+
+
+@contextmanager
+def reindexing_changed_terms():
+    """Reindex the objects whose taxonomy labels change in the block"""
+    before = all_term_labels()
+    yield
+    for field_name, identifiers in changed_terms(before, all_term_labels()).items():
+        reindex_searchable_text(field_name, identifiers)

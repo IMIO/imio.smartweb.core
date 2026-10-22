@@ -56,6 +56,7 @@ class TimestampedPublicationsView(CarouselOrTableSectionView, HashableJsonSectio
                 "publication_category": category,
                 "publication_attached_file": item.get("file"),
                 "has_image": False,
+                "open_in_new_tab": True,
             }
             results.append(dict_item)
         return batch_results(results, self.context.nb_results_by_batch)
