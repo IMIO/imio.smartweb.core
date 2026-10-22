@@ -59,6 +59,7 @@ class SmartwebIconsView(IconsView):
                 "SVG file content root tag mismatch "
                 f"(not svg but {svgtree.docinfo.root_name})"
             )
+        self._ensure_viewbox(svgtree)
         modifier_cfg = {
             "cssclass": tag_class,
             "title": tag_alt,
@@ -67,6 +68,19 @@ class SmartwebIconsView(IconsView):
             __traceback_info__ = name
             modifier(svgtree, modifier_cfg)
         return etree.tostring(svgtree)
+
+    def _ensure_viewbox(self, svgtree):
+        # Uploaded SVG files may only define width / height : without viewBox,
+        # they are cropped instead of being scaled when resized with CSS
+        root = svgtree.getroot()
+        if root.get("viewBox"):
+            return
+        try:
+            width = float(root.get("width", "").replace("px", ""))
+            height = float(root.get("height", "").replace("px", ""))
+        except ValueError:
+            return
+        root.set("viewBox", f"0 0 {width:g} {height:g}")
 
     def tag(self, name, tag_class="", tag_alt=""):
         svg_file = self._datagrid_icon(name)

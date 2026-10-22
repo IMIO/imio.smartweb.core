@@ -82,6 +82,36 @@ class TestIcons(ImioSmartwebTestCase):
         )
         self.assertIn('d="M1 1h8v8H1z"', resolver.tag("custom.alert").decode())
 
+    def test_additional_icon_viewbox(self):
+        api.portal.set_registry_record(
+            "smartweb.svg_icon_preview_rows",
+            [
+                {
+                    "icon_name": "custom.noviewbox",
+                    "svg_file": (
+                        "<svg xmlns='http://www.w3.org/2000/svg' width='100' "
+                        "height='102'><path d='M1 1h8v8H1z'/></svg>"
+                    ),
+                    "icon_preview": "",
+                },
+                {
+                    "icon_name": "custom.viewbox",
+                    "svg_file": (
+                        "<svg xmlns='http://www.w3.org/2000/svg' width='100' "
+                        "height='102' viewBox='0 0 10 10'><path d='M1 1h8v8H1z'/></svg>"
+                    ),
+                    "icon_preview": "",
+                },
+            ],
+        )
+        resolver = queryMultiAdapter(
+            (self.portal, self.request), name="smartwebiconresolver"
+        )
+        self.assertIn(
+            'viewBox="0 0 100 102"', resolver.tag("custom.noviewbox").decode()
+        )
+        self.assertIn('viewBox="0 0 10 10"', resolver.tag("custom.viewbox").decode())
+
     def test_additional_link_icon_takes_precedence_over_default_icon(self):
         api.portal.set_registry_record(
             "smartweb.svg_icon_preview_rows",
