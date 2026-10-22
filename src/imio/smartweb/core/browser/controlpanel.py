@@ -19,7 +19,9 @@ from zope.interface import Interface
 class ISVGIconPreviewRowSchema(Interface):
     icon_name = schema.TextLine(
         title=_("Icon name"),
-        description=_("Example : view.directory"),
+        description=_(
+            "Example : view.directory. If empty, the SVG file name will be used."
+        ),
         required=False,
     )
 

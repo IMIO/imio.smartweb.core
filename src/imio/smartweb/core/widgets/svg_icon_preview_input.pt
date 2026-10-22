@@ -83,11 +83,38 @@
     }
   }
 
+  function iconNameFromFilename(filename) {
+    // "Mon Icône.svg" -> "mon-icone" (vocabulary tokens must be ASCII)
+    return filename
+      .replace(/\.svg$/i, "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9._-]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function fillIconName(row, filename) {
+    var nameInput = row
+      ? row.querySelector('input[name$=".widgets.icon_name"]')
+      : null;
+    if (!nameInput) {
+      return;
+    }
+    // Only fill an empty name, or a name we filled ourselves from a previous file
+    if (nameInput.value.trim() && !nameInput.dataset.autofilled) {
+      return;
+    }
+    nameInput.value = iconNameFromFilename(filename);
+    nameInput.dataset.autofilled = "true";
+  }
+
   document.addEventListener("input", function (event) {
     var input = event.target;
     if (!input.matches('input[name$=".widgets.icon_name"]')) {
       return;
     }
+    delete input.dataset.autofilled;
     var row = input.closest("tr");
     if (row) {
       updateAll(row);
@@ -109,6 +136,7 @@
     var reader = new FileReader();
     reader.onload = function () {
       textArea.value = reader.result || "";
+      fillIconName(row, file.name);
       updateUploadStatus(upload);
       if (row) {
         updateAll(row);
