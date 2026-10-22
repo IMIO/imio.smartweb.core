@@ -5,6 +5,10 @@ Changelog
 1.4.64 (unreleased)
 -------------------
 
+- Translate the default procedure button label (``Complete this procedure online``) again:
+  it was no longer extracted since WEB-4508.
+  [boulch]
+
 - Pages with contact sections : ask the directory for the contacts of the entity of the
   site (``selected_entities``) and always in the same order, so the directory can cache
   the results (requires imio.directory.core with the RAM cache of ``@search``).

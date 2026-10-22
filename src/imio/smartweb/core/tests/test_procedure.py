@@ -274,7 +274,9 @@ class TestProcedureViewletMethods(ImioSmartwebTestCase):
     def test_get_button_label_default_when_button_ts_label_is_none(self):
         self.procedure.button_ts_label = None
         viewlet = self._make_viewlet()
-        self.assertEqual(viewlet.get_button_label(), "Complete this procedure online")
+        label = viewlet.get_button_label()
+        self.assertEqual(label, "Complete this procedure online")
+        self.assertEqual(label.domain, "imio.smartweb")
 
     def test_get_button_label_returns_term_title_when_valid_label(self):
         populate_procedure_button_text()
@@ -286,4 +288,6 @@ class TestProcedureViewletMethods(ImioSmartwebTestCase):
         populate_procedure_button_text()
         self.procedure.button_ts_label = "nonexistent-label"
         viewlet = self._make_viewlet()
-        self.assertEqual(viewlet.get_button_label(), "Complete this procedure online")
+        label = viewlet.get_button_label()
+        self.assertEqual(label, "Complete this procedure online")
+        self.assertEqual(label.domain, "imio.smartweb")
