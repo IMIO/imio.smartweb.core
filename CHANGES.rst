@@ -9,6 +9,11 @@ Changelog
   it was no longer extracted since WEB-4508.
   [boulch]
 
+- Pages with a news section : the ``Last-Modified`` header and the ETag now use the date
+  of the most recent news in the authentic source.
+  Varnish and browsers then get the new news, also when only anonymous visitors see the page.
+  [boulch]
+
 - Pages with contact sections : ask the directory for the contacts of the entity of the
   site (``selected_entities``) and always in the same order, so the directory can cache
   the results (requires imio.directory.core with the RAM cache of ``@search``).
