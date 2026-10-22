@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.64 (unreleased)
+1.4.64 (2026-10-22)
 -------------------
 
 - Contact sections : a new contact of the directory is in the list of contacts of the edit
