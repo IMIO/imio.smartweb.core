@@ -54,6 +54,19 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    user_eguichet_notif = schema.TextLine(
+        title=_("Username to send e-guichet notifications"),
+        description=_(
+            "E-guichet API user. Authentic sources (ex: events) use it to create notification cards in e-guichet"
+        ),
+        required=False,
+    )
+
+    password_eguichet_notif = schema.Password(
+        title=_("Password to send e-guichet notifications"),
+        required=False,
+    )
+
     iaideabox_api_username = schema.TextLine(
         title=_(
             "Username to consume e-guichet ideabox API (get Campaign, projects,...)"
@@ -225,6 +238,7 @@ class SmartwebControlPanelForm(RegistryEditForm):
     label = _("Smartweb Settings")
     fields = field.Fields(ISmartwebControlPanel)
     fields["secret_key_api"].widgetFactory = PasswordFieldWidget
+    fields["password_eguichet_notif"].widgetFactory = PasswordFieldWidget
     fields["iaideabox_api_password"].widgetFactory = PasswordFieldWidget
     fields["iadeliberation_api_password"].widgetFactory = PasswordFieldWidget
     fields["svg_icon_preview_rows"].widgetFactory = DataGridFieldFactory
@@ -240,6 +254,9 @@ class SmartwebControlPanelForm(RegistryEditForm):
         )
 
         secret_key_api = api.portal.get_registry_record("smartweb.secret_key_api")
+        password_eguichet_notif = api.portal.get_registry_record(
+            "smartweb.password_eguichet_notif"
+        )
 
         # if data is None when we apply changes for password fields we keep password from registry
         if not data.get("iadeliberation_api_password"):
@@ -250,6 +267,9 @@ class SmartwebControlPanelForm(RegistryEditForm):
 
         if not data.get("secret_key_api"):
             data["secret_key_api"] = secret_key_api
+
+        if not data.get("password_eguichet_notif"):
+            data["password_eguichet_notif"] = password_eguichet_notif
 
         return super().applyChanges(data)
 
@@ -273,6 +293,7 @@ class SmartwebControlPanelForm(RegistryEditForm):
             "secret_key_api",
             "iaideabox_api_password",
             "iadeliberation_api_password",
+            "password_eguichet_notif",
         ]
         for widget_name in self.widgets:
             widget = self.widgets[widget_name]

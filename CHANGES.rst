@@ -5,7 +5,21 @@ Changelog
 1.4.65 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- CITIBDC-602 : ``@eguichet-api-settings`` also gives ``news_view_url``, the url of the
+  default news view. The news use it to link the e-guichet notification to the news item on the Smartweb site.
+  [boulch]
+
+- CITIBDC-602 : ``@eguichet-api-settings`` also gives ``events_view_url``, the url of the
+  default events view. The agenda uses it to link the e-guichet notification to the event on the Smartweb site.
+  [boulch]
+
+- CITIBDC-602 : Add eguichet notifications credentials to the Smartweb control panel (+ upgrade step).
+  [boulch]
+
+- CITIBDC-602 : Add the ``@eguichet-api-settings`` endpoint. It gives ``url_ts``, the w.c.s. API url
+  and the e-guichet API credentials to Managers and SSO technical users.
+  Authentic sources use it to post e-guichet notifications.
+  [boulch]
 
 
 1.4.64 (2026-10-22)
