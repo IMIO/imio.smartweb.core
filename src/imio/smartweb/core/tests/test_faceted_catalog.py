@@ -70,6 +70,17 @@ class TestCatalog(ImioSmartwebTestCase):
             {"taxonomy_reglements": "cc82v8yhd1"},
         )
 
+        # a taxonomy widget with no value chosen still puts its index in
+        # facet.field, which is enough for Solr to answer 400
+        query = {
+            "SearchableText": "taxe",
+            "facet.field": ["taxonomy_page_category", "taxonomy_reglements"],
+        }
+        self.assertEqual(
+            unindexed_taxonomies(query, SOLR_SCHEMA, names),
+            {"taxonomy_reglements": None},
+        )
+
         # a taxonomy Solr knows is left alone
         self.assertEqual(
             unindexed_taxonomies(
@@ -224,6 +235,24 @@ class TestCatalog(ImioSmartwebTestCase):
         # the operator changes the filter, not the counts
         self.assertEqual(counts["taxonomy_reglements"], {"taxes": 2, "urbanisme": 2})
 
+        # a taxonomy that is only a facet is counted but filters nothing, and
+        # another taxonomy with a value still filters
+        values["uid1"]["taxonomy_themes"] = ("sport",)
+        values["uid3"]["taxonomy_themes"] = ("culture",)
+        filtered, counts = filter_and_count(
+            brains,
+            values,
+            {"taxonomy_reglements": None, "taxonomy_themes": "sport"},
+        )
+        self.assertEqual([b["UID"] for b in filtered], ["uid1"])
+        self.assertEqual(counts["taxonomy_reglements"], {"taxes": 2, "urbanisme": 2})
+        self.assertEqual(counts["taxonomy_themes"], {"sport": 1, "culture": 1})
+
+        filtered, counts = filter_and_count(
+            brains, values, {"taxonomy_reglements": None}
+        )
+        self.assertEqual([b["UID"] for b in filtered], ["uid1", "uid2", "uid3"])
+
     def test_filtered_results(self):
         results = FilteredResults([{"UID": "uid1"}], {"facet_fields": {"a": {"b": 1}}})
         self.assertEqual(len(results), 1)
@@ -361,26 +390,3 @@ class TestSmartwebFacetedCatalog(ImioSmartwebTestCase):
         self.assertEqual(
             merged, {"facet_fields": {"taxonomy_reglements": {"taxes": 2}}}
         )
-
-
-# <audit>
-#   <file>test_faceted_catalog.py</file>
-#   <requirements_applied>R1, R4, R5, R6</requirements_applied>
-#   <deviations>
-#     R1: SOLR_SCHEMA is a plain dict rather than a live Solr schema. It is not a
-#     mock of a Plone internal - collective.solr only ever reads the schema with
-#     .get(), so a dict is the real contract - but the test environment has no
-#     Solr, so the Solr side of the integration is described, not exercised.
-#     R2: most tests here drive module level functions directly instead of
-#     create content -> act -> observe. The user visible workflow (a faceted
-#     search on a TTW taxonomy returning results instead of an empty page)
-#     cannot be reproduced without a running Solr; the workflow style is used
-#     where it does work (test_call_without_unindexed_taxonomy,
-#     test_taxonomy_values).
-#   </deviations>
-#   <questions>
-#     Should a Solr backed functional test be added to cover the filtering path
-#     end to end? It would need a Solr instance in CI, which no existing test
-#     requires today.
-#   </questions>
-# </audit>

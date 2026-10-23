@@ -7,6 +7,8 @@ from imio.smartweb.core.setuphandlers import CAMPAIGNVIEW_PORTAL_TYPE
 from imio.smartweb.core.utils import (
     populate_procedure_button_text as utils_populate_procedure_button_text,
 )
+from imio.smartweb.core.utils import reindex_searchable_text
+from imio.smartweb.core.utils import taxonomy_fields
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from eea.facetednavigation.interfaces import ICriteria
 from eea.facetednavigation.subtypes.interfaces import IFacetedNavigable
@@ -140,6 +142,27 @@ def add_sendinblue_button_settings(context):
     fields.remove("sendinblue_button_text")
     registry = getUtility(IRegistry)
     registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")
+
+
+def add_svg_icon_preview_rows_setting(context):
+    registry = getUtility(IRegistry)
+    record_name = "smartweb.svg_icon_preview_rows"
+    rows = []
+    if record_name in registry.records:
+        rows = registry.records[record_name].value or []
+        del registry.records[record_name]
+
+    fields = getFieldNames(ISmartwebControlPanel)
+    fields.remove("svg_icon_preview_rows")
+    registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")
+    registry[record_name] = [
+        {
+            "icon_name": row.get("icon_name", ""),
+            "svg_file": row.get("svg_file", ""),
+            "icon_preview": row.get("icon_preview", ""),
+        }
+        for row in rows
+    ]
 
 
 def find_multiple_categories_directory_views(context):
@@ -370,6 +393,17 @@ def add_campaignview_to_displayed_types(context):
         tuple(displayed_types) + (CAMPAIGNVIEW_PORTAL_TYPE,),
     )
     logger.info(f"Added {CAMPAIGNVIEW_PORTAL_TYPE} to plone.displayed_types")
+
+
+def index_taxonomy_labels(context):
+    """Add the labels of taxonomy terms to SearchableText of existing objects"""
+    catalog = api.portal.get_tool("portal_catalog")
+    for field_name, _utility in taxonomy_fields():
+        if field_name not in catalog.indexes():
+            continue
+        identifiers = catalog.uniqueValuesFor(field_name)
+        if identifiers:
+            reindex_searchable_text(field_name, identifiers)
 
 
 def add_eguichet_notif_settings(context):

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone.app.layout.viewlets import common
 from zope.component import getUtility
 from zope.schema.interfaces import IVocabularyFactory
@@ -25,7 +26,7 @@ class ProcedureViewlet(common.ViewletBase):
 
     def get_button_label(self):
         if self.context.button_ts_label is None:
-            return "Complete this procedure online"
+            return _("Complete this procedure online")
         factory = getUtility(
             IVocabularyFactory, "imio.smartweb.vocabulary.ProcedureButtonLabels"
         )
@@ -34,5 +35,5 @@ class ProcedureViewlet(common.ViewletBase):
             term = vocabulary.getTerm(self.context.button_ts_label)
         except LookupError:
             # If the term is not found, return a default label
-            return "Complete this procedure online"
+            return _("Complete this procedure online")
         return term.title

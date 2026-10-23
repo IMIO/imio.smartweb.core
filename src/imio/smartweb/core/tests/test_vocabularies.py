@@ -49,6 +49,37 @@ class TestVocabularies(ImioSmartwebTestCase):
         term = vocabulary.getTerm("action.email")
         self.assertEqual(term.title, "Action - Email")
 
+    def test_control_panel_icons(self):
+        self.assertVocabularyLen("imio.smartweb.vocabulary.ControlPanelIcons", 0)
+        api.portal.set_registry_record(
+            "smartweb.svg_icon_preview_rows",
+            [
+                {
+                    "icon_name": "zebra",
+                    "svg_file": "<svg xmlns='http://www.w3.org/2000/svg'></svg>",
+                    "icon_preview": "",
+                },
+                {
+                    "icon_name": "agenda",
+                    "svg_file": "<svg xmlns='http://www.w3.org/2000/svg'></svg>",
+                    "icon_preview": "",
+                },
+                {
+                    "icon_name": "ignored.empty.file",
+                    "svg_file": "",
+                    "icon_preview": "",
+                },
+                {
+                    "icon_name": "agenda",
+                    "svg_file": "<svg xmlns='http://www.w3.org/2000/svg'></svg>",
+                    "icon_preview": "",
+                },
+            ],
+        )
+        vocabulary = get_vocabulary("imio.smartweb.vocabulary.ControlPanelIcons")
+        self.assertEqual([term.value for term in vocabulary], ["agenda", "zebra"])
+        self.assertEqual(vocabulary.getTerm("agenda").title, "agenda")
+
     @requests_mock.Mocker()
     def test_procedure_keys(self, m):
         GUICHET = re.compile(
@@ -212,6 +243,33 @@ class TestVocabularies(ImioSmartwebTestCase):
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
         m.get(self.contact_search_url, status_code=404)
         self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
+
+    @requests_mock.Mocker()
+    def test_remote_contacts_follow_the_directory_generation(self, m):
+        # the directory gives a new generation when a contact changes:
+        # the new contacts are in the vocabulary at once
+        generation_url = f"{config.DIRECTORY_URL}/@search_generation?selected_entities=396907b3b1b04a97896b12cc792c77f8"
+        m.get(generation_url, json={"generation": 1001})
+        m.get(
+            f"{self.contact_search_url}&cache_key=1001",
+            json=self.json_empty_contacts_raw_mock,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
+
+        # same generation: the contacts come from the cache
+        m.get(
+            f"{self.contact_search_url}&cache_key=1001",
+            json=self.json_contacts_raw_mock,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 0)
+
+        # new contact in the directory
+        m.get(generation_url, json={"generation": 1002})
+        m.get(
+            f"{self.contact_search_url}&cache_key=1002",
+            json=self.json_contacts_raw_mock,
+        )
+        self.assertVocabularyLen("imio.smartweb.vocabulary.RemoteContacts", 2)
 
     @requests_mock.Mocker()
     def test_empty_remote_contacts(self, m):

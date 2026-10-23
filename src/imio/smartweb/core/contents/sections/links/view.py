@@ -24,7 +24,10 @@ class LinksView(CarouselOrTableSectionView):
                 portal_url = api.portal.get().absolute_url()
                 url = item.remoteUrl.replace("${portal_url}", portal_url)
             has_icon = has_image = False
-            if getattr(item.aq_base, "svg_icon", None):
+            icon = getattr(item.aq_base, "additional_svg_icon", None) or getattr(
+                item.aq_base, "svg_icon", None
+            )
+            if icon:
                 has_icon = True
             elif getattr(item.aq_base, "image", None):
                 has_image = True
@@ -37,7 +40,7 @@ class LinksView(CarouselOrTableSectionView):
                     "title": item.title,
                     "description": item.description,
                     "url": url,
-                    "icon": item.svg_icon,
+                    "icon": icon,
                     "has_icon": has_icon,
                     "image": scale_url,
                     "has_image": has_image,

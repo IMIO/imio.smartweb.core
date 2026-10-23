@@ -80,6 +80,28 @@ class IconsVocabularyFactory:
 IconsVocabulary = IconsVocabularyFactory()
 
 
+class ControlPanelIconsVocabularyFactory:
+    def __call__(self, context=None):
+        rows = getUtility(IRegistry).get("smartweb.svg_icon_preview_rows", []) or []
+        icons = []
+        seen = set()
+        for row in rows:
+            icon_name = (row.get("icon_name") or "").strip()
+            svg_file = (row.get("svg_file") or "").strip()
+            if not icon_name or not svg_file or icon_name in seen:
+                continue
+            seen.add(icon_name)
+            icons.append(icon_name)
+        terms = [
+            SimpleTerm(value=icon_name, token=icon_name, title=icon_name)
+            for icon_name in sorted(icons)
+        ]
+        return SimpleVocabulary(terms)
+
+
+ControlPanelIconsVocabulary = ControlPanelIconsVocabularyFactory()
+
+
 class RemoteCampaignsVocabularyFactory:
     def __call__(self, context=None):
         # combo_api = api.portal.get_registry_record("smartweb.url_combo_api")
@@ -262,11 +284,27 @@ class PermissiveVocabulary(SimpleVocabulary):
         return self.getTerm(token)
 
 
+def _remote_contacts_cachekey(method, self, entity_uid, generation):
+    if generation is None:
+        # old directory, or no answer: keep the contacts 60 seconds
+        return (entity_uid, None, time() // 60)
+    return (entity_uid, generation)
+
+
 class RemoteContactsVocabularyFactory:
 
-    @ram.cache(lambda *args: time() // (60))
-    def _fetch(self, context=None):
-        entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
+    def _generation(self, entity_uid):
+        """Generation of the contacts of the entity in the directory. It changes
+        when a contact of the entity changes. None if the directory does not
+        give it."""
+        url = f"{DIRECTORY_URL}/@search_generation?selected_entities={entity_uid}"
+        data = get_json(url, None, 2)
+        if data is None:
+            return None
+        return data.get("generation")
+
+    @ram.cache(_remote_contacts_cachekey)
+    def _fetch(self, entity_uid, generation):
         params = [
             "portal_type=imio.directory.Contact",
             "selected_entities={}".format(entity_uid),
@@ -275,6 +313,10 @@ class RemoteContactsVocabularyFactory:
             "metadata_fields=UID",
             "metadata_fields=breadcrumb",
         ]
+        if generation is not None:
+            # a new url when the contacts change: Varnish cannot give old results
+            # (the directory ignores cache_key)
+            params.append("cache_key={}".format(generation))
         url = "{}/@search?{}".format(DIRECTORY_URL, "&".join(params))
         json_contacts = get_json(url, None, 12)
         if json_contacts is None or len(json_contacts.get("items", [])) == 0:
@@ -290,7 +332,8 @@ class RemoteContactsVocabularyFactory:
         request = getRequest()
         if IImportInProgress.providedBy(request):
             return PermissiveVocabulary([])
-        return self._fetch(context)
+        entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
+        return self._fetch(entity_uid, self._generation(entity_uid))
 
 
 RemoteContactsVocabulary = RemoteContactsVocabularyFactory()

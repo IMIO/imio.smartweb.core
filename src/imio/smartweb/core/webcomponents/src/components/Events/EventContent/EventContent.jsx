@@ -255,7 +255,7 @@ const ContactContent = ({
                     <TimeDisplay time={start} />
                     <span>
                         &nbsp;
-                        <Translate text="à" />
+                        <Translate text="à (heure)" />
                         &nbsp;
                     </span>
                     <TimeDisplay time={startHours} className="r-time-hours" />

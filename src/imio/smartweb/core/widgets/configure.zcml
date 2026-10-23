@@ -7,11 +7,38 @@
            for="z3c.form.interfaces.IFormLayer
                 imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
   />
+
+  <adapter
+      factory=".widget.SVGIconPreviewFieldWidget"
+      for=".widget.ISVGIconPreviewField
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter
+      factory=".widget.SVGUploadFieldWidget"
+      for=".widget.ISVGUploadField
+           plone.app.z3cform.interfaces.IPloneFormLayer"
+      />
+
+  <adapter factory=".widget.persistentSVGIconPreviewField" />
+  <adapter factory=".widget.persistentSVGUploadField" />
  
   <z3c:widgetTemplate
       widget=".widget.ISuggestedIATitlesWidget"
       mode="input"
       layer="z3c.form.interfaces.IFormLayer"
       template="suggested_ia_titles_input.pt" />
+
+  <z3c:widgetTemplate
+      widget=".widget.ISVGIconPreviewWidget"
+      mode="input"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="svg_icon_preview_input.pt" />
+
+  <z3c:widgetTemplate
+      widget=".widget.ISVGUploadWidget"
+      mode="input"
+      layer="z3c.form.interfaces.IFormLayer"
+      template="svg_upload_input.pt" />
 
 </configure>

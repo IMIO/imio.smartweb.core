@@ -3,6 +3,7 @@ import NewsCard from "../NewsCard/NewsCard";
 import { Link } from "react-router-dom";
 import removeAccents from "remove-accents";
 import { ScrollContext } from "../../../hooks/ScrollContext";
+import { restoreInitialTitle } from "../../../utils/pageTitle";
 import { Translator } from "react-translated";
 const NewsList = ({
     itemsArray,
@@ -25,6 +26,8 @@ const NewsList = ({
     }, [itemsArray, isMore]);
 
     useEffect(() => {
+        restoreInitialTitle();
+
         // Liste complète de toutes les balises possibles
         const allMetaProps = [
             { name: "description" },

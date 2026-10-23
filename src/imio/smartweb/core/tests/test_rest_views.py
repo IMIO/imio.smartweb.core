@@ -1014,6 +1014,7 @@ class TestDirectoryViewView(ImioSmartwebTestCase):
             "urls": [],
             "description": None,
             "taxonomy_contact_category": [],
+            "local_category": None,
             "geolocation": {},
             "image": {},
         }
@@ -1124,6 +1125,28 @@ class TestDirectoryViewView(ImioSmartwebTestCase):
         result = view._formated_contact(data)
         self.assertIsNone(result["category"])
 
+    # --- _formated_contact: local_category ---
+
+    def test_formated_contact_with_local_category_dict(self):
+        view = self._get_view()
+        data = self._make_contact_data(
+            local_category={"title": "Ma catégorie", "token": "Ma catégorie"}
+        )
+        result = view._formated_contact(data)
+        self.assertIn("Ma catégorie", result["local_category"])
+
+    def test_formated_contact_with_local_category_str(self):
+        view = self._get_view()
+        data = self._make_contact_data(local_category="Ma catégorie")
+        result = view._formated_contact(data)
+        self.assertIn("Ma catégorie", result["local_category"])
+
+    def test_formated_contact_without_local_category(self):
+        view = self._get_view()
+        data = self._make_contact_data(local_category=None)
+        result = view._formated_contact(data)
+        self.assertIsNone(result["local_category"])
+
     # --- _formated_contact: contact_type ---
 
     def test_formated_contact_with_contact_type(self):
@@ -1231,11 +1254,3 @@ class TestDirectoryViewView(ImioSmartwebTestCase):
         view._item = {"items": []}
         self.assertIsNone(view.item)
         self.assertIsNone(view.contact)
-
-
-# <audit>
-#   <file>test_rest_views.py</file>
-#   <requirements_applied>R1, R2, R5, R6</requirements_applied>
-#   <deviations>None</deviations>
-#   <questions>None</questions>
-# </audit>

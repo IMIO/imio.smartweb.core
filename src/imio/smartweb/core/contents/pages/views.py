@@ -74,13 +74,16 @@ class PagesView(FolderView):
         # Make a "set" to simplifying request in url (avoid duplicate uid)
         # Sometimes we have duplicate uid because some pages were build with contact attributes
         # in a section and for layout issues,for the same contact, others attributes are in another section.
-        page_contacts = list(
+        # Sorted: the same contacts give the same url (cache key in the directory)
+        page_contacts = sorted(
             set(list(itertools.chain.from_iterable(nested_contact_list)))
         )
         uids = "&UID=".join(page_contacts)
         bsize = len(page_contacts)
-        url = "{}/@search?UID={}&fullobjects=1&b_size={}".format(
-            DIRECTORY_URL, uids, bsize
+        # selected_entities: the directory caches the contacts of one entity
+        entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
+        url = "{}/@search?UID={}&selected_entities={}&fullobjects=1&b_size={}".format(
+            DIRECTORY_URL, uids, entity_uid, bsize
         )
         current_lang = api.portal.get_current_language()[:2]
         if current_lang != "fr":

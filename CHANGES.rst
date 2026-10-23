@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.63 (unreleased)
+1.4.65 (unreleased)
 -------------------
 
 - CITIBDC-602 : ``@eguichet-api-settings`` also gives ``news_view_url``, the url of the
@@ -19,6 +19,61 @@ Changelog
 - CITIBDC-602 : Add the ``@eguichet-api-settings`` endpoint. It gives ``url_ts``, the w.c.s. API url
   and the e-guichet API credentials to Managers and SSO technical users.
   Authentic sources use it to post e-guichet notifications.
+  [boulch]
+
+
+1.4.64 (2026-10-22)
+-------------------
+
+- Contact sections : a new contact of the directory is in the list of contacts of the edit
+  form at once, not after 60 seconds. Before it gets the contacts, the vocabulary asks the
+  directory for their generation (``@search_generation``). It keeps the contacts in its cache
+  until the generation changes. If the directory does not give the generation, the vocabulary
+  keeps the contacts 60 seconds, as before.
+  [boulch]
+
+- Pages with a news section : the ``Last-Modified`` header and the ETag now use the date
+  of the most recent news in the authentic source.
+  Varnish and browsers then get the new news, also when only anonymous visitors see the page.
+  [boulch]
+
+- Translate the default procedure button label (``Complete this procedure online``) again:
+  it was no longer extracted since WEB-4508.
+  [boulch]
+
+- Pages with contact sections : ask the directory for the contacts of the entity of the
+  site (``selected_entities``) and always in the same order, so the directory can cache
+  the results (requires imio.directory.core with the RAM cache of ``@search``).
+  [boulch]
+
+
+1.4.63 (2026-10-19)
+-------------------
+
+- WEB-4495 : Add the labels of taxonomy terms to ``SearchableText``, for all content types.
+  A text search now finds an object with the label of its category.
+  When a term is renamed, the objects that use it are reindexed.
+  [boulch]
+
+- WEB-4495 : Fix the faceted text search with a filter on a taxonomy created through the web.
+  When no value was selected, Solr answered 400 and the faceted showed no results.
+  [boulch]
+
+- WEB-4510 : React views (annuaire, agenda, news) : restore the page title in the browser tab
+  when the visitor comes back from an item to the list, instead of keeping the item title.
+  [thomlamb]
+
+- WEB-4501 : Make the annuaire category pills (``taxonomy-Filter``) more discreet and fluid :
+  smaller font, and on smartphone a single swipeable row (menus are made ``fixed`` there so
+  the row does not clip them).
+  [thomlamb]
+
+- SUP-56752 : Fix the react translation of "à" before a time ("Le ... à ...") : use "um" / "om" / "at"
+  instead of "bis" / "tot" / "to", which only apply to a "de ... à ..." range.
+  [thomlamb]
+- WEB-4449 : Request ``local_category`` from the directory. Before this change, the directory
+  ``@results-filters`` endpoint did not return local categories, and the local
+  category filter of the React directory view stayed empty.
   [boulch]
 
 - WEB-4508 : Show the ``button_ts_label`` label on the procedure button also when the
@@ -68,7 +123,6 @@ Changelog
 
 - WEB-4494: Fix auto scroll conflict in react view
   [thomlamb]
-
 
 1.4.62 (2026-09-28)
 -------------------

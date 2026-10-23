@@ -5,6 +5,7 @@ import useAxios from "../../../hooks/useAxios";
 import { Translator } from "react-translated";
 import queryString from "query-string";
 import TaxonomyFilter from "../../Filters/TaxonomyFilter";
+import LocalCategoryFilter from "./LocalCategoryFilter";
 import { iam } from "./../../Filters/IamData";
 import { menuStyles, moreFilterStyles } from "./../../Filters/SelectStyles";
 import AccessibleClearIndicator from "../../../utils/AccessibleClearIndicator";
@@ -46,6 +47,7 @@ function Filters(props) {
     const [taxonomyData, setTaxonomyData] = useState(null);
     const [taxonomyFilter, setTaxonomyFilter] = useState(null);
     const [facilitiesFilter, setFacilitiesFilter] = useState(null);
+    const [localCategoryFilter, setLocalCategoryFilter] = useState([]);
     const [cat, setCat] = useState(false);
     const [activeComponent, setActiveComponent] = useState(null);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
@@ -85,10 +87,16 @@ function Filters(props) {
             label: d.title,
         }));
 
+        const optionsLocalCategory = response.local_category?.map((d) => ({
+            value: d.token,
+            label: d.title,
+        }));
+
         return {
             topics: optionsTopics,
             taxonomy: optionsTaxonomy,
             facilities: optionsFacilities,
+            localCategory: optionsLocalCategory,
             taxodonnee,
         };
     }, [response]);
@@ -100,6 +108,7 @@ function Filters(props) {
             setTaxonomyData(processedData.taxodonnee);
             setTaxonomyFilter(processedData.taxonomy);
             setFacilitiesFilter(processedData.facilities);
+            setLocalCategoryFilter(processedData.localCategory);
         }
     }, [processedData]);
 
@@ -368,18 +377,6 @@ function Filters(props) {
                 data-bs-parent="#accordionExample"
             >
                 <div className="accordion-body-annuaire">
-                    {taxonomyData?.length !== 1 ? (
-                        <span className="accordion-body-annuaire-title-full-screen">
-                            <Translator>
-                                {({ translate }) => (
-                                    <span>{translate({ text: "Catégories" })}</span>
-                                )}
-                            </Translator>
-                        </span>
-                    ) : (
-                        ""
-                    )}
-
                     <div className="taxonomy-Filter">
                         {taxonomyData?.length === 1 ? (
                             <TaxonomyFilter
@@ -403,6 +400,11 @@ function Filters(props) {
                                 />
                             ))
                         )}
+                        <LocalCategoryFilter
+                            options={localCategoryFilter}
+                            value={props.activeFilter.local_category}
+                            onChange={onChangeHandlerSelect}
+                        />
                     </div>
                     {/* <div className="r-filter  facilities-Filter"> */}
                     {/* <label>Catégories</label> */}

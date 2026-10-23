@@ -6,7 +6,6 @@ from imio.smartweb.core.utils import get_value_from_registry
 from plone import api
 from plone.restapi.services import Service
 
-
 # Role that pas.plugins.kimug gives to users authenticated with a SSO token.
 KIMUG_AUTHENTICATED_ROLE = "Kimug Authenticated Users"
 ALLOWED_ROLES = {"Manager", KIMUG_AUTHENTICATED_ROLE}

@@ -1,14 +1,43 @@
 # -*- coding: utf-8 -*-
 
+from collective.z3cform.datagridfield.datagridfield import DataGridFieldFactory
+from collective.z3cform.datagridfield.registry import DictRow
+from imio.smartweb.core.widgets.widget import SVGIconPreviewField
+from imio.smartweb.core.widgets.widget import SVGUploadField
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.app.registry.browser.controlpanel import ControlPanelFormWrapper
 from plone.app.registry.browser.controlpanel import RegistryEditForm
+from plone.autoform.directives import widget
 from plone.z3cform import layout
 from zope import schema
 from z3c.form import field
 from z3c.form.browser.password import PasswordFieldWidget
 from zope.interface import Interface
+
+
+class ISVGIconPreviewRowSchema(Interface):
+    icon_name = schema.TextLine(
+        title=_("Icon name"),
+        description=_(
+            "Example : view.directory. If empty, the SVG file name will be used."
+        ),
+        required=False,
+    )
+
+    svg_file = SVGUploadField(
+        title=_("SVG file"),
+        required=False,
+        default="",
+        missing_value="",
+    )
+
+    icon_preview = SVGIconPreviewField(
+        title=_("Preview"),
+        required=False,
+        default="",
+        missing_value="",
+    )
 
 
 class ISmartwebControlPanel(Interface):
@@ -140,6 +169,18 @@ class ISmartwebControlPanel(Interface):
         required=False,
     )
 
+    widget("svg_icon_preview_rows", DataGridFieldFactory, auto_append=False)
+    svg_icon_preview_rows = schema.List(
+        title=_("SVG icon preview rows"),
+        description=_("Enter a Smartweb icon name to display its SVG preview."),
+        value_type=DictRow(
+            title=_("SVG icon preview row"),
+            schema=ISVGIconPreviewRowSchema,
+        ),
+        default=[],
+        required=False,
+    )
+
     plausible_url = schema.TextLine(
         title=_("Plausible URL"),
         description=_(
@@ -200,6 +241,7 @@ class SmartwebControlPanelForm(RegistryEditForm):
     fields["password_eguichet_notif"].widgetFactory = PasswordFieldWidget
     fields["iaideabox_api_password"].widgetFactory = PasswordFieldWidget
     fields["iadeliberation_api_password"].widgetFactory = PasswordFieldWidget
+    fields["svg_icon_preview_rows"].widgetFactory = DataGridFieldFactory
 
     def applyChanges(self, data):
         # Get current registry value for (controlpanel) passwords
