@@ -14,7 +14,7 @@ ALLOWED_ROLES = {"Manager", KIMUG_AUTHENTICATED_ROLE}
 
 class EguichetApiSettingsGet(Service):
     """Give the e-guichet (Publik w.c.s.) API settings of this site.
-    Authentic sources (ex: imio.events.core) use them to post cards.
+    Authentic sources (imio.events.core, imio.news.core) use them to post cards.
     The response holds a password: only Managers and SSO technical users
     can read it."""
 
@@ -31,5 +31,8 @@ class EguichetApiSettingsGet(Service):
             # Url of the default events view (registry smartweb.default_events_view)
             # to build the event links: <events_view_url>/<slug of event title>?u=<event UID>
             "events_view_url": get_default_view_url("events"),
+            # Url of the default news view (registry smartweb.default_news_view)
+            # to build the news links: <news_view_url>/<slug of news title>?u=<news UID>
+            "news_view_url": get_default_view_url("news"),
         }
         return datas
