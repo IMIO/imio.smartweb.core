@@ -5,7 +5,12 @@ Changelog
 1.4.65 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Events view : fix the "This weekend" filter. The weekend was Sunday and Monday,
+  not Saturday and Sunday. Cause: the filter used the moment.js locale to find the
+  end of the week. In French, Dutch and German, the week ends on Sunday (not on
+  Saturday as in English), thus the weekend started one day too late.
+  The "This week" filter had the same problem: it stopped on the next Monday.
+  [boulch]
 
 
 1.4.64 (2026-10-22)

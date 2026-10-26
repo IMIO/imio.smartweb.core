@@ -60,13 +60,13 @@ function DateFilter({ language, setDates }) {
                 setFilter(periodTitle.tomorrow);
                 break;
             case "thisWeekEnd":
-                const startOfWeekEnd = moment().endOf("week").format("YYYY-MM-DD");
-                const endOfWeekEnd = moment().endOf("week").add(1, "days").format("YYYY-MM-DD");
+                const startOfWeekEnd = moment().isoWeekday(6).format("YYYY-MM-DD");
+                const endOfWeekEnd = moment().isoWeekday(7).format("YYYY-MM-DD");
                 setDates({ "event_dates.query": [startOfWeekEnd, endOfWeekEnd] });
                 setFilter(periodTitle.thisWeekEnd);
                 break;
             case "thisWeek":
-                const endOfWeek = moment().endOf("week").add(1, "days").format("YYYY-MM-DD");
+                const endOfWeek = moment().isoWeekday(7).format("YYYY-MM-DD");
                 setDates({ "event_dates.query": [today, endOfWeek] });
                 setFilter(periodTitle.thisWeek);
                 break;
