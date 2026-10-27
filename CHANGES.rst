@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.65 (unreleased)
+1.4.65 (2026-10-27)
 -------------------
 
 - Events view : fix the "This weekend" filter. The weekend was Sunday and Monday,
