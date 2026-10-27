@@ -25,6 +25,14 @@
                    zope.lifecycleevent.interfaces.IObjectAddedEvent"
               handler=".subscribers.added_publication" />
 
+  <subscriber for="imio.smartweb.core.contents.ISectionTimestampedPublications
+                   zope.lifecycleevent.interfaces.IObjectAddedEvent"
+              handler=".subscribers.added_section_timestamped_publications" />
+
+  <subscriber for="imio.smartweb.core.contents.ISectionTimestampedPublications
+                   zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+              handler=".subscribers.modified_section_timestamped_publications" />
+
   <subscriber for="imio.smartweb.core.contents.ISectionExternalContent
                    zope.lifecycleevent.interfaces.IObjectAddedEvent"
               handler=".subscribers.added_external_content" />

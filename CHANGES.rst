@@ -5,6 +5,13 @@ Changelog
 1.4.65 (unreleased)
 -------------------
 
+- WEB-4522 : Timestamped publications sections : the search finds the page when you search
+  for the title of a selected publication. When you save the section, we get the
+  titles of the publications from iA.Delib and we add them to SearchableText.
+  The section itself does not show in the search results, as the other sections.
+  Upgrade step 1091 does these two changes on existing sections.
+  [boulch]
+
 - Events view : fix the "This weekend" filter. The weekend was Sunday and Monday,
   not Saturday and Sunday. Cause: the filter used the moment.js locale to find the
   end of the week. In French, Dutch and German, the week ends on Sunday (not on

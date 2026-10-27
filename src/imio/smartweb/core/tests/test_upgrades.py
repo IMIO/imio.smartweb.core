@@ -2,13 +2,25 @@
 
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
+from imio.smartweb.core.tests.utils import get_json
 from imio.smartweb.core.upgrades.upgrades import add_campaignview_to_displayed_types
+from imio.smartweb.core.upgrades.upgrades import (
+    add_timestamped_publications_to_types_not_searched,
+)
 from imio.smartweb.core.upgrades.upgrades import index_taxonomy_labels
+from imio.smartweb.core.upgrades.upgrades import (
+    index_timestamped_publications_titles,
+)
 from imio.smartweb.core.upgrades.upgrades import migrate_section_default_width
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
 from Products.CMFCore.indexing import processQueue
+
+import requests_mock
+
+INSTITUTION = "https://conseil.staging.imio.be/liege"
+SECTION_TIMESTAMPED_PUBLICATIONS = "imio.smartweb.SectionTimestampedPublications"
 
 
 class TestUpgrades(ImioSmartwebTestCase):
@@ -17,6 +29,17 @@ class TestUpgrades(ImioSmartwebTestCase):
     def setUp(self):
         self.portal = self.layer["portal"]
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+    def _set_iadeliberations_institution(self, m):
+        """Select the institution in the control panel. The registry validates
+        the value with the institutions that iA.Delib gives."""
+        m.get(
+            "https://www.deliberations.be/@search",
+            json=get_json("resources/json_iadeliberations_institutions.json"),
+        )
+        api.portal.set_registry_record(
+            "smartweb.iadeliberations_institution", INSTITUTION
+        )
 
     def _set_displayed_types_without_campaignview(self):
         displayed_types = api.portal.get_registry_record("plone.displayed_types")
@@ -113,3 +136,48 @@ class TestUpgrades(ImioSmartwebTestCase):
         self.assertEqual(len(api.content.find(SearchableText="Emploi")), 0)
         index_taxonomy_labels(self.portal)
         self.assertEqual(len(api.content.find(SearchableText="Emploi")), 1)
+
+    def test_add_timestamped_publications_to_types_not_searched(self):
+        types_not_searched = api.portal.get_registry_record("plone.types_not_searched")
+        api.portal.set_registry_record(
+            "plone.types_not_searched",
+            tuple(
+                t for t in types_not_searched if t != SECTION_TIMESTAMPED_PUBLICATIONS
+            ),
+        )
+        add_timestamped_publications_to_types_not_searched(self.portal)
+        types_not_searched = api.portal.get_registry_record("plone.types_not_searched")
+        self.assertIn(SECTION_TIMESTAMPED_PUBLICATIONS, types_not_searched)
+        # the upgrade step is idempotent
+        add_timestamped_publications_to_types_not_searched(self.portal)
+        types_not_searched = api.portal.get_registry_record("plone.types_not_searched")
+        self.assertEqual(
+            [t for t in types_not_searched if t == SECTION_TIMESTAMPED_PUBLICATIONS],
+            [SECTION_TIMESTAMPED_PUBLICATIONS],
+        )
+
+    @requests_mock.Mocker()
+    def test_index_timestamped_publications_titles(self, m):
+        self._set_iadeliberations_institution(m)
+        m.get(
+            f"{INSTITUTION}/@search",
+            json=get_json("resources/json_iadeliberations_publications.json"),
+        )
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="My page",
+        )
+        # a section created before the titles were stored
+        section = api.content.create(
+            container=page,
+            type=SECTION_TIMESTAMPED_PUBLICATIONS,
+            title="Publications",
+        )
+        section.related_timestamped_publications = ["8ea91c2b830b486fb4f78b6a91cee882"]
+        section.reindexObject()
+        page.reindexObject()
+        self.assertEqual(len(api.content.find(SearchableText="chats")), 0)
+        index_timestamped_publications_titles(self.portal)
+        brains = api.content.find(SearchableText="chats")
+        self.assertCountEqual([b.UID for b in brains], [page.UID(), section.UID()])

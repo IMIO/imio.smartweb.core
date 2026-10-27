@@ -8,6 +8,7 @@ from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents import ISection
 from imio.smartweb.core.contents import ISectionPostit
 from imio.smartweb.core.contents import ISectionText
+from imio.smartweb.core.contents import ISectionTimestampedPublications
 from imio.smartweb.core.utils import concat_voca_term
 from imio.smartweb.core.utils import taxonomy_fields
 from imio.smartweb.core.utils import term_labels
@@ -49,6 +50,15 @@ def SearchableText_sectionpostit(obj):
         terms.append(p["subtitle"])
         terms.append(p["description"].replace("**", ""))
     result = " ".join(terms)
+    result = " ".join((result, SearchableText_section(obj)()))
+    return result
+
+
+@indexer(ISectionTimestampedPublications)
+def SearchableText_sectiontimestampedpublications(obj):
+    """Index the titles of the selected publications, also if the section title
+    is hidden"""
+    result = " ".join(obj.related_timestamped_publications_titles)
     result = " ".join((result, SearchableText_section(obj)()))
     return result
 

@@ -163,6 +163,28 @@ class TestIndexes(ImioSmartwebTestCase):
             ],
         )
 
+    def test_SearchableText_sectiontimestampedpublications(self):
+        catalog = api.portal.get_tool("portal_catalog")
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionTimestampedPublications",
+            title="Publicationssectiontitle",
+        )
+        section.related_timestamped_publications_titles = ("Arrêté de police",)
+        section.reindexObject()
+        brain = api.content.find(UID=IUUID(section))[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(
+            indexes.get("SearchableText"),
+            ["arrete", "de", "police", "publicationssectiontitle"],
+        )
+        # titles of publications are shown also if the section title is hidden
+        section.hide_title = True
+        section.reindexObject()
+        brain = api.content.find(UID=IUUID(section))[0]
+        indexes = catalog.getIndexDataForRID(brain.getRID())
+        self.assertEqual(indexes.get("SearchableText"), ["arrete", "de", "police"])
+
     def test_SearchableText_pages(self):
         catalog = api.portal.get_tool("portal_catalog")
         section_types = get_sections_types()

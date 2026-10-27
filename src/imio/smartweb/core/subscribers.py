@@ -9,6 +9,7 @@ from imio.smartweb.core.utils import get_basic_auth_json
 from imio.smartweb.core.utils import get_ts_api_url
 
 from imio.smartweb.core.utils import get_iadeliberation_institution_from_registry
+from imio.smartweb.core.utils import get_iadeliberation_json
 from imio.smartweb.core.utils import get_value_from_registry
 from imio.smartweb.core.utils import safe_html
 from imio.smartweb.locales import SmartwebMessageFactory as _
@@ -152,6 +153,39 @@ def added_publication(obj, event):
         obj.publication_attached_file = json_publication.get("file")
     except Exception:
         logger.error(f"Error while trying to get publication data from {url}")
+
+
+def store_timestamped_publications_titles(obj):
+    """Store the titles of the selected publications on the section.
+
+    The section keeps only the UIDs of the publications. The titles come from
+    iA.Delib. We store them to add them to SearchableText.
+    """
+    uids = obj.related_timestamped_publications or []
+    if not uids:
+        obj.related_timestamped_publications_titles = ()
+        return
+    iadeliberation_institution = get_iadeliberation_institution_from_registry()
+    url = "{}/@search?UID={}&b_size={}".format(
+        iadeliberation_institution, "&UID=".join(uids), len(uids)
+    )
+    json_data = get_iadeliberation_json(url)
+    if json_data is None:
+        # Keep the titles that we stored before
+        logger.error(f"Error while trying to get publications titles from {url}")
+        return
+    titles = {item.get("UID"): item.get("title") for item in json_data["items"]}
+    obj.related_timestamped_publications_titles = tuple(
+        titles[uid] for uid in uids if titles.get(uid)
+    )
+
+
+def added_section_timestamped_publications(obj, event):
+    store_timestamped_publications_titles(obj)
+
+
+def modified_section_timestamped_publications(obj, event):
+    store_timestamped_publications_titles(obj)
 
 
 def added_external_content(obj, event):

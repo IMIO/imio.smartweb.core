@@ -43,6 +43,7 @@
         <element>imio.smartweb.SectionSlide</element>
         <element>imio.smartweb.SectionVideo</element>
         <element>imio.smartweb.SectionEvents</element>
+        <element>imio.smartweb.SectionTimestampedPublications</element>
         <element>Plone Site</element>
         <element>TempFolder</element>
         <element>Event</element>

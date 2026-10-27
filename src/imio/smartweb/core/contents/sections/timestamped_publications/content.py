@@ -65,3 +65,6 @@ class SectionTimestampedPublications(Section):
     # only common table view / don't need common carousel view
     manage_display = False
     show_items_date = True
+    # Titles of the selected publications, for SearchableText
+    # (see subscribers.store_timestamped_publications_titles)
+    related_timestamped_publications_titles = ()

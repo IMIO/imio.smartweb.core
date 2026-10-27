@@ -22,6 +22,11 @@
       />
 
   <adapter
+      name="SearchableText"
+      factory=".indexers.SearchableText_sectiontimestampedpublications"
+      />
+
+  <adapter
       name="latitude"
       factory=".indexers.latitude_pages"
       />

@@ -4,6 +4,7 @@ from imio.smartweb.core.browser.controlpanel import ISmartwebControlPanel
 from imio.smartweb.core.contents import IPages
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.setuphandlers import CAMPAIGNVIEW_PORTAL_TYPE
+from imio.smartweb.core.subscribers import store_timestamped_publications_titles
 from imio.smartweb.core.utils import (
     populate_procedure_button_text as utils_populate_procedure_button_text,
 )
@@ -404,3 +405,31 @@ def index_taxonomy_labels(context):
         identifiers = catalog.uniqueValuesFor(field_name)
         if identifiers:
             reindex_searchable_text(field_name, identifiers)
+
+
+def add_timestamped_publications_to_types_not_searched(context):
+    """Do not show timestamped publications sections in search results, as the
+    other sections. The page that contains the section is in the results."""
+    portal_type = "imio.smartweb.SectionTimestampedPublications"
+    types_not_searched = api.portal.get_registry_record("plone.types_not_searched")
+    if portal_type in types_not_searched:
+        return
+    api.portal.set_registry_record(
+        "plone.types_not_searched",
+        tuple(types_not_searched) + (portal_type,),
+    )
+    logger.info(f"Added {portal_type} to plone.types_not_searched")
+
+
+def index_timestamped_publications_titles(context):
+    """Add the titles of the selected publications to SearchableText of the
+    existing timestamped publications sections and of their pages"""
+    brains = api.content.find(
+        portal_type="imio.smartweb.SectionTimestampedPublications"
+    )
+    for brain in brains:
+        obj = brain.getObject()
+        store_timestamped_publications_titles(obj)
+        obj.reindexObject(idxs=["SearchableText"])
+        obj.aq_parent.reindexObject(idxs=["SearchableText"])
+        logger.info(f"Indexed publications titles of {obj.absolute_url()}")

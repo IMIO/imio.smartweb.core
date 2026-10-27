@@ -1355,6 +1355,20 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeSteps
+      source="1090"
+      destination="1091"
+      profile="imio.smartweb.core:default">
+    <genericsetup:upgradeStep
+        title="Do not show timestamped publications sections in search results"
+        handler=".upgrades.add_timestamped_publications_to_types_not_searched"
+        />
+    <genericsetup:upgradeStep
+        title="Add the titles of timestamped publications to SearchableText"
+        handler=".upgrades.index_timestamped_publications_titles"
+        />
+  </genericsetup:upgradeSteps>
+
   <!-- genericsetup:upgradeStep
       title="Update SVG icon preview rows setting schema"
       description="Add SVG upload storage to smartweb.svg_icon_preview_rows rows"
