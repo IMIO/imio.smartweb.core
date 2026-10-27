@@ -6,6 +6,21 @@
 <body>
 <metal:content-core fill-slot="content-core">
 
+  <tal:confirm condition="not:view/done">
+    <h1>Remontée de pages uniques</h1>
+    <p class="text-warning">
+      Cette opération traite tous les dossiers du site. Pour chaque dossier
+      qui contient une seule page affichée par défaut, la page est déplacée
+      dans le dossier parent et le dossier est supprimé.
+    </p>
+    <form method="post"
+          tal:attributes="action string:${context/absolute_url}/@@move_single_page">
+      <span tal:replace="structure context/@@authenticator/authenticator" />
+      <button type="submit" class="btn btn-danger">Lancer la remontée</button>
+    </form>
+  </tal:confirm>
+
+  <tal:results condition="view/done">
   <h1>Résultats — Remontée de pages uniques</h1>
 
   <table class="table table-sm table-bordered">
@@ -70,6 +85,7 @@
           tal:content="path">-</li>
     </ul>
   </tal:not_default>
+  </tal:results>
 
 </metal:content-core>
 </body>

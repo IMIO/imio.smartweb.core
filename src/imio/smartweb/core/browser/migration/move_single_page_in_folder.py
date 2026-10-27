@@ -2,9 +2,8 @@
 
 from plone import api
 from plone.app.linkintegrity.exceptions import LinkIntegrityNotificationException
-from plone.protect.interfaces import IDisableCSRFProtection
+from plone.protect import CheckAuthenticator
 from Products.Five.browser import BrowserView
-from zope.interface import alsoProvides
 
 # /Plone/fr/vie-communale/services-communaux/urbanisme/publications/prix-architecture-et-urbanisme/prix-de-larchitecture-et-de-lurbanisme-1/laureats-des-prix-de-larchitecture-et-de-lurbanisme-2015/laureats-du-prix-de-lurbanisme-2015
 # ici, on a une page par défaut, sur un dossier presque du même nom
@@ -16,7 +15,13 @@ from zope.interface import alsoProvides
 class MoveSinglePageView(BrowserView):
 
     def __call__(self):
-        alsoProvides(self.request, IDisableCSRFProtection)
+        # This view changes the whole site: only run it from the confirmation
+        # form (POST + CSRF token), never from a simple link (GET).
+        self.done = False
+        if self.request.method != "POST":
+            return self.index()
+        CheckAuthenticator(self.request)
+        self.done = True
         brains = api.content.find(portal_type="imio.smartweb.Folder")
         self.cpt_default_pages = 0
         self.cpt_single_page_folders = 0

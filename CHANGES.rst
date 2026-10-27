@@ -5,7 +5,8 @@ Changelog
 1.4.66 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migration view ``@@move_single_page`` : fix a CSRF vulnerability.
+  [boulch]
 
 
 1.4.65 (2026-10-27)
