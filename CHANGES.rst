@@ -5,6 +5,9 @@ Changelog
 1.4.66 (unreleased)
 -------------------
 
+- Sections : fix a stored XSS vulnerability in the "Error in section" message.
+  [boulch]
+
 - Migration view ``@@move_single_page`` : fix a CSRF vulnerability.
   [boulch]
 

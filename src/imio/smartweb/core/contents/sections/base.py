@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from html import escape
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
 from plone.autoform.directives import write_permission
@@ -95,4 +96,4 @@ class Section(Container):
                 '<div class="section_error_txt">Error in section : "{}" <a href="{}/edit">[edit]</a></div>'
             ),
             target_language=api.portal.get_current_language()[:2],
-        ).format(self.title, self.absolute_url())
+        ).format(escape(self.title), escape(self.absolute_url()))

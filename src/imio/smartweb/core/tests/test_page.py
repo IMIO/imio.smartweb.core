@@ -322,12 +322,22 @@ class TestPage(ImioSmartwebTestCase):
             type="imio.smartweb.SectionLinks",
             title="Section links",
         )
+        api.content.create(
+            container=page,
+            type="imio.smartweb.SectionLinks",
+            title="<script>alert(1)</script>",
+        )
         view = getMultiAdapter((page, self.request), name="full_view")
         self.assertNotIn("Error in section :", view())
         with patch(
             "imio.smartweb.core.contents.sections.links.view.LinksView.items",
             side_effect=Exception,
         ):
-            self.assertIn('Error in section : "Section links"', view())
+            html = view()
+            self.assertIn('Error in section : "Section links"', html)
+            self.assertIn(
+                'Error in section : "&lt;script&gt;alert(1)&lt;/script&gt;"', html
+            )
+            self.assertNotIn("<script>alert(1)</script>", html)
             logout()
             self.assertNotIn("Error in section :", view())
