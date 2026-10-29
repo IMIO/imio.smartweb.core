@@ -89,8 +89,12 @@ class CampaignEndpoint(BaseTsEndpoint):
 
     def add_b64_image_to_data(self, data):
         for d in data:
-            # get image
-            image_url = d.get("fields").get("images_raw")[0].get("image").get("url")
+            # get image (image is optional in TS: front displays a placeholder)
+            images = d.get("fields", {}).get("images_raw") or []
+            image = (images[0] or {}).get("image") if images else None
+            image_url = image and image.get("url")
+            if not image_url:
+                continue
             content = self.get_image(image_url).content
             b64_content = base64.b64encode(content).decode("utf-8")
             d["fields"]["images_raw"][0]["image"]["content"] = b64_content

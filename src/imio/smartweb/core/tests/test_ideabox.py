@@ -549,6 +549,27 @@ class TestAddB64Image(_CampaignViewMixin):
         for item in result:
             self.assertIn("content", item["fields"]["images_raw"][0]["image"])
 
+    def test_add_b64_image_skips_items_without_image(self):
+        endpoint = self._make_endpoint()
+        mock_resp = MagicMock()
+        mock_resp.content = b"img"
+        data = [
+            {"fields": {"images_raw": None}},
+            {"fields": {"images_raw": []}},
+            {"fields": {"images_raw": [None]}},
+            {"fields": {"images_raw": [{"image": None}]}},
+            {"fields": {"images_raw": [{"image": {"url": ""}}]}},
+            {"fields": {}},
+            {"fields": {"images_raw": [{"image": {"url": "http://a.com/1.png"}}]}},
+        ]
+        with patch.object(
+            endpoint, "get_image", return_value=mock_resp
+        ) as mock_get_image:
+            result = endpoint.add_b64_image_to_data(data)
+        mock_get_image.assert_called_once_with("http://a.com/1.png")
+        self.assertEqual(len(result), 7)
+        self.assertIn("content", result[-1]["fields"]["images_raw"][0]["image"])
+
 
 # ---------------------------------------------------------------------------
 # ZonesEndpoint

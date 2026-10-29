@@ -5,7 +5,9 @@ Changelog
 1.4.66 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- IDBOX-75 : Campaign view : display projects without image (with a placeholder).
+  Before, a single project without image made the whole list of projects empty.
+  [thomlamb]
 
 
 1.4.65 (2026-10-27)

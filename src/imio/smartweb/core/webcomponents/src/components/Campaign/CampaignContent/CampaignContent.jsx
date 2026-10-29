@@ -114,13 +114,18 @@ function ContentText({
     voteContext,
     displayRedThumbs,
 }) {
-    const [image, setImage] = useState(new Image());
+    const [image, setImage] = useState(null);
     const [imageClassName, setImageClassName] = useState("");
 
     useEffect(() => {
         if (item) {
             // Set image and image className
-            const src = item.images_raw[0].image.content || "";
+            // image is optional in TS: a placeholder is displayed when missing
+            const src = item.images_raw?.[0]?.image?.content;
+            if (!src) {
+                setImage(null);
+                return;
+            }
             const img = new Image();
             img.src = "data:image/jpeg;base64," + src;
 
@@ -186,9 +191,7 @@ function ContentText({
                             />
                         </div>
                     ) : (
-                        <>
-                            <div className="r-item-img r-item-img-placeholder"></div>
-                        </>
+                        <div className="r-content-img r-item-img-placeholder"></div>
                     )}
                 </figure>
             </article>

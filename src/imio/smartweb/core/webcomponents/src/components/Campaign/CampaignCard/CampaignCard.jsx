@@ -14,9 +14,10 @@ const CampaignCard = (props) => {
 
     // Set image and image className
     useEffect(() => {
+        // image is optional in TS: a placeholder is displayed when missing
+        const src = props.item.images_raw?.[0]?.image?.content;
         const loadImage = async () => {
             const img = new Image();
-            const src = props.item.images_raw[0].image.content || "";
 
             img.src = "data:image/jpeg;base64," + src;
 
@@ -31,7 +32,7 @@ const CampaignCard = (props) => {
             }
         };
 
-        if (props.item.images_raw[0].image.content) {
+        if (src) {
             loadImage();
         }
     }, [props.item]);
