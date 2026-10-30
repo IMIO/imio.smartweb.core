@@ -464,7 +464,13 @@ def reindex_searchable_text(field_name, identifiers):
     catalog = api.portal.get_tool("portal_catalog")
     brains = catalog.unrestrictedSearchResults(**{field_name: list(identifiers)})
     for brain in brains:
-        brain._unrestrictedGetObject().reindexObject(idxs=["SearchableText"])
+        try:
+            obj = brain._unrestrictedGetObject()
+        except (AttributeError, KeyError):
+            # a catalog entry whose object no longer exists
+            logger.warning("Could not reindex missing object %s", brain.getPath())
+            continue
+        obj.reindexObject(idxs=["SearchableText"])
     logger.info(
         "Reindexed SearchableText of %s objects for taxonomy %s",
         len(brains),

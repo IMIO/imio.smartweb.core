@@ -9,6 +9,12 @@ Changelog
   Before, a single project without image made the whole list of projects empty.
   [thomlamb]
 
+- Fix ``index_taxonomy_labels`` upgrade step (1088 to 1089) on sites whose catalog
+  contains entries for missing objects: they are now skipped (with a warning).
+  Before, the upgrade failed, so the next step (SVG icons registry record)
+  never ran and the Smartweb control panel raised a ``KeyError``.
+  [thomlamb]
+
 
 1.4.65 (2026-10-27)
 -------------------

@@ -113,3 +113,19 @@ class TestUpgrades(ImioSmartwebTestCase):
         self.assertEqual(len(api.content.find(SearchableText="Emploi")), 0)
         index_taxonomy_labels(self.portal)
         self.assertEqual(len(api.content.find(SearchableText="Emploi")), 1)
+
+    def test_index_taxonomy_labels_with_missing_object(self):
+        page = api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            title="My page",
+            language="fr",
+        )
+        page.taxonomy_page_category = ["emploi"]
+        page.reindexObject()
+        processQueue()
+        # an object removed without being unindexed stays in the catalog
+        self.portal._delObject(page.getId(), suppress_events=True)
+        catalog = api.portal.get_tool("portal_catalog")
+        self.assertEqual(len(catalog(taxonomy_page_category="emploi")), 1)
+        index_taxonomy_labels(self.portal)
