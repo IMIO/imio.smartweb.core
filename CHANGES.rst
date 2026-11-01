@@ -2,7 +2,7 @@ Changelog
 =========
 
 
-1.4.66 (unreleased)
+1.4.66 (2026-11-01)
 -------------------
 
 - Fix the global search on news and directory: ``@search`` with ``_core`` gave
