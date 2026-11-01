@@ -11,11 +11,15 @@ from imio.smartweb.core.contents.rest.search.endpoint import get_news_views
 from imio.smartweb.core.contents.rest.search.endpoint import get_site_agenda_uids
 from imio.smartweb.core.contents.rest.search.endpoint import get_views_mapping
 from imio.smartweb.core.contents.rest.search.endpoint import SearchGet
+from imio.smartweb.core.contents.rest.search.endpoint import (
+    SolrCoresSummarySerializerMetadata,
+)
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
 from imio.smartweb.core.testing import ImioSmartwebTestCase
 from plone import api
 from plone.app.testing import setRoles
 from plone.app.testing import TEST_USER_ID
+from plone.restapi.interfaces import ISerializeToJsonSummary
 from plone.restapi.search.handler import SearchHandler
 from plone.uuid.interfaces import IUUID
 from unittest.mock import MagicMock
@@ -278,6 +282,18 @@ class TestExtendedSearchHandler(ImioSmartwebTestCase):
         result = handler._adapt_result_values(item, mapping, "news")
         self.assertIn("specific-view", result["_url"])
 
+    def test_adapt_result_values_without_container_uid_uses_default_view(self):
+        handler = ExtendedSearchHandler(self.portal, self.request)
+        item = {
+            "@type": "imio.news.NewsItem",
+            "UID": "item-uid",
+            "path_string": "/plone/news/item",
+            "modified": "2021-09-14T08:00:00",
+        }
+        mapping = {"imio.news.NewsItem": {"default": "http://nohost/plone/news-view"}}
+        result = handler._adapt_result_values(item, mapping, "news")
+        self.assertIn("news-view", result["_url"])
+
     def test_adapt_result_values_translates_fields_for_non_fr_language(self):
         handler = ExtendedSearchHandler(self.portal, self.request)
         item = {
@@ -407,6 +423,30 @@ class TestSearchGet(ImioSmartwebTestCase):
             self.request.form = {"SearchableText": "test"}
             result = service.reply()
             self.assertEqual(result, mock_result)
+
+
+class TestSolrCoresSummarySerializerMetadata(ImioSmartwebTestCase):
+    """Tests for SolrCoresSummarySerializerMetadata utility"""
+
+    layer = IMIO_SMARTWEB_CORE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+    def test_non_metadata_attributes(self):
+        fields = SolrCoresSummarySerializerMetadata().non_metadata_attributes()
+        api.content.create(
+            container=self.portal,
+            type="imio.smartweb.Page",
+            id="test-summary-page",
+        )
+        brain = api.content.find(id="test-summary-page")[0]
+        self.request.form["metadata_fields"] = sorted(fields)
+        summary = queryMultiAdapter((brain, self.request), ISerializeToJsonSummary)()
+        for field in fields:
+            self.assertIn(field, summary)
 
 
 class TestSearchBrowserView(ImioSmartwebTestCase):

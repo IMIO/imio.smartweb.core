@@ -5,6 +5,13 @@ Changelog
 1.4.66 (unreleased)
 -------------------
 
+- Fix the global search on news and directory: ``@search`` with ``_core`` gave
+  an error 503 (``KeyError: 'container_uid'``). Since plone.restapi 9.15.7, the
+  summary serializer removes the ``metadata_fields`` that are not columns of the
+  local catalog. The fields of the authentic sources Solr cores are now declared
+  as ``non_metadata_attributes``.
+  [boulch]
+
 - IDBOX-75 : Campaign view : display projects without image (with a placeholder).
   Before, a single project without image made the whole list of projects empty.
   [thomlamb]

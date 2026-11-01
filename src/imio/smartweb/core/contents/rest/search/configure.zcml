@@ -14,6 +14,11 @@
     layer="imio.smartweb.core.interfaces.IImioSmartwebCoreLayer"
     />
 
+  <utility
+    factory=".endpoint.SolrCoresSummarySerializerMetadata"
+    name="imio.smartweb.core.solr_cores"
+    />
+
   <!-- SolR core connections -->
   <utility
     provides="collective.solr.interfaces.ISolrConnectionManager"

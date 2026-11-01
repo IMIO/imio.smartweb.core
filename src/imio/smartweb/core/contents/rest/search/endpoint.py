@@ -9,10 +9,12 @@ from imio.smartweb.core.utils import hash_md5
 from plone import api
 from plone.app.layout.navigation.interfaces import INavigationRoot
 from plone.memoize import ram
+from plone.restapi.interfaces import IJSONSummarySerializerMetadata
 from plone.restapi.search.handler import SearchHandler
 from plone.restapi.search.utils import unflatten_dotted_dict
 from plone.restapi.services import Service
 from time import time
+from zope.interface import implementer
 
 import logging
 
@@ -144,6 +146,30 @@ def get_views_mapping(navigation_root):
     return mapping
 
 
+@implementer(IJSONSummarySerializerMetadata)
+class SolrCoresSummarySerializerMetadata:
+    """Summary fields of the authentic sources Solr cores.
+
+    Since plone.restapi 9.15.7, the summary serializer drops the
+    ``metadata_fields`` that are not columns of the local catalog. These fields
+    are columns of the authentic sources catalogs only, so they must be
+    declared here to stay in the ``@search`` results.
+    """
+
+    def non_metadata_attributes(self):
+        return {
+            "container_uid",
+            "path_string",
+            "taxonomy_contact_category",
+            "title_de",
+            "title_en",
+            "title_nl",
+            "description_de",
+            "description_en",
+            "description_nl",
+        }
+
+
 class SearchGet(Service):
     def reply(self):
         query = self.request.form.copy()
@@ -210,7 +236,7 @@ class ExtendedSearchHandler(SearchHandler):
                     item[field] = item[fname]
                     del item[fname]
         type_mapping = mapping[item["@type"]]
-        base_url = type_mapping.get(item["container_uid"], type_mapping["default"])
+        base_url = type_mapping.get(item.get("container_uid"), type_mapping["default"])
         item["_url"] = "{base}/content?u={item_uid}".format(
             base=base_url,
             item_uid=item["UID"],
