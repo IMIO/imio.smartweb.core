@@ -74,6 +74,8 @@ setup(
         "collective.taxonomy",
         "collective.z3cform.datagridfield",
         "embeddify",
+        "lxml",
+        "lxml_html_clean",
         "markdownify",
         "more-itertools",
         "imio.smartweb.common",

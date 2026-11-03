@@ -23,6 +23,35 @@
       name="@messages"
       />
 
+  <!-- Editorial content of a page, for the Prefect ETL.
+       Footer and HeroBanner are not eligible: they are parts of other pages -->
+  <plone:service
+      method="GET"
+      accept="application/json"
+      factory=".prefect.PrefectGet"
+      for="imio.smartweb.core.contents.IPage"
+      permission="zope2.View"
+      name="@prefect"
+      />
+
+  <plone:service
+      method="GET"
+      accept="application/json"
+      factory=".prefect.PrefectGet"
+      for="imio.smartweb.core.contents.IPortalPage"
+      permission="zope2.View"
+      name="@prefect"
+      />
+
+  <plone:service
+      method="GET"
+      accept="application/json"
+      factory=".prefect.PrefectGet"
+      for="imio.smartweb.core.contents.IProcedure"
+      permission="zope2.View"
+      name="@prefect"
+      />
+
   <!-- Directory  -->
   <plone:service
       method="GET"

@@ -5,7 +5,13 @@ Changelog
 1.4.67 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Add the ``@prefect`` REST endpoint on Page, PortalPage and Procedure. It gives
+  the editorial content of the page as JSON for the Prefect ETL: metadata
+  (minisite, subsite, category, topics, I am) and the sections in the order of
+  the page. The endpoint does not use the rendering views and does not call
+  external services. It removes the active code from the HTML and does not give
+  the URL of a content that the user cannot see.
+  [boulch]
 
 
 1.4.66 (2026-11-01)
