@@ -50,6 +50,8 @@ class SectionView(BrowserView):
         if self.context.collapsible_section:
             return
         self.context.hide_title = True
+        # the title visibility is content: reindex the section and its page
+        modified(self.context)
         api.portal.show_message(_("Section title has been hidden"), self.request)
         self.redirect_to_section(self.context.id)
 
@@ -57,6 +59,7 @@ class SectionView(BrowserView):
         if not self.context.can_toggle_title_visibility:
             return
         self.context.hide_title = False
+        modified(self.context)
         api.portal.show_message(_("Section title has been shown"), self.request)
         self.redirect_to_section(self.context.id)
 

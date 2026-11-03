@@ -17,10 +17,11 @@ def _enforce_text_alignment_width(obj):
 
 
 def added_section(obj, event):
+    # No reindexParent here: adding a section notifies the page with a
+    # ContainerModifiedEvent, and plone.dexterity reindexOnModify reindexes it.
     if obj.collapsible_section:
         obj.hide_title = False
     _enforce_text_alignment_width(obj)
-    reindexParent(obj, event)
 
 
 def modified_section(obj, event):

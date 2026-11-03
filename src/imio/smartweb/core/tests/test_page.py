@@ -331,3 +331,21 @@ class TestPage(ImioSmartwebTestCase):
             self.assertIn('Error in section : "Section links"', view())
             logout()
             self.assertNotIn("Error in section :", view())
+
+    def test_delete_page_leaves_no_catalog_entry(self):
+        folder = api.content.create(
+            container=self.portal, type="imio.smartweb.Folder", title="Folder"
+        )
+        page = api.content.create(
+            container=folder, type="imio.smartweb.Page", title="Page"
+        )
+        api.content.create(
+            container=page, type="imio.smartweb.SectionText", title="Section"
+        )
+        uid = page.UID()
+        api.content.delete(page)
+        # removing the sections of a deleted page must not index it again
+        self.assertEqual(len(api.content.find(UID=uid)), 0)
+        self.assertEqual(
+            len(api.content.find(path="/".join(folder.getPhysicalPath()), depth=1)), 0
+        )

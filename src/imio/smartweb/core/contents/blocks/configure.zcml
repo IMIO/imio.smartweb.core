@@ -22,4 +22,10 @@
       handler=".subscriber.modified_section_content"
       />
 
+  <subscriber
+      for="imio.smartweb.core.contents.IPublication
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscriber.modified_section_content"
+      />
+
 </configure>

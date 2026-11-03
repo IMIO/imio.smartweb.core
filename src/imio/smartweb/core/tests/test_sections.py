@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from AccessControl.unauthorized import Unauthorized
+from Acquisition import aq_base
 from bs4 import BeautifulSoup
+from DateTime import DateTime
 from collective.geolocationbehavior.geolocation import IGeolocatable
 from functools import reduce
 from imio.smartweb.core.behaviors.new_tab import INewTab
@@ -22,6 +24,7 @@ from plone.namedfile.file import NamedBlobFile
 from plone.namedfile.file import NamedBlobImage
 from plone.protect.authenticator import createToken
 from time import sleep
+from unittest import mock
 from z3c.relationfield import RelationValue
 from zope.component import getMultiAdapter
 from zope.component import getUtility
@@ -689,3 +692,138 @@ class TestSections(ImioSmartwebTestCase):
         self.assertIn(f"{section_text.getURL()}/@@historyview", page_view)
         # One more history view link on SectionText
         self.assertEqual(page_view.count("@@historyview"), count_historyview_link + 1)
+
+    def _move_page_modified_to_the_past(self):
+        past = DateTime() - 1
+        self.page.setModificationDate(past)
+        self.page.reindexObject(idxs=["modified"])
+        return past
+
+    def assertPageModifiedSince(self, past):
+        """The page has a new modification date, also known by the catalog"""
+        self.assertGreater(self.page.modified(), past)
+        brain = api.content.find(UID=self.page.UID())[0]
+        self.assertEqual(brain.modified, self.page.modified())
+
+    def _reorder_section(self, section_id, ordered_ids):
+        alsoProvides(self.request, IImioSmartwebCoreLayer)
+        self.request.form["_authenticator"] = createToken()
+        self.request.form["id"] = section_id
+        self.request.form["delta"] = "-1"
+        self.request.form["orderedSectionsIds"] = json.dumps(ordered_ids)
+        self.request.environ["REQUEST_METHOD"] = "POST"
+        getMultiAdapter((self.page, self.request), name="reorder-section")()
+
+    def test_delete_section_updates_page(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionText",
+            title="Section text",
+        )
+        past = self._move_page_modified_to_the_past()
+        api.content.delete(section)
+        self.assertPageModifiedSince(past)
+
+    def test_delete_section_updates_page_searchable_text(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionGallery",
+            title="Ornithorynque",
+        )
+        query = {"SearchableText": "Ornithorynque", "portal_type": "imio.smartweb.Page"}
+        self.assertEqual(len(api.content.find(**query)), 1)
+        api.content.delete(section)
+        self.assertEqual(len(api.content.find(**query)), 0)
+
+    def test_reorder_sections_updates_page(self):
+        for section_id in ["section1", "section2"]:
+            api.content.create(
+                container=self.page,
+                type="imio.smartweb.SectionText",
+                title=section_id,
+                id=section_id,
+            )
+        past = self._move_page_modified_to_the_past()
+        self._reorder_section("section2", ["section1", "section2"])
+        self.assertListEqual(self.page.objectIds(), ["section2", "section1"])
+        self.assertPageModifiedSince(past)
+
+    def test_hide_and_show_section_title_update_page(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionGallery",
+            title="Section gallery",
+        )
+        past = self._move_page_modified_to_the_past()
+        view = queryMultiAdapter((section, self.request), name="hide_section_title")
+        view.hide_section_title()
+        self.assertTrue(section.hide_title)
+        self.assertPageModifiedSince(past)
+        past = self._move_page_modified_to_the_past()
+        view = queryMultiAdapter((section, self.request), name="show_section_title")
+        view.show_section_title()
+        self.assertFalse(section.hide_title)
+        self.assertPageModifiedSince(past)
+
+    def test_section_children_update_page(self):
+        section = api.content.create(
+            container=self.page,
+            type="imio.smartweb.SectionLinks",
+            title="Section links",
+        )
+        past = self._move_page_modified_to_the_past()
+        link = api.content.create(
+            container=section,
+            type="imio.smartweb.BlockLink",
+            title="Recyparcs",
+            remoteUrl="https://www.imio.be",
+        )
+        self.assertPageModifiedSince(past)
+        past = self._move_page_modified_to_the_past()
+        link.title = "Parcs à conteneurs"
+        modified(link)
+        self.assertPageModifiedSince(past)
+        past = self._move_page_modified_to_the_past()
+        api.content.delete(link)
+        self.assertPageModifiedSince(past)
+
+    def test_page_reindexed_once_per_section_change(self):
+        # Exception to "do not mock Plone" (validated for this test only): a spy
+        # (wraps=) counts the calls to the real reindexObject, which still runs.
+        # Each change of the sections of a page must reindex the page once.
+        page_class = type(aq_base(self.page))
+        with mock.patch.object(
+            page_class, "reindexObject", autospec=True, wraps=page_class.reindexObject
+        ) as spy:
+            section = api.content.create(
+                container=self.page,
+                type="imio.smartweb.SectionText",
+                title="section1",
+                id="section1",
+            )
+            api.content.create(
+                container=self.page,
+                type="imio.smartweb.SectionText",
+                title="section2",
+                id="section2",
+            )
+            self.assertEqual(self._page_reindex_count(spy), 2)
+            spy.reset_mock()
+            self._reorder_section("section2", ["section1", "section2"])
+            self.assertEqual(self._page_reindex_count(spy), 1)
+            spy.reset_mock()
+            api.content.delete(section)
+            self.assertEqual(self._page_reindex_count(spy), 1)
+
+    def _page_reindex_count(self, spy):
+        """Number of full reindexes of the page (partial ones, like the
+        cmf_uid set by CMFEditions on the first versioned section, are not
+        redundant work)"""
+        page = aq_base(self.page)
+        return len(
+            [
+                c
+                for c in spy.call_args_list
+                if aq_base(c.args[0]) is page and not c.kwargs.get("idxs")
+            ]
+        )

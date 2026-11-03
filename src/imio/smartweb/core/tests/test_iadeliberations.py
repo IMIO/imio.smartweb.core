@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from DateTime import DateTime
 from imio.smartweb.core.contents import IPublication
 from imio.smartweb.core.contents.sections.views import SectionView
 from imio.smartweb.core.tests.utils import get_json
@@ -11,6 +12,9 @@ from plone.dexterity.interfaces import IDexterityFTI
 from unittest.mock import patch
 from zope.component import createObject
 from zope.component import queryUtility
+from zope.lifecycleevent import modified
+
+import requests_mock
 
 
 class TestIADeliberations(ImioSmartwebTestCase):
@@ -147,3 +151,21 @@ class TestIADeliberations(ImioSmartwebTestCase):
     #         [item[0]["publication_datetime"] for item in view.items()][0],
     #         "2024-08-14T09:14:31",
     #     )
+
+    def test_modified_publication_updates_page(self):
+        with requests_mock.Mocker():
+            # iA.Delib is not reachable: the subscriber logs the error
+            publication = api.content.create(
+                container=self.files_section,
+                type="imio.smartweb.Publication",
+                id="grand-froid",
+                linked_publication="grand-froid",
+            )
+        past = DateTime() - 1
+        self.page.setModificationDate(past)
+        self.page.reindexObject(idxs=["modified"])
+        publication.title = "Mesures en cas de grand froid"
+        modified(publication)
+        self.assertGreater(self.page.modified(), past)
+        brain = api.content.find(UID=self.page.UID())[0]
+        self.assertEqual(brain.modified, self.page.modified())

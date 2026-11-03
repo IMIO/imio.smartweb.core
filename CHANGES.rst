@@ -13,6 +13,11 @@ Changelog
   the URL of a content that the user cannot see.
   [boulch]
 
+- Update the modification date of a page when an editor hides or shows the
+  title of a section, and when a publication in a files section changes. When
+  an editor adds a section, reindex the page one time, not two times.
+  [boulch]
+
 
 1.4.66 (2026-11-01)
 -------------------
