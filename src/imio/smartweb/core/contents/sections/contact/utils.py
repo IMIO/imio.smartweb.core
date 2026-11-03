@@ -3,6 +3,7 @@
 from imio.smartweb.common.contact_utils import ContactProperties as ContactSchedule
 from imio.smartweb.common.utils import get_term_from_vocabulary
 from imio.smartweb.common.utils import rich_description
+from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.utils import batch_results
 from imio.smartweb.core.utils import get_json
 from imio.smartweb.core.utils import hash_md5
@@ -11,6 +12,20 @@ from plone import api
 from zope.i18n import translate
 
 import json
+
+
+def get_contacts_search_url(uids):
+    """URL of the imio.directory search that gives the full data of the
+    contacts `uids`, in the current language"""
+    # selected_entities: the directory caches the contacts of one entity
+    entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
+    url = "{}/@search?UID={}&selected_entities={}&fullobjects=1&b_size={}".format(
+        DIRECTORY_URL, "&UID=".join(uids), entity_uid, len(uids)
+    )
+    current_lang = api.portal.get_current_language()[:2]
+    if current_lang != "fr":
+        url = f"{url}&translated_in_{current_lang}=1"
+    return url
 
 
 class ContactProperties(ContactSchedule):

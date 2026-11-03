@@ -18,6 +18,12 @@ Changelog
   an editor adds a section, reindex the page one time, not two times.
   [boulch]
 
+- In ``@prefect``, give the data of the contacts of a contact section, as the
+  section shows them: only the blocks that the editor made visible. The data
+  comes from imio.directory. If imio.directory does not answer, the section
+  gets the status "error".
+  [boulch]
+
 
 1.4.66 (2026-11-01)
 -------------------

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from Acquisition import aq_inner
-from imio.smartweb.core.config import DIRECTORY_URL
+from imio.smartweb.core.contents.sections.contact.utils import get_contacts_search_url
 from imio.smartweb.core.utils import get_scale_url
 from imio.smartweb.core.interfaces import IHtmxViewUtils
 from imio.smartweb.core.interfaces import IViewWithoutLeadImage
@@ -78,17 +78,7 @@ class PagesView(FolderView):
         page_contacts = sorted(
             set(list(itertools.chain.from_iterable(nested_contact_list)))
         )
-        uids = "&UID=".join(page_contacts)
-        bsize = len(page_contacts)
-        # selected_entities: the directory caches the contacts of one entity
-        entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
-        url = "{}/@search?UID={}&selected_entities={}&fullobjects=1&b_size={}".format(
-            DIRECTORY_URL, uids, entity_uid, bsize
-        )
-        current_lang = api.portal.get_current_language()[:2]
-        if current_lang != "fr":
-            url = f"{url}&translated_in_{current_lang}=1"
-        json_data = get_json(url)
+        json_data = get_json(get_contacts_search_url(page_contacts))
         if json_data is None or len(json_data.get("items", [])) == 0:
             return
         return json_data

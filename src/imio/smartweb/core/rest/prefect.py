@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """@prefect: the editorial content of a page, as JSON, for the Prefect ETL.
 
-No rendering view is used and no external service is called: only what is
-stored in the page and its sections is read. Every section keeps its place in
+No rendering view is used. The only external service called is imio.directory,
+for the contact sections; everything else is what is stored in the page and
+its sections. Every section keeps its place in
 the page; a section that cannot be serialized gets ``status: "error"`` instead
 of failing the whole response.
 """
@@ -10,9 +11,14 @@ of failing the whole response.
 from Acquisition import aq_base
 from Acquisition import aq_chain
 from Acquisition import aq_inner
+from imio.smartweb.common.contact_utils import formatted_schedule
 from imio.smartweb.common.utils import translate_vocabulary_term
 from imio.smartweb.core.behaviors.minisite import IImioSmartwebMinisite
 from imio.smartweb.core.behaviors.subsite import IImioSmartwebSubsite
+from imio.smartweb.core.contents.sections.contact.utils import ContactProperties
+from imio.smartweb.core.contents.sections.contact.utils import (
+    get_contacts_search_url,
+)
 from imio.smartweb.core.utils import get_category
 from lxml import html as lxml_html
 from lxml_html_clean import Cleaner
@@ -28,10 +34,14 @@ from urllib.parse import urlparse
 from ZODB.POSException import ConflictError
 
 import logging
+import requests
 
 logger = logging.getLogger("imio.smartweb.core")
 
 SCHEMA_VERSION = 1
+
+# seconds, for each request to imio.directory (contact sections only)
+DIRECTORY_TIMEOUT = 10
 
 PAGE_TYPES = {
     "imio.smartweb.Page": "page",
@@ -307,8 +317,198 @@ def serialize_external_content(page, section):
 
 
 def serialize_contact(page, section):
-    # resolved by Prefect against imio.directory, never from here
-    return {"contact_uids": list(section.related_contacts or [])}
+    """The contacts as the section displays them, from imio.directory.
+
+    The only section that calls an external service. A network or HTTP error
+    raises, so the section gets status "error" instead of looking empty. A
+    contact that the directory does not give (deleted, not published) is not
+    in `contacts`, as on the site."""
+    uids = list(section.related_contacts or [])
+    if not uids:
+        return {"contact_uids": [], "contacts": []}
+    found = {
+        contact.get("UID"): contact
+        for contact in directory_json(get_contacts_search_url(uids)).get("items", [])
+    }
+    visible_blocks = set(section.visible_blocks or [])
+    contacts = [
+        contact_details(section, found[uid], visible_blocks)
+        for uid in uids
+        if uid in found
+    ]
+    return {"contact_uids": uids, "contacts": contacts}
+
+
+def contact_details(section, contact, visible_blocks):
+    """What the contact section shows of a directory contact (see
+    contents/sections/contact/macros.pt). A block that the editor did not make
+    visible gives null or [], even when the directory has the data."""
+    details = {
+        "uid": contact.get("UID"),
+        "title": None,
+        "subtitle": None,
+        "vat_number": None,
+        "phones": [],
+        "emails": [],
+        "urls": [],
+        "address": None,
+        "itinerary_url": None,
+        "schedule": None,
+        "location": None,
+        "description": None,
+        "logo_url": None,
+        "image_url": None,
+        "images": [],
+    }
+    properties = ContactProperties(contact, section)
+    if "titles" in visible_blocks:
+        details["title"] = contact.get("title") or None
+        details["subtitle"] = contact.get("subtitle") or None
+    if "contact_informations" in visible_blocks:
+        details["vat_number"] = contact.get("vat_number") or None
+        details["phones"] = contact_phones(contact)
+        details["emails"] = contact_emails(contact)
+        details["urls"] = contact_urls(properties)
+    if "address" in visible_blocks:
+        details["address"] = contact_address(properties)
+    if "itinerary" in visible_blocks:
+        details["itinerary_url"] = properties.get_itinerary_link()
+    if "schedule" in visible_blocks and not properties.is_empty_schedule():
+        details["schedule"] = contact_schedule(contact)
+    geolocation = contact.get("geolocation")
+    if "map" in visible_blocks and contact.get("is_geolocated") and geolocation:
+        details["location"] = {
+            "latitude": geolocation.get("latitude"),
+            "longitude": geolocation.get("longitude"),
+        }
+    if "description" in visible_blocks:
+        details["description"] = contact.get("description") or None
+    if "logo" in visible_blocks and contact.get("logo"):
+        details["logo_url"] = f"{contact['@id']}/@@images/logo"
+    if "leadimage" in visible_blocks and contact.get("image"):
+        details["image_url"] = f"{contact['@id']}/@@images/image"
+    if "gallery" in visible_blocks:
+        details["images"] = contact_images(contact)
+    return details
+
+
+def contact_phones(contact):
+    return [
+        {
+            "label": phone.get("label") or None,
+            "type": phone.get("type") or None,
+            "number": phone.get("number"),
+        }
+        for phone in contact.get("phones") or []
+        if phone.get("number")
+    ]
+
+
+def contact_emails(contact):
+    return [
+        {
+            "label": mail.get("label") or None,
+            "type": mail.get("type") or None,
+            "address": mail.get("mail_address"),
+        }
+        for mail in contact.get("mails") or []
+        if mail.get("mail_address")
+    ]
+
+
+def contact_urls(properties):
+    # get_urls drops the empty rows, as the template does
+    return [
+        {"type": url.get("type") or None, "url": url.get("url")}
+        for url in properties.get_urls or []
+        if url.get("url")
+    ]
+
+
+def contact_address(properties):
+    address = properties.formatted_address()
+    if address is None:
+        return None
+    return {
+        "street": address["street"] or None,
+        "locality": address["entity"] or None,
+        "country": address["country"] or None,
+    }
+
+
+WEEK_DAYS = (
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday",
+)
+
+
+def contact_schedule(contact):
+    """The opening hours as the editor entered them.
+
+    The site shows the next 7 days from today, with the special periods and
+    the closures applied, and an "open now" message: that changes every day.
+    The stored, regular data is given instead, with the same formatting of
+    the hours (formatted_schedule)."""
+    return {
+        "days": schedule_days(contact.get("schedule") or {}),
+        "periods": [
+            {
+                "dates": [
+                    {"start": dates.get("start_date"), "end": dates.get("end_date")}
+                    for dates in period.get("dates")
+                ],
+                "days": schedule_days(period.get("schedule") or {}),
+            }
+            for period in contact.get("multi_schedule") or []
+            if period.get("dates")
+        ],
+        "closures": [
+            {"date": closure.get("date"), "title": closure.get("title") or None}
+            for closure in contact.get("exceptional_closure") or []
+        ],
+    }
+
+
+def schedule_days(schedule):
+    return [
+        {"day": day, "hours": formatted_schedule(schedule[day])}
+        for day in WEEK_DAYS
+        if day in schedule
+    ]
+
+
+def contact_images(contact):
+    # the same search as ContactProperties.images: the images of a contact are
+    # not in the first response (its "items" are cut to b_size)
+    url = f"{contact['@id']}/@search?portal_type=Image&path.depth=1"
+    return [
+        {
+            "url": f"{image['@id']}/@@images/image",
+            "title": image.get("title") or None,
+            "description": image.get("description") or None,
+        }
+        for image in directory_json(url).get("items", [])
+    ]
+
+
+def directory_json(url):
+    """JSON of an imio.directory request, as an anonymous visitor gets it.
+
+    Unlike utils.get_json, which gives None for every problem, errors raise:
+    the caller must know that the data is missing."""
+    language = api.portal.get_current_language()
+    response = requests.get(
+        url,
+        headers={"Accept": "application/json", "Cookie": f"I18N_LANGUAGE={language}"},
+        timeout=DIRECTORY_TIMEOUT,
+    )
+    response.raise_for_status()
+    return response.json()
 
 
 def serialize_collection(page, section):

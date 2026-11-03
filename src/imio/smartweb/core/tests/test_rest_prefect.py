@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from DateTime import DateTime
+from imio.smartweb.core.config import DIRECTORY_URL
 from imio.smartweb.core.rest.prefect import clean_html
+from imio.smartweb.core.rest.prefect import contact_details
 from imio.smartweb.core.rest.prefect import link_url
 from imio.smartweb.core.rest.prefect import serialize_collection
 from imio.smartweb.core.rest.prefect import serialize_contact
@@ -42,11 +44,22 @@ from zope.component import getUtility
 from zope.intid.interfaces import IIntIds
 
 import json
+import requests
 import requests_mock
 import transaction
 
 IADELIBERATIONS_URL = "https://conseil.staging.imio.be"
 INSTITUTION_URL = f"{IADELIBERATIONS_URL}/waremme"
+
+
+CONTACT_UID = "2dc381f0fb584381b8e4a19c84f53b35"
+
+
+def directory_contact(**changes):
+    """A contact as imio.directory gives it (@search with fullobjects)"""
+    contact = get_json("resources/json_contact_raw_mock.json")["items"][0]
+    contact.update(changes)
+    return contact
 
 
 def relation(obj):
@@ -144,7 +157,7 @@ class TestPrefect(ImioSmartwebTestCase):
         self.assertEqual(data["procedure_url"], "https://guichet.example.be/demande")
 
         # sections that call external services when they are rendered are
-        # serialized without any request: requests_mock refuses all of them
+        # serialized without any request, except the contacts (imio.directory)
         portal_page = self.add_portal_page()
         self.add_section("Contact", portal_page, related_contacts=["abc"])
         self.add_section("Video", portal_page, video_url="https://youtu.be/abc")
@@ -156,8 +169,13 @@ class TestPrefect(ImioSmartwebTestCase):
         self.add_section("Events", portal_page)
         self.add_section("News", portal_page)
         self.add_section("TimestampedPublications", portal_page)
-        with requests_mock.Mocker():
+        with requests_mock.Mocker() as m:
+            m.get(f"{DIRECTORY_URL}/@search", json={"items": [], "items_total": 0})
             data = serialize_page(portal_page)
+        self.assertEqual(
+            [request.url.split("?")[0] for request in m.request_history],
+            [f"{DIRECTORY_URL}/@search"],
+        )
         self.assertEqual(data["type"], "portal_page")
         self.assertEqual(
             [(s["type"], s["status"]) for s in data["sections"]],
@@ -480,11 +498,219 @@ class TestPrefect(ImioSmartwebTestCase):
             {"description": None, "url": "https://www.eagle.be/widget"},
         )
 
-    def test_serialize_contact(self):
-        section = self.add_section("Contact", related_contacts=["uid1", "uid2"])
+    @requests_mock.Mocker()
+    def test_serialize_contact(self, m):
+        section = self.add_section("Contact", visible_blocks=["titles"])
+        # no contact: no request
         self.assertEqual(
-            serialize_contact(self.page, section), {"contact_uids": ["uid1", "uid2"]}
+            serialize_contact(self.page, section), {"contact_uids": [], "contacts": []}
         )
+        self.assertEqual(m.call_count, 0)
+
+        section.related_contacts = ["uid2", "unknown", "uid1"]
+        # the directory gives the published contacts only, in its own order
+        m.get(
+            f"{DIRECTORY_URL}/@search",
+            json={
+                "items": [
+                    directory_contact(UID="uid1", title="Population"),
+                    directory_contact(UID="uid2", title="Travaux"),
+                ],
+                "items_total": 2,
+            },
+        )
+        data = serialize_contact(self.page, section)
+        # one request for all the contacts of the section
+        self.assertEqual(m.call_count, 1)
+        self.assertEqual(m.last_request.qs["uid"], ["uid2", "unknown", "uid1"])
+        self.assertEqual(data["contact_uids"], ["uid2", "unknown", "uid1"])
+        # the order of the section; a contact not given is not shown
+        self.assertEqual(
+            [(contact["uid"], contact["title"]) for contact in data["contacts"]],
+            [("uid2", "Travaux"), ("uid1", "Population")],
+        )
+
+        # no visible contact is a legitimate, empty result
+        m.get(f"{DIRECTORY_URL}/@search", json={"items": [], "items_total": 0})
+        data = serialize_section(self.page, section)
+        self.assertEqual((data["status"], data["contacts"]), ("ok", []))
+
+        # the directory does not answer correctly: the section is incomplete,
+        # it must not look empty
+        failures = [
+            {"exc": requests.exceptions.ConnectTimeout},
+            {"exc": requests.exceptions.ConnectionError},
+            {"status_code": 500},
+            {"status_code": 404},
+            {"text": "not JSON"},
+        ]
+        for failure in failures:
+            m.get(f"{DIRECTORY_URL}/@search", **failure)
+            data = serialize_section(self.page, section)
+            self.assertEqual(data["status"], "error", failure)
+            self.assertNotIn("contacts", data)
+
+    @requests_mock.Mocker()
+    def test_contact_details(self, m):
+        section = self.add_section("Contact")
+        contact = directory_contact(
+            subtitle="Accueil",
+            vat_number="BE0123456789",
+            phones=[
+                {"label": "Accueil", "type": "work", "number": "+32 81 00 00 00"},
+                {"label": None, "type": "fax", "number": ""},
+            ],
+            mails=[{"label": None, "type": "work", "mail_address": "info@commune.be"}],
+            urls=[
+                {"type": "website", "url": "https://www.commune.be"},
+                {"type": None, "url": None},
+            ],
+        )
+
+        # the editor shows the titles, the contact informations and the
+        # schedule: the other data of the directory is not given
+        details = contact_details(
+            section, contact, {"titles", "contact_informations", "schedule"}
+        )
+        self.assertEqual(details["uid"], CONTACT_UID)
+        self.assertEqual(details["title"], "My contact")
+        self.assertEqual(details["subtitle"], "Accueil")
+        self.assertEqual(details["vat_number"], "BE0123456789")
+        self.assertEqual(
+            details["phones"],
+            [{"label": "Accueil", "type": "work", "number": "+32 81 00 00 00"}],
+        )
+        self.assertEqual(
+            details["emails"],
+            [{"label": None, "type": "work", "address": "info@commune.be"}],
+        )
+        self.assertEqual(
+            details["urls"], [{"type": "website", "url": "https://www.commune.be"}]
+        )
+        schedule = details["schedule"]
+        self.assertEqual(len(schedule["days"]), 7)
+        self.assertEqual(
+            schedule["days"][0],
+            {
+                "day": "monday",
+                "hours": "08:00 - 12:00 | 13:00 - 15:00"
+                " (Ouverture classique avec pause de midi)",
+            },
+        )
+        self.assertEqual(
+            schedule["periods"][0]["dates"],
+            [
+                {"start": "2021-07-01", "end": "2021-08-31"},
+                {"start": "2021-12-20", "end": "2021-12-31"},
+            ],
+        )
+        self.assertEqual(
+            schedule["closures"],
+            [{"date": "2021-06-16", "title": "Exceptional closure !"}],
+        )
+        for hidden in [
+            "address",
+            "itinerary_url",
+            "location",
+            "description",
+            "logo_url",
+            "image_url",
+        ]:
+            self.assertIsNone(details[hidden], hidden)
+        self.assertEqual(details["images"], [])
+        # the gallery is hidden: its images are not requested
+        self.assertEqual(m.call_count, 0)
+
+        # every block shown
+        m.get(
+            f"{contact['@id']}/@search",
+            json={
+                "items": [
+                    {"@id": f"{contact['@id']}/facade", "title": "Façade"},
+                ]
+            },
+        )
+        details = contact_details(
+            section,
+            contact,
+            {
+                "logo",
+                "leadimage",
+                "titles",
+                "contact_informations",
+                "address",
+                "itinerary",
+                "schedule",
+                "map",
+                "description",
+                "gallery",
+            },
+        )
+        self.assertEqual(details["address"]["street"], "Adresse 1")
+        self.assertEqual(details["address"]["locality"], "1000 Liège")
+        self.assertIsNotNone(details["address"]["country"])
+        self.assertTrue(
+            details["itinerary_url"].startswith("https://www.google.com/maps/dir/")
+        )
+        self.assertEqual(details["location"], {"latitude": 50.4, "longitude": 4.7})
+        self.assertEqual(
+            details["description"],
+            "Description **avec gras** et \r\n retours à la ligne",
+        )
+        self.assertEqual(details["logo_url"], f"{contact['@id']}/@@images/logo")
+        self.assertEqual(details["image_url"], f"{contact['@id']}/@@images/image")
+        self.assertEqual(
+            details["images"],
+            [
+                {
+                    "url": f"{contact['@id']}/facade/@@images/image",
+                    "title": "Façade",
+                    "description": None,
+                }
+            ],
+        )
+
+        # a shown block without data gives null, not an empty structure
+        empty_day = dict.fromkeys(
+            ["morningstart", "morningend", "afternoonstart", "afternoonend", "comment"],
+            "",
+        )
+        partial = directory_contact(
+            street=None,
+            number=None,
+            complement=None,
+            zipcode=None,
+            city=None,
+            country=None,
+            schedule={day: dict(empty_day) for day in ["monday", "tuesday"]},
+            is_geolocated=False,
+            logo=None,
+            image=None,
+            description="",
+        )
+        details = contact_details(
+            section,
+            partial,
+            {
+                "address",
+                "itinerary",
+                "schedule",
+                "map",
+                "logo",
+                "leadimage",
+                "description",
+            },
+        )
+        for empty in [
+            "address",
+            "itinerary_url",
+            "schedule",
+            "location",
+            "logo_url",
+            "image_url",
+            "description",
+        ]:
+            self.assertIsNone(details[empty], empty)
 
     def test_serialize_collection(self):
         collection = api.content.create(

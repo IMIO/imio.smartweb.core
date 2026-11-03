@@ -7,6 +7,9 @@ from freezegun import freeze_time
 from imio.smartweb.common.contact_utils import formatted_schedule
 from imio.smartweb.common.contact_utils import get_schedule_for_today
 from imio.smartweb.core.contents.sections.contact.utils import ContactProperties
+from imio.smartweb.core.contents.sections.contact.utils import (
+    get_contacts_search_url,
+)
 from imio.smartweb.core.contents.sections.views import SECTION_ITEMS_HASH_KEY
 from imio.smartweb.core.tests.utils import clear_cache
 from imio.smartweb.core.testing import IMIO_SMARTWEB_CORE_FUNCTIONAL_TESTING
@@ -680,6 +683,17 @@ class TestSectionContact(ImioSmartwebTestCase):
         view = queryMultiAdapter((self.page, self.request), name="full_view")
         self.assertNotIn('Error in section : "My contact"', view())
         self.assertIn("contact_informations_social", view())
+
+    def test_get_contacts_search_url(self):
+        # one request for all the contacts, in the order given, in the current
+        # language (the test site is in English)
+        entity_uid = api.portal.get_registry_record("smartweb.directory_entity_uid")
+        self.assertEqual(
+            get_contacts_search_url(["uid2", "uid1"]),
+            "http://localhost:8080/Plone/@search?UID=uid2&UID=uid1"
+            f"&selected_entities={entity_uid}&fullobjects=1&b_size=2"
+            "&translated_in_en=1",
+        )
 
 
 class TestContactPropertiesMethods(ImioSmartwebTestCase):
