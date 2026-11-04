@@ -1355,6 +1355,15 @@
       profile="imio.smartweb.core:default"
       />
 
+  <genericsetup:upgradeStep
+      title="Add e-guichet notifications user and password to registry"
+      description=""
+      source="1090"
+      destination="1091"
+      handler=".upgrades.add_eguichet_notif_settings"
+      profile="imio.smartweb.core:default"
+      />
+
   <!-- genericsetup:upgradeStep
       title="Update SVG icon preview rows setting schema"
       description="Add SVG upload storage to smartweb.svg_icon_preview_rows rows"

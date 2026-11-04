@@ -404,3 +404,11 @@ def index_taxonomy_labels(context):
         identifiers = catalog.uniqueValuesFor(field_name)
         if identifiers:
             reindex_searchable_text(field_name, identifiers)
+
+
+def add_eguichet_notif_settings(context):
+    fields = getFieldNames(ISmartwebControlPanel)
+    fields.remove("user_eguichet_notif")
+    fields.remove("password_eguichet_notif")
+    registry = getUtility(IRegistry)
+    registry.registerInterface(ISmartwebControlPanel, omit=fields, prefix="smartweb")
