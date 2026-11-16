@@ -233,9 +233,14 @@ def format_sitemap_items(items, base_url, include_seo_entry=False):
 
 
 class CustomSiteMapView(SiteMapView):
-    """Custom sitemap view. (get items for sitemap.xml.gz)"""
+    """Custom sitemap view. (get items for sitemap.xml.gz)
 
-    def objects(self):
+    Since plone.app.layout 6, sitemap.xml.gz without a ``page`` parameter is
+    an index of pages. ``_objects`` gives all items: the base class counts
+    them for the index and slices them for each ``?page=N``.
+    """
+
+    def _objects(self):
         """Returns the data to create the sitemap."""
         friendlytypes = FRIENDLY_TYPES
 

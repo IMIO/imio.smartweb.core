@@ -5,7 +5,11 @@ Changelog
 1.4.67 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Fix ``sitemap.xml.gz`` on Plone 6.2: plone.app.layout 6 paginates the
+  sitemap. Without a ``page`` parameter, the view gives an index of pages. The
+  smartweb items (authentic sources included) now go through ``_objects``, so
+  the index counts them and each ``?page=N`` gives its part of them.
+  [boulch]
 
 
 1.4.66 (2026-11-01)
