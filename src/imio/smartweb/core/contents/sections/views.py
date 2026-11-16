@@ -8,8 +8,8 @@ from imio.smartweb.core.utils import hash_md5
 from imio.smartweb.core.utils import reindexParent
 from imio.smartweb.locales import SmartwebMessageFactory as _
 from plone import api
+from plone.app.layout.viewlets.locking import LockInfoViewlet
 from plone.base.utils import human_readable_size
-from plone.locking.browser.info import LockInfoViewlet
 from plone.protect.interfaces import IDisableCSRFProtection
 from Products.Five.browser import BrowserView
 from zope.annotation.interfaces import IAnnotations
