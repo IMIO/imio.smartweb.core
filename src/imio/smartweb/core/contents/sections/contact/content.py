@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from imio.smartweb.common.contact.rows import IContactInformationsGrids
 from imio.smartweb.common.widgets.select import TranslatedAjaxSelectWidget
 from imio.smartweb.core.contents.sections.base import ISection
 from imio.smartweb.core.contents.sections.base import Section
@@ -11,8 +12,14 @@ from zope import schema
 from zope.interface import implementer
 
 
-class ISectionContact(ISection):
-    """Marker interface and Dexterity Python Schema for SectionContact"""
+class ISectionContact(ISection, IContactInformationsGrids):
+    """Marker interface and Dexterity Python Schema for SectionContact
+
+    The `contact_informations` fieldset and its three read-only datagrids come
+    from IContactInformationsGrids, shared with imio.events.core. Here the
+    stored data columns are RESIDUE: the page render always re-reads the live
+    directory payload and only `visible_columns` is authoritative.
+    """
 
     directives.widget(
         "related_contacts",
