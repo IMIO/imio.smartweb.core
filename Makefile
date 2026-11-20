@@ -1,29 +1,37 @@
 #!/usr/bin/make
-.PHONY: buildout run cleanall test test-coverage
-all: buildout
+VENV_FOLDER=.venv
 
-bin/buildout: bin/pip buildout.cfg
-	bin/pip install -I -r requirements.txt
+ifeq (, $(shell which uv ))
+  $(error "[ERROR] The 'uv' command is missing from your PATH. Install it from: https://docs.astral.sh/uv/getting-started/installation/")
+endif
 
-buildout: bin/instance
+.PHONY: buildout cleanall help release start test test-coverage
 
-bin/instance: bin/buildout
-	bin/buildout
+help: ## Display this help message
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-bin/pip:
-	python3.12 -m venv .
+$(VENV_FOLDER):
+	@echo "Creating virtual environment with uv"
+	uv venv
 
-run: bin/instance
-	bin/instance fg
+$(VENV_FOLDER)/bin/buildout: $(VENV_FOLDER)
+	@echo "Installing requirements with uv pip interface"
+	uv pip install --python $(VENV_FOLDER)/bin/python -r requirements.txt
 
-test: bin/instance
-	bin/test
+buildout: $(VENV_FOLDER)/bin/buildout ## Install dependencies with buildout
+	$(VENV_FOLDER)/bin/buildout -t 7
 
-test-coverage: bin/instance
-	bin/test-coverage
+release: ## Run full release with uvx zest.releaser
+	uvx --from zest.releaser fullrelease
 
-cleanall:
-	rm -fr develop-eggs downloads eggs parts .installed.cfg lib lib64 include bin .mr.developer.cfg local/
+test: buildout ## Run tests
+	./bin/test
 
-upgrade-steps:
-	bin/instance -O plone run scripts/run_portal_upgrades.py
+test-coverage: buildout ## Run tests with coverage (fails under 90%)
+	./bin/test-coverage
+
+start: buildout ## Start the development server
+	ALLOWED_DISTRIBUTIONS=classic ./bin/instance fg
+
+cleanall: ## Clean development environment
+	rm -rf .venv pyvenv.cfg bin develop-eggs downloads eggs include lib lib64 parts .installed.cfg .mr.developer.cfg bootstrap.py parts/omelette local share

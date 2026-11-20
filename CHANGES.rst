@@ -5,7 +5,16 @@ Changelog
 1.4.67 (unreleased)
 -------------------
 
-- Nothing changed yet.
+- Migrate to Plone 6.2.3 : Update import, remove init, remove pkg_resources
+  Fix ``sitemap.xml.gz`` on Plone 6.2: plone.app.layout 6 paginates the
+  sitemap. Without a ``page`` parameter, the view gives an index of pages. The
+  smartweb items (authentic sources included) now go through ``_objects``, so
+  the index counts them and each ``?page=N`` gives its part of them.
+  [boulch]
+
+- Remove ``collective.sendinblue`` from dependencies: it has already been
+  uninstalled by upgrade step 1073 (core 1.4.13).
+  [remdub]
 
 
 1.4.66 (2026-11-01)
@@ -212,10 +221,10 @@ Changelog
   [boulch]
 
 - WEB-4472: fix missing arrow in back annuaire button
-  [thomlamb] 
+  [thomlamb]
 
 - Add ?v=<version package> to react url to prevent bad caching
-  [thomlamb] 
+  [thomlamb]
 
 
 1.4.58 (2026-08-24)
@@ -352,7 +361,7 @@ Changelog
 - SUP-53979: Fix contact map showing all markers on the contact detail view
   [thomlamb]
 
-- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common 
+- Refactor : Move imio.smartweb.vocabulary.ContactBlocks from imio.smartweb.core to imio.smartweb.common
   (usefull for linked contact in auth sources)
   [boulch]
 

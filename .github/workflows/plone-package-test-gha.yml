@@ -16,7 +16,7 @@ jobs:
       check_path: |
         imio/smartweb/core
       buildout_config_file: test_plone6.cfg
-      python_versions: '["3.12", "3.13"]'
+      python_versions: '["3.12", "3.13", "3.14"]'
       runner_label: gha-runners-smartweb
       test_command: TZ=UTC bin/test
       upload_to_coveralls: true

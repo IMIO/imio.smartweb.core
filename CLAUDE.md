@@ -4,10 +4,14 @@ Core package for iMio SmartWeb — content types, views, behaviors, vocabularies
 
 ## Build & test commands
 
+Requires [uv](https://docs.astral.sh/uv/getting-started/installation/) (the Makefile creates `.venv` with it).
+
 ```bash
+make help              # List all targets
+make buildout          # Create .venv with uv, install requirements, run buildout
 make test              # Run full test suite (bin/test -s imio.smartweb.core)
 make test-coverage     # Run tests with coverage (90% threshold, fail-under=90)
-make run               # Start Zope instance on localhost:8080
+make start             # Start Zope instance on localhost:8080
 make cleanall          # Remove venv, eggs, bin, parts — full clean rebuild
 ```
 

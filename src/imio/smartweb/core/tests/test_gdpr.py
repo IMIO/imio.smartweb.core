@@ -53,7 +53,7 @@ class TestGDPRView(ImioSmartwebTestCase):
         view = self._make_view()
         expected_url = "http://localhost/gdpr-explanation"
         mock_content = MagicMock()
-        mock_content.Language.return_value = self.portal.Language()
+        mock_content.language = self.portal.language
         mock_content.absolute_url.return_value = expected_url
 
         class MockNavRoot:

@@ -1,21 +1,19 @@
 Using the development buildout
 ==============================
 
-Create a virtualenv in the package::
+Requires `uv <https://docs.astral.sh/uv/getting-started/installation/>`_.
 
-    $ python3.10 -m venv .
+Create a virtualenv in ``.venv``, install requirements and run buildout::
 
-Install requirements with pip::
+    $ make buildout
 
-    $ ./bin/pip3.10 install -r requirements.txt
+Start Plone in foreground::
 
-Run buildout::
+    $ make start
 
-    $ ./bin/buildout
+List all available targets::
 
-Start Plone in foreground:
-
-    $ ./bin/instance fg
+    $ make help
 
 
 Running tests

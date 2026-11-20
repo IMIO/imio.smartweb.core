@@ -101,6 +101,12 @@ class TestPage(ImioSmartwebTestCase):
         sitemap = getMultiAdapter(
             (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
         )
+        # Without a page, sitemap.xml.gz is an index of the pages
+        xml = self.uncompress(sitemap())
+        self.assertIn("<sitemapindex", xml)
+        self.assertIn("http://nohost/plone/sitemap.xml.gz?page=1", xml)
+
+        self.request.form["page"] = "1"
         xml = self.uncompress(sitemap())
         self.assertIn("<lastmod >2024-02-02T08:00:00", xml)
         self.assertIn("<loc>http://nohost/plone/folder</loc>", xml)
@@ -170,6 +176,29 @@ class TestPage(ImioSmartwebTestCase):
                 "<loc>http://nohost/plone/agenda-view/evenement-recurrent-tous-les-samedi",
                 xml,
             )
+
+    @patch(
+        "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
+        return_value=(
+            ["64f4cbee9a394a018a951f6d94452914"],
+            {"64f4cbee9a394a018a951f6d94452914": "News Folder title"},
+        ),
+    )
+    @requests_mock.Mocker()
+    def test_sitemap_pages(self, mock_news, m):
+        # Remote sources return nothing: only the Plone content is paginated
+        m.get(requests_mock.ANY, json={"items": [], "items_total": 0})
+        sitemap = getMultiAdapter(
+            (self.portal, self.portal.REQUEST), name="sitemap.xml.gz"
+        )
+        sitemap.BATCH_SIZE = 1
+        items = list(sitemap._objects())
+        self.assertGreater(len(items), 1)
+        # The index counts the smartweb items, one page per item
+        self.assertEqual(len(sitemap.sitemap_count()), len(items))
+        # Each page gives its slice of the smartweb items only
+        self.request.form["page"] = "2"
+        self.assertEqual(list(sitemap.objects()), items[1:2])
 
     @patch(
         "imio.smartweb.core.contents.rest.news.endpoint.BaseNewsEndpoint._get_news_folders_uids_and_title_from_entity",
