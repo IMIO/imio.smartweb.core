@@ -2,8 +2,8 @@ Changelog
 =========
 
 
-1.4.67 (unreleased)
--------------------
+2.0.0 (2026-11-20)
+------------------
 
 - Migrate to Plone 6.2.3 : Update import, remove init, remove pkg_resources
   Fix ``sitemap.xml.gz`` on Plone 6.2: plone.app.layout 6 paginates the
